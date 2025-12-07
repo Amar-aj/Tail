@@ -1,0 +1,41 @@
+@page "/components/layout"
+@using Tail.Blazor.Layout
+
+<PageTitle>Layout - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Layout Components</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Card</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailCard Header="Card Title" Footer="Card Footer">
+                <p>This is the card content. Cards are great for displaying related information.</p>
+            </TailCard>
+        </div>
+
+        <h2>Grid</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailGrid Columns="3" Gap="GridGap.Md">
+                <TailCard><p>Item 1</p></TailCard>
+                <TailCard><p>Item 2</p></TailCard>
+                <TailCard><p>Item 3</p></TailCard>
+            </TailGrid>
+        </div>
+
+        <h2>Container</h2>
+        <div class="mb-6">
+            <TailContainer Size="ContainerSize.Lg">
+                <p>Container with max-width constraints for better readability.</p>
+            </TailContainer>
+        </div>
+
+        <h2>Divider</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p>Content above</p>
+            <TailDivider Text="OR" />
+            <p>Content below</p>
+        </div>
+    </div>
+</div>
+

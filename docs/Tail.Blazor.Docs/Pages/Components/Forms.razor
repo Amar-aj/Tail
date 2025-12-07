@@ -1,0 +1,60 @@
+@page "/components/forms"
+@using Tail.Blazor.Forms
+
+<PageTitle>Forms - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Form Components</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Input</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailInput Label="Email" InputType="InputType.Email" Placeholder="Enter your email" />
+        </div>
+        <pre><code>&lt;TailInput 
+    Label="Email" 
+    InputType="InputType.Email" 
+    Placeholder="Enter your email" /&gt;</code></pre>
+
+        <h2>Textarea</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailTextarea Label="Message" Rows="4" Placeholder="Enter your message" />
+        </div>
+
+        <h2>Select</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailSelect Label="Country" Placeholder="Select a country" Items="@Countries" />
+        </div>
+
+        <h2>Checkbox</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailCheckbox Label="I agree to the terms and conditions" />
+        </div>
+
+        <h2>Switch</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailSwitch Label="Enable notifications" />
+        </div>
+
+        <h2>Slider</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailSlider Label="Volume" Min="0" Max="100" Value="50" ShowValue="true" />
+        </div>
+
+        <h2>Rating</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailRating Label="Rate this product" MaxRating="5" Value="4" ShowValue="true" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<SelectItem> Countries { get; set; } = new()
+    {
+        new SelectItem { Value = "us", Text = "United States" },
+        new SelectItem { Value = "uk", Text = "United Kingdom" },
+        new SelectItem { Value = "ca", Text = "Canada" },
+        new SelectItem { Value = "au", Text = "Australia" }
+    };
+}
+

@@ -1,0 +1,59 @@
+@page "/best-practices"
+@page "/docs/best-practices"
+
+<PageTitle>Best Practices - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-6">Best Practices</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Performance</h2>
+        <ul>
+            <li><strong>Install only what you need:</strong> Use modular packages to keep bundle size minimal</li>
+            <li><strong>Use ShouldRender():</strong> Override in custom components to prevent unnecessary re-renders</li>
+            <li><strong>Lazy load components:</strong> Use <code>Lazy&lt;T&gt;</code> for components not immediately visible</li>
+            <li><strong>Virtualization:</strong> Use virtual scrolling for large lists (10,000+ items)</li>
+        </ul>
+
+        <h2>Theming</h2>
+        <ul>
+            <li><strong>Use CSS variables:</strong> Leverage theme CSS variables for consistent styling</li>
+            <li><strong>Theme at app level:</strong> Apply theme using ThemeProvider at the root</li>
+            <li><strong>Custom colors:</strong> Use custom colors for brand consistency</li>
+            <li><strong>Gradients sparingly:</strong> Use gradients for emphasis, not everywhere</li>
+        </ul>
+
+        <h2>Accessibility</h2>
+        <ul>
+            <li><strong>ARIA labels:</strong> Always provide meaningful ARIA labels</li>
+            <li><strong>Keyboard navigation:</strong> Ensure all interactive elements are keyboard accessible</li>
+            <li><strong>Focus management:</strong> Manage focus for dialogs and modals</li>
+            <li><strong>Color contrast:</strong> Ensure WCAG 2.2 AA contrast ratios</li>
+        </ul>
+
+        <h2>Forms</h2>
+        <ul>
+            <li><strong>Validation:</strong> Use validators for form validation</li>
+            <li><strong>Error messages:</strong> Provide clear, actionable error messages</li>
+            <li><strong>Helper text:</strong> Use helper text to guide users</li>
+            <li><strong>Required fields:</strong> Clearly mark required fields</li>
+        </ul>
+
+        <h2>Component Usage</h2>
+        <ul>
+            <li><strong>Consistent sizing:</strong> Use consistent sizes across your app</li>
+            <li><strong>Variant selection:</strong> Choose variants that match your design system</li>
+            <li><strong>Loading states:</strong> Always show loading states for async operations</li>
+            <li><strong>Error handling:</strong> Handle errors gracefully with appropriate feedback</li>
+        </ul>
+
+        <h2>Bundle Optimization</h2>
+        <ul>
+            <li><strong>Tree-shaking:</strong> Enable trimming for production builds</li>
+            <li><strong>Selective imports:</strong> Import only needed namespaces</li>
+            <li><strong>AOT compilation:</strong> Use Native AOT for smallest bundle size</li>
+            <li><strong>Code splitting:</strong> Split code by route/feature</li>
+        </ul>
+    </div>
+</div>
+

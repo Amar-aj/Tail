@@ -114,32 +114,4 @@
     }
 }
 
-public class TabItem
-{
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-    public string Label { get; set; } = "";
-    public RenderFragment? Content { get; set; }
-}
-
-public enum TabVariant
-{
-    Default,
-    Underline,
-    Pills
-}
-
-public enum TabSize
-{
-    Sm,
-    Md,
-    Lg
-}
-
-public enum TabPosition
-{
-    Top,
-    Bottom,
-    Left,
-    Right
-}
 

@@ -1,0 +1,53 @@
+@page "/components/feedback"
+@using Tail.Blazor.Feedback
+
+<PageTitle>Feedback - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Feedback Components</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Alert</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 space-y-2">
+            <TailAlert Variant="AlertVariant.Success" Title="Success!" Dismissible="true">
+                Operation completed successfully.
+            </TailAlert>
+            <TailAlert Variant="AlertVariant.Warning" Title="Warning">
+                Please review your input.
+            </TailAlert>
+            <TailAlert Variant="AlertVariant.Danger" Title="Error">
+                An error occurred.
+            </TailAlert>
+        </div>
+
+        <h2>Badge</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex gap-2">
+            <TailBadge Variant="BadgeVariant.Primary">Primary</TailBadge>
+            <TailBadge Variant="BadgeVariant.Success">Success</TailBadge>
+            <TailBadge Variant="BadgeVariant.Warning">Warning</TailBadge>
+            <TailBadge Variant="BadgeVariant.Danger">Danger</TailBadge>
+            <TailBadge Variant="BadgeVariant.Info" ShowDot="true">New</TailBadge>
+        </div>
+
+        <h2>Progress</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 space-y-4">
+            <TailProgress Value="25" ShowLabel="true" />
+            <TailProgress Value="50" Variant="ProgressVariant.Success" ShowLabel="true" />
+            <TailProgress Value="75" Variant="ProgressVariant.Warning" ShowLabel="true" />
+            <TailProgressBarCircular Value="60" Size="100" ShowLabel="true" />
+        </div>
+
+        <h2>Spinner</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex gap-4">
+            <TailSpinner Size="SpinnerSize.Sm" />
+            <TailSpinner Size="SpinnerSize.Md" />
+            <TailSpinner Size="SpinnerSize.Lg" Color="SpinnerColor.Primary" />
+        </div>
+
+        <h2>Skeleton</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailSkeleton Type="SkeletonType.Text" Lines="3" />
+        </div>
+    </div>
+</div>
+

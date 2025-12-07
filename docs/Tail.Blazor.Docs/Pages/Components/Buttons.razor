@@ -1,0 +1,103 @@
+@page "/components/buttons"
+@using Tail.Blazor.Buttons
+
+<PageTitle>Buttons - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Buttons</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Basic Button</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailButton Variant="ButtonVariant.Primary">Primary Button</TailButton>
+        </div>
+        <pre><code>&lt;TailButton Variant="ButtonVariant.Primary"&gt;
+    Primary Button
+&lt;/TailButton&gt;</code></pre>
+
+        <h2>Variants</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex flex-wrap gap-2">
+            <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
+            <TailButton Variant="ButtonVariant.Success">Success</TailButton>
+            <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
+            <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
+            <TailButton Variant="ButtonVariant.Info">Info</TailButton>
+            <TailButton Variant="ButtonVariant.Outline">Outline</TailButton>
+            <TailButton Variant="ButtonVariant.Soft">Soft</TailButton>
+            <TailButton Variant="ButtonVariant.Ghost">Ghost</TailButton>
+            <TailButton Variant="ButtonVariant.Link">Link</TailButton>
+        </div>
+
+        <h2>Sizes</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex items-center gap-2">
+            <TailButton Size="ButtonSize.Xs">Extra Small</TailButton>
+            <TailButton Size="ButtonSize.Sm">Small</TailButton>
+            <TailButton Size="ButtonSize.Md">Medium</TailButton>
+            <TailButton Size="ButtonSize.Lg">Large</TailButton>
+            <TailButton Size="ButtonSize.Xl">Extra Large</TailButton>
+        </div>
+
+        <h2>States</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex gap-2">
+            <TailButton Loading="true">Loading</TailButton>
+            <TailButton Disabled="true">Disabled</TailButton>
+        </div>
+
+        <h2>Icon Button</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailIconButton Variant="ButtonVariant.Primary">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </TailIconButton>
+        </div>
+
+        <h2>Floating Action Button</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 relative h-32">
+            <TailFAB Position="FABPosition.BottomRight">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </TailFAB>
+        </div>
+
+        <h2>API Reference</h2>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Variant</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">ButtonVariant</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Button style variant</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Size</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">ButtonSize</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Button size (Xs, Sm, Md, Lg, Xl)</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disabled</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disable the button</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Loading</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show loading state</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">OnClick</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">EventCallback</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Click event handler</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

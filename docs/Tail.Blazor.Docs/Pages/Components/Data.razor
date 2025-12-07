@@ -1,0 +1,65 @@
+@page "/components/data"
+@using Tail.Blazor.Data
+
+@* Local model for demo *@
+@code {
+    public class ListItem
+    {
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+    }
+}
+
+<PageTitle>Data - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Data Components</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Pager</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailPager 
+                CurrentPage="2" 
+                TotalPages="10" 
+                TotalItems="100" 
+                PageSize="10" 
+                ShowInfo="true"
+                CurrentPageChanged="OnPageChanged" />
+        </div>
+
+        <h2>ListView</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailListView Items="@ListItems" Virtualized="false">
+                <ItemTemplate>
+                    <div class="p-4 border-b">
+                        <h3 class="font-semibold">@((context as ListItem)?.Name ?? "Item")</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">@((context as ListItem)?.Description ?? "")</p>
+                    </div>
+                </ItemTemplate>
+            </TailListView>
+        </div>
+
+        <h2>Coming Soon</h2>
+        <ul>
+            <li>TailDataGrid - Advanced data grid with virtualization</li>
+            <li>TailScheduler - Calendar and event scheduler</li>
+            <li>TailTree - Hierarchical tree view</li>
+            <li>TailPivotDataGrid - Pivot table component</li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    private List<ListItem> ListItems { get; set; } = new()
+    {
+        new ListItem { Name = "Item 1", Description = "Description for item 1" },
+        new ListItem { Name = "Item 2", Description = "Description for item 2" },
+        new ListItem { Name = "Item 3", Description = "Description for item 3" }
+    };
+
+    private void OnPageChanged(int page)
+    {
+        // Handle page change
+    }
+}
+

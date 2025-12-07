@@ -1,0 +1,70 @@
+@page "/examples"
+@page "/docs/examples"
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Forms
+@using Tail.Blazor.Feedback
+
+<PageTitle>Examples - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-8">Examples</h1>
+
+    <div class="space-y-12">
+        <!-- Form Example -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Form Example</h2>
+            <TailCard>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Email</label>
+                        <TailInput InputType="InputType.Email" Placeholder="Enter your email" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Password</label>
+                        <TailInput InputType="InputType.Password" Placeholder="Enter password" />
+                    </div>
+                    <TailButton Variant="ButtonVariant.Primary" FullWidth="true">
+                        Sign In
+                    </TailButton>
+                </div>
+            </TailCard>
+        </section>
+
+        <!-- Card Grid Example -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Card Grid</h2>
+            <TailGrid Columns="3" Gap="GridGap.Md">
+                <TailCard>
+                    <h3 class="font-semibold mb-2">Card 1</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Card content goes here</p>
+                </TailCard>
+                <TailCard>
+                    <h3 class="font-semibold mb-2">Card 2</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Card content goes here</p>
+                </TailCard>
+                <TailCard>
+                    <h3 class="font-semibold mb-2">Card 3</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Card content goes here</p>
+                </TailCard>
+            </TailGrid>
+        </section>
+
+        <!-- Alert Example -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
+            <div class="space-y-2">
+                <TailAlert Variant="AlertVariant.Success" Title="Success!" Dismissible="true">
+                    Your changes have been saved successfully.
+                </TailAlert>
+                <TailAlert Variant="AlertVariant.Warning" Title="Warning">
+                    Please review your information before submitting.
+                </TailAlert>
+                <TailAlert Variant="AlertVariant.Danger" Title="Error">
+                    An error occurred while processing your request.
+                </TailAlert>
+            </div>
+        </section>
+    </div>
+</div>
+

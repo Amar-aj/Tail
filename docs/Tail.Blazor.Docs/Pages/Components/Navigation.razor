@@ -1,0 +1,67 @@
+@page "/components/navigation"
+@using Tail.Blazor.Navigation
+
+<PageTitle>Navigation - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-6">Navigation Components</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Tabs</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailTabs Tabs="@TabItems" ActiveTab="@ActiveTab" ActiveTabChanged="OnTabChanged" />
+        </div>
+
+        <h2>Breadcrumb</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailBreadcrumb Items="@BreadcrumbItems" />
+        </div>
+
+        <h2>Accordion</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailAccordion>
+                <TailAccordionItem Title="Section 1" IsExpanded="true">
+                    <p>Content for section 1</p>
+                </TailAccordionItem>
+                <TailAccordionItem Title="Section 2">
+                    <p>Content for section 2</p>
+                </TailAccordionItem>
+            </TailAccordion>
+        </div>
+
+        <h2>Steps</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailSteps Steps="@StepItems" CurrentStep="2" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private TabItem? ActiveTab { get; set; }
+    private List<TabItem> TabItems { get; set; } = new()
+    {
+        new TabItem { Label = "Tab 1" },
+        new TabItem { Label = "Tab 2" },
+        new TabItem { Label = "Tab 3" }
+    };
+
+    private List<BreadcrumbItem> BreadcrumbItems { get; set; } = new()
+    {
+        new BreadcrumbItem { Text = "Home", Href = "/" },
+        new BreadcrumbItem { Text = "Components", Href = "/components" },
+        new BreadcrumbItem { Text = "Navigation" }
+    };
+
+    private List<StepItem> StepItems { get; set; } = new()
+    {
+        new StepItem { Title = "Step 1", Description = "First step" },
+        new StepItem { Title = "Step 2", Description = "Second step" },
+        new StepItem { Title = "Step 3", Description = "Third step" }
+    };
+
+    private void OnTabChanged(TabItem tab)
+    {
+        ActiveTab = tab;
+    }
+}
+

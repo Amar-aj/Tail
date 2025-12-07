@@ -1,4 +1,4 @@
-namespace Tail.Blazor.Core.Enums;
+namespace Tail.Blazor.Buttons;
 
 /// <summary>
 /// Button variant styles.
@@ -28,4 +28,14 @@ public enum ButtonSize
     Xl
 }
 
+/// <summary>
+/// Floating Action Button position options.
+/// </summary>
+public enum FABPosition
+{
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
+}
 

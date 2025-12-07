@@ -1,0 +1,92 @@
+@page "/theming"
+@page "/docs/theming"
+
+<PageTitle>Theming - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-6">Theme Customization</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Dynamic Colors</h2>
+        <p>Tail.Blazor supports dynamic color customization with CSS variables.</p>
+
+        <h3>Predefined Palettes</h3>
+        <pre><code>builder.Services.AddTailBlazor(config =>
+{
+    config.ThemePalette = ThemePalette.Blue; // Blue, Green, Purple, Red, Orange
+});</code></pre>
+
+        <h3>Custom Colors</h3>
+        <pre><code>builder.Services.AddTailBlazor(config =>
+{
+    config.PrimaryColor = "#3b82f6";
+    config.SecondaryColor = "#8b5cf6";
+    config.AccentColor = "#ec4899";
+});</code></pre>
+
+        <h2>Gradients</h2>
+        <p>Enable gradients for a modern look:</p>
+
+        <pre><code>builder.Services.AddTailBlazor(config =>
+{
+    config.UseGradients = true;
+    // Gradients are automatically generated from your colors
+});</code></pre>
+
+        <h3>Custom Gradient Theme</h3>
+        <pre><code>@@inject ThemeEngine Theme
+
+@@code {
+    protected override void OnInitialized()
+    {
+        Theme.ApplyGradientTheme(
+            primaryStart: "#3b82f6",
+            primaryEnd: "#1d4ed8",
+            secondaryStart: "#8b5cf6",
+            secondaryEnd: "#6d28d9"
+        );
+    }
+}</code></pre>
+
+        <h2>Light/Dark Mode</h2>
+        <p>Switch between light and dark themes:</p>
+
+        <pre><code>@@inject ThemeEngine Theme
+
+&lt;button @@onclick="ToggleTheme"&gt;
+    Toggle Theme
+&lt;/button&gt;
+
+@@code {
+    private void ToggleTheme()
+    {
+        Theme.Mode = Theme.Mode == ThemeMode.Light 
+            ? ThemeMode.Dark 
+            : ThemeMode.Light;
+    }
+}</code></pre>
+
+        <h2>CSS Variables</h2>
+        <p>All theme values are exposed as CSS variables:</p>
+
+        <pre><code>/* Available CSS Variables */
+--primary: #3b82f6;
+--primary-dark: #2563eb;
+--primary-light: #60a5fa;
+--secondary: #8b5cf6;
+--accent: #ec4899;
+--bg-primary: #ffffff;
+--text-primary: #1a1a1a;
+--primary-gradient: linear-gradient(to-r, #3b82f6, #1d4ed8);</code></pre>
+
+        <h2>Component-Level Theming</h2>
+        <p>Override theme for specific components:</p>
+
+        <pre><code>&lt;TailButton 
+    Variant="ButtonVariant.Primary"
+    Class="bg-gradient-to-r from-purple-500 to-pink-500"&gt;
+    Custom Gradient Button
+&lt;/TailButton&gt;</code></pre>
+    </div>
+</div>
+

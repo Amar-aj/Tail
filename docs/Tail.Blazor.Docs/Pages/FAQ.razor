@@ -1,0 +1,65 @@
+@page "/faq"
+@page "/docs/faq"
+
+<PageTitle>FAQ - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-6">Frequently Asked Questions</h1>
+
+    <div class="space-y-8">
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">What makes Tail.Blazor different?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Tail.Blazor is ultra-lightweight (48 KB core vs 200-250 KB for competitors), uses 90% zero-JavaScript components, 
+                and provides a complete theme engine with dynamic colors and gradients. It's designed for maximum performance 
+                and minimal footprint.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">Do I need to install all packages?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                No! Tail.Blazor is fully modular. Install only the packages you need. Start with Core (48 KB), then add 
+                packages as required (Buttons: 22 KB, Forms: 95 KB, etc.).
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">How do I customize the theme?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Use the ThemeEngine to apply custom colors, gradients, and CSS variables. See the 
+                <a href="/theming" class="text-blue-600 hover:underline">Theming Guide</a> for details.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">Is JavaScript required?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                90% of components require zero JavaScript. Only Charts, Gauges, GoogleMap, and DatePicker use minimal JS 
+                interop (&lt; 10 KB total).
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">Does it work with Native AOT?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Yes! Tail.Blazor is 100% Native AOT compatible with full trimming support for the smallest possible binaries.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">What about accessibility?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                All components are WCAG 2.2 AA compliant with proper ARIA labels, keyboard navigation, and screen reader support.
+            </p>
+        </div>
+
+        <div>
+            <h2 class="text-2xl font-semibold mb-2">Can I use it with Blazor Server?</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+                Yes! Tail.Blazor works with Blazor WebAssembly, Blazor Server, Blazor Hybrid (MAUI), and Progressive Web Apps.
+            </p>
+        </div>
+    </div>
+</div>
+

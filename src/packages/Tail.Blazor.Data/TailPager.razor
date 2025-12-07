@@ -27,9 +27,9 @@
         </div>
         
         <div class="flex items-center space-x-1">
-            @foreach (var page in GetVisiblePages())
+            @foreach (var pageNumber in GetVisiblePages())
             {
-                @if (page == -1)
+                @if (pageNumber == -1)
                 {
                     <span class="px-4 py-2 text-gray-500">...</span>
                 }
@@ -37,11 +37,11 @@
                 {
                     <button
                         type="button"
-                        class="@GetPageButtonClasses(page)"
-                        @onclick="() => GoToPage(page)"
-                        aria-label="Page @page"
-                        aria-current="@(page == CurrentPage ? "page" : null)">
-                        @page
+                        class="@GetPageButtonClasses(pageNumber)"
+                        @onclick="() => GoToPage(pageNumber)"
+                        aria-label="Page @pageNumber"
+                        aria-current="@(pageNumber == CurrentPage ? "page" : null)">
+                        @pageNumber
                     </button>
                 }
             }
@@ -107,7 +107,7 @@
                "dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700";
     }
 
-    private string GetPageButtonClasses(int page)
+    private string GetPageButtonClasses(int pageNumber)
     {
         var classes = new List<string> 
         { 
@@ -115,7 +115,7 @@
             "focus:outline-none focus:ring-2 focus:ring-blue-500"
         };
         
-        if (page == CurrentPage)
+        if (pageNumber == CurrentPage)
         {
             classes.Add("bg-blue-600 text-white");
         }
@@ -166,11 +166,11 @@
         return pages;
     }
 
-    private async Task GoToPage(int page)
+    private async Task GoToPage(int pageNumber)
     {
-        if (page >= 1 && page <= TotalPages && page != CurrentPage)
+        if (pageNumber >= 1 && pageNumber <= TotalPages && pageNumber != CurrentPage)
         {
-            CurrentPage = page;
+            CurrentPage = pageNumber;
             if (CurrentPageChanged.HasDelegate)
             {
                 await CurrentPageChanged.InvokeAsync(CurrentPage);

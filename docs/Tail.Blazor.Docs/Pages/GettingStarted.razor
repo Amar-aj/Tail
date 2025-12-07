@@ -1,0 +1,74 @@
+@page "/getting-started"
+@page "/docs/getting-started"
+
+<PageTitle>Getting Started - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-4xl font-bold mb-6">Getting Started</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>Installation</h2>
+        <p>Install Tail.Blazor packages via NuGet Package Manager or .NET CLI.</p>
+
+        <h3>1. Install Core Package</h3>
+        <pre><code>dotnet add package Tail.Blazor.Core</code></pre>
+
+        <h3>2. Install Additional Packages (as needed)</h3>
+        <pre><code>dotnet add package Tail.Blazor.Buttons
+dotnet add package Tail.Blazor.Forms
+dotnet add package Tail.Blazor.Layout</code></pre>
+
+        <h2>Configuration</h2>
+        <p>Add Tail.Blazor services in your <code>Program.cs</code> or <code>Startup.cs</code>:</p>
+
+        <pre><code>using Tail.Blazor.Core;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add Tail.Blazor services
+builder.Services.AddTailBlazor(config =>
+{
+    config.ThemeMode = ThemeMode.Light;
+    config.ThemePalette = ThemePalette.Blue;
+    config.UseGradients = true;
+    config.PrimaryColor = "#3b82f6"; // Optional custom color
+});
+
+var app = builder.Build();
+app.Run();</code></pre>
+
+        <h2>Add Tailwind CSS</h2>
+        <p>Add Tailwind CSS to your <code>_Host.cshtml</code> or <code>index.html</code>:</p>
+
+        <pre><code>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</code></pre>
+
+        <p>Or use a local Tailwind build for production.</p>
+
+        <h2>Use Components</h2>
+        <p>Import namespaces and use components in your Razor pages:</p>
+
+        <pre><code>@using Tail.Blazor.Buttons
+@using Tail.Blazor.Core.Enums
+
+&lt;TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Md"&gt;
+    Click Me
+&lt;/TailButton&gt;</code></pre>
+
+        <h2>Theme Customization</h2>
+        <p>Wrap your app with ThemeProvider for dynamic theming:</p>
+
+        <pre><code>@using Tail.Blazor.Core.Theme
+
+&lt;ThemeProvider&gt;
+    @* Your app content *@
+&lt;/ThemeProvider&gt;</code></pre>
+
+        <h2>Next Steps</h2>
+        <ul>
+            <li><a href="/components">Browse Components</a></li>
+            <li><a href="/theming">Learn About Theming</a></li>
+            <li><a href="/examples">View Examples</a></li>
+        </ul>
+    </div>
+</div>
+

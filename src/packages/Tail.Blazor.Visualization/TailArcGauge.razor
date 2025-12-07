@@ -19,26 +19,13 @@
             stroke-linecap="round"
             class="transition-all duration-500" />
         <!-- Value text -->
-        <text
-            x="@(Size / 2)"
-            y="@(Size / 2 - 10)"
-            text-anchor="middle"
-            class="text-2xl font-bold fill-current"
-            style="color: @GetGaugeColor();">
-            @if (ShowValue)
-            {
-                @Value@(Unit)
-            }
-        </text>
+        @if (ShowValue)
+        {
+            @((MarkupString)$"<text x='{Size / 2}' y='{Size / 2 - 10}' text-anchor='middle' font-size='24' font-weight='bold' fill='{GetGaugeColor()}'>{Value}{Unit}</text>")
+        }
         @if (!string.IsNullOrEmpty(Label))
         {
-            <text
-                x="@(Size / 2)"
-                y="@(Size / 2 + 20)"
-                text-anchor="middle"
-                class="text-sm fill-gray-600 dark:fill-gray-400">
-                @Label
-            </text>
+            @((MarkupString)$"<text x='{Size / 2}' y='{Size / 2 + 20}' text-anchor='middle' font-size='14' fill='#6b7280'>{Label}</text>")
         }
     </svg>
 </div>

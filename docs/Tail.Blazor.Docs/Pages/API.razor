@@ -1,0 +1,56 @@
+@page "/api"
+@page "/docs/api"
+
+<PageTitle>API Reference - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-8">API Reference</h1>
+
+    <div class="prose dark:prose-invert max-w-none">
+        <h2>TailComponentBase</h2>
+        <p>Base class for all Tail.Blazor components.</p>
+        
+        <h3>Properties</h3>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Property</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Class</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Additional CSS classes</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">AdditionalAttributes</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Dictionary&lt;string, object&gt;?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Additional HTML attributes</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>ThemeEngine</h2>
+        <p>Theme engine for dynamic color and gradient management.</p>
+
+        <h3>Methods</h3>
+        <ul>
+            <li><code>ApplyPalette(CustomColorPalette)</code> - Apply custom color palette</li>
+            <li><code>ApplyGradientTheme(string, string, string?, string?)</code> - Apply gradient theme</li>
+            <li><code>SetVariable(string, string)</code> - Set custom CSS variable</li>
+            <li><code>GetVariable(string)</code> - Get CSS variable value</li>
+            <li><code>GetCssVariablesString()</code> - Get all CSS variables as string</li>
+        </ul>
+
+        <h2>ServiceCollectionExtensions</h2>
+        <h3>AddTailBlazor</h3>
+        <pre><code>public static IServiceCollection AddTailBlazor(
+    this IServiceCollection services,
+    Action&lt;TailBlazorConfig&gt;? configure = null)</code></pre>
+        <p>Adds Tail.Blazor services to the service collection.</p>
+    </div>
+</div>
+
