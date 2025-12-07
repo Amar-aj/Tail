@@ -1,0 +1,76 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Data
+
+<div class="@GetListViewClasses()" @attributes="AdditionalAttributes">
+    @if (Items != null && Items.Any())
+    {
+        @foreach (var item in GetDisplayItems())
+        {
+            <div class="@GetItemClasses()" @key="GetItemKey(item)">
+                @ItemTemplate(item)
+            </div>
+        }
+    }
+    else if (EmptyTemplate != null)
+    {
+        <div class="@GetEmptyClasses()">
+            @EmptyTemplate
+        </div>
+    }
+    else
+    {
+        <div class="@GetEmptyClasses()">
+            <p class="text-gray-500 dark:text-gray-400">No items to display</p>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public IEnumerable<object>? Items { get; set; }
+    [Parameter] public RenderFragment<object> ItemTemplate { get; set; } = default!;
+    [Parameter] public RenderFragment? EmptyTemplate { get; set; }
+    [Parameter] public Func<object, string>? KeySelector { get; set; }
+    [Parameter] public int PageSize { get; set; } = 10;
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public bool Virtualized { get; set; } = false;
+
+    private string GetListViewClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetItemClasses()
+    {
+        return "border-b border-gray-200 dark:border-gray-700 last:border-b-0";
+    }
+
+    private string GetEmptyClasses()
+    {
+        return "text-center py-12 text-gray-500 dark:text-gray-400";
+    }
+
+    private IEnumerable<object> GetDisplayItems()
+    {
+        if (Items == null) return Enumerable.Empty<object>();
+        
+        if (Virtualized || PageSize > 0)
+        {
+            return Items.Skip((CurrentPage - 1) * PageSize).Take(PageSize);
+        }
+        
+        return Items;
+    }
+
+    private string GetItemKey(object item)
+    {
+        return KeySelector?.Invoke(item) ?? item.GetHashCode().ToString();
+    }
+}
+

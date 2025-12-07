@@ -1,0 +1,51 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Validators
+
+@if (ShowError)
+{
+    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
+}
+
+@code {
+    [Parameter] public double? Value { get; set; }
+    [Parameter] public double? Min { get; set; }
+    [Parameter] public double? Max { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private bool ShowError => Value.HasValue && !IsValid;
+    private bool IsValid
+    {
+        get
+        {
+            if (!Value.HasValue) return true;
+            var val = Value.Value;
+            if (Min.HasValue && val < Min.Value) return false;
+            if (Max.HasValue && val > Max.Value) return false;
+            return true;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(ErrorMessage))
+        {
+            if (Min.HasValue && Max.HasValue)
+            {
+                ErrorMessage = $"The value must be between {Min} and {Max}.";
+            }
+            else if (Min.HasValue)
+            {
+                ErrorMessage = $"The value must be at least {Min}.";
+            }
+            else if (Max.HasValue)
+            {
+                ErrorMessage = $"The value must be no more than {Max}.";
+            }
+            else
+            {
+                ErrorMessage = "Invalid numeric value.";
+            }
+        }
+    }
+}
+

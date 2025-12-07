@@ -1,0 +1,63 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Validators
+
+@if (ShowError)
+{
+    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
+}
+
+@code {
+    [Parameter] public object? Value { get; set; }
+    [Parameter] public object? CompareTo { get; set; }
+    [Parameter] public CompareOperator Operator { get; set; } = CompareOperator.Equal;
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private bool ShowError => !IsValid;
+    private bool IsValid
+    {
+        get
+        {
+            if (Value == null && CompareTo == null) return true;
+            if (Value == null || CompareTo == null) return false;
+
+            return Operator switch
+            {
+                CompareOperator.Equal => Value.Equals(CompareTo),
+                CompareOperator.NotEqual => !Value.Equals(CompareTo),
+                CompareOperator.GreaterThan => CompareValues(Value, CompareTo) > 0,
+                CompareOperator.LessThan => CompareValues(Value, CompareTo) < 0,
+                CompareOperator.GreaterThanOrEqual => CompareValues(Value, CompareTo) >= 0,
+                CompareOperator.LessThanOrEqual => CompareValues(Value, CompareTo) <= 0,
+                _ => Value.Equals(CompareTo)
+            };
+        }
+    }
+
+    private int CompareValues(object? a, object? b)
+    {
+        if (a is IComparable comparableA && b is IComparable comparableB)
+        {
+            return comparableA.CompareTo(comparableB);
+        }
+        return a?.Equals(b) == true ? 0 : -1;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(ErrorMessage))
+        {
+            ErrorMessage = $"The value does not meet the comparison requirement ({Operator}).";
+        }
+    }
+}
+
+public enum CompareOperator
+{
+    Equal,
+    NotEqual,
+    GreaterThan,
+    LessThan,
+    GreaterThanOrEqual,
+    LessThanOrEqual
+}
+

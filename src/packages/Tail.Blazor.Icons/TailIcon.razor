@@ -1,0 +1,121 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Icons
+
+@if (IconType == IconType.SVG)
+{
+    <svg class="@GetIconClasses()" fill="@Fill" stroke="@Stroke" viewBox="@ViewBox" @attributes="AdditionalAttributes">
+        @if (IconPath != null)
+        {
+            <path d="@IconPath" />
+        }
+        else
+        {
+            @ChildContent
+        }
+    </svg>
+}
+else if (IconType == IconType.Heroicon)
+{
+    @RenderHeroicon()
+}
+else if (IconType == IconType.Lucide)
+{
+    @RenderLucideIcon()
+}
+else if (IconType == IconType.Custom)
+{
+    @CustomContent
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? CustomContent { get; set; }
+    [Parameter] public IconType IconType { get; set; } = IconType.SVG;
+    [Parameter] public string? IconName { get; set; }
+    [Parameter] public string? IconPath { get; set; }
+    [Parameter] public IconSize Size { get; set; } = IconSize.Md;
+    [Parameter] public string? Color { get; set; }
+    [Parameter] public string Fill { get; set; } = "none";
+    [Parameter] public string Stroke { get; set; } = "currentColor";
+    [Parameter] public string ViewBox { get; set; } = "0 0 24 24";
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string> { "flex-shrink-0" };
+        
+        classes.Add(Size switch
+        {
+            IconSize.Xs => "w-3 h-3",
+            IconSize.Sm => "w-4 h-4",
+            IconSize.Md => "w-5 h-5",
+            IconSize.Lg => "w-6 h-6",
+            IconSize.Xl => "w-8 h-8",
+            _ => "w-5 h-5"
+        });
+        
+        if (!string.IsNullOrEmpty(Color))
+        {
+            classes.Add($"text-{Color}");
+        }
+        else
+        {
+            classes.Add("text-current");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private RenderFragment RenderHeroicon()
+    {
+        // Heroicons would be loaded from registry
+        return builder =>
+        {
+            builder.OpenElement(0, "svg");
+            builder.AddAttribute(1, "class", GetIconClasses());
+            builder.AddAttribute(2, "fill", "none");
+            builder.AddAttribute(3, "viewBox", "0 0 24 24");
+            builder.AddAttribute(4, "stroke", "currentColor");
+            builder.AddMarkupContent(5, "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 6v6m0 0v6m0-6h6m-6 0H6\"></path>");
+            builder.CloseElement();
+        };
+    }
+
+    private RenderFragment RenderLucideIcon()
+    {
+        // Lucide icons would be loaded from registry
+        return builder =>
+        {
+            builder.OpenElement(0, "svg");
+            builder.AddAttribute(1, "class", GetIconClasses());
+            builder.AddAttribute(2, "fill", "none");
+            builder.AddAttribute(3, "viewBox", "0 0 24 24");
+            builder.AddAttribute(4, "stroke", "currentColor");
+            builder.AddAttribute(5, "stroke-width", "2");
+            builder.AddMarkupContent(6, "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 6v6m0 0v6m0-6h6m-6 0H6\"></path>");
+            builder.CloseElement();
+        };
+    }
+}
+
+public enum IconType
+{
+    SVG,
+    Heroicon,
+    Lucide,
+    Custom
+}
+
+public enum IconSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+    Xl
+}
+

@@ -1,0 +1,32 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<div class="@GetAccordionClasses()" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool AllowMultiple { get; set; } = false;
+    [Parameter] public AccordionVariant Variant { get; set; } = AccordionVariant.Default;
+
+    private string GetAccordionClasses()
+    {
+        var classes = new List<string> { "w-full divide-y divide-gray-200 dark:divide-gray-700" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum AccordionVariant
+{
+    Default,
+    Bordered,
+    Flush
+}
+

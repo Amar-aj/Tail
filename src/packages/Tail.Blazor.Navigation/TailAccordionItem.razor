@@ -1,0 +1,87 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<div class="@GetItemClasses()">
+    <button
+        type="button"
+        class="@GetHeaderClasses()"
+        @onclick="Toggle"
+        aria-expanded="@IsExpanded.ToString().ToLower()">
+        <span class="flex-1 text-left">@Title</span>
+        <svg class="@GetIconClasses()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    @if (IsExpanded)
+    {
+        <div class="@GetContentClasses()">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+
+    private string GetItemClasses()
+    {
+        return "w-full";
+    }
+
+    private string GetHeaderClasses()
+    {
+        var classes = new List<string> 
+        { 
+            "w-full flex items-center justify-between px-4 py-3 text-left",
+            "text-gray-700 dark:text-gray-300 font-medium",
+            "hover:bg-gray-50 dark:hover:bg-gray-800",
+            "transition-colors duration-200",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+        };
+        
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        else
+        {
+            classes.Add("cursor-pointer");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string> { "w-5 h-5 text-gray-500 transition-transform duration-200" };
+        
+        if (IsExpanded)
+        {
+            classes.Add("transform rotate-180");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentClasses()
+    {
+        return "px-4 py-3 text-gray-600 dark:text-gray-400";
+    }
+
+    private async Task Toggle()
+    {
+        if (!Disabled)
+        {
+            IsExpanded = !IsExpanded;
+            if (IsExpandedChanged.HasDelegate)
+            {
+                await IsExpandedChanged.InvokeAsync(IsExpanded);
+            }
+        }
+    }
+}
+

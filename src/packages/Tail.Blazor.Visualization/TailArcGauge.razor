@@ -1,0 +1,127 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Visualization
+
+<div class="@GetGaugeClasses()" @attributes="AdditionalAttributes">
+    <svg width="@Size" height="@(Size / 2)" viewBox="0 0 @Size @(Size / 2)">
+        <!-- Background arc -->
+        <path
+            d="@GetBackgroundArc()"
+            fill="none"
+            stroke="@BackgroundColor"
+            stroke-width="@StrokeWidth"
+            class="opacity-20" />
+        <!-- Value arc -->
+        <path
+            d="@GetValueArc()"
+            fill="none"
+            stroke="@GetGaugeColor()"
+            stroke-width="@StrokeWidth"
+            stroke-linecap="round"
+            class="transition-all duration-500" />
+        <!-- Value text -->
+        <text
+            x="@(Size / 2)"
+            y="@(Size / 2 - 10)"
+            text-anchor="middle"
+            class="text-2xl font-bold fill-current"
+            style="color: @GetGaugeColor();">
+            @if (ShowValue)
+            {
+                @Value@(Unit)
+            }
+        </text>
+        @if (!string.IsNullOrEmpty(Label))
+        {
+            <text
+                x="@(Size / 2)"
+                y="@(Size / 2 + 20)"
+                text-anchor="middle"
+                class="text-sm fill-gray-600 dark:fill-gray-400">
+                @Label
+            </text>
+        }
+    </svg>
+</div>
+
+@code {
+    [Parameter] public double Value { get; set; }
+    [Parameter] public double Min { get; set; } = 0;
+    [Parameter] public double Max { get; set; } = 100;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Unit { get; set; } = "%";
+    [Parameter] public bool ShowValue { get; set; } = true;
+    [Parameter] public int Size { get; set; } = 200;
+    [Parameter] public int StrokeWidth { get; set; } = 20;
+    [Parameter] public string BackgroundColor { get; set; } = "#e5e7eb";
+    [Parameter] public GaugeColorMode ColorMode { get; set; } = GaugeColorMode.ValueBased;
+
+    private string GetGaugeClasses()
+    {
+        var classes = new List<string> { "inline-block" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetBackgroundArc()
+    {
+        var radius = (Size / 2) - StrokeWidth;
+        var startAngle = 180;
+        var endAngle = 0;
+        return GetArcPath(radius, startAngle, endAngle);
+    }
+
+    private string GetValueArc()
+    {
+        var radius = (Size / 2) - StrokeWidth;
+        var startAngle = 180;
+        var percentage = (Value - Min) / (Max - Min);
+        var endAngle = 180 - (percentage * 180);
+        return GetArcPath(radius, startAngle, endAngle);
+    }
+
+    private string GetArcPath(double radius, double startAngle, double endAngle)
+    {
+        var centerX = Size / 2;
+        var centerY = Size / 2;
+        
+        var startRad = startAngle * Math.PI / 180;
+        var endRad = endAngle * Math.PI / 180;
+        
+        var x1 = centerX + radius * Math.Cos(startRad);
+        var y1 = centerY + radius * Math.Sin(startRad);
+        var x2 = centerX + radius * Math.Cos(endRad);
+        var y2 = centerY + radius * Math.Sin(endRad);
+        
+        var largeArc = Math.Abs(endAngle - startAngle) > 180 ? 1 : 0;
+        
+        return $"M {x1} {y1} A {radius} {radius} 0 {largeArc} 0 {x2} {y2}";
+    }
+
+    private string GetGaugeColor()
+    {
+        if (ColorMode == GaugeColorMode.ValueBased)
+        {
+            var percentage = (Value - Min) / (Max - Min);
+            return percentage switch
+            {
+                >= 0.8 => "#ef4444", // Red
+                >= 0.6 => "#f59e0b", // Yellow
+                >= 0.4 => "#3b82f6", // Blue
+                _ => "#10b981" // Green
+            };
+        }
+        return "#3b82f6"; // Default blue
+    }
+}
+
+public enum GaugeColorMode
+{
+    ValueBased,
+    Fixed
+}
+

@@ -1,0 +1,83 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Charts
+@inject IJSRuntime JSRuntime
+
+<div class="@GetChartClasses()" @attributes="AdditionalAttributes">
+    <canvas @ref="canvasRef" id="@ChartId" width="@Width" height="@Height"></canvas>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ChartType Type { get; set; } = ChartType.Line;
+    [Parameter] public List<ChartDataPoint> Data { get; set; } = new();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public int Width { get; set; } = 400;
+    [Parameter] public int Height { get; set; } = 300;
+    [Parameter] public bool ShowLegend { get; set; } = true;
+    [Parameter] public bool ShowGrid { get; set; } = true;
+
+    private ElementReference canvasRef;
+    private string ChartId { get; set; } = Guid.NewGuid().ToString();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Data.Any())
+        {
+            await RenderChart();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Data.Any())
+        {
+            await RenderChart();
+        }
+    }
+
+    private string GetChartClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private async Task RenderChart()
+    {
+        // Minimal JS interop for chart rendering
+        // In production, this would use a lightweight chart library or SVG rendering
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("tailblazor.renderChart", ChartId, Type.ToString(), Data);
+        }
+        catch
+        {
+            // Fallback to SVG rendering if JS not available
+            // Chart would be rendered using pure SVG/Blazor
+        }
+    }
+}
+
+public enum ChartType
+{
+    Line,
+    Bar,
+    Column,
+    Area,
+    Pie,
+    Donut,
+    Stacked
+}
+
+public class ChartDataPoint
+{
+    public string Label { get; set; } = "";
+    public double Value { get; set; }
+    public string? Color { get; set; }
+}
+

@@ -1,0 +1,121 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Visualization
+
+<div class="@GetTimelineClasses()" @attributes="AdditionalAttributes">
+    @foreach (var item in Items)
+    {
+        <div class="@GetItemClasses()">
+            <div class="@GetLineClasses()">
+                <div class="@GetDotClasses(item.Status)"></div>
+            </div>
+            <div class="@GetContentClasses()">
+                <div class="@GetHeaderClasses()">
+                    <h3 class="text-sm font-semibold text-gray-900 dark:text-white">@item.Title</h3>
+                    @if (!string.IsNullOrEmpty(item.Time))
+                    {
+                        <span class="text-xs text-gray-500 dark:text-gray-400">@item.Time</span>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(item.Description))
+                {
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">@item.Description</p>
+                }
+                @if (item.Content != null)
+                {
+                    <div class="mt-2">@item.Content</div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<TimelineItem> Items { get; set; } = new();
+    [Parameter] public TimelineOrientation Orientation { get; set; } = TimelineOrientation.Vertical;
+
+    private string GetTimelineClasses()
+    {
+        var classes = new List<string>();
+        
+        if (Orientation == TimelineOrientation.Vertical)
+        {
+            classes.Add("relative border-l border-gray-200 dark:border-gray-700 ml-4");
+        }
+        else
+        {
+            classes.Add("flex flex-row space-x-4");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetItemClasses()
+    {
+        return Orientation == TimelineOrientation.Vertical 
+            ? "mb-8 ml-6" 
+            : "flex-1";
+    }
+
+    private string GetLineClasses()
+    {
+        return Orientation == TimelineOrientation.Vertical
+            ? "absolute -left-2 top-0"
+            : "flex items-center";
+    }
+
+    private string GetDotClasses(TimelineStatus status)
+    {
+        var classes = new List<string> { "w-4 h-4 rounded-full border-2 border-white dark:border-gray-800" };
+        
+        classes.Add(status switch
+        {
+            TimelineStatus.Success => "bg-green-500",
+            TimelineStatus.Warning => "bg-yellow-500",
+            TimelineStatus.Error => "bg-red-500",
+            TimelineStatus.Info => "bg-blue-500",
+            _ => "bg-gray-400"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentClasses()
+    {
+        return "bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm";
+    }
+
+    private string GetHeaderClasses()
+    {
+        return "flex items-center justify-between";
+    }
+}
+
+public class TimelineItem
+{
+    public string Title { get; set; } = "";
+    public string? Description { get; set; }
+    public string? Time { get; set; }
+    public TimelineStatus Status { get; set; } = TimelineStatus.Default;
+    public RenderFragment? Content { get; set; }
+}
+
+public enum TimelineStatus
+{
+    Default,
+    Success,
+    Warning,
+    Error,
+    Info
+}
+
+public enum TimelineOrientation
+{
+    Vertical,
+    Horizontal
+}
+

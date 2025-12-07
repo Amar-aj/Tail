@@ -1,0 +1,135 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<li role="menuitem" class="@GetItemClasses()">
+    @if (HasChildren)
+    {
+        <button
+            type="button"
+            class="@GetButtonClasses()"
+            @onclick="ToggleSubmenu"
+            aria-expanded="@IsExpanded.ToString().ToLower()">
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <span class="mr-3">@Icon</span>
+            }
+            <span class="flex-1 text-left">@Text</span>
+            <svg class="@GetArrowClasses()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        @if (IsExpanded)
+        {
+            <ul class="@GetSubmenuClasses()">
+                @ChildContent
+            </ul>
+        }
+    }
+    else
+    {
+        <a href="@Href"
+           class="@GetLinkClasses()"
+           @onclick="HandleClick">
+            @if (!string.IsNullOrEmpty(Icon))
+            {
+                <span class="mr-3">@Icon</span>
+            }
+            <span>@Text</span>
+            @if (ShowBadge && !string.IsNullOrEmpty(Badge))
+            {
+                <span class="@GetBadgeClasses()">@Badge</span>
+            }
+        </a>
+    }
+</li>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public string? Href { get; set; }
+    [Parameter] public string? Badge { get; set; }
+    [Parameter] public bool ShowBadge { get; set; }
+    [Parameter] public bool IsActive { get; set; }
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public bool HasChildren { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    private string GetItemClasses()
+    {
+        return "w-full";
+    }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> 
+        { 
+            "w-full flex items-center px-4 py-2 text-sm font-medium rounded-lg",
+            "text-gray-700 dark:text-gray-300",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "transition-colors duration-200",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500"
+        };
+        
+        if (IsActive)
+        {
+            classes.Add("bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetLinkClasses()
+    {
+        var classes = new List<string> 
+        { 
+            "flex items-center px-4 py-2 text-sm font-medium rounded-lg",
+            "text-gray-700 dark:text-gray-300",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "transition-colors duration-200"
+        };
+        
+        if (IsActive)
+        {
+            classes.Add("bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetArrowClasses()
+    {
+        var classes = new List<string> { "w-4 h-4 transition-transform duration-200" };
+        
+        if (IsExpanded)
+        {
+            classes.Add("transform rotate-90");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetSubmenuClasses()
+    {
+        return "mt-1 ml-4 space-y-1";
+    }
+
+    private string GetBadgeClasses()
+    {
+        return "ml-auto px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full";
+    }
+
+    private void ToggleSubmenu()
+    {
+        IsExpanded = !IsExpanded;
+    }
+
+    private async Task HandleClick()
+    {
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync();
+        }
+    }
+}
+

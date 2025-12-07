@@ -1,0 +1,195 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+@inject IJSRuntime JSRuntime
+
+<div class="@GetCarouselClasses()" @attributes="AdditionalAttributes">
+    <div class="@GetSlidesClasses()" @ref="slidesContainer">
+        @foreach (var slide in Slides)
+        {
+            <div class="@GetSlideClasses()" style="display: @(slide == CurrentSlide ? "block" : "none")">
+                @slide.Content
+            </div>
+        }
+    </div>
+    @if (ShowIndicators)
+    {
+        <div class="@GetIndicatorsClasses()">
+            @for (int i = 0; i < Slides.Count; i++)
+            {
+                <button
+                    type="button"
+                    class="@GetIndicatorClasses(i)"
+                    @onclick="() => GoToSlide(i)"
+                    aria-label="Go to slide @(i + 1)"></button>
+            }
+        </div>
+    }
+    @if (ShowArrows)
+    {
+        <button
+            type="button"
+            class="@GetArrowClasses(true)"
+            @onclick="PreviousSlide"
+            aria-label="Previous slide">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button
+            type="button"
+            class="@GetArrowClasses(false)"
+            @onclick="NextSlide"
+            aria-label="Next slide">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter] public List<CarouselSlide> Slides { get; set; } = new();
+    [Parameter] public CarouselSlide? CurrentSlide { get; set; }
+    [Parameter] public EventCallback<CarouselSlide> CurrentSlideChanged { get; set; }
+    [Parameter] public bool AutoPlay { get; set; } = false;
+    [Parameter] public int AutoPlayInterval { get; set; } = 5000;
+    [Parameter] public bool ShowIndicators { get; set; } = true;
+    [Parameter] public bool ShowArrows { get; set; } = true;
+    [Parameter] public bool Loop { get; set; } = true;
+
+    private ElementReference slidesContainer;
+    private System.Threading.Timer? autoPlayTimer;
+
+    protected override void OnInitialized()
+    {
+        if (CurrentSlide == null && Slides.Count > 0)
+        {
+            CurrentSlide = Slides[0];
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AutoPlay && Slides.Count > 1)
+        {
+            autoPlayTimer = new System.Threading.Timer(async _ => await NextSlide(), null, AutoPlayInterval, AutoPlayInterval);
+        }
+    }
+
+    private string GetCarouselClasses()
+    {
+        var classes = new List<string> { "relative w-full overflow-hidden rounded-lg" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetSlidesClasses()
+    {
+        return "relative h-full";
+    }
+
+    private string GetSlideClasses()
+    {
+        return "w-full h-full transition-opacity duration-500";
+    }
+
+    private string GetIndicatorsClasses()
+    {
+        return "absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2";
+    }
+
+    private string GetIndicatorClasses(int index)
+    {
+        var classes = new List<string> 
+        { 
+            "w-3 h-3 rounded-full transition-all duration-300",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500"
+        };
+        
+        if (Slides[index] == CurrentSlide)
+        {
+            classes.Add("bg-blue-600 w-8");
+        }
+        else
+        {
+            classes.Add("bg-white/50 hover:bg-white/75");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetArrowClasses(bool isPrevious)
+    {
+        var classes = new List<string> 
+        { 
+            "absolute top-1/2 transform -translate-y-1/2",
+            "bg-white/80 hover:bg-white text-gray-800 rounded-full p-2",
+            "transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500",
+            "shadow-lg"
+        };
+        
+        classes.Add(isPrevious ? "left-4" : "right-4");
+        
+        return string.Join(" ", classes);
+    }
+
+    private async Task NextSlide()
+    {
+        if (Slides.Count == 0) return;
+        
+        var currentIndex = Slides.IndexOf(CurrentSlide!);
+        var nextIndex = Loop ? (currentIndex + 1) % Slides.Count : Math.Min(currentIndex + 1, Slides.Count - 1);
+        
+        CurrentSlide = Slides[nextIndex];
+        if (CurrentSlideChanged.HasDelegate)
+        {
+            await CurrentSlideChanged.InvokeAsync(CurrentSlide);
+        }
+        StateHasChanged();
+    }
+
+    private async Task PreviousSlide()
+    {
+        if (Slides.Count == 0) return;
+        
+        var currentIndex = Slides.IndexOf(CurrentSlide!);
+        var prevIndex = Loop ? (currentIndex - 1 + Slides.Count) % Slides.Count : Math.Max(currentIndex - 1, 0);
+        
+        CurrentSlide = Slides[prevIndex];
+        if (CurrentSlideChanged.HasDelegate)
+        {
+            await CurrentSlideChanged.InvokeAsync(CurrentSlide);
+        }
+        StateHasChanged();
+    }
+
+    private async Task GoToSlide(int index)
+    {
+        if (index >= 0 && index < Slides.Count)
+        {
+            CurrentSlide = Slides[index];
+            if (CurrentSlideChanged.HasDelegate)
+            {
+                await CurrentSlideChanged.InvokeAsync(CurrentSlide);
+            }
+            StateHasChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        autoPlayTimer?.Dispose();
+    }
+}
+
+public class CarouselSlide
+{
+    public RenderFragment Content { get; set; }
+    public object? Data { get; set; }
+}
+

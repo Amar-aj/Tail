@@ -1,4 +1,5 @@
 @inherits Tail.Blazor.Core.TailComponentBase
+@using Tail.Blazor.Core.Enums
 @namespace Tail.Blazor.Buttons
 
 <button 
@@ -6,10 +7,15 @@
     class="@GetButtonClasses()"
     disabled="@Disabled"
     @onclick="@HandleClick"
+    @onclick:preventDefault="@PreventDefault"
+    @onclick:stopPropagation="@StopPropagation"
     @attributes="AdditionalAttributes">
     @if (Loading)
     {
-        <span class="animate-spin mr-2">⏳</span>
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
     }
     @if (!string.IsNullOrEmpty(IconStart))
     {
@@ -31,25 +37,39 @@
     [Parameter] public string? IconStart { get; set; }
     [Parameter] public string? IconEnd { get; set; }
     [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public bool PreventDefault { get; set; } = false;
+    [Parameter] public bool StopPropagation { get; set; } = false;
+    [Parameter] public bool FullWidth { get; set; } = false;
+    [Parameter] public bool Rounded { get; set; } = true;
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
 
     private string GetButtonClasses()
     {
-        var classes = new List<string> { "font-medium rounded-lg transition-colors" };
+        var classes = new List<string> { "font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2" };
         
-        // Variant classes
+        // Rounded corners
+        if (Rounded)
+        {
+            classes.Add("rounded-lg");
+        }
+        else
+        {
+            classes.Add("rounded-none");
+        }
+        
+        // Variant classes with theme support
         classes.Add(Variant switch
         {
-            ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700",
-            ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700",
-            ButtonVariant.Warning => "bg-yellow-600 text-white hover:bg-yellow-700",
-            ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700",
-            ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700",
-            ButtonVariant.Outline => "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
-            ButtonVariant.Soft => "bg-blue-100 text-blue-700 hover:bg-blue-200",
-            ButtonVariant.Ghost => "text-blue-600 hover:bg-blue-50",
-            ButtonVariant.Link => "text-blue-600 hover:underline",
-            _ => "bg-blue-600 text-white hover:bg-blue-700"
+            ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 active:bg-blue-800 shadow-sm hover:shadow",
+            ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 active:bg-green-800 shadow-sm hover:shadow",
+            ButtonVariant.Warning => "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500 active:bg-yellow-800 shadow-sm hover:shadow",
+            ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 active:bg-red-800 shadow-sm hover:shadow",
+            ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-cyan-500 active:bg-cyan-800 shadow-sm hover:shadow",
+            ButtonVariant.Outline => "border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 active:bg-blue-100 bg-transparent",
+            ButtonVariant.Soft => "bg-blue-100 text-blue-700 hover:bg-blue-200 focus:ring-blue-500 active:bg-blue-300",
+            ButtonVariant.Ghost => "text-blue-600 hover:bg-blue-50 focus:ring-blue-500 active:bg-blue-100 bg-transparent",
+            ButtonVariant.Link => "text-blue-600 hover:underline focus:ring-blue-500 bg-transparent p-0",
+            _ => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500"
         });
         
         // Size classes
@@ -63,11 +83,23 @@
             _ => "px-4 py-2 text-base"
         });
         
-        if (Disabled || Loading)
+        // Full width
+        if (FullWidth)
         {
-            classes.Add("opacity-50 cursor-not-allowed");
+            classes.Add("w-full");
         }
         
+        // Disabled/Loading state
+        if (Disabled || Loading)
+        {
+            classes.Add("opacity-50 cursor-not-allowed pointer-events-none");
+        }
+        else
+        {
+            classes.Add("cursor-pointer");
+        }
+        
+        // Custom classes
         if (!string.IsNullOrEmpty(CssClass))
         {
             classes.Add(CssClass);

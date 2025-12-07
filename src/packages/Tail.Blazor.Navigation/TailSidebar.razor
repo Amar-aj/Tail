@@ -1,0 +1,98 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<div class="@GetSidebarClasses()" @attributes="AdditionalAttributes">
+    @if (ShowHeader)
+    {
+        <div class="@GetHeaderClasses()">
+            @HeaderContent
+            @if (Collapsible)
+            {
+                <button type="button" class="@GetToggleClasses()" @onclick="Toggle">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="@(IsCollapsed ? "M4 6h16M4 12h16M4 18h16" : "M6 18L18 6M6 6l12 12")" />
+                    </svg>
+                </button>
+            }
+        </div>
+    }
+    <nav class="@GetNavClasses()">
+        @ChildContent
+    </nav>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? HeaderContent { get; set; }
+    [Parameter] public bool IsCollapsed { get; set; }
+    [Parameter] public bool Collapsible { get; set; } = true;
+    [Parameter] public bool ShowHeader { get; set; } = true;
+    [Parameter] public SidebarPosition Position { get; set; } = SidebarPosition.Left;
+    [Parameter] public EventCallback<bool> IsCollapsedChanged { get; set; }
+
+    private string GetSidebarClasses()
+    {
+        var classes = new List<string> 
+        { 
+            "bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700",
+            "transition-all duration-300 ease-in-out",
+            "flex flex-col"
+        };
+        
+        classes.Add(Position switch
+        {
+            SidebarPosition.Left => "fixed left-0 top-0 bottom-0",
+            SidebarPosition.Right => "fixed right-0 top-0 bottom-0",
+            _ => "fixed left-0 top-0 bottom-0"
+        });
+        
+        if (IsCollapsed)
+        {
+            classes.Add("w-16");
+        }
+        else
+        {
+            classes.Add("w-64");
+        }
+        
+        classes.Add("z-40");
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetHeaderClasses()
+    {
+        return "flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-700";
+    }
+
+    private string GetToggleClasses()
+    {
+        return "p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors";
+    }
+
+    private string GetNavClasses()
+    {
+        return "flex-1 overflow-y-auto py-4";
+    }
+
+    private async Task Toggle()
+    {
+        IsCollapsed = !IsCollapsed;
+        if (IsCollapsedChanged.HasDelegate)
+        {
+            await IsCollapsedChanged.InvokeAsync(IsCollapsed);
+        }
+    }
+}
+
+public enum SidebarPosition
+{
+    Left,
+    Right
+}
+

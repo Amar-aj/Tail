@@ -1,0 +1,131 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label for="@Id" class="@GetLabelClasses()">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500 ml-1">*</span>
+            }
+        </label>
+    }
+    <textarea 
+        id="@Id"
+        class="@GetTextareaClasses()"
+        value="@CurrentValue"
+        @oninput="HandleInput"
+        placeholder="@Placeholder"
+        disabled="@Disabled"
+        readonly="@ReadOnly"
+        required="@Required"
+        rows="@Rows"
+        maxlength="@MaxLength"
+        minlength="@MinLength"
+        @attributes="AdditionalAttributes">@CurrentValue</textarea>
+    @if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorMessage</p>
+    }
+    @if (!string.IsNullOrEmpty(HelperText) && string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+    }
+    @if (ShowCharacterCount && MaxLength.HasValue)
+    {
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 text-right">
+            @(CurrentValue?.Length ?? 0) / @MaxLength
+        </p>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public InputSize Size { get; set; } = InputSize.Md;
+    [Parameter] public int Rows { get; set; } = 3;
+    [Parameter] public int? MaxLength { get; set; }
+    [Parameter] public int? MinLength { get; set; }
+    [Parameter] public bool ShowCharacterCount { get; set; } = false;
+    [Parameter] public bool AutoResize { get; set; } = false;
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    private string? CurrentValue => Value;
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelClasses()
+    {
+        return "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+    }
+
+    private string GetTextareaClasses()
+    {
+        var classes = new List<string> 
+        { 
+            "block w-full rounded-lg border-gray-300 shadow-sm resize-y",
+            "focus:border-blue-500 focus:ring-blue-500",
+            "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
+            "readonly:bg-gray-50",
+            "transition-colors duration-200"
+        };
+        
+        classes.Add(Size switch
+        {
+            InputSize.Sm => "px-3 py-1.5 text-sm",
+            InputSize.Md => "px-4 py-2 text-base",
+            InputSize.Lg => "px-5 py-2.5 text-lg",
+            _ => "px-4 py-2 text-base"
+        });
+        
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            classes.Add("border-red-300 focus:border-red-500 focus:ring-red-500");
+        }
+        else
+        {
+            classes.Add("border-gray-300");
+        }
+        
+        classes.Add("dark:bg-gray-700 dark:border-gray-600 dark:text-white");
+        
+        if (AutoResize)
+        {
+            classes.Add("resize-none");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private bool ShowError => !string.IsNullOrEmpty(ErrorMessage);
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        var newValue = e.Value?.ToString();
+        Value = newValue;
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}
+

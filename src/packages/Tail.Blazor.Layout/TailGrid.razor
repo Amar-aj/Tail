@@ -1,0 +1,57 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+
+<div class="@GetGridClasses()" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int Columns { get; set; } = 1;
+    [Parameter] public GridGap Gap { get; set; } = GridGap.Md;
+    [Parameter] public bool Responsive { get; set; } = true;
+
+    private string GetGridClasses()
+    {
+        var classes = new List<string> { "grid" };
+        
+        // Responsive grid columns
+        if (Responsive)
+        {
+            classes.Add($"grid-cols-1 sm:grid-cols-2 md:grid-cols-{Math.Min(Columns, 4)} lg:grid-cols-{Math.Min(Columns, 6)}");
+        }
+        else
+        {
+            classes.Add($"grid-cols-{Math.Min(Columns, 12)}");
+        }
+        
+        // Gap
+        classes.Add(Gap switch
+        {
+            GridGap.None => "gap-0",
+            GridGap.Sm => "gap-2",
+            GridGap.Md => "gap-4",
+            GridGap.Lg => "gap-6",
+            GridGap.Xl => "gap-8",
+            _ => "gap-4"
+        });
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum GridGap
+{
+    None,
+    Sm,
+    Md,
+    Lg,
+    Xl
+}
+
+

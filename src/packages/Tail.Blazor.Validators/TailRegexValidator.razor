@@ -1,0 +1,39 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Validators
+
+@if (ShowError)
+{
+    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string Pattern { get; set; } = "";
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private System.Text.RegularExpressions.Regex? _regex;
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(Pattern))
+        {
+            try
+            {
+                _regex = new System.Text.RegularExpressions.Regex(Pattern);
+            }
+            catch
+            {
+                _regex = null;
+            }
+        }
+        
+        if (string.IsNullOrEmpty(ErrorMessage))
+        {
+            ErrorMessage = "The value does not match the required pattern.";
+        }
+    }
+
+    private bool ShowError => !string.IsNullOrEmpty(Value) && _regex != null && !IsValid;
+    private bool IsValid => string.IsNullOrEmpty(Value) || _regex == null || _regex.IsMatch(Value);
+}
+

@@ -1,0 +1,31 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<ul class="@GetMenuClasses()" role="menu" @attributes="AdditionalAttributes">
+    @ChildContent
+</ul>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public MenuVariant Variant { get; set; } = MenuVariant.Default;
+
+    private string GetMenuClasses()
+    {
+        var classes = new List<string> { "space-y-1" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum MenuVariant
+{
+    Default,
+    Compact,
+    Expanded
+}
+

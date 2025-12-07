@@ -1,0 +1,153 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+
+<div class="@GetStepsClasses()" @attributes="AdditionalAttributes">
+    @for (int i = 0; i < Steps.Count; i++)
+    {
+        var step = Steps[i];
+        var stepNumber = i + 1;
+        var isActive = stepNumber == CurrentStep;
+        var isCompleted = stepNumber < CurrentStep;
+        
+        <div class="@GetStepItemClasses()">
+            <div class="@GetStepCircleClasses(isActive, isCompleted)">
+                @if (isCompleted)
+                {
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                }
+                else
+                {
+                    <span>@stepNumber</span>
+                }
+            </div>
+            <div class="@GetStepContentClasses()">
+                <div class="@GetStepTitleClasses(isActive, isCompleted)">@step.Title</div>
+                @if (!string.IsNullOrEmpty(step.Description))
+                {
+                    <div class="@GetStepDescriptionClasses()">@step.Description</div>
+                }
+            </div>
+            @if (i < Steps.Count - 1)
+            {
+                <div class="@GetStepConnectorClasses(isCompleted)"></div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<StepItem> Steps { get; set; } = new();
+    [Parameter] public int CurrentStep { get; set; } = 1;
+    [Parameter] public StepsOrientation Orientation { get; set; } = StepsOrientation.Horizontal;
+
+    private string GetStepsClasses()
+    {
+        var classes = new List<string>();
+        
+        if (Orientation == StepsOrientation.Horizontal)
+        {
+            classes.Add("flex items-center justify-between w-full");
+        }
+        else
+        {
+            classes.Add("flex flex-col space-y-4");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetStepItemClasses()
+    {
+        return Orientation == StepsOrientation.Horizontal 
+            ? "flex items-center flex-1" 
+            : "flex items-start";
+    }
+
+    private string GetStepCircleClasses(bool isActive, bool isCompleted)
+    {
+        var classes = new List<string> 
+        { 
+            "flex items-center justify-center w-10 h-10 rounded-full font-semibold text-sm transition-colors duration-200"
+        };
+        
+        if (isCompleted)
+        {
+            classes.Add("bg-green-600 text-white");
+        }
+        else if (isActive)
+        {
+            classes.Add("bg-blue-600 text-white ring-4 ring-blue-100");
+        }
+        else
+        {
+            classes.Add("bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-400");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetStepContentClasses()
+    {
+        return Orientation == StepsOrientation.Horizontal 
+            ? "ml-4 flex-1" 
+            : "ml-4 flex-1";
+    }
+
+    private string GetStepTitleClasses(bool isActive, bool isCompleted)
+    {
+        var classes = new List<string> { "font-medium" };
+        
+        if (isActive || isCompleted)
+        {
+            classes.Add("text-gray-900 dark:text-white");
+        }
+        else
+        {
+            classes.Add("text-gray-500 dark:text-gray-400");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetStepDescriptionClasses()
+    {
+        return "text-sm text-gray-500 dark:text-gray-400 mt-1";
+    }
+
+    private string GetStepConnectorClasses(bool isCompleted)
+    {
+        var classes = new List<string> { "flex-1 h-0.5 mx-4 transition-colors duration-200" };
+        
+        if (isCompleted)
+        {
+            classes.Add("bg-green-600");
+        }
+        else
+        {
+            classes.Add("bg-gray-200 dark:bg-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public class StepItem
+{
+    public string Title { get; set; } = "";
+    public string? Description { get; set; }
+    public object? Data { get; set; }
+}
+
+public enum StepsOrientation
+{
+    Horizontal,
+    Vertical
+}
+

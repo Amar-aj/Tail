@@ -1,0 +1,67 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+
+<div class="@GetPanelClasses()" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">@Title</h3>
+        </div>
+    }
+    <div class="@GetContentClasses()">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public PanelVariant Variant { get; set; } = PanelVariant.Default;
+    [Parameter] public bool Collapsible { get; set; }
+    [Parameter] public bool IsCollapsed { get; set; }
+
+    private string GetPanelClasses()
+    {
+        var classes = new List<string> { "border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden" };
+        
+        classes.Add(Variant switch
+        {
+            PanelVariant.Default => "bg-white dark:bg-gray-800",
+            PanelVariant.Success => "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800",
+            PanelVariant.Warning => "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800",
+            PanelVariant.Danger => "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800",
+            PanelVariant.Info => "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
+            _ => "bg-white dark:bg-gray-800"
+        });
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentClasses()
+    {
+        var classes = new List<string> { "p-4" };
+        
+        if (IsCollapsed)
+        {
+            classes.Add("hidden");
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum PanelVariant
+{
+    Default,
+    Success,
+    Warning,
+    Danger,
+    Info
+}
+
+

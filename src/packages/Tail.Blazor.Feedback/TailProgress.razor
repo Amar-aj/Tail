@@ -1,0 +1,98 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Feedback
+
+<div class="@GetProgressClasses()" role="progressbar" aria-valuenow="@Value" aria-valuemin="0" aria-valuemax="100" @attributes="AdditionalAttributes">
+    <div class="@GetBarClasses()" style="width: @Value%">
+        @if (ShowLabel && LabelPosition == ProgressLabelPosition.Inside)
+        {
+            <span class="text-xs font-medium text-white">@Value%</span>
+        }
+    </div>
+    @if (ShowLabel && LabelPosition == ProgressLabelPosition.Outside)
+    {
+        <span class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">@Value%</span>
+    }
+</div>
+
+@code {
+    [Parameter] public int Value { get; set; } = 0;
+    [Parameter] public int Max { get; set; } = 100;
+    [Parameter] public ProgressVariant Variant { get; set; } = ProgressVariant.Primary;
+    [Parameter] public ProgressSize Size { get; set; } = ProgressSize.Md;
+    [Parameter] public bool ShowLabel { get; set; } = false;
+    [Parameter] public ProgressLabelPosition LabelPosition { get; set; } = ProgressLabelPosition.Outside;
+    [Parameter] public bool Animated { get; set; } = false;
+    [Parameter] public bool Striped { get; set; } = false;
+
+    private string GetProgressClasses()
+    {
+        var classes = new List<string> { "w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden" };
+        
+        classes.Add(Size switch
+        {
+            ProgressSize.Sm => "h-1",
+            ProgressSize.Md => "h-2",
+            ProgressSize.Lg => "h-3",
+            ProgressSize.Xl => "h-4",
+            _ => "h-2"
+        });
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetBarClasses()
+    {
+        var classes = new List<string> { "h-full transition-all duration-300 ease-in-out flex items-center justify-center" };
+        
+        if (Animated)
+        {
+            classes.Add("animate-pulse");
+        }
+        
+        if (Striped)
+        {
+            classes.Add("bg-striped");
+        }
+        
+        classes.Add(Variant switch
+        {
+            ProgressVariant.Primary => "bg-blue-600",
+            ProgressVariant.Success => "bg-green-600",
+            ProgressVariant.Warning => "bg-yellow-600",
+            ProgressVariant.Danger => "bg-red-600",
+            ProgressVariant.Info => "bg-cyan-600",
+            _ => "bg-blue-600"
+        });
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum ProgressVariant
+{
+    Primary,
+    Success,
+    Warning,
+    Danger,
+    Info
+}
+
+public enum ProgressSize
+{
+    Sm,
+    Md,
+    Lg,
+    Xl
+}
+
+public enum ProgressLabelPosition
+{
+    Inside,
+    Outside
+}
+

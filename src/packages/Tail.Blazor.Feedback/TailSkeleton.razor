@@ -1,0 +1,146 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Feedback
+
+@if (Type == SkeletonType.Text)
+{
+    <div class="@GetSkeletonClasses()" @attributes="AdditionalAttributes">
+        @for (int i = 0; i < Lines; i++)
+        {
+            <div class="@GetLineClasses(i)"></div>
+        }
+    </div>
+}
+else if (Type == SkeletonType.Circle)
+{
+    <div class="@GetCircleClasses()" @attributes="AdditionalAttributes"></div>
+}
+else if (Type == SkeletonType.Rectangle)
+{
+    <div class="@GetRectangleClasses()" @attributes="AdditionalAttributes"></div>
+}
+else
+{
+    <div class="@GetSkeletonClasses()" @attributes="AdditionalAttributes">
+        @ChildContent
+    </div>
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public SkeletonType Type { get; set; } = SkeletonType.Text;
+    [Parameter] public int Lines { get; set; } = 3;
+    [Parameter] public int? Width { get; set; }
+    [Parameter] public int? Height { get; set; }
+    [Parameter] public bool Animated { get; set; } = true;
+
+    private string GetSkeletonClasses()
+    {
+        var classes = new List<string> { "space-y-2" };
+        
+        if (Animated)
+        {
+            classes.Add("animate-pulse");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetLineClasses(int index)
+    {
+        var classes = new List<string> { "h-4 bg-gray-200 dark:bg-gray-700 rounded" };
+        
+        if (index == Lines - 1 && Width.HasValue)
+        {
+            classes.Add($"w-{Width}%");
+        }
+        else if (index == Lines - 1)
+        {
+            classes.Add("w-3/4");
+        }
+        else
+        {
+            classes.Add("w-full");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetCircleClasses()
+    {
+        var classes = new List<string> { "rounded-full bg-gray-200 dark:bg-gray-700" };
+        
+        if (Width.HasValue)
+        {
+            classes.Add($"w-{Width} h-{Width}");
+        }
+        else if (Height.HasValue)
+        {
+            classes.Add($"w-{Height} h-{Height}");
+        }
+        else
+        {
+            classes.Add("w-12 h-12");
+        }
+        
+        if (Animated)
+        {
+            classes.Add("animate-pulse");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetRectangleClasses()
+    {
+        var classes = new List<string> { "rounded bg-gray-200 dark:bg-gray-700" };
+        
+        if (Width.HasValue)
+        {
+            classes.Add($"w-{Width}");
+        }
+        else
+        {
+            classes.Add("w-full");
+        }
+        
+        if (Height.HasValue)
+        {
+            classes.Add($"h-{Height}");
+        }
+        else
+        {
+            classes.Add("h-4");
+        }
+        
+        if (Animated)
+        {
+            classes.Add("animate-pulse");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+public enum SkeletonType
+{
+    Text,
+    Circle,
+    Rectangle,
+    Custom
+}
+

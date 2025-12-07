@@ -1,0 +1,68 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+
+<div class="@GetWrapperClasses()" role="radiogroup" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500 ml-1">*</span>
+            }
+        </label>
+    }
+    <div class="@GetGroupClasses()">
+        @ChildContent
+    </div>
+    @if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorMessage</p>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public RadioGroupOrientation Orientation { get; set; } = RadioGroupOrientation.Vertical;
+    [Parameter] public string Name { get; set; } = Guid.NewGuid().ToString();
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupClasses()
+    {
+        var classes = new List<string>();
+        
+        if (Orientation == RadioGroupOrientation.Horizontal)
+        {
+            classes.Add("flex flex-row space-x-4");
+        }
+        else
+        {
+            classes.Add("space-y-2");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private bool ShowError => !string.IsNullOrEmpty(ErrorMessage);
+}
+
+public enum RadioGroupOrientation
+{
+    Vertical,
+    Horizontal
+}
+

@@ -1,0 +1,91 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+
+<div class="@GetCardClasses()" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Header))
+    {
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">@Header</h3>
+        </div>
+    }
+    @if (HeaderContent != null)
+    {
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            @HeaderContent
+        </div>
+    }
+    <div class="@GetBodyClasses()">
+        @ChildContent
+    </div>
+    @if (!string.IsNullOrEmpty(Footer))
+    {
+        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            @Footer
+        </div>
+    }
+    @if (FooterContent != null)
+    {
+        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            @FooterContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? HeaderContent { get; set; }
+    [Parameter] public RenderFragment? FooterContent { get; set; }
+    [Parameter] public string? Header { get; set; }
+    [Parameter] public string? Footer { get; set; }
+    [Parameter] public bool Shadow { get; set; } = true;
+    [Parameter] public bool Rounded { get; set; } = true;
+    [Parameter] public bool Bordered { get; set; } = true;
+    [Parameter] public bool Hoverable { get; set; } = false;
+    [Parameter] public string? BodyClass { get; set; }
+
+    private string GetCardClasses()
+    {
+        var classes = new List<string> { "bg-white dark:bg-gray-800 overflow-hidden transition-all duration-200" };
+        
+        if (Rounded)
+        {
+            classes.Add("rounded-lg");
+        }
+        
+        if (Bordered)
+        {
+            classes.Add("border border-gray-200 dark:border-gray-700");
+        }
+        
+        if (Shadow)
+        {
+            classes.Add("shadow-md");
+        }
+        
+        if (Hoverable)
+        {
+            classes.Add("hover:shadow-lg cursor-pointer");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetBodyClasses()
+    {
+        var classes = new List<string> { "px-6 py-4" };
+        
+        if (!string.IsNullOrEmpty(BodyClass))
+        {
+            classes.Add(BodyClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+}
+
+

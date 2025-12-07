@@ -1,0 +1,51 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Validators
+
+@if (ShowError)
+{
+    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public int? MinLength { get; set; }
+    [Parameter] public int? MaxLength { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+
+    private bool ShowError => !string.IsNullOrEmpty(Value) && !IsValid;
+    private bool IsValid
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(Value)) return true;
+            var length = Value.Length;
+            if (MinLength.HasValue && length < MinLength.Value) return false;
+            if (MaxLength.HasValue && length > MaxLength.Value) return false;
+            return true;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(ErrorMessage))
+        {
+            if (MinLength.HasValue && MaxLength.HasValue)
+            {
+                ErrorMessage = $"The value must be between {MinLength} and {MaxLength} characters.";
+            }
+            else if (MinLength.HasValue)
+            {
+                ErrorMessage = $"The value must be at least {MinLength} characters.";
+            }
+            else if (MaxLength.HasValue)
+            {
+                ErrorMessage = $"The value must be no more than {MaxLength} characters.";
+            }
+            else
+            {
+                ErrorMessage = "Invalid length.";
+            }
+        }
+    }
+}
+
