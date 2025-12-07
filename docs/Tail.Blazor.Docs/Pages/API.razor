@@ -51,6 +51,235 @@
     this IServiceCollection services,
     Action&lt;TailBlazorConfig&gt;? configure = null)</code></pre>
         <p>Adds Tail.Blazor services to the service collection.</p>
+
+        <h2>Component Packages</h2>
+        <p>Tail.Blazor is organized into 12 modular NuGet packages:</p>
+        
+        <h3>Core Packages</h3>
+        <ul>
+            <li><strong>Tail.Blazor.Core</strong> - Base components, theme engine, and core functionality</li>
+            <li><strong>Tail.Blazor.Utils</strong> - JavaScript interop helpers and utilities</li>
+        </ul>
+
+        <h3>UI Component Packages</h3>
+        <ul>
+            <li><strong>Tail.Blazor.Buttons</strong> - Button components (Button, IconButton, FAB, Toggle, Split, Group)</li>
+            <li><strong>Tail.Blazor.Forms</strong> - Form components (Input, Select, Checkbox, DatePicker, FileUpload, etc.)</li>
+            <li><strong>Tail.Blazor.Layout</strong> - Layout components (Card, Panel, Grid, Container, Divider)</li>
+            <li><strong>Tail.Blazor.Navigation</strong> - Navigation components (Sidebar, Menu, Tabs, Accordion, Carousel, Steps)</li>
+            <li><strong>Tail.Blazor.Feedback</strong> - Feedback components (Alert, Badge, Dialog, Toast, Progress, Spinner)</li>
+            <li><strong>Tail.Blazor.Icons</strong> - Icon components with Heroicons, Lucide, and custom SVG support</li>
+        </ul>
+
+        <h3>Data & Visualization Packages</h3>
+        <ul>
+            <li><strong>Tail.Blazor.Data</strong> - Data components (DataGrid, Scheduler, Tree, PivotDataGrid, ListView, Pager)</li>
+            <li><strong>Tail.Blazor.Charts</strong> - Chart components (Chart, Sparkline) with SVG/Canvas rendering</li>
+            <li><strong>Tail.Blazor.Visualization</strong> - Visualization components (ArcGauge, QRCode, Timeline)</li>
+        </ul>
+
+        <h3>Validation Package</h3>
+        <ul>
+            <li><strong>Tail.Blazor.Validators</strong> - Validation components (Required, Email, Regex, Length, Custom, NumericRange, Compare)</li>
+        </ul>
+
+        <h2>Common Component Parameters</h2>
+        <p>Most components share these common parameters:</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">CssClass</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Additional CSS classes</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">AdditionalAttributes</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Dictionary&lt;string, object&gt;?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Additional HTML attributes</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disabled</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disable the component</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Data Components API</h2>
+        
+        <h3>TailDataGrid</h3>
+        <p>Advanced data grid with sorting, filtering, pagination, and selection.</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Items</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">IEnumerable&lt;TItem&gt;?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Data items to display</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Columns</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;DataGridColumn&gt;</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Column definitions</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">SelectionMode</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">SelectionMode</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">None, Single, or Multiple</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">ShowSearch</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show search input</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">ShowPager</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show pagination controls</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>TailScheduler</h3>
+        <p>Calendar and event scheduler component.</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Events</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;SchedulerEvent&gt;</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Events to display</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">View</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">SchedulerView</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Day, Week, or Month</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">CurrentDate</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">DateTime</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Currently displayed date</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Form Components API</h2>
+        
+        <h3>TailMultiSelect</h3>
+        <p>Multi-select dropdown with search functionality.</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Items</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;SelectItem&gt;</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Available options</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">SelectedItems</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;SelectItem&gt;</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Selected items</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">ShowSearch</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Enable search filtering</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>TailDatePicker</h3>
+        <p>Date picker with calendar popup.</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Value</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">DateTime?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Selected date</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">MinDate</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">DateTime</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Minimum selectable date</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">MaxDate</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">DateTime</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Maximum selectable date</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Format</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Date format string (default: "yyyy-MM-dd")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>TailFileUpload</h3>
+        <p>File upload component with drag & drop support.</p>
+        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead>
+                <tr class="bg-gray-100 dark:bg-gray-800">
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
+                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">UploadedFiles</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;IBrowserFile&gt;</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Uploaded files</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Multiple</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Allow multiple file selection</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Accept</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Accepted file types (e.g., "image/*,.pdf")</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">MaxFileSize</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">long</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Maximum file size in bytes (default: 10MB)</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 

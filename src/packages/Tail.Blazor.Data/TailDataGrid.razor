@@ -1,0 +1,361 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Data
+@typeparam TItem
+
+<div class="@GetGridClasses()" @attributes="AdditionalAttributes">
+    @if (ShowHeader)
+    {
+        <div class="@GetHeaderClasses()">
+            <div class="flex items-center justify-between mb-4">
+                @if (Title != null)
+                {
+                    <h3 class="text-lg font-semibold">@Title</h3>
+                }
+                @if (ShowSearch)
+                {
+                    <input 
+                        type="text" 
+                        class="px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                        placeholder="Search..." 
+                        @bind="searchText"
+                        @bind:event="oninput" />
+                }
+            </div>
+        </div>
+    }
+    
+    <div class="overflow-x-auto">
+        <table class="@GetTableClasses()">
+            <thead class="@GetTheadClasses()">
+                <tr>
+                    @if (SelectionMode != SelectionMode.None)
+                    {
+                        <th class="@GetThClasses()" style="width: 40px;">
+                            @if (SelectionMode == SelectionMode.Multiple)
+                            {
+                                <input 
+                                    type="checkbox" 
+                                    checked="@IsAllSelected()"
+                                    @onchange="ToggleSelectAll" />
+                            }
+                        </th>
+                    }
+                    @foreach (var column in Columns)
+                    {
+                        <th class="@GetThClasses()" style="@GetColumnStyle(column)">
+                            @if (column.HeaderTemplate != null)
+                            {
+                                @column.HeaderTemplate(column)
+                            }
+                            else
+                            {
+                                <div class="flex items-center space-x-2">
+                                    <span>@column.Title</span>
+                                    @if (column.Sortable && Sortable)
+                                    {
+                                        <button 
+                                            type="button"
+                                            class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                                            @onclick="() => SortBy(column.Property)">
+                                            @if (CurrentSortColumn == column.Property)
+                                            {
+                                                @if (CurrentSortDirection == SortDirection.Ascending)
+                                                {
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                                    </svg>
+                                                }
+                                                else
+                                                {
+                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M5 8a1 1 0 102 0v5.586l1.293-1.293a1 1 0 001.414 1.414l-3 3a1 1 0 00-1.414 0l-3-3a1 1 0 001.414-1.414L5 13.586V8zM15 12a1 1 0 10-2 0V6.414l-1.293 1.293a1 1 0 01-1.414-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L15 6.414V12z" />
+                                                    </svg>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                                </svg>
+                                            }
+                                        </button>
+                                    }
+                                </div>
+                            }
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody class="@GetTbodyClasses()">
+                @if (FilteredItems != null && FilteredItems.Any())
+                {
+                    @foreach (var item in GetDisplayItems())
+                    {
+                        <tr class="@GetRowClasses(item)" @onclick="async () => await HandleRowClick(item)">
+                            @if (SelectionMode != SelectionMode.None)
+                            {
+                                <td class="@GetTdClasses()">
+                                    @if (SelectionMode == SelectionMode.Multiple)
+                                    {
+                                        <input 
+                                            type="checkbox" 
+                                            checked="@IsSelected(item)"
+                                            @onchange="() => ToggleSelection(item)"
+                                            @onclick:stopPropagation="true" />
+                                    }
+                                    else
+                                    {
+                                        <input 
+                                            type="radio" 
+                                            name="grid-selection"
+                                            checked="@IsSelected(item)"
+                                            @onchange="() => SelectItem(item)"
+                                            @onclick:stopPropagation="true" />
+                                    }
+                                </td>
+                            }
+                            @foreach (var column in Columns)
+                            {
+                                <td class="@GetTdClasses() @column.CssClass">
+                                    @if (column.CellTemplate != null)
+                                    {
+                                        @column.CellTemplate(item)
+                                    }
+                                    else
+                                    {
+                                        @GetCellValue(item, column.Property)
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="@(Columns.Count + (SelectionMode != SelectionMode.None ? 1 : 0))" class="@GetEmptyClasses()">
+                            @if (EmptyTemplate != null)
+                            {
+                                @EmptyTemplate
+                            }
+                            else
+                            {
+                                <p class="text-gray-500 dark:text-gray-400">No data available</p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    @if (ShowPager && TotalPages > 1)
+    {
+        <div class="mt-4">
+            <TailPager 
+                CurrentPage="@CurrentPage"
+                TotalPages="@TotalPages"
+                TotalItems="@TotalItems"
+                PageSize="@PageSize"
+                ShowInfo="@ShowPagerInfo"
+                CurrentPageChanged="OnPageChanged" />
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public List<DataGridColumn> Columns { get; set; } = new();
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool ShowHeader { get; set; } = true;
+    [Parameter] public bool ShowSearch { get; set; } = false;
+    [Parameter] public bool ShowPager { get; set; } = true;
+    [Parameter] public bool ShowPagerInfo { get; set; } = true;
+    [Parameter] public bool Sortable { get; set; } = true;
+    [Parameter] public bool Filterable { get; set; } = true;
+    [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.None;
+    [Parameter] public int PageSize { get; set; } = 10;
+    [Parameter] public bool Virtualized { get; set; } = false;
+    [Parameter] public RenderFragment? EmptyTemplate { get; set; }
+    [Parameter] public EventCallback<TItem> OnRowClick { get; set; }
+    [Parameter] public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
+    
+    private int CurrentPage { get; set; } = 1;
+    private int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
+    private int TotalItems => FilteredItems?.Count() ?? 0;
+    private string? searchText;
+    private string? CurrentSortColumn;
+    private SortDirection CurrentSortDirection = SortDirection.None;
+    private HashSet<TItem> SelectedItemsSet = new();
+    
+    private IEnumerable<TItem>? FilteredItems
+    {
+        get
+        {
+            if (Items == null) return null;
+            
+            var filtered = Items.AsEnumerable();
+            
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(searchText) && Filterable)
+            {
+                filtered = filtered.Where(item => 
+                    Columns.Any(col => 
+                        GetCellValue(item, col.Property)?.ToString()?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true));
+            }
+            
+            // Apply sorting
+            if (!string.IsNullOrEmpty(CurrentSortColumn) && CurrentSortDirection != SortDirection.None)
+            {
+                var property = typeof(TItem).GetProperty(CurrentSortColumn);
+                if (property != null)
+                {
+                    if (CurrentSortDirection == SortDirection.Ascending)
+                    {
+                        filtered = filtered.OrderBy(x => property.GetValue(x));
+                    }
+                    else
+                    {
+                        filtered = filtered.OrderByDescending(x => property.GetValue(x));
+                    }
+                }
+            }
+            
+            return filtered.ToList();
+        }
+    }
+    
+    private IEnumerable<TItem> GetDisplayItems()
+    {
+        if (FilteredItems == null) return Enumerable.Empty<TItem>();
+        
+        if (ShowPager)
+        {
+            return FilteredItems.Skip((CurrentPage - 1) * PageSize).Take(PageSize);
+        }
+        
+        return FilteredItems;
+    }
+    
+    private string GetGridClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+    
+    private string GetHeaderClasses() => "mb-4";
+    private string GetTableClasses() => "min-w-full divide-y divide-gray-200 dark:divide-gray-700";
+    private string GetTheadClasses() => "bg-gray-50 dark:bg-gray-800";
+    private string GetTbodyClasses() => "bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700";
+    private string GetThClasses() => "px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider";
+    private string GetTdClasses() => "px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100";
+    private string GetRowClasses(TItem item) => $"hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer {(IsSelected(item) ? "bg-blue-50 dark:bg-blue-900/20" : "")}";
+    private string GetEmptyClasses() => "px-6 py-12 text-center text-gray-500 dark:text-gray-400";
+    
+    private string? GetColumnStyle(DataGridColumn column)
+    {
+        return !string.IsNullOrEmpty(column.Width) ? $"width: {column.Width};" : null;
+    }
+    
+    private object? GetCellValue(TItem item, string property)
+    {
+        var prop = typeof(TItem).GetProperty(property);
+        return prop?.GetValue(item);
+    }
+    
+    private void SortBy(string column)
+    {
+        if (CurrentSortColumn == column)
+        {
+            CurrentSortDirection = CurrentSortDirection switch
+            {
+                SortDirection.None => SortDirection.Ascending,
+                SortDirection.Ascending => SortDirection.Descending,
+                _ => SortDirection.None
+            };
+        }
+        else
+        {
+            CurrentSortColumn = column;
+            CurrentSortDirection = SortDirection.Ascending;
+        }
+        CurrentPage = 1;
+    }
+    
+    private async Task OnPageChanged(int page)
+    {
+        CurrentPage = page;
+        await Task.CompletedTask;
+    }
+    
+    private bool IsSelected(TItem item) => SelectedItemsSet.Contains(item);
+    
+    private bool IsAllSelected()
+    {
+        if (FilteredItems == null || !FilteredItems.Any()) return false;
+        return GetDisplayItems().All(IsSelected);
+    }
+    
+    private void ToggleSelection(TItem item)
+    {
+        if (SelectedItemsSet.Contains(item))
+        {
+            SelectedItemsSet.Remove(item);
+        }
+        else
+        {
+            SelectedItemsSet.Add(item);
+        }
+        NotifySelectionChanged();
+    }
+    
+    private void SelectItem(TItem item)
+    {
+        SelectedItemsSet.Clear();
+        SelectedItemsSet.Add(item);
+        NotifySelectionChanged();
+    }
+    
+    private void ToggleSelectAll(ChangeEventArgs e)
+    {
+        var selectAll = (bool)(e.Value ?? false);
+        var displayItems = GetDisplayItems().ToList();
+        
+        if (selectAll)
+        {
+            foreach (var item in displayItems)
+            {
+                SelectedItemsSet.Add(item);
+            }
+        }
+        else
+        {
+            foreach (var item in displayItems)
+            {
+                SelectedItemsSet.Remove(item);
+            }
+        }
+        NotifySelectionChanged();
+    }
+    
+    private async void NotifySelectionChanged()
+    {
+        if (SelectedItemsChanged.HasDelegate)
+        {
+            await SelectedItemsChanged.InvokeAsync(SelectedItemsSet.ToList());
+        }
+    }
+    
+    private async Task HandleRowClick(TItem item)
+    {
+        if (OnRowClick.HasDelegate)
+        {
+            await OnRowClick.InvokeAsync(item);
+        }
+    }
+}
+

@@ -4,6 +4,8 @@
 @using Tail.Blazor.Layout
 @using Tail.Blazor.Forms
 @using Tail.Blazor.Feedback
+@using Tail.Blazor.Data
+@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Examples - Tail.Blazor</PageTitle>
 
@@ -65,6 +67,92 @@
                 </TailAlert>
             </div>
         </section>
+
+        <!-- Advanced Form Example -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Advanced Form</h2>
+            <TailCard>
+                <div class="space-y-4">
+                    <TailInput Label="Full Name" InputType="InputType.Text" Placeholder="Enter your name" />
+                    <TailDatePicker Label="Date of Birth" Value="@DateTime.Today.AddYears(-25)" />
+                    <TailAutoComplete 
+                        Label="City" 
+                        Suggestions="@ExampleCities"
+                        TextSelector="c => (string)c" />
+                    <TailMultiSelect 
+                        Label="Interests" 
+                        Items="@InterestOptions"
+                        SelectedItems="@SelectedInterests"
+                        ShowSearch="true" />
+                    <TailFileUpload 
+                        Label="Upload Resume" 
+                        UploadedFiles="@ResumeFiles"
+                        UploadedFilesChanged="OnResumeFilesChanged"
+                        Accept=".pdf,.doc,.docx"
+                        Multiple="false" />
+                    <TailButton Variant="ButtonVariant.Primary" FullWidth="true">
+                        Submit Application
+                    </TailButton>
+                </div>
+            </TailCard>
+        </section>
+
+        <!-- Data Grid Example -->
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Data Grid</h2>
+            <TailCard>
+                <TailDataGrid TItem="Product" Items="@Products" Columns="@ProductColumns" 
+                    ShowSearch="true" 
+                    SelectionMode="Tail.Blazor.Data.Models.SelectionMode.Multiple"
+                    ShowPager="true" />
+            </TailCard>
+        </section>
     </div>
 </div>
+
+@code {
+    private List<object> ExampleCities => new List<string> { "New York", "London", "Paris", "Tokyo" }.Cast<object>().ToList();
+
+    public class Product
+    {
+        public string Name { get; set; } = "";
+        public string Category { get; set; } = "";
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
+    }
+
+    private List<SelectItem> InterestOptions { get; set; } = new()
+    {
+        new SelectItem { Value = "tech", Text = "Technology" },
+        new SelectItem { Value = "sports", Text = "Sports" },
+        new SelectItem { Value = "music", Text = "Music" },
+        new SelectItem { Value = "travel", Text = "Travel" }
+    };
+
+    private List<SelectItem> SelectedInterests { get; set; } = new();
+
+    private List<Product> Products { get; set; } = new()
+    {
+        new Product { Name = "Laptop", Category = "Electronics", Price = 999.99m, Stock = 15 },
+        new Product { Name = "Phone", Category = "Electronics", Price = 699.99m, Stock = 30 },
+        new Product { Name = "Headphones", Category = "Audio", Price = 199.99m, Stock = 50 },
+        new Product { Name = "Keyboard", Category = "Accessories", Price = 79.99m, Stock = 25 }
+    };
+
+    private List<Tail.Blazor.Data.Models.DataGridColumn> ProductColumns { get; set; } = new()
+    {
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Name", Title = "Product Name", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Category", Title = "Category", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Price", Title = "Price", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Stock", Title = "Stock", Sortable = true }
+    };
+
+    private List<IBrowserFile> ResumeFiles { get; set; } = new();
+
+    private async Task OnResumeFilesChanged(List<IBrowserFile> files)
+    {
+        ResumeFiles = files;
+        await Task.CompletedTask;
+    }
+}
 

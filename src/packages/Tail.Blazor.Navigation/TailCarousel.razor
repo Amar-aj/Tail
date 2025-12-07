@@ -150,7 +150,7 @@
         {
             await CurrentSlideChanged.InvokeAsync(CurrentSlide);
         }
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task PreviousSlide()
@@ -165,7 +165,7 @@
         {
             await CurrentSlideChanged.InvokeAsync(CurrentSlide);
         }
-        StateHasChanged();
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task GoToSlide(int index)

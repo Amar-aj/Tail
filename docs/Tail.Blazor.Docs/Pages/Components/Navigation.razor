@@ -33,6 +33,38 @@
         <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
             <TailSteps Steps="@StepItems" CurrentStep="2" />
         </div>
+
+        <h2>Sidebar</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <div class="h-64 relative border border-gray-200 dark:border-gray-700 rounded">
+                <TailSidebar IsCollapsed="false" Collapsible="true">
+                    <HeaderContent>
+                        <h3 class="text-lg font-semibold">Menu</h3>
+                    </HeaderContent>
+                    <ChildContent>
+                        <TailMenu>
+                            <TailMenuItem Text="Dashboard" />
+                            <TailMenuItem Text="Settings" />
+                            <TailMenuItem Text="Profile" />
+                        </TailMenu>
+                    </ChildContent>
+                </TailSidebar>
+            </div>
+        </div>
+
+        <h2>Menu</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailMenu>
+                <TailMenuItem Text="Home" />
+                <TailMenuItem Text="About" />
+                <TailMenuItem Text="Contact" />
+            </TailMenu>
+        </div>
+
+        <h2>Carousel</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailCarousel Slides="@CarouselSlides" AutoPlay="true" AutoPlayInterval="3000" ShowIndicators="true" ShowArrows="true" />
+        </div>
     </div>
 </div>
 
@@ -57,6 +89,43 @@
         new StepItem { Title = "Step 1", Description = "First step" },
         new StepItem { Title = "Step 2", Description = "Second step" },
         new StepItem { Title = "Step 3", Description = "Third step" }
+    };
+
+    private List<CarouselSlide> CarouselSlides { get; set; } = new()
+    {
+        new CarouselSlide 
+        { 
+            Content = new RenderFragment(builder => 
+            {
+                builder.OpenElement(0, "div");
+                builder.AddAttribute(1, "class", "h-48 flex items-center justify-center text-white text-2xl");
+                builder.AddAttribute(2, "style", "background-color: #3b82f6;");
+                builder.AddContent(3, "Slide 1");
+                builder.CloseElement();
+            })
+        },
+        new CarouselSlide 
+        { 
+            Content = new RenderFragment(builder => 
+            {
+                builder.OpenElement(0, "div");
+                builder.AddAttribute(1, "class", "h-48 flex items-center justify-center text-white text-2xl");
+                builder.AddAttribute(2, "style", "background-color: #10b981;");
+                builder.AddContent(3, "Slide 2");
+                builder.CloseElement();
+            })
+        },
+        new CarouselSlide 
+        { 
+            Content = new RenderFragment(builder => 
+            {
+                builder.OpenElement(0, "div");
+                builder.AddAttribute(1, "class", "h-48 flex items-center justify-center text-white text-2xl");
+                builder.AddAttribute(2, "style", "background-color: #8b5cf6;");
+                builder.AddContent(3, "Slide 3");
+                builder.CloseElement();
+            })
+        }
     };
 
     private void OnTabChanged(TabItem tab)

@@ -1,5 +1,6 @@
 @page "/components/forms"
 @using Tail.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Forms - Tail.Blazor</PageTitle>
 
@@ -45,6 +46,79 @@
         <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
             <TailRating Label="Rate this product" MaxRating="5" Value="4" ShowValue="true" />
         </div>
+
+        <h2>MultiSelect</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailMultiSelect 
+                Label="Select Countries" 
+                Placeholder="Choose countries..."
+                Items="@Countries" 
+                SelectedItems="@SelectedCountries"
+                SelectedItemsChanged="OnCountriesChanged"
+                ShowSearch="true" />
+        </div>
+
+        <h2>DatePicker</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailDatePicker 
+                Label="Select Date" 
+                Value="@SelectedDate"
+                ValueChanged="OnDateChanged"
+                Placeholder="Choose a date..." />
+        </div>
+
+        <h2>FileUpload</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailFileUpload 
+                Label="Upload Files" 
+                UploadedFiles="@UploadedFiles"
+                UploadedFilesChanged="OnFilesChanged"
+                Multiple="true"
+                Accept="image/*,.pdf"
+                HelperText="PNG, JPG, PDF up to 10MB" />
+        </div>
+
+        <h2>AutoComplete</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailAutoComplete 
+                Label="Search City" 
+                Value="@SelectedCity"
+                ValueChanged="OnCityChanged"
+                Suggestions="@CitySuggestions"
+                TextSelector="c => (string)c"
+                Placeholder="Type to search..." />
+        </div>
+
+        <h2>ColorPicker</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailColorPicker 
+                Label="Choose Color" 
+                Value="@SelectedColor"
+                ValueChanged="OnColorChanged" />
+        </div>
+
+        <h2>Mask</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailMask 
+                Label="Phone Number" 
+                Value="@PhoneNumber"
+                ValueChanged="OnPhoneChanged"
+                Mask="***-***-****"
+                Placeholder="___-___-____"
+                HelperText="Format: 123-456-7890" />
+        </div>
+
+        <h2>Numeric</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailNumeric 
+                Label="Quantity" 
+                Value="@Quantity"
+                ValueChanged="OnQuantityChanged"
+                Min="0"
+                Max="100"
+                Step="1"
+                HelperText="Enter quantity between 0 and 100" />
+        </div>
     </div>
 </div>
 
@@ -54,7 +128,64 @@
         new SelectItem { Value = "us", Text = "United States" },
         new SelectItem { Value = "uk", Text = "United Kingdom" },
         new SelectItem { Value = "ca", Text = "Canada" },
-        new SelectItem { Value = "au", Text = "Australia" }
+        new SelectItem { Value = "au", Text = "Australia" },
+        new SelectItem { Value = "de", Text = "Germany" },
+        new SelectItem { Value = "fr", Text = "France" }
     };
+
+    private List<SelectItem> SelectedCountries { get; set; } = new();
+    private DateTime? SelectedDate { get; set; } = DateTime.Today;
+    private List<IBrowserFile> UploadedFiles { get; set; } = new();
+    private string? SelectedCity { get; set; }
+    private List<string> Cities { get; set; } = new()
+    {
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"
+    };
+    private List<object> CitySuggestions => Cities.Cast<object>().ToList();
+    private string SelectedColor { get; set; } = "#3b82f6";
+    private string? PhoneNumber { get; set; }
+    private decimal Quantity { get; set; } = 10;
+
+    private async Task OnCountriesChanged(List<SelectItem> countries)
+    {
+        SelectedCountries = countries;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnDateChanged(DateTime? date)
+    {
+        SelectedDate = date;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnFilesChanged(List<IBrowserFile> files)
+    {
+        UploadedFiles = files;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnCityChanged(string? city)
+    {
+        SelectedCity = city;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnColorChanged(string color)
+    {
+        SelectedColor = color;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnPhoneChanged(string? phone)
+    {
+        PhoneNumber = phone;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnQuantityChanged(decimal quantity)
+    {
+        Quantity = quantity;
+        await Task.CompletedTask;
+    }
 }
 

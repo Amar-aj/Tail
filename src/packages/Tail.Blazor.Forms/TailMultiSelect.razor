@@ -1,0 +1,192 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+
+<div class="@GetContainerClasses()">
+    <label class="@GetLabelClasses()">@Label</label>
+    <div class="relative">
+        <div 
+            class="@GetSelectClasses()"
+            @onclick="ToggleDropdown"
+            @onblur="CloseDropdown">
+            <span class="flex-1">
+                @if (SelectedItems.Any())
+                {
+                    <span class="text-gray-900 dark:text-gray-100">@GetSelectedText()</span>
+                }
+                else
+                {
+                    <span class="text-gray-500 dark:text-gray-400">@Placeholder</span>
+                }
+            </span>
+            <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        
+        @if (IsOpen)
+        {
+            <div class="@GetDropdownClasses()">
+                @if (ShowSearch)
+                {
+                    <input 
+                        type="text"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg mb-2 dark:bg-gray-800 dark:border-gray-700"
+                        placeholder="Search..."
+                        @bind="searchText"
+                        @bind:event="oninput" />
+                }
+                <div class="max-h-60 overflow-y-auto">
+                    @foreach (var item in FilteredItems)
+                    {
+                        <div 
+                            class="@GetItemClasses(item)"
+                            @onclick="() => ToggleItem(item)"
+                            @onclick:stopPropagation="true">
+                            <input 
+                                type="checkbox"
+                                checked="@IsSelected(item)"
+                                @onchange="() => ToggleItem(item)"
+                                @onclick:stopPropagation="true" />
+                            <span class="ml-2">@GetItemText(item)</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+    }
+    @if (!string.IsNullOrEmpty(ErrorText))
+    {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorText</p>
+    }
+</div>
+
+@code {
+    [Parameter] public List<SelectItem> Items { get; set; } = new();
+    [Parameter] public List<SelectItem> SelectedItems { get; set; } = new();
+    [Parameter] public EventCallback<List<SelectItem>> SelectedItemsChanged { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; } = "Select items...";
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorText { get; set; }
+    [Parameter] public bool ShowSearch { get; set; } = true;
+    [Parameter] public bool Disabled { get; set; }
+    
+    private bool IsOpen { get; set; }
+    private string searchText = "";
+    
+    private IEnumerable<SelectItem> FilteredItems
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+                return Items;
+            
+            return Items.Where(item => 
+                item.Text.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
+                item.Value?.ToString()?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true);
+        }
+    }
+    
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+    
+    private string GetLabelClasses() => "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+    
+    private string GetSelectClasses()
+    {
+        var classes = new List<string>
+        {
+            "flex items-center justify-between w-full px-3 py-2 border rounded-lg",
+            "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500",
+            "cursor-pointer"
+        };
+        
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        else if (!string.IsNullOrEmpty(ErrorText))
+        {
+            classes.Add("border-red-300 dark:border-red-700");
+        }
+        else
+        {
+            classes.Add("border-gray-300 dark:border-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+    
+    private string GetDropdownClasses() => 
+        "absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-2";
+    
+    private string GetItemClasses(SelectItem item)
+    {
+        var classes = new List<string>
+        {
+            "flex items-center px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+        };
+        
+        if (IsSelected(item))
+        {
+            classes.Add("bg-blue-50 dark:bg-blue-900/20");
+        }
+        
+        return string.Join(" ", classes);
+    }
+    
+    private string GetSelectedText()
+    {
+        if (SelectedItems.Count == 0) return "";
+        if (SelectedItems.Count == 1) return SelectedItems[0].Text;
+        return $"{SelectedItems.Count} items selected";
+    }
+    
+    private string GetItemText(SelectItem item) => item.Text;
+    
+    private bool IsSelected(SelectItem item) => SelectedItems.Contains(item);
+    
+    private void ToggleDropdown()
+    {
+        if (!Disabled)
+        {
+            IsOpen = !IsOpen;
+        }
+    }
+    
+    private void CloseDropdown()
+    {
+        // Delay to allow click events to fire
+        Task.Delay(200).ContinueWith(_ => InvokeAsync(() => IsOpen = false));
+    }
+    
+    private async Task ToggleItem(SelectItem item)
+    {
+        if (IsSelected(item))
+        {
+            SelectedItems.Remove(item);
+        }
+        else
+        {
+            SelectedItems.Add(item);
+        }
+        
+        if (SelectedItemsChanged.HasDelegate)
+        {
+            await SelectedItemsChanged.InvokeAsync(SelectedItems);
+        }
+    }
+}
+

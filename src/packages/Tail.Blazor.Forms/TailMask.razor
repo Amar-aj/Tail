@@ -1,0 +1,141 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+
+<div class="@GetContainerClasses()">
+    <label class="@GetLabelClasses()">@Label</label>
+    <input 
+        type="text"
+        class="@GetInputClasses()"
+        @bind="maskedValue"
+        @bind:event="oninput"
+        placeholder="@Placeholder"
+        maxlength="@Mask.Length"
+        disabled="@Disabled"
+        @attributes="AdditionalAttributes" />
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+    }
+    @if (!string.IsNullOrEmpty(ErrorText))
+    {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorText</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string Mask { get; set; } = "***-***-****"; // Default phone mask
+    [Parameter] public char PlaceholderChar { get; set; } = '_';
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorText { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    
+    private string maskedValue = "";
+    
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (maskedValue != Value)
+        {
+            maskedValue = Value ?? "";
+            ApplyMask();
+        }
+    }
+    
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+    
+    private string GetLabelClasses() => "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+    
+    private string GetInputClasses()
+    {
+        var classes = new List<string>
+        {
+            "w-full px-3 py-2 border rounded-lg",
+            "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500"
+        };
+        
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        else if (!string.IsNullOrEmpty(ErrorText))
+        {
+            classes.Add("border-red-300 dark:border-red-700");
+        }
+        else
+        {
+            classes.Add("border-gray-300 dark:border-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+    
+    private async Task ApplyMask()
+    {
+        if (string.IsNullOrEmpty(maskedValue))
+        {
+            Value = "";
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync(Value);
+            }
+            return;
+        }
+        
+        var unmasked = RemoveMask(maskedValue);
+        var result = new System.Text.StringBuilder();
+        int unmaskedIndex = 0;
+        
+        foreach (var maskChar in Mask)
+        {
+            if (unmaskedIndex >= unmasked.Length)
+            {
+                result.Append(PlaceholderChar);
+            }
+            else if (maskChar == '*')
+            {
+                result.Append(unmasked[unmaskedIndex++]);
+            }
+            else
+            {
+                result.Append(maskChar);
+            }
+        }
+        
+        maskedValue = result.ToString();
+        Value = unmasked;
+        
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+    
+    private string RemoveMask(string value)
+    {
+        if (string.IsNullOrEmpty(value)) return "";
+        
+        var result = new System.Text.StringBuilder();
+        foreach (var c in value)
+        {
+            if (char.IsLetterOrDigit(c))
+            {
+                result.Append(c);
+            }
+        }
+        return result.ToString();
+    }
+}
+

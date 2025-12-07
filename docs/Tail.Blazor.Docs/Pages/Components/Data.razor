@@ -1,5 +1,6 @@
 @page "/components/data"
 @using Tail.Blazor.Data
+@using Tail.Blazor.Data.Models
 
 @* Local model for demo *@
 @code {
@@ -39,22 +40,105 @@
             </TailListView>
         </div>
 
-        <h2>Coming Soon</h2>
-        <ul>
-            <li>TailDataGrid - Advanced data grid with virtualization</li>
-            <li>TailScheduler - Calendar and event scheduler</li>
-            <li>TailTree - Hierarchical tree view</li>
-            <li>TailPivotDataGrid - Pivot table component</li>
-        </ul>
+        <h2>DataGrid</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailDataGrid TItem="SampleData" Items="@GridData" Columns="@GridColumns" 
+                SelectionMode="SelectionMode.Multiple" 
+                ShowSearch="true" 
+                ShowPager="true" />
+        </div>
+
+        <h2>Scheduler</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailScheduler Events="@SchedulerEvents" View="SchedulerView.Month" />
+        </div>
+
+        <h2>Tree</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailTree Nodes="@TreeNodes" ShowCheckboxes="true" />
+        </div>
+
+        <h2>Pivot DataGrid</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailPivotDataGrid TItem="SampleData" Items="@GridData" 
+                AvailableFields="@(new List<string> { "Name", "Category", "Status" })"
+                NumericFields="@(new List<string> { "Value" })"
+                RowFields="@(new List<string> { "Category" })"
+                ColumnFields="@(new List<string> { "Status" })"
+                ValueField="Value" />
+        </div>
     </div>
 </div>
 
 @code {
+    public class SampleData
+    {
+        public string Name { get; set; } = "";
+        public string Category { get; set; } = "";
+        public string Status { get; set; } = "";
+        public decimal Value { get; set; }
+    }
+
     private List<ListItem> ListItems { get; set; } = new()
     {
         new ListItem { Name = "Item 1", Description = "Description for item 1" },
         new ListItem { Name = "Item 2", Description = "Description for item 2" },
         new ListItem { Name = "Item 3", Description = "Description for item 3" }
+    };
+
+    private List<SampleData> GridData { get; set; } = new()
+    {
+        new SampleData { Name = "Product A", Category = "Electronics", Status = "Active", Value = 1000 },
+        new SampleData { Name = "Product B", Category = "Clothing", Status = "Inactive", Value = 500 },
+        new SampleData { Name = "Product C", Category = "Electronics", Status = "Active", Value = 1500 }
+    };
+
+    private List<Tail.Blazor.Data.Models.DataGridColumn> GridColumns { get; set; } = new()
+    {
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Name", Title = "Name", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Category", Title = "Category", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Status", Title = "Status", Sortable = true },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Value", Title = "Value", Sortable = true }
+    };
+
+    private List<Tail.Blazor.Data.Models.SchedulerEvent> SchedulerEvents { get; set; } = new()
+    {
+        new Tail.Blazor.Data.Models.SchedulerEvent 
+        { 
+            Title = "Meeting", 
+            Start = DateTime.Today.AddHours(10), 
+            End = DateTime.Today.AddHours(11),
+            Color = "#3b82f6"
+        },
+        new Tail.Blazor.Data.Models.SchedulerEvent 
+        { 
+            Title = "Lunch", 
+            Start = DateTime.Today.AddHours(12), 
+            End = DateTime.Today.AddHours(13),
+            Color = "#10b981"
+        }
+    };
+
+    private List<Tail.Blazor.Data.Models.TreeNode> TreeNodes { get; set; } = new()
+    {
+        new Tail.Blazor.Data.Models.TreeNode 
+        { 
+            Text = "Folder 1", 
+            Expanded = true,
+            Children = new List<Tail.Blazor.Data.Models.TreeNode>
+            {
+                new Tail.Blazor.Data.Models.TreeNode { Text = "File 1.1" },
+                new Tail.Blazor.Data.Models.TreeNode { Text = "File 1.2" }
+            }
+        },
+        new Tail.Blazor.Data.Models.TreeNode 
+        { 
+            Text = "Folder 2",
+            Children = new List<Tail.Blazor.Data.Models.TreeNode>
+            {
+                new Tail.Blazor.Data.Models.TreeNode { Text = "File 2.1" }
+            }
+        }
     };
 
     private void OnPageChanged(int page)

@@ -1,0 +1,169 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+
+<div class="@GetContainerClasses()">
+    <label class="@GetLabelClasses()">@Label</label>
+    <div class="relative">
+        <div class="flex">
+            <button 
+                type="button"
+                class="@GetButtonClasses() rounded-l-lg rounded-r-none border-r-0"
+                @onclick="Decrement"
+                disabled="@(Disabled || Value <= Min)">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+            </button>
+            <input 
+                type="text"
+                class="@GetInputClasses() rounded-none"
+                @bind="numericValue"
+                @bind:event="oninput"
+                @onblur="ValidateValue"
+                placeholder="@Placeholder"
+                disabled="@Disabled"
+                @attributes="AdditionalAttributes" />
+            <button 
+                type="button"
+                class="@GetButtonClasses() rounded-r-lg rounded-l-none border-l-0"
+                @onclick="Increment"
+                disabled="@(Disabled || Value >= Max)">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(HelperText))
+    {
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+    }
+    @if (!string.IsNullOrEmpty(ErrorText))
+    {
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorText</p>
+    }
+</div>
+
+@code {
+    [Parameter] public decimal Value { get; set; }
+    [Parameter] public EventCallback<decimal> ValueChanged { get; set; }
+    [Parameter] public decimal Min { get; set; } = decimal.MinValue;
+    [Parameter] public decimal Max { get; set; } = decimal.MaxValue;
+    [Parameter] public decimal Step { get; set; } = 1;
+    [Parameter] public int Decimals { get; set; } = 0;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorText { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    
+    private string numericValue = "0";
+    
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        numericValue = FormatValue(Value);
+    }
+    
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+    
+    private string GetLabelClasses() => "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+    
+    private string GetInputClasses()
+    {
+        var classes = new List<string>
+        {
+            "flex-1 px-3 py-2 border-y text-center",
+            "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500"
+        };
+        
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        else if (!string.IsNullOrEmpty(ErrorText))
+        {
+            classes.Add("border-red-300 dark:border-red-700");
+        }
+        else
+        {
+            classes.Add("border-gray-300 dark:border-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+    
+    private string GetButtonClasses()
+    {
+        var classes = new List<string>
+        {
+            "px-3 py-2 border bg-white dark:bg-gray-800",
+            "text-gray-700 dark:text-gray-300",
+            "hover:bg-gray-50 dark:hover:bg-gray-700",
+            "focus:outline-none focus:ring-2 focus:ring-blue-500",
+            "disabled:opacity-50 disabled:cursor-not-allowed"
+        };
+        
+        if (!string.IsNullOrEmpty(ErrorText))
+        {
+            classes.Add("border-red-300 dark:border-red-700");
+        }
+        else
+        {
+            classes.Add("border-gray-300 dark:border-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+    
+    private string FormatValue(decimal value)
+    {
+        return Decimals > 0 ? value.ToString($"F{Decimals}") : value.ToString("0");
+    }
+    
+    private async Task Increment()
+    {
+        var newValue = Math.Min(Value + Step, Max);
+        await UpdateValue(newValue);
+    }
+    
+    private async Task Decrement()
+    {
+        var newValue = Math.Max(Value - Step, Min);
+        await UpdateValue(newValue);
+    }
+    
+    private async Task ValidateValue()
+    {
+        if (decimal.TryParse(numericValue, out var parsed))
+        {
+            var clamped = Math.Max(Min, Math.Min(parsed, Max));
+            await UpdateValue(clamped);
+        }
+        else
+        {
+            numericValue = FormatValue(Value);
+        }
+    }
+    
+    private async Task UpdateValue(decimal newValue)
+    {
+        Value = newValue;
+        numericValue = FormatValue(Value);
+        
+        if (ValueChanged.HasDelegate)
+        {
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}
+
