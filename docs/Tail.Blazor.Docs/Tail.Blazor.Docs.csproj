@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <Authors>Tail.Blazor Core Team</Authors>
+    <Company>Tail.Blazor</Company>
+    <Product>Tail.Blazor Documentation</Product>
+    <Description>Documentation and demo site for Tail.Blazor - tailblazor.com</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
+    
+    <!-- Disable trimming for web apps to avoid JSON serialization issues -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
+    
+    <!-- Support multi-targeting for .NET 8, 9, 10 -->
+    <!-- Uncomment to target multiple frameworks:
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Buttons\Tail.Blazor.Buttons.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Forms\Tail.Blazor.Forms.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Data\Tail.Blazor.Data.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Feedback\Tail.Blazor.Feedback.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Navigation\Tail.Blazor.Navigation.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Layout\Tail.Blazor.Layout.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Icons\Tail.Blazor.Icons.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Charts\Tail.Blazor.Charts.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Visualization\Tail.Blazor.Visualization.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Validators\Tail.Blazor.Validators.csproj" />
+  </ItemGroup>
+
+</Project>
+

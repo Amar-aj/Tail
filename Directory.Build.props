@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Company>Tail.Blazor</Company>
+    <Authors>Tail.Blazor Core Team</Authors>
+    <Copyright>Copyright © Tail.Blazor $(Year)</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
+    <Version>1.0.0</Version>
+    
+    <!-- Trim settings - disabled for web apps to avoid JSON serialization issues -->
+    <EnableTrimAnalyzer Condition="'$(TargetFrameworks)' == '' AND '$(OutputType)' != 'Exe'">true</EnableTrimAnalyzer>
+    <PublishTrimmed Condition="'$(TargetFrameworks)' == '' AND '$(OutputType)' != 'Exe'">false</PublishTrimmed>
+    
+    <!-- Support for .NET 8, 9, and 10 -->
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net8.0' OR '$(TargetFramework)' == 'net9.0' OR '$(TargetFramework)' == 'net10.0'">8.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+</Project>
+

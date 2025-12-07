@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <Authors>Tail.Blazor Core Team</Authors>
+    <Company>Tail.Blazor</Company>
+    <Product>Tail.Blazor Charts</Product>
+    <Description>Chart components for Tail.Blazor - Pie, Bar, Line, Area, Donut, Stacked, Sparkline. Minimal JS interop (65 KB).</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
+    <PackageTags>blazor;tailwind;ui;components;charts;visualization;lightweight;performance</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+  </ItemGroup>
+
+</Project>
+

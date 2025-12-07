@@ -1,0 +1,20 @@
+{
+  "solution": {
+    "path": "Tail.Blazor.sln",
+    "projects": [
+      "src\\packages\\Tail.Blazor.Buttons\\Tail.Blazor.Buttons.csproj",
+      "src\\packages\\Tail.Blazor.Charts\\Tail.Blazor.Charts.csproj",
+      "src\\packages\\Tail.Blazor.Core\\Tail.Blazor.Core.csproj",
+      "src\\packages\\Tail.Blazor.Data\\Tail.Blazor.Data.csproj",
+      "src\\packages\\Tail.Blazor.Feedback\\Tail.Blazor.Feedback.csproj",
+      "src\\packages\\Tail.Blazor.Forms\\Tail.Blazor.Forms.csproj",
+      "src\\packages\\Tail.Blazor.Icons\\Tail.Blazor.Icons.csproj",
+      "src\\packages\\Tail.Blazor.Layout\\Tail.Blazor.Layout.csproj",
+      "src\\packages\\Tail.Blazor.Navigation\\Tail.Blazor.Navigation.csproj",
+      "src\\packages\\Tail.Blazor.Utils\\Tail.Blazor.Utils.csproj",
+      "src\\packages\\Tail.Blazor.Validators\\Tail.Blazor.Validators.csproj",
+      "src\\packages\\Tail.Blazor.Visualization\\Tail.Blazor.Visualization.csproj",
+      "docs\\Tail.Blazor.Docs\\Tail.Blazor.Docs.csproj"
+    ]
+  }
+}

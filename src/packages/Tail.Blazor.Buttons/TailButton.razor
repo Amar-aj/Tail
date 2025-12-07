@@ -1,0 +1,87 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Buttons
+
+<button 
+    type="@Type"
+    class="@GetButtonClasses()"
+    disabled="@Disabled"
+    @onclick="@HandleClick"
+    @attributes="AdditionalAttributes">
+    @if (Loading)
+    {
+        <span class="animate-spin mr-2">⏳</span>
+    }
+    @if (!string.IsNullOrEmpty(IconStart))
+    {
+        <span class="mr-2">@IconStart</span>
+    }
+    @ChildContent
+    @if (!string.IsNullOrEmpty(IconEnd))
+    {
+        <span class="ml-2">@IconEnd</span>
+    }
+</button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Md;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool Loading { get; set; }
+    [Parameter] public string? IconStart { get; set; }
+    [Parameter] public string? IconEnd { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "font-medium rounded-lg transition-colors" };
+        
+        // Variant classes
+        classes.Add(Variant switch
+        {
+            ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700",
+            ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700",
+            ButtonVariant.Warning => "bg-yellow-600 text-white hover:bg-yellow-700",
+            ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700",
+            ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700",
+            ButtonVariant.Outline => "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
+            ButtonVariant.Soft => "bg-blue-100 text-blue-700 hover:bg-blue-200",
+            ButtonVariant.Ghost => "text-blue-600 hover:bg-blue-50",
+            ButtonVariant.Link => "text-blue-600 hover:underline",
+            _ => "bg-blue-600 text-white hover:bg-blue-700"
+        });
+        
+        // Size classes
+        classes.Add(Size switch
+        {
+            ButtonSize.Xs => "px-2 py-1 text-xs",
+            ButtonSize.Sm => "px-3 py-1.5 text-sm",
+            ButtonSize.Md => "px-4 py-2 text-base",
+            ButtonSize.Lg => "px-5 py-2.5 text-lg",
+            ButtonSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+        
+        if (Disabled || Loading)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private async Task HandleClick(MouseEventArgs e)
+    {
+        if (!Disabled && !Loading && OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync(e);
+        }
+    }
+}
+
