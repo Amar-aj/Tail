@@ -32,12 +32,37 @@
         <a href="/components/feedback" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Feedback</a>
         <a href="/components/data" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Data</a>
         
-        <!-- Theming Section -->
+        <!-- Theming Section - REORGANIZED -->
         <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary)">🎨 Theming</div>
-        <a href="/theming" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Overview</a>
-        <a href="/theme-selector-demo" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Theme Selector</a>
-        <a href="/docs/theme-integration" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Theme Integration</a>
-        <a href="/docs/theme-enhancement-scope" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Enhancement Scope</a>
+        
+        <!-- Sub-menu 1: Theme Integration & Customization -->
+        <div class="ml-4 pl-4" style="border-left: 2px solid var(--color-divider)">
+            <div class="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Integration & Customization</div>
+            <a href="/docs/theme-integration" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
+               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
+                📖 Integration Guide
+            </a>
+            <a href="/docs/phase2-completion" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
+               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
+                ✨ Enhancement Overview
+            </a>
+            <a href="/docs/theme-enhancement-scope" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
+               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
+                📊 Enhancement Scope
+            </a>
+        </div>
+        
+        <!-- Sub-menu 2: Theme Manager -->
+        <div class="ml-4 pl-4 mt-2" style="border-left: 2px solid var(--color-divider)">
+            <div class="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Theme Manager</div>
+            <a href="/theme-manager" class="block px-4 py-2 text-sm rounded-lg transition-colors font-semibold" 
+               style="color: var(--color-primary); transition: background-color var(--transition-fast)">
+                ⚙️ Theme Manager
+            </a>
+            <p class="px-4 py-1 text-xs" style="color: var(--color-text-muted)">
+                Complete theme control with presets, custom colors, and live preview
+            </p>
+        </div>
         
         <!-- Resources -->
         <a href="/examples" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">💡 Examples</a>
@@ -50,6 +75,10 @@
 <style>
     nav a:hover {
         background-color: var(--color-surface-2) !important;
+    }
+    
+    nav a[style*="color: var(--color-primary)"]:hover {
+        background-color: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface)) !important;
     }
 </style>
 

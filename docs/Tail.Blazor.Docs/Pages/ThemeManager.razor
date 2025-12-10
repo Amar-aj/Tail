@@ -1,0 +1,423 @@
+@page "/theme-manager"
+@using Tail.Blazor.Core.Theme
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Forms
+@using Tail.Blazor.Layout
+@inject ThemeService ThemeService
+
+<PageTitle>Theme Manager - Tail.Blazor</PageTitle>
+
+<div class="min-h-screen p-6" style="background-color: var(--color-background)">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg); border-radius: var(--radius-lg)">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">?? Theme Manager</h1>
+                    <p class="text-lg" style="color: var(--color-text-secondary)">Complete control over your application's theme and design system</p>
+                </div>
+                <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="true" />
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Left Column: Preset Selection & Custom Editor -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Preset Themes -->
+                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? Preset Themes</h2>
+                    
+                    <div class="space-y-2">
+                        @foreach (var preset in ThemeService.GetPresets())
+                        {
+                            <button
+                                type="button"
+                                class="w-full p-4 rounded-lg text-left transition-all"
+                                style="@GetPresetButtonStyle(preset.Name)"
+                                @onclick="() => ApplyPreset(preset.Name)">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <div class="font-semibold mb-1" style="color: var(--color-text-primary)">@preset.Name</div>
+                                        <div class="text-xs" style="color: var(--color-text-muted)">@preset.Description</div>
+                                    </div>
+                                    @if (ThemeService.CurrentSettings.PresetName == preset.Name)
+                                    {
+                                        <svg class="w-5 h-5 ml-2" style="color: var(--color-primary)" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    }
+                                </div>
+                                <div class="flex gap-1 mt-3">
+                                    @foreach (var color in GetPresetColors(preset))
+                                    {
+                                        <div class="w-8 h-8 rounded" style="background-color: @color; border: 1px solid var(--color-border)"></div>
+                                    }
+                                </div>
+                            </button>
+                        }
+                    </div>
+                </div>
+
+                <!-- Custom Color Editor -->
+                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold" style="color: var(--color-text-primary)">?? Custom Colors</h2>
+                        <button 
+                            type="button"
+                            class="px-3 py-1 rounded-md text-sm font-medium transition-all"
+                            style="background-color: var(--color-primary); color: white; border-radius: var(--radius-sm); transition: transform var(--transition-fast)"
+                            @onclick="ApplyCustomTheme">
+                            Apply Custom
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Primary</label>
+                            <input type="color" @bind="customColors.Primary" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Secondary</label>
+                            <input type="color" @bind="customColors.Secondary" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Accent</label>
+                            <input type="color" @bind="customColors.Accent" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Success</label>
+                            <input type="color" @bind="customColors.Success" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Warning</label>
+                            <input type="color" @bind="customColors.Warning" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Danger</label>
+                            <input type="color" @bind="customColors.Danger" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Column: CSS Variables Inspector -->
+            <div class="lg:col-span-1">
+                <div class="p-6 rounded-lg sticky top-6" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg); max-height: calc(100vh - 8rem); overflow-y: auto">
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? CSS Variables</h2>
+                    
+                    <!-- Current Theme Info -->
+                    <div class="mb-6 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium" style="color: var(--color-text-secondary)">Active Theme</span>
+                            <span class="px-2 py-1 rounded text-xs font-semibold" style="background-color: var(--color-primary); color: white; border-radius: var(--radius-sm)">
+                                @ThemeService.CurrentSettings.PresetName
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-medium" style="color: var(--color-text-secondary)">Mode</span>
+                            <span class="text-sm font-semibold" style="color: var(--color-text-primary)">@ThemeService.CurrentSettings.Mode</span>
+                        </div>
+                    </div>
+
+                    <!-- Color Variables -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Colors (16)</h3>
+                        <div class="space-y-2">
+                            @foreach (var variable in GetColorVariables())
+                            {
+                                <div class="flex items-center justify-between p-2 rounded" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
+                                    <span class="text-xs font-mono" style="color: var(--color-text-secondary)">@variable.Name</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded border" style="background-color: @variable.Value; border-color: var(--color-border)"></div>
+                                        <span class="text-xs font-mono" style="color: var(--color-text-muted)">@variable.Value</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Shadow Variables -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Shadows (3)</h3>
+                        <div class="space-y-2">
+                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-sm); border-radius: var(--radius-sm)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-sm</span>
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-md); border-radius: var(--radius-sm)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-md</span>
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-lg); border-radius: var(--radius-sm)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-lg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Radius Variables -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Border Radius (3)</h3>
+                        <div class="space-y-2">
+                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-sm (4px)</span>
+                            </div>
+                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-md (6px)</span>
+                            </div>
+                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-lg)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-lg (8px)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transition Variables -->
+                    <div>
+                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Transitions (2)</h3>
+                        <div class="space-y-2">
+                            <div class="p-3 rounded cursor-pointer hover-test" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-fast)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-fast (150ms)</span>
+                            </div>
+                            <div class="p-3 rounded cursor-pointer hover-test" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-normal)">
+                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-normal (200ms)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Live Preview -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Component Previews -->
+                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">??? Live Preview</h2>
+                    
+                    <!-- Buttons -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Buttons</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Primary</TailButton>
+                            <TailButton Variant="ButtonVariant.Success" Size="ButtonSize.Sm">Success</TailButton>
+                            <TailButton Variant="ButtonVariant.Warning" Size="ButtonSize.Sm">Warning</TailButton>
+                            <TailButton Variant="ButtonVariant.Danger" Size="ButtonSize.Sm">Danger</TailButton>
+                        </div>
+                    </div>
+
+                    <!-- Cards -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Cards</h3>
+                        <div class="space-y-3">
+                            <TailCard Header="Default Surface" Elevation="TailCard.CardElevation.Small">
+                                <p class="text-sm" style="color: var(--color-text-secondary)">Using default surface color</p>
+                            </TailCard>
+                            <TailCard Header="Elevated Surface" Elevation="TailCard.CardElevation.Medium" SurfaceLevel="TailCard.CardSurface.Elevated">
+                                <p class="text-sm" style="color: var(--color-text-secondary)">Using surface-2 color</p>
+                            </TailCard>
+                        </div>
+                    </div>
+
+                    <!-- Inputs -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Inputs</h3>
+                        <TailInput @bind-Value="@previewInput" Label="Sample Input" Placeholder="Type something..." />
+                    </div>
+
+                    <!-- Surface Levels -->
+                    <div>
+                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Surface Levels</h3>
+                        <div class="space-y-2">
+                            <div class="p-4 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                <span class="text-sm" style="color: var(--color-text-primary)">Surface</span>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                <span class="text-sm" style="color: var(--color-text-primary)">Surface 2</span>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--color-surface-3); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                <span class="text-sm" style="color: var(--color-text-primary)">Surface 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export/Import -->
+                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? Export/Import</h2>
+                    
+                    <div class="space-y-3">
+                        <button 
+                            type="button"
+                            class="w-full px-4 py-2 rounded-md font-medium transition-all"
+                            style="background-color: var(--color-primary); color: white; border-radius: var(--radius-md); transition: transform var(--transition-fast)"
+                            @onclick="ExportTheme">
+                            ?? Export Current Theme
+                        </button>
+                        
+                        <button 
+                            type="button"
+                            class="w-full px-4 py-2 rounded-md font-medium transition-all"
+                            style="border: 2px solid var(--color-primary); color: var(--color-primary); background-color: transparent; border-radius: var(--radius-md); transition: background-color var(--transition-fast)"
+                            @onclick="ResetToDefault">
+                            ?? Reset to Default
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(exportedJson))
+                    {
+                        <div class="mt-4 p-3 rounded font-mono text-xs overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-primary); border-radius: var(--radius-sm); max-height: 200px; overflow-y: auto">
+                            @exportedJson
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-test:hover {
+        background-color: var(--color-primary) !important;
+        transform: scale(1.02);
+    }
+</style>
+
+@code {
+    private ThemeColors customColors = new();
+    private string previewInput = "";
+    private string exportedJson = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+        customColors = CloneColors(ThemeService.CurrentSettings.Colors);
+        ThemeService.OnThemeChanged += HandleThemeChanged;
+    }
+
+    private void HandleThemeChanged()
+    {
+        customColors = CloneColors(ThemeService.CurrentSettings.Colors);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ApplyPreset(string presetName)
+    {
+        await ThemeService.ApplyPresetAsync(presetName, ThemeService.CurrentSettings.Mode);
+    }
+
+    private async Task ApplyCustomTheme()
+    {
+        await ThemeService.ApplyCustomThemeAsync(customColors, ThemeService.CurrentSettings.Mode);
+    }
+
+    private string GetPresetButtonStyle(string presetName)
+    {
+        var isActive = ThemeService.CurrentSettings.PresetName == presetName;
+        
+        if (isActive)
+        {
+            return @"
+                background-color: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface));
+                border: 2px solid var(--color-primary);
+                border-radius: var(--radius-md);
+                transition: all var(--transition-fast);
+            ";
+        }
+        
+        return @"
+            background-color: var(--color-surface-2);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            &:hover { border-color: var(--color-border); }
+        ";
+    }
+
+    private List<string> GetPresetColors(ThemePreset preset)
+    {
+        var colors = ThemeService.CurrentSettings.Mode == "Dark" ? preset.Dark : preset.Light;
+        return new List<string> 
+        { 
+            colors.Primary, 
+            colors.Secondary, 
+            colors.Accent, 
+            colors.Success, 
+            colors.Danger 
+        };
+    }
+
+    private List<CssVariable> GetColorVariables()
+    {
+        var colors = ThemeService.CurrentSettings.Colors;
+        return new List<CssVariable>
+        {
+            new() { Name = "--color-primary", Value = colors.Primary },
+            new() { Name = "--color-secondary", Value = colors.Secondary },
+            new() { Name = "--color-accent", Value = colors.Accent },
+            new() { Name = "--color-success", Value = colors.Success },
+            new() { Name = "--color-warning", Value = colors.Warning },
+            new() { Name = "--color-danger", Value = colors.Danger },
+            new() { Name = "--color-info", Value = colors.Info },
+            new() { Name = "--color-background", Value = colors.Background },
+            new() { Name = "--color-surface", Value = colors.Surface },
+            new() { Name = "--color-surface-2", Value = colors.Surface2 },
+            new() { Name = "--color-surface-3", Value = colors.Surface3 },
+            new() { Name = "--color-text-primary", Value = colors.TextPrimary },
+            new() { Name = "--color-text-secondary", Value = colors.TextSecondary },
+            new() { Name = "--color-text-muted", Value = colors.TextMuted },
+            new() { Name = "--color-border", Value = colors.Border },
+            new() { Name = "--color-divider", Value = colors.Divider }
+        };
+    }
+
+    private void ExportTheme()
+    {
+        exportedJson = System.Text.Json.JsonSerializer.Serialize(ThemeService.CurrentSettings, new System.Text.Json.JsonSerializerOptions 
+        { 
+            WriteIndented = true 
+        });
+    }
+
+    private async Task ResetToDefault()
+    {
+        await ThemeService.ApplyPresetAsync("Ocean", "Light");
+        exportedJson = "";
+    }
+
+    private ThemeColors CloneColors(ThemeColors source)
+    {
+        return new ThemeColors
+        {
+            Primary = source.Primary,
+            Secondary = source.Secondary,
+            Accent = source.Accent,
+            Success = source.Success,
+            Warning = source.Warning,
+            Danger = source.Danger,
+            Info = source.Info,
+            Background = source.Background,
+            Surface = source.Surface,
+            Surface2 = source.Surface2,
+            Surface3 = source.Surface3,
+            TextPrimary = source.TextPrimary,
+            TextSecondary = source.TextSecondary,
+            TextMuted = source.TextMuted,
+            Border = source.Border,
+            Divider = source.Divider,
+            ShadowSm = source.ShadowSm,
+            ShadowMd = source.ShadowMd,
+            ShadowLg = source.ShadowLg,
+            RadiusSm = source.RadiusSm,
+            RadiusMd = source.RadiusMd,
+            RadiusLg = source.RadiusLg,
+            TransitionFast = source.TransitionFast,
+            TransitionNormal = source.TransitionNormal
+        };
+    }
+
+    public void Dispose()
+    {
+        ThemeService.OnThemeChanged -= HandleThemeChanged;
+    }
+
+    private class CssVariable
+    {
+        public string Name { get; set; } = "";
+        public string Value { get; set; } = "";
+    }
+}
