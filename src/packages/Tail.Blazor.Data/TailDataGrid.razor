@@ -15,8 +15,8 @@
                 {
                     <input 
                         type="text" 
-                        class="px-3 py-2 border rounded-lg"
-                        style="background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary)"
+                        class="px-3 py-2"
+                        style="@GetSearchInputStyle()"
                         placeholder="Search..." 
                         @bind="searchText"
                         @bind:event="oninput" />
@@ -25,7 +25,7 @@
         </div>
     }
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto" style="border-radius: var(--radius-lg)">
         <table class="@GetTableClasses()">
             <thead class="@GetTheadClasses()" style="@GetTheadStyle()">
                 <tr>
@@ -43,7 +43,7 @@
                     }
                     @foreach (var column in Columns)
                     {
-                        <th class="@GetThClasses()" style="@GetColumnStyle(column); color: var(--color-text-secondary)">
+                        <th class="@GetThClasses()" style="@GetColumnStyle(column)">
                             @if (column.HeaderTemplate != null)
                             {
                                 @column.HeaderTemplate(column)
@@ -51,7 +51,7 @@
                             else
                             {
                                 <div class="flex items-center space-x-2">
-                                    <span>@column.Title</span>
+                                    <span style="color: var(--color-text-secondary)">@column.Title</span>
                                     @if (column.Sortable && Sortable)
                                     {
                                         <button 
@@ -63,20 +63,20 @@
                                             {
                                                 @if (CurrentSortDirection == SortDirection.Ascending)
                                                 {
-                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <svg class="w-4 h-4" style="color: var(--color-primary)" fill="currentColor" viewBox="0 0 20 20">
                                                         <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
                                                     </svg>
                                                 }
                                                 else
                                                 {
-                                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                    <svg class="w-4 h-4" style="color: var(--color-primary)" fill="currentColor" viewBox="0 0 20 20">
                                                         <path d="M5 8a1 1 0 102 0v5.586l1.293-1.293a1 1 0 001.414 1.414l-3 3a1 1 0 00-1.414 0l-3-3a1 1 0 001.414-1.414L5 13.586V8zM15 12a1 1 0 10-2 0V6.414l-1.293 1.293a1 1 0 01-1.414-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L15 6.414V12z" />
                                                     </svg>
                                                 }
                                             }
                                             else
                                             {
-                                                <svg class="w-4 h-4" style="color: var(--color-text-secondary); opacity: 0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4" style="color: var(--color-text-muted); opacity: 0.5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
                                                 </svg>
                                             }
@@ -135,7 +135,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="@(Columns.Count + (SelectionMode != SelectionMode.None ? 1 : 0))" class="@GetEmptyClasses()" style="color: var(--color-text-secondary)">
+                        <td colspan="@(Columns.Count + (SelectionMode != SelectionMode.None ? 1 : 0))" class="@GetEmptyClasses()" style="color: var(--color-text-muted)">
                             @if (EmptyTemplate != null)
                             {
                                 @EmptyTemplate
@@ -250,16 +250,33 @@
     private string GetHeaderClasses() => "mb-4";
     private string GetTableClasses() => "min-w-full";
     private string GetTheadClasses() => "";
-    private string GetTheadStyle() => "background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface)); border-bottom: 1px solid var(--color-border)";
+    
+    private string GetTheadStyle()
+    {
+        return @"
+            background-color: var(--color-surface-2);
+            border-bottom: 2px solid var(--color-divider);
+        ";
+    }
+    
     private string GetTbodyClasses() => "";
-    private string GetTbodyStyle() => "background-color: var(--color-surface); border-top: 1px solid var(--color-border)";
+    
+    private string GetTbodyStyle()
+    {
+        return "background-color: var(--color-surface);";
+    }
+    
     private string GetThClasses() => "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider";
     private string GetTdClasses() => "px-6 py-4 whitespace-nowrap text-sm";
-    private string GetRowClasses(TItem item) => $"cursor-pointer border-b {(IsSelected(item) ? "" : "")}";
+    private string GetRowClasses(TItem item) => "cursor-pointer";
     
     private string GetRowStyle(TItem item)
     {
-        var styles = new List<string> { "border-color: var(--color-border)" };
+        var styles = new List<string> 
+        { 
+            "border-bottom: 1px solid var(--color-divider)",
+            "transition: background-color var(--transition-fast)"
+        };
         
         if (IsSelected(item))
         {
@@ -273,12 +290,40 @@
         return string.Join("; ", styles);
     }
     
-    private string GetSortButtonStyle() => "background-color: transparent; color: var(--color-primary)";
+    private string GetSearchInputStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            border-radius: var(--radius-md);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        ";
+    }
+    
+    private string GetSortButtonStyle()
+    {
+        return @"
+            background-color: transparent;
+            transition: transform var(--transition-fast);
+            border-radius: var(--radius-sm);
+        ";
+    }
+    
     private string GetEmptyClasses() => "px-6 py-12 text-center";
     
     private string? GetColumnStyle(DataGridColumn column)
     {
-        return !string.IsNullOrEmpty(column.Width) ? $"width: {column.Width};" : null;
+        var styles = new List<string>();
+        
+        if (!string.IsNullOrEmpty(column.Width))
+        {
+            styles.Add($"width: {column.Width}");
+        }
+        
+        styles.Add("color: var(--color-text-secondary)");
+        
+        return styles.Any() ? string.Join("; ", styles) : null;
     }
     
     private object? GetCellValue(TItem item, string property)

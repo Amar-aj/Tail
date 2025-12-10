@@ -1,0 +1,497 @@
+@page "/docs/theme-enhancement-scope"
+@using Tail.Blazor.Core.Theme
+@inject ThemeService ThemeService
+
+<PageTitle>Theme Enhancement Scope & Status - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="mb-8">
+        <h1 class="text-5xl font-bold mb-4" style="color: var(--color-text-primary)">Theme Enhancement Scope</h1>
+        <p class="text-xl" style="color: var(--color-text-secondary)">
+            Comprehensive tracking of new CSS variables implementation and component updates
+        </p>
+    </div>
+
+    <!-- Overall Progress -->
+    <section class="mb-12 rounded-lg p-8 border" style="background-color: var(--color-surface); border-color: var(--color-border)">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-3xl font-bold" style="color: var(--color-text-primary)">Overall Progress</h2>
+            <div class="text-right">
+                <div class="text-4xl font-bold" style="color: var(--color-primary)">@overallProgress%</div>
+                <div class="text-sm" style="color: var(--color-text-secondary)">Complete</div>
+            </div>
+        </div>
+        
+        <div class="w-full rounded-full h-6 mb-4" style="background-color: var(--color-surface-2)">
+            <div class="h-6 rounded-full transition-all duration-500" 
+                 style="width: @overallProgress%; background-color: var(--color-primary)"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-4 mt-6">
+            <div class="text-center p-4 rounded-lg" style="background-color: var(--color-surface-2)">
+                <div class="text-3xl font-bold" style="color: var(--color-success)">@completedTasks</div>
+                <div class="text-sm" style="color: var(--color-text-muted)">Completed</div>
+            </div>
+            <div class="text-center p-4 rounded-lg" style="background-color: var(--color-surface-2)">
+                <div class="text-3xl font-bold" style="color: var(--color-warning)">@inProgressTasks</div>
+                <div class="text-sm" style="color: var(--color-text-muted)">In Progress</div>
+            </div>
+            <div class="text-center p-4 rounded-lg" style="background-color: var(--color-surface-2)">
+                <div class="text-3xl font-bold" style="color: var(--color-info)">@pendingTasks</div>
+                <div class="text-sm" style="color: var(--color-text-muted)">Pending</div>
+            </div>
+            <div class="text-center p-4 rounded-lg" style="background-color: var(--color-surface-2)">
+                <div class="text-3xl font-bold" style="color: var(--color-text-primary)">@totalTasks</div>
+                <div class="text-sm" style="color: var(--color-text-muted)">Total Tasks</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phase 1: CSS Variables Enhancement -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">Phase 1: CSS Variables Enhancement</h2>
+        
+        <div class="space-y-4">
+            @foreach (var task in phase1Tasks)
+            {
+                <div class="p-6 rounded-lg border" 
+                     style="background-color: var(--color-surface); border-color: var(--color-border); box-shadow: var(--shadow-sm)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4 flex-1">
+                            <span class="text-3xl">@task.Icon</span>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-1" style="color: var(--color-text-primary)">@task.Title</h3>
+                                <p class="text-sm mb-2" style="color: var(--color-text-secondary)">@task.Description</p>
+                                @if (task.Details.Any())
+                                {
+                                    <ul class="text-sm space-y-1" style="color: var(--color-text-muted)">
+                                        @foreach (var detail in task.Details)
+                                        {
+                                            <li>• @detail</li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                        <span class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ml-4"
+                              style="@GetStatusStyle(task.Status)">
+                            @task.Status
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Phase 2: Component Updates -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">Phase 2: Component Library Updates</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+            @foreach (var pkg in packages)
+            {
+                <div class="p-6 rounded-lg border" 
+                     style="background-color: var(--color-surface); border-color: var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-semibold" style="color: var(--color-text-primary)">@pkg.Name</h3>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium"
+                              style="@GetStatusStyle(pkg.Status)">
+                            @pkg.Status
+                        </span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2" style="color: var(--color-text-secondary)">
+                            <span>Progress</span>
+                            <span>@pkg.Progress%</span>
+                        </div>
+                        <div class="w-full rounded-full h-2" style="background-color: var(--color-surface-2)">
+                            <div class="h-2 rounded-full transition-all duration-300" 
+                                 style="width: @pkg.Progress%; background-color: var(--color-primary)"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        @foreach (var component in pkg.Components)
+                        {
+                            <div class="flex items-center justify-between text-sm">
+                                <span style="color: var(--color-text-secondary)">@component.Name</span>
+                                <span>@(component.Updated ? "?" : "?")</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- Phase 3: UI/UX Improvements -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">Phase 3: UI/UX Enhancements</h2>
+        
+        <div class="space-y-4">
+            @foreach (var improvement in uiImprovements)
+            {
+                <div class="p-6 rounded-lg border" 
+                     style="background-color: var(--color-surface); border-color: var(--color-border); box-shadow: var(--shadow-sm)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4 flex-1">
+                            <span class="text-3xl">@improvement.Icon</span>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-semibold mb-1" style="color: var(--color-text-primary)">@improvement.Title</h3>
+                                <p class="text-sm" style="color: var(--color-text-secondary)">@improvement.Description</p>
+                            </div>
+                        </div>
+                        <span class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ml-4"
+                              style="@GetStatusStyle(improvement.Status)">
+                            @improvement.Status
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- CSS Variables Reference -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">New CSS Variables Reference</h2>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Surfaces -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Surface Colors</h3>
+                <div class="space-y-3">
+                    <div>
+                        <code class="text-sm" style="color: var(--color-primary)">--color-surface-2</code>
+                        <div class="mt-2 h-12 rounded border" style="background-color: var(--color-surface-2); border-color: var(--color-border)"></div>
+                    </div>
+                    <div>
+                        <code class="text-sm" style="color: var(--color-primary)">--color-surface-3</code>
+                        <div class="mt-2 h-12 rounded border" style="background-color: var(--color-surface-3); border-color: var(--color-border)"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Text Colors</h3>
+                <div class="space-y-3">
+                    <div>
+                        <code class="text-sm" style="color: var(--color-primary)">--color-text-muted</code>
+                        <div class="mt-2 p-3 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-muted)">
+                            Sample Text
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Divider</h3>
+                <div class="space-y-3">
+                    <div>
+                        <code class="text-sm" style="color: var(--color-primary)">--color-divider</code>
+                        <hr class="mt-2" style="border-color: var(--color-divider)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shadows -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Shadows</h3>
+                <div class="space-y-3">
+                    <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-sm)">
+                        <code class="text-xs" style="color: var(--color-primary)">--shadow-sm</code>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-md)">
+                        <code class="text-xs" style="color: var(--color-primary)">--shadow-md</code>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-lg)">
+                        <code class="text-xs" style="color: var(--color-primary)">--shadow-lg</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Radius -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Border Radius</h3>
+                <div class="space-y-3">
+                    <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
+                        <code class="text-xs" style="color: var(--color-primary)">--radius-sm</code>
+                    </div>
+                    <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+                        <code class="text-xs" style="color: var(--color-primary)">--radius-md</code>
+                    </div>
+                    <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-lg)">
+                        <code class="text-xs" style="color: var(--color-primary)">--radius-lg</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transitions -->
+            <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); border-radius: var(--radius-lg)">
+                <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary)">Transitions</h3>
+                <div class="space-y-3">
+                    <div class="p-3 rounded cursor-pointer hover:scale-105" 
+                         style="background-color: var(--color-surface-2); transition: transform var(--transition-fast)">
+                        <code class="text-xs" style="color: var(--color-primary)">--transition-fast</code>
+                    </div>
+                    <div class="p-3 rounded cursor-pointer hover:scale-105" 
+                         style="background-color: var(--color-surface-2); transition: transform var(--transition-normal)">
+                        <code class="text-xs" style="color: var(--color-primary)">--transition-normal</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="rounded-lg p-8 border" style="background-color: var(--color-surface); border-color: var(--color-border)">
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">Implementation Timeline</h2>
+        
+        <div class="space-y-4">
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-24 text-sm font-semibold" style="color: var(--color-text-secondary)">Phase 1</div>
+                <div class="flex-1">
+                    <div class="font-semibold mb-1" style="color: var(--color-text-primary)">CSS Variables</div>
+                    <div class="text-sm" style="color: var(--color-text-secondary)">Add 11 new CSS variables to theme system</div>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm" style="background-color: var(--color-success); color: white">Complete</span>
+            </div>
+            
+            <hr style="border-color: var(--color-divider)">
+            
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-24 text-sm font-semibold" style="color: var(--color-text-secondary)">Phase 2</div>
+                <div class="flex-1">
+                    <div class="font-semibold mb-1" style="color: var(--color-text-primary)">Component Updates</div>
+                    <div class="text-sm" style="color: var(--color-text-secondary)">Update all 7 core packages to use new variables</div>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm" style="background-color: var(--color-warning); color: white">In Progress</span>
+            </div>
+            
+            <hr style="border-color: var(--color-divider)">
+            
+            <div class="flex items-start space-x-4">
+                <div class="flex-shrink-0 w-24 text-sm font-semibold" style="color: var(--color-text-secondary)">Phase 3</div>
+                <div class="flex-1">
+                    <div class="font-semibold mb-1" style="color: var(--color-text-primary)">UI/UX Polish</div>
+                    <div class="text-sm" style="color: var(--color-text-secondary)">Enhance responsiveness, transitions, and overall experience</div>
+                </div>
+                <span class="px-3 py-1 rounded-full text-sm" style="background-color: var(--color-info); color: white">Pending</span>
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+    private int overallProgress = 45;
+    private int completedTasks = 18;
+    private int inProgressTasks = 12;
+    private int pendingTasks = 10;
+    private int totalTasks = 40;
+
+    private List<ScopeTask> phase1Tasks = new()
+    {
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Surface Colors (Surface2, Surface3)",
+            Description = "Additional surface levels for layered UI components",
+            Details = new() { "Implemented in ThemeColors class", "Applied to all 5 theme presets", "Available in light & dark modes" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Text Muted Color",
+            Description = "Subtle text color for less important information",
+            Details = new() { "Added to ThemeColors", "Applied across all themes" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Divider Color",
+            Description = "Dedicated color for horizontal/vertical dividers",
+            Details = new() { "Separate from border color", "Better visual hierarchy" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Shadow System (sm, md, lg)",
+            Description = "Three levels of box shadows for depth",
+            Details = new() { "Small, medium, large shadows", "Dark mode adjusted" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Border Radius (sm, md, lg)",
+            Description = "Consistent corner rounding across components",
+            Details = new() { "4px, 6px, 8px default values", "Customizable per theme" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "Transition Speeds (fast, normal)",
+            Description = "Smooth animations with consistent timing",
+            Details = new() { "150ms fast, 200ms normal", "Cubic bezier easing" },
+            Status = "Complete"
+        },
+        new ScopeTask
+        {
+            Icon = "?",
+            Title = "ThemeService Enhancement",
+            Description = "Update service to apply all new CSS variables",
+            Details = new() { "11 new variables added", "Console logging improved" },
+            Status = "Complete"
+        }
+    };
+
+    private List<PackageScope> packages = new()
+    {
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Core",
+            Status = "Complete",
+            Progress = 100,
+            Components = new()
+            {
+                new() { Name = "ThemeService", Updated = true },
+                new() { Name = "ThemeToggle", Updated = true },
+                new() { Name = "ThemeSelector", Updated = true }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Buttons",
+            Status = "Complete",
+            Progress = 100,
+            Components = new()
+            {
+                new() { Name = "TailButton", Updated = true },
+                new() { Name = "TailIconButton", Updated = true }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Forms",
+            Status = "In Progress",
+            Progress = 60,
+            Components = new()
+            {
+                new() { Name = "TailInput", Updated = true },
+                new() { Name = "TailTextarea", Updated = true },
+                new() { Name = "TailSelect", Updated = false },
+                new() { Name = "TailCheckbox", Updated = false },
+                new() { Name = "TailRadio", Updated = false }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Layout",
+            Status = "In Progress",
+            Progress = 50,
+            Components = new()
+            {
+                new() { Name = "TailCard", Updated = true },
+                new() { Name = "TailPanel", Updated = false },
+                new() { Name = "TailGrid", Updated = false }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Navigation",
+            Status = "In Progress",
+            Progress = 40,
+            Components = new()
+            {
+                new() { Name = "TailTabs", Updated = true },
+                new() { Name = "TailBreadcrumb", Updated = false },
+                new() { Name = "TailAccordion", Updated = false },
+                new() { Name = "TailMenu", Updated = false }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Feedback",
+            Status = "Complete",
+            Progress = 100,
+            Components = new()
+            {
+                new() { Name = "TailAlert", Updated = true },
+                new() { Name = "TailBadge", Updated = true }
+            }
+        },
+        new PackageScope
+        {
+            Name = "Tail.Blazor.Data",
+            Status = "In Progress",
+            Progress = 60,
+            Components = new()
+            {
+                new() { Name = "TailDataGrid", Updated = true },
+                new() { Name = "TailPager", Updated = false }
+            }
+        }
+    };
+
+    private List<UIImprovement> uiImprovements = new()
+    {
+        new() { Icon = "??", Title = "Mobile Responsiveness", Description = "Touch-optimized interactions and responsive layouts", Status = "Pending" },
+        new() { Icon = "??", Title = "Visual Consistency", Description = "Unified spacing, sizing, and alignment across components", Status = "In Progress" },
+        new() { Icon = "?", Title = "Smooth Transitions", Description = "Polished animations using new transition variables", Status = "Pending" },
+        new() { Icon = "??", Title = "Focus States", Description = "Clear keyboard navigation and focus indicators", Status = "Pending" },
+        new() { Icon = "?", Title = "Accessibility Audit", Description = "WCAG AA compliance verification", Status = "Pending" }
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+    }
+
+    private string GetStatusStyle(string status)
+    {
+        return status switch
+        {
+            "Complete" => "background-color: var(--color-success); color: white",
+            "In Progress" => "background-color: var(--color-warning); color: white",
+            "Pending" => "background-color: var(--color-info); color: white",
+            _ => "background-color: var(--color-surface-2); color: var(--color-text-primary)"
+        };
+    }
+
+    private class ScopeTask
+    {
+        public string Icon { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public List<string> Details { get; set; } = new();
+        public string Status { get; set; } = "";
+    }
+
+    private class PackageScope
+    {
+        public string Name { get; set; } = "";
+        public string Status { get; set; } = "";
+        public int Progress { get; set; }
+        public List<ComponentStatus> Components { get; set; } = new();
+    }
+
+    private class ComponentStatus
+    {
+        public string Name { get; set; } = "";
+        public bool Updated { get; set; }
+    }
+
+    private class UIImprovement
+    {
+        public string Icon { get; set; } = "";
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Status { get; set; } = "";
+    }
+}

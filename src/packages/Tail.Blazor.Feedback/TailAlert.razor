@@ -14,7 +14,7 @@
             <div class="ml-3 flex-1">
                 @if (!string.IsNullOrEmpty(Title))
                 {
-                    <h3 class="text-sm font-medium">@Title</h3>
+                    <h3 class="text-sm font-medium" style="color: var(--color-text-primary)">@Title</h3>
                 }
                 <div class="@GetContentClasses()">
                     @ChildContent
@@ -22,7 +22,10 @@
             </div>
             @if (Dismissible)
             {
-                <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8 focus:outline-none focus:ring-2" @onclick="HandleDismiss">
+                <button type="button" 
+                        class="ml-auto -mx-1.5 -my-1.5 inline-flex h-8 w-8 focus:outline-none"
+                        style="@GetDismissButtonStyle()"
+                        @onclick="HandleDismiss">
                     <span class="sr-only">Dismiss</span>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -44,7 +47,7 @@
 
     private string GetAlertClasses()
     {
-        var classes = new List<string> { "p-4 rounded-lg" };
+        var classes = new List<string> { "p-4" };
         
         if (!string.IsNullOrEmpty(CssClass))
         {
@@ -58,6 +61,16 @@
     {
         var styles = new List<string>();
         
+        // Border radius
+        styles.Add("border-radius: var(--radius-lg)");
+        
+        // Transitions
+        styles.Add("transition: opacity var(--transition-normal), transform var(--transition-normal)");
+        
+        // Shadow
+        styles.Add("box-shadow: var(--shadow-sm)");
+        
+        // Variant-specific colors
         switch (Variant)
         {
             case AlertVariant.Success:
@@ -81,6 +94,18 @@
                 styles.Add("color: var(--color-info)");
                 break;
         }
+        
+        return string.Join("; ", styles);
+    }
+
+    private string GetDismissButtonStyle()
+    {
+        var styles = new List<string>();
+        
+        styles.Add("border-radius: var(--radius-md)");
+        styles.Add("transition: background-color var(--transition-fast), transform var(--transition-fast)");
+        styles.Add("&:hover { background-color: color-mix(in srgb, currentColor 10%, transparent); transform: scale(1.05); }");
+        styles.Add("&:focus { box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 30%, transparent); }");
         
         return string.Join("; ", styles);
     }

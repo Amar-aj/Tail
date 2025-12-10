@@ -2,48 +2,54 @@
 @using Tail.Blazor.Core.Theme
 @inject NavigationManager Navigation
 
-<div class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 min-h-screen p-4">
+<div class="border-r w-64 min-h-screen p-4" style="background-color: var(--color-surface); border-color: var(--color-border)">
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tail.Blazor</h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400">v1.0.0</p>
+            <h1 class="text-2xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
+            <p class="text-sm" style="color: var(--color-text-muted)">v1.0.0</p>
         </div>
-        <TailThemeToggle />
+        <TailThemeControl ShowModeToggle="true" ShowThemeSelector="false" />
     </div>
 
     <nav class="space-y-1">
-        <a href="/" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">🏠 Home</a>
+        <a href="/" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">🏠 Home</a>
         
         <!-- Documentation Section -->
-        <div class="px-4 py-2 text-gray-700 dark:text-gray-300 font-semibold">📚 Documentation</div>
-        <a href="/docs" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Overview</a>
-        <a href="/docs/installation" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Installation</a>
-        <a href="/getting-started" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Quick Start</a>
+        <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary)">📚 Documentation</div>
+        <a href="/docs" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Overview</a>
+        <a href="/docs/installation" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Installation</a>
+        <a href="/getting-started" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Quick Start</a>
         
         <!-- Components Section -->
-        <a href="/components" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">🧩 Components</a>
-        <a href="/components/summary" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">📋 Components Summary</a>
+        <a href="/components" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">🧩 Components</a>
+        <a href="/components/summary" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">📋 Components Summary</a>
         
-        <div class="px-4 py-2 text-gray-700 dark:text-gray-300 font-semibold text-sm">Component Categories</div>
-        <a href="/components/buttons" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Buttons</a>
-        <a href="/components/forms" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Forms</a>
-        <a href="/components/layout" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Layout</a>
-        <a href="/components/navigation" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Navigation</a>
-        <a href="/components/feedback" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Feedback</a>
-        <a href="/components/data" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Data</a>
+        <div class="px-4 py-2 font-semibold text-sm" style="color: var(--color-text-primary)">Component Categories</div>
+        <a href="/components/buttons" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Buttons</a>
+        <a href="/components/forms" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Forms</a>
+        <a href="/components/layout" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Layout</a>
+        <a href="/components/navigation" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Navigation</a>
+        <a href="/components/feedback" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Feedback</a>
+        <a href="/components/data" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Data</a>
         
         <!-- Theming Section -->
-        <div class="px-4 py-2 text-gray-700 dark:text-gray-300 font-semibold">🎨 Theming</div>
-        <a href="/theming" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Overview</a>
-        <a href="/theme-toggle-demo" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Theme Toggle</a>
-        <a href="/theme-selector-demo" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Theme Selector</a>
-        <a href="/docs/theme-integration" class="block px-8 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Theme Integration</a>
+        <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary)">🎨 Theming</div>
+        <a href="/theming" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Overview</a>
+        <a href="/theme-selector-demo" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Theme Selector</a>
+        <a href="/docs/theme-integration" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Theme Integration</a>
+        <a href="/docs/theme-enhancement-scope" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Enhancement Scope</a>
         
         <!-- Resources -->
-        <a href="/examples" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">💡 Examples</a>
-        <a href="/best-practices" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">✨ Best Practices</a>
-        <a href="/faq" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">❓ FAQ</a>
-        <a href="/api" class="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">📚 API Reference</a>
+        <a href="/examples" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">💡 Examples</a>
+        <a href="/best-practices" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">✨ Best Practices</a>
+        <a href="/faq" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">❓ FAQ</a>
+        <a href="/api" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">📚 API Reference</a>
     </nav>
 </div>
+
+<style>
+    nav a:hover {
+        background-color: var(--color-surface-2) !important;
+    }
+</style>
 

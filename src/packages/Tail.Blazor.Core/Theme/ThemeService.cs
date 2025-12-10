@@ -4,7 +4,7 @@ using System.Text.Json;
 namespace Tail.Blazor.Core.Theme;
 
 /// <summary>
-/// Service for managing theme settings with localStorage persistence
+/// Service for managing theme settings with localStorage persistence and enhanced CSS variables
 /// </summary>
 public class ThemeService
 {
@@ -131,7 +131,7 @@ public class ThemeService
     }
 
     /// <summary>
-    /// Apply theme to document root element
+    /// Apply theme to document root element with all CSS variables
     /// </summary>
     private async Task ApplyThemeToDocumentAsync()
     {
@@ -140,7 +140,7 @@ public class ThemeService
             var isDark = CurrentSettings.Mode == "Dark";
             var colors = CurrentSettings.Colors;
 
-            // Create JavaScript to apply theme
+            // Create JavaScript to apply all theme variables
             var script = $@"
                 (function() {{
                     const root = document.documentElement;
@@ -152,25 +152,60 @@ public class ThemeService
                         root.classList.remove('dark');
                     }}
                     
-                    // Apply CSS variables
+                    // Primary Colors
                     root.style.setProperty('--color-primary', '{colors.Primary}');
                     root.style.setProperty('--color-secondary', '{colors.Secondary}');
                     root.style.setProperty('--color-accent', '{colors.Accent}');
+                    
+                    // State Colors
                     root.style.setProperty('--color-success', '{colors.Success}');
                     root.style.setProperty('--color-warning', '{colors.Warning}');
                     root.style.setProperty('--color-danger', '{colors.Danger}');
                     root.style.setProperty('--color-info', '{colors.Info}');
+                    
+                    // Background & Surfaces
                     root.style.setProperty('--color-background', '{colors.Background}');
                     root.style.setProperty('--color-surface', '{colors.Surface}');
+                    root.style.setProperty('--color-surface-2', '{colors.Surface2}');
+                    root.style.setProperty('--color-surface-3', '{colors.Surface3}');
+                    
+                    // Text Colors
                     root.style.setProperty('--color-text-primary', '{colors.TextPrimary}');
                     root.style.setProperty('--color-text-secondary', '{colors.TextSecondary}');
-                    root.style.setProperty('--color-border', '{colors.Border}');
+                    root.style.setProperty('--color-text-muted', '{colors.TextMuted}');
                     
-                    // Also update body background
+                    // Borders & Dividers
+                    root.style.setProperty('--color-border', '{colors.Border}');
+                    root.style.setProperty('--color-divider', '{colors.Divider}');
+                    
+                    // Shadows
+                    root.style.setProperty('--shadow-sm', '{colors.ShadowSm}');
+                    root.style.setProperty('--shadow-md', '{colors.ShadowMd}');
+                    root.style.setProperty('--shadow-lg', '{colors.ShadowLg}');
+                    
+                    // Border Radius
+                    root.style.setProperty('--radius-sm', '{colors.RadiusSm}');
+                    root.style.setProperty('--radius-md', '{colors.RadiusMd}');
+                    root.style.setProperty('--radius-lg', '{colors.RadiusLg}');
+                    
+                    // Transitions
+                    root.style.setProperty('--transition-fast', '{colors.TransitionFast}');
+                    root.style.setProperty('--transition-normal', '{colors.TransitionNormal}');
+                    
+                    // Update body
                     document.body.style.backgroundColor = '{colors.Background}';
                     document.body.style.color = '{colors.TextPrimary}';
+                    document.body.style.transition = 'background-color {colors.TransitionNormal}, color {colors.TransitionNormal}';
                     
-                    console.log('Theme applied: {CurrentSettings.PresetName} - {CurrentSettings.Mode}');
+                    console.log('? Theme applied: {CurrentSettings.PresetName} ({CurrentSettings.Mode} mode)');
+                    console.log('?? CSS Variables updated:', {{
+                        surfaces: 4,
+                        textColors: 3,
+                        borders: 2,
+                        shadows: 3,
+                        radius: 3,
+                        transitions: 2
+                    }});
                 }})();
             ";
 
@@ -178,7 +213,7 @@ public class ThemeService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error applying theme: {ex.Message}");
+            Console.WriteLine($"? Error applying theme: {ex.Message}");
         }
     }
 
@@ -191,7 +226,7 @@ public class ThemeService
     }
 
     /// <summary>
-    /// Initialize theme on app startup
+    /// Initialize theme on app startup - loads from localStorage
     /// </summary>
     public async Task InitializeAsync()
     {

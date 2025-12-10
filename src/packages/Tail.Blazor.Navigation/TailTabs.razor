@@ -16,7 +16,7 @@
             </button>
         }
     </div>
-    <div class="@GetContentClasses()">
+    <div class="@GetContentClasses()" style="@GetContentStyle()">
         @ChildContent
     </div>
 </div>
@@ -63,6 +63,11 @@
             _ => "flex-row"
         });
         
+        if (Variant == TabVariant.Pills)
+        {
+            classes.Add("gap-1");
+        }
+        
         return string.Join(" ", classes);
     }
 
@@ -73,16 +78,16 @@
         switch (Position)
         {
             case TabPosition.Top:
-                styles.Add("border-bottom: 1px solid var(--color-border)");
+                styles.Add("border-bottom: 2px solid var(--color-divider)");
                 break;
             case TabPosition.Bottom:
-                styles.Add("border-top: 1px solid var(--color-border)");
+                styles.Add("border-top: 2px solid var(--color-divider)");
                 break;
             case TabPosition.Left:
-                styles.Add("border-right: 1px solid var(--color-border)");
+                styles.Add("border-right: 2px solid var(--color-divider)");
                 break;
             case TabPosition.Right:
-                styles.Add("border-left: 1px solid var(--color-border)");
+                styles.Add("border-left: 2px solid var(--color-divider)");
                 break;
         }
         
@@ -93,22 +98,8 @@
     {
         var classes = new List<string> 
         { 
-            "px-4 py-2 font-medium text-sm transition-all duration-200",
-            "focus:outline-none focus:ring-2 focus:ring-offset-2"
+            "font-medium focus:outline-none"
         };
-        
-        classes.Add(Size switch
-        {
-            TabSize.Sm => "px-3 py-1.5 text-xs",
-            TabSize.Md => "px-4 py-2 text-sm",
-            TabSize.Lg => "px-5 py-2.5 text-base",
-            _ => "px-4 py-2 text-sm"
-        });
-        
-        if (Variant == TabVariant.Pills && tab == ActiveTab)
-        {
-            classes.Add("rounded-t-lg");
-        }
         
         return string.Join(" ", classes);
     }
@@ -116,34 +107,81 @@
     private string GetTabButtonStyle(TabItem tab)
     {
         var styles = new List<string>();
+        var isActive = tab == ActiveTab;
         
-        if (tab == ActiveTab)
+        // Size-based padding
+        var (px, py, fontSize) = Size switch
+        {
+            TabSize.Sm => ("0.75rem", "0.375rem", "0.75rem"),
+            TabSize.Md => ("1rem", "0.5rem", "0.875rem"),
+            TabSize.Lg => ("1.25rem", "0.625rem", "1rem"),
+            _ => ("1rem", "0.5rem", "0.875rem")
+        };
+        
+        styles.Add($"padding: {py} {px}");
+        styles.Add($"font-size: {fontSize}");
+        
+        // Transitions
+        styles.Add("transition: color var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast)");
+        
+        // Variant-specific styles
+        if (isActive)
         {
             switch (Variant)
             {
                 case TabVariant.Default:
                 case TabVariant.Underline:
                     styles.Add("color: var(--color-primary)");
-                    styles.Add("border-bottom: 2px solid var(--color-primary)");
-                    styles.Add("--tw-ring-color: var(--color-primary)");
+                    styles.Add("border-bottom: 3px solid var(--color-primary)");
+                    styles.Add("margin-bottom: -2px"); // Compensate for parent border
+                    styles.Add("background-color: transparent");
                     break;
+                    
                 case TabVariant.Pills:
-                    styles.Add("background-color: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface))");
-                    styles.Add("color: var(--color-primary)");
+                    styles.Add("background-color: var(--color-primary)");
+                    styles.Add("color: white");
+                    styles.Add("border-radius: var(--radius-md)");
+                    styles.Add("box-shadow: var(--shadow-sm)");
                     break;
             }
         }
         else
         {
             styles.Add("color: var(--color-text-secondary)");
+            
+            // Hover effects for inactive tabs
+            if (Variant == TabVariant.Pills)
+            {
+                styles.Add("border-radius: var(--radius-md)");
+                styles.Add("&:hover { background-color: var(--color-surface-2); color: var(--color-text-primary); }");
+            }
+            else
+            {
+                styles.Add("&:hover { color: var(--color-text-primary); border-bottom: 3px solid var(--color-border); margin-bottom: -2px; }");
+            }
         }
+        
+        // Focus ring
+        styles.Add("&:focus { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, transparent); border-radius: var(--radius-sm); }");
+        
+        // Cursor
+        styles.Add("cursor: pointer");
         
         return string.Join("; ", styles);
     }
 
     private string GetContentClasses()
     {
-        return "mt-4";
+        return "mt-4 p-4";
+    }
+
+    private string GetContentStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border-radius: var(--radius-lg);
+            transition: opacity var(--transition-normal);
+        ";
     }
 
     private async Task SetActiveTab(TabItem tab)
