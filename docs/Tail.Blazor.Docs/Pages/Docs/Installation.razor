@@ -1,0 +1,277 @@
+@page "/docs/installation"
+@using Tail.Blazor.Core.Theme
+@inject ThemeService ThemeService
+
+<PageTitle>Installation - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Installation Guide</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Get started with Tail.Blazor in your project in just a few minutes.
+    </p>
+
+    <!-- Prerequisites -->
+    <section class="mb-12 theme-card border rounded-lg p-6">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Prerequisites</h2>
+        <ul class="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
+            <li><strong>.NET 8.0 SDK</strong> or higher</li>
+            <li><strong>Visual Studio 2022</strong> (v17.8+) or <strong>Visual Studio Code</strong></li>
+            <li><strong>Node.js</strong> (optional, for Tailwind CLI)</li>
+        </ul>
+    </section>
+
+    <!-- Quick Install Steps -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Quick Installation</h2>
+        
+        <!-- Step 1 -->
+        <div class="theme-card border rounded-lg p-6 mb-4">
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold mr-3">1</span>
+                Create Blazor Project
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Choose your project type:</p>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Blazor Server:</p>
+                    <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code>dotnet new blazorserver -o MyBlazorApp
+cd MyBlazorApp</code></pre>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Blazor WebAssembly:</p>
+                    <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code>dotnet new blazorwasm -o MyBlazorApp
+cd MyBlazorApp</code></pre>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Blazor Web App (.NET 8+):</p>
+                    <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code>dotnet new blazor -o MyBlazorApp
+cd MyBlazorApp</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="theme-card border rounded-lg p-6 mb-4">
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold mr-3">2</span>
+                Install Packages
+            </h3>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code># Core package (required)
+dotnet add package Tail.Blazor.Core
+
+# Component packages (choose what you need)
+dotnet add package Tail.Blazor.Buttons
+dotnet add package Tail.Blazor.Forms
+dotnet add package Tail.Blazor.Layout
+dotnet add package Tail.Blazor.Navigation
+dotnet add package Tail.Blazor.Feedback
+dotnet add package Tail.Blazor.Data</code></pre>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="theme-card border rounded-lg p-6 mb-4">
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold mr-3">3</span>
+                Configure Services
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Add to <code class="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">Program.cs</code>:</p>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code>using Tail.Blazor.Core;
+using Tail.Blazor.Core.Extensions;
+
+// Add Tail.Blazor services
+builder.Services.AddTailBlazor(config =>
+{
+    config.ThemeMode = ThemeMode.Light;
+    config.ThemePalette = ThemePalette.Blue;
+});
+
+// Add Theme Service (for advanced theming)
+builder.Services.AddTailBlazorTheme();</code></pre>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="theme-card border rounded-lg p-6 mb-4">
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold mr-3">4</span>
+                Add Tailwind CSS
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Add to <code class="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">_Host.cshtml</code> or <code class="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">index.html</code>:</p>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto text-sm"><code>&lt;!-- Tailwind CSS --&gt;
+&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
+&lt;script&gt;
+    tailwind.config = {
+        darkMode: 'class',
+        theme: { extend: {} }
+    }
+&lt;/script&gt;
+
+&lt;!-- Theme Initialization --&gt;
+&lt;script&gt;
+    (function() {
+        try {
+            const settings = JSON.parse(localStorage.getItem('tail-blazor-theme-settings') || '{}');
+            if (settings.Mode === 'Dark') {
+                document.documentElement.classList.add('dark');
+            }
+            if (settings.Colors) {
+                Object.entries(settings.Colors).forEach(([key, value]) => {
+                    document.documentElement.style.setProperty(
+                        `--color-${key.toLowerCase()}`, value
+                    );
+                });
+            }
+        } catch (e) {}
+    })();
+&lt;/script&gt;
+
+&lt;link href="css/app.css" rel="stylesheet" /&gt;</code></pre>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="theme-card border rounded-lg p-6 mb-4">
+            <h3 class="text-2xl font-semibold mb-3 text-gray-900 dark:text-white flex items-center">
+                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold mr-3">5</span>
+                Create app.css
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-4">Create <code class="bg-gray-200 dark:bg-gray-800 px-2 py-1 rounded">wwwroot/css/app.css</code>:</p>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto text-sm"><code>/* Theme CSS Variables */
+:root {
+    --color-primary: #3b82f6;
+    --color-secondary: #8b5cf6;
+    --color-accent: #ec4899;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #3b82f6;
+    --color-background: #ffffff;
+    --color-surface: #f9fafb;
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-border: #e5e7eb;
+}
+
+html.dark {
+    --color-background: #111827;
+    --color-surface: #1f2937;
+    --color-text-primary: #f9fafb;
+    --color-text-secondary: #d1d5db;
+    --color-border: #374151;
+}
+
+body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    transition: background-color 0.3s ease;
+}
+
+.theme-card {
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+.theme-button {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.theme-button:hover {
+    filter: brightness(1.1);
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verification -->
+    <section class="mb-12 theme-card border rounded-lg p-6">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Verify Installation</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-4">Run your project and test:</p>
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700 mb-4">
+            <pre class="bg-gray-900 text-gray-100 p-3 rounded overflow-x-auto"><code>dotnet run</code></pre>
+        </div>
+        
+        <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <h4 class="font-semibold text-blue-900 dark:text-blue-200 mb-2">Expected Results:</h4>
+            <ul class="list-disc list-inside space-y-1 text-blue-800 dark:text-blue-300 text-sm">
+                <li>App starts without errors</li>
+                <li>Theme toggle works (if added)</li>
+                <li>Dark mode changes colors</li>
+                <li>Components render correctly</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Next Steps -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Next Steps</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+            <a href="/components/buttons" class="theme-card border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Explore Components</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Browse 30+ production-ready components</p>
+            </a>
+            
+            <a href="/theme-selector-demo" class="theme-card border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Customize Themes</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">Choose from 5 themes or create custom</p>
+            </a>
+            
+            <a href="/docs/examples" class="theme-card border rounded-lg p-6 hover:shadow-lg transition-shadow">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">View Examples</h3>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">See real-world usage examples</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section class="theme-card border rounded-lg p-6">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Troubleshooting</h2>
+        <div class="space-y-4">
+            <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Theme not applying?</h4>
+                <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                    <li>Verify theme init script is in HTML</li>
+                    <li>Check app.css has CSS variables</li>
+                    <li>Ensure ThemeService is registered</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Build errors?</h4>
+                <div class="bg-gray-50 dark:bg-gray-900 rounded p-3 border border-gray-200 dark:border-gray-700">
+                    <pre class="text-sm"><code>dotnet clean
+dotnet restore
+dotnet build</code></pre>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Components not found?</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Add to <code class="bg-gray-200 dark:bg-gray-800 px-1 py-0.5 rounded">_Imports.razor</code>:</p>
+                <div class="bg-gray-50 dark:bg-gray-900 rounded p-3 border border-gray-200 dark:border-gray-700">
+                    <pre class="text-sm"><code>@@using Tail.Blazor.Buttons
+@@using Tail.Blazor.Forms
+@@using Tail.Blazor.Core.Theme</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+    }
+}

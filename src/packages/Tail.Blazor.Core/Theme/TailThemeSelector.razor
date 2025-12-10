@@ -1,0 +1,222 @@
+@using Tail.Blazor.Core.Theme
+@inject ThemeService ThemeService
+
+<div class="@GetContainerClasses()">
+    @if (ShowPreview)
+    {
+        <!-- Theme Preview -->
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Current Theme</h3>
+            <div class="flex items-center gap-3 p-4 rounded-lg border" style="background-color: @CurrentColors.Surface; border-color: @CurrentColors.Border;">
+                <div class="flex gap-2">
+                    <div class="w-12 h-12 rounded-lg" style="background-color: @CurrentColors.Primary"></div>
+                    <div class="w-12 h-12 rounded-lg" style="background-color: @CurrentColors.Secondary"></div>
+                    <div class="w-12 h-12 rounded-lg" style="background-color: @CurrentColors.Accent"></div>
+                </div>
+                <div class="flex-1">
+                    <p class="font-medium" style="color: @CurrentColors.TextPrimary">@CurrentPresetName</p>
+                    <p class="text-sm" style="color: @CurrentColors.TextSecondary">@CurrentMode Mode</p>
+                </div>
+                <button @onclick="ToggleMode" 
+                        class="px-4 py-2 rounded-lg font-medium transition-colors"
+                        style="background-color: @CurrentColors.Primary; color: white;">
+                    @(CurrentMode == "Dark" ? "??" : "??") Switch to @(CurrentMode == "Dark" ? "Light" : "Dark")
+                </button>
+            </div>
+        </div>
+    }
+
+    <!-- Theme Presets -->
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Theme Presets</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            @foreach (var preset in Presets)
+            {
+                var isActive = CurrentPresetName == preset.Name && !IsCustom;
+                <button @onclick="() => SelectPreset(preset.Name)"
+                        class="@GetPresetButtonClasses(isActive)"
+                        style="@GetPresetButtonStyle(preset)">
+                    <div class="flex items-center gap-3">
+                        <div class="flex gap-1">
+                            <div class="w-6 h-6 rounded" style="background-color: @GetPresetColor(preset, "Primary")"></div>
+                            <div class="w-6 h-6 rounded" style="background-color: @GetPresetColor(preset, "Secondary")"></div>
+                            <div class="w-6 h-6 rounded" style="background-color: @GetPresetColor(preset, "Accent")"></div>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <p class="font-medium text-sm">@preset.Name</p>
+                            <p class="text-xs opacity-75">@preset.Description</p>
+                        </div>
+                        @if (isActive)
+                        {
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                        }
+                    </div>
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Custom Theme -->
+    <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-900 dark:text-white">Custom Theme</h3>
+        <div class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Primary</label>
+                    <input type="color" @bind="CustomColors.Primary" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.Primary" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Secondary</label>
+                    <input type="color" @bind="CustomColors.Secondary" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.Secondary" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Accent</label>
+                    <input type="color" @bind="CustomColors.Accent" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.Accent" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Background</label>
+                    <input type="color" @bind="CustomColors.Background" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.Background" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Surface</label>
+                    <input type="color" @bind="CustomColors.Surface" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.Surface" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">Text Primary</label>
+                    <input type="color" @bind="CustomColors.TextPrimary" @bind:event="oninput"
+                           class="w-full h-10 rounded cursor-pointer" />
+                    <input type="text" @bind="CustomColors.TextPrimary" @bind:event="oninput"
+                           class="w-full mt-1 px-2 py-1 text-xs border rounded dark:bg-gray-700 dark:border-gray-600" />
+                </div>
+            </div>
+            <button @onclick="ApplyCustomTheme"
+                    class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                Apply Custom Theme
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool ShowPreview { get; set; } = true;
+    [Parameter] public string? CssClass { get; set; }
+
+    private List<ThemePreset> Presets = new();
+    private ThemeColors CustomColors = new();
+    private ThemeColors CurrentColors = new();
+    private string CurrentPresetName = "Ocean";
+    private string CurrentMode = "Light";
+    private bool IsCustom = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Presets = ThemeService.GetPresets();
+        await LoadCurrentTheme();
+        ThemeService.OnThemeChanged += OnThemeChanged;
+    }
+
+    private async Task LoadCurrentTheme()
+    {
+        var settings = await ThemeService.LoadThemeAsync();
+        CurrentPresetName = settings.PresetName;
+        CurrentMode = settings.Mode;
+        IsCustom = settings.IsCustom;
+        CurrentColors = settings.Colors;
+        CustomColors = new ThemeColors
+        {
+            Primary = settings.Colors.Primary,
+            Secondary = settings.Colors.Secondary,
+            Accent = settings.Colors.Accent,
+            Background = settings.Colors.Background,
+            Surface = settings.Colors.Surface,
+            TextPrimary = settings.Colors.TextPrimary
+        };
+    }
+
+    private async Task SelectPreset(string presetName)
+    {
+        await ThemeService.ApplyPresetAsync(presetName, CurrentMode);
+        await LoadCurrentTheme();
+    }
+
+    private async Task ToggleMode()
+    {
+        await ThemeService.ToggleModeAsync();
+        await LoadCurrentTheme();
+    }
+
+    private async Task ApplyCustomTheme()
+    {
+        await ThemeService.ApplyCustomThemeAsync(CustomColors, CurrentMode);
+        await LoadCurrentTheme();
+    }
+
+    private void OnThemeChanged()
+    {
+        InvokeAsync(async () =>
+        {
+            await LoadCurrentTheme();
+            StateHasChanged();
+        });
+    }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "theme-selector" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetPresetButtonClasses(bool isActive)
+    {
+        var baseClasses = "p-3 rounded-lg border transition-all duration-200 hover:shadow-md";
+        if (isActive)
+        {
+            return $"{baseClasses} ring-2 ring-offset-2";
+        }
+        return $"{baseClasses} hover:border-gray-300 dark:hover:border-gray-600";
+    }
+
+    private string GetPresetButtonStyle(ThemePreset preset)
+    {
+        var colors = CurrentMode == "Dark" ? preset.Dark : preset.Light;
+        return $"background-color: {colors.Surface}; border-color: {colors.Border}; color: {colors.TextPrimary};";
+    }
+
+    private string GetPresetColor(ThemePreset preset, string colorName)
+    {
+        var colors = CurrentMode == "Dark" ? preset.Dark : preset.Light;
+        return colorName switch
+        {
+            "Primary" => colors.Primary,
+            "Secondary" => colors.Secondary,
+            "Accent" => colors.Accent,
+            _ => colors.Primary
+        };
+    }
+
+    public void Dispose()
+    {
+        ThemeService.OnThemeChanged -= OnThemeChanged;
+    }
+}

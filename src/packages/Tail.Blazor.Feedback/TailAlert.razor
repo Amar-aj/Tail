@@ -3,7 +3,7 @@
 
 @if (Visible)
 {
-    <div role="alert" class="@GetAlertClasses()" @attributes="AdditionalAttributes">
+    <div role="alert" class="@GetAlertClasses()" style="@GetAlertStyle()" @attributes="AdditionalAttributes">
         <div class="flex items-start">
             @if (ShowIcon)
             {
@@ -44,16 +44,7 @@
 
     private string GetAlertClasses()
     {
-        var classes = new List<string> { "p-4 rounded-lg border" };
-        
-        classes.Add(Variant switch
-        {
-            AlertVariant.Success => "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-200",
-            AlertVariant.Warning => "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800 text-yellow-800 dark:text-yellow-200",
-            AlertVariant.Danger => "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-200",
-            AlertVariant.Info => "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-200",
-            _ => "bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200"
-        });
+        var classes = new List<string> { "p-4 rounded-lg" };
         
         if (!string.IsNullOrEmpty(CssClass))
         {
@@ -61,6 +52,37 @@
         }
         
         return string.Join(" ", classes);
+    }
+
+    private string GetAlertStyle()
+    {
+        var styles = new List<string>();
+        
+        switch (Variant)
+        {
+            case AlertVariant.Success:
+                styles.Add("background-color: color-mix(in srgb, var(--color-success) 10%, var(--color-surface))");
+                styles.Add("border: 1px solid color-mix(in srgb, var(--color-success) 40%, transparent)");
+                styles.Add("color: var(--color-success)");
+                break;
+            case AlertVariant.Warning:
+                styles.Add("background-color: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface))");
+                styles.Add("border: 1px solid color-mix(in srgb, var(--color-warning) 40%, transparent)");
+                styles.Add("color: var(--color-warning)");
+                break;
+            case AlertVariant.Danger:
+                styles.Add("background-color: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface))");
+                styles.Add("border: 1px solid color-mix(in srgb, var(--color-danger) 40%, transparent)");
+                styles.Add("color: var(--color-danger)");
+                break;
+            case AlertVariant.Info:
+                styles.Add("background-color: color-mix(in srgb, var(--color-info) 10%, var(--color-surface))");
+                styles.Add("border: 1px solid color-mix(in srgb, var(--color-info) 40%, transparent)");
+                styles.Add("color: var(--color-info)");
+                break;
+        }
+        
+        return string.Join("; ", styles);
     }
 
     private string GetContentClasses()

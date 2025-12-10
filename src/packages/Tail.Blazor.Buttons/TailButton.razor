@@ -4,6 +4,7 @@
 <button 
     type="@Type"
     class="@GetButtonClasses()"
+    style="@GetButtonStyle()"
     disabled="@Disabled"
     @onclick="@HandleClick"
     @onclick:preventDefault="@PreventDefault"
@@ -51,24 +52,20 @@
         {
             classes.Add("rounded-lg");
         }
-        else
-        {
-            classes.Add("rounded-none");
-        }
         
-        // Variant classes with theme support
+        // Base classes based on variant (using theme-aware classes)
         classes.Add(Variant switch
         {
-            ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 active:bg-blue-800 shadow-sm hover:shadow",
-            ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500 active:bg-green-800 shadow-sm hover:shadow",
-            ButtonVariant.Warning => "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500 active:bg-yellow-800 shadow-sm hover:shadow",
-            ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 active:bg-red-800 shadow-sm hover:shadow",
-            ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-cyan-500 active:bg-cyan-800 shadow-sm hover:shadow",
-            ButtonVariant.Outline => "border-2 border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 active:bg-blue-100 bg-transparent",
-            ButtonVariant.Soft => "bg-blue-100 text-blue-700 hover:bg-blue-200 focus:ring-blue-500 active:bg-blue-300",
-            ButtonVariant.Ghost => "text-blue-600 hover:bg-blue-50 focus:ring-blue-500 active:bg-blue-100 bg-transparent",
-            ButtonVariant.Link => "text-blue-600 hover:underline focus:ring-blue-500 bg-transparent p-0",
-            _ => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500"
+            ButtonVariant.Primary => "text-white shadow-sm hover:shadow focus:ring-opacity-50",
+            ButtonVariant.Success => "text-white shadow-sm hover:shadow focus:ring-opacity-50",
+            ButtonVariant.Warning => "text-white shadow-sm hover:shadow focus:ring-opacity-50",
+            ButtonVariant.Danger => "text-white shadow-sm hover:shadow focus:ring-opacity-50",
+            ButtonVariant.Info => "text-white shadow-sm hover:shadow focus:ring-opacity-50",
+            ButtonVariant.Outline => "border-2 bg-transparent hover:bg-opacity-10",
+            ButtonVariant.Soft => "hover:bg-opacity-80",
+            ButtonVariant.Ghost => "bg-transparent hover:bg-opacity-10",
+            ButtonVariant.Link => "bg-transparent p-0 hover:underline",
+            _ => "text-white shadow-sm hover:shadow"
         });
         
         // Size classes
@@ -105,6 +102,56 @@
         }
         
         return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyle()
+    {
+        // Use CSS variables for dynamic theming
+        var styles = new List<string>();
+        
+        switch (Variant)
+        {
+            case ButtonVariant.Primary:
+                styles.Add("background-color: var(--color-primary)");
+                styles.Add("--tw-ring-color: var(--color-primary)");
+                break;
+            case ButtonVariant.Success:
+                styles.Add("background-color: var(--color-success)");
+                styles.Add("--tw-ring-color: var(--color-success)");
+                break;
+            case ButtonVariant.Warning:
+                styles.Add("background-color: var(--color-warning)");
+                styles.Add("--tw-ring-color: var(--color-warning)");
+                break;
+            case ButtonVariant.Danger:
+                styles.Add("background-color: var(--color-danger)");
+                styles.Add("--tw-ring-color: var(--color-danger)");
+                break;
+            case ButtonVariant.Info:
+                styles.Add("background-color: var(--color-info)");
+                styles.Add("--tw-ring-color: var(--color-info)");
+                break;
+            case ButtonVariant.Outline:
+                styles.Add("border-color: var(--color-primary)");
+                styles.Add("color: var(--color-primary)");
+                styles.Add("--tw-ring-color: var(--color-primary)");
+                break;
+            case ButtonVariant.Soft:
+                styles.Add("background-color: color-mix(in srgb, var(--color-primary) 15%, transparent)");
+                styles.Add("color: var(--color-primary)");
+                styles.Add("--tw-ring-color: var(--color-primary)");
+                break;
+            case ButtonVariant.Ghost:
+                styles.Add("color: var(--color-primary)");
+                styles.Add("--tw-ring-color: var(--color-primary)");
+                break;
+            case ButtonVariant.Link:
+                styles.Add("color: var(--color-primary)");
+                styles.Add("--tw-ring-color: var(--color-primary)");
+                break;
+        }
+        
+        return string.Join("; ", styles);
     }
 
     private async Task HandleClick(MouseEventArgs e)

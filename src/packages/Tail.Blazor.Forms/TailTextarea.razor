@@ -8,13 +8,14 @@
             @Label
             @if (Required)
             {
-                <span class="text-red-500 ml-1">*</span>
+                <span class="ml-1" style="color: var(--color-danger)">*</span>
             }
         </label>
     }
     <textarea 
         id="@Id"
         class="@GetTextareaClasses()"
+        style="@GetTextareaStyle()"
         value="@CurrentValue"
         @oninput="HandleInput"
         placeholder="@Placeholder"
@@ -27,15 +28,15 @@
         @attributes="AdditionalAttributes">@CurrentValue</textarea>
     @if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorMessage</p>
+        <p class="mt-1 text-sm" style="color: var(--color-danger)">@ErrorMessage</p>
     }
     @if (!string.IsNullOrEmpty(HelperText) && string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+        <p class="mt-1 text-sm" style="color: var(--color-text-secondary)">@HelperText</p>
     }
     @if (ShowCharacterCount && MaxLength.HasValue)
     {
-        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400 text-right">
+        <p class="mt-1 text-xs text-right" style="color: var(--color-text-secondary)">
             @(CurrentValue?.Length ?? 0) / @MaxLength
         </p>
     }
@@ -75,18 +76,16 @@
 
     private string GetLabelClasses()
     {
-        return "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+        return "block text-sm font-medium mb-1";
     }
 
     private string GetTextareaClasses()
     {
         var classes = new List<string> 
         { 
-            "block w-full rounded-lg border-gray-300 shadow-sm resize-y",
-            "focus:border-blue-500 focus:ring-blue-500",
-            "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
-            "readonly:bg-gray-50",
-            "transition-colors duration-200"
+            "block w-full rounded-lg shadow-sm",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            "transition-all duration-200"
         };
         
         classes.Add(Size switch
@@ -97,23 +96,40 @@
             _ => "px-4 py-2 text-base"
         });
         
-        if (!string.IsNullOrEmpty(ErrorMessage))
-        {
-            classes.Add("border-red-300 focus:border-red-500 focus:ring-red-500");
-        }
-        else
-        {
-            classes.Add("border-gray-300");
-        }
-        
-        classes.Add("dark:bg-gray-700 dark:border-gray-600 dark:text-white");
-        
         if (AutoResize)
         {
             classes.Add("resize-none");
         }
+        else
+        {
+            classes.Add("resize-y");
+        }
         
         return string.Join(" ", classes);
+    }
+
+    private string GetTextareaStyle()
+    {
+        var styles = new List<string>();
+        
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            styles.Add("border: 2px solid var(--color-danger)");
+            styles.Add("background-color: color-mix(in srgb, var(--color-danger) 5%, var(--color-surface))");
+        }
+        else
+        {
+            styles.Add("background-color: var(--color-surface)");
+            styles.Add("border: 1px solid var(--color-border)");
+            styles.Add("color: var(--color-text-primary)");
+        }
+        
+        if (Disabled || ReadOnly)
+        {
+            styles.Add("background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface))");
+        }
+        
+        return string.Join("; ", styles);
     }
 
     private bool ShowError => !string.IsNullOrEmpty(ErrorMessage);

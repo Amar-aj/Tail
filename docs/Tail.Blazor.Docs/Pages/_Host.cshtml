@@ -12,7 +12,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tail.Blazor Documentation</title>
     <base href="~/" />
+    
+    <!-- Tailwind CSS with dark mode config -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    
+    <!-- Theme initialization - Load and apply theme BEFORE page renders -->
+    <script>
+        (function() {
+            try {
+                // Load theme settings from localStorage
+                const themeSettingsJson = localStorage.getItem('tail-blazor-theme-settings');
+                const legacyTheme = localStorage.getItem('tail-blazor-theme');
+                
+                let isDark = false;
+                let colors = null;
+                
+                if (themeSettingsJson) {
+                    // New theme system
+                    const settings = JSON.parse(themeSettingsJson);
+                    isDark = settings.Mode === 'Dark';
+                    colors = settings.Colors;
+                } else if (legacyTheme) {
+                    // Legacy theme toggle
+                    isDark = legacyTheme === 'Dark';
+                }
+                
+                // Apply dark mode class
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    // Check system preference if no saved theme
+                    if (!themeSettingsJson && !legacyTheme && 
+                        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        document.documentElement.classList.add('dark');
+                    }
+                }
+                
+                // Apply theme colors as CSS variables
+                if (colors) {
+                    const root = document.documentElement;
+                    root.style.setProperty('--color-primary', colors.Primary || '#3b82f6');
+                    root.style.setProperty('--color-secondary', colors.Secondary || '#8b5cf6');
+                    root.style.setProperty('--color-accent', colors.Accent || '#ec4899');
+                    root.style.setProperty('--color-success', colors.Success || '#10b981');
+                    root.style.setProperty('--color-warning', colors.Warning || '#f59e0b');
+                    root.style.setProperty('--color-danger', colors.Danger || '#ef4444');
+                    root.style.setProperty('--color-info', colors.Info || '#3b82f6');
+                    root.style.setProperty('--color-background', colors.Background || '#ffffff');
+                    root.style.setProperty('--color-surface', colors.Surface || '#f9fafb');
+                    root.style.setProperty('--color-text-primary', colors.TextPrimary || '#111827');
+                    root.style.setProperty('--color-text-secondary', colors.TextSecondary || '#6b7280');
+                    root.style.setProperty('--color-border', colors.Border || '#e5e7eb');
+                    
+                    console.log('Theme applied:', settings.PresetName, settings.Mode);
+                }
+            } catch (e) {
+                console.error('Error loading theme:', e);
+            }
+        })();
+    </script>
+    
     <link href="css/app.css" rel="stylesheet" />
     <link href="Tail.Blazor.Docs.styles.css" rel="stylesheet" />
     <component type="typeof(Microsoft.AspNetCore.Components.Web.HeadOutlet)" render-mode="ServerPrerendered" />

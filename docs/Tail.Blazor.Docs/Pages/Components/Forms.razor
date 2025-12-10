@@ -1,128 +1,342 @@
 @page "/components/forms"
 @using Tail.Blazor.Forms
+@using Tail.Blazor.Docs.Shared
 @using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Forms - Tail.Blazor</PageTitle>
 
 <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <h1 class="text-4xl font-bold mb-6">Form Components</h1>
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Form Components</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        A complete collection of form components with validation, error handling, and accessibility built-in.
+    </p>
 
-    <div class="prose dark:prose-invert max-w-none">
-        <h2>Input</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailInput Label="Email" InputType="InputType.Email" Placeholder="Enter your email" />
-        </div>
-        <pre><code>&lt;TailInput 
-    Label="Email" 
-    InputType="InputType.Email" 
-    Placeholder="Enter your email" /&gt;</code></pre>
+    <!-- TailInput -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Text Input</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Basic text input with support for various types (text, email, password, etc.).
+        </p>
 
-        <h2>Textarea</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailTextarea Label="Message" Rows="4" Placeholder="Enter your message" />
-        </div>
+        <CodePreview Title="Basic Input" Code="@inputCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailInput Label="Email" InputType="InputType.Email" Placeholder="Enter your email" Value="@email" ValueChanged="v => email = v" />
+                    <TailInput Label="Password" InputType="InputType.Password" Placeholder="Enter password" />
+                    <TailInput Label="Search" InputType="InputType.Text" Placeholder="Search..." HelperText="Type to search..." />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Select</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailSelect Label="Country" Placeholder="Select a country" Items="@Countries" />
-        </div>
+    <!-- TailTextarea -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Textarea</h2>
+        <CodePreview Title="Textarea" Code="@textareaCode">
+            <PreviewContent>
+                <TailTextarea Label="Message" Rows="4" Placeholder="Enter your message..." HelperText="Maximum 500 characters" />
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Checkbox</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailCheckbox Label="I agree to the terms and conditions" />
-        </div>
+    <!-- TailSelect -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Select Dropdown</h2>
+        <CodePreview Title="Select" Code="@selectCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailSelect 
+                        Label="Country" 
+                        Placeholder="Select a country" 
+                        Items="@Countries"
+                        Value="@selectedCountry"
+                        ValueChanged="v => selectedCountry = v" />
+                    @if (!string.IsNullOrEmpty(selectedCountry))
+                    {
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @selectedCountry</p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Switch</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailSwitch Label="Enable notifications" />
-        </div>
+    <!-- TailMultiSelect -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Multi-Select</h2>
+        <CodePreview Title="MultiSelect with Search" Code="@multiSelectCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailMultiSelect 
+                        Label="Select Countries" 
+                        Placeholder="Choose countries..."
+                        Items="@Countries" 
+                        SelectedItems="@SelectedCountries"
+                        SelectedItemsChanged="OnCountriesChanged"
+                        ShowSearch="true" />
+                    @if (SelectedCountries.Any())
+                    {
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            @foreach (var country in SelectedCountries)
+                            {
+                                <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">
+                                    @country.Text
+                                </span>
+                            }
+                        </div>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Slider</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailSlider Label="Volume" Min="0" Max="100" Value="50" ShowValue="true" />
-        </div>
+    <!-- TailCheckbox -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Checkbox</h2>
+        <CodePreview Title="Checkbox" Code="@checkboxCode">
+            <PreviewContent>
+                <div class="space-y-3">
+                    <TailCheckbox Label="I agree to the terms and conditions" Value="@agreeTerms" ValueChanged="v => agreeTerms = v" />
+                    <TailCheckbox Label="Subscribe to newsletter" Value="@subscribe" ValueChanged="v => subscribe = v" />
+                    <TailCheckbox Label="Remember me" Value="true" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Rating</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailRating Label="Rate this product" MaxRating="5" Value="4" ShowValue="true" />
-        </div>
+    <!-- TailSwitch -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Switch Toggle</h2>
+        <CodePreview Title="Switch" Code="@switchCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailSwitch Label="Enable notifications" Value="@notifications" ValueChanged="v => notifications = v" />
+                    <TailSwitch Label="Dark mode" Value="@darkMode" ValueChanged="v => darkMode = v" />
+                    <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md text-sm">
+                        Notifications: @(notifications ? "Enabled" : "Disabled") | Dark Mode: @(darkMode ? "On" : "Off")
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>MultiSelect</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailMultiSelect 
-                Label="Select Countries" 
-                Placeholder="Choose countries..."
-                Items="@Countries" 
-                SelectedItems="@SelectedCountries"
-                SelectedItemsChanged="OnCountriesChanged"
-                ShowSearch="true" />
-        </div>
+    <!-- TailSlider -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Slider</h2>
+        <CodePreview Title="Range Slider" Code="@sliderCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailSlider Label="Volume" Min="0" Max="100" Value="@volume" ValueChanged="v => volume = (int)v" ShowValue="true" />
+                    <TailSlider Label="Brightness" Min="0" Max="100" Value="75" ShowValue="true" CssClass="mt-4" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>DatePicker</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailDatePicker 
-                Label="Select Date" 
-                Value="@SelectedDate"
-                ValueChanged="OnDateChanged"
-                Placeholder="Choose a date..." />
-        </div>
+    <!-- TailRating -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Rating</h2>
+        <CodePreview Title="Star Rating" Code="@ratingCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailRating Label="Rate this product" MaxRating="5" Value="@rating" ValueChanged="v => rating = v" ShowValue="true" />
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Your rating: @rating out of 5</p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>FileUpload</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailFileUpload 
-                Label="Upload Files" 
-                UploadedFiles="@UploadedFiles"
-                UploadedFilesChanged="OnFilesChanged"
-                Multiple="true"
-                Accept="image/*,.pdf"
-                HelperText="PNG, JPG, PDF up to 10MB" />
-        </div>
+    <!-- TailDatePicker -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Date Picker</h2>
+        <CodePreview Title="Date Picker" Code="@datePickerCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailDatePicker 
+                        Label="Select Date" 
+                        Value="@SelectedDate"
+                        ValueChanged="OnDateChanged"
+                        Placeholder="Choose a date..." />
+                    @if (SelectedDate.HasValue)
+                    {
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @SelectedDate.Value.ToShortDateString()</p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>AutoComplete</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailAutoComplete 
-                Label="Search City" 
-                Value="@SelectedCity"
-                ValueChanged="OnCityChanged"
-                Suggestions="@CitySuggestions"
-                TextSelector="c => (string)c"
-                Placeholder="Type to search..." />
-        </div>
+    <!-- TailFileUpload -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">File Upload</h2>
+        <CodePreview Title="File Upload with Drag & Drop" Code="@fileUploadCode">
+            <PreviewContent>
+                <TailFileUpload 
+                    Label="Upload Files" 
+                    UploadedFiles="@UploadedFiles"
+                    UploadedFilesChanged="OnFilesChanged"
+                    Multiple="true"
+                    Accept="image/*,.pdf"
+                    HelperText="PNG, JPG, PDF up to 10MB" />
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>ColorPicker</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailColorPicker 
-                Label="Choose Color" 
-                Value="@SelectedColor"
-                ValueChanged="OnColorChanged" />
-        </div>
+    <!-- TailAutoComplete -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Auto Complete</h2>
+        <CodePreview Title="AutoComplete Search" Code="@autoCompleteCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailAutoComplete 
+                        Label="Search City" 
+                        Value="@SelectedCity"
+                        ValueChanged="OnCityChanged"
+                        Suggestions="@CitySuggestions"
+                        TextSelector="c => (string)c"
+                        Placeholder="Type to search..." />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Mask</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailMask 
-                Label="Phone Number" 
-                Value="@PhoneNumber"
-                ValueChanged="OnPhoneChanged"
-                Mask="***-***-****"
-                Placeholder="___-___-____"
-                HelperText="Format: 123-456-7890" />
-        </div>
+    <!-- TailColorPicker -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Color Picker</h2>
+        <CodePreview Title="Color Picker" Code="@colorPickerCode">
+            <PreviewContent>
+                <div class="max-w-md space-y-4">
+                    <TailColorPicker 
+                        Label="Choose Color" 
+                        Value="@SelectedColor"
+                        ValueChanged="OnColorChanged" />
+                    <div class="flex items-center gap-3">
+                        <div class="w-16 h-16 rounded-lg border-2 border-gray-300 dark:border-gray-600" style="background-color: @SelectedColor"></div>
+                        <code class="text-sm">@SelectedColor</code>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
 
-        <h2>Numeric</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailNumeric 
-                Label="Quantity" 
-                Value="@Quantity"
-                ValueChanged="OnQuantityChanged"
-                Min="0"
-                Max="100"
-                Step="1"
-                HelperText="Enter quantity between 0 and 100" />
+    <!-- TailMask -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Input Mask</h2>
+        <CodePreview Title="Phone Number Mask" Code="@maskCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailMask 
+                        Label="Phone Number" 
+                        Value="@PhoneNumber"
+                        ValueChanged="OnPhoneChanged"
+                        Mask="(###) ###-####"
+                        Placeholder="(___) ___-____"
+                        HelperText="Format: (123) 456-7890" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- TailNumeric -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Numeric Input</h2>
+        <CodePreview Title="Numeric Input with Step Controls" Code="@numericCode">
+            <PreviewContent>
+                <div class="max-w-md space-y-4">
+                    <TailNumeric 
+                        Label="Quantity" 
+                        Value="@Quantity"
+                        ValueChanged="OnQuantityChanged"
+                        Min="0"
+                        Max="100"
+                        Step="1"
+                        HelperText="Enter quantity between 0 and 100" />
+                    <TailNumeric 
+                        Label="Price" 
+                        Value="@price"
+                        ValueChanged="v => price = v"
+                        Min="0"
+                        Step="0.01m"
+                        HelperText="Enter price" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Common Parameters</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Label</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">string?</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Label text displayed above the input</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Placeholder</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">string?</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Placeholder text when empty</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">HelperText</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">string?</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Helper text displayed below the input</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">ErrorText</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">string?</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Error message text</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Disabled</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">bool</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Disable the input</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Value</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">T</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Current value (two-way binding)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">ValueChanged</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">EventCallback&lt;T&gt;</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Event fired when value changes</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </div>
+    </section>
 </div>
 
 @code {
+    // Input values
+    private string? email;
+    private string? selectedCountry;
+    private List<SelectItem> SelectedCountries { get; set; } = new();
+    private bool agreeTerms;
+    private bool subscribe;
+    private bool notifications = true;
+    private bool darkMode;
+    private int volume = 50;
+    private int rating = 4;
+    private DateTime? SelectedDate { get; set; } = DateTime.Today;
+    private List<IBrowserFile> UploadedFiles { get; set; } = new();
+    private string? SelectedCity { get; set; }
+    private string SelectedColor { get; set; } = "#3b82f6";
+    private string? PhoneNumber { get; set; }
+    private decimal Quantity { get; set; } = 10;
+    private decimal price = 99.99m;
+
+    // Data
     private List<SelectItem> Countries { get; set; } = new()
     {
         new SelectItem { Value = "us", Text = "United States" },
@@ -130,22 +344,119 @@
         new SelectItem { Value = "ca", Text = "Canada" },
         new SelectItem { Value = "au", Text = "Australia" },
         new SelectItem { Value = "de", Text = "Germany" },
-        new SelectItem { Value = "fr", Text = "France" }
+        new SelectItem { Value = "fr", Text = "France" },
+        new SelectItem { Value = "jp", Text = "Japan" },
+        new SelectItem { Value = "cn", Text = "China" }
     };
 
-    private List<SelectItem> SelectedCountries { get; set; } = new();
-    private DateTime? SelectedDate { get; set; } = DateTime.Today;
-    private List<IBrowserFile> UploadedFiles { get; set; } = new();
-    private string? SelectedCity { get; set; }
     private List<string> Cities { get; set; } = new()
     {
-        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"
+        "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", 
+        "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose",
+        "Austin", "Jacksonville", "Fort Worth", "Columbus", "Charlotte"
     };
+    
     private List<object> CitySuggestions => Cities.Cast<object>().ToList();
-    private string SelectedColor { get; set; } = "#3b82f6";
-    private string? PhoneNumber { get; set; }
-    private decimal Quantity { get; set; } = 10;
 
+    // Code samples
+    private string inputCode = @"<TailInput 
+    Label=""Email"" 
+    InputType=""InputType.Email"" 
+    Placeholder=""Enter your email""
+    Value=""@email""
+    ValueChanged=""v => email = v"" />";
+
+    private string textareaCode = @"<TailTextarea 
+    Label=""Message"" 
+    Rows=""4"" 
+    Placeholder=""Enter your message...""
+    HelperText=""Maximum 500 characters"" />";
+
+    private string selectCode = @"<TailSelect 
+    Label=""Country"" 
+    Placeholder=""Select a country"" 
+    Items=""@Countries""
+    Value=""@selectedCountry""
+    ValueChanged=""v => selectedCountry = v"" />";
+
+    private string multiSelectCode = @"<TailMultiSelect 
+    Label=""Select Countries"" 
+    Placeholder=""Choose countries...""
+    Items=""@Countries"" 
+    SelectedItems=""@SelectedCountries""
+    SelectedItemsChanged=""OnCountriesChanged""
+    ShowSearch=""true"" />";
+
+    private string checkboxCode = @"<TailCheckbox 
+    Label=""I agree to the terms and conditions"" 
+    Value=""@agreeTerms"" 
+    ValueChanged=""v => agreeTerms = v"" />";
+
+    private string switchCode = @"<TailSwitch 
+    Label=""Enable notifications"" 
+    Value=""@notifications"" 
+    ValueChanged=""v => notifications = v"" />";
+
+    private string sliderCode = @"<TailSlider 
+    Label=""Volume"" 
+    Min=""0"" 
+    Max=""100"" 
+    Value=""@volume"" 
+    ValueChanged=""v => volume = (int)v""
+    ShowValue=""true"" />";
+
+    private string ratingCode = @"<TailRating 
+    Label=""Rate this product"" 
+    MaxRating=""5"" 
+    Value=""@rating"" 
+    ValueChanged=""v => rating = v""
+    ShowValue=""true"" />";
+
+    private string datePickerCode = @"<TailDatePicker 
+    Label=""Select Date"" 
+    Value=""@SelectedDate""
+    ValueChanged=""OnDateChanged""
+    Placeholder=""Choose a date..."" />";
+
+    private string fileUploadCode = @"<TailFileUpload 
+    Label=""Upload Files"" 
+    UploadedFiles=""@UploadedFiles""
+    UploadedFilesChanged=""OnFilesChanged""
+    Multiple=""true""
+    Accept=""image/*,.pdf""
+    HelperText=""PNG, JPG, PDF up to 10MB"" />";
+
+    private string autoCompleteCode = @"<TailAutoComplete 
+    Label=""Search City"" 
+    Value=""@SelectedCity""
+    ValueChanged=""OnCityChanged""
+    Suggestions=""@CitySuggestions""
+    TextSelector=""c => (string)c""
+    Placeholder=""Type to search..."" />";
+
+    private string colorPickerCode = @"<TailColorPicker 
+    Label=""Choose Color"" 
+    Value=""@SelectedColor""
+    ValueChanged=""OnColorChanged"" />";
+
+    private string maskCode = @"<TailMask 
+    Label=""Phone Number"" 
+    Value=""@PhoneNumber""
+    ValueChanged=""OnPhoneChanged""
+    Mask=""(###) ###-####""
+    Placeholder=""(___) ___-____""
+    HelperText=""Format: (123) 456-7890"" />";
+
+    private string numericCode = @"<TailNumeric 
+    Label=""Quantity"" 
+    Value=""@Quantity""
+    ValueChanged=""OnQuantityChanged""
+    Min=""0""
+    Max=""100""
+    Step=""1""
+    HelperText=""Enter quantity between 0 and 100"" />";
+
+    // Event handlers
     private async Task OnCountriesChanged(List<SelectItem> countries)
     {
         SelectedCountries = countries;
@@ -188,4 +499,3 @@
         await Task.CompletedTask;
     }
 }
-

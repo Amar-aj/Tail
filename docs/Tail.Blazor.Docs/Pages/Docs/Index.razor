@@ -1,0 +1,284 @@
+@page "/docs"
+@using Tail.Blazor.Core.Theme
+@inject ThemeService ThemeService
+
+<PageTitle>Documentation - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="mb-12">
+        <h1 class="text-5xl font-bold mb-4 text-gray-900 dark:text-white">Tail.Blazor Documentation</h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+            Comprehensive Blazor component library with 30+ components, 5 preset themes, and advanced customization.
+        </p>
+    </div>
+
+    <!-- Quick Links -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Quick Start</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <a href="/docs/installation" class="theme-card border rounded-lg p-6 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="text-5xl mb-4">?</div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Installation</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-3">Get started in 5 minutes with our quick installation guide</p>
+                <span class="text-blue-600 dark:text-blue-400 font-medium">Start here ?</span>
+            </a>
+
+            <a href="/components" class="theme-card border rounded-lg p-6 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="text-5xl mb-4">??</div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Components</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-3">Browse all 30+ production-ready components</p>
+                <span class="text-blue-600 dark:text-blue-400 font-medium">Explore ?</span>
+            </a>
+
+            <a href="/theme-selector-demo" class="theme-card border rounded-lg p-6 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                <div class="text-5xl mb-4">??</div>
+                <h3 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Themes</h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-3">5 preset themes + custom theme creator</p>
+                <span class="text-blue-600 dark:text-blue-400 font-medium">Customize ?</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Documentation Sections -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Documentation Sections</h2>
+        
+        <div class="space-y-6">
+            <!-- Getting Started -->
+            <div class="theme-card border rounded-lg p-6">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                    <span class="text-3xl mr-3">??</span>
+                    Getting Started
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="/docs/installation" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Installation</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Step-by-step setup guide</div>
+                        </div>
+                    </a>
+                    <a href="/docs/quick-start" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">?</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Quick Start</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">5-minute tutorial</div>
+                        </div>
+                    </a>
+                    <a href="/docs/migration" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Migration Guide</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Add to existing projects</div>
+                        </div>
+                    </a>
+                    <a href="/docs/configuration" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Configuration</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Customize behavior</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Components -->
+            <div class="theme-card border rounded-lg p-6">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                    <span class="text-3xl mr-3">??</span>
+                    Components
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="/components/buttons" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Buttons</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">7 button components</div>
+                        </div>
+                    </a>
+                    <a href="/components/forms" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Forms</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">14 form components</div>
+                        </div>
+                    </a>
+                    <a href="/components/layout" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Layout</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Cards, grids, containers</div>
+                        </div>
+                    </a>
+                    <a href="/components/navigation" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Navigation</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Tabs, menus, breadcrumbs</div>
+                        </div>
+                    </a>
+                    <a href="/components/feedback" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Feedback</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Alerts, toasts, spinners</div>
+                        </div>
+                    </a>
+                    <a href="/components/data" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Data</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Tables, grids</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Theming -->
+            <div class="theme-card border rounded-lg p-6">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                    <span class="text-3xl mr-3">??</span>
+                    Theming System
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="/docs/themes/overview" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Theme Overview</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Understanding the theme system</div>
+                        </div>
+                    </a>
+                    <a href="/theme-selector-demo" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Theme Selector</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">5 presets + custom themes</div>
+                        </div>
+                    </a>
+                    <a href="/docs/themes/usage" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Theme Usage</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">How to use themes</div>
+                        </div>
+                    </a>
+                    <a href="/docs/themes/api" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Theme API</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Programmatic control</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Advanced -->
+            <div class="theme-card border rounded-lg p-6">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                    <span class="text-3xl mr-3">??</span>
+                    Advanced Topics
+                </h3>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <a href="/docs/examples" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Examples</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Real-world usage</div>
+                        </div>
+                    </a>
+                    <a href="/docs/best-practices" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">?</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Best Practices</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Tips and recommendations</div>
+                        </div>
+                    </a>
+                    <a href="/docs/troubleshooting" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">Troubleshooting</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Common issues & solutions</div>
+                        </div>
+                    </a>
+                    <a href="/docs/api-reference" class="flex items-center p-3 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <span class="text-2xl mr-3">??</span>
+                        <div>
+                            <div class="font-medium text-gray-900 dark:text-white">API Reference</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400">Complete API docs</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900 dark:text-white">Key Features</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">5 Preset Themes</h3>
+                <p class="text-gray-600 dark:text-gray-400">Ocean, Forest, Sunset, Purple Haze, Midnight - each with light & dark modes</p>
+            </div>
+            
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">30+ Components</h3>
+                <p class="text-gray-600 dark:text-gray-400">Production-ready components across 12 packages</p>
+            </div>
+            
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">localStorage Persistence</h3>
+                <p class="text-gray-600 dark:text-gray-400">Theme settings survive page reloads</p>
+            </div>
+            
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">?</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Instant Updates</h3>
+                <p class="text-gray-600 dark:text-gray-400">Theme changes apply immediately without reload</p>
+            </div>
+            
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">??</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Responsive Design</h3>
+                <p class="text-gray-600 dark:text-gray-400">Mobile-first, works on all screen sizes</p>
+            </div>
+            
+            <div class="theme-card border rounded-lg p-6">
+                <div class="text-4xl mb-3">?</div>
+                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Accessible</h3>
+                <p class="text-gray-600 dark:text-gray-400">WCAG AA compliant components</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Version Info -->
+    <section class="theme-card border rounded-lg p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Current Version</h3>
+                <p class="text-gray-600 dark:text-gray-400">v1.0.0 - December 2024</p>
+            </div>
+            <div class="flex gap-4">
+                <a href="https://github.com/Amar-aj/Tail" target="_blank" 
+                   class="px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:shadow-lg transition-all">
+                    View on GitHub
+                </a>
+                <a href="/docs/installation" 
+                   class="px-6 py-3 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                   style="background-color: var(--color-primary)">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+    }
+}

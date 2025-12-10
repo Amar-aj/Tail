@@ -8,7 +8,7 @@
             @Label
             @if (Required)
             {
-                <span class="text-red-500 ml-1">*</span>
+                <span class="ml-1" style="color: var(--color-danger)">*</span>
             }
         </label>
     }
@@ -16,13 +16,14 @@
         @if (!string.IsNullOrEmpty(IconStart))
         {
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-400">@IconStart</span>
+                <span class="text-gray-400 dark:text-gray-500">@IconStart</span>
             </div>
         }
         <input 
             type="@InputType"
             id="@Id"
             class="@GetInputClasses()"
+            style="@GetInputStyle()"
             value="@CurrentValue"
             @oninput="HandleInput"
             @onfocus="HandleFocus"
@@ -37,7 +38,7 @@
         @if (ShowClearButton && !string.IsNullOrEmpty(CurrentValueAsString))
         {
             <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" @onclick="HandleClear">
-                <svg class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -45,11 +46,11 @@
     </div>
     @if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorMessage</p>
+        <p class="mt-1 text-sm" style="color: var(--color-danger)">@ErrorMessage</p>
     }
     @if (!string.IsNullOrEmpty(HelperText) && string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+        <p class="mt-1 text-sm" style="color: var(--color-text-secondary)">@HelperText</p>
     }
 </div>
 
@@ -88,7 +89,7 @@
 
     private string GetLabelClasses()
     {
-        var classes = new List<string> { "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1" };
+        var classes = new List<string> { "block text-sm font-medium mb-1" };
         
         if (Required)
         {
@@ -102,11 +103,9 @@
     {
         var classes = new List<string> 
         { 
-            "block w-full rounded-lg border-gray-300 shadow-sm",
-            "focus:border-blue-500 focus:ring-blue-500",
-            "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
-            "readonly:bg-gray-50",
-            "transition-colors duration-200"
+            "block w-full rounded-lg shadow-sm",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            "transition-all duration-200"
         };
         
         // Size
@@ -129,20 +128,33 @@
             classes.Add("pr-10");
         }
         
-        // Error state
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyle()
+    {
+        var styles = new List<string>();
+        
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
-            classes.Add("border-red-300 focus:border-red-500 focus:ring-red-500");
+            // Error state
+            styles.Add("border: 2px solid var(--color-danger)");
+            styles.Add("background-color: color-mix(in srgb, var(--color-danger) 5%, var(--color-surface))");
         }
         else
         {
-            classes.Add("border-gray-300");
+            // Normal state
+            styles.Add("background-color: var(--color-surface)");
+            styles.Add("border: 1px solid var(--color-border)");
+            styles.Add("color: var(--color-text-primary)");
         }
         
-        // Dark mode
-        classes.Add("dark:bg-gray-700 dark:border-gray-600 dark:text-white");
+        if (Disabled || ReadOnly)
+        {
+            styles.Add("background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface))");
+        }
         
-        return string.Join(" ", classes);
+        return string.Join("; ", styles);
     }
 
     private bool ShowError => !string.IsNullOrEmpty(ErrorMessage);

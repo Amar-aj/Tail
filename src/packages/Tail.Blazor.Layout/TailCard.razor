@@ -1,16 +1,16 @@
 @inherits Tail.Blazor.Core.TailComponentBase
 @namespace Tail.Blazor.Layout
 
-<div class="@GetCardClasses()" @attributes="AdditionalAttributes">
+<div class="@GetCardClasses()" style="@GetCardStyle()" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Header))
     {
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">@Header</h3>
+        <div class="px-6 py-4" style="border-bottom: 1px solid var(--color-border)">
+            <h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">@Header</h3>
         </div>
     }
     @if (HeaderContent != null)
     {
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="px-6 py-4" style="border-bottom: 1px solid var(--color-border)">
             @HeaderContent
         </div>
     }
@@ -19,13 +19,13 @@
     </div>
     @if (!string.IsNullOrEmpty(Footer))
     {
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <div class="px-6 py-4" style="border-top: 1px solid var(--color-border); background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface))">
             @Footer
         </div>
     }
     @if (FooterContent != null)
     {
-        <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <div class="px-6 py-4" style="border-top: 1px solid var(--color-border); background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface))">
             @FooterContent
         </div>
     }
@@ -45,16 +45,11 @@
 
     private string GetCardClasses()
     {
-        var classes = new List<string> { "bg-white dark:bg-gray-800 overflow-hidden transition-all duration-200" };
+        var classes = new List<string> { "overflow-hidden transition-all duration-200" };
         
         if (Rounded)
         {
             classes.Add("rounded-lg");
-        }
-        
-        if (Bordered)
-        {
-            classes.Add("border border-gray-200 dark:border-gray-700");
         }
         
         if (Shadow)
@@ -73,6 +68,21 @@
         }
         
         return string.Join(" ", classes);
+    }
+
+    private string GetCardStyle()
+    {
+        var styles = new List<string>
+        {
+            "background-color: var(--color-surface)"
+        };
+        
+        if (Bordered)
+        {
+            styles.Add("border: 1px solid var(--color-border)");
+        }
+        
+        return string.Join("; ", styles);
     }
 
     private string GetBodyClasses()

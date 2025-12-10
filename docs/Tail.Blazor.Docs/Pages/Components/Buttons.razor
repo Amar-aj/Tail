@@ -1,103 +1,309 @@
 @page "/components/buttons"
 @using Tail.Blazor.Buttons
+@using Tail.Blazor.Docs.Shared
 
 <PageTitle>Buttons - Tail.Blazor</PageTitle>
 
 <div class="container mx-auto px-4 py-8 max-w-6xl">
-    <h1 class="text-4xl font-bold mb-6">Buttons</h1>
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Button Components</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        A comprehensive collection of button components with multiple variants, sizes, and states.
+    </p>
 
-    <div class="prose dark:prose-invert max-w-none">
-        <h2>Basic Button</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailButton Variant="ButtonVariant.Primary">Primary Button</TailButton>
+    <!-- TailButton - Primary Variants -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Button Variants</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            TailButton supports multiple visual styles including Primary, Success, Warning, Danger, and Info.
+        </p>
+
+        <CodePreview Title="Primary Button" Code="@primaryButtonCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" OnClick="@(() => ShowMessage("Primary clicked"))">
+                        Primary
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Success" OnClick="@(() => ShowMessage("Success clicked"))">
+                        Success
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Warning" OnClick="@(() => ShowMessage("Warning clicked"))">
+                        Warning
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Danger" OnClick="@(() => ShowMessage("Danger clicked"))">
+                        Danger
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Info" OnClick="@(() => ShowMessage("Info clicked"))">
+                        Info
+                    </TailButton>
+                </div>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md">
+                        @message
+                    </div>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- Button Sizes -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Button Sizes</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Five different sizes available: xs, sm, md, lg, and xl.
+        </p>
+
+        <CodePreview Title="Button Sizes" Code="@buttonSizesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xs">Extra Small</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Small</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Md">Medium</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Lg">Large</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xl">Extra Large</TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- Button States -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Button States</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Buttons support loading and disabled states.
+        </p>
+
+        <CodePreview Title="Loading and Disabled States" Code="@buttonStatesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" IsLoading="@isLoading" OnClick="SimulateLoading">
+                        @(isLoading ? "Loading..." : "Click to Load")
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Disabled="true">
+                        Disabled Button
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Success" IsLoading="true">
+                        Processing
+                    </TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- Outline Buttons -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Outline Style</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Outline buttons have transparent backgrounds with colored borders.
+        </p>
+
+        <CodePreview Title="Outline Buttons" Code="@outlineButtonsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" Style="ButtonStyle.Outline">Primary Outline</TailButton>
+                    <TailButton Variant="ButtonVariant.Success" Style="ButtonStyle.Outline">Success Outline</TailButton>
+                    <TailButton Variant="ButtonVariant.Warning" Style="ButtonStyle.Outline">Warning Outline</TailButton>
+                    <TailButton Variant="ButtonVariant.Danger" Style="ButtonStyle.Outline">Danger Outline</TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- Icon Buttons -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Icon Buttons</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            TailIconButton for icon-only actions.
+        </p>
+
+        <CodePreview Title="Icon Buttons" Code="@iconButtonsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Success" Size="ButtonSize.Md">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Danger" Size="ButtonSize.Lg">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </TailIconButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- Button Group -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Button Group</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Group related buttons together with TailButtonGroup.
+        </p>
+
+        <CodePreview Title="Button Group" Code="@buttonGroupCode">
+            <PreviewContent>
+                <TailButtonGroup>
+                    <TailButton Variant="ButtonVariant.Primary">Left</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary">Middle</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary">Right</TailButton>
+                </TailButtonGroup>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- FAB -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Floating Action Button</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Floating action button for primary actions.
+        </p>
+
+        <CodePreview Title="Floating Action Button" Code="@fabCode">
+            <PreviewContent>
+                <div class="relative h-32">
+                    <TailFAB Variant="ButtonVariant.Primary" Position="FABPosition.BottomRight">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- API Reference -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">API Reference</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Description</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Variant</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">ButtonVariant</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Primary</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Color variant (Primary, Success, Warning, Danger, Info)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Size</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">ButtonSize</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Md</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Button size (Xs, Sm, Md, Lg, Xl)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Style</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">ButtonStyle</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Solid</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Visual style (Solid, Outline, Soft, Ghost, Link)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">IsLoading</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">bool</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">false</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Show loading spinner</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Disabled</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">bool</td>
+                        <td class="px-6 py-4 text-sm text_gray-600 dark:text-gray-400">false</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Disable the button</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">OnClick</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">EventCallback</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">-</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Click event handler</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <pre><code>&lt;TailButton Variant="ButtonVariant.Primary"&gt;
-    Primary Button
-&lt;/TailButton&gt;</code></pre>
-
-        <h2>Variants</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex flex-wrap gap-2">
-            <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
-            <TailButton Variant="ButtonVariant.Success">Success</TailButton>
-            <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
-            <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
-            <TailButton Variant="ButtonVariant.Info">Info</TailButton>
-            <TailButton Variant="ButtonVariant.Outline">Outline</TailButton>
-            <TailButton Variant="ButtonVariant.Soft">Soft</TailButton>
-            <TailButton Variant="ButtonVariant.Ghost">Ghost</TailButton>
-            <TailButton Variant="ButtonVariant.Link">Link</TailButton>
-        </div>
-
-        <h2>Sizes</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex items-center gap-2">
-            <TailButton Size="ButtonSize.Xs">Extra Small</TailButton>
-            <TailButton Size="ButtonSize.Sm">Small</TailButton>
-            <TailButton Size="ButtonSize.Md">Medium</TailButton>
-            <TailButton Size="ButtonSize.Lg">Large</TailButton>
-            <TailButton Size="ButtonSize.Xl">Extra Large</TailButton>
-        </div>
-
-        <h2>States</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 flex gap-2">
-            <TailButton Loading="true">Loading</TailButton>
-            <TailButton Disabled="true">Disabled</TailButton>
-        </div>
-
-        <h2>Icon Button</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailIconButton Variant="ButtonVariant.Primary">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-            </TailIconButton>
-        </div>
-
-        <h2>Floating Action Button</h2>
-        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6 relative h-32">
-            <TailFAB Position="FABPosition.BottomRight">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-            </TailFAB>
-        </div>
-
-        <h2>API Reference</h2>
-        <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
-            <thead>
-                <tr class="bg-gray-100 dark:bg-gray-800">
-                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Parameter</th>
-                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Type</th>
-                    <th class="border border-gray-300 dark:border-gray-700 p-2 text-left">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Variant</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">ButtonVariant</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Button style variant</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Size</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">ButtonSize</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Button size (Xs, Sm, Md, Lg, Xl)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disabled</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disable the button</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Loading</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show loading state</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">OnClick</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">EventCallback</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Click event handler</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    </section>
 </div>
+
+@code {
+    private string message = string.Empty;
+    private bool isLoading = false;
+
+    private string primaryButtonCode = @"<TailButton Variant=""ButtonVariant.Primary"" OnClick=""HandleClick"">
+    Primary
+</TailButton>
+<TailButton Variant=""ButtonVariant.Success"">
+    Success
+</TailButton>
+<TailButton Variant=""ButtonVariant.Warning"">
+    Warning
+</TailButton>
+<TailButton Variant=""ButtonVariant.Danger"">
+    Danger
+</TailButton>
+<TailButton Variant=""ButtonVariant.Info"">
+    Info
+</TailButton>";
+
+    private string buttonSizesCode = @"<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xs"">Extra Small</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">Small</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Md"">Medium</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Lg"">Large</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xl"">Extra Large</TailButton>";
+
+    private string buttonStatesCode = @"<TailButton Variant=""ButtonVariant.Primary"" IsLoading=""@isLoading"" OnClick=""HandleClick"">
+    Click to Load
+</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Disabled=""true"">
+    Disabled Button
+</TailButton>";
+
+    private string outlineButtonsCode = @"<TailButton Variant=""ButtonVariant.Primary"" Style=""ButtonStyle.Outline"">Primary Outline</TailButton>
+<TailButton Variant=""ButtonVariant.Success"" Style=""ButtonStyle.Outline"">Success Outline</TailButton>
+<TailButton Variant=""ButtonVariant.Warning"" Style=""ButtonStyle.Outline"">Warning Outline</TailButton>
+<TailButton Variant=""ButtonVariant.Danger"" Style=""ButtonStyle.Outline"">Danger Outline</TailButton>";
+
+    private string iconButtonsCode = @"<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">
+    <svg class=""w-4 h-4"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailIconButton>";
+
+    private string buttonGroupCode = @"<TailButtonGroup>
+    <TailButton Variant=""ButtonVariant.Primary"">Left</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Middle</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Right</TailButton>
+</TailButtonGroup>";
+
+    private string fabCode = @"<TailFAB Variant=""ButtonVariant.Primary"" Position=""FABPosition.BottomRight"">
+    <svg class=""w-6 h-6"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailFAB>";
+
+    private void ShowMessage(string msg)
+    {
+        message = msg;
+        StateHasChanged();
+    }
+
+    private async Task SimulateLoading()
+    {
+        isLoading = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading = false;
+        message = "Loading completed!";
+        StateHasChanged();
+    }
+}
 
