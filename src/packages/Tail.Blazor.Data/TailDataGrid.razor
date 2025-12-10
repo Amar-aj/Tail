@@ -9,13 +9,14 @@
             <div class="flex items-center justify-between mb-4">
                 @if (Title != null)
                 {
-                    <h3 class="text-lg font-semibold">@Title</h3>
+                    <h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">@Title</h3>
                 }
                 @if (ShowSearch)
                 {
                     <input 
                         type="text" 
-                        class="px-3 py-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700"
+                        class="px-3 py-2 border rounded-lg"
+                        style="background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary)"
                         placeholder="Search..." 
                         @bind="searchText"
                         @bind:event="oninput" />
@@ -26,11 +27,11 @@
     
     <div class="overflow-x-auto">
         <table class="@GetTableClasses()">
-            <thead class="@GetTheadClasses()">
+            <thead class="@GetTheadClasses()" style="@GetTheadStyle()">
                 <tr>
                     @if (SelectionMode != SelectionMode.None)
                     {
-                        <th class="@GetThClasses()" style="width: 40px;">
+                        <th class="@GetThClasses()" style="width: 40px; color: var(--color-text-secondary)">
                             @if (SelectionMode == SelectionMode.Multiple)
                             {
                                 <input 
@@ -42,7 +43,7 @@
                     }
                     @foreach (var column in Columns)
                     {
-                        <th class="@GetThClasses()" style="@GetColumnStyle(column)">
+                        <th class="@GetThClasses()" style="@GetColumnStyle(column); color: var(--color-text-secondary)">
                             @if (column.HeaderTemplate != null)
                             {
                                 @column.HeaderTemplate(column)
@@ -55,7 +56,8 @@
                                     {
                                         <button 
                                             type="button"
-                                            class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                                            class="p-1 rounded"
+                                            style="@GetSortButtonStyle()"
                                             @onclick="() => SortBy(column.Property)">
                                             @if (CurrentSortColumn == column.Property)
                                             {
@@ -74,7 +76,7 @@
                                             }
                                             else
                                             {
-                                                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4" style="color: var(--color-text-secondary); opacity: 0.5" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
                                                 </svg>
                                             }
@@ -86,12 +88,12 @@
                     }
                 </tr>
             </thead>
-            <tbody class="@GetTbodyClasses()">
+            <tbody class="@GetTbodyClasses()" style="@GetTbodyStyle()">
                 @if (FilteredItems != null && FilteredItems.Any())
                 {
                     @foreach (var item in GetDisplayItems())
                     {
-                        <tr class="@GetRowClasses(item)" @onclick="async () => await HandleRowClick(item)">
+                        <tr class="@GetRowClasses(item)" style="@GetRowStyle(item)" @onclick="async () => await HandleRowClick(item)">
                             @if (SelectionMode != SelectionMode.None)
                             {
                                 <td class="@GetTdClasses()">
@@ -116,7 +118,7 @@
                             }
                             @foreach (var column in Columns)
                             {
-                                <td class="@GetTdClasses() @column.CssClass">
+                                <td class="@GetTdClasses() @column.CssClass" style="color: var(--color-text-primary)">
                                     @if (column.CellTemplate != null)
                                     {
                                         @column.CellTemplate(item)
@@ -133,14 +135,14 @@
                 else
                 {
                     <tr>
-                        <td colspan="@(Columns.Count + (SelectionMode != SelectionMode.None ? 1 : 0))" class="@GetEmptyClasses()">
+                        <td colspan="@(Columns.Count + (SelectionMode != SelectionMode.None ? 1 : 0))" class="@GetEmptyClasses()" style="color: var(--color-text-secondary)">
                             @if (EmptyTemplate != null)
                             {
                                 @EmptyTemplate
                             }
                             else
                             {
-                                <p class="text-gray-500 dark:text-gray-400">No data available</p>
+                                <p>No data available</p>
                             }
                         </td>
                     </tr>
@@ -196,7 +198,6 @@
             
             var filtered = Items.AsEnumerable();
             
-            // Apply search filter
             if (!string.IsNullOrWhiteSpace(searchText) && Filterable)
             {
                 filtered = filtered.Where(item => 
@@ -204,7 +205,6 @@
                         GetCellValue(item, col.Property)?.ToString()?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true));
             }
             
-            // Apply sorting
             if (!string.IsNullOrEmpty(CurrentSortColumn) && CurrentSortDirection != SortDirection.None)
             {
                 var property = typeof(TItem).GetProperty(CurrentSortColumn);
@@ -248,13 +248,33 @@
     }
     
     private string GetHeaderClasses() => "mb-4";
-    private string GetTableClasses() => "min-w-full divide-y divide-gray-200 dark:divide-gray-700";
-    private string GetTheadClasses() => "bg-gray-50 dark:bg-gray-800";
-    private string GetTbodyClasses() => "bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700";
-    private string GetThClasses() => "px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider";
-    private string GetTdClasses() => "px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100";
-    private string GetRowClasses(TItem item) => $"hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer {(IsSelected(item) ? "bg-blue-50 dark:bg-blue-900/20" : "")}";
-    private string GetEmptyClasses() => "px-6 py-12 text-center text-gray-500 dark:text-gray-400";
+    private string GetTableClasses() => "min-w-full";
+    private string GetTheadClasses() => "";
+    private string GetTheadStyle() => "background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface)); border-bottom: 1px solid var(--color-border)";
+    private string GetTbodyClasses() => "";
+    private string GetTbodyStyle() => "background-color: var(--color-surface); border-top: 1px solid var(--color-border)";
+    private string GetThClasses() => "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider";
+    private string GetTdClasses() => "px-6 py-4 whitespace-nowrap text-sm";
+    private string GetRowClasses(TItem item) => $"cursor-pointer border-b {(IsSelected(item) ? "" : "")}";
+    
+    private string GetRowStyle(TItem item)
+    {
+        var styles = new List<string> { "border-color: var(--color-border)" };
+        
+        if (IsSelected(item))
+        {
+            styles.Add("background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface))");
+        }
+        else
+        {
+            styles.Add("background-color: var(--color-surface)");
+        }
+        
+        return string.Join("; ", styles);
+    }
+    
+    private string GetSortButtonStyle() => "background-color: transparent; color: var(--color-primary)";
+    private string GetEmptyClasses() => "px-6 py-12 text-center";
     
     private string? GetColumnStyle(DataGridColumn column)
     {
