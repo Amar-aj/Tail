@@ -1,9 +1,28 @@
 @inherits Tail.Blazor.Core.TailComponentBase
 @namespace Tail.Blazor.Validators
+@inject IJSRuntime JSRuntime
 
-@if (ShowError)
+@if (Visible && ShowError)
 {
-    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
+    @if (Appearance == ValidationAppearance.Inline)
+    {
+        <span class="@GetInlineClasses()" style="@GetInlineStyle()">@ErrorMessage</span>
+    }
+    else if (Appearance == ValidationAppearance.Block)
+    {
+        <div class="@GetBlockClasses()" style="@GetBlockStyle()">@ErrorMessage</div>
+    }
+    else if (Appearance == ValidationAppearance.Popup)
+    {
+        <div class="@GetPopupClasses()" style="@GetPopupStyle()" id="@PopupId">
+            <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <span>@ErrorMessage</span>
+            </div>
+        </div>
+    }
 }
 
 @code {
@@ -11,8 +30,15 @@
     [Parameter] public object? CompareTo { get; set; }
     [Parameter] public CompareOperator Operator { get; set; } = CompareOperator.Equal;
     [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public ValidationAppearance Appearance { get; set; } = ValidationAppearance.Inline;
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Popup { get; set; }
+    [Parameter] public string? ControlToCompare { get; set; } // ID of another component to compare against
 
+    private string PopupId => $"validation-popup-{GetHashCode()}";
     private bool ShowError => !IsValid;
+    
     private bool IsValid
     {
         get
@@ -35,11 +61,129 @@
 
     private int CompareValues(object? a, object? b)
     {
+        if (a == null || b == null)
+        {
+            return a == b ? 0 : -1;
+        }
+
+        // Try to convert both to the same numeric type for comparison
+        if (TryConvertToDouble(a, out var doubleA) && TryConvertToDouble(b, out var doubleB))
+        {
+            return doubleA.CompareTo(doubleB);
+        }
+
+        // Fallback to IComparable if available
         if (a is IComparable comparableA && b is IComparable comparableB)
         {
-            return comparableA.CompareTo(comparableB);
+            try
+            {
+                return comparableA.CompareTo(comparableB);
+            }
+            catch
+            {
+                // If comparison fails, try string comparison
+                return string.Compare(a.ToString(), b.ToString(), StringComparison.Ordinal);
+            }
         }
-        return a?.Equals(b) == true ? 0 : -1;
+
+        // Final fallback: string comparison
+        return string.Compare(a.ToString(), b.ToString(), StringComparison.Ordinal);
+    }
+
+    private bool TryConvertToDouble(object? value, out double result)
+    {
+        result = 0;
+        if (value == null) return false;
+
+        if (value is double d)
+        {
+            result = d;
+            return true;
+        }
+        if (value is int i)
+        {
+            result = i;
+            return true;
+        }
+        if (value is decimal dec)
+        {
+            result = (double)dec;
+            return true;
+        }
+        if (value is float f)
+        {
+            result = f;
+            return true;
+        }
+        if (value is string str && double.TryParse(str, out var parsed))
+        {
+            result = parsed;
+            return true;
+        }
+
+        return false;
+    }
+
+    private string GetInlineClasses() => "text-sm";
+    
+    private string GetInlineStyle()
+    {
+        var style = new List<string>
+        {
+            "color: var(--color-danger)",
+            "display: inline"
+        };
+        
+        if (!string.IsNullOrEmpty(Style))
+        {
+            style.Add(Style);
+        }
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetBlockClasses() => "text-sm mt-1 p-2 rounded";
+    
+    private string GetBlockStyle()
+    {
+        var style = new List<string>
+        {
+            "color: var(--color-danger)",
+            "background-color: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface))",
+            "border: 1px solid var(--color-danger)",
+            "display: block"
+        };
+        
+        if (!string.IsNullOrEmpty(Style))
+        {
+            style.Add(Style);
+        }
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetPopupClasses() => "absolute z-[10000] mt-1 p-3 rounded-lg shadow-lg min-w-[200px]";
+    
+    private string GetPopupStyle()
+    {
+        var style = new List<string>
+        {
+            "color: white",
+            "background-color: var(--color-danger)",
+            "box-shadow: var(--shadow-lg)",
+            "display: block"
+        };
+        
+        if (!string.IsNullOrEmpty(Popup))
+        {
+            style.Add(Popup);
+        }
+        else if (!string.IsNullOrEmpty(Style))
+        {
+            style.Add(Style);
+        }
+        
+        return string.Join("; ", style);
     }
 
     protected override void OnParametersSet()
@@ -49,15 +193,36 @@
             ErrorMessage = $"The value does not meet the comparison requirement ({Operator}).";
         }
     }
-}
 
-public enum CompareOperator
-{
-    Equal,
-    NotEqual,
-    GreaterThan,
-    LessThan,
-    GreaterThanOrEqual,
-    LessThanOrEqual
-}
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && Appearance == ValidationAppearance.Popup && !string.IsNullOrEmpty(ControlToCompare))
+        {
+            await PositionPopup();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
 
+    private async Task PositionPopup()
+    {
+        try
+        {
+            var script = $@"
+                (function() {{
+                    const control = document.getElementById('{ControlToCompare}');
+                    const popup = document.getElementById('{PopupId}');
+                    if (control && popup) {{
+                        const rect = control.getBoundingClientRect();
+                        popup.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                        popup.style.left = (rect.left + window.scrollX) + 'px';
+                    }}
+                }})();
+            ";
+            await JSRuntime.InvokeVoidAsync("eval", script);
+        }
+        catch
+        {
+            // Silently fail if JS interop is not available
+        }
+    }
+}
