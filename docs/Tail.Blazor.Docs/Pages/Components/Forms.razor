@@ -177,16 +177,33 @@
 
     <!-- TailFileUpload -->
     <section class="mb-12">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">File Upload</h2>
-        <CodePreview Title="File Upload with Drag & Drop" Code="@fileUploadCode">
+        <h2 class="text-3xl font-bold mb-4" style="color: var(--color-text-primary)">File Upload</h2>
+        <p class="mb-4 text-gray-600 dark:text-gray-400">File upload component with preview, rename, and remove functionality.</p>
+        
+        <CodePreview Title="File Upload with Preview & Custom Names" Code="@fileUploadCode">
             <PreviewContent>
                 <TailFileUpload 
                     Label="Upload Files" 
+                    FileItems="@FileItems"
+                    FileItemsChanged="OnFileItemsChanged"
+                    Multiple="true"
+                    Accept="image/*,.pdf,.doc,.docx"
+                    AllowRename="true"
+                    ShowPreview="true"
+                    ShowRemoveButton="true"
+                    HelperText="PNG, JPG, PDF, DOC up to 10MB" />
+            </PreviewContent>
+        </CodePreview>
+        
+        <CodePreview Title="Simple File Upload (Backward Compatible)" Code="@fileUploadSimpleCode">
+            <PreviewContent>
+                <TailFileUpload 
+                    Label="Upload Single File" 
                     UploadedFiles="@UploadedFiles"
                     UploadedFilesChanged="OnFilesChanged"
-                    Multiple="true"
-                    Accept="image/*,.pdf"
-                    HelperText="PNG, JPG, PDF up to 10MB" />
+                    Multiple="false"
+                    Accept="image/*"
+                    HelperText="Images only, up to 10MB" />
             </PreviewContent>
         </CodePreview>
     </section>
@@ -341,6 +358,7 @@
     private int rating = 4;
     private DateTime? SelectedDate { get; set; } = DateTime.Today;
     private List<IBrowserFile> UploadedFiles { get; set; } = new();
+    private List<FileUploadItem> FileItems { get; set; } = new();
     private string? SelectedCity { get; set; }
     private string SelectedColor { get; set; } = "#3b82f6";
     private string? PhoneNumber { get; set; }
@@ -438,11 +456,22 @@
 
     private string fileUploadCode = @"<TailFileUpload 
     Label=""Upload Files"" 
+    FileItems=""@FileItems""
+    FileItemsChanged=""OnFileItemsChanged""
+    Multiple=""true""
+    Accept=""image/*,.pdf,.doc,.docx""
+    AllowRename=""true""
+    ShowPreview=""true""
+    ShowRemoveButton=""true""
+    HelperText=""PNG, JPG, PDF, DOC up to 10MB"" />";
+
+    private string fileUploadSimpleCode = @"<TailFileUpload 
+    Label=""Upload Single File"" 
     UploadedFiles=""@UploadedFiles""
     UploadedFilesChanged=""OnFilesChanged""
-    Multiple=""true""
-    Accept=""image/*,.pdf""
-    HelperText=""PNG, JPG, PDF up to 10MB"" />";
+    Multiple=""false""
+    Accept=""image/*""
+    HelperText=""Images only, up to 10MB"" />";
 
     private string autoCompleteCode = @"<TailAutoComplete 
     Label=""Search City"" 
@@ -490,6 +519,12 @@
     private async Task OnFilesChanged(List<IBrowserFile> files)
     {
         UploadedFiles = files;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnFileItemsChanged(List<FileUploadItem> items)
+    {
+        FileItems = items;
         await Task.CompletedTask;
     }
 
