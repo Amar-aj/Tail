@@ -8,7 +8,57 @@
     @onclick="@HandleToggle"
     @attributes="AdditionalAttributes"
     aria-pressed="@IsToggled.ToString().ToLower()">
-    @ChildContent
+    @* Image or Icon at start *@
+    @if (ImageStartContent != null)
+    {
+        <span class="@GetImageStartClasses()">
+            @ImageStartContent
+        </span>
+    }
+    else if (!string.IsNullOrEmpty(ImageStart))
+    {
+        <img src="@ImageStart" alt="" class="@GetImageStartClasses()" />
+    }
+    else if (IconStartContent != null)
+    {
+        <span class="@GetIconStartClasses()">
+            @IconStartContent
+        </span>
+    }
+    else if (!string.IsNullOrEmpty(IconStart))
+    {
+        <span class="@GetIconStartClasses()">
+            @((MarkupString)IconStart)
+        </span>
+    }
+    @* Button text/content *@
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+    @* Image or Icon at end *@
+    @if (ImageEndContent != null)
+    {
+        <span class="@GetImageEndClasses()">
+            @ImageEndContent
+        </span>
+    }
+    else if (!string.IsNullOrEmpty(ImageEnd))
+    {
+        <img src="@ImageEnd" alt="" class="@GetImageEndClasses()" />
+    }
+    else if (IconEndContent != null)
+    {
+        <span class="@GetIconEndClasses()">
+            @IconEndContent
+        </span>
+    }
+    else if (!string.IsNullOrEmpty(IconEnd))
+    {
+        <span class="@GetIconEndClasses()">
+            @((MarkupString)IconEnd)
+        </span>
+    }
 </button>
 
 @code {
@@ -19,48 +69,51 @@
     [Parameter] public bool IsToggled { get; set; }
     [Parameter] public EventCallback<bool> IsToggledChanged { get; set; }
     [Parameter] public EventCallback<bool> OnToggled { get; set; }
+    [Parameter] public string? IconStart { get; set; }
+    [Parameter] public RenderFragment? IconStartContent { get; set; }
+    [Parameter] public string? IconEnd { get; set; }
+    [Parameter] public RenderFragment? IconEndContent { get; set; }
+    [Parameter] public string? ImageStart { get; set; }
+    [Parameter] public RenderFragment? ImageStartContent { get; set; }
+    [Parameter] public string? ImageEnd { get; set; }
+    [Parameter] public RenderFragment? ImageEndContent { get; set; }
+    [Parameter] public string? OutlineColor { get; set; }
+    [Parameter] public bool Rounded { get; set; } = true;
 
     private string GetButtonClasses()
     {
-        var classes = new List<string> { "font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2" };
+        var classes = new List<string> 
+        { 
+            "font-medium inline-flex items-center justify-center",
+            "focus:outline-none focus:ring-2 focus:ring-offset-2",
+            "transition-all duration-200 ease-in-out"
+        };
         
-        // Size
-        classes.Add(Size switch
+        // Rounded corners
+        if (Rounded)
         {
-            ButtonSize.Xs => "px-2 py-1 text-xs",
-            ButtonSize.Sm => "px-3 py-1.5 text-sm",
-            ButtonSize.Md => "px-4 py-2 text-base",
-            ButtonSize.Lg => "px-5 py-2.5 text-lg",
-            ButtonSize.Xl => "px-6 py-3 text-xl",
-            _ => "px-4 py-2 text-base"
-        });
-        
-        // Variant with toggle state
-        if (IsToggled)
-        {
-            classes.Add(Variant switch
+            classes.Add(Size switch
             {
-                ButtonVariant.Primary => "bg-blue-700 text-white ring-2 ring-blue-500",
-                ButtonVariant.Success => "bg-green-700 text-white ring-2 ring-green-500",
-                ButtonVariant.Warning => "bg-yellow-700 text-white ring-2 ring-yellow-500",
-                ButtonVariant.Danger => "bg-red-700 text-white ring-2 ring-red-500",
-                ButtonVariant.Info => "bg-cyan-700 text-white ring-2 ring-cyan-500",
-                _ => "bg-blue-700 text-white"
+                ButtonSize.Xs => "rounded",
+                ButtonSize.Sm => "rounded",
+                ButtonSize.Md => "rounded-md",
+                ButtonSize.Lg => "rounded-lg",
+                ButtonSize.Xl => "rounded-lg",
+                _ => "rounded-md"
             });
         }
         else
         {
-            classes.Add(Variant switch
-            {
-                ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-                ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 focus:ring-green-500",
-                ButtonVariant.Warning => "bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500",
-                ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-                ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-cyan-500",
-                _ => "bg-blue-600 text-white hover:bg-blue-700"
-            });
+            classes.Add("rounded-none");
         }
         
+        // Size classes
+        classes.Add(GetSizeClasses());
+        
+        // Variant classes based on toggle state
+        classes.Add(GetVariantClasses());
+        
+        // Disabled state
         if (Disabled)
         {
             classes.Add("opacity-50 cursor-not-allowed pointer-events-none");
@@ -70,6 +123,7 @@
             classes.Add("cursor-pointer");
         }
         
+        // Custom classes
         if (!string.IsNullOrEmpty(CssClass))
         {
             classes.Add(CssClass);
@@ -78,15 +132,196 @@
         return string.Join(" ", classes);
     }
 
+    private string GetSizeClasses()
+    {
+        return Size switch
+        {
+            ButtonSize.Xs => "px-2 py-1 text-xs",
+            ButtonSize.Sm => "px-3 py-1.5 text-sm",
+            ButtonSize.Md => "px-4 py-2 text-base",
+            ButtonSize.Lg => "px-5 py-2.5 text-lg",
+            ButtonSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        };
+    }
+
+    private string GetVariantClasses()
+    {
+        if (IsToggled)
+        {
+            return Variant switch
+            {
+                ButtonVariant.Primary => "bg-blue-700 text-white ring-2 ring-blue-500 shadow-md hover:bg-blue-800 focus:ring-blue-500 dark:bg-blue-600 dark:hover:bg-blue-700",
+                ButtonVariant.Success => "bg-green-700 text-white ring-2 ring-green-500 shadow-md hover:bg-green-800 focus:ring-green-500 dark:bg-green-600 dark:hover:bg-green-700",
+                ButtonVariant.Warning => "bg-yellow-600 text-white ring-2 ring-yellow-500 shadow-md hover:bg-yellow-700 focus:ring-yellow-500 dark:bg-yellow-500 dark:hover:bg-yellow-600",
+                ButtonVariant.Danger => "bg-red-700 text-white ring-2 ring-red-500 shadow-md hover:bg-red-800 focus:ring-red-500 dark:bg-red-600 dark:hover:bg-red-700",
+                ButtonVariant.Info => "bg-cyan-700 text-white ring-2 ring-cyan-500 shadow-md hover:bg-cyan-800 focus:ring-cyan-500 dark:bg-cyan-600 dark:hover:bg-cyan-700",
+                ButtonVariant.Outline => GetOutlineVariantClasses(true),
+                ButtonVariant.Soft => GetSoftVariantClasses(true),
+                ButtonVariant.Ghost => "bg-blue-100 text-blue-700 ring-2 ring-blue-300 shadow-sm hover:bg-blue-200 focus:ring-blue-500 dark:bg-blue-900/40 dark:text-blue-300 dark:ring-blue-600",
+                _ => "bg-blue-700 text-white ring-2 ring-blue-500"
+            };
+        }
+        else
+        {
+            return Variant switch
+            {
+                ButtonVariant.Primary => "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-sm hover:shadow-md focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600",
+                ButtonVariant.Success => "bg-green-600 text-white hover:bg-green-700 active:bg-green-800 shadow-sm hover:shadow-md focus:ring-green-500 dark:bg-green-500 dark:hover:bg-green-600",
+                ButtonVariant.Warning => "bg-yellow-500 text-white hover:bg-yellow-600 active:bg-yellow-700 shadow-sm hover:shadow-md focus:ring-yellow-500 dark:bg-yellow-400 dark:hover:bg-yellow-500",
+                ButtonVariant.Danger => "bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-sm hover:shadow-md focus:ring-red-500 dark:bg-red-500 dark:hover:bg-red-600",
+                ButtonVariant.Info => "bg-cyan-600 text-white hover:bg-cyan-700 active:bg-cyan-800 shadow-sm hover:shadow-md focus:ring-cyan-500 dark:bg-cyan-500 dark:hover:bg-cyan-600",
+                ButtonVariant.Outline => GetOutlineVariantClasses(false),
+                ButtonVariant.Soft => GetSoftVariantClasses(false),
+                ButtonVariant.Ghost => "bg-transparent text-blue-600 hover:bg-blue-50 active:bg-blue-100 focus:ring-blue-500 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:active:bg-blue-900/30",
+                _ => "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500"
+            };
+        }
+    }
+
+    private string GetOutlineVariantClasses(bool toggled)
+    {
+        var color = OutlineColor?.ToLower() ?? "primary";
+        var baseClasses = color switch
+        {
+            "primary" or "blue" => "border-2 border-blue-600 text-blue-600 focus:ring-blue-500 dark:border-blue-400 dark:text-blue-400",
+            "success" or "green" => "border-2 border-green-600 text-green-600 focus:ring-green-500 dark:border-green-400 dark:text-green-400",
+            "warning" or "yellow" => "border-2 border-yellow-500 text-yellow-600 focus:ring-yellow-500 dark:border-yellow-400 dark:text-yellow-400",
+            "danger" or "red" => "border-2 border-red-600 text-red-600 focus:ring-red-500 dark:border-red-400 dark:text-red-400",
+            "info" or "cyan" => "border-2 border-cyan-600 text-cyan-600 focus:ring-cyan-500 dark:border-cyan-400 dark:text-cyan-400",
+            _ => "border-2 border-blue-600 text-blue-600 focus:ring-blue-500"
+        };
+        
+        if (toggled)
+        {
+            return $"{baseClasses} bg-blue-50 ring-2 ring-blue-300 hover:bg-blue-100 dark:bg-blue-900/20 dark:ring-blue-600";
+        }
+        else
+        {
+            return $"{baseClasses} bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/20";
+        }
+    }
+
+    private string GetSoftVariantClasses(bool toggled)
+    {
+        if (toggled)
+        {
+            return "bg-blue-200 text-blue-800 ring-2 ring-blue-300 shadow-sm hover:bg-blue-300 focus:ring-blue-500 dark:bg-blue-900/50 dark:text-blue-200 dark:ring-blue-600";
+        }
+        else
+        {
+            return "bg-blue-50 text-blue-700 hover:bg-blue-100 active:bg-blue-200 focus:ring-blue-500 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/40";
+        }
+    }
+
+    private string GetIconStartClasses()
+    {
+        var spacing = Size switch
+        {
+            ButtonSize.Xs => "mr-1.5",
+            ButtonSize.Sm => "mr-2",
+            ButtonSize.Md => "mr-2",
+            ButtonSize.Lg => "mr-2.5",
+            ButtonSize.Xl => "mr-3",
+            _ => "mr-2"
+        };
+        var iconSize = Size switch
+        {
+            ButtonSize.Xs => "h-3 w-3",
+            ButtonSize.Sm => "h-3.5 w-3.5",
+            ButtonSize.Md => "h-4 w-4",
+            ButtonSize.Lg => "h-5 w-5",
+            ButtonSize.Xl => "h-6 w-6",
+            _ => "h-4 w-4"
+        };
+        return $"{spacing} {iconSize} flex-shrink-0";
+    }
+
+    private string GetIconEndClasses()
+    {
+        var spacing = Size switch
+        {
+            ButtonSize.Xs => "ml-1.5",
+            ButtonSize.Sm => "ml-2",
+            ButtonSize.Md => "ml-2",
+            ButtonSize.Lg => "ml-2.5",
+            ButtonSize.Xl => "ml-3",
+            _ => "ml-2"
+        };
+        var iconSize = Size switch
+        {
+            ButtonSize.Xs => "h-3 w-3",
+            ButtonSize.Sm => "h-3.5 w-3.5",
+            ButtonSize.Md => "h-4 w-4",
+            ButtonSize.Lg => "h-5 w-5",
+            ButtonSize.Xl => "h-6 w-6",
+            _ => "h-4 w-4"
+        };
+        return $"{spacing} {iconSize} flex-shrink-0";
+    }
+
+    private string GetImageStartClasses()
+    {
+        var spacing = Size switch
+        {
+            ButtonSize.Xs => "mr-1.5",
+            ButtonSize.Sm => "mr-2",
+            ButtonSize.Md => "mr-2",
+            ButtonSize.Lg => "mr-2.5",
+            ButtonSize.Xl => "mr-3",
+            _ => "mr-2"
+        };
+        var imageSize = Size switch
+        {
+            ButtonSize.Xs => "h-4 w-4",
+            ButtonSize.Sm => "h-5 w-5",
+            ButtonSize.Md => "h-6 w-6",
+            ButtonSize.Lg => "h-7 w-7",
+            ButtonSize.Xl => "h-8 w-8",
+            _ => "h-6 w-6"
+        };
+        return $"{spacing} {imageSize} flex-shrink-0 object-cover rounded";
+    }
+
+    private string GetImageEndClasses()
+    {
+        var spacing = Size switch
+        {
+            ButtonSize.Xs => "ml-1.5",
+            ButtonSize.Sm => "ml-2",
+            ButtonSize.Md => "ml-2",
+            ButtonSize.Lg => "ml-2.5",
+            ButtonSize.Xl => "ml-3",
+            _ => "ml-2"
+        };
+        var imageSize = Size switch
+        {
+            ButtonSize.Xs => "h-4 w-4",
+            ButtonSize.Sm => "h-5 w-5",
+            ButtonSize.Md => "h-6 w-6",
+            ButtonSize.Lg => "h-7 w-7",
+            ButtonSize.Xl => "h-8 w-8",
+            _ => "h-6 w-6"
+        };
+        return $"{spacing} {imageSize} flex-shrink-0 object-cover rounded";
+    }
+
     private async Task HandleToggle()
     {
         if (!Disabled)
         {
             IsToggled = !IsToggled;
-            await IsToggledChanged.InvokeAsync(IsToggled);
-            await OnToggled.InvokeAsync(IsToggled);
+            StateHasChanged();
+            
+            if (IsToggledChanged.HasDelegate)
+            {
+                await IsToggledChanged.InvokeAsync(IsToggled);
+            }
+            
+            if (OnToggled.HasDelegate)
+            {
+                await OnToggled.InvokeAsync(IsToggled);
+            }
         }
     }
 }
-
-
