@@ -2,100 +2,335 @@
 @namespace Tail.Blazor.Forms
 @inject IJSRuntime JSRuntime
 
-<div class="@GetContainerClasses()">
-    <label class="@GetLabelClasses()">@Label</label>
-    <div class="relative">
-        <input 
-            type="text"
-            class="@GetInputClasses()"
-            value="@GetDisplayValue()"
-            placeholder="@Placeholder"
-            readonly
-            @onclick="ToggleCalendar"
-            @attributes="AdditionalAttributes" />
-        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-        </div>
+<div class="@GetContainerClasses()" style="position: relative;">
+    @if (!string.IsNullOrEmpty(Label) && ShowLabel)
+    {
+        <label class="@GetLabelClasses()">@Label</label>
+    }
+    <div class="relative" style="position: relative;">
+        @if (ShowInput)
+        {
+            @if (AllowInput)
+            {
+                <input 
+                    type="text"
+                    class="@GetInputClasses()"
+                    style="@GetInputStyle()"
+                    value="@GetDisplayValue()"
+                    placeholder="@Placeholder"
+                    @onclick="ToggleCalendar"
+                    @oninput="HandleInput"
+                    @onfocus="@(() => { })"
+                    @attributes="AdditionalAttributes" />
+            }
+            else
+            {
+                <input 
+                    type="text"
+                    class="@GetInputClasses()"
+                    style="@GetInputStyle()"
+                    value="@GetDisplayValue()"
+                    placeholder="@Placeholder"
+                    readonly
+                    @onclick="ToggleCalendar"
+                    @onfocus="@(() => { })"
+                    @attributes="AdditionalAttributes" />
+            }
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <svg class="w-5 h-5" style="color: var(--color-text-muted);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+        }
+        else if (ShowButton)
+        {
+            <button 
+                type="button"
+                class="@GetButtonClasses()"
+                style="@GetButtonStyle()"
+                @onmouseenter="@(() => { })"
+                @onmouseleave="@(() => { })"
+                @onclick="ToggleCalendar">
+                @if (Value.HasValue)
+                {
+                    @GetDisplayValue()
+                }
+                else
+                {
+                    @Placeholder
+                }
+            </button>
+        }
         
         @if (IsOpen)
         {
-            <div class="@GetCalendarClasses()">
-                <div class="flex items-center justify-between mb-4">
-                    <button 
-                        type="button"
-                        class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        @onclick="PreviousMonth">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <h3 class="text-lg font-semibold">@CurrentMonth.ToString("MMMM yyyy")</h3>
-                    <button 
-                        type="button"
-                        class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-                        @onclick="NextMonth">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div class="grid grid-cols-7 gap-1 mb-2">
-                    @foreach (var day in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
-                    {
-                        <div class="text-center text-xs font-medium text-gray-500 dark:text-gray-400 py-1">
-                            @day
-                        </div>
-                    }
-                </div>
-                
-                <div class="grid grid-cols-7 gap-1">
-                    @foreach (var day in GetCalendarDays())
-                    {
-                        <button
+            <div class="@GetCalendarClasses()" style="@GetCalendarStyle()" @onclick:stopPropagation="true" @onclick:preventDefault="false">
+                @if (CurrentView == DatePickerView.Calendar)
+                {
+                    <div class="flex items-center justify-between mb-4">
+                        <button 
                             type="button"
-                            class="@GetDayClasses(day)"
-                            @onclick="() => SelectDate(day)"
-                            disabled="@(day == null || day.Value < MinDate || day.Value > MaxDate)">
-                            @if (day.HasValue)
-                            {
-                                @day.Value.Day
-                            }
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="PreviousMonth">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
                         </button>
-                    }
-                </div>
+                        <div class="flex gap-2">
+                            <button 
+                                type="button"
+                                class="px-3 py-1 text-lg font-semibold rounded"
+                                style="color: var(--color-text-primary);"
+                                @onmouseenter="@(() => { })"
+                                @onmouseleave="@(() => { })"
+                                @onclick="ShowMonthView">
+                                @CurrentMonth.ToString("MMMM")
+                            </button>
+                            <button 
+                                type="button"
+                                class="px-3 py-1 text-lg font-semibold rounded"
+                                style="color: var(--color-text-primary);"
+                                @onmouseenter="@(() => { })"
+                                @onmouseleave="@(() => { })"
+                                @onclick="ShowYearView">
+                                @CurrentMonth.ToString("yyyy")
+                            </button>
+                        </div>
+                        <button 
+                            type="button"
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="NextMonth">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 gap-1 mb-2">
+                        @foreach (var day in new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" })
+                        {
+                            <div class="text-center text-xs font-medium py-1" style="color: var(--color-text-secondary);">
+                                @day
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="grid grid-cols-7 gap-1">
+                        @foreach (var day in GetCalendarDays())
+                        {
+                            <button
+                                type="button"
+                                class="@GetDayClasses(day)"
+                                style="@GetDayStyle(day)"
+                                @onmouseenter="@(() => { })"
+                                @onmouseleave="@(() => { })"
+                                @onclick="() => SelectDate(day)"
+                                disabled="@IsDateDisabled(day)">
+                                @if (day.HasValue)
+                                {
+                                    @day.Value.Day
+                                }
+                            </button>
+                        }
+                    </div>
+                }
+                else if (CurrentView == DatePickerView.Month)
+                {
+                    <div class="flex items-center justify-between mb-4">
+                        <button 
+                            type="button"
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="PreviousYear">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button 
+                            type="button"
+                            class="px-3 py-1 text-lg font-semibold rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="ShowYearView">
+                            @CurrentMonth.ToString("yyyy")
+                        </button>
+                        <button 
+                            type="button"
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="NextYear">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-2">
+                        @foreach (var month in GetMonths())
+                        {
+                            <button
+                                type="button"
+                                class="@GetMonthClasses(month)"
+                                style="@GetMonthStyle(month)"
+                                @onmouseenter="@(() => { })"
+                                @onmouseleave="@(() => { })"
+                                @onclick="() => SelectMonth(month)">
+                                @month.ToString("MMM")
+                            </button>
+                        }
+                    </div>
+                }
+                else if (CurrentView == DatePickerView.Year)
+                {
+                    <div class="flex items-center justify-between mb-4">
+                        <button 
+                            type="button"
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="PreviousYearRange">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <span class="text-lg font-semibold" style="color: var(--color-text-primary);">@StartYear - @EndYear</span>
+                        <button 
+                            type="button"
+                            class="p-2 rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="NextYearRange">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-4 gap-2">
+                        @foreach (var year in GetYears())
+                        {
+                            <button
+                                type="button"
+                                class="@GetYearClasses(year)"
+                                style="@GetYearStyle(year)"
+                                @onmouseenter="@(() => { })"
+                                @onmouseleave="@(() => { })"
+                                @onclick="() => SelectYear(year)">
+                                @year
+                            </button>
+                        }
+                    </div>
+                }
+                
+                @if (FooterTemplate != null)
+                {
+                    <div class="mt-4 pt-4" style="border-top: 1px solid var(--color-border);">
+                        @FooterTemplate
+                    </div>
+                }
+                else if (ShowFooter)
+                {
+                    <div class="mt-4 pt-4 flex justify-between" style="border-top: 1px solid var(--color-border);">
+                        <button 
+                            type="button"
+                            class="px-4 py-2 text-sm rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="SetToday">
+                            Today
+                        </button>
+                        <button 
+                            type="button"
+                            class="px-4 py-2 text-sm rounded"
+                            style="color: var(--color-text-primary);"
+                            @onmouseenter="@(() => { })"
+                            @onmouseleave="@(() => { })"
+                            @onclick="ClearSelection">
+                            Clear
+                        </button>
+                    </div>
+                }
             </div>
         }
     </div>
     @if (!string.IsNullOrEmpty(HelperText))
     {
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">@HelperText</p>
+        <p class="mt-1 text-sm" style="color: var(--color-text-secondary);">@HelperText</p>
     }
     @if (!string.IsNullOrEmpty(ErrorText))
     {
-        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorText</p>
+        <p class="mt-1 text-sm" style="color: var(--color-danger);">@ErrorText</p>
     }
 </div>
 
 @code {
     [Parameter] public DateTime? Value { get; set; }
     [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+    [Parameter] public List<DateTime>? Values { get; set; }
+    [Parameter] public EventCallback<List<DateTime>> ValuesChanged { get; set; }
+    [Parameter] public DateSelectionMode SelectionMode { get; set; } = DateSelectionMode.Single;
     [Parameter] public string? Label { get; set; }
+    [Parameter] public bool ShowLabel { get; set; } = true;
     [Parameter] public string? Placeholder { get; set; } = "Select date...";
     [Parameter] public string? HelperText { get; set; }
     [Parameter] public string? ErrorText { get; set; }
     [Parameter] public DateTime MinDate { get; set; } = DateTime.MinValue;
     [Parameter] public DateTime MaxDate { get; set; } = DateTime.MaxValue;
     [Parameter] public string? Format { get; set; } = "yyyy-MM-dd";
+    [Parameter] public DateTime? InitialViewDate { get; set; }
+    [Parameter] public int? YearRangeStart { get; set; }
+    [Parameter] public int? YearRangeEnd { get; set; }
+    [Parameter] public List<DateTime>? DisabledDates { get; set; }
+    [Parameter] public Func<DateTime, bool>? IsDateDisabledFunc { get; set; }
+    [Parameter] public List<DateTime>? SpecialDates { get; set; }
+    [Parameter] public bool ShowInput { get; set; } = true;
+    [Parameter] public bool ShowButton { get; set; } = false;
+    [Parameter] public bool AllowInput { get; set; } = false;
+    [Parameter] public Func<string, DateTime?>? CustomParser { get; set; }
+    [Parameter] public RenderFragment? FooterTemplate { get; set; }
+    [Parameter] public bool ShowFooter { get; set; } = true;
     
     private bool IsOpen { get; set; }
     private DateTime CurrentMonth { get; set; } = DateTime.Today;
+    private DatePickerView CurrentView { get; set; } = DatePickerView.Calendar;
+    private int StartYear { get; set; }
+    private int EndYear { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        CurrentMonth = InitialViewDate ?? Value ?? DateTime.Today;
+        
+        if (YearRangeStart.HasValue && YearRangeEnd.HasValue)
+        {
+            StartYear = YearRangeStart.Value;
+            EndYear = YearRangeEnd.Value;
+        }
+        else
+        {
+            var currentYear = CurrentMonth.Year;
+            StartYear = currentYear - 10;
+            EndYear = currentYear + 10;
+        }
+    }
     
     private string GetContainerClasses()
     {
-        var classes = new List<string> { "w-full relative" };
+        var classes = new List<string> { "w-full" };
         if (!string.IsNullOrEmpty(CssClass))
         {
             classes.Add(CssClass);
@@ -103,52 +338,92 @@
         return string.Join(" ", classes);
     }
     
-    private string GetLabelClasses() => "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
+    private string GetLabelClasses() => "block text-sm font-medium mb-1";
+    
+    private string GetLabelStyle() => "color: var(--color-text-primary);";
     
     private string GetInputClasses()
     {
         var classes = new List<string>
         {
             "w-full px-3 py-2 border rounded-lg",
-            "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100",
-            "focus:outline-none focus:ring-2 focus:ring-blue-500",
-            "cursor-pointer"
+            "focus:outline-none",
+            AllowInput ? "" : "cursor-pointer"
         };
-        
-        if (!string.IsNullOrEmpty(ErrorText))
-        {
-            classes.Add("border-red-300 dark:border-red-700");
-        }
-        else
-        {
-            classes.Add("border-gray-300 dark:border-gray-700");
-        }
         
         return string.Join(" ", classes);
     }
     
+    private string GetInputStyle()
+    {
+        var style = new List<string>
+        {
+            "background-color: var(--color-surface)",
+            "color: var(--color-text-primary)",
+            "border-color: " + (!string.IsNullOrEmpty(ErrorText) ? "var(--color-danger)" : "var(--color-border)")
+        };
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetInputFocusStyle()
+    {
+        return "box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, transparent);";
+    }
+    
+    private string GetButtonClasses()
+    {
+        var classes = new List<string>
+        {
+            "w-full px-4 py-2 border rounded-lg",
+            "focus:outline-none"
+        };
+        
+        return string.Join(" ", classes);
+    }
+    
+    private string GetButtonStyle()
+    {
+        var style = new List<string>
+        {
+            "background-color: var(--color-surface)",
+            "color: var(--color-text-primary)",
+            "border-color: var(--color-border)"
+        };
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetButtonHoverStyle()
+    {
+        return "background-color: var(--color-surface-2);";
+    }
+    
     private string GetCalendarClasses() => 
-        "absolute z-50 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg p-4 w-64";
+        "absolute rounded-lg p-4 w-72";
+    
+    private string GetCalendarStyle()
+    {
+        var style = new List<string>
+        {
+            "background-color: var(--color-surface)",
+            "border: 1px solid var(--color-border)",
+            "box-shadow: var(--shadow-lg)",
+            "color: var(--color-text-primary)",
+            "z-index: 9999",
+            "top: 100%",
+            "left: 0",
+            "margin-top: 0.25rem"
+        };
+        
+        return string.Join("; ", style);
+    }
     
     private string GetDayClasses(DateTime? day)
     {
         if (day == null) return "p-2 text-sm";
         
-        var classes = new List<string> { "p-2 text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700" };
-        
-        if (day.Value.Date == DateTime.Today)
-        {
-            classes.Add("font-semibold text-blue-600 dark:text-blue-400");
-        }
-        
-        if (day.Value.Date == Value?.Date)
-        {
-            classes.Add("bg-blue-600 text-white hover:bg-blue-700");
-        }
-        else
-        {
-            classes.Add("text-gray-700 dark:text-gray-300");
-        }
+        var classes = new List<string> { "p-2 text-sm rounded" };
         
         if (day.Value.Month != CurrentMonth.Month)
         {
@@ -158,8 +433,147 @@
         return string.Join(" ", classes);
     }
     
+    private string GetDayStyle(DateTime? day)
+    {
+        if (day == null) return "";
+        
+        var style = new List<string>();
+        var isToday = day.Value.Date == DateTime.Today;
+        var isSelected = false;
+        
+        if (SelectionMode == DateSelectionMode.Single && day.Value.Date == Value?.Date)
+        {
+            isSelected = true;
+        }
+        else if (SelectionMode == DateSelectionMode.Multiple && Values != null && Values.Any(d => d.Date == day.Value.Date))
+        {
+            isSelected = true;
+        }
+        
+        if (isSelected)
+        {
+            style.Add("background-color: var(--color-primary)");
+            style.Add("color: white");
+        }
+        else
+        {
+            style.Add("background-color: transparent");
+            style.Add("color: var(--color-text-primary)");
+            if (isToday)
+            {
+                style.Add("font-weight: 600");
+                style.Add("color: var(--color-primary)");
+            }
+        }
+        
+        if (IsSpecialDate(day.Value))
+        {
+            style.Add("box-shadow: 0 0 0 2px var(--color-warning)");
+        }
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetDayHoverStyle(DateTime? day)
+    {
+        if (day == null) return "";
+        
+        var isSelected = false;
+        if (SelectionMode == DateSelectionMode.Single && day.Value.Date == Value?.Date)
+        {
+            isSelected = true;
+        }
+        else if (SelectionMode == DateSelectionMode.Multiple && Values != null && Values.Any(d => d.Date == day.Value.Date))
+        {
+            isSelected = true;
+        }
+        
+        if (isSelected)
+        {
+            return "background-color: color-mix(in srgb, var(--color-primary) 90%, black);";
+        }
+        else
+        {
+            return "background-color: var(--color-surface-2);";
+        }
+    }
+    
+    private string GetMonthClasses(DateTime month)
+    {
+        return "p-3 text-sm rounded";
+    }
+    
+    private string GetMonthStyle(DateTime month)
+    {
+        var style = new List<string>();
+        
+        if (month.Month == CurrentMonth.Month && month.Year == CurrentMonth.Year)
+        {
+            style.Add("background-color: var(--color-primary)");
+            style.Add("color: white");
+        }
+        else
+        {
+            style.Add("background-color: transparent");
+            style.Add("color: var(--color-text-primary)");
+        }
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetMonthHoverStyle(DateTime month)
+    {
+        if (month.Month == CurrentMonth.Month && month.Year == CurrentMonth.Year)
+        {
+            return "background-color: color-mix(in srgb, var(--color-primary) 90%, black);";
+        }
+        else
+        {
+            return "background-color: var(--color-surface-2);";
+        }
+    }
+    
+    private string GetYearClasses(int year)
+    {
+        return "p-3 text-sm rounded";
+    }
+    
+    private string GetYearStyle(int year)
+    {
+        var style = new List<string>();
+        
+        if (year == CurrentMonth.Year)
+        {
+            style.Add("background-color: var(--color-primary)");
+            style.Add("color: white");
+        }
+        else
+        {
+            style.Add("background-color: transparent");
+            style.Add("color: var(--color-text-primary)");
+        }
+        
+        return string.Join("; ", style);
+    }
+    
+    private string GetYearHoverStyle(int year)
+    {
+        if (year == CurrentMonth.Year)
+        {
+            return "background-color: color-mix(in srgb, var(--color-primary) 90%, black);";
+        }
+        else
+        {
+            return "background-color: var(--color-surface-2);";
+        }
+    }
+    
     private string GetDisplayValue()
     {
+        if (SelectionMode == DateSelectionMode.Multiple && Values != null && Values.Any())
+        {
+            return string.Join(", ", Values.Select(d => d.ToString(Format)));
+        }
         return Value?.ToString(Format) ?? "";
     }
     
@@ -172,17 +586,44 @@
         for (int i = 0; i < 42; i++)
         {
             var date = startDate.AddDays(i);
-            if (date.Month == CurrentMonth.Month)
-            {
-                days.Add(date);
-            }
-            else
-            {
-                days.Add(null);
-            }
+            days.Add(date);
         }
         
         return days;
+    }
+    
+    private List<DateTime> GetMonths()
+    {
+        var months = new List<DateTime>();
+        for (int i = 1; i <= 12; i++)
+        {
+            months.Add(new DateTime(CurrentMonth.Year, i, 1));
+        }
+        return months;
+    }
+    
+    private List<int> GetYears()
+    {
+        var years = new List<int>();
+        for (int year = StartYear; year <= EndYear; year++)
+        {
+            years.Add(year);
+        }
+        return years;
+    }
+    
+    private bool IsDateDisabled(DateTime? day)
+    {
+        if (day == null) return true;
+        if (day.Value < MinDate || day.Value > MaxDate) return true;
+        if (DisabledDates != null && DisabledDates.Any(d => d.Date == day.Value.Date)) return true;
+        if (IsDateDisabledFunc != null && IsDateDisabledFunc(day.Value)) return true;
+        return false;
+    }
+    
+    private bool IsSpecialDate(DateTime date)
+    {
+        return SpecialDates != null && SpecialDates.Any(d => d.Date == date.Date);
     }
     
     private void ToggleCalendar()
@@ -191,6 +632,10 @@
         if (IsOpen && Value.HasValue)
         {
             CurrentMonth = Value.Value;
+        }
+        else if (IsOpen && !Value.HasValue)
+        {
+            CurrentMonth = InitialViewDate ?? DateTime.Today;
         }
     }
     
@@ -204,17 +649,150 @@
         CurrentMonth = CurrentMonth.AddMonths(1);
     }
     
+    private void PreviousYear()
+    {
+        CurrentMonth = CurrentMonth.AddYears(-1);
+    }
+    
+    private void NextYear()
+    {
+        CurrentMonth = CurrentMonth.AddYears(1);
+    }
+    
+    private void PreviousYearRange()
+    {
+        var range = EndYear - StartYear + 1;
+        StartYear -= range;
+        EndYear -= range;
+    }
+    
+    private void NextYearRange()
+    {
+        var range = EndYear - StartYear + 1;
+        StartYear += range;
+        EndYear += range;
+    }
+    
+    private void ShowMonthView()
+    {
+        CurrentView = DatePickerView.Month;
+    }
+    
+    private void ShowYearView()
+    {
+        CurrentView = DatePickerView.Year;
+    }
+    
+    private void SelectMonth(DateTime month)
+    {
+        CurrentMonth = month;
+        CurrentView = DatePickerView.Calendar;
+    }
+    
+    private void SelectYear(int year)
+    {
+        CurrentMonth = new DateTime(year, CurrentMonth.Month, 1);
+        CurrentView = DatePickerView.Month;
+    }
+    
     private async Task SelectDate(DateTime? date)
     {
-        if (date.HasValue)
+        if (date.HasValue && !IsDateDisabled(date))
         {
-            Value = date.Value;
+            if (SelectionMode == DateSelectionMode.Single)
+            {
+                Value = date.Value;
+                if (ValueChanged.HasDelegate)
+                {
+                    await ValueChanged.InvokeAsync(Value);
+                }
+                IsOpen = false;
+            }
+            else if (SelectionMode == DateSelectionMode.Multiple)
+            {
+                Values ??= new List<DateTime>();
+                var dateOnly = date.Value.Date;
+                if (Values.Any(d => d.Date == dateOnly))
+                {
+                    Values.RemoveAll(d => d.Date == dateOnly);
+                }
+                else
+                {
+                    Values.Add(dateOnly);
+                }
+                if (ValuesChanged.HasDelegate)
+                {
+                    await ValuesChanged.InvokeAsync(Values);
+                }
+            }
+            StateHasChanged();
+        }
+    }
+    
+    private void SetToday()
+    {
+        var today = DateTime.Today;
+        if (!IsDateDisabled(today))
+        {
+            Value = today;
+            CurrentMonth = today;
             if (ValueChanged.HasDelegate)
             {
-                await ValueChanged.InvokeAsync(Value);
+                ValueChanged.InvokeAsync(Value);
             }
             IsOpen = false;
         }
     }
+    
+    private void ClearSelection()
+    {
+        Value = null;
+        Values = null;
+        if (ValueChanged.HasDelegate)
+        {
+            ValueChanged.InvokeAsync(Value);
+        }
+        if (ValuesChanged.HasDelegate)
+        {
+            ValuesChanged.InvokeAsync(Values);
+        }
+        IsOpen = false;
+    }
+    
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        var inputValue = e.Value?.ToString();
+        if (string.IsNullOrEmpty(inputValue))
+        {
+            Value = null;
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync(Value);
+            }
+            return;
+        }
+        
+        DateTime? parsedDate = null;
+        if (CustomParser != null)
+        {
+            parsedDate = CustomParser(inputValue);
+        }
+        else
+        {
+            if (DateTime.TryParse(inputValue, out var date))
+            {
+                parsedDate = date;
+            }
+        }
+        
+        if (parsedDate.HasValue && !IsDateDisabled(parsedDate))
+        {
+            Value = parsedDate.Value;
+            CurrentMonth = parsedDate.Value;
+            if (ValueChanged.HasDelegate)
+            {
+                await ValueChanged.InvokeAsync(Value);
+            }
+        }
+    }
 }
-

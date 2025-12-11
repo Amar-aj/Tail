@@ -156,3 +156,32 @@ public enum RadioVariant
     Danger
 }
 
+/// <summary>
+/// Hour format for time picker (12-hour or 24-hour).
+/// </summary>
+public enum HourFormat
+{
+    Format12,
+    Format24
+}
+
+/// <summary>
+/// Date picker view mode.
+/// </summary>
+public enum DatePickerView
+{
+    Calendar,
+    Month,
+    Year
+}
+
+/// <summary>
+/// Date selection mode.
+/// </summary>
+public enum DateSelectionMode
+{
+    Single,
+    Multiple,
+    Range
+}
+
