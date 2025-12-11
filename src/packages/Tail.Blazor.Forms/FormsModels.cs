@@ -78,7 +78,8 @@ public enum SwitchVariant
     Primary,
     Success,
     Warning,
-    Danger
+    Danger,
+    Emoji
 }
 
 /// <summary>

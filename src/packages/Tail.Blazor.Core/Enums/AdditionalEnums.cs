@@ -50,8 +50,6 @@ public enum SliderSize
 
 public enum SwitchVariant
 {
-    Default,
-    iOS,
     Primary,
     Success,
     Warning,
