@@ -1,0 +1,361 @@
+@page "/layout-demo"
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Feedback
+@using Tail.Blazor.Forms
+@using Tail.Blazor.Core.Theme
+
+<PageTitle>Layout Demo - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4" style="color: var(--color-text-primary);">Layout Components Demo</h1>
+        <p class="text-lg" style="color: var(--color-text-secondary);">
+            Interactive demonstration of all layout features including app bar, collapsible menu, avatar, and more.
+        </p>
+    </div>
+
+    <!-- Configuration Panel -->
+    <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg);">
+        <h2 class="text-2xl font-semibold mb-6" style="color: var(--color-text-primary);">Configuration</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Layout Mode -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Layout Mode</label>
+                <TailSelect @bind-Value="selectedLayoutModeStr" Items="@layoutModeOptions" />
+            </div>
+
+            <!-- Density -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Density</label>
+                <TailSelect @bind-Value="selectedDensityStr" Items="@densityOptions" />
+            </div>
+
+            <!-- Menu Position -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Menu Position</label>
+                <TailSelect @bind-Value="selectedMenuPositionStr" Items="@menuPositionOptions" />
+            </div>
+
+            <!-- Show Menu Toggle -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Menu Toggle</label>
+                <TailSwitch @bind-IsChecked="showMenuToggle" Label="Enable Menu Toggle" />
+            </div>
+
+            <!-- Show Theme Toggle -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Theme Toggle</label>
+                <TailSwitch @bind-IsChecked="showThemeToggle" Label="Enable Theme Toggle" />
+            </div>
+
+            <!-- Show Avatar -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Avatar</label>
+                <TailSwitch @bind-IsChecked="showAvatar" Label="Enable Avatar" />
+            </div>
+
+            <!-- Sticky Header -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Sticky Header</label>
+                <TailSwitch @bind-IsChecked="stickyHeader" Label="Sticky Header" />
+            </div>
+
+            <!-- Header Shadow -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Header Shadow</label>
+                <TailSwitch @bind-IsChecked="headerShadow" Label="Header Shadow" />
+            </div>
+
+            <!-- Collapsible Menu -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Collapsible Menu</label>
+                <TailSwitch @bind-IsChecked="collapsibleMenu" Label="Collapsible Menu" />
+            </div>
+
+            <!-- Menu Open by Default -->
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Menu Open by Default</label>
+                <TailSwitch @bind-IsChecked="menuOpenByDefault" Label="Open by Default" />
+            </div>
+        </div>
+
+        <!-- User Info -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">User Name</label>
+                <TailInput @bind-Value="userName" Placeholder="Enter user name" />
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">User Email</label>
+                <TailInput @bind-Value="userEmail" Placeholder="Enter user email" Type="InputType.Email" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Preview -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">Live Preview</h2>
+        <div class="border-4 rounded-lg overflow-hidden" style="border-color: var(--color-border); height: 600px; background-color: var(--color-background);">
+            <TailResponsiveLayout 
+                AppName="@appName"
+                ShowMenuToggle="@showMenuToggle"
+                ShowThemeToggle="@showThemeToggle"
+                ShowAvatar="@showAvatar"
+                StickyHeader="@stickyHeader"
+                HeaderShadow="@headerShadow"
+                ShowSidebar="@(selectedLayoutMode != LayoutMode.AppbarOnly)"
+                MenuOpenByDefault="@menuOpenByDefault"
+                LayoutMode="@selectedLayoutMode"
+                Density="@selectedDensity"
+                MenuPosition="@selectedMenuPosition"
+                CollapsibleMenu="@collapsibleMenu"
+                UserName="@userName"
+                UserEmail="@userEmail"
+                MobileMenuTitle="Navigation Menu">
+                <LogoTemplate>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold" 
+                             style="background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));">
+                            T
+                        </div>
+                        <div>
+                            <h1 class="text-lg font-bold" style="color: var(--color-text-primary)">@appName</h1>
+                            <p class="text-xs" style="color: var(--color-text-muted)">v1.0.0</p>
+                        </div>
+                    </div>
+                </LogoTemplate>
+                <HeaderCenterContent>
+                    <div class="flex items-center gap-2">
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">Home</TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">About</TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">Contact</TailButton>
+                    </div>
+                </HeaderCenterContent>
+                <UserMenuItems>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
+                       style="color: var(--color-text-primary);">Profile</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
+                       style="color: var(--color-text-primary);">Settings</a>
+                    <div class="border-t" style="border-color: var(--color-divider);"></div>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" 
+                       style="color: var(--color-text-primary);">Sign Out</a>
+                </UserMenuItems>
+                <SidebarContent>
+                    <div class="p-4">
+                        <div class="mb-6">
+                            <h2 class="text-lg font-semibold mb-2" style="color: var(--color-text-primary);">Navigation</h2>
+                        </div>
+                        <nav class="space-y-1">
+                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors" 
+                               style="background-color: color-mix(in srgb, var(--color-primary) 10%, transparent); color: var(--color-primary);">
+                                🏠 Dashboard
+                            </a>
+                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
+                               style="color: var(--color-text-secondary);">
+                                📊 Analytics
+                            </a>
+                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
+                               style="color: var(--color-text-secondary);">
+                                📝 Reports
+                            </a>
+                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
+                               style="color: var(--color-text-secondary);">
+                                ⚙️ Settings
+                            </a>
+                        </nav>
+                    </div>
+                </SidebarContent>
+                <ChildContent>
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold mb-2" style="color: var(--color-text-primary);">Welcome to @appName</h3>
+                            <p style="color: var(--color-text-secondary);">
+                                This is a live preview of the layout components. Adjust the settings above to see different configurations.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="p-4 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+                                <div class="text-2xl font-bold mb-1" style="color: var(--color-primary);">1,234</div>
+                                <div class="text-sm" style="color: var(--color-text-secondary);">Total Users</div>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+                                <div class="text-2xl font-bold mb-1" style="color: var(--color-success);">5,678</div>
+                                <div class="text-sm" style="color: var(--color-text-secondary);">Active Sessions</div>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+                                <div class="text-2xl font-bold mb-1" style="color: var(--color-warning);">890</div>
+                                <div class="text-sm" style="color: var(--color-text-secondary);">Pending Tasks</div>
+                            </div>
+                        </div>
+
+                        <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+                            <h4 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary);">Recent Activity</h4>
+                            <div class="space-y-3">
+                                @foreach (var activity in recentActivities)
+                                {
+                                    <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" 
+                                             style="background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);">
+                                            <span class="text-sm">@activity.Icon</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-medium" style="color: var(--color-text-primary);">@activity.Title</p>
+                                            <p class="text-xs" style="color: var(--color-text-muted);">@activity.Description</p>
+                                        </div>
+                                        <span class="text-xs" style="color: var(--color-text-muted);">@activity.Time</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </ChildContent>
+            </TailResponsiveLayout>
+        </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">Code Example</h2>
+        <pre class="p-4 rounded-lg overflow-x-auto" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);"><code>@GetCodeExample()</code></pre>
+    </div>
+
+    <!-- Feature List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+            <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">Layout Features</h3>
+            <ul class="space-y-2 text-sm" style="color: var(--color-text-secondary);">
+                <li>✓ Multiple layout modes (Drawer Left, Clipped Drawer, Appbar Only)</li>
+                <li>✓ Density modes (Normal, Dense, Compact)</li>
+                <li>✓ Responsive design (Mobile, Tablet, Desktop)</li>
+                <li>✓ Collapsible sidebar menu</li>
+                <li>✓ Sticky header with shadow</li>
+                <li>✓ Theme toggle integration</li>
+                <li>✓ User avatar with dropdown menu</li>
+                <li>✓ Custom logo and app name</li>
+            </ul>
+        </div>
+        <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+            <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">Customization Options</h3>
+            <ul class="space-y-2 text-sm" style="color: var(--color-text-secondary);">
+                <li>✓ Menu position (Left, Right)</li>
+                <li>✓ Header transparency</li>
+                <li>✓ Custom header content</li>
+                <li>✓ User menu items</li>
+                <li>✓ Sidebar content templates</li>
+                <li>✓ Mobile menu title</li>
+                <li>✓ Default menu state</li>
+                <li>✓ Full CSS variable support</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string selectedLayoutModeStr = "DrawerLeft";
+    private string selectedDensityStr = "Normal";
+    private string selectedMenuPositionStr = "Left";
+    
+    private bool showMenuToggle = true;
+    private bool showThemeToggle = true;
+    private bool showAvatar = true;
+    private bool stickyHeader = true;
+    private bool headerShadow = true;
+    private bool collapsibleMenu = true;
+    private bool menuOpenByDefault = true;
+    
+    private string appName = "My Application";
+    private string userName = "John Doe";
+    private string userEmail = "john.doe@example.com";
+
+    private List<SelectItem> layoutModeOptions = new()
+    {
+        new SelectItem { Value = "DrawerLeft", Text = "Drawer Left" },
+        new SelectItem { Value = "ClippedDrawer", Text = "Clipped Drawer" },
+        new SelectItem { Value = "AppbarOnly", Text = "Appbar Only" }
+    };
+
+    private List<SelectItem> densityOptions = new()
+    {
+        new SelectItem { Value = "Normal", Text = "Normal" },
+        new SelectItem { Value = "Dense", Text = "Dense" },
+        new SelectItem { Value = "Compact", Text = "Compact" }
+    };
+
+    private List<SelectItem> menuPositionOptions = new()
+    {
+        new SelectItem { Value = "Left", Text = "Left" },
+        new SelectItem { Value = "Right", Text = "Right" }
+    };
+
+    private List<ActivityItem> recentActivities = new()
+    {
+        new ActivityItem { Icon = "👤", Title = "New user registered", Description = "User john@example.com signed up", Time = "2m ago" },
+        new ActivityItem { Icon = "📊", Title = "Report generated", Description = "Monthly sales report created", Time = "15m ago" },
+        new ActivityItem { Icon = "⚙️", Title = "Settings updated", Description = "System configuration changed", Time = "1h ago" },
+        new ActivityItem { Icon = "🔔", Title = "Notification sent", Description = "Email notification delivered", Time = "2h ago" }
+    };
+
+    private LayoutMode selectedLayoutMode
+    {
+        get => Enum.Parse<LayoutMode>(selectedLayoutModeStr);
+        set => selectedLayoutModeStr = value.ToString();
+    }
+
+    private DensityMode selectedDensity
+    {
+        get => Enum.Parse<DensityMode>(selectedDensityStr);
+        set => selectedDensityStr = value.ToString();
+    }
+
+    private TailCollapsibleMenu.MenuPosition selectedMenuPosition
+    {
+        get => Enum.Parse<TailCollapsibleMenu.MenuPosition>(selectedMenuPositionStr);
+        set => selectedMenuPositionStr = value.ToString();
+    }
+
+    private string GetCodeExample()
+    {
+        return $@"<TailResponsiveLayout 
+    AppName=""{appName}""
+    ShowMenuToggle=""{showMenuToggle.ToString().ToLower()}""
+    ShowThemeToggle=""{showThemeToggle.ToString().ToLower()}""
+    ShowAvatar=""{showAvatar.ToString().ToLower()}""
+    StickyHeader=""{stickyHeader.ToString().ToLower()}""
+    HeaderShadow=""{headerShadow.ToString().ToLower()}""
+    LayoutMode=""LayoutMode.{selectedLayoutMode}""
+    Density=""DensityMode.{selectedDensity}""
+    MenuPosition=""TailCollapsibleMenu.MenuPosition.{selectedMenuPosition}""
+    CollapsibleMenu=""{collapsibleMenu.ToString().ToLower()}""
+    MenuOpenByDefault=""{menuOpenByDefault.ToString().ToLower()}""
+    UserName=""{userName}""
+    UserEmail=""{userEmail}""&gt;
+    &lt;LogoTemplate&gt;
+        &lt;!-- Custom logo --&gt;
+    &lt;/LogoTemplate&gt;
+    &lt;HeaderCenterContent&gt;
+        &lt;!-- Center navigation --&gt;
+    &lt;/HeaderCenterContent&gt;
+    &lt;UserMenuItems&gt;
+        &lt;!-- User menu items --&gt;
+    &lt;/UserMenuItems&gt;
+    &lt;SidebarContent&gt;
+        &lt;!-- Navigation menu --&gt;
+    &lt;/SidebarContent&gt;
+    &lt;ChildContent&gt;
+        &lt;!-- Page content --&gt;
+    &lt;/ChildContent&gt;
+&lt;/TailResponsiveLayout&gt;";
+    }
+
+    private class ActivityItem
+    {
+        public string Icon { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Time { get; set; } = string.Empty;
+    }
+}
+
