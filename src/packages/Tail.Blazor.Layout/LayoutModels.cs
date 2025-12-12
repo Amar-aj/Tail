@@ -47,3 +47,41 @@ public enum DividerOrientation
     Vertical
 }
 
+/// <summary>
+/// Layout mode for responsive layout.
+/// </summary>
+public enum LayoutMode
+{
+    /// <summary>
+    /// Drawer left with top appbar (drawer below appbar).
+    /// </summary>
+    DrawerLeft,
+    /// <summary>
+    /// Top appbar with clipped drawer (appbar overlaps drawer).
+    /// </summary>
+    ClippedDrawer,
+    /// <summary>
+    /// Appbar only (no drawer/sidebar).
+    /// </summary>
+    AppbarOnly
+}
+
+/// <summary>
+/// Density mode for layout components.
+/// </summary>
+public enum DensityMode
+{
+    /// <summary>
+    /// Normal density with standard spacing.
+    /// </summary>
+    Normal,
+    /// <summary>
+    /// Dense mode with reduced spacing.
+    /// </summary>
+    Dense,
+    /// <summary>
+    /// Compact mode with minimal spacing.
+    /// </summary>
+    Compact
+}
+

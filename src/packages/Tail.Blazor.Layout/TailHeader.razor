@@ -3,9 +3,9 @@
 @using Tail.Blazor.Core.Theme
 @inject ThemeService ThemeService
 
-<header class="@GetHeaderClasses()" style="@GetHeaderStyle()">
+    <header class="@GetHeaderClasses()" style="@GetHeaderStyle()">
     <div class="@GetContainerClasses()">
-        <div class="flex items-center justify-between h-16">
+        <div class="@GetHeaderContentClasses()">
             <!-- Left: Logo and Menu Toggle -->
             <div class="flex items-center gap-4">
                 @if (ShowMenuToggle)
@@ -16,7 +16,7 @@
                         style="@GetMenuToggleStyle()"
                         @onclick="ToggleMenu"
                         aria-label="Toggle menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="@GetIconSizeClasses()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             @if (IsMenuOpen)
                             {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -38,7 +38,7 @@
                 else if (!string.IsNullOrEmpty(AppName))
                 {
                     <div class="flex items-center">
-                        <h1 class="text-xl font-bold" style="color: var(--color-text-primary)">@AppName</h1>
+                        <h1 class="@GetAppNameClasses()" style="color: var(--color-text-primary)">@AppName</h1>
                     </div>
                 }
             </div>
@@ -68,13 +68,13 @@
                         aria-label="Toggle theme">
                         @if (ThemeService.CurrentSettings.Mode == "Dark")
                         {
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="@GetIconSizeClasses()" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" />
                             </svg>
                         }
                         else
                         {
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="@GetIconSizeClasses()" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                             </svg>
                         }
@@ -141,6 +141,8 @@
     [Parameter] public bool Sticky { get; set; } = true;
     [Parameter] public bool Transparent { get; set; } = false;
     [Parameter] public bool Shadow { get; set; } = true;
+    [Parameter] public bool Clipped { get; set; } = false;
+    [Parameter] public DensityMode Density { get; set; } = DensityMode.Normal;
     
     [Parameter] public string? UserName { get; set; }
     [Parameter] public string? UserEmail { get; set; }
@@ -193,7 +195,17 @@
 
     private string GetHeaderClasses()
     {
-        var classes = new List<string> { "w-full z-50 transition-all" };
+        var classes = new List<string> { "w-full transition-all" };
+        
+        // Z-index based on clipped mode
+        if (Clipped)
+        {
+            classes.Add("z-50 relative");
+        }
+        else
+        {
+            classes.Add("z-50");
+        }
         
         if (Sticky)
         {
@@ -234,7 +246,44 @@
 
     private string GetContainerClasses()
     {
-        return "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8";
+        var classes = new List<string> { "max-w-7xl mx-auto" };
+        
+        // Density-based padding
+        if (Density == DensityMode.Compact)
+        {
+            classes.Add("px-2 sm:px-3");
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            classes.Add("px-3 sm:px-4");
+        }
+        else
+        {
+            classes.Add("px-4 sm:px-6 lg:px-8");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetHeaderContentClasses()
+    {
+        var classes = new List<string> { "flex items-center justify-between" };
+        
+        // Density-based height
+        if (Density == DensityMode.Compact)
+        {
+            classes.Add("h-12");
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            classes.Add("h-14");
+        }
+        else
+        {
+            classes.Add("h-16");
+        }
+        
+        return string.Join(" ", classes);
     }
 
     private string GetMenuToggleClasses()
@@ -254,9 +303,37 @@
         ";
     }
 
+    private string GetAppNameClasses()
+    {
+        if (Density == DensityMode.Compact)
+        {
+            return "text-lg font-bold";
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            return "text-lg font-bold";
+        }
+        return "text-xl font-bold";
+    }
+
     private string GetIconButtonClasses()
     {
-        return "inline-flex items-center justify-center w-10 h-10 rounded-full transition-all focus:outline-none";
+        var classes = new List<string> { "inline-flex items-center justify-center rounded-full transition-all focus:outline-none" };
+        
+        if (Density == DensityMode.Compact)
+        {
+            classes.Add("w-8 h-8");
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            classes.Add("w-9 h-9");
+        }
+        else
+        {
+            classes.Add("w-10 h-10");
+        }
+        
+        return string.Join(" ", classes);
     }
 
     private string GetIconButtonStyle()
@@ -270,9 +347,37 @@
         ";
     }
 
+    private string GetIconSizeClasses()
+    {
+        if (Density == DensityMode.Compact)
+        {
+            return "w-4 h-4";
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            return "w-5 h-5";
+        }
+        return "w-5 h-5";
+    }
+
     private string GetAvatarButtonClasses()
     {
-        return "w-10 h-10 rounded-full flex items-center justify-center overflow-hidden cursor-pointer transition-all focus:outline-none";
+        var classes = new List<string> { "rounded-full flex items-center justify-center overflow-hidden cursor-pointer transition-all focus:outline-none" };
+        
+        if (Density == DensityMode.Compact)
+        {
+            classes.Add("w-8 h-8");
+        }
+        else if (Density == DensityMode.Dense)
+        {
+            classes.Add("w-9 h-9");
+        }
+        else
+        {
+            classes.Add("w-10 h-10");
+        }
+        
+        return string.Join(" ", classes);
     }
 
     private string GetAvatarButtonStyle()

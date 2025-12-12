@@ -1,11 +1,35 @@
 @inherits LayoutComponentBase
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Core.Theme
 
 <ThemeProvider>
-    <div class="docs-layout">
-        <NavMenu />
-        <main class="docs-main">
-            @Body
-        </main>
-    </div>
+    <TailResponsiveLayout 
+        AppName="Tail.Blazor"
+        ShowMenuToggle="true"
+        ShowThemeToggle="true"
+        ShowAvatar="false"
+        StickyHeader="true"
+        HeaderShadow="true"
+        ShowSidebar="true"
+        MenuOpenByDefault="true"
+        MenuOpenOnMobileByDefault="false"
+        LayoutMode="LayoutMode.DrawerLeft"
+        Density="DensityMode.Normal"
+        MobileMenuTitle="Tail.Blazor Documentation">
+        <LogoTemplate>
+            <div class="flex items-center gap-2">
+                <h1 class="text-xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
+                <span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-primary); color: white;">v1.0.0</span>
+            </div>
+        </LogoTemplate>
+        <SidebarContent>
+            <DocsNavMenu />
+        </SidebarContent>
+        <ChildContent>
+            <div class="p-6">
+                @Body
+            </div>
+        </ChildContent>
+    </TailResponsiveLayout>
 </ThemeProvider>
 

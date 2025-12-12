@@ -1,0 +1,136 @@
+@page "/layout-modes"
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Feedback
+
+<PageTitle>Layout Modes - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4" style="color: var(--color-text-primary);">Layout Modes</h1>
+        <p class="text-lg" style="color: var(--color-text-secondary);">
+            Different layout configurations for responsive applications.
+        </p>
+    </div>
+
+    <!-- Layout Mode Selection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">Select Layout Mode</h2>
+        <div class="flex flex-wrap gap-4">
+            <TailButton Variant="ButtonVariant.Primary" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentLayoutMode = LayoutMode.DrawerLeft)"
+                       CssClass="@(currentLayoutMode == LayoutMode.DrawerLeft ? "ring-2 ring-primary" : "")">
+                Drawer Left
+            </TailButton>
+            <TailButton Variant="ButtonVariant.Primary" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentLayoutMode = LayoutMode.ClippedDrawer)"
+                       CssClass="@(currentLayoutMode == LayoutMode.ClippedDrawer ? "ring-2 ring-primary" : "")">
+                Clipped Drawer
+            </TailButton>
+            <TailButton Variant="ButtonVariant.Primary" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentLayoutMode = LayoutMode.AppbarOnly)"
+                       CssClass="@(currentLayoutMode == LayoutMode.AppbarOnly ? "ring-2 ring-primary" : "")">
+                Appbar Only
+            </TailButton>
+        </div>
+    </div>
+
+    <!-- Density Selection -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">Select Density</h2>
+        <div class="flex flex-wrap gap-4">
+            <TailButton Variant="ButtonVariant.Outline" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentDensity = DensityMode.Normal)"
+                       CssClass="@(currentDensity == DensityMode.Normal ? "ring-2 ring-primary" : "")">
+                Normal
+            </TailButton>
+            <TailButton Variant="ButtonVariant.Outline" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentDensity = DensityMode.Dense)"
+                       CssClass="@(currentDensity == DensityMode.Dense ? "ring-2 ring-primary" : "")">
+                Dense
+            </TailButton>
+            <TailButton Variant="ButtonVariant.Outline" 
+                       Size="ButtonSize.Md"
+                       OnClick="@(() => currentDensity = DensityMode.Compact)"
+                       CssClass="@(currentDensity == DensityMode.Compact ? "ring-2 ring-primary" : "")">
+                Compact
+            </TailButton>
+        </div>
+    </div>
+
+    <!-- Layout Description -->
+    <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+        <h3 class="text-xl font-semibold mb-2" style="color: var(--color-text-primary);">
+            @GetLayoutModeTitle()
+        </h3>
+        <p class="text-sm" style="color: var(--color-text-secondary);">
+            @GetLayoutModeDescription()
+        </p>
+    </div>
+
+    <!-- Current Settings Display -->
+    <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+        <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary);">Current Settings</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <span class="text-sm font-medium" style="color: var(--color-text-secondary);">Layout Mode:</span>
+                <span class="ml-2 text-sm" style="color: var(--color-text-primary);">@currentLayoutMode</span>
+            </div>
+            <div>
+                <span class="text-sm font-medium" style="color: var(--color-text-secondary);">Density:</span>
+                <span class="ml-2 text-sm" style="color: var(--color-text-primary);">@currentDensity</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Example -->
+    <div class="mb-8">
+        <h3 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary);">Usage Example</h3>
+        <pre class="p-4 rounded-lg overflow-x-auto" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);"><code>&lt;TailResponsiveLayout 
+    LayoutMode="@currentLayoutMode"
+    Density="@currentDensity"
+    AppName="My App"
+    ShowMenuToggle="true"
+    ShowThemeToggle="true"&gt;
+    &lt;SidebarContent&gt;
+        &lt;!-- Your navigation menu --&gt;
+    &lt;/SidebarContent&gt;
+    &lt;ChildContent&gt;
+        &lt;!-- Your page content --&gt;
+    &lt;/ChildContent&gt;
+&lt;/TailResponsiveLayout&gt;</code></pre>
+    </div>
+</div>
+
+@code {
+    private LayoutMode currentLayoutMode = LayoutMode.DrawerLeft;
+    private DensityMode currentDensity = DensityMode.Normal;
+
+    private string GetLayoutModeTitle()
+    {
+        return currentLayoutMode switch
+        {
+            LayoutMode.DrawerLeft => "Drawer Left + Top Appbar",
+            LayoutMode.ClippedDrawer => "Top Appbar with Clipped Drawer",
+            LayoutMode.AppbarOnly => "Appbar Only",
+            _ => "Unknown"
+        };
+    }
+
+    private string GetLayoutModeDescription()
+    {
+        return currentLayoutMode switch
+        {
+            LayoutMode.DrawerLeft => "Traditional layout with drawer positioned below the appbar. The drawer pushes content when opened.",
+            LayoutMode.ClippedDrawer => "Modern layout where the appbar overlaps the drawer. The drawer appears below the appbar and content adjusts accordingly.",
+            LayoutMode.AppbarOnly => "Minimal layout with only the appbar. No sidebar/drawer is displayed.",
+            _ => ""
+        };
+    }
+}
+

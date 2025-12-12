@@ -1,0 +1,125 @@
+@using Tail.Blazor.Navigation
+@using Tail.Blazor.Core.Theme
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<div class="docs-nav-sidebar">
+    <div class="docs-nav-header">
+        <div>
+            <h1 class="docs-nav-title">Tail.Blazor</h1>
+            <p class="docs-nav-version">v1.0.0</p>
+        </div>
+        <TailThemeToggle />
+    </div>
+
+    <nav class="docs-nav-content">
+        <NavLink href="/" Match="NavLinkMatch.All" class="docs-nav-link">
+            <span class="docs-nav-icon">🏠</span>
+            <span>Home</span>
+        </NavLink>
+        
+        <!-- Documentation Section -->
+        <div class="docs-nav-section">📚 Documentation</div>
+        <NavLink href="/docs" class="docs-nav-link docs-nav-link-nested">
+            <span>Overview</span>
+        </NavLink>
+        <NavLink href="/docs/installation" class="docs-nav-link docs-nav-link-nested">
+            <span>Installation</span>
+        </NavLink>
+        <NavLink href="/getting-started" class="docs-nav-link docs-nav-link-nested">
+            <span>Quick Start</span>
+        </NavLink>
+        
+        <!-- Components Section -->
+        <NavLink href="/components" class="docs-nav-link">
+            <span class="docs-nav-icon">🧩</span>
+            <span>Components</span>
+        </NavLink>
+        <NavLink href="/components/summary" class="docs-nav-link docs-nav-link-nested">
+            <span>📋 Components Summary</span>
+        </NavLink>
+        
+        <div class="docs-nav-subsection">Component Categories</div>
+        <NavLink href="/components/buttons" class="docs-nav-link docs-nav-link-nested">
+            <span>Buttons</span>
+        </NavLink>
+        <NavLink href="/components/forms" class="docs-nav-link docs-nav-link-nested">
+            <span>Forms</span>
+        </NavLink>
+        <NavLink href="/components/layout" class="docs-nav-link docs-nav-link-nested">
+            <span>Layout</span>
+        </NavLink>
+        <NavLink href="/components/navigation" class="docs-nav-link docs-nav-link-nested">
+            <span>Navigation</span>
+        </NavLink>
+        <NavLink href="/components/feedback" class="docs-nav-link docs-nav-link-nested">
+            <span>Feedback</span>
+        </NavLink>
+        <NavLink href="/components/data" class="docs-nav-link docs-nav-link-nested">
+            <span>Data</span>
+        </NavLink>
+        
+        <!-- Theming Section -->
+        <div class="docs-nav-section">🎨 Theming</div>
+        <NavLink href="/theming" class="docs-nav-link docs-nav-link-nested">
+            <span>Overview</span>
+        </NavLink>
+        <NavLink href="/theme-toggle-demo" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Toggle</span>
+        </NavLink>
+        <NavLink href="/theme-selector-demo" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Selector</span>
+        </NavLink>
+        <NavLink href="/docs/theme-integration" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Integration</span>
+        </NavLink>
+        
+        <!-- Resources -->
+        <NavLink href="/examples" class="docs-nav-link">
+            <span class="docs-nav-icon">💡</span>
+            <span>Examples</span>
+        </NavLink>
+        <NavLink href="/best-practices" class="docs-nav-link">
+            <span class="docs-nav-icon">✨</span>
+            <span>Best Practices</span>
+        </NavLink>
+        <NavLink href="/faq" class="docs-nav-link">
+            <span class="docs-nav-icon">❓</span>
+            <span>FAQ</span>
+        </NavLink>
+        <NavLink href="/api" class="docs-nav-link">
+            <span class="docs-nav-icon">📚</span>
+            <span>API Reference</span>
+        </NavLink>
+        <NavLink href="/scope" class="docs-nav-link">
+            <span class="docs-nav-icon">📊</span>
+            <span>Scope & Status</span>
+        </NavLink>
+        <NavLink href="/layout-modes" class="docs-nav-link">
+            <span class="docs-nav-icon">📐</span>
+            <span>Layout Modes</span>
+        </NavLink>
+    </nav>
+</div>
+
+@code {
+    private string? _currentPath;
+
+    protected override void OnInitialized()
+    {
+        _currentPath = Navigation.Uri;
+        Navigation.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        _currentPath = e.Location;
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+}
+

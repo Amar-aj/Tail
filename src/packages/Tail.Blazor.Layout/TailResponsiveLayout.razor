@@ -9,7 +9,7 @@
         CenterContent="@HeaderCenterContent"
         ActionsTemplate="@HeaderActionsTemplate"
         UserMenuItems="@UserMenuItems"
-        ShowMenuToggle="@ShowMenuToggle"
+        ShowMenuToggle="@(ShowSidebar && LayoutMode != LayoutMode.AppbarOnly ? ShowMenuToggle : false)"
         ShowThemeToggle="@ShowThemeToggle"
         ShowAvatar="@ShowAvatar"
         Sticky="@StickyHeader"
@@ -19,17 +19,25 @@
         UserEmail="@UserEmail"
         AvatarUrl="@AvatarUrl"
         OnMenuToggle="HandleMenuToggle"
-        IsMenuOpen="@isMenuOpen" />
+        IsMenuOpen="@isMenuOpen"
+        Density="@Density"
+        Clipped="@(LayoutMode == LayoutMode.ClippedDrawer)" />
     
-    <div class="flex flex-1 overflow-hidden">
+    <div class="@GetContentContainerClasses()" style="@GetContentContainerStyle()">
         <!-- Sidebar/Menu -->
-        @if (ShowSidebar)
+        @if (ShowSidebar && LayoutMode != LayoutMode.AppbarOnly)
         {
             <TailCollapsibleMenu 
                 IsOpen="@isMenuOpen"
                 IsOpenChanged="HandleMenuOpenChanged"
                 MobileMenuTitle="@MobileMenuTitle"
-                Position="@MenuPosition">
+                Position="@MenuPosition"
+                Collapsible="@CollapsibleMenu"
+                ShowOnMobile="true"
+                ShowOnTablet="true"
+                ShowOnDesktop="true"
+                Clipped="@(LayoutMode == LayoutMode.ClippedDrawer)"
+                Density="@Density">
                 @SidebarContent
             </TailCollapsibleMenu>
         }
@@ -64,8 +72,20 @@
     [Parameter] public bool HeaderShadow { get; set; } = true;
     
     [Parameter] public TailCollapsibleMenu.MenuPosition MenuPosition { get; set; } = TailCollapsibleMenu.MenuPosition.Left;
+    [Parameter] public bool CollapsibleMenu { get; set; } = true;
+    [Parameter] public bool MenuOpenByDefault { get; set; } = true;
+    [Parameter] public bool MenuOpenOnMobileByDefault { get; set; } = false;
+    [Parameter] public LayoutMode LayoutMode { get; set; } = LayoutMode.DrawerLeft;
+    [Parameter] public DensityMode Density { get; set; } = DensityMode.Normal;
     
     private bool isMenuOpen;
+
+    protected override void OnInitialized()
+    {
+        // On mobile, menu is closed by default unless explicitly set
+        // On desktop, use MenuOpenByDefault
+        isMenuOpen = MenuOpenByDefault;
+    }
 
     private Task HandleMenuToggle(bool isOpen)
     {
@@ -98,16 +118,69 @@
         return "background-color: var(--color-background);";
     }
 
+    private string GetContentContainerClasses()
+    {
+        var classes = new List<string> { "flex flex-1 overflow-hidden" };
+        
+        // For clipped drawer mode, content starts below header
+        if (LayoutMode == LayoutMode.ClippedDrawer)
+        {
+            classes.Add("relative");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentContainerStyle()
+    {
+        return string.Empty;
+    }
+
     private string GetMainClasses()
     {
-        return "flex-1 overflow-auto";
+        var classes = new List<string> { "flex-1 overflow-auto transition-all duration-300" };
+        
+        // Handle different layout modes
+        if (ShowSidebar && LayoutMode != LayoutMode.AppbarOnly)
+        {
+            if (LayoutMode == LayoutMode.ClippedDrawer)
+            {
+                // Clipped drawer: content always has margin, drawer is under header
+                var drawerWidth = Density == DensityMode.Compact ? "lg:ml-56" : Density == DensityMode.Dense ? "lg:ml-60" : "lg:ml-64";
+                if (isMenuOpen && CollapsibleMenu)
+                {
+                    classes.Add($"md:ml-0 {drawerWidth}");
+                }
+                else if (!CollapsibleMenu)
+                {
+                    classes.Add($"md:ml-0 {drawerWidth}");
+                }
+            }
+            else // DrawerLeft mode
+            {
+                // Drawer left: content has margin when sidebar is open
+                var drawerWidth = Density == DensityMode.Compact ? "lg:ml-56" : Density == DensityMode.Dense ? "lg:ml-60" : "lg:ml-64";
+                if (isMenuOpen && CollapsibleMenu)
+                {
+                    classes.Add($"md:ml-0 {drawerWidth}");
+                }
+                else if (!CollapsibleMenu)
+                {
+                    classes.Add($"md:ml-0 {drawerWidth}");
+                }
+            }
+        }
+        
+        // Density padding is handled in main content div, not here
+        
+        return string.Join(" ", classes);
     }
 
     private string GetMainStyle()
     {
         return @"
             background-color: var(--color-background);
-            transition: background-color var(--transition-normal);
+            transition: background-color var(--transition-normal), margin-left var(--transition-normal);
         ";
     }
 }
