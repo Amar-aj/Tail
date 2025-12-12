@@ -1,104 +1,20 @@
 @inherits Tail.Blazor.Core.TailComponentBase
 @namespace Tail.Blazor.Validators
 
-@if (Visible && ShowError)
+@if (ShowError)
 {
-    @if (Appearance == ValidationAppearance.Inline)
-    {
-        <span class="@GetInlineClasses()" style="@GetInlineStyle()">@ErrorMessage</span>
-    }
-    else if (Appearance == ValidationAppearance.Block)
-    {
-        <div class="@GetBlockClasses()" style="@GetBlockStyle()">@ErrorMessage</div>
-    }
-    else if (Appearance == ValidationAppearance.Popup)
-    {
-        <div class="@GetPopupClasses()" style="@GetPopupStyle()">
-            <div class="flex items-center">
-                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                </svg>
-                <span>@ErrorMessage</span>
-            </div>
-        </div>
-    }
+    <span class="text-sm text-red-600 dark:text-red-400">@ErrorMessage</span>
 }
 
 @code {
     [Parameter] public string? Value { get; set; }
     [Parameter] public string? ErrorMessage { get; set; }
-    [Parameter] public bool Visible { get; set; } = true;
-    [Parameter] public ValidationAppearance Appearance { get; set; } = ValidationAppearance.Inline;
-    [Parameter] public string? Style { get; set; }
-    [Parameter] public string? Popup { get; set; }
 
     private static readonly System.Text.RegularExpressions.Regex EmailRegex = 
         new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", System.Text.RegularExpressions.RegexOptions.Compiled);
 
     private bool ShowError => !string.IsNullOrEmpty(Value) && !IsValid;
     private bool IsValid => string.IsNullOrEmpty(Value) || EmailRegex.IsMatch(Value);
-
-    private string GetInlineClasses() => "text-sm";
-    
-    private string GetInlineStyle()
-    {
-        var style = new List<string>
-        {
-            "color: var(--color-danger)",
-            "display: inline"
-        };
-        
-        if (!string.IsNullOrEmpty(Style))
-        {
-            style.Add(Style);
-        }
-        
-        return string.Join("; ", style);
-    }
-    
-    private string GetBlockClasses() => "text-sm mt-1 p-2 rounded";
-    
-    private string GetBlockStyle()
-    {
-        var style = new List<string>
-        {
-            "color: var(--color-danger)",
-            "background-color: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface))",
-            "border: 1px solid var(--color-danger)",
-            "display: block"
-        };
-        
-        if (!string.IsNullOrEmpty(Style))
-        {
-            style.Add(Style);
-        }
-        
-        return string.Join("; ", style);
-    }
-    
-    private string GetPopupClasses() => "absolute z-[10000] mt-1 p-3 rounded-lg shadow-lg min-w-[200px]";
-    
-    private string GetPopupStyle()
-    {
-        var style = new List<string>
-        {
-            "color: white",
-            "background-color: var(--color-danger)",
-            "box-shadow: var(--shadow-lg)",
-            "display: block"
-        };
-        
-        if (!string.IsNullOrEmpty(Popup))
-        {
-            style.Add(Popup);
-        }
-        else if (!string.IsNullOrEmpty(Style))
-        {
-            style.Add(Style);
-        }
-        
-        return string.Join("; ", style);
-    }
 
     protected override void OnParametersSet()
     {
@@ -108,3 +24,4 @@
         }
     }
 }
+

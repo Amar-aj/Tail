@@ -17,7 +17,7 @@
             <div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">? Features</h3>
                 <ul class="space-y-2 text-gray-600 dark:text-gray-400">
-                    <li>? 5 variants (Primary, Success, Warning, Danger, Emoji)</li>
+                    <li>? 4 variants (Primary, Success, Warning, Danger)</li>
                     <li>? 3 sizes (Sm, Md, Lg)</li>
                     <li>? Loading state support</li>
                     <li>? Custom icons for checked/unchecked</li>
@@ -76,8 +76,8 @@
                         <span class="text-sm text-gray-500">Red for dangerous actions</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Emoji" Variant="SwitchVariant.Emoji" @bind-IsChecked="emojiVariant" />
-                        <span class="text-sm text-gray-500">Professional gradient style with emoji support</span>
+                        <TailSwitch Label="Emoji" Variant="SwitchVariant.Primary" @bind-IsChecked="emojiVariant" />
+                        <span class="text-sm text-gray-500">Primary variant with emoji labels</span>
                     </div>
                 </div>
             </PreviewContent>
@@ -145,7 +145,7 @@
                         OnLabel="✅"
                         OffLabel="❌"
                         Size="SwitchSize.Lg"
-                        Variant="SwitchVariant.Emoji"
+                        Variant="SwitchVariant.Primary"
                         @bind-IsChecked="labelsEmojiPro" />
                     
                     <TailSwitch 
@@ -154,7 +154,7 @@
                         OnLabel="🌙"
                         OffLabel="☀️"
                         Size="SwitchSize.Lg"
-                        Variant="SwitchVariant.Emoji"
+                        Variant="SwitchVariant.Primary"
                         @bind-IsChecked="labelsEmojiTheme" />
                 </div>
             </PreviewContent>
@@ -528,7 +528,7 @@
 <TailSwitch Label=""Success"" Variant=""SwitchVariant.Success"" @bind-IsChecked=""successVariant"" />
 <TailSwitch Label=""Warning"" Variant=""SwitchVariant.Warning"" @bind-IsChecked=""warningVariant"" />
 <TailSwitch Label=""Danger"" Variant=""SwitchVariant.Danger"" @bind-IsChecked=""dangerVariant"" />
-<TailSwitch Label=""Emoji"" Variant=""SwitchVariant.Emoji"" @bind-IsChecked=""emojiVariant"" />";
+<TailSwitch Label=""Emoji"" Variant=""SwitchVariant.Primary"" @bind-IsChecked=""emojiVariant"" />";
 
     private string sizesCode = @"<TailSwitch Label=""Small"" Size=""SwitchSize.Sm"" @bind-IsChecked=""smSize"" />
 <TailSwitch Label=""Medium"" Size=""SwitchSize.Md"" @bind-IsChecked=""mdSize"" />

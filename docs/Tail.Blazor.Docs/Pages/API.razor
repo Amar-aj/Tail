@@ -248,7 +248,7 @@
         </table>
 
         <h3>TailFileUpload</h3>
-        <p>File upload component with drag & drop, preview, rename, and remove functionality.</p>
+        <p>File upload component with drag & drop support.</p>
         <table class="w-full border-collapse border border-gray-300 dark:border-gray-700">
             <thead>
                 <tr class="bg-gray-100 dark:bg-gray-800">
@@ -259,29 +259,14 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">FileItems</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;FileUploadItem&gt;</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">File items with custom names and previews (recommended)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">FileItemsChanged</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">EventCallback&lt;List&lt;FileUploadItem&gt;&gt;</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Callback when file items change</td>
-                </tr>
-                <tr>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">UploadedFiles</td>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">List&lt;IBrowserFile&gt;</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Uploaded files (backward compatible)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">UploadedFilesChanged</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">EventCallback&lt;List&lt;IBrowserFile&gt;&gt;</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Callback when uploaded files change</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Uploaded files</td>
                 </tr>
                 <tr>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">Multiple</td>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Allow multiple file selection (default: false)</td>
+                    <td class="border border-gray-300 dark:border-gray-700 p-2">Allow multiple file selection</td>
                 </tr>
                 <tr>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">Accept</td>
@@ -292,41 +277,6 @@
                     <td class="border border-gray-300 dark:border-gray-700 p-2">MaxFileSize</td>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">long</td>
                     <td class="border border-gray-300 dark:border-gray-700 p-2">Maximum file size in bytes (default: 10MB)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">ShowPreview</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show file previews for images (default: true)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">AllowRename</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Allow renaming files (default: true)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">ShowRemoveButton</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Show remove button for each file (default: true)</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Label</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Label text for the upload area</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">HelperText</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Helper text displayed below the upload area</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">ErrorText</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">string?</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Error message to display</td>
-                </tr>
-                <tr>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disabled</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">bool</td>
-                    <td class="border border-gray-300 dark:border-gray-700 p-2">Disable the file upload component</td>
                 </tr>
             </tbody>
         </table>

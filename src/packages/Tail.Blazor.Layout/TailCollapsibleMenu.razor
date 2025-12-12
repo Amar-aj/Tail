@@ -1,0 +1,171 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+
+<div class="@GetMenuClasses()" style="@GetMenuStyle()">
+    <!-- Desktop/Tablet Menu -->
+    <div class="@GetDesktopMenuClasses()">
+        @ChildContent
+    </div>
+    
+    <!-- Mobile Menu (Collapsible) -->
+    @if (ShowMobileMenu)
+    {
+        <div class="@GetMobileMenuClasses()" style="@GetMobileMenuStyle()">
+            <div class="@GetMobileMenuContainerClasses()" style="@GetMobileMenuContainerStyle()">
+                <div class="flex items-center justify-between p-4" style="border-bottom: 1px solid var(--color-divider)">
+                    <h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">
+                        @(MobileMenuTitle ?? "Menu")
+                    </h3>
+                    <button 
+                        type="button"
+                        class="@GetCloseButtonClasses()"
+                        style="@GetCloseButtonStyle()"
+                        @onclick="CloseMobileMenu"
+                        aria-label="Close menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-4">
+                    @ChildContent
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] public string? MobileMenuTitle { get; set; }
+    [Parameter] public bool ShowOnMobile { get; set; } = true;
+    [Parameter] public bool ShowOnTablet { get; set; } = true;
+    [Parameter] public bool ShowOnDesktop { get; set; } = true;
+    [Parameter] public MenuPosition Position { get; set; } = MenuPosition.Left;
+    
+    private bool ShowMobileMenu => IsOpen && ShowOnMobile;
+
+    private async Task CloseMobileMenu()
+    {
+        IsOpen = false;
+        if (IsOpenChanged.HasDelegate)
+        {
+            await IsOpenChanged.InvokeAsync(false);
+        }
+    }
+
+    private string GetMenuClasses()
+    {
+        var classes = new List<string>();
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetMenuStyle()
+    {
+        return string.Empty;
+    }
+
+    private string GetDesktopMenuClasses()
+    {
+        var classes = new List<string> { "hidden" };
+        
+        if (ShowOnDesktop)
+        {
+            classes.Add("lg:block");
+        }
+        if (ShowOnTablet)
+        {
+            classes.Add("md:block");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetMobileMenuClasses()
+    {
+        return "fixed inset-0 z-50 lg:hidden";
+    }
+
+    private string GetMobileMenuStyle()
+    {
+        return @"
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease-in-out;
+        ";
+    }
+
+    private string GetMobileMenuContainerClasses()
+    {
+        var classes = new List<string> { "relative h-full w-80 max-w-full" };
+        
+        if (Position == MenuPosition.Right)
+        {
+            classes.Add("ml-auto");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetMobileMenuContainerStyle()
+    {
+        var styles = new List<string>
+        {
+            "background-color: var(--color-surface)",
+            "box-shadow: var(--shadow-lg)",
+            "overflow-y: auto"
+        };
+        
+        var slideDirection = Position == MenuPosition.Right ? "translateX(100%)" : "translateX(-100%)";
+        styles.Add($"animation: slideIn{Position} 0.3s ease-in-out");
+        
+        return string.Join("; ", styles);
+    }
+
+    private string GetCloseButtonClasses()
+    {
+        return "inline-flex items-center justify-center w-10 h-10 rounded-full transition-all focus:outline-none";
+    }
+
+    private string GetCloseButtonStyle()
+    {
+        return @"
+            color: var(--color-text-secondary);
+            background-color: transparent;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+            &:hover { background-color: var(--color-surface-2); color: var(--color-text-primary); }
+            &:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, transparent); }
+        ";
+    }
+
+    public enum MenuPosition
+    {
+        Left,
+        Right
+    }
+}
+
+<style>
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @@keyframes slideInLeft {
+        from { transform: translateX(-100%); }
+        to { transform: translateX(0); }
+    }
+
+    @@keyframes slideInRight {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+</style>

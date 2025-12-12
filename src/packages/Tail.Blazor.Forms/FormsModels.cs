@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Components.Forms;
-
 namespace Tail.Blazor.Forms;
 
 /// <summary>
@@ -80,8 +78,7 @@ public enum SwitchVariant
     Primary,
     Success,
     Warning,
-    Danger,
-    Emoji
+    Danger
 }
 
 /// <summary>
@@ -156,78 +153,5 @@ public enum RadioVariant
     Success,
     Warning,
     Danger
-}
-
-/// <summary>
-/// Hour format for time picker (12-hour or 24-hour).
-/// </summary>
-public enum HourFormat
-{
-    Format12,
-    Format24
-}
-
-/// <summary>
-/// Date picker view mode.
-/// </summary>
-public enum DatePickerView
-{
-    Calendar,
-    Month,
-    Year
-}
-
-/// <summary>
-/// Date selection mode.
-/// </summary>
-public enum DateSelectionMode
-{
-    Single,
-    Multiple,
-    Range
-}
-
-/// <summary>
-/// File upload item with custom name support.
-/// </summary>
-public class FileUploadItem
-{
-    public IBrowserFile File { get; set; } = null!;
-    public string CustomName { get; set; } = string.Empty;
-    public string PreviewUrl { get; set; } = string.Empty;
-    public bool IsImage { get; set; }
-    public string FileType { get; set; } = string.Empty;
-    public bool EditingName { get; set; }
-    
-    public FileUploadItem(IBrowserFile file)
-    {
-        File = file;
-        CustomName = file.Name;
-        FileType = GetFileType(file.ContentType, file.Name);
-        IsImage = file.ContentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase);
-    }
-    
-    private string GetFileType(string contentType, string fileName)
-    {
-        if (contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
-            return "image";
-        if (contentType == "application/pdf")
-            return "pdf";
-        if (contentType.Contains("word", StringComparison.OrdinalIgnoreCase) || 
-            fileName.EndsWith(".doc", StringComparison.OrdinalIgnoreCase) ||
-            fileName.EndsWith(".docx", StringComparison.OrdinalIgnoreCase))
-            return "word";
-        if (contentType.Contains("excel", StringComparison.OrdinalIgnoreCase) ||
-            fileName.EndsWith(".xls", StringComparison.OrdinalIgnoreCase) ||
-            fileName.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
-            return "excel";
-        if (contentType.Contains("text", StringComparison.OrdinalIgnoreCase))
-            return "text";
-        if (contentType.Contains("video", StringComparison.OrdinalIgnoreCase))
-            return "video";
-        if (contentType.Contains("audio", StringComparison.OrdinalIgnoreCase))
-            return "audio";
-        return "file";
-    }
 }
 

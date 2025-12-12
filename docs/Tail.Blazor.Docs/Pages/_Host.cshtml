@@ -60,18 +60,38 @@
                 // Apply theme colors as CSS variables
                 if (colors) {
                     const root = document.documentElement;
+                    // Primary Colors
                     root.style.setProperty('--color-primary', colors.Primary || '#3b82f6');
                     root.style.setProperty('--color-secondary', colors.Secondary || '#8b5cf6');
                     root.style.setProperty('--color-accent', colors.Accent || '#ec4899');
+                    // State Colors
                     root.style.setProperty('--color-success', colors.Success || '#10b981');
                     root.style.setProperty('--color-warning', colors.Warning || '#f59e0b');
                     root.style.setProperty('--color-danger', colors.Danger || '#ef4444');
                     root.style.setProperty('--color-info', colors.Info || '#3b82f6');
+                    // Background & Surfaces
                     root.style.setProperty('--color-background', colors.Background || '#ffffff');
                     root.style.setProperty('--color-surface', colors.Surface || '#f9fafb');
+                    root.style.setProperty('--color-surface-2', colors.Surface2 || '#f3f4f6');
+                    root.style.setProperty('--color-surface-3', colors.Surface3 || '#e5e7eb');
+                    // Text Colors
                     root.style.setProperty('--color-text-primary', colors.TextPrimary || '#111827');
                     root.style.setProperty('--color-text-secondary', colors.TextSecondary || '#6b7280');
+                    root.style.setProperty('--color-text-muted', colors.TextMuted || '#9ca3af');
+                    // Borders & Dividers
                     root.style.setProperty('--color-border', colors.Border || '#e5e7eb');
+                    root.style.setProperty('--color-divider', colors.Divider || '#d1d5db');
+                    // Shadows
+                    root.style.setProperty('--shadow-sm', colors.ShadowSm || '0 1px 2px 0 rgba(0, 0, 0, 0.05)');
+                    root.style.setProperty('--shadow-md', colors.ShadowMd || '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)');
+                    root.style.setProperty('--shadow-lg', colors.ShadowLg || '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)');
+                    // Border Radius
+                    root.style.setProperty('--radius-sm', colors.RadiusSm || '0.25rem');
+                    root.style.setProperty('--radius-md', colors.RadiusMd || '0.5rem');
+                    root.style.setProperty('--radius-lg', colors.RadiusLg || '0.75rem');
+                    // Transitions
+                    root.style.setProperty('--transition-fast', colors.TransitionFast || '150ms');
+                    root.style.setProperty('--transition-normal', colors.TransitionNormal || '300ms');
                     
                     console.log('Theme applied:', settings.PresetName, settings.Mode);
                 }

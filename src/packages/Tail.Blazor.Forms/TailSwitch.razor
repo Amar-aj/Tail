@@ -7,44 +7,9 @@
         class="sr-only peer"
         checked="@IsChecked"
         @onchange="HandleChange"
-        disabled="@Disabled"
-        aria-checked="@IsChecked.ToString().ToLower()"
-        aria-label="@(Label ?? "Toggle switch")" />
+        disabled="@Disabled" />
     <div class="@GetSwitchClasses()">
-        @if (ShowLabels)
-        {
-            <span class="@GetInnerLabelClasses(false)">
-                @(OffLabel ?? "OFF")
-            </span>
-        }
-        <div class="@GetThumbClasses()">
-            @if (Loading)
-            {
-                <svg class="animate-spin h-3 w-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            }
-            else if (!string.IsNullOrEmpty(CheckedIcon) || !string.IsNullOrEmpty(UncheckedIcon))
-            {
-                <span class="@GetIconClasses()">
-                    @if (IsChecked && !string.IsNullOrEmpty(CheckedIcon))
-                    {
-                        @((MarkupString)CheckedIcon)
-                    }
-                    else if (!IsChecked && !string.IsNullOrEmpty(UncheckedIcon))
-                    {
-                        @((MarkupString)UncheckedIcon)
-                    }
-                </span>
-            }
-        </div>
-        @if (ShowLabels)
-        {
-            <span class="@GetInnerLabelClasses(true)">
-                @(OnLabel ?? "ON")
-            </span>
-        }
+        <div class="@GetThumbClasses()"></div>
     </div>
     @if (!string.IsNullOrEmpty(Label))
     {
@@ -52,7 +17,7 @@
             @Label
         </span>
     }
-    else if (ChildContent != null)
+    else
     {
         <span class="@GetTextClasses()">
             @ChildContent
@@ -61,32 +26,21 @@
 </label>
 
 @code {
-[Parameter] public RenderFragment? ChildContent { get; set; }
-[Parameter] public string? Label { get; set; }
-[Parameter] public bool IsChecked { get; set; }
-[Parameter] public EventCallback<bool> IsCheckedChanged { get; set; }
-[Parameter] public EventCallback<bool> OnToggle { get; set; }
-[Parameter] public bool Disabled { get; set; }
-[Parameter] public bool Loading { get; set; }
-[Parameter] public SwitchSize Size { get; set; } = SwitchSize.Md;
-[Parameter] public SwitchVariant Variant { get; set; } = SwitchVariant.Primary;
-[Parameter] public bool ShowLabels { get; set; } = false;
-[Parameter] public string? OnLabel { get; set; }
-[Parameter] public string? OffLabel { get; set; }
-[Parameter] public string? CheckedIcon { get; set; }
-[Parameter] public string? UncheckedIcon { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public bool IsChecked { get; set; }
+    [Parameter] public EventCallback<bool> IsCheckedChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public SwitchSize Size { get; set; } = SwitchSize.Md;
+    [Parameter] public SwitchVariant Variant { get; set; } = SwitchVariant.Primary;
 
     private string GetLabelClasses()
     {
-        var classes = new List<string> { "relative inline-flex items-center" };
+        var classes = new List<string> { "relative inline-flex items-center cursor-pointer" };
         
-        if (Disabled || Loading)
+        if (Disabled)
         {
             classes.Add("opacity-50 cursor-not-allowed");
-        }
-        else
-        {
-            classes.Add("cursor-pointer");
         }
         
         return string.Join(" ", classes);
@@ -96,60 +50,30 @@
     {
         var classes = new List<string> 
         { 
-            "relative inline-flex items-center shrink-0 rounded-full border-2 border-transparent",
-            "transition-all duration-300 ease-in-out",
-            "peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-offset-2 dark:peer-focus:ring-offset-gray-900",
+            "relative inline-flex shrink-0 cursor-pointer rounded-full border-2 border-transparent",
+            "transition-colors duration-200 ease-in-out",
+            "peer-checked:bg-blue-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2",
             "peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
         };
         
-        if (!Disabled && !Loading)
-        {
-            classes.Add("cursor-pointer");
-        }
-        
-        // Size classes - use justify-between only when showing labels
-        if (ShowLabels)
-        {
-            classes.Add("justify-between");
-        }
-        
-        // Size classes
         classes.Add(Size switch
         {
-            SwitchSize.Sm => ShowLabels ? "h-5 w-16 px-1" : "h-5 w-9",
-            SwitchSize.Md => ShowLabels ? "h-6 w-20 px-1" : "h-6 w-11",
-            SwitchSize.Lg => ShowLabels ? "h-7 w-24 px-1.5" : "h-7 w-14",
-            _ => ShowLabels ? "h-6 w-20 px-1" : "h-6 w-11"
+            SwitchSize.Sm => "h-4 w-7",
+            SwitchSize.Md => "h-6 w-11",
+            SwitchSize.Lg => "h-7 w-14",
+            _ => "h-6 w-11"
         });
         
-        // Background color based on checked state
-        if (IsChecked)
-        {
-            classes.Add(Variant switch
-            {
-                SwitchVariant.Primary => "bg-blue-600 dark:bg-blue-500",
-                SwitchVariant.Success => "bg-green-600 dark:bg-green-500",
-                SwitchVariant.Warning => "bg-yellow-500 dark:bg-yellow-400",
-                SwitchVariant.Danger => "bg-red-600 dark:bg-red-500",
-                SwitchVariant.Emoji => "bg-gradient-to-r from-purple-500 to-pink-500 dark:from-purple-600 dark:to-pink-600",
-                _ => "bg-blue-600 dark:bg-blue-500"
-            });
-        }
-        else
-        {
-            classes.Add("bg-gray-200 dark:bg-gray-700");
-        }
-        
-        // Focus rings
         classes.Add(Variant switch
         {
-            SwitchVariant.Primary => "peer-focus:ring-blue-300 dark:peer-focus:ring-blue-700",
-            SwitchVariant.Success => "peer-focus:ring-green-300 dark:peer-focus:ring-green-700",
-            SwitchVariant.Warning => "peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-700",
-            SwitchVariant.Danger => "peer-focus:ring-red-300 dark:peer-focus:ring-red-700",
-            SwitchVariant.Emoji => "peer-focus:ring-purple-300 dark:peer-focus:ring-purple-700",
-            _ => "peer-focus:ring-blue-300 dark:peer-focus:ring-blue-700"
+            SwitchVariant.Primary => "peer-checked:bg-blue-600 peer-focus:ring-blue-500",
+            SwitchVariant.Success => "peer-checked:bg-green-600 peer-focus:ring-green-500",
+            SwitchVariant.Warning => "peer-checked:bg-yellow-600 peer-focus:ring-yellow-500",
+            SwitchVariant.Danger => "peer-checked:bg-red-600 peer-focus:ring-red-500",
+            _ => "peer-checked:bg-blue-600"
         });
+        
+        classes.Add("bg-gray-200 dark:bg-gray-700");
         
         return string.Join(" ", classes);
     }
@@ -158,69 +82,32 @@
     {
         var classes = new List<string> 
         { 
-            "pointer-events-none inline-flex items-center justify-center rounded-full shadow-lg ring-0 transition-all duration-300 ease-in-out",
-            "bg-white dark:bg-gray-100"
+            "pointer-events-none inline-block rounded-full bg-white shadow transform ring-0 transition duration-200 ease-in-out",
+            "peer-checked:translate-x-5"
         };
         
-        // Size classes
         classes.Add(Size switch
         {
-            SwitchSize.Sm => "h-3.5 w-3.5",
-            SwitchSize.Md => "h-5 w-5",
-            SwitchSize.Lg => "h-5.5 w-5.5",
-            _ => "h-5 w-5"
+            SwitchSize.Sm => "h-3 w-3 translate-x-0",
+            SwitchSize.Md => "h-5 w-5 translate-x-0",
+            SwitchSize.Lg => "h-6 w-6 translate-x-0",
+            _ => "h-5 w-5 translate-x-0"
         });
         
-        if (ShowLabels)
+        classes.Add(Size switch
         {
-            // For switches with labels, use relative positioning with translate
-            classes.Add("relative");
-            if (IsChecked)
-            {
-                classes.Add(Size switch
-                {
-                    SwitchSize.Sm => "translate-x-[2.5rem]",
-                    SwitchSize.Md => "translate-x-[3.25rem]",
-                    SwitchSize.Lg => "translate-x-[4rem]",
-                    _ => "translate-x-[3.25rem]"
-                });
-            }
-            else
-            {
-                classes.Add("translate-x-0");
-            }
-        }
-        else
-        {
-            // For simple toggle: use absolute positioning with translate-x for smooth animation
-            // Position thumb at left (2px padding), then translate to right when checked
-            classes.Add("absolute top-1/2 -translate-y-1/2 left-0.5");
-            // Calculate translation distance: switch width - thumb width - left padding - right padding
-            // Small: 36px (w-9) - 14px (w-3.5) - 4px = 18px = 1.125rem
-            // Medium: 44px (w-11) - 20px (w-5) - 4px = 20px = 1.25rem = translate-x-5
-            // Large: 56px (w-14) - 22px (w-5.5) - 4px = 30px = 1.875rem
-            if (IsChecked)
-            {
-                classes.Add(Size switch
-                {
-                    SwitchSize.Sm => "translate-x-[1.125rem]",
-                    SwitchSize.Md => "translate-x-5",
-                    SwitchSize.Lg => "translate-x-[1.875rem]",
-                    _ => "translate-x-5"
-                });
-            }
-            else
-            {
-                classes.Add("translate-x-0");
-            }
-        }
+            SwitchSize.Sm => "peer-checked:translate-x-3",
+            SwitchSize.Md => "peer-checked:translate-x-5",
+            SwitchSize.Lg => "peer-checked:translate-x-7",
+            _ => "peer-checked:translate-x-5"
+        });
         
         return string.Join(" ", classes);
     }
 
     private string GetTextClasses()
     {
-        var classes = new List<string> { "ml-3 font-medium text-gray-700 dark:text-gray-300" };
+        var classes = new List<string> { "ml-3 text-sm text-gray-700 dark:text-gray-300" };
         
         classes.Add(Size switch
         {
@@ -232,74 +119,15 @@
         
         return string.Join(" ", classes);
     }
-    
-    private string GetInnerLabelClasses(bool isOn)
-    {
-        var classes = new List<string> 
-        { 
-            "text-white font-medium select-none transition-opacity duration-300",
-            isOn ? (IsChecked ? "opacity-100" : "opacity-0") : (!IsChecked ? "opacity-100" : "opacity-0")
-        };
-        
-        // Emoji variant gets larger text for better visibility
-        if (Variant == SwitchVariant.Emoji)
-        {
-            classes.Add(Size switch
-            {
-                SwitchSize.Sm => "text-xs",
-                SwitchSize.Md => "text-sm",
-                SwitchSize.Lg => "text-base",
-                _ => "text-sm"
-            });
-        }
-        else
-        {
-            classes.Add(Size switch
-            {
-                SwitchSize.Sm => "text-[9px]",
-                SwitchSize.Md => "text-[10px]",
-                SwitchSize.Lg => "text-xs",
-                _ => "text-[10px]"
-            });
-        }
-        
-        return string.Join(" ", classes);
-    }
-    
-    private string GetIconClasses()
-    {
-        var classes = new List<string> { "flex items-center justify-center" };
-        
-        classes.Add(Size switch
-        {
-            SwitchSize.Sm => "text-[10px]",
-            SwitchSize.Md => "text-xs",
-            SwitchSize.Lg => "text-sm",
-            _ => "text-xs"
-        });
-        
-        return string.Join(" ", classes);
-    }
 
     private async Task HandleChange(ChangeEventArgs e)
     {
-        if (Disabled || Loading)
-            return;
-            
-        var checkbox = (e.Value as bool?) ?? false;
-        if (IsChecked != checkbox)
+        if (bool.TryParse(e.Value?.ToString(), out var newValue))
         {
-            IsChecked = checkbox;
-            StateHasChanged(); // Force re-render to update thumb position and background
-            
+            IsChecked = newValue;
             if (IsCheckedChanged.HasDelegate)
             {
                 await IsCheckedChanged.InvokeAsync(IsChecked);
-            }
-            
-            if (OnToggle.HasDelegate)
-            {
-                await OnToggle.InvokeAsync(IsChecked);
             }
         }
     }

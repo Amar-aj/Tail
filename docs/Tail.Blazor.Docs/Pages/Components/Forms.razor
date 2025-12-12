@@ -106,17 +106,11 @@
     <!-- TailSwitch -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Switch Toggle</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Modern toggle switches with multiple variants, sizes, loading states, and more.
-            <a href="/components/switch" class="text-blue-600 dark:text-blue-400 hover:underline ml-2">View full documentation ?</a>
-        </p>
-        
         <CodePreview Title="Switch" Code="@switchCode">
             <PreviewContent>
                 <div class="space-y-4">
-                    <TailSwitch Label="Enable notifications" @bind-IsChecked="notifications" Variant="SwitchVariant.Primary" />
-                    <TailSwitch Label="Dark mode" @bind-IsChecked="darkMode" Variant="SwitchVariant.Success" />
-                    <TailSwitch Label="With inner labels" ShowLabels="true" @bind-IsChecked="labelsSwitch" Size="SwitchSize.Lg" Variant="SwitchVariant.Success" />
+                    <TailSwitch Label="Enable notifications" Value="@notifications" ValueChanged="v => notifications = v" />
+                    <TailSwitch Label="Dark mode" Value="@darkMode" ValueChanged="v => darkMode = v" />
                     <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md text-sm">
                         Notifications: @(notifications ? "Enabled" : "Disabled") | Dark Mode: @(darkMode ? "On" : "Off")
                     </div>
@@ -154,11 +148,7 @@
     <!-- TailDatePicker -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Date Picker</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Comprehensive date picker with multiple selection modes, disabled dates, custom parsing, and more. 
-            <a href="/components/datepicker" style="color: var(--color-primary);" class="hover:underline">View full documentation →</a>
-        </p>
-        <CodePreview Title="Basic Date Picker" Code="@datePickerCode">
+        <CodePreview Title="Date Picker" Code="@datePickerCode">
             <PreviewContent>
                 <div class="max-w-md">
                     <TailDatePicker 
@@ -177,33 +167,16 @@
 
     <!-- TailFileUpload -->
     <section class="mb-12">
-        <h2 class="text-3xl font-bold mb-4" style="color: var(--color-text-primary)">File Upload</h2>
-        <p class="mb-4 text-gray-600 dark:text-gray-400">File upload component with preview, rename, and remove functionality.</p>
-        
-        <CodePreview Title="File Upload with Preview & Custom Names" Code="@fileUploadCode">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">File Upload</h2>
+        <CodePreview Title="File Upload with Drag & Drop" Code="@fileUploadCode">
             <PreviewContent>
                 <TailFileUpload 
                     Label="Upload Files" 
-                    FileItems="@FileItems"
-                    FileItemsChanged="OnFileItemsChanged"
-                    Multiple="true"
-                    Accept="image/*,.pdf,.doc,.docx"
-                    AllowRename="true"
-                    ShowPreview="true"
-                    ShowRemoveButton="true"
-                    HelperText="PNG, JPG, PDF, DOC up to 10MB" />
-            </PreviewContent>
-        </CodePreview>
-        
-        <CodePreview Title="Simple File Upload (Backward Compatible)" Code="@fileUploadSimpleCode">
-            <PreviewContent>
-                <TailFileUpload 
-                    Label="Upload Single File" 
                     UploadedFiles="@UploadedFiles"
                     UploadedFilesChanged="OnFilesChanged"
-                    Multiple="false"
-                    Accept="image/*"
-                    HelperText="Images only, up to 10MB" />
+                    Multiple="true"
+                    Accept="image/*,.pdf"
+                    HelperText="PNG, JPG, PDF up to 10MB" />
             </PreviewContent>
         </CodePreview>
     </section>
@@ -353,12 +326,10 @@
     private bool subscribe;
     private bool notifications = true;
     private bool darkMode;
-    private bool labelsSwitch = true;
     private int volume = 50;
     private int rating = 4;
     private DateTime? SelectedDate { get; set; } = DateTime.Today;
     private List<IBrowserFile> UploadedFiles { get; set; } = new();
-    private List<FileUploadItem> FileItems { get; set; } = new();
     private string? SelectedCity { get; set; }
     private string SelectedColor { get; set; } = "#3b82f6";
     private string? PhoneNumber { get; set; }
@@ -423,15 +394,8 @@
 
     private string switchCode = @"<TailSwitch 
     Label=""Enable notifications"" 
-    @bind-IsChecked=""notifications"" 
-    Variant=""SwitchVariant.Primary"" />
-
-<TailSwitch 
-    Label=""With inner labels"" 
-    ShowLabels=""true"" 
-    @bind-IsChecked=""labelsSwitch"" 
-    Size=""SwitchSize.Lg"" 
-    Variant=""SwitchVariant.Success"" />";
+    Value=""@notifications"" 
+    ValueChanged=""v => notifications = v"" />";
 
     private string sliderCode = @"<TailSlider 
     Label=""Volume"" 
@@ -456,22 +420,11 @@
 
     private string fileUploadCode = @"<TailFileUpload 
     Label=""Upload Files"" 
-    FileItems=""@FileItems""
-    FileItemsChanged=""OnFileItemsChanged""
-    Multiple=""true""
-    Accept=""image/*,.pdf,.doc,.docx""
-    AllowRename=""true""
-    ShowPreview=""true""
-    ShowRemoveButton=""true""
-    HelperText=""PNG, JPG, PDF, DOC up to 10MB"" />";
-
-    private string fileUploadSimpleCode = @"<TailFileUpload 
-    Label=""Upload Single File"" 
     UploadedFiles=""@UploadedFiles""
     UploadedFilesChanged=""OnFilesChanged""
-    Multiple=""false""
-    Accept=""image/*""
-    HelperText=""Images only, up to 10MB"" />";
+    Multiple=""true""
+    Accept=""image/*,.pdf""
+    HelperText=""PNG, JPG, PDF up to 10MB"" />";
 
     private string autoCompleteCode = @"<TailAutoComplete 
     Label=""Search City"" 
@@ -519,12 +472,6 @@
     private async Task OnFilesChanged(List<IBrowserFile> files)
     {
         UploadedFiles = files;
-        await Task.CompletedTask;
-    }
-
-    private async Task OnFileItemsChanged(List<FileUploadItem> items)
-    {
-        FileItems = items;
         await Task.CompletedTask;
     }
 

@@ -4,7 +4,7 @@
 <div class="@GetWrapperClasses()">
     @if (!string.IsNullOrEmpty(Label))
     {
-        <label for="@Id" class="@GetLabelClasses()" style="@GetLabelStyle()">
+        <label for="@Id" class="@GetLabelClasses()">
             @Label
             @if (Required)
             {
@@ -16,7 +16,7 @@
         @if (!string.IsNullOrEmpty(IconStart))
         {
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span style="color: var(--color-text-muted)">@IconStart</span>
+                <span class="text-gray-400 dark:text-gray-500">@IconStart</span>
             </div>
         }
         <input 
@@ -37,12 +37,8 @@
             @attributes="AdditionalAttributes" />
         @if (ShowClearButton && !string.IsNullOrEmpty(CurrentValueAsString))
         {
-            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center transition-opacity" 
-                    style="opacity: 0.6; transition: opacity var(--transition-fast)"
-                    @onclick="HandleClear"
-                    onmouseover="this.style.opacity='1'"
-                    onmouseout="this.style.opacity='0.6'">
-                <svg class="h-5 w-5" style="color: var(--color-text-muted)" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center" @onclick="HandleClear">
+                <svg class="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -54,7 +50,7 @@
     }
     @if (!string.IsNullOrEmpty(HelperText) && string.IsNullOrEmpty(ErrorMessage))
     {
-        <p class="mt-1 text-sm" style="color: var(--color-text-muted)">@HelperText</p>
+        <p class="mt-1 text-sm" style="color: var(--color-text-secondary)">@HelperText</p>
     }
 </div>
 
@@ -76,7 +72,6 @@
     [Parameter] public int? MinLength { get; set; }
     [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    private bool isFocused = false;
     private string? CurrentValue => Value;
     private string? CurrentValueAsString => Value;
 
@@ -104,16 +99,13 @@
         return string.Join(" ", classes);
     }
 
-    private string GetLabelStyle()
-    {
-        return "color: var(--color-text-primary);";
-    }
-
     private string GetInputClasses()
     {
         var classes = new List<string> 
         { 
-            "block w-full"
+            "block w-full rounded-lg shadow-sm",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            "transition-all duration-200"
         };
         
         // Size
@@ -143,54 +135,24 @@
     {
         var styles = new List<string>();
         
-        // Border radius based on size
-        var radius = Size switch
-        {
-            InputSize.Sm => "var(--radius-sm)",
-            InputSize.Md => "var(--radius-md)",
-            InputSize.Lg => "var(--radius-lg)",
-            _ => "var(--radius-md)"
-        };
-        styles.Add($"border-radius: {radius}");
-        
-        // Colors and states
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
             // Error state
             styles.Add("border: 2px solid var(--color-danger)");
             styles.Add("background-color: color-mix(in srgb, var(--color-danger) 5%, var(--color-surface))");
-            styles.Add("box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger) 10%, transparent)");
-        }
-        else if (isFocused)
-        {
-            // Focus state
-            styles.Add("border: 2px solid var(--color-primary)");
-            styles.Add("background-color: var(--color-surface)");
-            styles.Add("box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent)");
-            styles.Add("outline: none");
         }
         else
         {
             // Normal state
             styles.Add("background-color: var(--color-surface)");
             styles.Add("border: 1px solid var(--color-border)");
+            styles.Add("color: var(--color-text-primary)");
         }
         
-        styles.Add("color: var(--color-text-primary)");
-        
-        // Transitions
-        styles.Add("transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast)");
-        
-        // Disabled/Readonly
         if (Disabled || ReadOnly)
         {
-            styles.Add("background-color: var(--color-surface-2)");
-            styles.Add("cursor: not-allowed");
-            styles.Add("opacity: 0.6");
+            styles.Add("background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface))");
         }
-        
-        // Placeholder color
-        styles.Add("&::placeholder { color: var(--color-text-muted); }");
         
         return string.Join("; ", styles);
     }
@@ -209,12 +171,12 @@
 
     private void HandleFocus(FocusEventArgs e)
     {
-        isFocused = true;
+        // Focus handling
     }
 
     private void HandleBlur(FocusEventArgs e)
     {
-        isFocused = false;
+        // Blur handling
     }
 
     private async Task HandleClear()

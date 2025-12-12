@@ -1,53 +1,11 @@
 @inherits LayoutComponentBase
-@using Tail.Blazor.Core.Theme
-@inject ThemeService ThemeService
-@implements IDisposable
 
-<div style="@GetRootStyle()" class="flex min-h-screen">
-    <NavMenu />
-    <main class="flex-1">
-        @Body
-    </main>
-</div>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        // Initialize theme service globally - loads from localStorage and applies to all components
-        await ThemeService.InitializeAsync();
-        
-        // Subscribe to theme changes for reactive updates
-        ThemeService.OnThemeChanged += HandleThemeChanged;
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            // Ensure theme is fully applied after first render
-            await ThemeService.InitializeAsync();
-        }
-    }
-
-    private void HandleThemeChanged()
-    {
-        InvokeAsync(StateHasChanged);
-    }
-
-    private string GetRootStyle()
-    {
-        var colors = ThemeService.CurrentSettings.Colors;
-        return $@"
-            background-color: var(--color-background);
-            color: var(--color-text-primary);
-            transition: background-color var(--transition-normal), color var(--transition-normal);
-            min-height: 100vh;
-        ";
-    }
-
-    public void Dispose()
-    {
-        ThemeService.OnThemeChanged -= HandleThemeChanged;
-    }
-}
+<ThemeProvider>
+    <div class="docs-layout">
+        <NavMenu />
+        <main class="docs-main">
+            @Body
+        </main>
+    </div>
+</ThemeProvider>
 

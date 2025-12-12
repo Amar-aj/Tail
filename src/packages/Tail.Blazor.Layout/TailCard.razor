@@ -4,13 +4,13 @@
 <div class="@GetCardClasses()" style="@GetCardStyle()" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Header))
     {
-        <div class="px-6 py-4" style="@GetHeaderStyle()">
+        <div class="px-6 py-4" style="border-bottom: 1px solid var(--color-border)">
             <h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">@Header</h3>
         </div>
     }
     @if (HeaderContent != null)
     {
-        <div class="px-6 py-4" style="@GetHeaderStyle()">
+        <div class="px-6 py-4" style="border-bottom: 1px solid var(--color-border)">
             @HeaderContent
         </div>
     }
@@ -19,13 +19,13 @@
     </div>
     @if (!string.IsNullOrEmpty(Footer))
     {
-        <div class="px-6 py-4" style="@GetFooterStyle()">
+        <div class="px-6 py-4" style="border-top: 1px solid var(--color-border); background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface))">
             @Footer
         </div>
     }
     @if (FooterContent != null)
     {
-        <div class="px-6 py-4" style="@GetFooterStyle()">
+        <div class="px-6 py-4" style="border-top: 1px solid var(--color-border); background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface))">
             @FooterContent
         </div>
     }
@@ -37,20 +37,29 @@
     [Parameter] public RenderFragment? FooterContent { get; set; }
     [Parameter] public string? Header { get; set; }
     [Parameter] public string? Footer { get; set; }
-    [Parameter] public CardElevation Elevation { get; set; } = CardElevation.Medium;
+    [Parameter] public bool Shadow { get; set; } = true;
     [Parameter] public bool Rounded { get; set; } = true;
     [Parameter] public bool Bordered { get; set; } = true;
     [Parameter] public bool Hoverable { get; set; } = false;
-    [Parameter] public CardSurface SurfaceLevel { get; set; } = CardSurface.Default;
     [Parameter] public string? BodyClass { get; set; }
 
     private string GetCardClasses()
     {
-        var classes = new List<string> { "overflow-hidden" };
+        var classes = new List<string> { "overflow-hidden transition-all duration-200" };
+        
+        if (Rounded)
+        {
+            classes.Add("rounded-lg");
+        }
+        
+        if (Shadow)
+        {
+            classes.Add("shadow-md");
+        }
         
         if (Hoverable)
         {
-            classes.Add("cursor-pointer");
+            classes.Add("hover:shadow-lg cursor-pointer");
         }
         
         if (!string.IsNullOrEmpty(CssClass))
@@ -63,70 +72,17 @@
 
     private string GetCardStyle()
     {
-        var styles = new List<string>();
-        
-        // Surface level
-        styles.Add(SurfaceLevel switch
+        var styles = new List<string>
         {
-            CardSurface.Default => "background-color: var(--color-surface)",
-            CardSurface.Elevated => "background-color: var(--color-surface-2)",
-            CardSurface.Raised => "background-color: var(--color-surface-3)",
-            _ => "background-color: var(--color-surface)"
-        });
+            "background-color: var(--color-surface)"
+        };
         
-        // Border
         if (Bordered)
         {
             styles.Add("border: 1px solid var(--color-border)");
         }
         
-        // Shadow based on elevation
-        var shadow = Elevation switch
-        {
-            CardElevation.None => "none",
-            CardElevation.Small => "var(--shadow-sm)",
-            CardElevation.Medium => "var(--shadow-md)",
-            CardElevation.Large => "var(--shadow-lg)",
-            _ => "var(--shadow-md)"
-        };
-        styles.Add($"box-shadow: {shadow}");
-        
-        // Border radius
-        if (Rounded)
-        {
-            styles.Add("border-radius: var(--radius-lg)");
-        }
-        
-        // Transitions
-        styles.Add("transition: box-shadow var(--transition-normal), transform var(--transition-normal)");
-        
-        // Hover effects
-        if (Hoverable)
-        {
-            var hoverShadow = Elevation switch
-            {
-                CardElevation.None => "var(--shadow-sm)",
-                CardElevation.Small => "var(--shadow-md)",
-                CardElevation.Medium => "var(--shadow-lg)",
-                CardElevation.Large => "var(--shadow-lg)",
-                _ => "var(--shadow-lg)"
-            };
-        }
-        
         return string.Join("; ", styles);
-    }
-
-    private string GetHeaderStyle()
-    {
-        return "border-bottom: 1px solid var(--color-divider);";
-    }
-
-    private string GetFooterStyle()
-    {
-        return @"
-            border-top: 1px solid var(--color-divider);
-            background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface));
-        ";
     }
 
     private string GetBodyClasses()
@@ -139,21 +95,6 @@
         }
         
         return string.Join(" ", classes);
-    }
-
-    public enum CardElevation
-    {
-        None,
-        Small,
-        Medium,
-        Large
-    }
-
-    public enum CardSurface
-    {
-        Default,
-        Elevated,
-        Raised
     }
 }
 

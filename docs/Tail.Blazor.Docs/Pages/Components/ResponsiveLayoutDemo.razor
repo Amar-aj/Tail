@@ -1,0 +1,247 @@
+@page "/components/responsive-layout"
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Core.Theme
+
+<PageTitle>Responsive Layout - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8" style="background-color: var(--color-background)">
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">Responsive Layout Components</h1>
+        <p class="text-lg" style="color: var(--color-text-secondary)">
+            Complete responsive layout system with header, collapsible menu, avatar, and theme toggle
+        </p>
+    </div>
+
+    <!-- TailHeader Component -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4" style="color: var(--color-text-primary)">TailHeader</h2>
+        <p class="mb-6" style="color: var(--color-text-secondary)">
+            A responsive header with menu toggle, theme switcher, and user avatar dropdown.
+        </p>
+
+        <div class="mb-6 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+            <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Demo: Basic Header</h3>
+            <div style="background-color: var(--color-background); border-radius: var(--radius-md); overflow: hidden;">
+                <TailHeader 
+                    AppName="My Application"
+                    UserName="John Doe"
+                    UserEmail="john.doe@example.com"
+                    ShowMenuToggle="true"
+                    ShowThemeToggle="true"
+                    ShowAvatar="true"
+                    Sticky="false" />
+            </div>
+        </div>
+
+        <div class="mb-6 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+            <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Demo: Header with Custom Logo</h3>
+            <div style="background-color: var(--color-background); border-radius: var(--radius-md); overflow: hidden;">
+                <TailHeader 
+                    UserName="Jane Smith"
+                    UserEmail="jane@example.com"
+                    ShowMenuToggle="true"
+                    ShowThemeToggle="true"
+                    ShowAvatar="true"
+                    Sticky="false">
+                    <LogoTemplate>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center" 
+                                 style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent))">
+                                <span class="text-white font-bold">TB</span>
+                            </div>
+                            <span class="text-xl font-bold" style="color: var(--color-text-primary)">TailBlazor</span>
+                        </div>
+                    </LogoTemplate>
+                    <ActionsTemplate>
+                        <button class="px-3 py-2 rounded-lg text-sm font-medium" 
+                                style="background-color: var(--color-primary); color: white; border-radius: var(--radius-md)">
+                            Get Started
+                        </button>
+                    </ActionsTemplate>
+                    <UserMenuItems>
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-opacity-10" 
+                           style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">
+                            Profile
+                        </a>
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-opacity-10" 
+                           style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">
+                            Settings
+                        </a>
+                        <hr style="border-color: var(--color-divider); margin: 0.5rem 0;" />
+                        <a href="#" class="block px-4 py-2 text-sm hover:bg-opacity-10" 
+                           style="color: var(--color-danger); transition: background-color var(--transition-fast)">
+                            Sign Out
+                        </a>
+                    </UserMenuItems>
+                </TailHeader>
+            </div>
+        </div>
+
+        <div class="mb-6 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+            <h4 class="font-semibold mb-2" style="color: var(--color-text-primary)">Code Example:</h4>
+            <pre class="text-sm overflow-x-auto p-4 rounded" style="background-color: var(--color-surface-3); color: var(--color-text-primary)"><code>&lt;TailHeader 
+    AppName="My Application"
+    UserName="John Doe"
+    UserEmail="john.doe@@example.com"
+    ShowMenuToggle="true"
+    ShowThemeToggle="true"
+    ShowAvatar="true"
+    Sticky="true"&gt;
+    &lt;UserMenuItems&gt;
+        &lt;a href="#"&gt;Profile&lt;/a&gt;
+        &lt;a href="#"&gt;Settings&lt;/a&gt;
+        &lt;a href="#"&gt;Sign Out&lt;/a&gt;
+    &lt;/UserMenuItems&gt;
+&lt;/TailHeader&gt;</code></pre>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full" style="border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <thead style="background-color: var(--color-surface-2)">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Parameter</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Type</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Default</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Description</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color: var(--color-surface)">
+                    <tr style="border-bottom: 1px solid var(--color-divider)">
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">AppName</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">string?</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">null</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Application name displayed in header</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--color-divider)">
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">UserName</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">string?</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">null</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">User's display name</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--color-divider)">
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">ShowMenuToggle</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">bool</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">true</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Show hamburger menu toggle button</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--color-divider)">
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">ShowThemeToggle</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">bool</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">true</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Show light/dark mode toggle</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--color-divider)">
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">ShowAvatar</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">bool</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">true</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Show user avatar/initials</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">Sticky</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">bool</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-muted)">true</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Make header sticky on scroll</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- TailResponsiveLayout Component -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4" style="color: var(--color-text-primary)">TailResponsiveLayout</h2>
+        <p class="mb-6" style="color: var(--color-text-secondary)">
+            Complete responsive layout with integrated header, collapsible sidebar, and content area.
+        </p>
+
+        <div class="mb-6 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+            <h4 class="font-semibold mb-2" style="color: var(--color-text-primary)">Code Example:</h4>
+            <pre class="text-sm overflow-x-auto p-4 rounded" style="background-color: var(--color-surface-3); color: var(--color-text-primary)"><code>&lt;TailResponsiveLayout 
+    AppName="Dashboard"
+    UserName="Admin User"
+    UserEmail="admin@@example.com"
+    ShowSidebar="true"
+    StickyHeader="true"&gt;
+    &lt;SidebarContent&gt;
+        &lt;nav&gt;
+            &lt;a href="/"&gt;Home&lt;/a&gt;
+            &lt;a href="/dashboard"&gt;Dashboard&lt;/a&gt;
+            &lt;a href="/settings"&gt;Settings&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/SidebarContent&gt;
+    &lt;ChildContent&gt;
+        &lt;!-- Your page content --&gt;
+    &lt;/ChildContent&gt;
+&lt;/TailResponsiveLayout&gt;</code></pre>
+        </div>
+
+        <div class="alert p-4 rounded-lg mb-6" style="background-color: color-mix(in srgb, var(--color-info) 10%, var(--color-surface)); border-left: 4px solid var(--color-info)">
+            <div class="flex items-start">
+                <svg class="w-5 h-5 mt-0.5 mr-3" style="color: var(--color-info)" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                    <p class="font-semibold mb-1" style="color: var(--color-info)">Responsive Behavior</p>
+                    <p class="text-sm" style="color: var(--color-text-secondary)">
+                        The sidebar automatically collapses on mobile devices and can be toggled via the menu button.
+                        On desktop, it remains visible. The header is responsive and adjusts for all screen sizes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section>
+        <h2 class="text-3xl font-bold mb-6" style="color: var(--color-text-primary)">Features</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">??</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">Fully Responsive</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Adapts to mobile, tablet, and desktop screens automatically
+                </p>
+            </div>
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">??</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">Theme Toggle</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Built-in light/dark mode switcher with smooth transitions
+                </p>
+            </div>
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">??</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">User Avatar</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Avatar with dropdown menu for user actions and profile
+                </p>
+            </div>
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">??</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">Sticky Header</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Optional sticky header that stays visible while scrolling
+                </p>
+            </div>
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">??</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">Collapsible Menu</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Slide-in menu on mobile with smooth animations
+                </p>
+            </div>
+            <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg)">
+                <div class="text-3xl mb-3">?</div>
+                <h3 class="font-semibold mb-2" style="color: var(--color-text-primary)">Customizable</h3>
+                <p class="text-sm" style="color: var(--color-text-secondary)">
+                    Custom templates for logo, actions, and menu items
+                </p>
+            </div>
+        </div>
+    </section>
+</div>
+
+@code {
+    
+}

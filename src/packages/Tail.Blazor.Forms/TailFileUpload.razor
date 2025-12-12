@@ -1,31 +1,26 @@
 @inherits Tail.Blazor.Core.TailComponentBase
 @namespace Tail.Blazor.Forms
-@inject IJSRuntime JSRuntime
-@using Microsoft.AspNetCore.Components.Forms
-@using Microsoft.JSInterop
-@implements IAsyncDisposable
 
 <div class="@GetContainerClasses()">
-    <label class="@GetLabelClasses()" style="color: var(--color-text-primary)">@Label</label>
-    <div id="@uploadAreaId" class="@GetUploadAreaClasses()" style="@GetUploadAreaStyle()">
+    <label class="@GetLabelClasses()">@Label</label>
+    <div class="@GetUploadAreaClasses()" @ondragover="HandleDragOver" @ondrop="HandleDrop" @ondragleave="HandleDragLeave">
         <div class="text-center">
-            <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: var(--color-text-secondary)">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
             <div class="mt-4">
                 <label class="cursor-pointer">
-                    <span class="mt-2 block text-sm font-medium" style="color: var(--color-text-primary)">
+                    <span class="mt-2 block text-sm font-medium text-gray-900 dark:text-gray-100">
                         @if (IsDragging)
                         {
                             <span>Drop files here</span>
                         }
                         else
                         {
-                            <span>Drag and drop files here, or <span style="color: var(--color-primary)">browse</span></span>
+                            <span>Drag and drop files here, or <span class="text-blue-600 dark:text-blue-400">browse</span></span>
                         }
                     </span>
                     <InputFile 
-                        id="@fileInputId"
                         class="hidden" 
                         @ref="fileInputComponent" 
                         OnChange="@HandleFileChange" 
@@ -33,115 +28,37 @@
                         multiple="@Multiple"
                         disabled="@Disabled" />
                 </label>
-                <p class="mt-1 text-xs" style="color: var(--color-text-secondary)">@HelperText</p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">@HelperText</p>
             </div>
         </div>
     </div>
     
-    @if (FileItems.Any())
+    @if (UploadedFiles.Any())
     {
-        <div class="mt-4 space-y-3">
-            @foreach (var item in FileItems)
+        <div class="mt-4 space-y-2">
+            @foreach (var file in UploadedFiles)
             {
-                <div class="rounded-lg overflow-hidden" style="background-color: var(--color-surface); border: 1px solid var(--color-border)">
-                    <div class="p-4">
-                        <div class="flex items-start space-x-4">
-                            <!-- File Preview -->
-                            <div class="flex-shrink-0">
-                                @if (item.IsImage && !string.IsNullOrEmpty(item.PreviewUrl))
-                                {
-                                    <div class="relative w-20 h-20 rounded overflow-hidden" style="background-color: var(--color-surface-secondary)">
-                                        <img src="@item.PreviewUrl" alt="@item.CustomName" class="w-full h-full object-cover" />
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="w-20 h-20 rounded flex items-center justify-center" style="background-color: var(--color-surface-secondary)">
-                                        @GetFileIcon(item.FileType)
-                                    </div>
-                                }
-                            </div>
-                            
-                            <!-- File Info -->
-                            <div class="flex-1 min-w-0">
-                                @if (item.EditingName)
-                                {
-                                    <div class="flex items-center space-x-2">
-                                        <input 
-                                            type="text" 
-                                            @bind="item.CustomName" 
-                                            @bind:event="oninput"
-                                            @onkeydown="@((e) => HandleNameKeyDown(e, item))"
-                                            @onblur="@(() => SaveFileName(item))"
-                                            class="flex-1 px-2 py-1 text-sm rounded border"
-                                            style="background-color: var(--color-surface); color: var(--color-text-primary); border-color: var(--color-border)"
-                                            autofocus />
-                                        <button 
-                                            type="button"
-                                            @onclick="@(() => SaveFileName(item))"
-                                            class="p-1 rounded"
-                                            style="color: var(--color-success); background-color: var(--color-surface-secondary)"
-                                            title="Save">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </button>
-                                        <button 
-                                            type="button"
-                                            @onclick="@(() => CancelEditName(item))"
-                                            class="p-1 rounded"
-                                            style="color: var(--color-danger); background-color: var(--color-surface-secondary)"
-                                            title="Cancel">
-                                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="flex items-center space-x-2">
-                                        <p class="text-sm font-medium truncate" style="color: var(--color-text-primary)">@item.CustomName</p>
-                                        @if (AllowRename)
-                                        {
-                                            <button 
-                                                type="button"
-                                                @onclick="@(() => StartEditName(item))"
-                                                class="p-1 rounded hover:opacity-70"
-                                                style="color: var(--color-primary); background-color: var(--color-surface-secondary)"
-                                                title="Rename">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                                </svg>
-                                            </button>
-                                        }
-                                    </div>
-                                }
-                                <p class="text-xs mt-1" style="color: var(--color-text-secondary)">@FormatFileSize(item.File.Size)</p>
-                                @if (!string.IsNullOrEmpty(item.File.ContentType))
-                                {
-                                    <p class="text-xs" style="color: var(--color-text-secondary)">@item.File.ContentType</p>
-                                }
-                            </div>
-                            
-                            <!-- Actions -->
-                            <div class="flex items-center space-x-2">
-                                @if (ShowRemoveButton)
-                                {
-                                    <button 
-                                        type="button"
-                                        @onclick="() => RemoveFile(item)"
-                                        class="p-2 rounded hover:opacity-70 transition-opacity"
-                                        style="color: var(--color-danger); background-color: var(--color-surface-secondary)"
-                                        title="Remove">
-                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                        </svg>
-                                    </button>
-                                }
-                            </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900 dark:text-gray-100">@file.Name</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">@FormatFileSize(file.Size)</p>
                         </div>
                     </div>
+                    @if (ShowRemoveButton)
+                    {
+                        <button 
+                            type="button"
+                            class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                            @onclick="() => RemoveFile(file)">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    }
                 </div>
             }
         </div>
@@ -149,15 +66,13 @@
     
     @if (!string.IsNullOrEmpty(ErrorText))
     {
-        <p class="mt-1 text-sm" style="color: var(--color-danger)">@ErrorText</p>
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">@ErrorText</p>
     }
 </div>
 
 @code {
     [Parameter] public List<IBrowserFile> UploadedFiles { get; set; } = new();
     [Parameter] public EventCallback<List<IBrowserFile>> UploadedFilesChanged { get; set; }
-    [Parameter] public List<FileUploadItem> FileItems { get; set; } = new();
-    [Parameter] public EventCallback<List<FileUploadItem>> FileItemsChanged { get; set; }
     [Parameter] public string? Label { get; set; }
     [Parameter] public string? HelperText { get; set; } = "PNG, JPG, GIF up to 10MB";
     [Parameter] public string? ErrorText { get; set; }
@@ -165,52 +80,10 @@
     [Parameter] public bool Multiple { get; set; } = false;
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool ShowRemoveButton { get; set; } = true;
-    [Parameter] public bool AllowRename { get; set; } = true;
-    [Parameter] public bool ShowPreview { get; set; } = true;
     [Parameter] public long MaxFileSize { get; set; } = 10485760; // 10MB
-    [Parameter] public int PreviewSize { get; set; } = 200; // Max preview size in pixels
     
     private InputFile? fileInputComponent;
     private bool IsDragging { get; set; }
-    private Dictionary<FileUploadItem, string> _originalNames = new();
-    private IJSObjectReference? _jsModule;
-    private DotNetObjectReference<TailFileUpload>? _dotNetRef;
-    private string uploadAreaId = $"upload-area-{Guid.NewGuid():N}";
-    private string fileInputId = $"file-input-{Guid.NewGuid():N}";
-    
-    protected override void OnInitialized()
-    {
-        // Sync FileItems from UploadedFiles if FileItems is empty but UploadedFiles has items
-        if (!FileItems.Any() && UploadedFiles.Any())
-        {
-            FileItems = UploadedFiles.Select(f => new FileUploadItem(f)).ToList();
-            _ = LoadPreviewsAsync();
-        }
-    }
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender && !Disabled)
-        {
-            try
-            {
-                _dotNetRef = DotNetObjectReference.Create(this);
-                _jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Forms/fileupload.js");
-                await _jsModule.InvokeVoidAsync("setupFileUploadDragDrop", uploadAreaId, fileInputId, _dotNetRef);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error setting up drag and drop: {ex.Message}");
-            }
-        }
-    }
-    
-    [JSInvokable]
-    public void SetDragging(bool isDragging)
-    {
-        IsDragging = isDragging;
-        StateHasChanged();
-    }
     
     private string GetContainerClasses()
     {
@@ -222,7 +95,7 @@
         return string.Join(" ", classes);
     }
     
-    private string GetLabelClasses() => "block text-sm font-medium mb-1";
+    private string GetLabelClasses() => "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1";
     
     private string GetUploadAreaClasses()
     {
@@ -232,164 +105,51 @@
             "transition-colors"
         };
         
+        if (IsDragging)
+        {
+            classes.Add("border-blue-400 bg-blue-50 dark:bg-blue-900/20");
+        }
+        else if (!string.IsNullOrEmpty(ErrorText))
+        {
+            classes.Add("border-red-300 dark:border-red-700");
+        }
+        else
+        {
+            classes.Add("border-gray-300 dark:border-gray-700");
+        }
+        
         if (Disabled)
         {
             classes.Add("opacity-50 cursor-not-allowed");
         }
         else
         {
-            classes.Add("cursor-pointer");
+            classes.Add("cursor-pointer hover:border-gray-400 dark:hover:border-gray-600");
         }
         
         return string.Join(" ", classes);
-    }
-    
-    private string GetUploadAreaStyle()
-    {
-        var styles = new List<string>();
-        
-        if (IsDragging)
-        {
-            styles.Add($"border-color: var(--color-primary)");
-            styles.Add($"background-color: var(--color-primary); opacity: 0.1");
-        }
-        else if (!string.IsNullOrEmpty(ErrorText))
-        {
-            styles.Add($"border-color: var(--color-danger)");
-        }
-        else
-        {
-            styles.Add($"border-color: var(--color-border)");
-        }
-        
-        styles.Add($"background-color: var(--color-surface)");
-        
-        if (!Disabled && !IsDragging)
-        {
-            styles.Add("hover:border-color: var(--color-primary); opacity: 0.8");
-        }
-        
-        return string.Join("; ", styles);
     }
     
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
         if (Disabled) return;
         
-        var newItems = new List<FileUploadItem>();
-        var files = e.GetMultipleFiles(Multiple ? int.MaxValue : 1);
-        
-        foreach (var file in files)
+        var files = new List<IBrowserFile>();
+        foreach (var file in e.GetMultipleFiles(Multiple ? int.MaxValue : 1))
         {
-            // Validate file size - allow files up to MaxFileSize
-            if (file.Size > 0 && file.Size <= MaxFileSize)
+            if (file.Size <= MaxFileSize)
             {
-                var item = new FileUploadItem(file);
-                newItems.Add(item);
-            }
-            else if (file.Size > MaxFileSize)
-            {
-                ErrorText = $"File {file.Name} exceeds maximum size of {FormatFileSize(MaxFileSize)}";
+                files.Add(file);
             }
         }
         
-        if (newItems.Any())
+        if (Multiple)
         {
-            if (Multiple)
-            {
-                FileItems.AddRange(newItems);
-                UploadedFiles.AddRange(newItems.Select(i => i.File));
-            }
-            else
-            {
-                // Clean up old preview URLs
-                foreach (var oldItem in FileItems)
-                {
-                    await CleanupPreviewUrl(oldItem.PreviewUrl);
-                }
-                FileItems = newItems;
-                UploadedFiles = newItems.Select(i => i.File).ToList();
-            }
-            
-            await LoadPreviewsAsync();
-            
-            if (FileItemsChanged.HasDelegate)
-            {
-                await FileItemsChanged.InvokeAsync(FileItems);
-            }
-            
-            if (UploadedFilesChanged.HasDelegate)
-            {
-                await UploadedFilesChanged.InvokeAsync(UploadedFiles);
-            }
-            
-            ErrorText = null; // Clear error if files were successfully added
+            UploadedFiles.AddRange(files);
         }
-    }
-    
-    private async Task LoadPreviewsAsync()
-    {
-        foreach (var item in FileItems.Where(i => i.IsImage && string.IsNullOrEmpty(i.PreviewUrl)))
+        else
         {
-            try
-            {
-                // Only generate preview if file size is valid
-                if (item.File.Size > 0 && item.File.Size <= MaxFileSize)
-                {
-                    // Limit preview size to avoid memory issues
-                    var maxPreviewSize = Math.Min(item.File.Size, 5 * 1024 * 1024); // 5MB max for preview
-                    var buffer = new byte[maxPreviewSize];
-                    
-                    using (var stream = item.File.OpenReadStream(maxPreviewSize))
-                    {
-                        var bytesRead = await stream.ReadAsync(buffer, 0, (int)maxPreviewSize);
-                        if (bytesRead > 0)
-                        {
-                            var base64 = Convert.ToBase64String(buffer, 0, bytesRead);
-                            item.PreviewUrl = $"data:{item.File.ContentType};base64,{base64}";
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Preview generation failed, continue without preview
-                Console.WriteLine($"Preview generation failed for {item.File.Name}: {ex.Message}");
-            }
-        }
-        StateHasChanged();
-    }
-    
-    private Task CleanupPreviewUrl(string url)
-    {
-        if (url.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
-        {
-            // Data URLs are automatically cleaned up by the browser
-        }
-        return Task.CompletedTask;
-    }
-    
-    public async ValueTask DisposeAsync()
-    {
-        if (_dotNetRef != null)
-        {
-            _dotNetRef.Dispose();
-        }
-        if (_jsModule != null)
-        {
-            await _jsModule.DisposeAsync();
-        }
-    }
-    
-    private async Task RemoveFile(FileUploadItem item)
-    {
-        await CleanupPreviewUrl(item.PreviewUrl);
-        FileItems.Remove(item);
-        UploadedFiles.Remove(item.File);
-        
-        if (FileItemsChanged.HasDelegate)
-        {
-            await FileItemsChanged.InvokeAsync(FileItems);
+            UploadedFiles = files;
         }
         
         if (UploadedFilesChanged.HasDelegate)
@@ -398,82 +158,32 @@
         }
     }
     
-    private void StartEditName(FileUploadItem item)
+    private void HandleDragOver(DragEventArgs e)
     {
-        _originalNames[item] = item.CustomName;
-        item.EditingName = true;
+        if (Disabled) return;
+        IsDragging = true;
     }
     
-    private void SaveFileName(FileUploadItem item)
+    private void HandleDragLeave()
     {
-        if (string.IsNullOrWhiteSpace(item.CustomName))
-        {
-            item.CustomName = _originalNames.GetValueOrDefault(item, item.File.Name);
-        }
-        item.EditingName = false;
-        _originalNames.Remove(item);
-        
-        if (FileItemsChanged.HasDelegate)
-        {
-            _ = FileItemsChanged.InvokeAsync(FileItems);
-        }
+        IsDragging = false;
     }
     
-    private void CancelEditName(FileUploadItem item)
+    private async Task HandleDrop(DragEventArgs e)
     {
-        if (_originalNames.TryGetValue(item, out var originalName))
-        {
-            item.CustomName = originalName;
-        }
-        item.EditingName = false;
-        _originalNames.Remove(item);
+        if (Disabled) return;
+        IsDragging = false;
+        // File drop handling would require JS interop
     }
     
-    private void HandleNameKeyDown(KeyboardEventArgs e, FileUploadItem item)
+    private async Task RemoveFile(IBrowserFile file)
     {
-        if (e.Key == "Enter")
+        UploadedFiles.Remove(file);
+        if (UploadedFilesChanged.HasDelegate)
         {
-            SaveFileName(item);
-        }
-        else if (e.Key == "Escape")
-        {
-            CancelEditName(item);
+            await UploadedFilesChanged.InvokeAsync(UploadedFiles);
         }
     }
-    
-    private RenderFragment GetFileIcon(string fileType) => builder =>
-    {
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "w-full h-full flex items-center justify-center");
-        builder.AddAttribute(2, "style", "color: var(--color-text-secondary)");
-        
-        switch (fileType.ToLowerInvariant())
-        {
-            case "pdf":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""currentColor"" viewBox=""0 0 24 24""><path d=""M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z""/></svg>");
-                break;
-            case "word":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""currentColor"" viewBox=""0 0 24 24""><path d=""M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z""/></svg>");
-                break;
-            case "excel":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""currentColor"" viewBox=""0 0 24 24""><path d=""M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z""/></svg>");
-                break;
-            case "text":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z""/></svg>");
-                break;
-            case "video":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z""/></svg>");
-                break;
-            case "audio":
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3""/></svg>");
-                break;
-            default:
-                builder.AddMarkupContent(3, @"<svg class=""w-10 h-10"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor""><path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z""/></svg>");
-                break;
-        }
-        
-        builder.CloseElement();
-    };
     
     private string FormatFileSize(long bytes)
     {
@@ -488,3 +198,4 @@
         return $"{len:0.##} {sizes[order]}";
     }
 }
+

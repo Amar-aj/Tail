@@ -12,53 +12,38 @@ public class ThemePreset
 }
 
 /// <summary>
-/// Complete color scheme for a theme with enhanced UI/UX variables
+/// Color scheme for a theme
 /// </summary>
 public class ThemeColors
 {
-    // Primary colors
     public string Primary { get; set; } = "#3b82f6";
     public string Secondary { get; set; } = "#8b5cf6";
     public string Accent { get; set; } = "#ec4899";
-    
-    // State colors
     public string Success { get; set; } = "#10b981";
     public string Warning { get; set; } = "#f59e0b";
     public string Danger { get; set; } = "#ef4444";
     public string Info { get; set; } = "#3b82f6";
-    
-    // Background & Surface colors
     public string Background { get; set; } = "#ffffff";
     public string Surface { get; set; } = "#f9fafb";
-    public string Surface2 { get; set; } = "#f3f4f6";  // NEW: Secondary surface
-    public string Surface3 { get; set; } = "#e5e7eb";  // NEW: Tertiary surface
-    
-    // Text colors
+    public string Surface2 { get; set; } = "#f3f4f6";
+    public string Surface3 { get; set; } = "#e5e7eb";
     public string TextPrimary { get; set; } = "#111827";
     public string TextSecondary { get; set; } = "#6b7280";
-    public string TextMuted { get; set; } = "#9ca3af";  // NEW: Muted text
-    
-    // Border & Divider
+    public string TextMuted { get; set; } = "#9ca3af";
     public string Border { get; set; } = "#e5e7eb";
-    public string Divider { get; set; } = "#d1d5db";  // NEW: Divider lines
-    
-    // Shadows
-    public string ShadowSm { get; set; } = "0 1px 2px 0 rgba(0, 0, 0, 0.05)";  // NEW
-    public string ShadowMd { get; set; } = "0 4px 6px -1px rgba(0, 0, 0, 0.1)";  // NEW
-    public string ShadowLg { get; set; } = "0 10px 15px -3px rgba(0, 0, 0, 0.1)";  // NEW
-    
-    // Border Radius
-    public string RadiusSm { get; set; } = "0.25rem";  // NEW: 4px
-    public string RadiusMd { get; set; } = "0.375rem";  // NEW: 6px
-    public string RadiusLg { get; set; } = "0.5rem";  // NEW: 8px
-    
-    // Transitions
-    public string TransitionFast { get; set; } = "150ms cubic-bezier(0.4, 0, 0.2, 1)";  // NEW
-    public string TransitionNormal { get; set; } = "200ms cubic-bezier(0.4, 0, 0.2, 1)";  // NEW
+    public string Divider { get; set; } = "#d1d5db";
+    public string ShadowSm { get; set; } = "0 1px 2px 0 rgba(0, 0, 0, 0.05)";
+    public string ShadowMd { get; set; } = "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)";
+    public string ShadowLg { get; set; } = "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)";
+    public string RadiusSm { get; set; } = "0.25rem";
+    public string RadiusMd { get; set; } = "0.5rem";
+    public string RadiusLg { get; set; } = "0.75rem";
+    public string TransitionFast { get; set; } = "150ms";
+    public string TransitionNormal { get; set; } = "300ms";
 }
 
 /// <summary>
-/// Built-in theme presets with enhanced color schemes
+/// Built-in theme presets
 /// </summary>
 public static class ThemePresets
 {
@@ -71,10 +56,6 @@ public static class ThemePresets
             Primary = "#0ea5e9",
             Secondary = "#06b6d4",
             Accent = "#8b5cf6",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Danger = "#ef4444",
-            Info = "#0ea5e9",
             Background = "#ffffff",
             Surface = "#f0f9ff",
             Surface2 = "#e0f2fe",
@@ -83,17 +64,13 @@ public static class ThemePresets
             TextSecondary = "#475569",
             TextMuted = "#64748b",
             Border = "#bae6fd",
-            Divider = "#7dd3fc"
+            Divider = "#94a3b8"
         },
         Dark = new ThemeColors
         {
             Primary = "#38bdf8",
             Secondary = "#22d3ee",
             Accent = "#a78bfa",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Danger = "#f87171",
-            Info = "#38bdf8",
             Background = "#0c1821",
             Surface = "#1e293b",
             Surface2 = "#334155",
@@ -102,10 +79,7 @@ public static class ThemePresets
             TextSecondary = "#cbd5e1",
             TextMuted = "#94a3b8",
             Border = "#334155",
-            Divider = "#475569",
-            ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-            ShadowMd = "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
-            ShadowLg = "0 10px 15px -3px rgba(0, 0, 0, 0.5)"
+            Divider = "#475569"
         }
     };
 
@@ -118,10 +92,6 @@ public static class ThemePresets
             Primary = "#10b981",
             Secondary = "#059669",
             Accent = "#f59e0b",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Danger = "#ef4444",
-            Info = "#06b6d4",
             Background = "#ffffff",
             Surface = "#f0fdf4",
             Surface2 = "#dcfce7",
@@ -130,29 +100,22 @@ public static class ThemePresets
             TextSecondary = "#475569",
             TextMuted = "#64748b",
             Border = "#bbf7d0",
-            Divider = "#86efac"
+            Divider = "#94a3b8"
         },
         Dark = new ThemeColors
         {
             Primary = "#34d399",
             Secondary = "#10b981",
             Accent = "#fbbf24",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Danger = "#f87171",
-            Info = "#22d3ee",
             Background = "#0a1f0f",
             Surface = "#1e3a2a",
-            Surface2 = "#2d5a42",
-            Surface3 = "#3d7a5a",
+            Surface2 = "#065f46",
+            Surface3 = "#047857",
             TextPrimary = "#d1fae5",
             TextSecondary = "#a7f3d0",
             TextMuted = "#6ee7b7",
             Border = "#065f46",
-            Divider = "#047857",
-            ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-            ShadowMd = "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
-            ShadowLg = "0 10px 15px -3px rgba(0, 0, 0, 0.5)"
+            Divider = "#047857"
         }
     };
 
@@ -165,41 +128,30 @@ public static class ThemePresets
             Primary = "#f97316",
             Secondary = "#f59e0b",
             Accent = "#ec4899",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Danger = "#ef4444",
-            Info = "#06b6d4",
             Background = "#ffffff",
             Surface = "#fff7ed",
             Surface2 = "#ffedd5",
             Surface3 = "#fed7aa",
             TextPrimary = "#7c2d12",
             TextSecondary = "#78350f",
-            TextMuted = "#92400e",
+            TextMuted = "#a16207",
             Border = "#fed7aa",
-            Divider = "#fdba74"
+            Divider = "#fbbf24"
         },
         Dark = new ThemeColors
         {
             Primary = "#fb923c",
             Secondary = "#fbbf24",
             Accent = "#f472b6",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Danger = "#f87171",
-            Info = "#22d3ee",
             Background = "#1a0f0a",
             Surface = "#3a2618",
-            Surface2 = "#5a3d28",
-            Surface3 = "#7a5438",
+            Surface2 = "#78350f",
+            Surface3 = "#92400e",
             TextPrimary = "#ffedd5",
             TextSecondary = "#fed7aa",
-            TextMuted = "#fdba74",
+            TextMuted = "#fcd34d",
             Border = "#78350f",
-            Divider = "#92400e",
-            ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-            ShadowMd = "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
-            ShadowLg = "0 10px 15px -3px rgba(0, 0, 0, 0.5)"
+            Divider = "#92400e"
         }
     };
 
@@ -212,10 +164,6 @@ public static class ThemePresets
             Primary = "#8b5cf6",
             Secondary = "#a78bfa",
             Accent = "#ec4899",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Danger = "#ef4444",
-            Info = "#06b6d4",
             Background = "#ffffff",
             Surface = "#faf5ff",
             Surface2 = "#f3e8ff",
@@ -224,29 +172,22 @@ public static class ThemePresets
             TextSecondary = "#6b7280",
             TextMuted = "#9ca3af",
             Border = "#e9d5ff",
-            Divider = "#d8b4fe"
+            Divider = "#d1d5db"
         },
         Dark = new ThemeColors
         {
             Primary = "#a78bfa",
             Secondary = "#c4b5fd",
             Accent = "#f472b6",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Danger = "#f87171",
-            Info = "#22d3ee",
             Background = "#1a0f2e",
             Surface = "#2e1a47",
-            Surface2 = "#422861",
-            Surface3 = "#56367b",
+            Surface2 = "#4c1d95",
+            Surface3 = "#581c87",
             TextPrimary = "#f3e8ff",
             TextSecondary = "#ddd6fe",
             TextMuted = "#c4b5fd",
             Border = "#581c87",
-            Divider = "#6d28d9",
-            ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-            ShadowMd = "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
-            ShadowLg = "0 10px 15px -3px rgba(0, 0, 0, 0.5)"
+            Divider = "#6b21a8"
         }
     };
 
@@ -259,10 +200,6 @@ public static class ThemePresets
             Primary = "#3b82f6",
             Secondary = "#6366f1",
             Accent = "#06b6d4",
-            Success = "#10b981",
-            Warning = "#f59e0b",
-            Danger = "#ef4444",
-            Info = "#3b82f6",
             Background = "#ffffff",
             Surface = "#eff6ff",
             Surface2 = "#dbeafe",
@@ -271,29 +208,22 @@ public static class ThemePresets
             TextSecondary = "#475569",
             TextMuted = "#64748b",
             Border = "#bfdbfe",
-            Divider = "#93c5fd"
+            Divider = "#94a3b8"
         },
         Dark = new ThemeColors
         {
             Primary = "#60a5fa",
             Secondary = "#818cf8",
             Accent = "#22d3ee",
-            Success = "#34d399",
-            Warning = "#fbbf24",
-            Danger = "#f87171",
-            Info = "#60a5fa",
             Background = "#0f1419",
             Surface = "#1e293b",
             Surface2 = "#334155",
             Surface3 = "#475569",
             TextPrimary = "#dbeafe",
             TextSecondary = "#93c5fd",
-            TextMuted = "#60a5fa",
+            TextMuted = "#64748b",
             Border = "#1e3a8a",
-            Divider = "#1e40af",
-            ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-            ShadowMd = "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
-            ShadowLg = "0 10px 15px -3px rgba(0, 0, 0, 0.5)"
+            Divider = "#334155"
         }
     };
 

@@ -1,87 +1,121 @@
 @using Tail.Blazor.Navigation
 @using Tail.Blazor.Core.Theme
 @inject NavigationManager Navigation
+@implements IDisposable
 
-<div class="border-r w-64 min-h-screen p-4" style="background-color: var(--color-surface); border-color: var(--color-border)">
-    <div class="mb-8 flex items-center justify-between">
+<div class="docs-nav-sidebar">
+    <div class="docs-nav-header">
         <div>
-            <h1 class="text-2xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
-            <p class="text-sm" style="color: var(--color-text-muted)">v1.0.0</p>
+            <h1 class="docs-nav-title">Tail.Blazor</h1>
+            <p class="docs-nav-version">v1.0.0</p>
         </div>
-        <TailThemeControl ShowModeToggle="true" ShowThemeSelector="false" />
+        <TailThemeToggle />
     </div>
 
-    <nav class="space-y-1">
-        <a href="/" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">🏠 Home</a>
+    <nav class="docs-nav-content">
+        <NavLink href="/" Match="NavLinkMatch.All" class="docs-nav-link">
+            <span class="docs-nav-icon">🏠</span>
+            <span>Home</span>
+        </NavLink>
         
         <!-- Documentation Section -->
-        <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary)">📚 Documentation</div>
-        <a href="/docs" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Overview</a>
-        <a href="/docs/installation" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Installation</a>
-        <a href="/getting-started" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Quick Start</a>
+        <div class="docs-nav-section">📚 Documentation</div>
+        <NavLink href="/docs" class="docs-nav-link docs-nav-link-nested">
+            <span>Overview</span>
+        </NavLink>
+        <NavLink href="/docs/installation" class="docs-nav-link docs-nav-link-nested">
+            <span>Installation</span>
+        </NavLink>
+        <NavLink href="/getting-started" class="docs-nav-link docs-nav-link-nested">
+            <span>Quick Start</span>
+        </NavLink>
         
         <!-- Components Section -->
-        <a href="/components" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">🧩 Components</a>
-        <a href="/components/summary" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">📋 Components Summary</a>
+        <NavLink href="/components" class="docs-nav-link">
+            <span class="docs-nav-icon">🧩</span>
+            <span>Components</span>
+        </NavLink>
+        <NavLink href="/components/summary" class="docs-nav-link docs-nav-link-nested">
+            <span>📋 Components Summary</span>
+        </NavLink>
         
-        <div class="px-4 py-2 font-semibold text-sm" style="color: var(--color-text-primary)">Component Categories</div>
-        <a href="/components/buttons" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Buttons</a>
-        <a href="/components/forms" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Forms</a>
-        <a href="/components/datepicker" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Date & Time Pickers</a>
-        <a href="/components/validation" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Validation</a>
-        <a href="/components/switch" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Switch / Toggle</a>
-        <a href="/components/layout" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Layout</a>
-        <a href="/components/navigation" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Navigation</a>
-        <a href="/components/feedback" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Feedback</a>
-        <a href="/components/data" class="block px-8 py-2 text-sm rounded-lg transition-colors" style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">Data</a>
+        <div class="docs-nav-subsection">Component Categories</div>
+        <NavLink href="/components/buttons" class="docs-nav-link docs-nav-link-nested">
+            <span>Buttons</span>
+        </NavLink>
+        <NavLink href="/components/forms" class="docs-nav-link docs-nav-link-nested">
+            <span>Forms</span>
+        </NavLink>
+        <NavLink href="/components/layout" class="docs-nav-link docs-nav-link-nested">
+            <span>Layout</span>
+        </NavLink>
+        <NavLink href="/components/navigation" class="docs-nav-link docs-nav-link-nested">
+            <span>Navigation</span>
+        </NavLink>
+        <NavLink href="/components/feedback" class="docs-nav-link docs-nav-link-nested">
+            <span>Feedback</span>
+        </NavLink>
+        <NavLink href="/components/data" class="docs-nav-link docs-nav-link-nested">
+            <span>Data</span>
+        </NavLink>
         
-        <!-- Theming Section - REORGANIZED -->
-        <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary)">🎨 Theming</div>
-        
-        <!-- Sub-menu 1: Theme Integration & Customization -->
-        <div class="ml-4 pl-4" style="border-left: 2px solid var(--color-divider)">
-            <div class="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Integration & Customization</div>
-            <a href="/docs/theme-integration" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
-               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
-                📖 Integration Guide
-            </a>
-            <a href="/docs/phase2-completion" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
-               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
-                ✨ Enhancement Overview
-            </a>
-            <a href="/docs/theme-enhancement-scope" class="block px-4 py-2 text-sm rounded-lg transition-colors" 
-               style="color: var(--color-text-secondary); transition: background-color var(--transition-fast)">
-                📊 Enhancement Scope
-            </a>
-        </div>
-        
-        <!-- Sub-menu 2: Theme Manager -->
-        <div class="ml-4 pl-4 mt-2" style="border-left: 2px solid var(--color-divider)">
-            <div class="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Theme Manager</div>
-            <a href="/theme-manager" class="block px-4 py-2 text-sm rounded-lg transition-colors font-semibold" 
-               style="color: var(--color-primary); transition: background-color var(--transition-fast)">
-                ⚙️ Theme Manager
-            </a>
-            <p class="px-4 py-1 text-xs" style="color: var(--color-text-muted)">
-                Complete theme control with presets, custom colors, and live preview
-            </p>
-        </div>
+        <!-- Theming Section -->
+        <div class="docs-nav-section">🎨 Theming</div>
+        <NavLink href="/theming" class="docs-nav-link docs-nav-link-nested">
+            <span>Overview</span>
+        </NavLink>
+        <NavLink href="/theme-toggle-demo" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Toggle</span>
+        </NavLink>
+        <NavLink href="/theme-selector-demo" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Selector</span>
+        </NavLink>
+        <NavLink href="/docs/theme-integration" class="docs-nav-link docs-nav-link-nested">
+            <span>Theme Integration</span>
+        </NavLink>
         
         <!-- Resources -->
-        <a href="/examples" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">💡 Examples</a>
-        <a href="/best-practices" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">✨ Best Practices</a>
-        <a href="/faq" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">❓ FAQ</a>
-        <a href="/api" class="block px-4 py-2 rounded-lg transition-colors" style="color: var(--color-text-primary); transition: background-color var(--transition-fast)">📚 API Reference</a>
+        <NavLink href="/examples" class="docs-nav-link">
+            <span class="docs-nav-icon">💡</span>
+            <span>Examples</span>
+        </NavLink>
+        <NavLink href="/best-practices" class="docs-nav-link">
+            <span class="docs-nav-icon">✨</span>
+            <span>Best Practices</span>
+        </NavLink>
+        <NavLink href="/faq" class="docs-nav-link">
+            <span class="docs-nav-icon">❓</span>
+            <span>FAQ</span>
+        </NavLink>
+        <NavLink href="/api" class="docs-nav-link">
+            <span class="docs-nav-icon">📚</span>
+            <span>API Reference</span>
+        </NavLink>
+        <NavLink href="/scope" class="docs-nav-link">
+            <span class="docs-nav-icon">📊</span>
+            <span>Scope & Status</span>
+        </NavLink>
     </nav>
 </div>
 
-<style>
-    nav a:hover {
-        background-color: var(--color-surface-2) !important;
+@code {
+    private string? _currentPath;
+
+    protected override void OnInitialized()
+    {
+        _currentPath = Navigation.Uri;
+        Navigation.LocationChanged += OnLocationChanged;
     }
-    
-    nav a[style*="color: var(--color-primary)"]:hover {
-        background-color: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface)) !important;
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        _currentPath = e.Location;
+        InvokeAsync(StateHasChanged);
     }
-</style>
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+}
 
