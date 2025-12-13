@@ -1,0 +1,38 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">✨ Implemented Features</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        @foreach (var feature in Features)
+        {
+            <TailPanel Variant="PanelVariant.Default" class="p-4">
+                <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                        <h3 class="font-semibold mb-1" style="color: var(--color-text-primary);">
+                            @feature.Name
+                        </h3>
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            @feature.Description
+                        </p>
+                    </div>
+                    <div class="ml-4">
+                        @if (feature.IsComplete)
+                        {
+                            <span class="text-green-500">✓</span>
+                        }
+                        else
+                        {
+                            <span class="text-yellow-500">⚡</span>
+                        }
+                    </div>
+                </div>
+            </TailPanel>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<FeatureStatus> Features { get; set; } = new();
+}
+

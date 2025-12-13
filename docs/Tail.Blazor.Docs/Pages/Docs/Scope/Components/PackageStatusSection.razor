@@ -1,0 +1,75 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">📦 Package Status</h2>
+    <div class="space-y-4">
+        @foreach (var package in Packages)
+        {
+            <TailPanel Variant="PanelVariant.Default" class="p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold mb-2" style="color: var(--color-text-primary);">
+                            @package.Name
+                        </h3>
+                        <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                            @package.Description
+                        </p>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span style="color: var(--color-text-secondary);">
+                                Components: <strong>@package.ComponentCount</strong>
+                            </span>
+                            <span style="color: var(--color-text-secondary);">
+                                Status: 
+                                <span class="font-semibold" style="color: @GetStatusColor(package.Status);">
+                                    @package.Status
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        @if (package.Status == "Complete")
+                        {
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" 
+                                  style="background-color: color-mix(in srgb, var(--color-success) 20%, transparent); 
+                                         color: var(--color-success);">
+                                ✓ Complete
+                            </span>
+                        }
+                        else if (package.Status == "In Progress")
+                        {
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" 
+                                  style="background-color: color-mix(in srgb, var(--color-warning) 20%, transparent); 
+                                         color: var(--color-warning);">
+                                ⚡ In Progress
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" 
+                                  style="background-color: color-mix(in srgb, var(--color-text-muted) 20%, transparent); 
+                                         color: var(--color-text-muted);">
+                                ○ Planned
+                            </span>
+                        }
+                    </div>
+                </div>
+            </TailPanel>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<PackageStatus> Packages { get; set; } = new();
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Complete" => "var(--color-success)",
+            "In Progress" => "var(--color-warning)",
+            _ => "var(--color-text-muted)"
+        };
+    }
+}
+

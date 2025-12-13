@@ -1,0 +1,140 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">
+        🎯 Missing Industry-Standard Features
+    </h2>
+    <div class="mb-4 p-4 rounded-lg" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
+        <p style="color: var(--color-text-primary);">
+            <strong>Note:</strong> The following features are commonly found in enterprise-grade UI libraries and are recommended for a complete component ecosystem.
+        </p>
+    </div>
+
+    <!-- High Priority Missing Features -->
+    @if (HighPriorityFeatures.Any())
+    {
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-3" style="color: var(--color-danger);">
+                🔴 High Priority (Essential for Enterprise Apps)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                @foreach (var feature in HighPriorityFeatures)
+                {
+                    <TailPanel Variant="PanelVariant.Default" class="p-4">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xl">@feature.Icon</span>
+                                    <h4 class="font-semibold" style="color: var(--color-text-primary);">
+                                        @feature.Name
+                                    </h4>
+                                </div>
+                                <p class="text-sm mb-2" style="color: var(--color-text-secondary);">
+                                    @feature.Description
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-primary) 20%, transparent); color: var(--color-primary);">
+                                        @feature.Category
+                                    </span>
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-danger) 20%, transparent); color: var(--color-danger);">
+                                        Priority: @feature.Priority
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </TailPanel>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Medium Priority Missing Features -->
+    @if (MediumPriorityFeatures.Any())
+    {
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-3" style="color: var(--color-warning);">
+                🟡 Medium Priority (Enhanced User Experience)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                @foreach (var feature in MediumPriorityFeatures)
+                {
+                    <TailPanel Variant="PanelVariant.Default" class="p-4">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xl">@feature.Icon</span>
+                                    <h4 class="font-semibold" style="color: var(--color-text-primary);">
+                                        @feature.Name
+                                    </h4>
+                                </div>
+                                <p class="text-sm mb-2" style="color: var(--color-text-secondary);">
+                                    @feature.Description
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-primary) 20%, transparent); color: var(--color-primary);">
+                                        @feature.Category
+                                    </span>
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-warning) 20%, transparent); color: var(--color-warning);">
+                                        Priority: @feature.Priority
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </TailPanel>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Low Priority Missing Features -->
+    @if (LowPriorityFeatures.Any())
+    {
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-3" style="color: var(--color-info);">
+                🟢 Low Priority (Nice to Have)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                @foreach (var feature in LowPriorityFeatures)
+                {
+                    <TailPanel Variant="PanelVariant.Default" class="p-4">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-xl">@feature.Icon</span>
+                                    <h4 class="font-semibold" style="color: var(--color-text-primary);">
+                                        @feature.Name
+                                    </h4>
+                                </div>
+                                <p class="text-sm mb-2" style="color: var(--color-text-secondary);">
+                                    @feature.Description
+                                </p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-primary) 20%, transparent); color: var(--color-primary);">
+                                        @feature.Category
+                                    </span>
+                                    <span class="text-xs px-2 py-1 rounded" 
+                                          style="background-color: color-mix(in srgb, var(--color-info) 20%, transparent); color: var(--color-info);">
+                                        Priority: @feature.Priority
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </TailPanel>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<MissingFeature> HighPriorityFeatures { get; set; } = new();
+    [Parameter] public List<MissingFeature> MediumPriorityFeatures { get; set; } = new();
+    [Parameter] public List<MissingFeature> LowPriorityFeatures { get; set; } = new();
+}
+

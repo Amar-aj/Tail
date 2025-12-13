@@ -1,0 +1,35 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+
+<div>
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">📝 Recent Updates</h2>
+    <div class="space-y-3">
+        @foreach (var update in Updates)
+        {
+            <TailPanel Variant="PanelVariant.Default" class="p-4">
+                <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0 w-2 h-2 rounded-full mt-2" 
+                         style="background-color: var(--color-primary);"></div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="font-semibold" style="color: var(--color-text-primary);">
+                                @update.Title
+                            </span>
+                            <span class="text-xs" style="color: var(--color-text-muted);">
+                                @update.Date.ToString("MMM dd, yyyy")
+                            </span>
+                        </div>
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            @update.Description
+                        </p>
+                    </div>
+                </div>
+            </TailPanel>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<UpdateInfo> Updates { get; set; } = new();
+}
+

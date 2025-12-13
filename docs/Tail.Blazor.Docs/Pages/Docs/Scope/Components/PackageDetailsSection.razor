@@ -1,0 +1,123 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">📦 Package Details & Documentation Status</h2>
+    <p class="text-sm mb-6" style="color: var(--color-text-secondary);">
+        Comprehensive overview of all packages, their components, features, APIs, and documentation sync status.
+    </p>
+
+    @foreach (var package in Packages)
+    {
+        <TailPanel Variant="PanelVariant.Default" class="p-6 mb-6">
+            <div class="mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                        @package.Name
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs px-2 py-1 rounded" 
+                              style="background-color: color-mix(in srgb, var(--color-success) 20%, transparent); 
+                                     color: var(--color-success);">
+                            @package.ComponentCount Components
+                        </span>
+                        @if (package.DocsSynced)
+                        {
+                            <span class="text-xs px-2 py-1 rounded" 
+                                  style="background-color: color-mix(in srgb, var(--color-success) 20%, transparent); 
+                                         color: var(--color-success);">
+                                ✓ Docs Synced
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-xs px-2 py-1 rounded" 
+                                  style="background-color: color-mix(in srgb, var(--color-warning) 20%, transparent); 
+                                         color: var(--color-warning);">
+                                ⚠ Docs Pending
+                            </span>
+                        }
+                    </div>
+                </div>
+                <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
+                    @package.Description
+                </p>
+            </div>
+
+            <!-- Components List -->
+            <div class="mb-4">
+                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Components:</h4>
+                <div class="flex flex-wrap gap-2">
+                    @foreach (var component in package.Components)
+                    {
+                        <span class="text-xs px-2 py-1 rounded" 
+                              style="background-color: color-mix(in srgb, var(--color-primary) 15%, transparent); 
+                                     color: var(--color-primary); border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);">
+                            @component
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <!-- Key Features -->
+            @if (package.KeyFeatures.Any())
+            {
+                <div class="mb-4">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Key Features:</h4>
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach (var feature in package.KeyFeatures)
+                        {
+                            <li class="text-xs" style="color: var(--color-text-secondary);">@feature</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <!-- API Coverage -->
+            <div class="mb-4">
+                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">API Coverage:</h4>
+                <div class="flex items-center gap-4 text-xs">
+                    <span style="color: var(--color-text-secondary);">
+                        Parameters: <strong style="color: var(--color-text-primary);">@package.ParameterCount</strong>
+                    </span>
+                    <span style="color: var(--color-text-secondary);">
+                        Events: <strong style="color: var(--color-text-primary);">@package.EventCount</strong>
+                    </span>
+                    <span style="color: var(--color-text-secondary);">
+                        Methods: <strong style="color: var(--color-text-primary);">@package.MethodCount</strong>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Documentation Status -->
+            <div class="border-t pt-3" style="border-color: var(--color-border);">
+                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Documentation Status:</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div>
+                        <span style="color: var(--color-text-secondary);">Examples:</span>
+                        <span class="ml-1 font-semibold" style="color: @(package.HasExamples ? "var(--color-success)" : "var(--color-warning)");">
+                            @(package.HasExamples ? "✓ Complete" : "⚠ Pending")
+                        </span>
+                    </div>
+                    <div>
+                        <span style="color: var(--color-text-secondary);">API Reference:</span>
+                        <span class="ml-1 font-semibold" style="color: @(package.HasApiReference ? "var(--color-success)" : "var(--color-warning)");">
+                            @(package.HasApiReference ? "✓ Complete" : "⚠ Pending")
+                        </span>
+                    </div>
+                    <div>
+                        <span style="color: var(--color-text-secondary);">Code Samples:</span>
+                        <span class="ml-1 font-semibold" style="color: @(package.HasCodeSamples ? "var(--color-success)" : "var(--color-warning)");">
+                            @(package.HasCodeSamples ? "✓ Complete" : "⚠ Pending")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </TailPanel>
+    }
+</div>
+
+@code {
+    [Parameter] public List<PackageDetail> Packages { get; set; } = new();
+}
+
