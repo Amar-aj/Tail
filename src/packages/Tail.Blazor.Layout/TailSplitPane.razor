@@ -1,0 +1,228 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()">
+    <div class="@GetPaneClasses(0)" style="@GetPaneStyle(0)">
+        @if (FirstPaneTemplate != null)
+        {
+            @FirstPaneTemplate
+        }
+        else
+        {
+            @FirstPaneContent
+        }
+    </div>
+    
+    @if (Resizable)
+    {
+        <div class="@GetResizerClasses()" 
+             style="@GetResizerStyle()"
+             @onmousedown="StartResize"
+             @onmouseup="StopResize"
+             @onmousemove="HandleMouseMove">
+            <div class="@GetResizerHandleClasses()" style="@GetResizerHandleStyle()"></div>
+        </div>
+    }
+    
+    <div class="@GetPaneClasses(1)" style="@GetPaneStyle(1)">
+        @if (SecondPaneTemplate != null)
+        {
+            @SecondPaneTemplate
+        }
+        else
+        {
+            @SecondPaneContent
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? FirstPaneContent { get; set; }
+    [Parameter] public RenderFragment? FirstPaneTemplate { get; set; }
+    [Parameter] public RenderFragment? SecondPaneContent { get; set; }
+    [Parameter] public RenderFragment? SecondPaneTemplate { get; set; }
+    [Parameter] public SplitPaneOrientation Orientation { get; set; } = SplitPaneOrientation.Horizontal;
+    [Parameter] public bool Resizable { get; set; } = true;
+    [Parameter] public double InitialSize { get; set; } = 50; // Percentage
+    [Parameter] public double MinSize { get; set; } = 10; // Percentage
+    [Parameter] public double MaxSize { get; set; } = 90; // Percentage;
+    [Parameter] public bool PersistSize { get; set; } = false;
+    [Parameter] public string? PersistKey { get; set; }
+
+    private double currentSize;
+    private bool isResizing;
+    private double? startPosition;
+    private double? containerSize;
+
+    protected override void OnInitialized()
+    {
+        if (PersistSize && !string.IsNullOrEmpty(PersistKey))
+        {
+            // Load persisted size from localStorage
+            // This would require JS interop
+        }
+        currentSize = InitialSize;
+    }
+
+    private void StartResize(MouseEventArgs e)
+    {
+        if (!Resizable) return;
+        
+        isResizing = true;
+        startPosition = Orientation == SplitPaneOrientation.Horizontal ? e.ClientX : e.ClientY;
+    }
+
+    private void StopResize()
+    {
+        if (!isResizing) return;
+        
+        isResizing = false;
+        startPosition = null;
+        
+        if (PersistSize && !string.IsNullOrEmpty(PersistKey))
+        {
+            // Save to localStorage
+            // This would require JS interop
+        }
+    }
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        if (!isResizing || !startPosition.HasValue) return;
+        
+        // Calculate new size based on mouse position
+        // This is a simplified version - full implementation would need container size
+        var currentPosition = Orientation == SplitPaneOrientation.Horizontal ? e.ClientX : e.ClientY;
+        var delta = currentPosition - startPosition.Value;
+        
+        // Update size (simplified - would need proper container measurement)
+        // For now, we'll use a basic calculation
+        currentSize = Math.Clamp(currentSize + (delta / 10), MinSize, MaxSize);
+        StateHasChanged();
+    }
+
+    // Styling methods using global CSS variables
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "flex" };
+        
+        if (Orientation == SplitPaneOrientation.Horizontal)
+        {
+            classes.Add("flex-row");
+        }
+        else
+        {
+            classes.Add("flex-col");
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetContainerStyle()
+    {
+        return "height: 100%; width: 100%;";
+    }
+
+    private string GetPaneClasses(int index)
+    {
+        var classes = new List<string> { "overflow-auto" };
+        
+        if (Orientation == SplitPaneOrientation.Horizontal)
+        {
+            classes.Add("h-full");
+        }
+        else
+        {
+            classes.Add("w-full");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetPaneStyle(int index)
+    {
+        var styles = new List<string>
+        {
+            "background-color: var(--color-background);",
+            "transition: width var(--transition-normal), height var(--transition-normal);"
+        };
+        
+        if (index == 0)
+        {
+            if (Orientation == SplitPaneOrientation.Horizontal)
+            {
+                styles.Add($"width: {currentSize}%;");
+            }
+            else
+            {
+                styles.Add($"height: {currentSize}%;");
+            }
+        }
+        else
+        {
+            if (Orientation == SplitPaneOrientation.Horizontal)
+            {
+                styles.Add($"width: {100 - currentSize}%;");
+            }
+            else
+            {
+                styles.Add($"height: {100 - currentSize}%;");
+            }
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetResizerClasses()
+    {
+        var classes = new List<string> { "flex items-center justify-center cursor-col-resize select-none" };
+        
+        if (Orientation == SplitPaneOrientation.Horizontal)
+        {
+            classes.Add("w-1 h-full cursor-col-resize");
+        }
+        else
+        {
+            classes.Add("h-1 w-full cursor-row-resize");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetResizerStyle()
+    {
+        return @"
+            background-color: var(--color-divider);
+            transition: background-color var(--transition-fast);
+        ";
+    }
+
+    private string GetResizerHandleClasses()
+    {
+        var classes = new List<string> { "rounded-full" };
+        
+        if (Orientation == SplitPaneOrientation.Horizontal)
+        {
+            classes.Add("w-1 h-8");
+        }
+        else
+        {
+            classes.Add("h-1 w-8");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetResizerHandleStyle()
+    {
+        return "background-color: var(--color-text-muted);";
+    }
+}
+
+

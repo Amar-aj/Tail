@@ -1,0 +1,331 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Forms.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" @attributes="AdditionalAttributes">
+    <!-- Toolbar -->
+    @if (ShowToolbar)
+    {
+        <div class="@GetToolbarClasses()" style="@GetToolbarStyle()">
+            <!-- Aspect Ratio Selector -->
+            @if (AspectRatios != null && AspectRatios.Any())
+            {
+                <div class="flex items-center gap-2">
+                    <label class="@GetLabelClasses()" style="@GetLabelStyle()">Aspect Ratio:</label>
+                    <select 
+                        class="@GetSelectClasses()"
+                        style="@GetSelectStyle()"
+                        @bind="selectedAspectRatio"
+                        @bind:event="onchange">
+                        @foreach (var ratio in AspectRatios)
+                        {
+                            <option value="@ratio.Name">@ratio.Name (@(ratio.Ratio == 0 ? "Free" : $"{ratio.Ratio:F2}"))</option>
+                        }
+                    </select>
+                </div>
+            }
+
+            <!-- Zoom Controls -->
+            <div class="flex items-center gap-2">
+                <button 
+                    type="button"
+                    class="@GetToolbarButtonClasses()"
+                    style="@GetToolbarButtonStyle()"
+                    @onclick="ZoomOut"
+                    title="Zoom Out">
+                    ➖
+                </button>
+                <span class="@GetZoomLabelClasses()" style="@GetZoomLabelStyle()">@((int)(zoomLevel * 100))%</span>
+                <button 
+                    type="button"
+                    class="@GetToolbarButtonClasses()"
+                    style="@GetToolbarButtonStyle()"
+                    @onclick="ZoomIn"
+                    title="Zoom In">
+                    ➕
+                </button>
+            </div>
+
+            <!-- Rotate Controls -->
+            <div class="flex items-center gap-2">
+                <button 
+                    type="button"
+                    class="@GetToolbarButtonClasses()"
+                    style="@GetToolbarButtonStyle()"
+                    @onclick="RotateLeft"
+                    title="Rotate Left">
+                    ↶
+                </button>
+                <button 
+                    type="button"
+                    class="@GetToolbarButtonClasses()"
+                    style="@GetToolbarButtonStyle()"
+                    @onclick="RotateRight"
+                    title="Rotate Right">
+                    ↷
+                </button>
+            </div>
+
+            <!-- Reset Button -->
+            <button 
+                type="button"
+                class="@GetToolbarButtonClasses()"
+                style="@GetResetButtonStyle()"
+                @onclick="Reset">
+                Reset
+            </button>
+        </div>
+    }
+
+    <!-- Image Container -->
+    <div class="@GetImageContainerClasses()" style="@GetImageContainerStyle()">
+        <div id="@cropperId" class="@GetCropperClasses()" style="@GetCropperStyle()">
+            @if (!string.IsNullOrEmpty(ImageUrl))
+            {
+                <img 
+                    id="@imageId"
+                    src="@ImageUrl" 
+                    alt="Crop preview"
+                    class="@GetImageClasses()"
+                    style="@GetImageStyle()" />
+            }
+            else
+            {
+                <div class="@GetEmptyClasses()" style="@GetEmptyStyle()">
+                    <p style="color: var(--color-text-secondary);">No image selected</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Preview -->
+    @if (ShowPreview && !string.IsNullOrEmpty(ImageUrl))
+    {
+        <div class="@GetPreviewContainerClasses()" style="@GetPreviewContainerStyle()">
+            <h4 class="@GetPreviewTitleClasses()" style="@GetPreviewTitleStyle()">Preview</h4>
+            <div class="@GetPreviewClasses()" style="@GetPreviewStyle()">
+                <canvas id="@previewCanvasId" class="w-full h-full"></canvas>
+            </div>
+        </div>
+    }
+
+    <!-- Actions -->
+    @if (ShowActions)
+    {
+        <div class="@GetActionsClasses()" style="@GetActionsStyle()">
+            <button 
+                type="button"
+                class="@GetActionButtonClasses()"
+                style="@GetCancelButtonStyle()"
+                @onclick="HandleCancel">
+                Cancel
+            </button>
+            <button 
+                type="button"
+                class="@GetActionButtonClasses()"
+                style="@GetCropButtonStyle()"
+                @onclick="HandleCrop"
+                disabled="@string.IsNullOrEmpty(ImageUrl)">
+                Crop
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public string? ImageUrl { get; set; }
+    [Parameter] public EventCallback<string?> ImageUrlChanged { get; set; }
+    [Parameter] public EventCallback<byte[]?> CroppedImageChanged { get; set; }
+    [Parameter] public List<AspectRatio>? AspectRatios { get; set; }
+    [Parameter] public bool ShowToolbar { get; set; } = true;
+    [Parameter] public bool ShowPreview { get; set; } = true;
+    [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public int PreviewWidth { get; set; } = 200;
+    [Parameter] public int PreviewHeight { get; set; } = 200;
+    [Parameter] public double MinZoom { get; set; } = 0.1;
+    [Parameter] public double MaxZoom { get; set; } = 3.0;
+    [Parameter] public ImageCropperZoomMode ZoomMode { get; set; } = ImageCropperZoomMode.Fit;
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnCrop { get; set; }
+
+    private string cropperId = $"cropper-{Guid.NewGuid():N}";
+    private string imageId = $"cropper-image-{Guid.NewGuid():N}";
+    private string previewCanvasId = $"preview-canvas-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private double zoomLevel = 1.0;
+    private double rotation = 0;
+    private string selectedAspectRatio = "Free";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Forms/imagecropper.js");
+                await jsModule.InvokeVoidAsync("initializeCropper", cropperId, imageId, previewCanvasId, DotNetObjectReference.Create(this));
+            }
+            catch { }
+        }
+
+        if (!string.IsNullOrEmpty(ImageUrl) && jsModule != null)
+        {
+            await UpdateCropper();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(ImageUrl) && jsModule != null)
+        {
+            await UpdateCropper();
+        }
+    }
+
+    private async Task UpdateCropper()
+    {
+        if (jsModule == null || string.IsNullOrEmpty(ImageUrl)) return;
+
+        var currentRatio = AspectRatios?.FirstOrDefault(r => r.Name == selectedAspectRatio);
+        var aspectRatio = currentRatio?.Ratio ?? 0;
+        var locked = currentRatio?.Locked ?? false;
+
+        await jsModule.InvokeVoidAsync("updateCropper", cropperId, imageId, zoomLevel, rotation, aspectRatio, locked, ZoomMode.ToString());
+        await UpdatePreview();
+    }
+
+    private async Task UpdatePreview()
+    {
+        if (jsModule == null || string.IsNullOrEmpty(ImageUrl)) return;
+        await jsModule.InvokeVoidAsync("updatePreview", cropperId, imageId, previewCanvasId, PreviewWidth, PreviewHeight);
+    }
+
+    private async Task ZoomIn()
+    {
+        zoomLevel = Math.Min(zoomLevel + 0.1, MaxZoom);
+        await UpdateCropper();
+    }
+
+    private async Task ZoomOut()
+    {
+        zoomLevel = Math.Max(zoomLevel - 0.1, MinZoom);
+        await UpdateCropper();
+    }
+
+    private async Task RotateLeft()
+    {
+        rotation = (rotation - 90) % 360;
+        await UpdateCropper();
+    }
+
+    private async Task RotateRight()
+    {
+        rotation = (rotation + 90) % 360;
+        await UpdateCropper();
+    }
+
+    private async Task Reset()
+    {
+        zoomLevel = 1.0;
+        rotation = 0;
+        selectedAspectRatio = "Free";
+        await UpdateCropper();
+    }
+
+    private async Task HandleCrop()
+    {
+        if (jsModule == null || string.IsNullOrEmpty(ImageUrl)) return;
+
+        try
+        {
+            var croppedData = await jsModule.InvokeAsync<byte[]>("getCroppedImage", cropperId, imageId);
+            await CroppedImageChanged.InvokeAsync(croppedData);
+            
+            if (OnCrop.HasDelegate)
+            {
+                await OnCrop.InvokeAsync();
+            }
+        }
+        catch { }
+    }
+
+    private async Task HandleCancel()
+    {
+        if (OnCancel.HasDelegate)
+        {
+            await OnCancel.InvokeAsync();
+        }
+    }
+
+    [JSInvokable]
+    public void OnCropChange(double x, double y, double width, double height)
+    {
+        // Handle crop area change if needed
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "w-full border rounded-lg overflow-hidden";
+    private string GetContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface);";
+
+    private string GetToolbarClasses() => "flex items-center justify-between gap-4 p-4 border-b flex-wrap";
+    private string GetToolbarStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+
+    private string GetLabelClasses() => "text-sm font-medium";
+    private string GetLabelStyle() => "color: var(--color-text-primary);";
+
+    private string GetSelectClasses() => "px-3 py-1 rounded-md border text-sm";
+    private string GetSelectStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+
+    private string GetToolbarButtonClasses() => "px-3 py-1 rounded-md border text-sm transition-colors duration-150";
+    private string GetToolbarButtonStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary); hover:bg-gray-100 dark:hover:bg-gray-800;";
+
+    private string GetZoomLabelClasses() => "text-sm font-medium min-w-[50px] text-center";
+    private string GetZoomLabelStyle() => "color: var(--color-text-primary);";
+
+    private string GetResetButtonStyle() => "background-color: var(--color-warning); border-color: var(--color-warning); color: white;";
+
+    private string GetImageContainerClasses() => "relative w-full overflow-hidden";
+    private string GetImageContainerStyle() => "min-height: 400px; background-color: var(--color-surface-2);";
+
+    private string GetCropperClasses() => "relative w-full h-full";
+    private string GetCropperStyle() => "";
+
+    private string GetImageClasses() => "max-w-full max-h-full";
+    private string GetImageStyle() => "";
+
+    private string GetEmptyClasses() => "flex items-center justify-center h-full min-h-[400px]";
+    private string GetEmptyStyle() => "";
+
+    private string GetPreviewContainerClasses() => "p-4 border-t";
+    private string GetPreviewContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+
+    private string GetPreviewTitleClasses() => "text-sm font-semibold mb-2";
+    private string GetPreviewTitleStyle() => "color: var(--color-text-primary);";
+
+    private string GetPreviewClasses() => "w-full border rounded overflow-hidden";
+    private string GetPreviewStyle() => $"width: {PreviewWidth}px; height: {PreviewHeight}px; border-color: var(--color-border); background-color: var(--color-surface);";
+
+    private string GetActionsClasses() => "flex justify-end gap-2 p-4 border-t";
+    private string GetActionsStyle() => "border-color: var(--color-border);";
+
+    private string GetActionButtonClasses() => "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-150";
+    private string GetCancelButtonStyle() => "background-color: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-primary);";
+    private string GetCropButtonStyle() => "background-color: var(--color-primary); border: 1px solid var(--color-primary); color: white;";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

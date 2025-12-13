@@ -1,0 +1,227 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+@using Microsoft.AspNetCore.Components.Web
+
+@if (Visible)
+{
+    <div class="@GetOverlayClasses()" 
+         style="@GetOverlayStyle()"
+         @onclick="HandleOverlayClick"
+         @ontouchstart="HandleTouchStart"
+         @ontouchmove="HandleTouchMove"
+         @ontouchend="HandleTouchEnd">
+        <div class="@GetSheetClasses()" 
+             style="@GetSheetStyle()"
+             @onclick:stopPropagation="true">
+            @if (ShowHandle)
+            {
+                <div class="@GetHandleClasses()" style="@GetHandleStyle()"></div>
+            }
+            @if (!string.IsNullOrEmpty(Title))
+            {
+                <div class="@GetHeaderClasses()" style="@GetHeaderStyle()">
+                    <h3 class="@GetTitleClasses()">@Title</h3>
+                    @if (Closable)
+                    {
+                        <button 
+                            type="button"
+                            class="@GetCloseButtonClasses()"
+                            style="@GetCloseButtonStyle()"
+                            @onclick="Close"
+                            aria-label="Close">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    }
+                </div>
+            }
+            <div class="@GetContentClasses()" style="@GetContentStyle()">
+                @ChildContent
+            </div>
+            @if (FooterTemplate != null)
+            {
+                <div class="@GetFooterClasses()" style="@GetFooterStyle()">
+                    @FooterTemplate
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? FooterTemplate { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public bool Closable { get; set; } = true;
+    [Parameter] public bool CloseOnOverlayClick { get; set; } = true;
+    [Parameter] public bool ShowHandle { get; set; } = true;
+    [Parameter] public BottomSheetSize Size { get; set; } = BottomSheetSize.Md;
+    [Parameter] public List<double> SnapPoints { get; set; } = new();
+    [Parameter] public bool Draggable { get; set; } = true;
+
+    private double currentPosition = 0;
+    private double? touchStartY;
+    private bool isDragging = false;
+
+    protected override void OnParametersSet()
+    {
+        if (Visible && SnapPoints.Any())
+        {
+            currentPosition = SnapPoints.Last(); // Start at highest snap point
+        }
+    }
+
+    private async Task Close()
+    {
+        Visible = false;
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(false);
+        }
+    }
+
+    private async Task HandleOverlayClick()
+    {
+        if (CloseOnOverlayClick)
+        {
+            await Close();
+        }
+    }
+
+    private void HandleTouchStart(TouchEventArgs e)
+    {
+        if (!Draggable) return;
+        touchStartY = e.Touches[0].ClientY;
+        isDragging = true;
+    }
+
+    private void HandleTouchMove(TouchEventArgs e)
+    {
+        if (!isDragging || !touchStartY.HasValue) return;
+        
+        var deltaY = e.Touches[0].ClientY - touchStartY.Value;
+        // Calculate new position based on delta
+        // This is simplified - full implementation would need container height
+    }
+
+    private async Task HandleTouchEnd(TouchEventArgs e)
+    {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        touchStartY = null;
+        
+        // Snap to nearest snap point
+        if (SnapPoints.Any())
+        {
+            // Simplified - would calculate based on current position
+        }
+    }
+
+    // Styling methods using global CSS variables
+    private string GetOverlayClasses()
+    {
+        return "fixed inset-0 z-50 transition-opacity";
+    }
+
+    private string GetOverlayStyle()
+    {
+        return @"
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        ";
+    }
+
+    private string GetSheetClasses()
+    {
+        var classes = new List<string> { "absolute bottom-0 left-0 right-0 rounded-t-lg border-t transition-transform" };
+        
+        classes.Add(Size switch
+        {
+            BottomSheetSize.Sm => "max-h-[50vh]",
+            BottomSheetSize.Md => "max-h-[70vh]",
+            BottomSheetSize.Lg => "max-h-[90vh]",
+            BottomSheetSize.Full => "max-h-[100vh]",
+            _ => "max-h-[70vh]"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetSheetStyle()
+    {
+        var styles = new List<string>
+        {
+            "background-color: var(--color-surface);",
+            "border-color: var(--color-border);",
+            "box-shadow: var(--shadow-lg);"
+        };
+        
+        if (currentPosition > 0)
+        {
+            styles.Add($"transform: translateY({100 - currentPosition * 100}%);");
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetHandleClasses()
+    {
+        return "mx-auto mt-2 mb-4 w-12 h-1 rounded-full";
+    }
+
+    private string GetHandleStyle()
+    {
+        return "background-color: var(--color-divider);";
+    }
+
+    private string GetHeaderClasses()
+    {
+        return "flex items-center justify-between px-4 py-3 border-b";
+    }
+
+    private string GetHeaderStyle()
+    {
+        return "border-color: var(--color-divider);";
+    }
+
+    private string GetTitleClasses()
+    {
+        return "text-lg font-semibold";
+    }
+
+    private string GetCloseButtonClasses()
+    {
+        return "p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors";
+    }
+
+    private string GetCloseButtonStyle()
+    {
+        return "color: var(--color-text-secondary);";
+    }
+
+    private string GetContentClasses()
+    {
+        return "px-4 py-4 overflow-y-auto";
+    }
+
+    private string GetContentStyle()
+    {
+        return string.Empty;
+    }
+
+    private string GetFooterClasses()
+    {
+        return "px-4 py-3 border-t";
+    }
+
+    private string GetFooterStyle()
+    {
+        return "border-color: var(--color-divider);";
+    }
+}
+
+

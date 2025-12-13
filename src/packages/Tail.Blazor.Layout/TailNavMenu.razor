@@ -1,0 +1,532 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+@using Microsoft.AspNetCore.Components.Routing
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<nav class="@GetNavClasses()" style="@GetNavStyle()">
+    @if (Items != null && Items.Any())
+    {
+        @foreach (var item in Items)
+        {
+            @if (item.IsDivider)
+            {
+                <div class="@GetDividerClasses()" style="@GetDividerStyle()"></div>
+            }
+            else if (item.IsSection)
+            {
+                <div class="@GetSectionClasses()" style="@GetSectionStyle()">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <span class="mr-2">@item.Icon</span>
+                    }
+                    <span>@item.Text</span>
+                </div>
+            }
+            else if (item.HasChildren)
+            {
+                <div class="@GetExpandableItemClasses(item)">
+                    <button 
+                        type="button"
+                        class="@GetExpandableButtonClasses(item)"
+                        style="@GetExpandableButtonStyle(item)"
+                        @onclick="@(() => ToggleExpand(item))"
+                        aria-expanded="@item.IsExpanded">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <span class="@GetIconClasses()">@item.Icon</span>
+                        }
+                        <span class="flex-1 text-left">@item.Text</span>
+                        @if (item.Badge != null)
+                        {
+                            <span class="@GetBadgeClasses()" style="@GetBadgeStyle(item.Badge)">
+                                @item.Badge.Text
+                            </span>
+                        }
+                        <svg class="@GetExpandIconClasses()" 
+                             style="transform: @(item.IsExpanded ? "rotate(90deg)" : "rotate(0deg)"); transition: transform var(--transition-fast);"
+                             fill="none" 
+                             stroke="currentColor" 
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    @if (item.IsExpanded)
+                    {
+                        <div class="@GetChildrenContainerClasses()">
+                            @foreach (var child in item.Children)
+                            {
+                                <NavLink href="@child.Href" 
+                                         Match="@(child.ExactMatch ? NavLinkMatch.All : NavLinkMatch.Prefix)"
+                                         class="@GetChildItemClasses(child)" 
+                                         style="@GetChildItemStyle(child)"
+                                         ActiveClass="@GetActiveItemClasses()">
+                                    @if (!string.IsNullOrEmpty(child.Icon))
+                                    {
+                                        <span class="@GetIconClasses()">@child.Icon</span>
+                                    }
+                                    <span>@child.Text</span>
+                                    @if (child.Badge != null)
+                                    {
+                                        <span class="@GetBadgeClasses()" style="@GetBadgeStyle(child.Badge)">
+                                            @child.Badge.Text
+                                        </span>
+                                    }
+                                </NavLink>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <NavLink href="@item.Href" 
+                         Match="@(item.ExactMatch ? NavLinkMatch.All : NavLinkMatch.Prefix)"
+                         class="@GetItemClasses(item)" 
+                         style="@GetItemStyle(item)"
+                         ActiveClass="@GetActiveItemClasses()">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <span class="@GetIconClasses()">@item.Icon</span>
+                    }
+                    <span>@item.Text</span>
+                    @if (item.Badge != null)
+                    {
+                        <span class="@GetBadgeClasses()" style="@GetBadgeStyle(item.Badge)">
+                            @item.Badge.Text
+                        </span>
+                    }
+                </NavLink>
+            }
+        }
+    }
+    else
+    {
+        @ChildContent
+    }
+</nav>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public List<NavMenuItem>? Items { get; set; }
+    [Parameter] public NavMenuVariant Variant { get; set; } = NavMenuVariant.Default;
+    [Parameter] public NavMenuSize Size { get; set; } = NavMenuSize.Md;
+    [Parameter] public bool ShowIcons { get; set; } = true;
+    [Parameter] public bool ShowBadges { get; set; } = true;
+    [Parameter] public bool Compact { get; set; } = false;
+    [Parameter] public bool AutoExpandActive { get; set; } = true;
+
+    private string? _currentPath;
+
+    protected override void OnInitialized()
+    {
+        _currentPath = Navigation.Uri;
+        Navigation.LocationChanged += OnLocationChanged;
+        
+        // Auto-expand items with active children
+        if (AutoExpandActive && Items != null)
+        {
+            CheckAndExpandActiveItems(Items);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        // Re-check active items when parameters change
+        if (AutoExpandActive && Items != null)
+        {
+            CheckAndExpandActiveItems(Items);
+        }
+    }
+
+    private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        _currentPath = e.Location;
+        
+        // Re-check active items on navigation
+        if (AutoExpandActive && Items != null)
+        {
+            CheckAndExpandActiveItems(Items);
+        }
+        
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void CheckAndExpandActiveItems(List<NavMenuItem> items)
+    {
+        foreach (var item in items)
+        {
+            if (item.HasChildren)
+            {
+                // Check if any child is active
+                var hasActiveChild = item.Children.Any(child => 
+                    !string.IsNullOrEmpty(child.Href) && 
+                    IsPathActive(child.Href, child.ExactMatch));
+                
+                if (hasActiveChild)
+                {
+                    item.IsExpanded = true;
+                }
+                
+                // Recursively check nested children
+                CheckAndExpandActiveItems(item.Children);
+            }
+        }
+    }
+
+    private bool IsPathActive(string? href, bool exactMatch)
+    {
+        if (string.IsNullOrEmpty(href) || string.IsNullOrEmpty(_currentPath))
+            return false;
+
+        var currentPath = new Uri(Navigation.Uri).AbsolutePath;
+        var targetPath = href;
+
+        if (exactMatch)
+        {
+            return currentPath.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
+        }
+        else
+        {
+            return currentPath.StartsWith(targetPath, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    private void ToggleExpand(NavMenuItem item)
+    {
+        if (item.HasChildren)
+        {
+            item.IsExpanded = !item.IsExpanded;
+            StateHasChanged();
+        }
+    }
+
+    private string GetNavClasses()
+    {
+        var classes = new List<string> { "flex flex-col" };
+        
+        if (Compact)
+        {
+            classes.Add("gap-1");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "gap-1",
+                NavMenuSize.Md => "gap-2",
+                NavMenuSize.Lg => "gap-3",
+                _ => "gap-2"
+            });
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetNavStyle()
+    {
+        return string.Empty;
+    }
+
+    private string GetItemClasses(NavMenuItem item)
+    {
+        var classes = new List<string>
+        {
+            "flex items-center px-4 py-2 rounded-lg transition-all duration-200",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "focus:outline-none focus:ring-2 focus:ring-offset-2"
+        };
+        
+        if (Compact)
+        {
+            classes.Add("py-1.5 text-sm");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "py-1.5 text-sm",
+                NavMenuSize.Md => "py-2 text-base",
+                NavMenuSize.Lg => "py-3 text-lg",
+                _ => "py-2 text-base"
+            });
+        }
+        
+        if (item.Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetItemStyle(NavMenuItem item)
+    {
+        var styles = new List<string>
+        {
+            "color: var(--color-text-secondary);",
+            "transition: background-color var(--transition-fast), color var(--transition-fast);"
+        };
+        
+        if (item.Disabled)
+        {
+            styles.Add("pointer-events: none;");
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetActiveItemClasses()
+    {
+        return "active";
+    }
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string> { "mr-2 flex-shrink-0" };
+        
+        if (Compact)
+        {
+            classes.Add("text-base");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "text-base",
+                NavMenuSize.Md => "text-lg",
+                NavMenuSize.Lg => "text-xl",
+                _ => "text-lg"
+            });
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetBadgeClasses()
+    {
+        return "ml-auto px-2 py-0.5 text-xs font-semibold rounded-full";
+    }
+
+    private string GetBadgeStyle(NavMenuBadge badge)
+    {
+        var styles = new List<string>();
+        
+        switch (badge.Variant)
+        {
+            case NavMenuBadgeVariant.Primary:
+                styles.Add("background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);");
+                styles.Add("color: var(--color-primary);");
+                break;
+            case NavMenuBadgeVariant.Success:
+                styles.Add("background-color: color-mix(in srgb, var(--color-success) 20%, transparent);");
+                styles.Add("color: var(--color-success);");
+                break;
+            case NavMenuBadgeVariant.Warning:
+                styles.Add("background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);");
+                styles.Add("color: var(--color-warning);");
+                break;
+            case NavMenuBadgeVariant.Danger:
+                styles.Add("background-color: color-mix(in srgb, var(--color-danger) 20%, transparent);");
+                styles.Add("color: var(--color-danger);");
+                break;
+            default:
+                styles.Add("background-color: var(--color-surface-2);");
+                styles.Add("color: var(--color-text-secondary);");
+                break;
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetSectionClasses()
+    {
+        var classes = new List<string>
+        {
+            "px-4 py-2 text-xs font-semibold uppercase tracking-wider"
+        };
+        
+        classes.Add(Size switch
+        {
+            NavMenuSize.Sm => "py-1 text-xs",
+            NavMenuSize.Md => "py-2 text-xs",
+            NavMenuSize.Lg => "py-3 text-sm",
+            _ => "py-2 text-xs"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetSectionStyle()
+    {
+        return "color: var(--color-text-muted);";
+    }
+
+    private string GetDividerClasses()
+    {
+        return "my-2";
+    }
+
+    private string GetDividerStyle()
+    {
+        return "border-top: 1px solid var(--color-divider);";
+    }
+
+    private string GetExpandableItemClasses(NavMenuItem item)
+    {
+        return "flex flex-col";
+    }
+
+    private string GetExpandableButtonClasses(NavMenuItem item)
+    {
+        var classes = new List<string>
+        {
+            "flex items-center w-full px-4 py-2 rounded-lg transition-all duration-200",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "focus:outline-none focus:ring-2 focus:ring-offset-2"
+        };
+        
+        if (Compact)
+        {
+            classes.Add("py-1.5 text-sm");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "py-1.5 text-sm",
+                NavMenuSize.Md => "py-2 text-base",
+                NavMenuSize.Lg => "py-3 text-lg",
+                _ => "py-2 text-base"
+            });
+        }
+        
+        // Check if any child is active
+        var hasActiveChild = item.Children.Any(child => 
+            !string.IsNullOrEmpty(child.Href) && 
+            IsPathActive(child.Href, child.ExactMatch));
+        
+        if (hasActiveChild)
+        {
+            classes.Add("active");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetExpandableButtonStyle(NavMenuItem item)
+    {
+        var styles = new List<string>
+        {
+            "color: var(--color-text-secondary);",
+            "transition: background-color var(--transition-fast), color var(--transition-fast);"
+        };
+        
+        // Check if any child is active
+        var hasActiveChild = item.Children.Any(child => 
+            !string.IsNullOrEmpty(child.Href) && 
+            IsPathActive(child.Href, child.ExactMatch));
+        
+        if (hasActiveChild)
+        {
+            styles.Add("background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);");
+            styles.Add("color: var(--color-primary);");
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetExpandIconClasses()
+    {
+        return "w-4 h-4 ml-2 flex-shrink-0";
+    }
+
+    private string GetChildrenContainerClasses()
+    {
+        var classes = new List<string> { "ml-4 mt-1 space-y-1" };
+        
+        if (Compact)
+        {
+            classes.Add("space-y-0.5");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "space-y-0.5",
+                NavMenuSize.Md => "space-y-1",
+                NavMenuSize.Lg => "space-y-2",
+                _ => "space-y-1"
+            });
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetChildItemClasses(NavMenuItem item)
+    {
+        var classes = new List<string>
+        {
+            "flex items-center px-4 py-2 rounded-lg transition-all duration-200",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "focus:outline-none focus:ring-2 focus:ring-offset-2"
+        };
+        
+        if (Compact)
+        {
+            classes.Add("py-1.5 text-sm");
+        }
+        else
+        {
+            classes.Add(Size switch
+            {
+                NavMenuSize.Sm => "py-1 text-xs",
+                NavMenuSize.Md => "py-1.5 text-sm",
+                NavMenuSize.Lg => "py-2 text-base",
+                _ => "py-1.5 text-sm"
+            });
+        }
+        
+        if (item.Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetChildItemStyle(NavMenuItem item)
+    {
+        var styles = new List<string>
+        {
+            "color: var(--color-text-secondary);",
+            "transition: background-color var(--transition-fast), color var(--transition-fast);"
+        };
+        
+        if (item.Disabled)
+        {
+            styles.Add("pointer-events: none;");
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocationChanged;
+    }
+}
+
+<style>
+    .active {
+        background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+        color: var(--color-primary) !important;
+        font-weight: 600;
+    }
+</style>
+

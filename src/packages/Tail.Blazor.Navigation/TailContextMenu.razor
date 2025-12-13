@@ -1,0 +1,193 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Navigation
+
+<div class="@GetContainerClasses()" 
+     @oncontextmenu="HandleContextMenu"
+     @oncontextmenu:preventDefault="true"
+     @attributes="AdditionalAttributes">
+    @ChildContent
+    
+    @if (ShowMenu && Items != null && Items.Any())
+    {
+        <div class="@GetMenuClasses()" 
+             style="@GetMenuStyle()"
+             @onclick:stopPropagation="true">
+            @foreach (var item in Items)
+            {
+                @if (item.IsDivider)
+                {
+                    <div class="@GetDividerClasses()" style="@GetDividerStyle()"></div>
+                }
+                else if (item.IsSection)
+                {
+                    <div class="@GetSectionClasses()" style="@GetSectionStyle()">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <span class="mr-2">@item.Icon</span>
+                        }
+                        <span>@item.Text</span>
+                    </div>
+                }
+                else
+                {
+                    <button 
+                        type="button"
+                        class="@GetItemClasses(item)"
+                        style="@GetItemStyle(item)"
+                        @onclick="() => HandleItemClick(item)"
+                        disabled="@item.Disabled">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <span class="@GetIconClasses()">@item.Icon</span>
+                        }
+                        <span class="flex-1 text-left">@item.Text</span>
+                        @if (!string.IsNullOrEmpty(item.Shortcut))
+                        {
+                            <span class="@GetShortcutClasses()">@item.Shortcut</span>
+                        }
+                        @if (item.HasChildren)
+                        {
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        }
+                    </button>
+                }
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public List<ContextMenuItem>? Items { get; set; }
+    [Parameter] public EventCallback<ContextMenuItem> OnItemClick { get; set; }
+    [Parameter] public bool Enabled { get; set; } = true;
+    [Parameter] public ContextMenuPosition Position { get; set; } = ContextMenuPosition.Auto;
+
+    private bool ShowMenu { get; set; }
+    private double menuX;
+    private double menuY;
+
+    private void HandleContextMenu(MouseEventArgs e)
+    {
+        if (!Enabled) return;
+        
+        menuX = e.ClientX;
+        menuY = e.ClientY;
+        ShowMenu = true;
+        StateHasChanged();
+    }
+
+    private async Task HandleItemClick(ContextMenuItem item)
+    {
+        if (item.Disabled) return;
+        
+        if (item.OnClick.HasDelegate)
+        {
+            await item.OnClick.InvokeAsync();
+        }
+        
+        if (OnItemClick.HasDelegate)
+        {
+            await OnItemClick.InvokeAsync(item);
+        }
+        
+        ShowMenu = false;
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (ShowMenu)
+        {
+            // Close menu on outside click
+            // This will be handled by JavaScript or click outside detection
+        }
+    }
+
+    // Styling methods using global CSS variables
+    private string GetContainerClasses()
+    {
+        var classes = new List<string>();
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetMenuClasses()
+    {
+        return "fixed z-50 rounded-lg border shadow-lg py-1 min-w-[200px]";
+    }
+
+    private string GetMenuStyle()
+    {
+        var styles = new List<string>
+        {
+            $"left: {menuX}px;",
+            $"top: {menuY}px;",
+            "background-color: var(--color-surface);",
+            "border-color: var(--color-border);",
+            "box-shadow: var(--shadow-lg);"
+        };
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetItemClasses(ContextMenuItem item)
+    {
+        var classes = new List<string>
+        {
+            "w-full flex items-center px-4 py-2 text-sm transition-colors",
+            "hover:bg-gray-100 dark:hover:bg-gray-700",
+            "focus:outline-none"
+        };
+        
+        if (item.Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetItemStyle(ContextMenuItem item)
+    {
+        return "color: var(--color-text-primary);";
+    }
+
+    private string GetIconClasses()
+    {
+        return "mr-2 w-4 h-4 flex-shrink-0";
+    }
+
+    private string GetShortcutClasses()
+    {
+        return "ml-auto text-xs opacity-60";
+    }
+
+    private string GetSectionClasses()
+    {
+        return "px-4 py-2 text-xs font-semibold uppercase tracking-wider";
+    }
+
+    private string GetSectionStyle()
+    {
+        return "color: var(--color-text-muted);";
+    }
+
+    private string GetDividerClasses()
+    {
+        return "my-1";
+    }
+
+    private string GetDividerStyle()
+    {
+        return "border-top: 1px solid var(--color-divider);";
+    }
+}
+
+

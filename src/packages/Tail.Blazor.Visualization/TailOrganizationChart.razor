@@ -1,0 +1,411 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Visualization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Visualization.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" id="@chartId" @attributes="AdditionalAttributes">
+    <!-- Controls -->
+    @if (ShowControls)
+    {
+        <div class="@GetControlsClasses()" style="@GetControlsStyle()">
+            <button 
+                type="button"
+                class="@GetControlButtonClasses()"
+                style="@GetControlButtonStyle()"
+                @onclick="ZoomIn"
+                title="Zoom In">
+                ➕
+            </button>
+            <button 
+                type="button"
+                class="@GetControlButtonClasses()"
+                style="@GetControlButtonStyle()"
+                @onclick="ZoomOut"
+                title="Zoom Out">
+                ➖
+            </button>
+            <button 
+                type="button"
+                class="@GetControlButtonClasses()"
+                style="@GetControlButtonStyle()"
+                @onclick="ResetZoom"
+                title="Reset Zoom">
+                🔍
+            </button>
+            @if (AllowExport)
+            {
+                <button 
+                    type="button"
+                    class="@GetControlButtonClasses()"
+                    style="@GetControlButtonStyle()"
+                    @onclick="ExportChart"
+                    title="Export">
+                    📥
+                </button>
+            }
+        </div>
+    }
+
+    <!-- Chart Area -->
+    <div class="@GetChartAreaClasses()" style="@GetChartAreaStyle()" @onscroll="HandleScroll">
+        <div 
+            class="@GetChartContentClasses()"
+            style="@GetChartContentStyle()"
+            @onwheel="HandleWheel">
+            <!-- Connection lines layer -->
+            <svg class="@GetConnectionsLayerClasses()" style="@GetConnectionsLayerStyle()">
+                @if (RootNode != null)
+                {
+                    @RenderConnections(RootNode, 0, 0)
+                }
+            </svg>
+            
+            <!-- Nodes layer -->
+            @if (RootNode != null)
+            {
+                @RenderNode(RootNode, 0, 0)
+            }
+            else
+            {
+                <div class="@GetEmptyClasses()" style="@GetEmptyStyle()">
+                    <p style="color: var(--color-text-secondary);">No organization data</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public OrgChartNode? RootNode { get; set; }
+    [Parameter] public OrgChartLayout Layout { get; set; } = OrgChartLayout.TopDown;
+    [Parameter] public bool ShowControls { get; set; } = true;
+    [Parameter] public bool AllowZoom { get; set; } = true;
+    [Parameter] public bool AllowExport { get; set; } = false;
+    [Parameter] public double ZoomLevel { get; set; } = 1.0;
+    [Parameter] public EventCallback<OrgChartNode> OnNodeClick { get; set; }
+
+    private string chartId = $"orgchart-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private double currentZoom = 1.0;
+    private double scrollX = 0;
+    private double scrollY = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Visualization/orgchart.js");
+                await jsModule.InvokeVoidAsync("initializeOrgChart", chartId, DotNetObjectReference.Create(this));
+            }
+            catch { }
+        }
+        
+        currentZoom = ZoomLevel;
+    }
+
+    private RenderFragment RenderConnections(OrgChartNode node, int level, int index)
+    {
+        return builder =>
+        {
+            var hasChildren = node.Children != null && node.Children.Any();
+            if (!hasChildren) return;
+
+            var nodeWidth = 200;
+            var nodeHeight = 120;
+            var horizontalSpacing = 250;
+            var verticalSpacing = 150;
+
+            // Calculate parent position
+            double parentX = 0, parentY = 0;
+            if (Layout == OrgChartLayout.TopDown || Layout == OrgChartLayout.BottomUp)
+            {
+                var childCount = node.Children.Count;
+                var totalWidth = (childCount - 1) * horizontalSpacing;
+                parentX = -totalWidth / 2;
+                parentY = level * verticalSpacing;
+                if (Layout == OrgChartLayout.BottomUp)
+                {
+                    parentY = -parentY;
+                }
+            }
+            else
+            {
+                parentX = level * horizontalSpacing;
+                if (Layout == OrgChartLayout.RightLeft)
+                {
+                    parentX = -parentX;
+                }
+            }
+
+            var childIndex = 0;
+            foreach (var child in node.Children)
+            {
+                double childX = 0, childY = 0;
+                if (Layout == OrgChartLayout.TopDown || Layout == OrgChartLayout.BottomUp)
+                {
+                    var childCount = node.Children.Count;
+                    var totalWidth = (childCount - 1) * horizontalSpacing;
+                    childX = -totalWidth / 2 + (childIndex * horizontalSpacing);
+                    childY = (level + 1) * verticalSpacing;
+                    if (Layout == OrgChartLayout.BottomUp)
+                    {
+                        childY = -childY;
+                    }
+                }
+                else
+                {
+                    childX = (level + 1) * horizontalSpacing;
+                    if (Layout == OrgChartLayout.RightLeft)
+                    {
+                        childX = -childX;
+                    }
+                    var childCount = node.Children.Count;
+                    var totalHeight = (childCount - 1) * verticalSpacing;
+                    childY = -totalHeight / 2 + (childIndex * verticalSpacing);
+                }
+
+                // Render connection line
+                builder.OpenElement(0, "line");
+                builder.AddAttribute(1, "x1", parentX + (nodeWidth / 2));
+                builder.AddAttribute(2, "y1", Layout == OrgChartLayout.TopDown ? parentY + nodeHeight : (Layout == OrgChartLayout.BottomUp ? parentY : parentY + (nodeHeight / 2)));
+                builder.AddAttribute(3, "x2", childX + (nodeWidth / 2));
+                builder.AddAttribute(4, "y2", Layout == OrgChartLayout.TopDown ? childY : (Layout == OrgChartLayout.BottomUp ? childY + nodeHeight : childY + (nodeHeight / 2)));
+                builder.AddAttribute(5, "stroke", "var(--color-border)");
+                builder.AddAttribute(6, "stroke-width", "2");
+                builder.CloseElement();
+
+                // Recursively render connections for children
+                builder.AddContent(7, RenderConnections(child, level + 1, childIndex));
+                childIndex++;
+            }
+        };
+    }
+
+    private RenderFragment RenderNode(OrgChartNode node, int level, int index)
+    {
+        return builder =>
+        {
+            var hasChildren = node.Children != null && node.Children.Any();
+            var nodeWidth = 200;
+            var nodeHeight = 120;
+            var horizontalSpacing = 250;
+            var verticalSpacing = 150;
+
+            // Calculate position based on layout
+            double x = 0, y = 0;
+            
+            if (Layout == OrgChartLayout.TopDown || Layout == OrgChartLayout.BottomUp)
+            {
+                // Calculate horizontal position (centered based on children)
+                if (hasChildren)
+                {
+                    var childCount = node.Children.Count;
+                    var totalWidth = (childCount - 1) * horizontalSpacing;
+                    x = -totalWidth / 2;
+                }
+                
+                y = level * verticalSpacing;
+                if (Layout == OrgChartLayout.BottomUp)
+                {
+                    y = -y;
+                }
+            }
+            else
+            {
+                // LeftRight or RightLeft
+                x = level * horizontalSpacing;
+                if (Layout == OrgChartLayout.RightLeft)
+                {
+                    x = -x;
+                }
+                
+                if (hasChildren)
+                {
+                    var childCount = node.Children.Count;
+                    var totalHeight = (childCount - 1) * verticalSpacing;
+                    y = -totalHeight / 2;
+                }
+            }
+
+            // Node container
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", GetNodeContainerClasses());
+            builder.AddAttribute(2, "style", GetNodeContainerStyle(x, y, nodeWidth, nodeHeight));
+            builder.AddAttribute(3, "data-node-id", node.Id);
+            builder.AddAttribute(4, "onclick", EventCallback.Factory.Create(this, () => HandleNodeClick(node)));
+
+            // Node card
+            builder.OpenElement(5, "div");
+            builder.AddAttribute(6, "class", GetNodeCardClasses());
+            builder.AddAttribute(7, "style", GetNodeCardStyle(node));
+
+            // Avatar/Icon
+            if (!string.IsNullOrEmpty(node.Avatar))
+            {
+                builder.OpenElement(8, "img");
+                builder.AddAttribute(9, "src", node.Avatar);
+                builder.AddAttribute(10, "alt", node.Name);
+                builder.AddAttribute(11, "class", "w-12 h-12 rounded-full mx-auto mb-2");
+                builder.CloseElement();
+            }
+            else if (!string.IsNullOrEmpty(node.Icon))
+            {
+                builder.OpenElement(12, "div");
+                builder.AddAttribute(13, "class", "text-4xl mb-2 text-center");
+                builder.AddContent(14, node.Icon);
+                builder.CloseElement();
+            }
+            else
+            {
+                builder.OpenElement(15, "div");
+                builder.AddAttribute(16, "class", "w-12 h-12 rounded-full mx-auto mb-2 flex items-center justify-center text-white font-semibold");
+                builder.AddAttribute(17, "style", $"background-color: {node.Color ?? "var(--color-primary)"};");
+                builder.AddContent(18, node.Name.Substring(0, Math.Min(2, node.Name.Length)).ToUpper());
+                builder.CloseElement();
+            }
+
+            // Name
+            builder.OpenElement(19, "div");
+            builder.AddAttribute(20, "class", "font-semibold text-center mb-1");
+            builder.AddAttribute(21, "style", "color: var(--color-text-primary);");
+            builder.AddContent(22, node.Name);
+            builder.CloseElement();
+
+            // Title
+            if (!string.IsNullOrEmpty(node.Title))
+            {
+                builder.OpenElement(23, "div");
+                builder.AddAttribute(24, "class", "text-sm text-center mb-1");
+                builder.AddAttribute(25, "style", "color: var(--color-text-secondary);");
+                builder.AddContent(26, node.Title);
+                builder.CloseElement();
+            }
+
+            // Department
+            if (!string.IsNullOrEmpty(node.Department))
+            {
+                builder.OpenElement(27, "div");
+                builder.AddAttribute(28, "class", "text-xs text-center");
+                builder.AddAttribute(29, "style", "color: var(--color-text-muted);");
+                builder.AddContent(30, node.Department);
+                builder.CloseElement();
+            }
+
+            builder.CloseElement(); // Node card
+            builder.CloseElement(); // Node container
+
+            // Render child nodes
+            if (hasChildren)
+            {
+                var childIndex = 0;
+                foreach (var child in node.Children)
+                {
+                    builder.AddContent(31, RenderNode(child, level + 1, childIndex));
+                    childIndex++;
+                }
+            }
+        };
+    }
+
+
+    private async Task HandleNodeClick(OrgChartNode node)
+    {
+        if (OnNodeClick.HasDelegate)
+        {
+            await OnNodeClick.InvokeAsync(node);
+        }
+    }
+
+    private void ZoomIn()
+    {
+        currentZoom = Math.Min(currentZoom + 0.1, 2.0);
+        UpdateZoom();
+    }
+
+    private void ZoomOut()
+    {
+        currentZoom = Math.Max(currentZoom - 0.1, 0.5);
+        UpdateZoom();
+    }
+
+    private void ResetZoom()
+    {
+        currentZoom = 1.0;
+        UpdateZoom();
+    }
+
+    private void UpdateZoom()
+    {
+        ZoomLevel = currentZoom;
+        StateHasChanged();
+    }
+
+    private async Task ExportChart()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.InvokeVoidAsync("exportOrgChart", chartId);
+            }
+            catch { }
+        }
+    }
+
+    private void HandleScroll(EventArgs e)
+    {
+        // Track scroll position for export
+    }
+
+    private void HandleWheel(WheelEventArgs e)
+    {
+        if (!AllowZoom) return;
+        
+        if (e.DeltaY < 0)
+        {
+            ZoomIn();
+        }
+        else
+        {
+            ZoomOut();
+        }
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "w-full h-full relative border rounded-lg overflow-hidden";
+    private string GetContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface);";
+    private string GetControlsClasses() => "absolute top-2 right-2 z-10 flex gap-2";
+    private string GetControlsStyle() => "";
+    private string GetControlButtonClasses() => "p-2 rounded-md border text-sm";
+    private string GetControlButtonStyle() => "background-color: var(--color-surface-2); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetChartAreaClasses() => "w-full h-full overflow-auto";
+    private string GetChartAreaStyle() => $"height: 600px;";
+    private string GetChartContentClasses() => "relative min-w-full min-h-full";
+    private string GetChartContentStyle() => $"transform: scale({currentZoom}); transform-origin: top left;";
+    private string GetConnectionsLayerClasses() => "absolute inset-0 pointer-events-none";
+    private string GetConnectionsLayerStyle() => "width: 100%; height: 100%;";
+    private string GetNodeContainerClasses() => "absolute";
+    private string GetNodeContainerStyle(double x, double y, double width, double height) => $"left: {x}px; top: {y}px; width: {width}px; height: {height}px;";
+    private string GetNodeCardClasses() => "w-full h-full p-3 rounded-lg border shadow-sm cursor-pointer transition-all hover:shadow-md";
+    private string GetNodeCardStyle(OrgChartNode node) => $"border-color: var(--color-border); background-color: var(--color-surface-2); border-left: 4px solid {node.Color ?? "var(--color-primary)"};";
+    private string GetEmptyClasses() => "flex items-center justify-center h-full";
+    private string GetEmptyStyle() => "";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

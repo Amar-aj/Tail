@@ -1,6 +1,8 @@
 @page "/components/data"
 @using Tail.Blazor.Data
 @using Tail.Blazor.Data.Models
+@using Tail.Blazor.Visualization
+@using Tail.Blazor.Visualization.Models
 
 @* Local model for demo *@
 @code {
@@ -42,10 +44,85 @@
 
         <h2>DataGrid</h2>
         <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
-            <TailDataGrid TItem="SampleData" Items="@GridData" Columns="@GridColumns" 
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Advanced DataGrid with column grouping, frozen columns, inline editing (double-click cells), and Excel export.
+            </p>
+            <TailDataGrid TItem="SampleData" Items="@GridData" Columns="@AdvancedGridColumns" 
                 SelectionMode="SelectionMode.Multiple" 
                 ShowSearch="true" 
-                ShowPager="true" />
+                ShowPager="true"
+                AllowExport="true"
+                AllowInlineEdit="true" />
+        </div>
+
+        <h2>Advanced Filter</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Multi-column filtering with query builder, saved presets, and various operators.
+            </p>
+            <button 
+                type="button"
+                class="px-4 py-2 rounded-lg mb-4"
+                style="background-color: var(--color-primary); color: white;"
+                @onclick="() => filterVisible = true">
+                🔍 Open Advanced Filter
+            </button>
+            <TailAdvancedFilter 
+                Visible="@filterVisible"
+                VisibleChanged="@((bool v) => filterVisible = v)"
+                AvailableColumns="@FilterColumns"
+                Conditions="@filterConditions"
+                SavedPresets="@filterPresets"
+                OnFiltersApplied="HandleFiltersApplied"
+                OnPresetSaved="HandlePresetSaved" />
+            @if (filteredData.Any())
+            {
+                <div class="mt-4">
+                    <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Filtered Results (@filteredData.Count items):</p>
+                    <div class="space-y-2">
+                        @foreach (var item in filteredData)
+                        {
+                            <div class="p-2 border rounded" style="border-color: var(--color-border); background-color: var(--color-surface);">
+                                <p style="color: var(--color-text-primary);">@item.Name - @item.Category - @item.Status</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <h2>Responsive Table</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Resize your browser window to see the table transform into cards on mobile devices.
+            </p>
+            <TailResponsiveTable TItem="SampleData" Items="@GridData" Columns="@GridColumns" 
+                Title="Products"
+                SelectionMode="SelectionMode.Multiple" 
+                ShowPager="true"
+                Breakpoint="md" />
+        </div>
+
+        <h2>Virtual Scroll</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                High-performance rendering for large datasets. Only visible items are rendered.
+            </p>
+            <TailVirtualScroll TItem="string" Items="@VirtualScrollItems" ItemHeight="50" ContainerHeight="300" ShowScrollInfo="true">
+                <ItemTemplate>
+                    <div class="p-3 border-b" style="border-color: var(--color-border);">
+                        <p style="color: var(--color-text-primary);">Item @context</p>
+                    </div>
+                </ItemTemplate>
+            </TailVirtualScroll>
+        </div>
+
+        <h2>Kanban Board</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Drag-and-drop kanban board with columns and cards. Try dragging cards between columns!
+            </p>
+            <TailKanbanBoard Columns="@KanbanColumns" Cards="@KanbanCards" AllowDragDrop="true" OnCardMoved="HandleCardMoved" />
         </div>
 
         <h2>Scheduler</h2>
@@ -66,6 +143,55 @@
                 RowFields="@(new List<string> { "Category" })"
                 ColumnFields="@(new List<string> { "Status" })"
                 ValueField="Value" />
+        </div>
+
+        <h2>Gantt Chart</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Project timeline visualization with dependencies, milestones, and resource allocation.
+            </p>
+            <div class="border rounded-lg overflow-hidden" style="border-color: var(--color-border);">
+                <TailGanttChart 
+                    Tasks="@GanttTasks"
+                    Milestones="@GanttMilestones"
+                    StartDate="@DateTime.Today"
+                    EndDate="@DateTime.Today.AddMonths(3)"
+                    ViewMode="GanttViewMode.Month"
+                    ShowProgress="true"
+                    ShowDependencies="true" />
+            </div>
+        </div>
+
+        <h2>Organization Chart</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Hierarchical organization chart with auto-layout, zoom, and export functionality.
+            </p>
+            <div class="border rounded-lg overflow-hidden" style="border-color: var(--color-border);">
+                <TailOrganizationChart 
+                    RootNode="@OrgChartRoot"
+                    Layout="OrgChartLayout.TopDown"
+                    ShowControls="true"
+                    AllowZoom="true"
+                    AllowExport="false" />
+            </div>
+        </div>
+
+        <h2>Flowchart/Diagram</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                Interactive flowchart editor with nodes, edges, auto-routing, and drag-and-drop.
+            </p>
+            <div class="border rounded-lg overflow-hidden" style="border-color: var(--color-border);">
+                <TailFlowchart 
+                    Nodes="@FlowchartNodes"
+                    Edges="@FlowchartEdges"
+                    Layout="FlowchartLayout.Grid"
+                    ShowToolbar="true"
+                    AllowDragDrop="true"
+                    AllowZoom="true"
+                    AllowAutoRouting="true" />
+            </div>
         </div>
     </div>
 </div>
@@ -100,6 +226,31 @@
         new Tail.Blazor.Data.Models.DataGridColumn { Property = "Status", Title = "Status", Sortable = true },
         new Tail.Blazor.Data.Models.DataGridColumn { Property = "Value", Title = "Value", Sortable = true }
     };
+
+    private List<Tail.Blazor.Data.Models.DataGridColumn> AdvancedGridColumns { get; set; } = new()
+    {
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Name", Title = "Name", Sortable = true, Frozen = true, Editable = true, Group = "Product Info" },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Category", Title = "Category", Sortable = true, Editable = true, Group = "Product Info" },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Status", Title = "Status", Sortable = true, Editable = true, Group = "Status" },
+        new Tail.Blazor.Data.Models.DataGridColumn { Property = "Value", Title = "Value", Sortable = true, Editable = true, Group = "Status" }
+    };
+
+    private List<string> VirtualScrollItems { get; set; } = new();
+
+    private List<Tail.Blazor.Data.Models.KanbanColumn> KanbanColumns { get; set; } = new();
+    private List<Tail.Blazor.Data.Models.KanbanCard> KanbanCards { get; set; } = new();
+
+    private List<GanttTask> GanttTasks { get; set; } = new();
+    private List<GanttMilestone> GanttMilestones { get; set; } = new();
+    private OrgChartNode? OrgChartRoot { get; set; }
+    private List<FlowchartNode> FlowchartNodes { get; set; } = new();
+    private List<FlowchartEdge> FlowchartEdges { get; set; } = new();
+
+    private bool filterVisible = false;
+    private List<Tail.Blazor.Data.Models.FilterCondition> filterConditions = new();
+    private List<Tail.Blazor.Data.Models.FilterPreset> filterPresets = new();
+    private List<string> FilterColumns { get; set; } = new() { "Name", "Category", "Status", "Value" };
+    private List<SampleData> filteredData = new();
 
     private List<Tail.Blazor.Data.Models.SchedulerEvent> SchedulerEvents { get; set; } = new()
     {
@@ -140,6 +291,171 @@
             }
         }
     };
+
+    protected override void OnInitialized()
+    {
+        // Initialize virtual scroll items
+        VirtualScrollItems = Enumerable.Range(1, 10000).Select(i => $"Item {i}").ToList();
+
+        // Initialize Kanban board
+        KanbanColumns = new List<Tail.Blazor.Data.Models.KanbanColumn>
+        {
+            new Tail.Blazor.Data.Models.KanbanColumn { Id = "todo", Title = "To Do", Color = "#3b82f6", Order = 0 },
+            new Tail.Blazor.Data.Models.KanbanColumn { Id = "inprogress", Title = "In Progress", Color = "#f59e0b", Order = 1 },
+            new Tail.Blazor.Data.Models.KanbanColumn { Id = "review", Title = "Review", Color = "#8b5cf6", Order = 2 },
+            new Tail.Blazor.Data.Models.KanbanColumn { Id = "done", Title = "Done", Color = "#10b981", Order = 3 }
+        };
+
+        KanbanCards = new List<Tail.Blazor.Data.Models.KanbanCard>
+        {
+            new Tail.Blazor.Data.Models.KanbanCard { Id = "1", Title = "Design new feature", Description = "Create mockups for the new feature", ColumnId = "todo", Order = 0, Tags = new List<string> { "Design", "UI" } },
+            new Tail.Blazor.Data.Models.KanbanCard { Id = "2", Title = "Implement API", Description = "Build the backend API endpoints", ColumnId = "inprogress", Order = 0, Tags = new List<string> { "Backend" } },
+            new Tail.Blazor.Data.Models.KanbanCard { Id = "3", Title = "Write tests", Description = "Add unit tests for the new feature", ColumnId = "review", Order = 0, Tags = new List<string> { "Testing" } },
+            new Tail.Blazor.Data.Models.KanbanCard { Id = "4", Title = "Deploy to production", Description = "Release the feature to production", ColumnId = "done", Order = 0, Tags = new List<string> { "DevOps" } }
+        };
+
+        // Initialize Gantt Chart
+        var task1 = new GanttTask 
+        { 
+            Name = "Design Phase", 
+            StartDate = DateTime.Today, 
+            EndDate = DateTime.Today.AddDays(14),
+            Progress = 75,
+            Color = "#3b82f6",
+            Resource = "Design Team",
+            Row = 0
+        };
+        var task2 = new GanttTask 
+        { 
+            Name = "Development", 
+            StartDate = DateTime.Today.AddDays(10), 
+            EndDate = DateTime.Today.AddDays(45),
+            Progress = 30,
+            Color = "#10b981",
+            Resource = "Dev Team",
+            Row = 1,
+            Dependencies = new List<string> { task1.Id }
+        };
+        var task3 = new GanttTask 
+        { 
+            Name = "Testing", 
+            StartDate = DateTime.Today.AddDays(40), 
+            EndDate = DateTime.Today.AddDays(60),
+            Progress = 0,
+            Color = "#f59e0b",
+            Resource = "QA Team",
+            Row = 2,
+            Dependencies = new List<string> { task2.Id }
+        };
+        var task4 = new GanttTask 
+        { 
+            Name = "Launch", 
+            StartDate = DateTime.Today.AddDays(58), 
+            EndDate = DateTime.Today.AddDays(58),
+            Progress = 0,
+            Color = "#8b5cf6",
+            IsMilestone = true,
+            Row = 3,
+            Dependencies = new List<string> { task3.Id }
+        };
+        
+        GanttTasks = new List<GanttTask> { task1, task2, task3, task4 };
+
+        GanttMilestones = new List<GanttMilestone>
+        {
+            new GanttMilestone 
+            { 
+                Name = "Alpha Release", 
+                Date = DateTime.Today.AddDays(30),
+                Color = "#ef4444",
+                Icon = "🎯"
+            },
+            new GanttMilestone 
+            { 
+                Name = "Beta Release", 
+                Date = DateTime.Today.AddDays(50),
+                Color = "#f59e0b",
+                Icon = "🚀"
+            }
+        };
+
+        // Initialize Organization Chart
+        OrgChartRoot = new OrgChartNode
+        {
+            Name = "John Doe",
+            Title = "CEO",
+            Department = "Executive",
+            Color = "#3b82f6",
+            Children = new List<OrgChartNode>
+            {
+                new OrgChartNode
+                {
+                    Name = "Jane Smith",
+                    Title = "CTO",
+                    Department = "Technology",
+                    Color = "#10b981",
+                    Children = new List<OrgChartNode>
+                    {
+                        new OrgChartNode { Name = "Bob Johnson", Title = "Lead Developer", Department = "Engineering", Color = "#8b5cf6" },
+                        new OrgChartNode { Name = "Alice Williams", Title = "QA Manager", Department = "Quality Assurance", Color = "#f59e0b" }
+                    }
+                },
+                new OrgChartNode
+                {
+                    Name = "Mike Brown",
+                    Title = "CFO",
+                    Department = "Finance",
+                    Color = "#ef4444",
+                    Children = new List<OrgChartNode>
+                    {
+                        new OrgChartNode { Name = "Sarah Davis", Title = "Accountant", Department = "Finance", Color = "#06b6d4" }
+                    }
+                },
+                new OrgChartNode
+                {
+                    Name = "Emily Wilson",
+                    Title = "CMO",
+                    Department = "Marketing",
+                    Color = "#a855f7"
+                }
+            }
+        };
+
+        // Initialize Flowchart
+        FlowchartNodes = new List<FlowchartNode>
+        {
+            new FlowchartNode { Id = "1", Label = "Start", Type = "roundedRectangle", X = 100, Y = 50, Color = "#10b981" },
+            new FlowchartNode { Id = "2", Label = "Process", Type = "rectangle", X = 100, Y = 150, Color = "#3b82f6" },
+            new FlowchartNode { Id = "3", Label = "Decision", Type = "diamond", X = 100, Y = 250, Color = "#f59e0b" },
+            new FlowchartNode { Id = "4", Label = "End", Type = "roundedRectangle", X = 100, Y = 350, Color = "#ef4444" }
+        };
+
+        FlowchartEdges = new List<FlowchartEdge>
+        {
+            new FlowchartEdge { SourceNodeId = "1", TargetNodeId = "2", Label = "", Directed = true },
+            new FlowchartEdge { SourceNodeId = "2", TargetNodeId = "3", Label = "", Directed = true },
+            new FlowchartEdge { SourceNodeId = "3", TargetNodeId = "4", Label = "Yes", Directed = true }
+        };
+    }
+
+    private async Task HandleCardMoved((Tail.Blazor.Data.Models.KanbanCard Card, Tail.Blazor.Data.Models.KanbanColumn FromColumn, Tail.Blazor.Data.Models.KanbanColumn ToColumn) moveInfo)
+    {
+        // Card moved - update state if needed
+        await Task.CompletedTask;
+    }
+
+    private async Task HandleFiltersApplied(List<Tail.Blazor.Data.Models.FilterCondition> conditions)
+    {
+        filterConditions = conditions;
+        filteredData = GridData.ApplyFilters(conditions).ToList();
+        await Task.CompletedTask;
+    }
+
+    private async Task HandlePresetSaved(Tail.Blazor.Data.Models.FilterPreset preset)
+    {
+        filterPresets.Add(preset);
+        await Task.CompletedTask;
+    }
 
     private void OnPageChanged(int page)
     {

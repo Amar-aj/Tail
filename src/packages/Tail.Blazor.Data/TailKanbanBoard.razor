@@ -1,0 +1,389 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Data
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Data.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" @attributes="AdditionalAttributes">
+    <div class="@GetBoardClasses()" id="@boardId">
+        @foreach (var column in Columns.OrderBy(c => c.Order))
+        {
+            <div 
+                class="@GetColumnClasses(column)" 
+                style="@GetColumnStyle(column)"
+                data-column-id="@column.Id"
+                @ondragover:preventDefault="true"
+                @ondragover="(e) => HandleDragOver(e, column)"
+                @ondrop:preventDefault="true"
+                @ondrop="(e) => HandleDrop(e, column)"
+                @ondragleave="HandleDragLeave">
+                <!-- Column Header -->
+                <div class="@GetColumnHeaderClasses(column)" style="@GetColumnHeaderStyle(column)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            @if (!string.IsNullOrEmpty(column.Color))
+                            {
+                                <div class="w-3 h-3 rounded-full" style="background-color: @column.Color;"></div>
+                            }
+                            <h3 class="@GetColumnTitleClasses()" style="@GetColumnTitleStyle()">@column.Title</h3>
+                            <span class="@GetCardCountClasses()" style="@GetCardCountStyle()">
+                                (@GetColumnCards(column).Count)
+                            </span>
+                        </div>
+                        @if (column.MaxCards > 0)
+                        {
+                            <span class="@GetMaxCardsClasses()" style="@GetMaxCardsStyle()">
+                                Max: @column.MaxCards
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Column Cards -->
+                <div class="@GetCardsContainerClasses()" style="@GetCardsContainerStyle()">
+                    @foreach (var card in GetColumnCards(column).OrderBy(c => c.Order))
+                    {
+                        <div 
+                            class="@GetCardClasses(card)"
+                            style="@GetCardStyle(card)"
+                            draggable="true"
+                            data-card-id="@card.Id"
+                            data-column-id="@column.Id"
+                            @ondragstart="(e) => HandleDragStart(e, card, column)"
+                            @ondragend="HandleDragEnd">
+                            @if (CardTemplate != null)
+                            {
+                                @CardTemplate(card)
+                            }
+                            else
+                            {
+                                <div class="@GetDefaultCardClasses()">
+                                    <h4 class="@GetCardTitleClasses()" style="@GetCardTitleStyle()">@card.Title</h4>
+                                    @if (!string.IsNullOrEmpty(card.Description))
+                                    {
+                                        <p class="@GetCardDescriptionClasses()" style="@GetCardDescriptionStyle()">@card.Description</p>
+                                    }
+                                    @if (card.Tags.Any())
+                                    {
+                                        <div class="@GetTagsContainerClasses()">
+                                            @foreach (var tag in card.Tags)
+                                            {
+                                                <span class="@GetTagClasses()" style="@GetTagStyle()">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <!-- Add Card Button -->
+                @if (AllowAddCard && OnCardAdd.HasDelegate)
+                {
+                    <div class="@GetAddCardButtonContainerClasses()">
+                        <button 
+                            type="button"
+                            class="@GetAddCardButtonClasses()"
+                            style="@GetAddCardButtonStyle()"
+                            @onclick="() => HandleAddCard(column)">
+                            + Add Card
+                        </button>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<KanbanColumn> Columns { get; set; } = new();
+    [Parameter] public List<KanbanCard> Cards { get; set; } = new();
+    [Parameter] public RenderFragment<KanbanCard>? CardTemplate { get; set; }
+    [Parameter] public bool AllowDragDrop { get; set; } = true;
+    [Parameter] public bool AllowAddCard { get; set; } = false;
+    [Parameter] public EventCallback<KanbanCard> OnCardAdd { get; set; }
+    [Parameter] public EventCallback<(KanbanCard Card, KanbanColumn FromColumn, KanbanColumn ToColumn)> OnCardMoved { get; set; }
+    [Parameter] public EventCallback<KanbanCard> OnCardClick { get; set; }
+
+    private string boardId = $"kanban-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private KanbanCard? draggedCard;
+    private KanbanColumn? draggedFromColumn;
+    private KanbanColumn? dragOverColumn;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AllowDragDrop)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Data/kanban.js");
+                await jsModule.InvokeVoidAsync("initializeKanban", boardId, DotNetObjectReference.Create(this));
+            }
+            catch
+            {
+                // JavaScript module not available
+            }
+        }
+    }
+
+    private List<KanbanCard> GetColumnCards(KanbanColumn column)
+    {
+        return Cards.Where(c => c.ColumnId == column.Id).ToList();
+    }
+
+    private void HandleDragStart(DragEventArgs e, KanbanCard card, KanbanColumn column)
+    {
+        if (!AllowDragDrop) return;
+        draggedCard = card;
+        draggedFromColumn = column;
+        e.DataTransfer.EffectAllowed = "move";
+    }
+
+    private void HandleDragOver(DragEventArgs e, KanbanColumn column)
+    {
+        if (!AllowDragDrop || draggedCard == null) return;
+        
+        dragOverColumn = column;
+        
+        if (column.AllowDrop && (column.MaxCards == 0 || GetColumnCards(column).Count < column.MaxCards))
+        {
+            e.DataTransfer.DropEffect = "move";
+        }
+        else
+        {
+            e.DataTransfer.DropEffect = "none";
+        }
+    }
+
+    private void HandleDragLeave()
+    {
+        dragOverColumn = null;
+    }
+
+    private async Task HandleDrop(DragEventArgs e, KanbanColumn toColumn)
+    {
+        if (!AllowDragDrop || draggedCard == null || draggedFromColumn == null) return;
+
+        if (!toColumn.AllowDrop || (toColumn.MaxCards > 0 && GetColumnCards(toColumn).Count >= toColumn.MaxCards))
+        {
+            draggedCard = null;
+            draggedFromColumn = null;
+            dragOverColumn = null;
+            return;
+        }
+
+        if (draggedFromColumn.Id != toColumn.Id)
+        {
+            // Move card to new column
+            draggedCard.ColumnId = toColumn.Id;
+            draggedCard.Order = GetColumnCards(toColumn).Count;
+
+            if (OnCardMoved.HasDelegate)
+            {
+                await OnCardMoved.InvokeAsync((draggedCard, draggedFromColumn, toColumn));
+            }
+        }
+
+        draggedCard = null;
+        draggedFromColumn = null;
+        dragOverColumn = null;
+        StateHasChanged();
+    }
+
+    private void HandleDragEnd()
+    {
+        draggedCard = null;
+        draggedFromColumn = null;
+        dragOverColumn = null;
+    }
+
+    private async Task HandleAddCard(KanbanColumn column)
+    {
+        if (OnCardAdd.HasDelegate)
+        {
+            var newCard = new KanbanCard
+            {
+                Title = "New Card",
+                ColumnId = column.Id,
+                Order = GetColumnCards(column).Count
+            };
+            await OnCardAdd.InvokeAsync(newCard);
+        }
+    }
+
+    // Styling methods
+    private string GetContainerClasses()
+    {
+        return "w-full";
+    }
+
+    private string GetContainerStyle()
+    {
+        return "";
+    }
+
+    private string GetBoardClasses()
+    {
+        return "flex gap-4 overflow-x-auto pb-4";
+    }
+
+    private string GetColumnClasses(KanbanColumn column)
+    {
+        var classes = new List<string> { "flex-shrink-0 w-80 rounded-lg transition-colors duration-150" };
+        
+        if (dragOverColumn?.Id == column.Id && draggedCard != null)
+        {
+            classes.Add("ring-2 ring-blue-500");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetColumnStyle(KanbanColumn column)
+    {
+        return $"background-color: var(--color-surface-2); border: 1px solid var(--color-border);";
+    }
+
+    private string GetColumnHeaderClasses(KanbanColumn column)
+    {
+        return "p-4 border-b rounded-t-lg";
+    }
+
+    private string GetColumnHeaderStyle(KanbanColumn column)
+    {
+        return $"border-color: var(--color-border);";
+    }
+
+    private string GetColumnTitleClasses()
+    {
+        return "font-semibold text-lg";
+    }
+
+    private string GetColumnTitleStyle()
+    {
+        return "color: var(--color-text-primary);";
+    }
+
+    private string GetCardCountClasses()
+    {
+        return "text-sm font-normal";
+    }
+
+    private string GetCardCountStyle()
+    {
+        return "color: var(--color-text-muted);";
+    }
+
+    private string GetMaxCardsClasses()
+    {
+        return "text-xs";
+    }
+
+    private string GetMaxCardsStyle()
+    {
+        return "color: var(--color-text-muted);";
+    }
+
+    private string GetCardsContainerClasses()
+    {
+        return "p-2 space-y-2 min-h-[100px] max-h-[600px] overflow-y-auto";
+    }
+
+    private string GetCardsContainerStyle()
+    {
+        return "";
+    }
+
+    private string GetCardClasses(KanbanCard card)
+    {
+        var classes = new List<string> { "p-3 rounded-lg shadow-sm cursor-move transition-all duration-150" };
+        classes.Add("hover:shadow-md");
+        classes.Add("bg-white dark:bg-gray-800");
+        return string.Join(" ", classes);
+    }
+
+    private string GetCardStyle(KanbanCard card)
+    {
+        var styles = new List<string> { "border: 1px solid var(--color-border);" };
+        
+        if (!string.IsNullOrEmpty(card.Color))
+        {
+            styles.Add($"border-left: 4px solid {card.Color};");
+        }
+        
+        return string.Join(" ", styles);
+    }
+
+    private string GetDefaultCardClasses()
+    {
+        return "";
+    }
+
+    private string GetCardTitleClasses()
+    {
+        return "font-semibold mb-1";
+    }
+
+    private string GetCardTitleStyle()
+    {
+        return "color: var(--color-text-primary);";
+    }
+
+    private string GetCardDescriptionClasses()
+    {
+        return "text-sm mb-2";
+    }
+
+    private string GetCardDescriptionStyle()
+    {
+        return "color: var(--color-text-secondary);";
+    }
+
+    private string GetTagsContainerClasses()
+    {
+        return "flex flex-wrap gap-1 mt-2";
+    }
+
+    private string GetTagClasses()
+    {
+        return "px-2 py-1 text-xs rounded";
+    }
+
+    private string GetTagStyle()
+    {
+        return "background-color: var(--color-surface-2); color: var(--color-text-secondary);";
+    }
+
+    private string GetAddCardButtonContainerClasses()
+    {
+        return "p-2 border-t";
+    }
+
+    private string GetAddCardButtonClasses()
+    {
+        return "w-full px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150";
+    }
+
+    private string GetAddCardButtonStyle()
+    {
+        return "background-color: var(--color-surface-2); color: var(--color-text-primary); border: 1px dashed var(--color-border);";
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.InvokeVoidAsync("disposeKanban", boardId);
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

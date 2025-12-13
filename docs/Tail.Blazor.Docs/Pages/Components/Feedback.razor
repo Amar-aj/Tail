@@ -48,6 +48,223 @@
         <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
             <TailSkeleton Type="SkeletonType.Text" Lines="3" />
         </div>
+
+        <h2>Popconfirm</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailPopconfirm 
+                Title="Delete Item"
+                Content="Are you sure you want to delete this item? This action cannot be undone."
+                ConfirmText="Delete"
+                CancelText="Cancel"
+                Trigger="PopconfirmTrigger.Click"
+                OnConfirm="OnDeleteConfirm">
+                <TriggerContent>
+                    <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                        Delete Item
+                    </button>
+                </TriggerContent>
+            </TailPopconfirm>
+        </div>
+
+        <h2>Empty State</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailEmptyState 
+                Icon="📭"
+                Title="No items found"
+                Description="Get started by creating your first item."
+                Size="EmptyStateSize.Md">
+                <ActionTemplate>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        Create Item
+                    </button>
+                </ActionTemplate>
+            </TailEmptyState>
+        </div>
+
+        <h2>Confetti</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <TailConfetti Active="@showConfetti" ActiveChanged="OnConfettiChanged" ParticleCount="50" Duration="3000" />
+            <button @onclick="TriggerConfetti" class="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+                🎉 Celebrate!
+            </button>
+        </div>
+
+        <h2>Notification Center</h2>
+        <div class="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg mb-6">
+            <div class="space-y-4">
+                <div class="flex gap-2">
+                    <button @onclick="AddSuccessNotification" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                        Add Success
+                    </button>
+                    <button @onclick="AddWarningNotification" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                        Add Warning
+                    </button>
+                    <button @onclick="AddErrorNotification" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                        Add Error
+                    </button>
+                    <button @onclick="ToggleNotificationCenter" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        @(showNotificationCenter ? "Hide" : "Show") Center
+                    </button>
+                </div>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Unread: @notificationService.UnreadCount | Total: @notificationService.Notifications.Count
+                </p>
+                <TailNotificationCenter 
+                    Visible="@showNotificationCenter"
+                    VisibleChanged="OnNotificationCenterChanged"
+                    NotificationService="@notificationService"
+                    GroupByCategory="true"
+                    ShowUnreadCount="true"
+                    ShowFooterActions="true" />
+            </div>
+        </div>
     </div>
 </div>
+
+@code {
+    private bool showConfetti = false;
+    private bool showNotificationCenter = false;
+    private NotificationService notificationService = new();
+
+    protected override void OnInitialized()
+    {
+        // Add some sample notifications
+        notificationService.AddNotification("Welcome!", "Welcome to Tail.Blazor", ToastVariant.Success, "System", "👋");
+        notificationService.AddNotification("New Update", "Version 1.0.0 is now available", ToastVariant.Info, "Updates", "📢");
+    }
+
+    private void TriggerConfetti()
+    {
+        showConfetti = true;
+    }
+
+    private async Task OnConfettiChanged(bool active)
+    {
+        showConfetti = active;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnDeleteConfirm()
+    {
+        // Handle delete confirmation
+        await Task.CompletedTask;
+    }
+
+    private void AddSuccessNotification()
+    {
+        notificationService.AddNotification(
+            "Operation Successful",
+            "Your action was completed successfully",
+            ToastVariant.Success,
+            "Actions",
+            "✅"
+        );
+    }
+
+    private void AddWarningNotification()
+    {
+        notificationService.AddNotification(
+            "Warning",
+            "Please review your settings",
+            ToastVariant.Warning,
+            "Alerts",
+            "⚠️"
+        );
+    }
+
+    private void AddErrorNotification()
+    {
+        notificationService.AddNotification(
+            "Error Occurred",
+            "Something went wrong. Please try again.",
+            ToastVariant.Error,
+            "Errors",
+            "❌"
+        );
+    }
+
+    private async Task ToggleNotificationCenter()
+    {
+        showNotificationCenter = !showNotificationCenter;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnNotificationCenterChanged(bool visible)
+    {
+        showNotificationCenter = visible;
+        await Task.CompletedTask;
+    }
+}
+
+@* Tour Example - Note: This requires elements with IDs to target *@
+@* 
+<div class="space-y-4">
+    <button id="tour-button-1" class="px-4 py-2 bg-blue-500 text-white rounded">Button 1</button>
+    <button id="tour-button-2" class="px-4 py-2 bg-green-500 text-white rounded">Button 2</button>
+    <div id="tour-card" class="p-4 bg-gray-100 rounded">Card Content</div>
+    
+    <button @onclick="StartTour" class="px-4 py-2 bg-purple-500 text-white rounded">
+        Start Tour
+    </button>
+    
+    <TailTour 
+        Active="@tourActive"
+        ActiveChanged="OnTourChanged"
+        Steps="@tourSteps"
+        ShowProgress="true"
+        ShowSkipButton="true"
+        HighlightStyle="TourHighlightStyle.Spotlight"
+        OnTourCompleted="OnTourCompleted" />
+</div>
+
+@code {
+    private bool tourActive = false;
+    private List<TourStep> tourSteps = new();
+
+    protected override void OnInitialized()
+    {
+        tourSteps = new List<TourStep>
+        {
+            new TourStep
+            {
+                Title = "Welcome!",
+                Content = "This is the first step of the tour. Let's explore the interface.",
+                TargetSelector = "#tour-button-1",
+                Placement = TourTooltipPlacement.Bottom
+            },
+            new TourStep
+            {
+                Title = "Second Button",
+                Content = "This is another important button you should know about.",
+                TargetSelector = "#tour-button-2",
+                Placement = TourTooltipPlacement.Right
+            },
+            new TourStep
+            {
+                Title = "Card Component",
+                Content = "This card displays important information.",
+                TargetSelector = "#tour-card",
+                Placement = TourTooltipPlacement.Top
+            }
+        };
+    }
+
+    private void StartTour()
+    {
+        tourActive = true;
+    }
+
+    private async Task OnTourChanged(bool active)
+    {
+        tourActive = active;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnTourCompleted()
+    {
+        // Tour completed
+        await Task.CompletedTask;
+    }
+}
+*@
 

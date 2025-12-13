@@ -1,6 +1,5 @@
-@page "/components/forms"
-@using Tail.Blazor.Forms
-@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Utils
+@using Tail.Blazor.Utils.Models
 @using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>Forms - Tail.Blazor</PageTitle>
@@ -262,6 +261,140 @@
         </CodePreview>
     </section>
 
+    <!-- TailDateRangePicker -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Date Range Picker</h2>
+        <CodePreview Title="Date Range Selection" Code="@dateRangePickerCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailDateRangePicker 
+                        Label="Select Date Range" 
+                        StartDate="@StartDate"
+                        StartDateChanged="OnStartDateChanged"
+                        EndDate="@EndDate"
+                        EndDateChanged="OnEndDateChanged"
+                        Placeholder="Select date range..." />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- TailTimePicker -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Time Picker</h2>
+        <CodePreview Title="Time Selection" Code="@timePickerCode">
+            <PreviewContent>
+                <div class="max-w-md space-y-4">
+                    <TailTimePicker 
+                        Label="Select Time (12-hour)" 
+                        Value="@SelectedTime"
+                        ValueChanged="OnTimeChanged"
+                        Use24Hour="false"
+                        ShowQuickTimes="true"
+                        Placeholder="Select time..." />
+                    <TailTimePicker 
+                        Label="Select Time (24-hour)" 
+                        Value="@SelectedTime24"
+                        ValueChanged="OnTime24Changed"
+                        Use24Hour="true"
+                        MinuteInterval="5"
+                        Placeholder="Select time..." />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- TailOTPInput -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">OTP Input</h2>
+        <CodePreview Title="One-Time Password Input" Code="@otpInputCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailOTPInput 
+                        Label="Enter Verification Code" 
+                        Value="@OtpCode"
+                        ValueChanged="OnOtpChanged"
+                        Length="6"
+                        NumericOnly="true"
+                        AutoFocus="true"
+                        ShowVerificationStatus="true"
+                        VerificationStatus="@OtpStatus"
+                        OnComplete="OnOtpComplete" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- TailTagInput -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Tag Input</h2>
+        <CodePreview Title="Tag/Chip Input" Code="@tagInputCode">
+            <PreviewContent>
+                <div class="max-w-md">
+                    <TailTagInput 
+                        Label="Tags" 
+                        Tags="@Tags"
+                        TagsChanged="OnTagsChanged"
+                        Placeholder="Add tags..." 
+                        MaxTags="10"
+                        ShowSuggestions="true"
+                        Suggestions="@TagSuggestions" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <!-- TODO: Implement these advanced components
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Currency Input</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Phone Number Input</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Password Strength Meter</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Rich Text Editor</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Image Cropper</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Audio Recorder</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Image Zoom/Lightbox</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+    -->
+
     <!-- API Reference -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Common Parameters</h2>
@@ -321,7 +454,7 @@
     // Input values
     private string? email;
     private string? selectedCountry;
-    private List<SelectItem> SelectedCountries { get; set; } = new();
+    private List<Tail.Blazor.Forms.SelectItem> SelectedCountries { get; set; } = new();
     private bool agreeTerms;
     private bool subscribe;
     private bool notifications = true;
@@ -337,16 +470,16 @@
     private decimal price = 99.99m;
 
     // Data
-    private List<SelectItem> Countries { get; set; } = new()
+    private List<Tail.Blazor.Forms.SelectItem> Countries { get; set; } = new()
     {
-        new SelectItem { Value = "us", Text = "United States" },
-        new SelectItem { Value = "uk", Text = "United Kingdom" },
-        new SelectItem { Value = "ca", Text = "Canada" },
-        new SelectItem { Value = "au", Text = "Australia" },
-        new SelectItem { Value = "de", Text = "Germany" },
-        new SelectItem { Value = "fr", Text = "France" },
-        new SelectItem { Value = "jp", Text = "Japan" },
-        new SelectItem { Value = "cn", Text = "China" }
+        new Tail.Blazor.Forms.SelectItem { Value = "us", Text = "United States" },
+        new Tail.Blazor.Forms.SelectItem { Value = "uk", Text = "United Kingdom" },
+        new Tail.Blazor.Forms.SelectItem { Value = "ca", Text = "Canada" },
+        new Tail.Blazor.Forms.SelectItem { Value = "au", Text = "Australia" },
+        new Tail.Blazor.Forms.SelectItem { Value = "de", Text = "Germany" },
+        new Tail.Blazor.Forms.SelectItem { Value = "fr", Text = "France" },
+        new Tail.Blazor.Forms.SelectItem { Value = "jp", Text = "Japan" },
+        new Tail.Blazor.Forms.SelectItem { Value = "cn", Text = "China" }
     };
 
     private List<string> Cities { get; set; } = new()
@@ -456,8 +589,42 @@
     Step=""1""
     HelperText=""Enter quantity between 0 and 100"" />";
 
+    private string dateRangePickerCode = @"<TailDateRangePicker 
+    Label=""Date Range"" 
+    StartDate=""@StartDate""
+    StartDateChanged=""OnStartDateChanged""
+    EndDate=""@EndDate""
+    EndDateChanged=""OnEndDateChanged""
+    Placeholder=""Select date range..."" />";
+
+    private string timePickerCode = @"<TailTimePicker 
+    Label=""Select Time"" 
+    Value=""@SelectedTime""
+    ValueChanged=""OnTimeChanged""
+    Use24Hour=""false""
+    ShowQuickTimes=""true""
+    Placeholder=""Select time..."" />";
+
+    private string otpInputCode = @"<TailOTPInput 
+    Label=""Enter OTP"" 
+    Value=""@OtpCode""
+    ValueChanged=""OnOtpChanged""
+    Length=""6""
+    NumericOnly=""true""
+    AutoFocus=""true""
+    OnComplete=""OnOtpComplete"" />";
+
+    private string tagInputCode = @"<TailTagInput 
+    Label=""Tags"" 
+    Tags=""@Tags""
+    TagsChanged=""OnTagsChanged""
+    Placeholder=""Add tags..."" 
+    MaxTags=""10""
+    ShowSuggestions=""true""
+    Suggestions=""@TagSuggestions"" />";
+
     // Event handlers
-    private async Task OnCountriesChanged(List<SelectItem> countries)
+    private async Task OnCountriesChanged(List<Tail.Blazor.Forms.SelectItem> countries)
     {
         SelectedCountries = countries;
         await Task.CompletedTask;
@@ -496,6 +663,61 @@
     private async Task OnQuantityChanged(decimal quantity)
     {
         Quantity = quantity;
+        await Task.CompletedTask;
+    }
+
+    // New component state
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    private TimeSpan? SelectedTime { get; set; }
+    private TimeSpan? SelectedTime24 { get; set; }
+    private string? OtpCode { get; set; }
+    private string? OtpStatus { get; set; }
+    private List<string> Tags { get; set; } = new();
+    private List<string> TagSuggestions { get; set; } = new() { "Blazor", "C#", "ASP.NET", "Tailwind", "UI", "Components" };
+
+    private async Task OnStartDateChanged(DateTime? date)
+    {
+        StartDate = date;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnEndDateChanged(DateTime? date)
+    {
+        EndDate = date;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnTimeChanged(TimeSpan? time)
+    {
+        SelectedTime = time;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnTime24Changed(TimeSpan? time)
+    {
+        SelectedTime24 = time;
+        await Task.CompletedTask;
+    }
+
+    private async Task OnOtpChanged(string? code)
+    {
+        OtpCode = code;
+        OtpStatus = string.IsNullOrEmpty(code) ? null : (code.Length == 6 ? "Verifying..." : null);
+        await Task.CompletedTask;
+    }
+
+    private async Task OnOtpComplete(string code)
+    {
+        // Simulate verification
+        await Task.Delay(1000);
+        OtpStatus = code == "123456" ? "Verified" : "Invalid";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnTagsChanged(List<string> tags)
+    {
+        Tags = tags;
         await Task.CompletedTask;
     }
 }

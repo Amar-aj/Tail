@@ -175,6 +175,50 @@
         </CodePreview>
     </section>
 
+    <!-- TODO: Implement these advanced navigation components
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Context Menu</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Pagination</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Command Palette</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Floating Action Menu</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Mega Menu</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4">Scroll Spy</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Component not yet implemented. Coming soon!
+        </p>
+    </section>
+    -->
+
     <!-- API Reference -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">API Reference</h2>
@@ -192,17 +236,17 @@
                 <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                     <tr>
                         <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">Tabs</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">List&lt;TabItem&gt;</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">List&lt;Tail.Blazor.Navigation.Models.TabItem&gt;</td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">List of tab items</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">ActiveTab</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">TabItem?</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Tail.Blazor.Navigation.Models.TabItem?</td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Currently active tab</td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4 text-sm font-mono text-gray-900 dark:text-gray-100">ActiveTabChanged</td>
-                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">EventCallback&lt;TabItem&gt;</td>
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">EventCallback&lt;Tail.Blazor.Navigation.Models.TabItem&gt;</td>
                         <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">Event when tab changes</td>
                     </tr>
                 </tbody>
@@ -237,36 +281,36 @@
 </div>
 
 @code {
-    private TabItem? ActiveTab { get; set; }
+    private Tail.Blazor.Navigation.TabItem? ActiveTab { get; set; }
     private bool isSidebarCollapsed = false;
     private int currentStep = 1;
 
-    private List<TabItem> TabItems { get; set; } = new()
+    private List<Tail.Blazor.Navigation.TabItem> TabItems { get; set; } = new()
     {
-        new TabItem { Label = "Overview" },
-        new TabItem { Label = "Features" },
-        new TabItem { Label = "Documentation" },
-        new TabItem { Label = "Examples" }
+        new Tail.Blazor.Navigation.TabItem { Label = "Overview" },
+        new Tail.Blazor.Navigation.TabItem { Label = "Features" },
+        new Tail.Blazor.Navigation.TabItem { Label = "Documentation" },
+        new Tail.Blazor.Navigation.TabItem { Label = "Examples" }
     };
 
-    private List<BreadcrumbItem> BreadcrumbItems { get; set; } = new()
+    private List<Tail.Blazor.Navigation.BreadcrumbItem> BreadcrumbItems { get; set; } = new()
     {
-        new BreadcrumbItem { Text = "Home", Href = "/" },
-        new BreadcrumbItem { Text = "Components", Href = "/components" },
-        new BreadcrumbItem { Text = "Navigation" }
+        new Tail.Blazor.Navigation.BreadcrumbItem { Text = "Home", Href = "/" },
+        new Tail.Blazor.Navigation.BreadcrumbItem { Text = "Components", Href = "/components" },
+        new Tail.Blazor.Navigation.BreadcrumbItem { Text = "Navigation" }
     };
 
-    private List<StepItem> StepItems { get; set; } = new()
+    private List<Tail.Blazor.Navigation.StepItem> StepItems { get; set; } = new()
     {
-        new StepItem { Title = "Account", Description = "Create your account" },
-        new StepItem { Title = "Profile", Description = "Setup your profile" },
-        new StepItem { Title = "Preferences", Description = "Set preferences" },
-        new StepItem { Title = "Complete", Description = "All done!" }
+        new Tail.Blazor.Navigation.StepItem { Title = "Account", Description = "Create your account" },
+        new Tail.Blazor.Navigation.StepItem { Title = "Profile", Description = "Setup your profile" },
+        new Tail.Blazor.Navigation.StepItem { Title = "Preferences", Description = "Set preferences" },
+        new Tail.Blazor.Navigation.StepItem { Title = "Complete", Description = "All done!" }
     };
 
-    private List<CarouselSlide> CarouselSlides { get; set; } = new()
+    private List<Tail.Blazor.Navigation.CarouselSlide> CarouselSlides { get; set; } = new()
     {
-        new CarouselSlide 
+        new Tail.Blazor.Navigation.CarouselSlide 
         { 
             Content = new RenderFragment(builder => 
             {
@@ -277,7 +321,7 @@
                 builder.CloseElement();
             })
         },
-        new CarouselSlide 
+        new Tail.Blazor.Navigation.CarouselSlide 
         { 
             Content = new RenderFragment(builder => 
             {
@@ -288,7 +332,7 @@
                 builder.CloseElement();
             })
         },
-        new CarouselSlide 
+        new Tail.Blazor.Navigation.CarouselSlide 
         { 
             Content = new RenderFragment(builder => 
             {
@@ -307,15 +351,15 @@
     ActiveTabChanged=""OnTabChanged"" />
 
 @code {
-    private TabItem? ActiveTab { get; set; };
-    private List<TabItem> TabItems { get; set; } = new()
+    private Tail.Blazor.Navigation.TabItem? ActiveTab { get; set; };
+    private List<Tail.Blazor.Navigation.TabItem> TabItems { get; set; } = new()
     {
-        new TabItem { Label = ""Tab 1"" },
-        new TabItem { Label = ""Tab 2"" },
-        new TabItem { Label = ""Tab 3"" }
+        new Tail.Blazor.Navigation.TabItem { Label = ""Tab 1"" },
+        new Tail.Blazor.Navigation.TabItem { Label = ""Tab 2"" },
+        new Tail.Blazor.Navigation.TabItem { Label = ""Tab 3"" }
     };
 
-    private void OnTabChanged(TabItem tab)
+    private void OnTabChanged(Tail.Blazor.Navigation.TabItem tab)
     {
         ActiveTab = tab;
     }
@@ -382,12 +426,42 @@
     ShowIndicators=""true"" 
     ShowArrows=""true"" />";
 
+    private string commandPaletteCode = @"<TailCommandPalette 
+    Visible=""@showPalette""
+    VisibleChanged=""OnPaletteChanged""
+    Items=""@Commands""
+    Placeholder=""Type a command or search...""
+    GroupByCategory=""true""
+    OnCommandExecuted=""OnCommandExecuted"" />
+
+@code {
+    private bool showPalette = false;
+    private List<CommandPaletteItem> Commands { get; set; } = new()
+    {
+        new CommandPaletteItem 
+        { 
+            Text = ""New File"", 
+            Icon = ""📄"", 
+            Category = ""File"",
+            Shortcut = ""Ctrl+N"",
+            OnExecute = EventCallback.Factory.Create(this, () => { /* Create new file */ })
+        },
+        new CommandPaletteItem 
+        { 
+            Text = ""Open Settings"", 
+            Icon = ""⚙️"", 
+            Category = ""Settings"",
+            OnExecute = EventCallback.Factory.Create(this, () => { /* Open settings */ })
+        }
+    };
+}";
+
     protected override void OnInitialized()
     {
         ActiveTab = TabItems.FirstOrDefault();
     }
 
-    private void OnTabChanged(TabItem tab)
+    private void OnTabChanged(Tail.Blazor.Navigation.TabItem tab)
     {
         ActiveTab = tab;
     }

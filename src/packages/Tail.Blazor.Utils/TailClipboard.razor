@@ -1,0 +1,161 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Utils
+@using Microsoft.AspNetCore.Components.Web
+@inject IJSRuntime JSRuntime
+
+@if (ShowButton)
+{
+    <button 
+        type="button"
+        class="@GetButtonClasses()"
+        style="@GetButtonStyle()"
+        @onclick="CopyToClipboard"
+        disabled="@Disabled"
+        @attributes="AdditionalAttributes">
+        @if (ShowIcon)
+        {
+            @if (Copied)
+            {
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            }
+            else
+            {
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+            }
+        }
+        @if (!string.IsNullOrEmpty(ButtonText))
+        {
+            <span>@(Copied ? SuccessText : ButtonText)</span>
+        }
+        else
+        {
+            @ChildContent
+        }
+    </button>
+}
+else
+{
+    @ChildContent
+}
+
+@if (ShowToast && Copied)
+{
+    <div class="@GetToastClasses()" style="@GetToastStyle()">
+        @SuccessMessage
+    </div>
+}
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? ButtonText { get; set; } = "Copy";
+    [Parameter] public string? SuccessText { get; set; } = "Copied!";
+    [Parameter] public string? SuccessMessage { get; set; } = "Copied to clipboard!";
+    [Parameter] public bool ShowButton { get; set; } = true;
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    [Parameter] public bool ShowToast { get; set; } = true;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public int ToastDuration { get; set; } = 2000;
+    [Parameter] public EventCallback<string> OnCopied { get; set; }
+
+    private bool Copied { get; set; }
+
+    private async Task CopyToClipboard()
+    {
+        if (Disabled || string.IsNullOrEmpty(Text)) return;
+
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Text);
+            Copied = true;
+            
+            if (OnCopied.HasDelegate)
+            {
+                await OnCopied.InvokeAsync(Text);
+            }
+
+            // Reset after duration
+            _ = Task.Delay(ToastDuration).ContinueWith(_ => InvokeAsync(() =>
+            {
+                Copied = false;
+                StateHasChanged();
+            }));
+            
+            await InvokeAsync(StateHasChanged);
+        }
+        catch
+        {
+            // Fallback for older browsers
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("eval", $@"
+                    (function() {{
+                        var textArea = document.createElement('textarea');
+                        textArea.value = '{Text.Replace("'", "\\'")}';
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                    }})();
+                ");
+                Copied = true;
+                await InvokeAsync(StateHasChanged);
+            }
+            catch { }
+        }
+    }
+
+    // Styling methods using global CSS variables
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex items-center px-4 py-2 rounded-lg transition-colors" };
+        
+        if (Copied)
+        {
+            classes.Add("text-white");
+        }
+        else
+        {
+            classes.Add("border");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyle()
+    {
+        if (Copied)
+        {
+            return "background-color: var(--color-success);";
+        }
+        else
+        {
+            return @"
+                background-color: var(--color-surface);
+                border-color: var(--color-border);
+                color: var(--color-text-primary);
+            ";
+        }
+    }
+
+    private string GetToastClasses()
+    {
+        return "fixed bottom-4 right-4 px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in";
+    }
+
+    private string GetToastStyle()
+    {
+        return @"
+            background-color: var(--color-success);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        ";
+    }
+}
+

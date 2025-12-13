@@ -51,6 +51,26 @@ public class DataGridColumn
     /// Format string for cell values.
     /// </summary>
     public string? Format { get; set; }
+    
+    /// <summary>
+    /// Whether this column is frozen (sticky) on the left side.
+    /// </summary>
+    public bool Frozen { get; set; } = false;
+    
+    /// <summary>
+    /// Group name for column grouping. Columns with the same group name will be grouped together.
+    /// </summary>
+    public string? Group { get; set; }
+    
+    /// <summary>
+    /// Whether this column is editable inline.
+    /// </summary>
+    public bool Editable { get; set; } = false;
+    
+    /// <summary>
+    /// Column span for header (for grouping).
+    /// </summary>
+    public int ColSpan { get; set; } = 1;
 }
 
 /// <summary>

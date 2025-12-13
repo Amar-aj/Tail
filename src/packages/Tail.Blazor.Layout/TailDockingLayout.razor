@@ -1,0 +1,369 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Layout
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" id="@layoutId" @attributes="AdditionalAttributes">
+    <!-- Main Layout Container -->
+    <div class="@GetLayoutClasses()" style="@GetLayoutStyle()">
+        <!-- Left Dock Area -->
+        @if (HasPanelsAt(DockingPosition.Left))
+        {
+            <div class="@GetDockAreaClasses(DockingPosition.Left)" style="@GetDockAreaStyle(DockingPosition.Left)">
+                @RenderDockArea(DockingPosition.Left)
+            </div>
+        }
+
+        <!-- Center Area -->
+        <div class="@GetCenterAreaClasses()" style="@GetCenterAreaStyle()">
+            <!-- Top Dock Area -->
+            @if (HasPanelsAt(DockingPosition.Top))
+            {
+                <div class="@GetDockAreaClasses(DockingPosition.Top)" style="@GetDockAreaStyle(DockingPosition.Top)">
+                    @RenderDockArea(DockingPosition.Top)
+                </div>
+            }
+
+            <!-- Main Content Area -->
+            <div class="@GetMainContentClasses()" style="@GetMainContentStyle()">
+                @if (HasPanelsAt(DockingPosition.Center))
+                {
+                    @RenderDockArea(DockingPosition.Center)
+                }
+                else
+                {
+                    @ChildContent
+                }
+            </div>
+
+            <!-- Bottom Dock Area -->
+            @if (HasPanelsAt(DockingPosition.Bottom))
+            {
+                <div class="@GetDockAreaClasses(DockingPosition.Bottom)" style="@GetDockAreaStyle(DockingPosition.Bottom)">
+                    @RenderDockArea(DockingPosition.Bottom)
+                </div>
+            }
+        </div>
+
+        <!-- Right Dock Area -->
+        @if (HasPanelsAt(DockingPosition.Right))
+        {
+            <div class="@GetDockAreaClasses(DockingPosition.Right)" style="@GetDockAreaStyle(DockingPosition.Right)">
+                @RenderDockArea(DockingPosition.Right)
+            </div>
+        }
+    </div>
+
+    <!-- Floating Panels -->
+    @foreach (var panel in FloatingPanels)
+    {
+        <div 
+            class="@GetFloatingPanelClasses(panel)"
+            style="@GetFloatingPanelStyle(panel)"
+            data-panel-id="@panel.Id">
+            <div class="@GetFloatingPanelHeaderClasses()" style="@GetFloatingPanelHeaderStyle()" @onmousedown="() => StartDrag(panel)">
+                <div class="flex items-center gap-2">
+                    @if (!string.IsNullOrEmpty(panel.Icon))
+                    {
+                        <span>@panel.Icon</span>
+                    }
+                    <span class="font-medium" style="color: var(--color-text-primary);">@panel.Title</span>
+                </div>
+                <div class="flex items-center gap-1">
+                    @if (panel.Dockable)
+                    {
+                        <button 
+                            type="button"
+                            class="@GetFloatingButtonClasses()"
+                            @onclick="() => DockPanel(panel)"
+                            title="Dock">
+                            📌
+                        </button>
+                    }
+                    @if (panel.Closable)
+                    {
+                        <button 
+                            type="button"
+                            class="@GetFloatingButtonClasses()"
+                            @onclick="() => ClosePanel(panel)"
+                            title="Close">
+                            ✕
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="@GetFloatingPanelContentClasses()" style="@GetFloatingPanelContentStyle()">
+                @if (panel.Content != null)
+                {
+                    @panel.Content
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<DockingPanel> Panels { get; set; } = new();
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool AllowDragDrop { get; set; } = true;
+    [Parameter] public bool ShowTabs { get; set; } = true;
+    [Parameter] public EventCallback<DockingPanel> OnPanelClosed { get; set; }
+    [Parameter] public EventCallback<DockingPanel> OnPanelActivated { get; set; }
+    [Parameter] public EventCallback<(DockingPanel Panel, DockingPosition Position)> OnPanelDocked { get; set; }
+
+    private string layoutId = $"docking-layout-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private DockingPanel? draggedPanel;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AllowDragDrop)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Layout/docking.js");
+                await jsModule.InvokeVoidAsync("initializeDocking", layoutId, DotNetObjectReference.Create(this));
+            }
+            catch { }
+        }
+    }
+
+    private bool HasPanelsAt(DockingPosition position)
+    {
+        return Panels.Any(p => p.Position == position && p.State == DockingPanelState.Docked);
+    }
+
+    private RenderFragment RenderDockArea(DockingPosition position)
+    {
+        var panels = Panels.Where(p => p.Position == position && p.State == DockingPanelState.Docked).OrderBy(p => p.Order).ToList();
+        
+        return builder =>
+        {
+            if (ShowTabs && panels.Count > 1)
+            {
+                // Render as tabs
+                builder.OpenElement(0, "div");
+                builder.AddAttribute(1, "class", GetTabsContainerClasses());
+                builder.AddAttribute(2, "style", GetTabsContainerStyle());
+                
+                // Tab headers
+                builder.OpenElement(3, "div");
+                builder.AddAttribute(4, "class", GetTabsHeaderClasses());
+                builder.AddAttribute(5, "style", GetTabsHeaderStyle());
+                
+                foreach (var panel in panels)
+                {
+                    builder.OpenElement(6, "button");
+                    builder.AddAttribute(7, "type", "button");
+                    builder.AddAttribute(8, "class", GetTabClasses(panel));
+                    builder.AddAttribute(9, "style", GetTabStyle(panel));
+                    builder.AddAttribute(10, "onclick", EventCallback.Factory.Create(this, () => ActivatePanel(panel)));
+                    
+                    if (!string.IsNullOrEmpty(panel.Icon))
+                    {
+                        builder.OpenElement(11, "span");
+                        builder.AddContent(12, panel.Icon);
+                        builder.CloseElement();
+                    }
+                    
+                    builder.OpenElement(13, "span");
+                    builder.AddContent(14, panel.Title);
+                    builder.CloseElement();
+                    
+                    if (panel.Closable)
+                    {
+                        builder.OpenElement(15, "button");
+                        builder.AddAttribute(16, "type", "button");
+                        builder.AddAttribute(17, "class", GetTabCloseButtonClasses());
+                        builder.AddAttribute(18, "onclick", EventCallback.Factory.Create(this, () => ClosePanel(panel)));
+                        builder.AddAttribute(19, "onclick:stopPropagation", true);
+                        builder.AddContent(20, "✕");
+                        builder.CloseElement();
+                    }
+                    
+                    builder.CloseElement();
+                }
+                
+                builder.CloseElement();
+                
+                // Tab content
+                var activePanel = panels.FirstOrDefault(p => p.IsActive) ?? panels.First();
+                builder.OpenElement(21, "div");
+                builder.AddAttribute(22, "class", GetTabContentClasses());
+                builder.AddAttribute(23, "style", GetTabContentStyle());
+                
+                if (activePanel.Content != null)
+                {
+                    builder.AddContent(24, activePanel.Content);
+                }
+                
+                builder.CloseElement();
+                builder.CloseElement();
+            }
+            else
+            {
+                // Render single panel or stacked
+                foreach (var panel in panels)
+                {
+                    builder.OpenElement(25, "div");
+                    builder.AddAttribute(26, "class", GetPanelContainerClasses());
+                    builder.AddAttribute(27, "style", GetPanelContainerStyle());
+                    
+                    if (panels.Count > 1)
+                    {
+                        builder.OpenElement(28, "div");
+                        builder.AddAttribute(29, "class", GetPanelHeaderClasses());
+                        builder.AddAttribute(30, "style", GetPanelHeaderStyle());
+                        builder.AddContent(31, panel.Title);
+                        if (panel.Closable)
+                        {
+                            builder.OpenElement(32, "button");
+                            builder.AddAttribute(33, "type", "button");
+                            builder.AddAttribute(34, "class", GetPanelCloseButtonClasses());
+                            builder.AddAttribute(35, "onclick", EventCallback.Factory.Create(this, () => ClosePanel(panel)));
+                            builder.AddContent(36, "✕");
+                            builder.CloseElement();
+                        }
+                        builder.CloseElement();
+                    }
+                    
+                    builder.OpenElement(37, "div");
+                    builder.AddAttribute(38, "class", GetPanelContentClasses());
+                    builder.AddAttribute(39, "style", GetPanelContentStyle());
+                    
+                    if (panel.Content != null)
+                    {
+                        builder.AddContent(40, panel.Content);
+                    }
+                    
+                    builder.CloseElement();
+                    builder.CloseElement();
+                }
+            }
+        };
+    }
+
+    private List<DockingPanel> FloatingPanels => Panels.Where(p => p.State == DockingPanelState.Floating).ToList();
+
+    private void ActivatePanel(DockingPanel panel)
+    {
+        foreach (var p in Panels.Where(p => p.Position == panel.Position))
+        {
+            p.IsActive = false;
+        }
+        panel.IsActive = true;
+        
+        if (OnPanelActivated.HasDelegate)
+        {
+            OnPanelActivated.InvokeAsync(panel);
+        }
+        
+        StateHasChanged();
+    }
+
+    private async Task ClosePanel(DockingPanel panel)
+    {
+        Panels.Remove(panel);
+        if (OnPanelClosed.HasDelegate)
+        {
+            await OnPanelClosed.InvokeAsync(panel);
+        }
+        StateHasChanged();
+    }
+
+    private async Task DockPanel(DockingPanel panel)
+    {
+        panel.State = DockingPanelState.Docked;
+        panel.Position = DockingPosition.Center;
+        
+        if (OnPanelDocked.HasDelegate)
+        {
+            await OnPanelDocked.InvokeAsync((panel, panel.Position));
+        }
+        
+        StateHasChanged();
+    }
+
+    private void StartDrag(DockingPanel panel)
+    {
+        draggedPanel = panel;
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "w-full h-full relative";
+    private string GetContainerStyle() => "";
+    private string GetLayoutClasses() => "flex h-full";
+    private string GetLayoutStyle() => "";
+    private string GetCenterAreaClasses() => "flex-1 flex flex-col";
+    private string GetCenterAreaStyle() => "";
+    private string GetMainContentClasses() => "flex-1 overflow-auto";
+    private string GetMainContentStyle() => "background-color: var(--color-surface);";
+    
+    private string GetDockAreaClasses(DockingPosition position)
+    {
+        var classes = new List<string> { "border" };
+        classes.Add(position switch
+        {
+            DockingPosition.Left or DockingPosition.Right => "w-64",
+            DockingPosition.Top or DockingPosition.Bottom => "h-48",
+            _ => ""
+        });
+        return string.Join(" ", classes);
+    }
+    
+    private string GetDockAreaStyle(DockingPosition position)
+    {
+        return $"border-color: var(--color-border); background-color: var(--color-surface-2);";
+    }
+    
+    private string GetTabsContainerClasses() => "h-full flex flex-col";
+    private string GetTabsContainerStyle() => "";
+    private string GetTabsHeaderClasses() => "flex border-b overflow-x-auto";
+    private string GetTabsHeaderStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetTabClasses(DockingPanel panel)
+    {
+        var classes = new List<string> { "px-4 py-2 flex items-center gap-2 border-r text-sm transition-colors" };
+        if (panel.IsActive)
+        {
+            classes.Add("bg-white dark:bg-gray-800");
+        }
+        else
+        {
+            classes.Add("hover:bg-gray-100 dark:hover:bg-gray-700");
+        }
+        return string.Join(" ", classes);
+    }
+    private string GetTabStyle(DockingPanel panel) => $"border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetTabCloseButtonClasses() => "ml-2 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600";
+    private string GetTabContentClasses() => "flex-1 overflow-auto p-4";
+    private string GetTabContentStyle() => "background-color: var(--color-surface);";
+    private string GetPanelContainerClasses() => "h-full flex flex-col border";
+    private string GetPanelContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface);";
+    private string GetPanelHeaderClasses() => "px-4 py-2 border-b flex items-center justify-between";
+    private string GetPanelHeaderStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2); color: var(--color-text-primary);";
+    private string GetPanelCloseButtonClasses() => "p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600";
+    private string GetPanelContentClasses() => "flex-1 overflow-auto p-4";
+    private string GetPanelContentStyle() => "";
+    private string GetFloatingPanelClasses(DockingPanel panel) => "fixed z-50 rounded-lg shadow-xl flex flex-col";
+    private string GetFloatingPanelStyle(DockingPanel panel) => $"background-color: var(--color-surface); border: 1px solid var(--color-border); width: 400px; height: 300px; top: 100px; left: 100px;";
+    private string GetFloatingPanelHeaderClasses() => "px-4 py-2 border-b flex items-center justify-between cursor-move";
+    private string GetFloatingPanelHeaderStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetFloatingButtonClasses() => "p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600";
+    private string GetFloatingPanelContentClasses() => "flex-1 overflow-auto p-4";
+    private string GetFloatingPanelContentStyle() => "";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

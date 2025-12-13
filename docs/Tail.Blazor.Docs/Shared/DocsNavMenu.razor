@@ -1,4 +1,4 @@
-@using Tail.Blazor.Navigation
+@using Tail.Blazor.Layout
 @using Tail.Blazor.Core.Theme
 @inject NavigationManager Navigation
 @implements IDisposable
@@ -12,107 +12,81 @@
         <TailThemeToggle />
     </div>
 
-    <nav class="docs-nav-content">
-        <NavLink href="/" Match="NavLinkMatch.All" class="docs-nav-link">
-            <span class="docs-nav-icon">🏠</span>
-            <span>Home</span>
-        </NavLink>
-        
-        <!-- Documentation Section -->
-        <div class="docs-nav-section">📚 Documentation</div>
-        <NavLink href="/docs" class="docs-nav-link docs-nav-link-nested">
-            <span>Overview</span>
-        </NavLink>
-        <NavLink href="/docs/installation" class="docs-nav-link docs-nav-link-nested">
-            <span>Installation</span>
-        </NavLink>
-        <NavLink href="/getting-started" class="docs-nav-link docs-nav-link-nested">
-            <span>Quick Start</span>
-        </NavLink>
-        
-        <!-- Components Section -->
-        <NavLink href="/components" class="docs-nav-link">
-            <span class="docs-nav-icon">🧩</span>
-            <span>Components</span>
-        </NavLink>
-        <NavLink href="/components/summary" class="docs-nav-link docs-nav-link-nested">
-            <span>📋 Components Summary</span>
-        </NavLink>
-        
-        <div class="docs-nav-subsection">Component Categories</div>
-        <NavLink href="/components/buttons" class="docs-nav-link docs-nav-link-nested">
-            <span>Buttons</span>
-        </NavLink>
-        <NavLink href="/components/forms" class="docs-nav-link docs-nav-link-nested">
-            <span>Forms</span>
-        </NavLink>
-        <NavLink href="/components/layout" class="docs-nav-link docs-nav-link-nested">
-            <span>Layout</span>
-        </NavLink>
-        <NavLink href="/components/navigation" class="docs-nav-link docs-nav-link-nested">
-            <span>Navigation</span>
-        </NavLink>
-        <NavLink href="/components/feedback" class="docs-nav-link docs-nav-link-nested">
-            <span>Feedback</span>
-        </NavLink>
-        <NavLink href="/components/data" class="docs-nav-link docs-nav-link-nested">
-            <span>Data</span>
-        </NavLink>
-        
-        <!-- Theming Section -->
-        <div class="docs-nav-section">🎨 Theming</div>
-        <NavLink href="/theming" class="docs-nav-link docs-nav-link-nested">
-            <span>Overview</span>
-        </NavLink>
-        <NavLink href="/theme-toggle-demo" class="docs-nav-link docs-nav-link-nested">
-            <span>Theme Toggle</span>
-        </NavLink>
-        <NavLink href="/theme-selector-demo" class="docs-nav-link docs-nav-link-nested">
-            <span>Theme Selector</span>
-        </NavLink>
-        <NavLink href="/docs/theme-integration" class="docs-nav-link docs-nav-link-nested">
-            <span>Theme Integration</span>
-        </NavLink>
-        
-        <!-- Resources -->
-        <NavLink href="/examples" class="docs-nav-link">
-            <span class="docs-nav-icon">💡</span>
-            <span>Examples</span>
-        </NavLink>
-        <NavLink href="/best-practices" class="docs-nav-link">
-            <span class="docs-nav-icon">✨</span>
-            <span>Best Practices</span>
-        </NavLink>
-        <NavLink href="/faq" class="docs-nav-link">
-            <span class="docs-nav-icon">❓</span>
-            <span>FAQ</span>
-        </NavLink>
-        <NavLink href="/api" class="docs-nav-link">
-            <span class="docs-nav-icon">📚</span>
-            <span>API Reference</span>
-        </NavLink>
-        <NavLink href="/scope" class="docs-nav-link">
-            <span class="docs-nav-icon">📊</span>
-            <span>Scope & Status</span>
-        </NavLink>
-        <NavLink href="/layout-modes" class="docs-nav-link">
-            <span class="docs-nav-icon">📐</span>
-            <span>Layout Modes</span>
-        </NavLink>
-        <NavLink href="/layout-demo" class="docs-nav-link">
-            <span class="docs-nav-icon">🎨</span>
-            <span>Layout Demo</span>
-        </NavLink>
-    </nav>
+    <div class="docs-nav-content">
+        <TailNavMenu Items="@navMenuItems" Size="NavMenuSize.Md" ShowIcons="true" ShowBadges="false" />
+    </div>
 </div>
 
 @code {
     private string? _currentPath;
+    private List<NavMenuItem> navMenuItems = new();
 
     protected override void OnInitialized()
     {
         _currentPath = Navigation.Uri;
         Navigation.LocationChanged += OnLocationChanged;
+        
+        // Build navigation menu items with expandable groups
+        navMenuItems = new List<NavMenuItem>
+        {
+            new NavMenuItem { Href = "/", Text = "Home", Icon = "🏠", ExactMatch = true },
+            
+            // Documentation Section (expandable)
+            new NavMenuItem 
+            { 
+                Text = "Documentation", 
+                Icon = "📚",
+                Children = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/docs", Text = "Overview" },
+                    new NavMenuItem { Href = "/docs/installation", Text = "Installation" },
+                    new NavMenuItem { Href = "/getting-started", Text = "Quick Start" }
+                }
+            },
+            
+            // Components Section (expandable)
+            new NavMenuItem 
+            { 
+                Text = "Components", 
+                Icon = "🧩",
+                Children = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components", Text = "Overview" },
+                    new NavMenuItem { Href = "/components/summary", Text = "Components Summary", Icon = "📋" },
+                    new NavMenuItem { IsDivider = true },
+                    new NavMenuItem { Href = "/components/buttons", Text = "Buttons" },
+                    new NavMenuItem { Href = "/components/forms", Text = "Forms" },
+                    new NavMenuItem { Href = "/components/layout", Text = "Layout" },
+                    new NavMenuItem { Href = "/components/navigation", Text = "Navigation" },
+                    new NavMenuItem { Href = "/components/feedback", Text = "Feedback" },
+                    new NavMenuItem { Href = "/components/data", Text = "Data" }
+                }
+            },
+            
+            // Theming Section (expandable)
+            new NavMenuItem 
+            { 
+                Text = "Theming", 
+                Icon = "🎨",
+                Children = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/theming", Text = "Overview" },
+                    new NavMenuItem { Href = "/theme-toggle-demo", Text = "Theme Toggle" },
+                    new NavMenuItem { Href = "/theme-selector-demo", Text = "Theme Selector" },
+                    new NavMenuItem { Href = "/docs/theme-integration", Text = "Theme Integration" }
+                }
+            },
+            
+            // Resources
+            new NavMenuItem { IsDivider = true },
+            new NavMenuItem { Href = "/examples", Text = "Examples", Icon = "💡" },
+            new NavMenuItem { Href = "/best-practices", Text = "Best Practices", Icon = "✨" },
+            new NavMenuItem { Href = "/faq", Text = "FAQ", Icon = "❓" },
+            new NavMenuItem { Href = "/api", Text = "API Reference", Icon = "📚" },
+            new NavMenuItem { Href = "/scope", Text = "Scope & Status", Icon = "📊" },
+            new NavMenuItem { Href = "/layout-modes", Text = "Layout Modes", Icon = "📐" },
+            new NavMenuItem { Href = "/layout-demo", Text = "Layout Demo", Icon = "🎨" }
+        };
     }
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
@@ -126,4 +100,3 @@
         Navigation.LocationChanged -= OnLocationChanged;
     }
 }
-

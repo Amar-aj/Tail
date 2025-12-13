@@ -1,0 +1,213 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Navigation.Models
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" @attributes="AdditionalAttributes">
+    <!-- Sub-actions -->
+    @if (Expanded && Items.Any())
+    {
+        <div class="@GetSubActionsClasses()" style="@GetSubActionsStyle()">
+            @foreach (var item in Items)
+            {
+                <div class="@GetSubActionWrapperClasses()" style="@GetSubActionWrapperStyle(item)">
+                    @if (ShowLabels)
+                    {
+                        <span class="@GetSubActionLabelClasses()" style="@GetSubActionLabelStyle()">
+                            @item.Label
+                        </span>
+                    }
+                    <button
+                        type="button"
+                        class="@GetSubActionButtonClasses(item)"
+                        style="@GetSubActionButtonStyle(item)"
+                        @onclick="() => HandleSubActionClick(item)"
+                        disabled="@item.Disabled"
+                        title="@item.Label">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <span>@item.Icon</span>
+                        }
+                        else
+                        {
+                            <span class="text-lg">⚡</span>
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Main FAB button -->
+    <button
+        type="button"
+        class="@GetMainButtonClasses()"
+        style="@GetMainButtonStyle()"
+        @onclick="ToggleExpanded"
+        title="@MainButtonLabel">
+        @if (Expanded)
+        {
+            <span class="text-2xl">✕</span>
+        }
+        else
+        {
+            @if (!string.IsNullOrEmpty(MainButtonIcon))
+            {
+                <span class="text-2xl">@MainButtonIcon</span>
+            }
+            else
+            {
+                <span class="text-2xl">➕</span>
+            }
+        }
+    </button>
+
+    <!-- Overlay -->
+    @if (Expanded && ShowOverlay)
+    {
+        <div class="@GetOverlayClasses()" style="@GetOverlayStyle()" @onclick="CloseMenu"></div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<FloatingActionItem> Items { get; set; } = new();
+    [Parameter] public string? MainButtonIcon { get; set; }
+    [Parameter] public string MainButtonLabel { get; set; } = "Menu";
+    [Parameter] public FloatingActionPlacement Placement { get; set; } = FloatingActionPlacement.BottomRight;
+    [Parameter] public FloatingActionDirection Direction { get; set; } = FloatingActionDirection.Up;
+    [Parameter] public bool ShowLabels { get; set; } = true;
+    [Parameter] public bool ShowOverlay { get; set; } = true;
+    [Parameter] public string? MainButtonColor { get; set; }
+    [Parameter] public int Spacing { get; set; } = 70; // Spacing between sub-actions in pixels
+    [Parameter] public EventCallback<FloatingActionItem> OnSubActionClick { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+
+    private bool Expanded { get; set; } = false;
+
+    private void ToggleExpanded()
+    {
+        Expanded = !Expanded;
+        ExpandedChanged.InvokeAsync(Expanded);
+        StateHasChanged();
+    }
+
+    private void CloseMenu()
+    {
+        Expanded = false;
+        ExpandedChanged.InvokeAsync(false);
+        StateHasChanged();
+    }
+
+    private async Task HandleSubActionClick(FloatingActionItem item)
+    {
+        if (item.Disabled) return;
+
+        await item.OnClick.InvokeAsync(item);
+        if (OnSubActionClick.HasDelegate)
+        {
+            await OnSubActionClick.InvokeAsync(item);
+        }
+        
+        // Close menu after action
+        CloseMenu();
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "fixed z-50";
+    private string GetContainerStyle()
+    {
+        var placement = Placement switch
+        {
+            FloatingActionPlacement.BottomRight => "bottom: 24px; right: 24px;",
+            FloatingActionPlacement.BottomLeft => "bottom: 24px; left: 24px;",
+            FloatingActionPlacement.TopRight => "top: 24px; right: 24px;",
+            FloatingActionPlacement.TopLeft => "top: 24px; left: 24px;",
+            FloatingActionPlacement.BottomCenter => "bottom: 24px; left: 50%; transform: translateX(-50%);",
+            FloatingActionPlacement.TopCenter => "top: 24px; left: 50%; transform: translateX(-50%);",
+            _ => "bottom: 24px; right: 24px;"
+        };
+        return placement;
+    }
+
+    private string GetSubActionsClasses() => "absolute flex flex-col-reverse items-center gap-2 mb-2 transition-all duration-300";
+    private string GetSubActionsStyle()
+    {
+        var direction = Direction switch
+        {
+            FloatingActionDirection.Up => "bottom: 100%;",
+            FloatingActionDirection.Down => "top: 100%;",
+            FloatingActionDirection.Left => "right: 100%; flex-direction: row-reverse;",
+            FloatingActionDirection.Right => "left: 100%; flex-direction: row;",
+            _ => "bottom: 100%;"
+        };
+        return direction;
+    }
+
+    private string GetSubActionWrapperClasses() => "flex items-center gap-2 transition-all duration-300";
+    private string GetSubActionWrapperStyle(FloatingActionItem item)
+    {
+        var index = Items.IndexOf(item);
+        var delay = index * 50; // Stagger animation
+        
+        var transform = Direction switch
+        {
+            FloatingActionDirection.Up => $"translateY({Spacing * (Items.Count - index - 1)}px)",
+            FloatingActionDirection.Down => $"translateY(-{Spacing * (Items.Count - index - 1)}px)",
+            FloatingActionDirection.Left => $"translateX({Spacing * (Items.Count - index - 1)}px)",
+            FloatingActionDirection.Right => $"translateX(-{Spacing * (Items.Count - index - 1)}px)",
+            _ => $"translateY({Spacing * (Items.Count - index - 1)}px)"
+        };
+
+        if (Expanded)
+        {
+            return $"transform: {transform}; opacity: 1; transition-delay: {delay}ms;";
+        }
+        else
+        {
+            return "transform: translateY(0) translateX(0); opacity: 0; pointer-events: none;";
+        }
+    }
+
+    private string GetSubActionLabelClasses() => "px-3 py-1 rounded-md text-sm font-medium whitespace-nowrap shadow-md";
+    private string GetSubActionLabelStyle() => "background-color: var(--color-surface-2); color: var(--color-text-primary); border: 1px solid var(--color-border);";
+
+    private string GetSubActionButtonClasses(FloatingActionItem item)
+    {
+        var classes = new List<string> { "w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-200" };
+        if (item.Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        else
+        {
+            classes.Add("hover:scale-110 active:scale-95");
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSubActionButtonStyle(FloatingActionItem item)
+    {
+        var color = item.Color ?? "var(--color-primary)";
+        return $"background-color: {color}; color: white;";
+    }
+
+    private string GetMainButtonClasses()
+    {
+        var classes = new List<string> { "w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95" };
+        if (Expanded)
+        {
+            classes.Add("rotate-45");
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetMainButtonStyle()
+    {
+        var color = MainButtonColor ?? "var(--color-primary)";
+        return $"background-color: {color}; color: white;";
+    }
+
+    private string GetOverlayClasses() => "fixed inset-0 z-40 transition-opacity duration-300";
+    private string GetOverlayStyle() => "background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(2px);";
+}
+

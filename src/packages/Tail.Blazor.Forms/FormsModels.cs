@@ -155,3 +155,128 @@ public enum RadioVariant
     Danger
 }
 
+/// <summary>
+/// Date range preset for quick selection.
+/// </summary>
+public class DateRangePreset
+{
+    /// <summary>
+    /// Preset label.
+    /// </summary>
+    public string Label { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Function that returns the date range (Start, End).
+    /// </summary>
+    public Func<(DateTime Start, DateTime End)> GetRange { get; set; } = null!;
+}
+
+/// <summary>
+/// Currency symbol position.
+/// </summary>
+public enum CurrencySymbolPosition
+{
+    Left,
+    Right
+}
+
+/// <summary>
+/// Country code information.
+/// </summary>
+public class CountryCode
+{
+    public string Code { get; set; } = string.Empty;
+    public string Flag { get; set; } = string.Empty;
+    public string Country { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Password strength level.
+/// </summary>
+public enum PasswordStrength
+{
+    VeryWeak,
+    Weak,
+    Fair,
+    Good,
+    Strong
+}
+
+/// <summary>
+/// Password requirement type.
+/// </summary>
+public enum PasswordRequirementType
+{
+    Length,
+    Uppercase,
+    Lowercase,
+    Number,
+    Special
+}
+
+/// <summary>
+/// Password requirement.
+/// </summary>
+public class PasswordRequirement
+{
+    public PasswordRequirementType Type { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public int? MinLength { get; set; }
+}
+
+/// <summary>
+/// Rich text editor toolbar item.
+/// </summary>
+public class RichTextEditorToolbarItem
+{
+    /// <summary>
+    /// Item identifier/command.
+    /// </summary>
+    public string Command { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Display icon or text.
+    /// </summary>
+    public string Icon { get; set; } = string.Empty;
+    
+    /// <summary>
+    /// Tooltip text.
+    /// </summary>
+    public string? Tooltip { get; set; }
+    
+    /// <summary>
+    /// Optional value for commands that require it (e.g., font size, color).
+    /// </summary>
+    public string? Value { get; set; }
+    
+    /// <summary>
+    /// Indicates if the item is a separator.
+    /// </summary>
+    public bool IsSeparator { get; set; }
+    
+    /// <summary>
+    /// Indicates if the item is disabled.
+    /// </summary>
+    public bool Disabled { get; set; }
+}
+
+/// <summary>
+/// Rich text editor size options.
+/// </summary>
+public enum RichTextEditorSize
+{
+    Sm,
+    Md,
+    Lg
+}
+
+/// <summary>
+/// Rich text editor variant styles.
+/// </summary>
+public enum RichTextEditorVariant
+{
+    Default,
+    Outline,
+    Filled
+}
+

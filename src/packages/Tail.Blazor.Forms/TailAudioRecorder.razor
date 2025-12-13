@@ -1,0 +1,453 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Forms.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" @attributes="AdditionalAttributes">
+    <!-- Controls -->
+    <div class="@GetControlsClasses()" style="@GetControlsStyle()">
+        <!-- Record Button -->
+        @if (State == AudioRecorderState.Idle || State == AudioRecorderState.Stopped)
+        {
+            <button
+                type="button"
+                class="@GetRecordButtonClasses()"
+                style="@GetRecordButtonStyle()"
+                @onclick="StartRecording"
+                title="Start Recording">
+                <span class="text-2xl">🎤</span>
+            </button>
+        }
+        else if (State == AudioRecorderState.Recording)
+        {
+            <button
+                type="button"
+                class="@GetStopButtonClasses()"
+                style="@GetStopButtonStyle()"
+                @onclick="StopRecording"
+                title="Stop Recording">
+                <span class="text-2xl">⏹️</span>
+            </button>
+        }
+        else if (State == AudioRecorderState.Paused)
+        {
+            <button
+                type="button"
+                class="@GetResumeButtonClasses()"
+                style="@GetResumeButtonStyle()"
+                @onclick="ResumeRecording"
+                title="Resume Recording">
+                <span class="text-2xl">▶️</span>
+            </button>
+        }
+
+        <!-- Playback Controls -->
+        @if (HasRecording && State != AudioRecorderState.Recording)
+        {
+            @if (State == AudioRecorderState.Playing)
+            {
+                <button
+                    type="button"
+                    class="@GetPauseButtonClasses()"
+                    style="@GetPauseButtonStyle()"
+                    @onclick="PausePlayback"
+                    title="Pause">
+                    <span class="text-xl">⏸️</span>
+                </button>
+            }
+            else
+            {
+                <button
+                    type="button"
+                    class="@GetPlayButtonClasses()"
+                    style="@GetPlayButtonStyle()"
+                    @onclick="StartPlayback"
+                    title="Play">
+                    <span class="text-xl">▶️</span>
+                </button>
+            }
+
+            <button
+                type="button"
+                class="@GetStopPlaybackButtonClasses()"
+                style="@GetStopPlaybackButtonStyle()"
+                @onclick="StopPlayback"
+                title="Stop">
+                <span class="text-xl">⏹️</span>
+            </button>
+        }
+
+        <!-- Clear Button -->
+        @if (HasRecording)
+        {
+            <button
+                type="button"
+                class="@GetClearButtonClasses()"
+                style="@GetClearButtonStyle()"
+                @onclick="ClearRecording"
+                title="Clear">
+                <span class="text-xl">🗑️</span>
+            </button>
+        }
+    </div>
+
+    <!-- Waveform Visualization -->
+    @if (ShowWaveform && (State == AudioRecorderState.Recording || HasRecording))
+    {
+        <div class="@GetWaveformClasses()" style="@GetWaveformStyle()">
+            <canvas id="@waveformCanvasId" class="w-full h-full"></canvas>
+        </div>
+    }
+
+    <!-- Audio Player -->
+    @if (HasRecording && ShowPlayer)
+    {
+        <div class="@GetPlayerClasses()" style="@GetPlayerStyle()">
+            <audio id="@audioPlayerId" controls class="w-full">
+                <source src="@audioUrl" type="audio/webm" />
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    }
+
+    <!-- Status and Info -->
+    <div class="@GetInfoClasses()" style="@GetInfoStyle()">
+        @if (State == AudioRecorderState.Recording)
+        {
+            <div class="flex items-center gap-2">
+                <span class="@GetRecordingIndicatorClasses()"></span>
+                <span class="@GetStatusTextClasses()" style="@GetStatusTextStyle()">
+                    Recording... @FormatDuration(RecordingDuration)
+                </span>
+            </div>
+        }
+        else if (State == AudioRecorderState.Playing)
+        {
+            <div class="flex items-center gap-2">
+                <span class="@GetStatusTextClasses()" style="@GetStatusTextStyle()">
+                    Playing... @FormatDuration(CurrentTime) / @FormatDuration(TotalDuration)
+                </span>
+            </div>
+        }
+        else if (HasRecording)
+        {
+            <div class="@GetStatusTextClasses()" style="@GetStatusTextStyle()">
+                Duration: @FormatDuration(TotalDuration)
+            </div>
+        }
+        else
+        {
+            <div class="@GetStatusTextClasses()" style="@GetStatusTextStyle()">
+                Ready to record
+            </div>
+        }
+    </div>
+
+    <!-- Download Button -->
+    @if (HasRecording && ShowDownload)
+    {
+        <div class="@GetDownloadContainerClasses()">
+            <button
+                type="button"
+                class="@GetDownloadButtonClasses()"
+                style="@GetDownloadButtonStyle()"
+                @onclick="DownloadRecording"
+                title="Download">
+                📥 Download
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public AudioRecorderFormat Format { get; set; } = AudioRecorderFormat.WebM;
+    [Parameter] public AudioRecorderQuality Quality { get; set; } = AudioRecorderQuality.Medium;
+    [Parameter] public bool ShowWaveform { get; set; } = true;
+    [Parameter] public bool ShowPlayer { get; set; } = true;
+    [Parameter] public bool ShowDownload { get; set; } = true;
+    [Parameter] public int MaxDuration { get; set; } = 0; // 0 = unlimited
+    [Parameter] public EventCallback<byte[]?> RecordingChanged { get; set; }
+    [Parameter] public EventCallback<TimeSpan> DurationChanged { get; set; }
+
+    private string recorderId = $"audio-recorder-{Guid.NewGuid():N}";
+    private string waveformCanvasId = $"waveform-{Guid.NewGuid():N}";
+    private string audioPlayerId = $"audio-player-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private AudioRecorderState State { get; set; } = AudioRecorderState.Idle;
+    private bool HasRecording { get; set; } = false;
+    private TimeSpan RecordingDuration { get; set; } = TimeSpan.Zero;
+    private TimeSpan TotalDuration { get; set; } = TimeSpan.Zero;
+    private TimeSpan CurrentTime { get; set; } = TimeSpan.Zero;
+    private string? audioUrl;
+    private byte[]? audioData;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Forms/audiorecorder.js");
+                await jsModule.InvokeVoidAsync("initializeRecorder", recorderId, waveformCanvasId, audioPlayerId, DotNetObjectReference.Create(this), Format.ToString(), Quality.ToString());
+            }
+            catch { }
+        }
+    }
+
+    private async Task StartRecording()
+    {
+        if (jsModule == null) return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync("startRecording", recorderId);
+            State = AudioRecorderState.Recording;
+            RecordingDuration = TimeSpan.Zero;
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task StopRecording()
+    {
+        if (jsModule == null) return;
+
+        try
+        {
+            var data = await jsModule.InvokeAsync<byte[]>("stopRecording", recorderId);
+            audioData = data;
+            HasRecording = true;
+            State = AudioRecorderState.Stopped;
+            
+            // Create blob URL for playback
+            if (audioData != null && audioData.Length > 0)
+            {
+                audioUrl = await CreateBlobUrl(audioData);
+            }
+
+            await RecordingChanged.InvokeAsync(audioData);
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task ResumeRecording()
+    {
+        if (jsModule == null) return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync("resumeRecording", recorderId);
+            State = AudioRecorderState.Recording;
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task StartPlayback()
+    {
+        if (jsModule == null || !HasRecording) return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync("startPlayback", audioPlayerId);
+            State = AudioRecorderState.Playing;
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task PausePlayback()
+    {
+        if (jsModule == null) return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync("pausePlayback", audioPlayerId);
+            State = AudioRecorderState.Paused;
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task StopPlayback()
+    {
+        if (jsModule == null) return;
+
+        try
+        {
+            await jsModule.InvokeVoidAsync("stopPlayback", audioPlayerId);
+            State = AudioRecorderState.Stopped;
+            CurrentTime = TimeSpan.Zero;
+            StateHasChanged();
+        }
+        catch { }
+    }
+
+    private async Task ClearRecording()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.InvokeVoidAsync("clearRecording", recorderId);
+            }
+            catch { }
+        }
+
+        HasRecording = false;
+        audioData = null;
+        audioUrl = null;
+        State = AudioRecorderState.Idle;
+        RecordingDuration = TimeSpan.Zero;
+        TotalDuration = TimeSpan.Zero;
+        CurrentTime = TimeSpan.Zero;
+
+        await RecordingChanged.InvokeAsync(null);
+        StateHasChanged();
+    }
+
+    private async Task DownloadRecording()
+    {
+        if (jsModule == null || audioData == null) return;
+
+        try
+        {
+            var extension = Format switch
+            {
+                AudioRecorderFormat.WebM => "webm",
+                AudioRecorderFormat.Ogg => "ogg",
+                AudioRecorderFormat.Wav => "wav",
+                AudioRecorderFormat.Mp3 => "mp3",
+                _ => "webm"
+            };
+
+            await jsModule.InvokeVoidAsync("downloadRecording", audioData, $"recording.{extension}");
+        }
+        catch { }
+    }
+
+    private async Task<string> CreateBlobUrl(byte[] data)
+    {
+        if (jsModule == null) return string.Empty;
+
+        try
+        {
+            return await jsModule.InvokeAsync<string>("createBlobUrl", data, GetMimeType());
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    private string GetMimeType()
+    {
+        return Format switch
+        {
+            AudioRecorderFormat.WebM => "audio/webm",
+            AudioRecorderFormat.Ogg => "audio/ogg",
+            AudioRecorderFormat.Wav => "audio/wav",
+            AudioRecorderFormat.Mp3 => "audio/mpeg",
+            _ => "audio/webm"
+        };
+    }
+
+    private string FormatDuration(TimeSpan duration)
+    {
+        return $"{(int)duration.TotalMinutes:D2}:{duration.Seconds:D2}";
+    }
+
+    [JSInvokable]
+    public void OnRecordingTimeUpdate(double seconds)
+    {
+        RecordingDuration = TimeSpan.FromSeconds(seconds);
+        TotalDuration = RecordingDuration;
+        DurationChanged.InvokeAsync(TotalDuration);
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnPlaybackTimeUpdate(double seconds, double totalSeconds)
+    {
+        CurrentTime = TimeSpan.FromSeconds(seconds);
+        TotalDuration = TimeSpan.FromSeconds(totalSeconds);
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnPlaybackEnded()
+    {
+        State = AudioRecorderState.Stopped;
+        CurrentTime = TimeSpan.Zero;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnWaveformData(double[] data)
+    {
+        // Waveform data for visualization
+        // This would be used to update the canvas
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "w-full border rounded-lg p-4";
+    private string GetContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface);";
+
+    private string GetControlsClasses() => "flex items-center justify-center gap-4 mb-4";
+    private string GetControlsStyle() => "";
+
+    private string GetRecordButtonClasses() => "w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 active:scale-95";
+    private string GetRecordButtonStyle() => "background-color: var(--color-danger); color: white;";
+
+    private string GetStopButtonClasses() => "w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 active:scale-95";
+    private string GetStopButtonStyle() => "background-color: var(--color-danger); color: white;";
+
+    private string GetResumeButtonClasses() => "w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 active:scale-95";
+    private string GetResumeButtonStyle() => "background-color: var(--color-warning); color: white;";
+
+    private string GetPlayButtonClasses() => "w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110";
+    private string GetPlayButtonStyle() => "background-color: var(--color-success); color: white;";
+
+    private string GetPauseButtonClasses() => "w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110";
+    private string GetPauseButtonStyle() => "background-color: var(--color-warning); color: white;";
+
+    private string GetStopPlaybackButtonClasses() => "w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110";
+    private string GetStopPlaybackButtonStyle() => "background-color: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-primary);";
+
+    private string GetClearButtonClasses() => "w-12 h-12 rounded-full flex items-center justify-center shadow-md transition-all duration-200 hover:scale-110";
+    private string GetClearButtonStyle() => "background-color: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-primary);";
+
+    private string GetWaveformClasses() => "w-full h-24 mb-4 border rounded overflow-hidden";
+    private string GetWaveformStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+
+    private string GetPlayerClasses() => "mb-4";
+    private string GetPlayerStyle() => "";
+
+    private string GetInfoClasses() => "text-center mb-4";
+    private string GetInfoStyle() => "";
+
+    private string GetRecordingIndicatorClasses() => "w-3 h-3 rounded-full bg-red-500 animate-pulse";
+    private string GetStatusTextClasses() => "text-sm font-medium";
+    private string GetStatusTextStyle() => "color: var(--color-text-primary);";
+
+    private string GetDownloadContainerClasses() => "flex justify-center";
+    private string GetDownloadButtonClasses() => "px-4 py-2 rounded-md text-sm font-medium transition-colors duration-150";
+    private string GetDownloadButtonStyle() => "background-color: var(--color-primary); border: 1px solid var(--color-primary); color: white;";
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

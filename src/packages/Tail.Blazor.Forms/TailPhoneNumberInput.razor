@@ -1,0 +1,248 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Forms
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label for="@Id" class="@GetLabelClasses()">
+            @Label
+            @if (Required)
+            {
+                <span class="ml-1" style="color: var(--color-danger)">*</span>
+            }
+        </label>
+    }
+    <div class="relative flex items-center gap-2">
+        <select 
+            class="@GetCountryCodeClasses()"
+            style="@GetCountryCodeStyle()"
+            @bind="selectedCountryCode"
+            @bind:after="UpdatePhoneNumber"
+            disabled="@Disabled">
+            @foreach (var country in CountryCodes)
+            {
+                <option value="@country.Code">@country.Flag @country.Code</option>
+            }
+        </select>
+        <input 
+            type="tel"
+            id="@Id"
+            class="@GetInputClasses()"
+            style="@GetInputStyle()"
+            value="@PhoneNumber"
+            placeholder="@Placeholder"
+            @oninput="HandleInput"
+            @onfocus="HandleFocus"
+            @onblur="HandleBlur"
+            disabled="@Disabled"
+            readonly="@ReadOnly"
+            required="@Required"
+            @attributes="AdditionalAttributes" />
+    </div>
+    @if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="mt-1 text-sm" style="color: var(--color-danger)">@ErrorMessage</p>
+    }
+    @if (!string.IsNullOrEmpty(HelperText) && string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p class="mt-1 text-sm" style="color: var(--color-text-secondary)">@HelperText</p>
+    }
+</div>
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; } = "Enter phone number";
+    [Parameter] public string? HelperText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public bool ShowError { get; set; } = true;
+    [Parameter] public InputSize Size { get; set; } = InputSize.Md;
+    [Parameter] public string DefaultCountryCode { get; set; } = "+1";
+    [Parameter] public List<CountryCode> CountryCodes { get; set; } = new();
+    [Parameter] public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    private string PhoneNumber { get; set; } = string.Empty;
+    private string selectedCountryCode = "+1";
+
+    protected override void OnInitialized()
+    {
+        if (CountryCodes.Count == 0)
+        {
+            // Default country codes
+            CountryCodes = new List<CountryCode>
+            {
+                new CountryCode { Code = "+1", Flag = "🇺🇸", Country = "United States" },
+                new CountryCode { Code = "+44", Flag = "🇬🇧", Country = "United Kingdom" },
+                new CountryCode { Code = "+33", Flag = "🇫🇷", Country = "France" },
+                new CountryCode { Code = "+49", Flag = "🇩🇪", Country = "Germany" },
+                new CountryCode { Code = "+81", Flag = "🇯🇵", Country = "Japan" },
+                new CountryCode { Code = "+86", Flag = "🇨🇳", Country = "China" },
+                new CountryCode { Code = "+91", Flag = "🇮🇳", Country = "India" },
+                new CountryCode { Code = "+61", Flag = "🇦🇺", Country = "Australia" },
+                new CountryCode { Code = "+55", Flag = "🇧🇷", Country = "Brazil" },
+                new CountryCode { Code = "+7", Flag = "🇷🇺", Country = "Russia" }
+            };
+        }
+        
+        selectedCountryCode = DefaultCountryCode;
+        
+        if (!string.IsNullOrEmpty(Value))
+        {
+            ParsePhoneNumber(Value);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(Value) && Value != GetFullPhoneNumber())
+        {
+            ParsePhoneNumber(Value);
+        }
+    }
+
+    private void ParsePhoneNumber(string fullNumber)
+    {
+        if (string.IsNullOrEmpty(fullNumber))
+        {
+            PhoneNumber = string.Empty;
+            return;
+        }
+        
+        // Try to extract country code
+        foreach (var country in CountryCodes.OrderByDescending(c => c.Code.Length))
+        {
+            if (fullNumber.StartsWith(country.Code))
+            {
+                selectedCountryCode = country.Code;
+                PhoneNumber = fullNumber.Substring(country.Code.Length).Trim();
+                return;
+            }
+        }
+        
+        // No country code found, use default
+        PhoneNumber = fullNumber;
+    }
+
+    private void HandleInput(ChangeEventArgs e)
+    {
+        var input = e.Value?.ToString() ?? string.Empty;
+        // Remove non-numeric characters except + and spaces
+        PhoneNumber = System.Text.RegularExpressions.Regex.Replace(input, @"[^\d\s\-\(\)]", "");
+        UpdateValue();
+    }
+
+    private void UpdatePhoneNumber()
+    {
+        UpdateValue();
+    }
+
+    private void UpdateValue()
+    {
+        var fullNumber = GetFullPhoneNumber();
+        Value = string.IsNullOrWhiteSpace(PhoneNumber) ? null : fullNumber;
+        if (ValueChanged.HasDelegate)
+        {
+            ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private string GetFullPhoneNumber()
+    {
+        if (string.IsNullOrWhiteSpace(PhoneNumber))
+        {
+            return string.Empty;
+        }
+        return $"{selectedCountryCode} {PhoneNumber}";
+    }
+
+    private void HandleFocus(FocusEventArgs e)
+    {
+        // Format on focus if needed
+    }
+
+    private void HandleBlur(FocusEventArgs e)
+    {
+        // Format on blur if needed
+        UpdateValue();
+    }
+
+    // Styling methods using global CSS variables
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelClasses()
+    {
+        return "block text-sm font-medium mb-1";
+    }
+
+    private string GetCountryCodeClasses()
+    {
+        var classes = new List<string> { "rounded-lg border transition-all" };
+        
+        classes.Add(Size switch
+        {
+            InputSize.Sm => "px-2 py-1.5 text-sm",
+            InputSize.Md => "px-3 py-2 text-base",
+            InputSize.Lg => "px-4 py-2.5 text-lg",
+            _ => "px-3 py-2 text-base"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetCountryCodeStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border-color: var(--color-border);
+            color: var(--color-text-primary);
+        ";
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "flex-1 rounded-lg border transition-all" };
+        
+        classes.Add(Size switch
+        {
+            InputSize.Sm => "px-3 py-1.5 text-sm",
+            InputSize.Md => "px-4 py-2 text-base",
+            InputSize.Lg => "px-5 py-2.5 text-lg",
+            _ => "px-4 py-2 text-base"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyle()
+    {
+        var styles = new List<string>
+        {
+            "background-color: var(--color-surface);",
+            "border-color: var(--color-border);",
+            "color: var(--color-text-primary);",
+            "transition: border-color var(--transition-fast), box-shadow var(--transition-fast);"
+        };
+        
+        if (ShowError && !string.IsNullOrEmpty(ErrorMessage))
+        {
+            styles.Add("border-color: var(--color-danger);");
+        }
+        
+        return string.Join(" ", styles);
+    }
+}
+
+

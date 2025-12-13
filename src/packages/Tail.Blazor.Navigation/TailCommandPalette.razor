@@ -1,0 +1,474 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Navigation
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Navigation.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetOverlayClasses()" style="@GetOverlayStyle()" @onclick="HandleOverlayClick" @onkeydown="HandleKeyDown">
+    <div class="@GetContainerClasses()" style="@GetContainerStyle()" @onclick:stopPropagation="true">
+        <!-- Search Input -->
+        <div class="@GetSearchContainerClasses()">
+            <input 
+                type="text"
+                @ref="searchInputRef"
+                id="@searchInputId"
+                class="@GetSearchInputClasses()"
+                style="@GetSearchInputStyle()"
+                placeholder="@Placeholder"
+                @bind="searchQuery"
+                @bind:event="oninput"
+                @onkeydown="HandleSearchKeyDown"
+                @onkeydown:preventDefault="true"
+                @onfocus="HandleSearchFocus"
+                autocomplete="off"
+                spellcheck="false" />
+            @if (!string.IsNullOrEmpty(searchQuery))
+            {
+                <button 
+                    type="button"
+                    class="@GetClearButtonClasses()"
+                    @onclick="ClearSearch"
+                    aria-label="Clear search">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            }
+        </div>
+
+        <!-- Results -->
+        @if (FilteredItems.Any())
+        {
+            <div class="@GetResultsContainerClasses()">
+                @if (GroupByCategory && FilteredItems.GroupBy(i => i.Category ?? "Other").Any())
+                {
+                    @foreach (var group in FilteredItems.GroupBy(i => i.Category ?? "Other"))
+                    {
+                        <div class="@GetCategoryHeaderClasses()">
+                            @group.Key
+                        </div>
+                        @foreach (var item in group)
+                        {
+                            var index = FilteredItems.IndexOf(item);
+                            <button
+                                type="button"
+                                class="@GetItemClasses(item, index)"
+                                style="@GetItemStyle(item, index)"
+                                @onclick="() => ExecuteCommand(item)"
+                                disabled="@item.Disabled">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <span class="@GetItemIconClasses()">@item.Icon</span>
+                                }
+                                <div class="flex-1 text-left">
+                                    <div class="@GetItemTextClasses()">@item.Text</div>
+                                    @if (!string.IsNullOrEmpty(item.Description))
+                                    {
+                                        <div class="@GetItemDescriptionClasses()" style="@GetItemDescriptionStyle()">@item.Description</div>
+                                    }
+                                </div>
+                                @if (!string.IsNullOrEmpty(item.Shortcut))
+                                {
+                                    <span class="@GetShortcutClasses()">@item.Shortcut</span>
+                                }
+                            </button>
+                        }
+                    }
+                }
+                else
+                {
+                    @foreach (var item in FilteredItems)
+                    {
+                        var index = FilteredItems.IndexOf(item);
+                        <button
+                            type="button"
+                            class="@GetItemClasses(item, index)"
+                            style="@GetItemStyle(item, index)"
+                            @onclick="() => ExecuteCommand(item)"
+                            disabled="@item.Disabled">
+                            @if (!string.IsNullOrEmpty(item.Icon))
+                            {
+                                <span class="@GetItemIconClasses()">@item.Icon</span>
+                            }
+                            <div class="flex-1 text-left">
+                                <div class="@GetItemTextClasses()">@item.Text</div>
+                                @if (!string.IsNullOrEmpty(item.Description))
+                                {
+                                    <div class="@GetItemDescriptionClasses()">@item.Description</div>
+                                }
+                            </div>
+                            @if (!string.IsNullOrEmpty(item.Shortcut))
+                            {
+                                <span class="@GetShortcutClasses()">@item.Shortcut</span>
+                            }
+                        </button>
+                    }
+                }
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(searchQuery))
+        {
+            <div class="@GetEmptyStateClasses()">
+                <p class="text-sm" style="color: var(--color-text-secondary);">No commands found</p>
+            </div>
+        }
+        else
+        {
+            <div class="@GetEmptyStateClasses()">
+                <p class="text-sm" style="color: var(--color-text-secondary);">@EmptyStateText</p>
+            </div>
+        }
+
+        <!-- Footer -->
+        @if (ShowFooter)
+        {
+            <div class="@GetFooterClasses()">
+                <div class="flex items-center gap-4 text-xs" style="color: var(--color-text-muted);">
+                    <span class="flex items-center gap-1">
+                        <kbd class="px-1.5 py-0.5 rounded text-xs" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);">↑↓</kbd>
+                        <span>Navigate</span>
+                    </span>
+                    <span class="flex items-center gap-1">
+                        <kbd class="px-1.5 py-0.5 rounded text-xs" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);">↵</kbd>
+                        <span>Select</span>
+                    </span>
+                    <span class="flex items-center gap-1">
+                        <kbd class="px-1.5 py-0.5 rounded text-xs" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);">Esc</kbd>
+                        <span>Close</span>
+                    </span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public List<CommandPaletteItem> Items { get; set; } = new();
+    [Parameter] public string Placeholder { get; set; } = "Type a command or search...";
+    [Parameter] public string EmptyStateText { get; set; } = "Start typing to search commands";
+    [Parameter] public bool GroupByCategory { get; set; } = true;
+    [Parameter] public bool ShowFooter { get; set; } = true;
+    [Parameter] public CommandPalettePlacement Placement { get; set; } = CommandPalettePlacement.Center;
+    [Parameter] public string? TriggerKey { get; set; } = "k"; // Default: Cmd+K or Ctrl+K
+    [Parameter] public bool RequireModifier { get; set; } = true; // Require Cmd/Ctrl modifier
+    [Parameter] public EventCallback<CommandPaletteItem> OnCommandExecuted { get; set; }
+
+    private ElementReference searchInputRef;
+    private string searchInputId = $"command-palette-search-{Guid.NewGuid():N}";
+    private string searchQuery = string.Empty;
+    private int selectedIndex = -1;
+    private List<CommandPaletteItem> FilteredItems { get; set; } = new();
+    private IJSObjectReference? jsModule;
+    private DotNetObjectReference<TailCommandPalette>? dotNetRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Navigation/commandpalette.js");
+                dotNetRef = DotNetObjectReference.Create(this);
+                await jsModule.InvokeVoidAsync("registerCommandPalette", dotNetRef, TriggerKey, RequireModifier);
+            }
+            catch (Exception ex)
+            {
+                // Log error or handle gracefully
+                Console.WriteLine($"Error initializing command palette: {ex.Message}");
+            }
+        }
+
+        if (Visible)
+        {
+            await FocusSearch();
+        }
+        else
+        {
+            searchQuery = string.Empty;
+            selectedIndex = -1;
+            FilteredItems.Clear();
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        FilterItems();
+    }
+
+    private void FilterItems()
+    {
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            FilteredItems = Items.Where(i => !i.Disabled).ToList();
+        }
+        else
+        {
+            var query = searchQuery.ToLowerInvariant();
+            FilteredItems = Items.Where(item =>
+                !item.Disabled &&
+                (item.Text.ToLowerInvariant().Contains(query) ||
+                 (item.Description?.ToLowerInvariant().Contains(query) ?? false) ||
+                 (item.Category?.ToLowerInvariant().Contains(query) ?? false) ||
+                 item.Keywords.Any(k => k.ToLowerInvariant().Contains(query))))
+                .ToList();
+        }
+
+        // Reset selection
+        if (selectedIndex >= FilteredItems.Count)
+        {
+            selectedIndex = -1;
+        }
+    }
+
+    private async Task HandleSearchKeyDown(KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                selectedIndex = Math.Min(selectedIndex + 1, FilteredItems.Count - 1);
+                await InvokeAsync(StateHasChanged);
+                break;
+            case "ArrowUp":
+                selectedIndex = Math.Max(selectedIndex - 1, -1);
+                await InvokeAsync(StateHasChanged);
+                break;
+            case "Enter":
+                if (selectedIndex >= 0 && selectedIndex < FilteredItems.Count)
+                {
+                    await ExecuteCommand(FilteredItems[selectedIndex]);
+                }
+                break;
+            case "Escape":
+                await Close();
+                break;
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await Close();
+        }
+    }
+
+    private async Task HandleOverlayClick()
+    {
+        await Close();
+    }
+
+    private async Task ExecuteCommand(CommandPaletteItem item)
+    {
+        if (item.Disabled) return;
+
+        if (item.OnExecute.HasDelegate)
+        {
+            await item.OnExecute.InvokeAsync();
+        }
+
+        if (OnCommandExecuted.HasDelegate)
+        {
+            await OnCommandExecuted.InvokeAsync(item);
+        }
+
+        await Close();
+    }
+
+    private async Task Close()
+    {
+        Visible = false;
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(false);
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ClearSearch()
+    {
+        searchQuery = string.Empty;
+        selectedIndex = -1;
+        FilterItems();
+        await FocusSearch();
+    }
+
+    private async Task FocusSearch()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("eval", $"document.getElementById('{searchInputId}')?.focus()");
+        }
+        catch { }
+    }
+
+    private void HandleSearchFocus()
+    {
+        selectedIndex = -1;
+    }
+
+    [JSInvokable]
+    public void OpenCommandPalette()
+    {
+        InvokeAsync(async () =>
+        {
+            Visible = true;
+            if (VisibleChanged.HasDelegate)
+            {
+                await VisibleChanged.InvokeAsync(true);
+            }
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+
+    // Styling methods using global CSS variables
+    private string GetOverlayClasses()
+    {
+        return $"fixed inset-0 z-50 flex items-start justify-center p-4 transition-opacity duration-200 {(Visible ? "opacity-100" : "opacity-0 pointer-events-none")}";
+    }
+
+    private string GetOverlayStyle()
+    {
+        return $"background-color: color-mix(in srgb, var(--color-surface) 80%, transparent); backdrop-filter: blur(4px);";
+    }
+
+    private string GetContainerClasses()
+    {
+        var placementClasses = Placement switch
+        {
+            CommandPalettePlacement.Top => "mt-8",
+            CommandPalettePlacement.Bottom => "mt-auto mb-8",
+            _ => "mt-32"
+        };
+
+        return $"w-full max-w-2xl rounded-lg shadow-xl transition-all duration-200 transform {(Visible ? "scale-100 opacity-100" : "scale-95 opacity-0")} {placementClasses}";
+    }
+
+    private string GetContainerStyle()
+    {
+        return $"background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg); border-radius: var(--radius-lg);";
+    }
+
+    private string GetSearchContainerClasses()
+    {
+        return "relative flex items-center p-4 border-b" + " " + GetBorderColor();
+    }
+
+    private string GetSearchInputClasses()
+    {
+        return "w-full px-4 py-3 text-base bg-transparent border-none outline-none focus:ring-0";
+    }
+
+    private string GetSearchInputStyle()
+    {
+        return $"color: var(--color-text-primary);";
+    }
+
+    private string GetClearButtonClasses()
+    {
+        return "absolute right-4 p-1 rounded hover:bg-opacity-10 transition-colors";
+    }
+
+    private string GetClearButtonStyle()
+    {
+        return $"color: var(--color-text-secondary); hover:background-color: var(--color-surface-2);";
+    }
+
+    private string GetResultsContainerClasses()
+    {
+        return "max-h-96 overflow-y-auto p-2";
+    }
+
+    private string GetCategoryHeaderClasses()
+    {
+        return "px-3 py-2 text-xs font-semibold uppercase tracking-wider";
+    }
+
+    private string GetCategoryHeaderStyle()
+    {
+        return $"color: var(--color-text-muted);";
+    }
+
+    private string GetItemClasses(CommandPaletteItem item, int index)
+    {
+        var baseClasses = "w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-colors";
+        var selectedClasses = selectedIndex == index ? "ring-2 ring-offset-2" : "";
+        var disabledClasses = item.Disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:bg-opacity-10";
+        
+        return $"{baseClasses} {selectedClasses} {disabledClasses}";
+    }
+
+    private string GetItemStyle(CommandPaletteItem item, int index)
+    {
+        var bgColor = selectedIndex == index 
+            ? $"background-color: color-mix(in srgb, var(--color-primary) 15%, transparent); border-color: var(--color-primary);"
+            : item.Disabled 
+                ? $"background-color: transparent;"
+                : $"background-color: transparent;";
+        
+        return $"{bgColor} color: var(--color-text-primary);";
+    }
+
+    private string GetItemIconClasses()
+    {
+        return "flex-shrink-0 text-lg";
+    }
+
+    private string GetItemTextClasses()
+    {
+        return "font-medium text-sm";
+    }
+
+    private string GetItemDescriptionClasses()
+    {
+        return "text-xs mt-0.5";
+    }
+
+    private string GetItemDescriptionStyle()
+    {
+        return $"color: var(--color-text-secondary);";
+    }
+
+    private string GetShortcutClasses()
+    {
+        return "px-2 py-1 text-xs rounded";
+    }
+
+    private string GetShortcutStyle()
+    {
+        return $"background-color: var(--color-surface-2); color: var(--color-text-muted); border: 1px solid var(--color-border);";
+    }
+
+    private string GetEmptyStateClasses()
+    {
+        return "p-8 text-center";
+    }
+
+    private string GetFooterClasses()
+    {
+        return "px-4 py-3 border-t" + " " + GetBorderColor();
+    }
+
+    private string GetBorderColor()
+    {
+        return "border-gray-200 dark:border-gray-700";
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.InvokeVoidAsync("unregisterCommandPalette");
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+        dotNetRef?.Dispose();
+    }
+}
+

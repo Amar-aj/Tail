@@ -143,29 +143,7 @@
                        style="color: var(--color-text-primary);">Sign Out</a>
                 </UserMenuItems>
                 <SidebarContent>
-                    <div class="p-4">
-                        <div class="mb-6">
-                            <h2 class="text-lg font-semibold mb-2" style="color: var(--color-text-primary);">Navigation</h2>
-                        </div>
-                        <nav class="space-y-1">
-                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors" 
-                               style="background-color: color-mix(in srgb, var(--color-primary) 10%, transparent); color: var(--color-primary);">
-                                🏠 Dashboard
-                            </a>
-                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
-                               style="color: var(--color-text-secondary);">
-                                📊 Analytics
-                            </a>
-                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
-                               style="color: var(--color-text-secondary);">
-                                📝 Reports
-                            </a>
-                            <a href="#" class="block px-4 py-2 rounded-lg text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700" 
-                               style="color: var(--color-text-secondary);">
-                                ⚙️ Settings
-                            </a>
-                        </nav>
-                    </div>
+                    <TailNavMenu Items="@demoNavItems" Size="NavMenuSize.Md" ShowIcons="true" />
                 </SidebarContent>
                 <ChildContent>
                     <div class="p-6">
@@ -288,6 +266,15 @@
     {
         new SelectItem { Value = "Left", Text = "Left" },
         new SelectItem { Value = "Right", Text = "Right" }
+    };
+
+    private List<NavMenuItem> demoNavItems = new()
+    {
+        new NavMenuItem { Href = "#", Text = "Dashboard", Icon = "🏠" },
+        new NavMenuItem { Href = "#", Text = "Analytics", Icon = "📊" },
+        new NavMenuItem { Href = "#", Text = "Reports", Icon = "📝" },
+        new NavMenuItem { IsDivider = true },
+        new NavMenuItem { Href = "#", Text = "Settings", Icon = "⚙️" }
     };
 
     private List<ActivityItem> recentActivities = new()

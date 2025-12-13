@@ -1,0 +1,232 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Feedback
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@GetWrapperClasses()">
+    @if (Trigger == PopconfirmTrigger.Click)
+    {
+        <button 
+            type="button"
+            class="@GetTriggerButtonClasses()"
+            style="@GetTriggerButtonStyle()"
+            @onclick="TogglePopconfirm"
+            disabled="@Disabled">
+            @TriggerContent
+        </button>
+    }
+    else
+    {
+        <div @onclick="TogglePopconfirm" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave">
+            @TriggerContent
+        </div>
+    }
+    
+    @if (ShowPopconfirm)
+    {
+        <div class="@GetPopconfirmClasses()" style="@GetPopconfirmStyle()">
+            <div class="@GetHeaderClasses()">
+                @if (!string.IsNullOrEmpty(Icon))
+                {
+                    <div class="@GetIconContainerClasses()" style="@GetIconContainerStyle()">
+                        @Icon
+                    </div>
+                }
+                <div class="flex-1">
+                    @if (!string.IsNullOrEmpty(Title))
+                    {
+                        <h3 class="@GetTitleClasses()">@Title</h3>
+                    }
+                    @if (!string.IsNullOrEmpty(Content))
+                    {
+                        <p class="@GetContentClasses()">@Content</p>
+                    }
+                    @if (ContentTemplate != null)
+                    {
+                        @ContentTemplate
+                    }
+                </div>
+            </div>
+            <div class="@GetFooterClasses()">
+                <button 
+                    type="button"
+                    class="@GetActionButtonClasses()"
+                    @onclick="HandleCancel"
+                    @onclick:preventDefault="true">
+                    @CancelText
+                </button>
+                <button 
+                    type="button"
+                    class="@GetActionButtonClasses(true)"
+                    @onclick="HandleConfirm"
+                    @onclick:preventDefault="true">
+                    @ConfirmText
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? TriggerContent { get; set; }
+    [Parameter] public RenderFragment? ContentTemplate { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Content { get; set; }
+    [Parameter] public string? Icon { get; set; } = "⚠️";
+    [Parameter] public string ConfirmText { get; set; } = "Confirm";
+    [Parameter] public string CancelText { get; set; } = "Cancel";
+    [Parameter] public PopconfirmTrigger Trigger { get; set; } = PopconfirmTrigger.Click;
+    [Parameter] public PopconfirmPlacement Placement { get; set; } = PopconfirmPlacement.Top;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private bool ShowPopconfirm { get; set; }
+
+    private void TogglePopconfirm()
+    {
+        if (!Disabled && Trigger == PopconfirmTrigger.Click)
+        {
+            ShowPopconfirm = !ShowPopconfirm;
+        }
+    }
+
+    private void HandleMouseEnter()
+    {
+        if (!Disabled && Trigger == PopconfirmTrigger.Hover)
+        {
+            ShowPopconfirm = true;
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        if (Trigger == PopconfirmTrigger.Hover)
+        {
+            ShowPopconfirm = false;
+        }
+    }
+
+    private async Task HandleConfirm()
+    {
+        if (OnConfirm.HasDelegate)
+        {
+            await OnConfirm.InvokeAsync();
+        }
+        ShowPopconfirm = false;
+    }
+
+    private async Task HandleCancel()
+    {
+        if (OnCancel.HasDelegate)
+        {
+            await OnCancel.InvokeAsync();
+        }
+        ShowPopconfirm = false;
+    }
+
+    // Styling methods using global CSS variables
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "relative inline-block" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetTriggerButtonClasses()
+    {
+        return "px-4 py-2 rounded-lg text-sm font-medium transition-colors";
+    }
+
+    private string GetTriggerButtonStyle()
+    {
+        return @"
+            background-color: var(--color-danger);
+            color: white;
+        ";
+    }
+
+    private string GetPopconfirmClasses()
+    {
+        var classes = new List<string> { "absolute z-50 rounded-lg border shadow-lg p-4 min-w-[280px]" };
+        
+        classes.Add(Placement switch
+        {
+            PopconfirmPlacement.Top => "bottom-full left-1/2 -translate-x-1/2 mb-2",
+            PopconfirmPlacement.Bottom => "top-full left-1/2 -translate-x-1/2 mt-2",
+            PopconfirmPlacement.Left => "right-full top-1/2 -translate-y-1/2 mr-2",
+            PopconfirmPlacement.Right => "left-full top-1/2 -translate-y-1/2 ml-2",
+            _ => "bottom-full left-1/2 -translate-x-1/2 mb-2"
+        });
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetPopconfirmStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border-color: var(--color-border);
+            box-shadow: var(--shadow-lg);
+        ";
+    }
+
+    private string GetHeaderClasses()
+    {
+        return "flex items-start gap-3 mb-4";
+    }
+
+    private string GetIconContainerClasses()
+    {
+        return "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-lg";
+    }
+
+    private string GetIconContainerStyle()
+    {
+        return "background-color: color-mix(in srgb, var(--color-warning) 20%, transparent);";
+    }
+
+    private string GetTitleClasses()
+    {
+        return "text-sm font-semibold mb-1";
+    }
+
+    private string GetContentClasses()
+    {
+        return "text-sm";
+    }
+
+    private string GetFooterClasses()
+    {
+        return "flex items-center justify-end gap-2";
+    }
+
+    private string GetActionButtonClasses(bool primary = false)
+    {
+        var classes = new List<string> { "px-4 py-2 rounded-lg text-sm font-medium transition-colors" };
+        
+        if (primary)
+        {
+            classes.Add("text-white");
+        }
+        else
+        {
+            classes.Add("hover:bg-gray-100 dark:hover:bg-gray-700");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetActionButtonStyle(bool primary = false)
+    {
+        if (primary)
+        {
+            return "background-color: var(--color-danger);";
+        }
+        return "color: var(--color-text-secondary);";
+    }
+}
+
+

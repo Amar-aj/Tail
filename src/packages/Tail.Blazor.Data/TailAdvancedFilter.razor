@@ -1,0 +1,415 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Data
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Data.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" @attributes="AdditionalAttributes">
+    @if (Visible)
+    {
+        <div class="@GetOverlayClasses()" style="@GetOverlayStyle()" @onclick="HandleOverlayClick">
+            <div class="@GetPanelClasses()" style="@GetPanelStyle()" @onclick:stopPropagation="true">
+                <!-- Header -->
+                <div class="@GetHeaderClasses()" style="@GetHeaderStyle()">
+                    <h3 class="@GetTitleClasses()" style="@GetTitleStyle()">Advanced Filter</h3>
+                    <button 
+                        type="button"
+                        class="@GetCloseButtonClasses()"
+                        @onclick="Close">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Filter Conditions -->
+                <div class="@GetContentClasses()">
+                    <div class="@GetConditionsContainerClasses()">
+                        @foreach (var condition in Conditions)
+                        {
+                            <div class="@GetConditionRowClasses()" style="@GetConditionRowStyle()">
+                                @if (Conditions.Count > 1)
+                                {
+                                    <select 
+                                        class="@GetLogicSelectClasses()"
+                                        style="@GetLogicSelectStyle()"
+                                        @bind="condition.Logic"
+                                        @bind:event="onchange">
+                                        <option value="@FilterLogic.And">AND</option>
+                                        <option value="@FilterLogic.Or">OR</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <div class="w-16"></div>
+                                }
+
+                                <select 
+                                    class="@GetColumnSelectClasses()"
+                                    style="@GetColumnSelectStyle()"
+                                    @bind="condition.Column"
+                                    @bind:event="onchange">
+                                    <option value="">Select Column</option>
+                                    @foreach (var column in AvailableColumns)
+                                    {
+                                        <option value="@column">@column</option>
+                                    }
+                                </select>
+
+                                <select 
+                                    class="@GetOperatorSelectClasses()"
+                                    style="@GetOperatorSelectStyle()"
+                                    @bind="condition.Operator"
+                                    @bind:event="onchange">
+                                    <option value="@FilterOperator.Equals">Equals</option>
+                                    <option value="@FilterOperator.NotEquals">Not Equals</option>
+                                    <option value="@FilterOperator.Contains">Contains</option>
+                                    <option value="@FilterOperator.NotContains">Not Contains</option>
+                                    <option value="@FilterOperator.StartsWith">Starts With</option>
+                                    <option value="@FilterOperator.EndsWith">Ends With</option>
+                                    <option value="@FilterOperator.GreaterThan">Greater Than</option>
+                                    <option value="@FilterOperator.GreaterThanOrEqual">Greater Than Or Equal</option>
+                                    <option value="@FilterOperator.LessThan">Less Than</option>
+                                    <option value="@FilterOperator.LessThanOrEqual">Less Than Or Equal</option>
+                                    <option value="@FilterOperator.IsEmpty">Is Empty</option>
+                                    <option value="@FilterOperator.IsNotEmpty">Is Not Empty</option>
+                                </select>
+
+                                @if (condition.Operator != FilterOperator.IsEmpty && condition.Operator != FilterOperator.IsNotEmpty)
+                                {
+                                    <input 
+                                        type="text"
+                                        class="@GetValueInputClasses()"
+                                        style="@GetValueInputStyle()"
+                                        placeholder="Value"
+                                        @bind="condition.Value"
+                                        @bind:event="oninput" />
+                                }
+                                else
+                                {
+                                    <div class="flex-1"></div>
+                                }
+
+                                <button 
+                                    type="button"
+                                    class="@GetRemoveButtonClasses()"
+                                    style="@GetRemoveButtonStyle()"
+                                    @onclick="() => RemoveCondition(condition)">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Add Condition Button -->
+                    <button 
+                        type="button"
+                        class="@GetAddButtonClasses()"
+                        style="@GetAddButtonStyle()"
+                        @onclick="AddCondition">
+                        + Add Condition
+                    </button>
+
+                    <!-- Presets Section -->
+                    @if (ShowPresets)
+                    {
+                        <div class="@GetPresetsSectionClasses()">
+                            <h4 class="@GetPresetsTitleClasses()" style="@GetPresetsTitleStyle()">Saved Presets</h4>
+                            <div class="@GetPresetsListClasses()">
+                                @foreach (var preset in SavedPresets)
+                                {
+                                    <div class="@GetPresetItemClasses()" style="@GetPresetItemStyle()">
+                                        <div class="flex-1">
+                                            <div class="font-medium" style="color: var(--color-text-primary);">@preset.Name</div>
+                                            @if (!string.IsNullOrEmpty(preset.Description))
+                                            {
+                                                <div class="text-sm" style="color: var(--color-text-secondary);">@preset.Description</div>
+                                            }
+                                        </div>
+                                        <div class="flex gap-2">
+                                            <button 
+                                                type="button"
+                                                class="@GetPresetButtonClasses()"
+                                                @onclick="() => LoadPreset(preset)">
+                                                Load
+                                            </button>
+                                            <button 
+                                                type="button"
+                                                class="@GetPresetButtonClasses()"
+                                                @onclick="() => DeletePreset(preset)">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <button 
+                                type="button"
+                                class="@GetSavePresetButtonClasses()"
+                                style="@GetSavePresetButtonStyle()"
+                                @onclick="ShowSavePresetDialog">
+                                💾 Save Current Filter
+                            </button>
+                        </div>
+                    }
+
+                    <!-- Save Preset Dialog -->
+                    @if (showSaveDialog)
+                    {
+                        <div class="@GetSaveDialogClasses()" style="@GetSaveDialogStyle()">
+                            <input 
+                                type="text"
+                                class="@GetPresetNameInputClasses()"
+                                style="@GetPresetNameInputStyle()"
+                                placeholder="Preset Name"
+                                @bind="presetName"
+                                @bind:event="oninput" />
+                            <input 
+                                type="text"
+                                class="@GetPresetNameInputClasses()"
+                                style="@GetPresetNameInputStyle()"
+                                placeholder="Description (optional)"
+                                @bind="presetDescription"
+                                @bind:event="oninput" />
+                            <div class="flex gap-2">
+                                <button 
+                                    type="button"
+                                    class="@GetPresetButtonClasses()"
+                                    @onclick="SavePreset">
+                                    Save
+                                </button>
+                                <button 
+                                    type="button"
+                                    class="@GetPresetButtonClasses()"
+                                    @onclick="CancelSavePreset">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Footer -->
+                <div class="@GetFooterClasses()" style="@GetFooterStyle()">
+                    <button 
+                        type="button"
+                        class="@GetClearButtonClasses()"
+                        style="@GetClearButtonStyle()"
+                        @onclick="ClearFilters">
+                        Clear All
+                    </button>
+                    <div class="flex-1"></div>
+                    <button 
+                        type="button"
+                        class="@GetCancelButtonClasses()"
+                        style="@GetCancelButtonStyle()"
+                        @onclick="Close">
+                        Cancel
+                    </button>
+                    <button 
+                        type="button"
+                        class="@GetApplyButtonClasses()"
+                        style="@GetApplyButtonStyle()"
+                        @onclick="ApplyFilters">
+                        Apply Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter] public List<string> AvailableColumns { get; set; } = new();
+    [Parameter] public List<FilterCondition> Conditions { get; set; } = new();
+    [Parameter] public List<FilterPreset> SavedPresets { get; set; } = new();
+    [Parameter] public bool ShowPresets { get; set; } = true;
+    [Parameter] public EventCallback<List<FilterCondition>> OnFiltersApplied { get; set; }
+    [Parameter] public EventCallback<FilterPreset> OnPresetSaved { get; set; }
+    [Parameter] public EventCallback<FilterPreset> OnPresetDeleted { get; set; }
+
+    private bool showSaveDialog = false;
+    private string presetName = string.Empty;
+    private string? presetDescription;
+
+    protected override void OnInitialized()
+    {
+        if (Conditions.Count == 0)
+        {
+            Conditions.Add(new FilterCondition());
+        }
+    }
+
+    private void AddCondition()
+    {
+        Conditions.Add(new FilterCondition { Logic = FilterLogic.And });
+    }
+
+    private void RemoveCondition(FilterCondition condition)
+    {
+        Conditions.Remove(condition);
+        if (Conditions.Count == 0)
+        {
+            Conditions.Add(new FilterCondition());
+        }
+    }
+
+    private async Task ApplyFilters()
+    {
+        var validConditions = Conditions.Where(c => !string.IsNullOrEmpty(c.Column)).ToList();
+        if (OnFiltersApplied.HasDelegate)
+        {
+            await OnFiltersApplied.InvokeAsync(validConditions);
+        }
+        await Close();
+    }
+
+    private void ClearFilters()
+    {
+        Conditions.Clear();
+        Conditions.Add(new FilterCondition());
+    }
+
+    private void LoadPreset(FilterPreset preset)
+    {
+        Conditions = preset.Conditions.Select(c => new FilterCondition
+        {
+            Column = c.Column,
+            Operator = c.Operator,
+            Value = c.Value,
+            Logic = c.Logic
+        }).ToList();
+        if (Conditions.Count == 0)
+        {
+            Conditions.Add(new FilterCondition());
+        }
+    }
+
+    private void ShowSavePresetDialog()
+    {
+        showSaveDialog = true;
+        presetName = string.Empty;
+        presetDescription = null;
+    }
+
+    private async Task SavePreset()
+    {
+        if (string.IsNullOrWhiteSpace(presetName)) return;
+
+        var preset = new FilterPreset
+        {
+            Name = presetName,
+            Description = presetDescription,
+            Conditions = Conditions.Select(c => new FilterCondition
+            {
+                Column = c.Column,
+                Operator = c.Operator,
+                Value = c.Value,
+                Logic = c.Logic
+            }).ToList()
+        };
+
+        SavedPresets.Add(preset);
+        showSaveDialog = false;
+
+        if (OnPresetSaved.HasDelegate)
+        {
+            await OnPresetSaved.InvokeAsync(preset);
+        }
+    }
+
+    private void CancelSavePreset()
+    {
+        showSaveDialog = false;
+        presetName = string.Empty;
+        presetDescription = null;
+    }
+
+    private async Task DeletePreset(FilterPreset preset)
+    {
+        SavedPresets.Remove(preset);
+        if (OnPresetDeleted.HasDelegate)
+        {
+            await OnPresetDeleted.InvokeAsync(preset);
+        }
+    }
+
+    private async Task Close()
+    {
+        Visible = false;
+        if (VisibleChanged.HasDelegate)
+        {
+            await VisibleChanged.InvokeAsync(false);
+        }
+    }
+
+    private async Task HandleOverlayClick()
+    {
+        await Close();
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "relative";
+    private string GetContainerStyle() => "";
+
+    private string GetOverlayClasses() => $"fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-200 {(Visible ? "opacity-100" : "opacity-0 pointer-events-none")}";
+    private string GetOverlayStyle() => $"background-color: color-mix(in srgb, var(--color-surface) 80%, transparent); backdrop-filter: blur(4px);";
+
+    private string GetPanelClasses() => $"w-full max-w-2xl rounded-lg shadow-xl transition-all duration-200 transform {(Visible ? "scale-100 opacity-100" : "scale-95 opacity-0")} max-h-[90vh] flex flex-col";
+    private string GetPanelStyle() => $"background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg);";
+
+    private string GetHeaderClasses() => "flex items-center justify-between p-4 border-b";
+    private string GetHeaderStyle() => $"border-color: var(--color-border);";
+    private string GetTitleClasses() => "text-lg font-semibold";
+    private string GetTitleStyle() => "color: var(--color-text-primary);";
+    private string GetCloseButtonClasses() => "p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700";
+    private string GetContentClasses() => "flex-1 overflow-y-auto p-4 space-y-4";
+    private string GetConditionsContainerClasses() => "space-y-2";
+    private string GetConditionRowClasses() => "flex items-center gap-2";
+    private string GetConditionRowStyle() => "";
+    private string GetLogicSelectClasses() => "w-16 px-2 py-1 border rounded text-sm";
+    private string GetLogicSelectStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetColumnSelectClasses() => "flex-1 px-2 py-1 border rounded text-sm";
+    private string GetColumnSelectStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetOperatorSelectClasses() => "w-48 px-2 py-1 border rounded text-sm";
+    private string GetOperatorSelectStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetValueInputClasses() => "flex-1 px-2 py-1 border rounded text-sm";
+    private string GetValueInputStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetRemoveButtonClasses() => "p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700";
+    private string GetRemoveButtonStyle() => "color: var(--color-text-secondary);";
+    private string GetAddButtonClasses() => "w-full px-3 py-2 text-sm font-medium rounded border";
+    private string GetAddButtonStyle() => "background-color: var(--color-surface-2); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetPresetsSectionClasses() => "mt-4 pt-4 border-t";
+    private string GetPresetsTitleClasses() => "text-sm font-semibold mb-2";
+    private string GetPresetsTitleStyle() => "color: var(--color-text-primary);";
+    private string GetPresetsListClasses() => "space-y-2 mb-2";
+    private string GetPresetItemClasses() => "flex items-center justify-between p-2 rounded border";
+    private string GetPresetItemStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetPresetButtonClasses() => "px-2 py-1 text-xs rounded border";
+    private string GetSavePresetButtonClasses() => "w-full px-3 py-2 text-sm font-medium rounded border";
+    private string GetSavePresetButtonStyle() => "background-color: var(--color-surface-2); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetSaveDialogClasses() => "p-4 border rounded space-y-2";
+    private string GetSaveDialogStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetPresetNameInputClasses() => "w-full px-2 py-1 border rounded text-sm";
+    private string GetPresetNameInputStyle() => "background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetFooterClasses() => "p-4 border-t flex items-center gap-2";
+    private string GetFooterStyle() => "border-color: var(--color-border);";
+    private string GetClearButtonClasses() => "px-3 py-2 text-sm font-medium rounded border";
+    private string GetClearButtonStyle() => "background-color: var(--color-surface-2); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetCancelButtonClasses() => "px-3 py-2 text-sm font-medium rounded border";
+    private string GetCancelButtonStyle() => "background-color: var(--color-surface-2); border-color: var(--color-border); color: var(--color-text-primary);";
+    private string GetApplyButtonClasses() => "px-3 py-2 text-sm font-medium rounded";
+    private string GetApplyButtonStyle() => "background-color: var(--color-primary); color: white;";
+
+    public async ValueTask DisposeAsync()
+    {
+        await Task.CompletedTask;
+    }
+}
+

@@ -1,6 +1,10 @@
 @inherits Tail.Blazor.Core.TailComponentBase
 @namespace Tail.Blazor.Data
 @typeparam TItem
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
 
 <div class="@GetGridClasses()" @attributes="AdditionalAttributes">
     @if (ShowHeader)
@@ -11,23 +15,51 @@
                 {
                     <h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">@Title</h3>
                 }
-                @if (ShowSearch)
-                {
-                    <input 
-                        type="text" 
-                        class="px-3 py-2 border rounded-lg"
-                        style="background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary)"
-                        placeholder="Search..." 
-                        @bind="searchText"
-                        @bind:event="oninput" />
-                }
+                <div class="flex items-center gap-2">
+                    @if (ShowSearch)
+                    {
+                        <input 
+                            type="text" 
+                            class="px-3 py-2 border rounded-lg"
+                            style="background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text-primary)"
+                            placeholder="Search..." 
+                            @bind="searchText"
+                            @bind:event="oninput" />
+                    }
+                    @if (AllowExport)
+                    {
+                        <button 
+                            type="button"
+                            class="px-3 py-2 text-sm font-medium rounded-lg transition-colors"
+                            style="background-color: var(--color-primary); color: white;"
+                            @onclick="ExportToExcel">
+                            📥 Export Excel
+                        </button>
+                    }
+                </div>
             </div>
         </div>
     }
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto" id="@gridId">
         <table class="@GetTableClasses()">
             <thead class="@GetTheadClasses()" style="@GetTheadStyle()">
+                @* Group Header Row *@
+                @if (HasColumnGroups)
+                {
+                    <tr>
+                        @if (SelectionMode != SelectionMode.None)
+                        {
+                            <th class="@GetThClasses()" rowspan="2" style="width: 40px;"></th>
+                        }
+                        @foreach (var group in ColumnGroups)
+                        {
+                            <th class="@GetGroupHeaderClasses()" colspan="@group.ColSpan" style="@GetGroupHeaderStyle()">
+                                @group.Name
+                            </th>
+                        }
+                    </tr>
+                }
                 <tr>
                     @if (SelectionMode != SelectionMode.None)
                     {
@@ -118,14 +150,29 @@
                             }
                             @foreach (var column in Columns)
                             {
-                                <td class="@GetTdClasses() @column.CssClass" style="color: var(--color-text-primary)">
-                                    @if (column.CellTemplate != null)
+                                <td class="@GetTdClasses(column) @column.CssClass" style="@GetTdStyle(column)">
+                                    @if (column.Editable && isEditing && ReferenceEquals(editingCellItem, item) && editingCellColumn == column.Property)
+                                    {
+                                        <input 
+                                            type="text"
+                                            class="w-full px-2 py-1 border rounded"
+                                            style="background-color: var(--color-surface); border-color: var(--color-primary); color: var(--color-text-primary)"
+                                            @bind="editingValue"
+                                            @bind:event="oninput"
+                                            @onkeydown="(e) => HandleCellKeyDown(e, item, column)"
+                                            @onblur="() => SaveCellEdit(item, column)"
+                                            @onclick:stopPropagation="true"
+                                            @ref="editingInputRef" />
+                                    }
+                                    else if (column.CellTemplate != null)
                                     {
                                         @column.CellTemplate(item)
                                     }
                                     else
                                     {
-                                        @GetCellValue(item, column.Property)
+                                        <span @ondblclick="() => StartCellEdit(item, column)" style="color: var(--color-text-primary);">
+                                            @GetCellValue(item, column.Property)
+                                        </span>
                                     }
                                 </td>
                             }
@@ -178,11 +225,21 @@
     [Parameter] public SelectionMode SelectionMode { get; set; } = SelectionMode.None;
     [Parameter] public int PageSize { get; set; } = 10;
     [Parameter] public bool Virtualized { get; set; } = false;
+    [Parameter] public bool AllowExport { get; set; } = false;
+    [Parameter] public bool AllowInlineEdit { get; set; } = true;
     [Parameter] public RenderFragment? EmptyTemplate { get; set; }
     [Parameter] public EventCallback<TItem> OnRowClick { get; set; }
     [Parameter] public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
+    [Parameter] public EventCallback<(TItem Item, string Column, object? NewValue)> OnCellEdited { get; set; }
     
+    private string gridId = $"datagrid-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
     private int CurrentPage { get; set; } = 1;
+    private TItem? editingCellItem;
+    private string? editingCellColumn;
+    private bool isEditing => editingCellItem != null && !string.IsNullOrEmpty(editingCellColumn);
+    private string? editingValue;
+    private ElementReference? editingInputRef;
     private int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
     private int TotalItems => FilteredItems?.Count() ?? 0;
     private string? searchText;
@@ -254,7 +311,25 @@
     private string GetTbodyClasses() => "";
     private string GetTbodyStyle() => "background-color: var(--color-surface); border-top: 1px solid var(--color-border)";
     private string GetThClasses() => "px-6 py-3 text-left text-xs font-medium uppercase tracking-wider";
-    private string GetTdClasses() => "px-6 py-4 whitespace-nowrap text-sm";
+    private string GetTdClasses(DataGridColumn? column = null)
+    {
+        var classes = new List<string> { "px-6 py-4 whitespace-nowrap text-sm" };
+        if (column?.Frozen == true)
+        {
+            classes.Add("sticky left-0 z-10");
+        }
+        return string.Join(" ", classes);
+    }
+    
+    private string GetTdStyle(DataGridColumn? column = null)
+    {
+        var styles = new List<string> { "color: var(--color-text-primary)" };
+        if (column?.Frozen == true)
+        {
+            styles.Add("background-color: var(--color-surface);");
+        }
+        return string.Join("; ", styles);
+    }
     private string GetRowClasses(TItem item) => $"cursor-pointer border-b {(IsSelected(item) ? "" : "")}";
     
     private string GetRowStyle(TItem item)
@@ -376,6 +451,168 @@
         {
             await OnRowClick.InvokeAsync(item);
         }
+    }
+    
+    // Column Grouping
+    private bool HasColumnGroups => Columns.Any(c => !string.IsNullOrEmpty(c.Group));
+    
+    private List<ColumnGroup> ColumnGroups
+    {
+        get
+        {
+            if (!HasColumnGroups) return new List<ColumnGroup>();
+            
+            var groups = Columns
+                .Where(c => !string.IsNullOrEmpty(c.Group))
+                .GroupBy(c => c.Group)
+                .Select(g => new ColumnGroup 
+                { 
+                    Name = g.Key!, 
+                    ColSpan = g.Count() 
+                })
+                .ToList();
+            
+            // Add ungrouped columns
+            var ungrouped = Columns.Where(c => string.IsNullOrEmpty(c.Group)).ToList();
+            if (ungrouped.Any())
+            {
+                groups.Add(new ColumnGroup { Name = "", ColSpan = ungrouped.Count });
+            }
+            
+            return groups;
+        }
+    }
+    
+    private string GetGroupHeaderClasses() => "px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider border-b";
+    private string GetGroupHeaderStyle() => "background-color: color-mix(in srgb, var(--color-border) 20%, var(--color-surface)); border-color: var(--color-border); color: var(--color-text-secondary)";
+    
+    // Inline Editing
+    private void StartCellEdit(TItem item, DataGridColumn column)
+    {
+        if (!AllowInlineEdit || !column.Editable) return;
+        editingCellItem = item;
+        editingCellColumn = column.Property;
+        editingValue = GetCellValueString(item, column.Property);
+        StateHasChanged();
+    }
+    
+    private async Task SaveCellEdit(TItem item, DataGridColumn column)
+    {
+        if (!isEditing) return;
+        
+        var property = typeof(TItem).GetProperty(column.Property);
+        if (property != null && property.CanWrite)
+        {
+            try
+            {
+                var convertedValue = Convert.ChangeType(editingValue, property.PropertyType);
+                property.SetValue(item, convertedValue);
+                
+                if (OnCellEdited.HasDelegate)
+                {
+                    await OnCellEdited.InvokeAsync((item, column.Property, convertedValue));
+                }
+            }
+            catch
+            {
+                // Conversion failed, ignore
+            }
+        }
+        
+        editingCellItem = default;
+        editingCellColumn = null;
+        editingValue = null;
+        StateHasChanged();
+    }
+    
+    private async Task HandleCellKeyDown(KeyboardEventArgs e, TItem item, DataGridColumn column)
+    {
+        if (e.Key == "Enter")
+        {
+            await SaveCellEdit(item, column);
+        }
+        else if (e.Key == "Escape")
+        {
+            editingCellItem = default;
+            editingCellColumn = null;
+            editingValue = null;
+            StateHasChanged();
+        }
+    }
+    
+    private string GetCellValueString(TItem item, string property)
+    {
+        var value = GetCellValue(item, property);
+        return value?.ToString() ?? string.Empty;
+    }
+    
+    // Excel Export
+    private async Task ExportToExcel()
+    {
+        if (jsModule == null)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Data/datagrid.js");
+            }
+            catch
+            {
+                return;
+            }
+        }
+        
+        try
+        {
+            var data = new List<Dictionary<string, object?>>();
+            var headers = Columns.Select(c => c.Title).ToList();
+            
+            var itemsToExport = FilteredItems ?? Items ?? Enumerable.Empty<TItem>();
+            foreach (var item in itemsToExport)
+            {
+                var row = new Dictionary<string, object?>();
+                foreach (var column in Columns)
+                {
+                    row[column.Title] = GetCellValue(item, column.Property);
+                }
+                data.Add(row);
+            }
+            
+            await jsModule.InvokeVoidAsync("exportToExcel", Title ?? "DataGrid", headers, data);
+        }
+        catch
+        {
+            // Export failed
+        }
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && AllowExport)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Data/datagrid.js");
+            }
+            catch { }
+        }
+    }
+    
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+    
+    private class ColumnGroup
+    {
+        public string Name { get; set; } = string.Empty;
+        public int ColSpan { get; set; }
     }
 }
 

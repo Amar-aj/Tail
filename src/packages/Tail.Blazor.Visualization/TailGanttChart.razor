@@ -1,0 +1,378 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Visualization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Tail.Blazor.Visualization.Models
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<div class="@GetContainerClasses()" style="@GetContainerStyle()" id="@ganttId" @attributes="AdditionalAttributes">
+    <!-- Header with timeline -->
+    <div class="@GetHeaderClasses()" style="@GetHeaderStyle()">
+        <!-- Row labels column -->
+        <div class="@GetRowLabelHeaderClasses()" style="@GetRowLabelHeaderStyle()">
+            <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary);">Task</div>
+        </div>
+        
+        <!-- Timeline header -->
+        <div class="@GetTimelineHeaderClasses()" style="@GetTimelineHeaderStyle()" @onscroll="SyncScroll">
+            <div class="@GetTimelineGridClasses()" style="@GetTimelineGridStyle()">
+                @foreach (var date in TimelineDates)
+                {
+                    <div class="@GetTimelineCellClasses()" style="@GetTimelineCellStyle()">
+                        @if (IsMajorTick(date))
+                        {
+                            <div class="text-xs font-medium" style="color: var(--color-text-primary);">
+                                @date.ToString("MMM dd")
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-xs" style="color: var(--color-text-muted);">
+                                @date.Day
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable content area -->
+    <div class="@GetContentClasses()" style="@GetContentStyle()" @onscroll="SyncScroll">
+        <!-- Task rows -->
+        @foreach (var task in Tasks.OrderBy(t => t.Row))
+        {
+            <div class="@GetTaskRowClasses()" style="@GetTaskRowStyle()">
+                <!-- Task label -->
+                <div class="@GetTaskLabelClasses()" style="@GetTaskLabelStyle()">
+                    <div class="px-4 py-2" style="color: var(--color-text-primary);">
+                        @if (!string.IsNullOrEmpty(task.Resource))
+                        {
+                            <span class="text-xs" style="color: var(--color-text-muted);">@task.Resource: </span>
+                        }
+                        @task.Name
+                        @if (task.IsMilestone)
+                        {
+                            <span class="ml-2">🎯</span>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Task bar area -->
+                <div class="@GetTaskBarAreaClasses()" style="@GetTaskBarAreaStyle()">
+                    <div class="@GetTaskBarContainerClasses()" style="@GetTaskBarContainerStyle()">
+                        <!-- Task bar -->
+                        <div 
+                            class="@GetTaskBarClasses(task)"
+                            style="@GetTaskBarStyle(task)"
+                            title="@GetTaskTooltip(task)">
+                            <!-- Progress indicator -->
+                            @if (task.Progress > 0)
+                            {
+                                <div 
+                                    class="@GetProgressBarClasses()"
+                                    style="@GetProgressBarStyle(task)">
+                                </div>
+                            }
+                            
+                            <!-- Task label on bar -->
+                            @if (GetTaskBarWidth(task) > 80)
+                            {
+                                <span class="@GetTaskBarLabelClasses()" style="@GetTaskBarLabelStyle()">
+                                    @task.Name
+                                </span>
+                            }
+                        </div>
+                        
+                        <!-- Dependencies (arrows) -->
+                        @foreach (var depId in task.Dependencies)
+                        {
+                            @RenderDependency(task, depId)
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+        
+        <!-- Milestones row -->
+        @if (Milestones.Any())
+        {
+            <div class="@GetMilestoneRowClasses()" style="@GetMilestoneRowStyle()">
+                <div class="@GetTaskLabelClasses()" style="@GetTaskLabelStyle()">
+                    <div class="px-4 py-2 font-semibold" style="color: var(--color-text-primary);">Milestones</div>
+                </div>
+                <div class="@GetTaskBarAreaClasses()" style="@GetTaskBarAreaStyle()">
+                    <div class="@GetTaskBarContainerClasses()" style="@GetTaskBarContainerStyle()">
+                        @foreach (var milestone in Milestones)
+                        {
+                            <div 
+                                class="@GetMilestoneMarkerClasses()"
+                                style="@GetMilestoneMarkerStyle(milestone)"
+                                title="@milestone.Name - @milestone.Date.ToString("MMM dd, yyyy")">
+                                @if (!string.IsNullOrEmpty(milestone.Icon))
+                                {
+                                    <span>@milestone.Icon</span>
+                                }
+                                else
+                                {
+                                    <span>🎯</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <!-- Today indicator -->
+    <div class="@GetTodayIndicatorClasses()" style="@GetTodayIndicatorStyle()" title="Today"></div>
+</div>
+
+@code {
+    [Parameter] public List<GanttTask> Tasks { get; set; } = new();
+    [Parameter] public List<GanttMilestone> Milestones { get; set; } = new();
+    [Parameter] public DateTime StartDate { get; set; } = DateTime.Today;
+    [Parameter] public DateTime EndDate { get; set; } = DateTime.Today.AddMonths(3);
+    [Parameter] public GanttViewMode ViewMode { get; set; } = GanttViewMode.Month;
+    [Parameter] public bool ShowProgress { get; set; } = true;
+    [Parameter] public bool ShowDependencies { get; set; } = true;
+    [Parameter] public EventCallback<GanttTask> OnTaskClick { get; set; }
+
+    private string ganttId = $"gantt-{Guid.NewGuid():N}";
+    private IJSObjectReference? jsModule;
+    private double scrollLeft = 0;
+
+    protected override void OnInitialized()
+    {
+        // Auto-calculate rows if not set
+        if (Tasks.Any() && Tasks.All(t => t.Row == 0))
+        {
+            int row = 0;
+            foreach (var task in Tasks)
+            {
+                task.Row = row++;
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.Visualization/gantt.js");
+            }
+            catch { }
+        }
+    }
+
+    private List<DateTime> TimelineDates
+    {
+        get
+        {
+            var dates = new List<DateTime>();
+            var current = StartDate;
+            while (current <= EndDate)
+            {
+                dates.Add(current);
+                current = ViewMode switch
+                {
+                    GanttViewMode.Day => current.AddDays(1),
+                    GanttViewMode.Week => current.AddDays(7),
+                    GanttViewMode.Month => current.AddMonths(1),
+                    _ => current.AddDays(1)
+                };
+            }
+            return dates;
+        }
+    }
+
+    private bool IsMajorTick(DateTime date)
+    {
+        return ViewMode switch
+        {
+            GanttViewMode.Day => date.Day == 1 || date.DayOfWeek == DayOfWeek.Monday,
+            GanttViewMode.Week => date.Day <= 7,
+            GanttViewMode.Month => date.Month % 3 == 1,
+            _ => date.Day == 1
+        };
+    }
+
+    private double GetTaskBarLeft(GanttTask task)
+    {
+        var daysFromStart = (task.StartDate - StartDate).TotalDays;
+        var cellWidth = GetCellWidth();
+        return daysFromStart * cellWidth;
+    }
+
+    private double GetTaskBarWidth(GanttTask task)
+    {
+        var duration = (task.EndDate - task.StartDate).TotalDays + 1;
+        var cellWidth = GetCellWidth();
+        return duration * cellWidth;
+    }
+
+    private double GetCellWidth()
+    {
+        return ViewMode switch
+        {
+            GanttViewMode.Day => 30,
+            GanttViewMode.Week => 50,
+            GanttViewMode.Month => 100,
+            _ => 30
+        };
+    }
+
+    private string GetTaskTooltip(GanttTask task)
+    {
+        return $"{task.Name}\n{task.StartDate:MMM dd, yyyy} - {task.EndDate:MMM dd, yyyy}\nProgress: {task.Progress}%";
+    }
+
+    private RenderFragment RenderDependency(GanttTask task, string dependencyId)
+    {
+        var dependency = Tasks.FirstOrDefault(t => t.Id == dependencyId);
+        if (dependency == null) return builder => { };
+
+        return builder =>
+        {
+            var startX = GetTaskBarLeft(dependency) + GetTaskBarWidth(dependency);
+            var endX = GetTaskBarLeft(task);
+            var startY = (dependency.Row * 40) + 20;
+            var endY = (task.Row * 40) + 20;
+
+            builder.OpenElement(0, "svg");
+            builder.AddAttribute(1, "class", "absolute pointer-events-none");
+            builder.AddAttribute(2, "style", $"left: {startX}px; top: {startY}px; width: {Math.Max(endX - startX, 20)}px; height: {Math.Abs(endY - startY) + 40}px;");
+            builder.AddAttribute(3, "viewBox", $"0 0 {Math.Max(endX - startX, 20)} {Math.Abs(endY - startY) + 40}");
+
+            // Arrow line
+            builder.OpenElement(4, "path");
+            builder.AddAttribute(5, "d", $"M 0 {startY - (dependency.Row * 40) - 20} L {endX - startX} {endY - (dependency.Row * 40) - 20}");
+            builder.AddAttribute(6, "stroke", "#3b82f6");
+            builder.AddAttribute(7, "stroke-width", "2");
+            builder.AddAttribute(8, "fill", "none");
+            builder.AddAttribute(9, "marker-end", "url(#arrowhead)");
+            builder.CloseElement();
+
+            // Arrowhead marker definition
+            builder.OpenElement(10, "defs");
+            builder.OpenElement(11, "marker");
+            builder.AddAttribute(12, "id", "arrowhead");
+            builder.AddAttribute(13, "markerWidth", "10");
+            builder.AddAttribute(14, "markerHeight", "10");
+            builder.AddAttribute(15, "refX", "9");
+            builder.AddAttribute(16, "refY", "3");
+            builder.AddAttribute(17, "orient", "auto");
+            builder.OpenElement(18, "polygon");
+            builder.AddAttribute(19, "points", "0 0, 10 3, 0 6");
+            builder.AddAttribute(20, "fill", "#3b82f6");
+            builder.CloseElement();
+            builder.CloseElement();
+            builder.CloseElement();
+
+            builder.CloseElement();
+        };
+    }
+
+    private double GetMilestonePosition(GanttMilestone milestone)
+    {
+        var daysFromStart = (milestone.Date - StartDate).TotalDays;
+        var cellWidth = GetCellWidth();
+        return daysFromStart * cellWidth;
+    }
+
+    private async Task SyncScroll(EventArgs e)
+    {
+        // Sync scroll between header and content
+        // This would require JS interop for better performance
+        await Task.CompletedTask;
+    }
+
+    // Styling methods
+    private string GetContainerClasses() => "w-full border rounded-lg overflow-hidden";
+    private string GetContainerStyle() => "border-color: var(--color-border); background-color: var(--color-surface);";
+    private string GetHeaderClasses() => "flex border-b sticky top-0 z-10";
+    private string GetHeaderStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetRowLabelHeaderClasses() => "w-48 flex-shrink-0 border-r";
+    private string GetRowLabelHeaderStyle() => "border-color: var(--color-border);";
+    private string GetTimelineHeaderClasses() => "flex-1 overflow-x-auto";
+    private string GetTimelineHeaderStyle() => "";
+    private string GetTimelineGridClasses() => "flex min-w-full";
+    private string GetTimelineGridStyle() => "";
+    private string GetTimelineCellClasses() => "px-2 py-2 border-r text-center flex-shrink-0";
+    private string GetTimelineCellStyle() => $"border-color: var(--color-border); width: {GetCellWidth()}px;";
+    private string GetContentClasses() => "flex-1 overflow-auto";
+    private string GetContentStyle() => $"max-height: 600px;";
+    private string GetTaskRowClasses() => "flex border-b";
+    private string GetTaskRowStyle() => "border-color: var(--color-border); min-height: 40px;";
+    private string GetTaskLabelClasses() => "w-48 flex-shrink-0 border-r";
+    private string GetTaskLabelStyle() => "border-color: var(--color-border); background-color: var(--color-surface-2);";
+    private string GetTaskBarAreaClasses() => "flex-1 relative overflow-x-auto";
+    private string GetTaskBarAreaStyle() => "";
+    private string GetTaskBarContainerClasses() => "relative h-full";
+    private string GetTaskBarContainerStyle() => $"min-width: {TimelineDates.Count * GetCellWidth()}px; height: 100%;";
+    private string GetTaskBarClasses(GanttTask task)
+    {
+        var classes = new List<string> { "absolute h-6 rounded flex items-center px-2 cursor-pointer transition-all" };
+        if (task.IsMilestone)
+        {
+            classes.Add("w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-8");
+        }
+        return string.Join(" ", classes);
+    }
+    private string GetTaskBarStyle(GanttTask task)
+    {
+        var styles = new List<string>
+        {
+            $"left: {GetTaskBarLeft(task)}px;",
+            $"width: {GetTaskBarWidth(task)}px;",
+            $"top: 7px;"
+        };
+        
+        if (task.IsMilestone)
+        {
+            styles.Add($"border-top-color: {task.Color ?? "var(--color-primary)"};");
+            styles.Add("width: 0; height: 0;");
+        }
+        else
+        {
+            styles.Add($"background-color: {task.Color ?? "var(--color-primary)"};");
+            styles.Add("opacity: 0.8;");
+        }
+        
+        return string.Join(" ", styles);
+    }
+    private string GetProgressBarClasses() => "absolute left-0 top-0 h-full rounded";
+    private string GetProgressBarStyle(GanttTask task) => $"width: {task.Progress}%; background-color: rgba(255,255,255,0.3);";
+    private string GetTaskBarLabelClasses() => "text-xs text-white font-medium truncate";
+    private string GetTaskBarLabelStyle() => "";
+    private string GetMilestoneRowClasses() => "flex border-b border-t-2";
+    private string GetMilestoneRowStyle() => "border-color: var(--color-border); min-height: 40px;";
+    private string GetMilestoneMarkerClasses() => "absolute cursor-pointer";
+    private string GetMilestoneMarkerStyle(GanttMilestone milestone) => $"left: {GetMilestonePosition(milestone)}px; top: 8px; color: {milestone.Color ?? "var(--color-primary)"};";
+    private string GetTodayIndicatorClasses() => "absolute w-0.5 h-full pointer-events-none z-20";
+    private string GetTodayIndicatorStyle()
+    {
+        var today = DateTime.Today;
+        if (today < StartDate || today > EndDate) return "display: none;";
+        var daysFromStart = (today - StartDate).TotalDays;
+        var left = (daysFromStart * GetCellWidth()) + 192; // 192 = label column width
+        return $"left: {left}px; background-color: var(--color-danger); top: 0;";
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (jsModule != null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+    }
+}
+

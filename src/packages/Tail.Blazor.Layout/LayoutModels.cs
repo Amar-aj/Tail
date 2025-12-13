@@ -85,3 +85,46 @@ public enum DensityMode
     Compact
 }
 
+/// <summary>
+/// Split pane orientation.
+/// </summary>
+public enum SplitPaneOrientation
+{
+    Horizontal,
+    Vertical
+}
+
+/// <summary>
+/// Bottom sheet size.
+/// </summary>
+public enum BottomSheetSize
+{
+    Sm,
+    Md,
+    Lg,
+    Full
+}
+
+/// <summary>
+/// Docking panel state.
+/// </summary>
+public enum DockingPanelState
+{
+    Docked,
+    Floating,
+    Tabbed
+}
+
+/// <summary>
+/// Docking position.
+/// </summary>
+public enum DockingPosition
+{
+    Left,
+    Right,
+    Top,
+    Bottom,
+    Center,
+    Floating
+}
+
