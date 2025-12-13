@@ -89,6 +89,27 @@
                 </div>
             </div>
 
+            <!-- Potential Components -->
+            @if (package.PotentialComponents.Any())
+            {
+                <div class="mb-4 border-t pt-3" style="border-color: var(--color-border);">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Potential Components to Add:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach (var potentialComponent in package.PotentialComponents)
+                        {
+                            <span class="text-xs px-2 py-1 rounded" 
+                                  style="background-color: color-mix(in srgb, var(--color-info) 15%, transparent); 
+                                         color: var(--color-info); border: 1px solid color-mix(in srgb, var(--color-info) 30%, transparent); border-style: dashed;">
+                                + @potentialComponent
+                            </span>
+                        }
+                    </div>
+                    <p class="text-xs mt-2" style="color: var(--color-text-muted);">
+                        These components could enhance the package's functionality
+                    </p>
+                </div>
+            }
+
             <!-- Documentation Status -->
             <div class="border-t pt-3" style="border-color: var(--color-border);">
                 <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Documentation Status:</h4>

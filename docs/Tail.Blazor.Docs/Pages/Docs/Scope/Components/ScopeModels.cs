@@ -7,6 +7,7 @@ public class PackageDetail
     public int ComponentCount { get; set; }
     public List<string> Components { get; set; } = new();
     public List<string> KeyFeatures { get; set; } = new();
+    public List<string> PotentialComponents { get; set; } = new();
     public int ParameterCount { get; set; }
     public int EventCount { get; set; }
     public int MethodCount { get; set; }
