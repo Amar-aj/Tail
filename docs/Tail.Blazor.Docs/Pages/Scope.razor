@@ -3,6 +3,7 @@
 @using Tail.Blazor.Layout
 @using Tail.Blazor.Buttons
 @using Tail.Blazor.Docs.Pages.Docs.Scope.Components
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Models
 
 <PageTitle>Project Scope & Status - Tail.Blazor</PageTitle>
 
@@ -14,7 +15,67 @@
         </p>
     </div>
 
+    <!-- Development Guidelines - Dynamic Theming -->
+    <div class="mb-8 p-6 rounded-lg border-2" style="background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface)); border-color: var(--color-primary);">
+        <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 text-4xl">🎨</div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-bold mb-3" style="color: var(--color-text-primary);">
+                    ⚠️ Critical Development Guideline: Always Use Dynamic Theming
+                </h2>
+                <div class="space-y-3 text-base" style="color: var(--color-text-secondary);">
+                    <p class="font-semibold" style="color: var(--color-text-primary);">
+                        When creating ANY new package or component, you MUST use the current theme system with CSS variables for all colors, backgrounds, borders, and text.
+                    </p>
+                    <div class="bg-opacity-50 p-4 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 50%, transparent);">
+                        <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Required Practices:</h3>
+                        <ul class="list-disc list-inside space-y-1 ml-2">
+                            <li><strong>Use CSS Variables:</strong> Always use <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-primary)</code>, <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-surface)</code>, etc.</li>
+                            <li><strong>Never Hardcode Colors:</strong> Avoid hardcoded hex colors like <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">#3b82f6</code> or <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">bg-blue-500</code></li>
+                            <li><strong>Support Dark Mode:</strong> All components must work in both light and dark themes automatically</li>
+                            <li><strong>Use Theme-Aware Classes:</strong> Prefer <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">theme-card</code>, <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">theme-button</code> utility classes when available</li>
+                            <li><strong>Inline Styles for Dynamic Colors:</strong> Use <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">style="color: var(--color-text-primary)"</code> for dynamic theming</li>
+                        </ul>
+                    </div>
+                    <div class="bg-opacity-50 p-4 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
+                        <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">📋 Available CSS Variables (23 Total):</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                            <div>
+                                <strong style="color: var(--color-text-primary);">Colors:</strong>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-primary</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-secondary</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-success</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-warning</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-danger</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-info</code>
+                            </div>
+                            <div>
+                                <strong style="color: var(--color-text-primary);">Surfaces & Text:</strong>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-background</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-surface</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-text-primary</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-text-secondary</code>
+                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-border</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-2">
+                        <span class="text-2xl">📖</span>
+                        <p>
+                            <strong style="color: var(--color-text-primary);">Reference:</strong> See <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">GLOBAL_THEME_IMPLEMENTATION.md</code> and <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">THEME_USAGE_GUIDE.md</code> for detailed theming guidelines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <OverviewCards />
+
+    <PackageArchitectureSection 
+        CurrentArchitecture="CurrentArchitecture"
+        ProposedArchitecture="ProposedArchitecture"
+        ComparisonAnalysis="ComparisonAnalysis" />
 
     <MissingFeaturesSection 
         HighPriorityFeatures="MissingFeaturesHighPriority"
@@ -40,7 +101,11 @@
             ComponentCount = 5,
             Components = new List<string> { "TailComponentBase", "ThemeManager", "ThemeSelector", "ThemeToggle", "DesignTokens" },
             KeyFeatures = new List<string> { "Base component class", "Theme system", "CSS variables", "Dark mode support", "Design tokens" },
-            PotentialComponents = new List<string> { "ConfigManager", "LocalizationManager", "PerformanceMonitor", "ErrorBoundary" },
+            PotentialComponents = new List<string> 
+            { 
+                "ConfigManager", "LocalizationManager", "PerformanceMonitor", "ErrorBoundary",
+                "ThemeBuilder", "ColorPicker", "DesignSystem", "ComponentPlayground"
+            },
             ParameterCount = 15,
             EventCount = 3,
             MethodCount = 8,
@@ -56,7 +121,11 @@
             ComponentCount = 6,
             Components = new List<string> { "TailButton", "TailIconButton", "TailToggleButton", "TailSplitButton", "TailButtonGroup", "TailFAB" },
             KeyFeatures = new List<string> { "Multiple variants", "Sizes", "Icon support", "Loading states", "Disabled states", "Button groups" },
-            PotentialComponents = new List<string> { "TailButtonMenu", "TailButtonToolbar", "TailButtonDropdown", "TailButtonWithBadge" },
+            PotentialComponents = new List<string> 
+            { 
+                "TailButtonMenu", "TailButtonToolbar", "TailButtonDropdown", "TailButtonWithBadge",
+                "TailButtonGroupVertical", "TailIconButtonGroup", "TailLoadingButton"
+            },
             ParameterCount = 25,
             EventCount = 5,
             MethodCount = 3,
@@ -83,12 +152,18 @@
             { 
                 "Form validation", "Error handling", "Accessibility (WCAG 2.2)", "Custom validation", 
                 "Input masking", "Date/time pickers", "File upload", "Rich text editing", 
-                "Image cropping", "Audio recording", "Phone number formatting", "Currency formatting"
+                "Image cropping", "Audio recording", "Phone number formatting", "Currency formatting",
+                "Search bar with suggestions", "Numeric stepper input", "Time range picker",
+                "Form group wrapper", "Form field layout", "Label component", "Helper text component",
+                "Form wrapper component", "Select bar", "List box", "Template forms"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailSignaturePad", "TailBarcodeScanner", "TailQRCodeScanner", "TailVideoRecorder", 
-                "TailLocationPicker", "TailMapPicker", "TailSignatureInput", "TailBiometricInput"
+                "TailLocationPicker", "TailMapPicker", "TailSignatureInput", "TailBiometricInput",
+                "TailSearchBar", "TailStepperInput", "TailTimeRangePicker", "TailFormGroup",
+                "TailFormField", "TailLabel", "TailHelperText", "TailErrorMessage", "TailForm",
+                "TailSelectBar", "TailListBox", "TailInputLabel", "TailInputHelperText", "TailInputError"
             },
             ParameterCount = 180,
             EventCount = 35,
@@ -113,12 +188,16 @@
             { 
                 "Toast notifications", "Alert variants", "Progress indicators", "Loading states", 
                 "Confirmation dialogs", "Empty states", "Notification center", "Interactive tours", 
-                "Confetti animations", "Skeleton loaders"
+                "Confetti animations", "Skeleton loaders", "Tooltip support", "Popover overlays",
+                "Avatar components", "Snackbar messages", "Status badges", "Backdrop overlays",
+                "Chip/Tag components", "Link components", "Code block display", "Image components"
             },
             PotentialComponents = new List<string> 
             { 
-                "TailSnackbar", "TailBanner", "TailInlineMessage", "TailStatusIndicator", 
-                "TailProgressRing", "TailLoadingOverlay", "TailTooltip", "TailHoverCard"
+                "TailTooltip", "TailPopover", "TailSnackbar", "TailAvatar", "TailBanner", 
+                "TailInlineMessage", "TailStatusIndicator", "TailProgressRing", "TailLoadingOverlay", 
+                "TailHoverCard", "TailBackdrop", "TailStatusBadge", "TailNotificationBadge",
+                "TailChip", "TailTag", "TailLink", "TailCode", "TailCodeBlock", "TailImage"
             },
             ParameterCount = 95,
             EventCount = 18,
@@ -144,12 +223,16 @@
             { 
                 "Tab navigation", "Accordion sections", "Breadcrumb trails", "Step indicators", 
                 "Sidebar navigation", "Context menus", "Command palette (Cmd+K)", "Mega menus", 
-                "Scroll spy", "Carousel", "Pagination with jump"
+                "Scroll spy", "Carousel", "Pagination with jump", "Bottom navigation", 
+                "Nav drawer", "Dropdown menus", "App bar", "Navigation bar", "NavLink component",
+                "Tab panels", "Nav groups", "Breadcrumb items", "Stepper steps"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailNavDrawer", "TailBottomNavigation", "TailTabBar", "TailNavRail", 
-                "TailBreadcrumbWithDropdown", "TailStepper", "TailWizard"
+                "TailBreadcrumbWithDropdown", "TailStepper", "TailWizard", "TailDropdownMenu",
+                "TailNavBar", "TailAppBar", "TailNavLink", "TailNavGroup", "TailTabPanel",
+                "TailBreadcrumbItem", "TailStepperStep"
             },
             ParameterCount = 120,
             EventCount = 25,
@@ -174,12 +257,18 @@
             { 
                 "Responsive grid", "Card layouts", "Split panes", "Bottom sheets", 
                 "Docking layout", "Collapsible menus", "Responsive breakpoints", 
-                "Header components", "Container layouts"
+                "Header components", "Container layouts", "Toolbar components", 
+                "Infinite scroll", "Lazy loading", "Sticky headers", "App bar",
+                "Typography components", "Separators", "Code blocks", "Stack component",
+                "Paper component", "Card sub-components", "Row/Column layout"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailStack", "TailFlex", "TailAspectRatio", "TailSpacer", 
-                "TailSticky", "TailOverlay", "TailBackdrop"
+                "TailSticky", "TailOverlay", "TailBackdrop", "TailToolbar",
+                "TailAppBar", "TailInfiniteScroll", "TailLazyLoad", "TailSeparator",
+                "TailTypography", "TailHeading", "TailText", "TailParagraph", "TailPaper",
+                "TailCardContent", "TailCardHeader", "TailCardActions", "TailRow", "TailColumn"
             },
             ParameterCount = 85,
             EventCount = 12,
@@ -204,12 +293,18 @@
             { 
                 "DataGrid with grouping", "Frozen columns", "Inline editing", "Excel export", 
                 "Virtual scrolling", "Kanban board", "Advanced filtering", "Pivot tables", 
-                "Tree view", "Scheduler", "Responsive tables"
+                "Tree view", "Scheduler", "Responsive tables", "Infinite scroll", 
+                "Sortable lists", "Drag-and-drop reordering", "Calendar view",
+                "Basic table component", "Basic list component", "Tree view items",
+                "Calendar views (Week/Month/Day/Year)", "DropDownDataGrid"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailDataTable", "TailSpreadsheet", "TailTimelineView", "TailCalendarView", 
-                "TailCardView", "TailGalleryView", "TailMapView", "TailChartView"
+                "TailCardView", "TailGalleryView", "TailMapView", "TailChartView",
+                "TailInfiniteScroll", "TailSortableList", "TailDragDropList", "TailTable",
+                "TailList", "TailListItem", "TailTreeViewItem", "TailWeekView", "TailMonthView",
+                "TailDayView", "TailYearView", "TailDropDownDataGrid"
             },
             ParameterCount = 150,
             EventCount = 30,
@@ -228,12 +323,15 @@
             KeyFeatures = new List<string> 
             { 
                 "Clipboard operations", "Image zoom/lightbox", "JavaScript interop", 
-                "Keyboard navigation", "Thumbnail gallery"
+                "Keyboard navigation", "Thumbnail gallery", "Swipeable gestures", 
+                "Pull-to-refresh", "Intersection observer", "Device orientation"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailPrint", "TailDownload", "TailShare", "TailFullscreen", 
-                "TailScreenCapture", "TailDeviceOrientation", "TailGeolocation"
+                "TailScreenCapture", "TailDeviceOrientation", "TailGeolocation",
+                "TailSwipeable", "TailPullToRefresh", "TailIntersectionObserver",
+                "TailCopyButton", "TailShareButton", "TailPrintButton", "TailDownloadButton"
             },
             ParameterCount = 15,
             EventCount = 5,
@@ -256,12 +354,15 @@
             KeyFeatures = new List<string> 
             { 
                 "Gantt charts", "Organization charts", "Flowcharts/diagrams", "Timeline visualization", 
-                "QR code generation", "Arc gauges", "Auto-layout algorithms", "Export functionality"
+                "QR code generation", "Arc gauges", "Auto-layout algorithms", "Export functionality",
+                "Google Maps integration", "Timeline items"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailMindMap", "TailNetworkDiagram", "TailTreeMap", "TailSankeyDiagram", 
-                "TailSunburstChart", "TailChordDiagram", "TailForceGraph"
+                "TailSunburstChart", "TailChordDiagram", "TailForceGraph", "TailHeatmap",
+                "TailScatterPlot", "TailRadarChart", "Tail3DChart", "TailGoogleMap",
+                "TailTimelineItem"
             },
             ParameterCount = 90,
             EventCount = 15,
@@ -285,7 +386,8 @@
             PotentialComponents = new List<string> 
             { 
                 "TailHeatmapChart", "TailRadarChart", "TailCandlestickChart", "TailBubbleChart", 
-                "TailFunnelChart", "TailWaterfallChart", "Tail3DChart"
+                "TailFunnelChart", "TailWaterfallChart", "Tail3DChart", "TailDonutChart",
+                "TailAreaChart", "TailComboChart", "TailGaugeChart", "TailTrendChart"
             },
             ParameterCount = 35,
             EventCount = 8,
@@ -308,12 +410,14 @@
             KeyFeatures = new List<string> 
             { 
                 "Comparison operators", "Conditional validation", "Multiple appearance modes", 
-                "Custom validation", "Regex validation", "Range validation"
+                "Custom validation", "Regex validation", "Range validation", "IBAN validation",
+                "Postal code validation", "Password strength validation"
             },
             PotentialComponents = new List<string> 
             { 
                 "TailUrlValidator", "TailCreditCardValidator", "TailPhoneValidator", "TailDateValidator", 
-                "TailFileTypeValidator", "TailFileSizeValidator", "TailAsyncValidator"
+                "TailFileTypeValidator", "TailFileSizeValidator", "TailAsyncValidator",
+                "TailIBANValidator", "TailPostalCodeValidator", "TailPasswordValidator"
             },
             ParameterCount = 50,
             EventCount = 10,
@@ -336,7 +440,7 @@
             PotentialComponents = new List<string> 
             { 
                 "TailIconButton", "TailIconBadge", "TailIconStack", "TailAnimatedIcon", 
-                "TailIconLibrary", "TailIconPicker", "TailIconFont"
+                "TailIconLibrary", "TailIconPicker", "TailIconFont", "TailIconGroup"
             },
             ParameterCount = 8,
             EventCount = 0,
@@ -350,17 +454,78 @@
 
     private List<MissingFeature> MissingFeaturesHighPriority = new()
     {
-        // Data Management & Display
+        // Feedback & UI Components
+        new MissingFeature { Icon = "💡", Name = "Tooltip", Description = "Contextual tooltip component with positioning (top, bottom, left, right) and delay options", Category = "Feedback", Priority = "High" },
+        new MissingFeature { Icon = "📋", Name = "Popover", Description = "Popover component for rich content overlays with arrow positioning and trigger options", Category = "Feedback", Priority = "High" },
+        new MissingFeature { Icon = "👤", Name = "Avatar", Description = "User avatar component with initials, images, sizes, and status indicators", Category = "Feedback", Priority = "High" },
+        new MissingFeature { Icon = "🍞", Name = "Snackbar", Description = "Snackbar component for brief messages with action buttons (different from Toast)", Category = "Feedback", Priority = "High" },
         
+        // Navigation & Mobile Patterns
+        new MissingFeature { Icon = "📱", Name = "Bottom Navigation", Description = "Mobile bottom navigation bar with icons, labels, and active states", Category = "Navigation", Priority = "High" },
+        new MissingFeature { Icon = "📂", Name = "Nav Drawer", Description = "Mobile navigation drawer/sidebar with overlay and swipe gestures", Category = "Navigation", Priority = "High" },
+        new MissingFeature { Icon = "🔢", Name = "Stepper/Wizard", Description = "Multi-step wizard component with progress tracking, validation, and navigation", Category = "Navigation", Priority = "High" },
         
-        // Navigation & Layout
+        // Data & Display
+        new MissingFeature { Icon = "🔄", Name = "Infinite Scroll", Description = "Infinite scroll component for loading more data as user scrolls", Category = "Data", Priority = "High" },
+        new MissingFeature { Icon = "🔍", Name = "Search Bar", Description = "Dedicated search bar component with suggestions, history, and keyboard shortcuts", Category = "Forms", Priority = "High" },
         
+        // Basic UI Components
+        new MissingFeature { Icon = "🏷️", Name = "Chip/Tag", Description = "Standalone chip/tag component for labels, categories, and removable items", Category = "Feedback", Priority = "High" },
+        new MissingFeature { Icon = "🔗", Name = "Link Component", Description = "Styled link/anchor component with variants and states", Category = "Navigation", Priority = "High" },
+        new MissingFeature { Icon = "💻", Name = "Code Block", Description = "Code block component with syntax highlighting and copy functionality", Category = "Layout", Priority = "High" },
+        
+        // Form Components (Radzen/MudBlazor)
+        new MissingFeature { Icon = "📝", Name = "Form Component", Description = "Form wrapper component with validation context and form state management", Category = "Forms", Priority = "High" },
+        new MissingFeature { Icon = "📋", Name = "SelectBar", Description = "Select bar component with toggle buttons for single/multiple selection", Category = "Forms", Priority = "High" },
+        new MissingFeature { Icon = "📦", Name = "ListBox", Description = "List box component with multi-select and search capabilities", Category = "Forms", Priority = "High" },
     };
 
     private List<MissingFeature> MissingFeaturesMediumPriority = new()
     {
+        // Layout & Interaction
+        new MissingFeature { Icon = "📸", Name = "Lazy Load", Description = "Lazy loading component for images and content with placeholder and intersection observer", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "👆", Name = "Swipeable", Description = "Swipeable component for mobile swipe gestures (swipe left/right actions)", Category = "Interaction", Priority = "Medium" },
+        new MissingFeature { Icon = "⬇️", Name = "Pull to Refresh", Description = "Pull-to-refresh component for mobile apps with loading indicator", Category = "Interaction", Priority = "Medium" },
+        new MissingFeature { Icon = "📊", Name = "Sortable List", Description = "Drag-and-drop sortable list component with reorder functionality", Category = "Data", Priority = "Medium" },
         
+        // Navigation & Menus
+        new MissingFeature { Icon = "📋", Name = "Dropdown Menu", Description = "Dropdown menu component with keyboard navigation, submenus, and positioning", Category = "Navigation", Priority = "Medium" },
+        new MissingFeature { Icon = "🛠️", Name = "Toolbar", Description = "Toolbar component for action buttons, groups, and separators", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "📑", Name = "Tab Bar", Description = "Mobile tab bar component with icons and labels for bottom navigation", Category = "Navigation", Priority = "Medium" },
         
+        // Forms & Input
+        new MissingFeature { Icon = "🔢", Name = "Stepper Input", Description = "Numeric stepper input with increment/decrement buttons", Category = "Forms", Priority = "Medium" },
+        new MissingFeature { Icon = "📅", Name = "Calendar View", Description = "Full calendar view component with month/week/day views and event display", Category = "Data", Priority = "Medium" },
+        
+        // Feedback & Overlays
+        new MissingFeature { Icon = "🌑", Name = "Backdrop/Overlay", Description = "Backdrop component for modals and overlays with blur and click-to-close", Category = "Feedback", Priority = "Medium" },
+        new MissingFeature { Icon = "📌", Name = "Sticky Header", Description = "Sticky header component that sticks to top on scroll", Category = "Layout", Priority = "Medium" },
+        
+        // Basic Components
+        new MissingFeature { Icon = "🖼️", Name = "Image Component", Description = "Enhanced image component with lazy loading, error handling, and placeholder", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "📝", Name = "Typography Components", Description = "Heading, Text, and Paragraph components with semantic HTML and styling", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "📋", Name = "Form Group/Field", Description = "Form field wrapper component with label, helper text, and error message layout", Category = "Forms", Priority = "Medium" },
+        new MissingFeature { Icon = "📊", Name = "Basic Table", Description = "Simple table component (different from DataGrid) for basic data display", Category = "Data", Priority = "Medium" },
+        new MissingFeature { Icon = "📜", Name = "Basic List", Description = "Simple list component (different from ListView) for basic item display", Category = "Data", Priority = "Medium" },
+        
+        // Navigation Components (Radzen/MudBlazor)
+        new MissingFeature { Icon = "🔗", Name = "NavLink", Description = "Navigation link component with active state detection and routing", Category = "Navigation", Priority = "Medium" },
+        new MissingFeature { Icon = "📑", Name = "TabPanel", Description = "Individual tab panel component for tab content organization", Category = "Navigation", Priority = "Medium" },
+        new MissingFeature { Icon = "📋", Name = "NavGroup", Description = "Navigation group component for collapsible menu sections", Category = "Navigation", Priority = "Medium" },
+        new MissingFeature { Icon = "🍞", Name = "BreadcrumbItem", Description = "Individual breadcrumb item component for breadcrumb navigation", Category = "Navigation", Priority = "Medium" },
+        
+        // Layout Components (Radzen/MudBlazor)
+        new MissingFeature { Icon = "📄", Name = "Paper Component", Description = "Paper component for elevated surfaces (similar to Card but Material Design style)", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "📚", Name = "Stack Component", Description = "Stack component for vertical/horizontal item arrangement with spacing", Category = "Layout", Priority = "Medium" },
+        new MissingFeature { Icon = "🗂️", Name = "Card Sub-components", Description = "CardContent, CardHeader, CardActions sub-components for card organization", Category = "Layout", Priority = "Medium" },
+        
+        // Data Components (Radzen/MudBlazor)
+        new MissingFeature { Icon = "🌳", Name = "TreeViewItem", Description = "Individual tree view item component for hierarchical tree structures", Category = "Data", Priority = "Medium" },
+        new MissingFeature { Icon = "📅", Name = "Calendar Views", Description = "WeekView, MonthView, DayView, YearView components for calendar display", Category = "Data", Priority = "Medium" },
+        new MissingFeature { Icon = "📊", Name = "DropDownDataGrid", Description = "Dropdown with integrated DataGrid for advanced selection", Category = "Data", Priority = "Medium" },
+        
+        // Visualization (Radzen/MudBlazor)
+        new MissingFeature { Icon = "🗺️", Name = "Google Maps", Description = "Google Maps integration component for map display and markers", Category = "Visualization", Priority = "Medium" },
     };
 
     private List<MissingFeature> MissingFeaturesLowPriority = new()
@@ -376,6 +541,17 @@
         new MissingFeature { Icon = "🎬", Name = "Video Player", Description = "Custom video player with controls, subtitles, and quality selection", Category = "Media", Priority = "Low" },
         new MissingFeature { Icon = "🎵", Name = "Audio Player", Description = "Custom audio player with playlist, waveform, and controls", Category = "Media", Priority = "Low" },
         new MissingFeature { Icon = "🎯", Name = "Heatmap", Description = "Click/hover heatmap visualization for analytics", Category = "Visualization", Priority = "Low" },
+        new MissingFeature { Icon = "📱", Name = "Swipe Actions", Description = "Swipe-to-reveal actions on list items (like iOS mail)", Category = "Interaction", Priority = "Low" },
+        new MissingFeature { Icon = "🎨", Name = "Color Palette", Description = "Color palette picker with presets and custom colors", Category = "Forms", Priority = "Low" },
+        new MissingFeature { Icon = "📐", Name = "Ruler/Measure", Description = "On-screen ruler and measurement tool", Category = "Utils", Priority = "Low" },
+        new MissingFeature { Icon = "🔔", Name = "Notification Bell", Description = "Notification bell with badge count and dropdown", Category = "Feedback", Priority = "Low" },
+        new MissingFeature { Icon = "📄", Name = "PDF Viewer", Description = "PDF viewer component with zoom, navigation, and annotations", Category = "Utils", Priority = "Low" },
+        new MissingFeature { Icon = "📝", Name = "Markdown Renderer", Description = "Markdown to HTML renderer component with syntax highlighting", Category = "Layout", Priority = "Low" },
+        new MissingFeature { Icon = "🎨", Name = "Color Picker Advanced", Description = "Advanced color picker with gradients, palettes, and color history", Category = "Forms", Priority = "Low" },
+        new MissingFeature { Icon = "📋", Name = "HTML Component", Description = "HTML renderer component for displaying raw HTML content", Category = "Layout", Priority = "Low" },
+        new MissingFeature { Icon = "📝", Name = "TemplateForm", Description = "Template-based form component with automatic validation binding", Category = "Forms", Priority = "Low" },
+        new MissingFeature { Icon = "🔄", Name = "Splitter Pane", Description = "Individual splitter pane component for resizable split layouts", Category = "Layout", Priority = "Low" },
+        new MissingFeature { Icon = "📊", Name = "Timeline Item", Description = "Individual timeline item component for timeline visualization", Category = "Visualization", Priority = "Low" },
     };
 
     private List<PackageStatus> Packages = new()
@@ -471,5 +647,164 @@
         new UpdateInfo { Title = "Theme Persistence", Description = "Theme now loads from localStorage on page load/reload", Date = DateTime.Now.AddDays(-2) },
         new UpdateInfo { Title = "Component Library Expansion", Description = "Now 95+ components implemented across 12 packages", Date = DateTime.Now.AddDays(-5) },
         new UpdateInfo { Title = "Documentation Site", Description = "Comprehensive documentation site with examples and API reference", Date = DateTime.Now.AddDays(-7) }
+    };
+
+    // Package Architecture Analysis
+    private PackageArchitecture CurrentArchitecture = new()
+    {
+        Type = "Package-Based",
+        Description = "Current architecture where components are grouped into 12 NuGet packages",
+        Structure = new List<string>
+        {
+            "Tail.Blazor.Core (48 KB) - Base classes, theme engine",
+            "Tail.Blazor.Buttons (22 KB) - 6 button components",
+            "Tail.Blazor.Forms (95 KB) - 26 form components",
+            "Tail.Blazor.Data (110 KB) - 10 data components",
+            "Tail.Blazor.Feedback (70 KB) - 14 feedback components",
+            "Tail.Blazor.Navigation (80 KB) - 15 navigation components",
+            "Tail.Blazor.Layout (45 KB) - 12 layout components",
+            "Tail.Blazor.Icons (15 KB) - Icon component",
+            "Tail.Blazor.Utils (28 KB) - 2 utility components",
+            "Tail.Blazor.Charts (65 KB) - 2 chart components",
+            "Tail.Blazor.Visualization (75 KB) - 7 visualization components",
+            "Tail.Blazor.Validators (35 KB) - 7 validator components"
+        },
+        Pros = new List<string>
+        {
+            "Easy to install via NuGet",
+            "Version management per package",
+            "Clear package boundaries",
+            "Dependency management handled by NuGet"
+        },
+        Cons = new List<string>
+        {
+            "Must install entire package even for one component",
+            "Larger bundle size (e.g., 22 KB for just one button)",
+            "Less granular control",
+            "Can't tree-shake individual components easily"
+        },
+        ExampleUsage = "dotnet add package Tail.Blazor.Buttons  // Installs all 6 button components",
+        BundleSizeExample = "Need only TailButton? Still get 22 KB package with all 6 button types"
+    };
+
+    private PackageArchitecture ProposedArchitecture = new()
+    {
+        Type = "Component-Based (shadcn/ui style)",
+        Description = "Proposed architecture where each component is independently distributable",
+        Structure = new List<string>
+        {
+            "Tail.Blazor.Core (48 KB) - Base classes, theme engine (required)",
+            "Tail.Blazor.Button (3 KB) - Single button component",
+            "Tail.Blazor.IconButton (2 KB) - Single icon button component",
+            "Tail.Blazor.Input (4 KB) - Single input component",
+            "Tail.Blazor.Select (5 KB) - Single select component",
+            "Tail.Blazor.DataGrid (25 KB) - Single DataGrid component",
+            "Tail.Blazor.Dialog (8 KB) - Single dialog component",
+            "... (95+ individual component packages)"
+        },
+        Pros = new List<string>
+        {
+            "Install only what you need - ultra-lightweight",
+            "Perfect tree-shaking - unused components eliminated",
+            "Minimal bundle size (e.g., 3 KB for just one button)",
+            "Maximum flexibility and control",
+            "Copy-paste friendly (like shadcn/ui)",
+            "No unnecessary dependencies",
+            "Better performance (smaller bundles)"
+        },
+        Cons = new List<string>
+        {
+            "More packages to manage (95+ packages)",
+            "More complex versioning",
+            "Requires component installer tool",
+            "More initial setup complexity"
+        },
+        ExampleUsage = "dotnet add package Tail.Blazor.Button  // Installs only button component (3 KB)",
+        BundleSizeExample = "Need only TailButton? Get exactly 3 KB - 86% smaller than package approach"
+    };
+
+    private ArchitectureComparison ComparisonAnalysis = new()
+    {
+        SizeComparison = new List<SizeComparison>
+        {
+            new SizeComparison 
+            { 
+                Scenario = "Need only TailButton component",
+                PackageBased = "22 KB (Tail.Blazor.Buttons package with 6 components)",
+                ComponentBased = "3 KB (Tail.Blazor.Button single component)",
+                Savings = "86% smaller (19 KB saved)"
+            },
+            new SizeComparison 
+            { 
+                Scenario = "Need only TailIconButton component",
+                PackageBased = "22 KB (Tail.Blazor.Buttons package with 6 components)",
+                ComponentBased = "2 KB (Tail.Blazor.IconButton single component)",
+                Savings = "91% smaller (20 KB saved)"
+            },
+            new SizeComparison 
+            { 
+                Scenario = "Need 3 form components (Input, Select, Checkbox)",
+                PackageBased = "95 KB (Tail.Blazor.Forms package with 26 components)",
+                ComponentBased = "13 KB (3 individual components: 4 KB + 5 KB + 4 KB)",
+                Savings = "86% smaller (82 KB saved)"
+            },
+            new SizeComparison 
+            { 
+                Scenario = "Need only DataGrid",
+                PackageBased = "110 KB (Tail.Blazor.Data package with 10 components)",
+                ComponentBased = "25 KB (Tail.Blazor.DataGrid single component)",
+                Savings = "77% smaller (85 KB saved)"
+            }
+        },
+        PerformanceComparison = new List<PerformanceComparison>
+        {
+            new PerformanceComparison
+            {
+                Metric = "Initial Bundle Size",
+                PackageBased = "Large (must include entire package)",
+                ComponentBased = "Minimal (only selected components)",
+                Winner = "Component-Based"
+            },
+            new PerformanceComparison
+            {
+                Metric = "Tree-Shaking Efficiency",
+                PackageBased = "Package-level (can't remove individual components)",
+                ComponentBased = "Component-level (perfect tree-shaking)",
+                Winner = "Component-Based"
+            },
+            new PerformanceComparison
+            {
+                Metric = "Load Time",
+                PackageBased = "Slower (larger bundles)",
+                ComponentBased = "Faster (smaller bundles)",
+                Winner = "Component-Based"
+            },
+            new PerformanceComparison
+            {
+                Metric = "Memory Footprint",
+                PackageBased = "Higher (unused components in memory)",
+                ComponentBased = "Lower (only used components loaded)",
+                Winner = "Component-Based"
+            },
+            new PerformanceComparison
+            {
+                Metric = "Developer Experience",
+                PackageBased = "Easier (one package install)",
+                ComponentBased = "More flexible (choose exact components)",
+                Winner = "Tie (depends on use case)"
+            }
+        },
+        RecommendedApproach = "Hybrid: Offer both package-based (convenience) and component-based (lightweight) distribution",
+        ImplementationStrategy = new List<string>
+        {
+            "Phase 1: Keep current package structure for backward compatibility",
+            "Phase 2: Create individual component packages (Tail.Blazor.Button, Tail.Blazor.Input, etc.)",
+            "Phase 3: Use Independent Properties approach - each component self-contained (no shared properties library)",
+            "Phase 4: Provide component installer CLI tool (like shadcn/ui)",
+            "Phase 5: Allow copy-paste component source code option",
+            "Phase 6: Document both approaches with clear use case guidance",
+            "Phase 7: Use code generators/templates to minimize duplication while maintaining independence"
+        },
+        PropertiesManagementRecommendation = "Independent Properties: Each component manages its own properties, enums, and models for maximum lightweight (86% smaller for single component usage)"
     };
 }

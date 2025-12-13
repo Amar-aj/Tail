@@ -6,6 +6,19 @@
     <p class="text-sm mb-6" style="color: var(--color-text-secondary);">
         Comprehensive overview of all packages, their components, features, APIs, and documentation sync status.
     </p>
+    
+    <!-- Theming Reminder -->
+    <div class="mb-6 p-3 rounded border-l-4 text-xs" style="background-color: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface)); border-color: var(--color-primary);">
+        <p class="font-semibold mb-1" style="color: var(--color-text-primary);">
+            🎨 <strong>Remember:</strong> When creating new components in any package, always use CSS variables for theming:
+        </p>
+        <p style="color: var(--color-text-secondary);">
+            Use <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-primary)</code>, 
+            <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-surface)</code>, 
+            <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-text-primary)</code> etc. 
+            Never hardcode colors! All components must support dynamic theming and dark mode.
+        </p>
+    </div>
 
     @foreach (var package in Packages)
     {
@@ -105,7 +118,8 @@
                         }
                     </div>
                     <p class="text-xs mt-2" style="color: var(--color-text-muted);">
-                        These components could enhance the package's functionality
+                        These components could enhance the package's functionality. 
+                        <strong style="color: var(--color-text-secondary);">⚠️ Remember to use CSS variables for all colors when implementing!</strong>
                     </p>
                 </div>
             }
