@@ -2,7 +2,7 @@
 @page "/docs/examples"
 @using Tail.Blazor.Buttons
 @using Tail.Blazor.Layout
-@using Tail.Blazor.Forms
+@using Tail.Blazor.Forms.Models
 @using Tail.Blazor.Feedback
 @using Tail.Blazor.Data
 @using Microsoft.AspNetCore.Components.Forms
@@ -121,15 +121,15 @@
         public int Stock { get; set; }
     }
 
-    private List<SelectItem> InterestOptions { get; set; } = new()
+    private List<Tail.Blazor.Forms.SelectItem> InterestOptions { get; set; } = new()
     {
-        new SelectItem { Value = "tech", Text = "Technology" },
-        new SelectItem { Value = "sports", Text = "Sports" },
-        new SelectItem { Value = "music", Text = "Music" },
-        new SelectItem { Value = "travel", Text = "Travel" }
+        new Tail.Blazor.Forms.SelectItem { Value = "tech", Text = "Technology" },
+        new Tail.Blazor.Forms.SelectItem { Value = "sports", Text = "Sports" },
+        new Tail.Blazor.Forms.SelectItem { Value = "music", Text = "Music" },
+        new Tail.Blazor.Forms.SelectItem { Value = "travel", Text = "Travel" }
     };
 
-    private List<SelectItem> SelectedInterests { get; set; } = new();
+    private List<Tail.Blazor.Forms.SelectItem> SelectedInterests { get; set; } = new();
 
     private List<Product> Products { get; set; } = new()
     {

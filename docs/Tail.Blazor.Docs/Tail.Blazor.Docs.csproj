@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Feedback\Tail.Blazor.Feedback.csproj" />
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Navigation\Tail.Blazor.Navigation.csproj" />
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Layout\Tail.Blazor.Layout.csproj" />
+    <ProjectReference Include="..\..\src\packages\Tail.Blazor.Utils\Tail.Blazor.Utils.csproj" />
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Icons\Tail.Blazor.Icons.csproj" />
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Charts\Tail.Blazor.Charts.csproj" />
     <ProjectReference Include="..\..\src\packages\Tail.Blazor.Visualization\Tail.Blazor.Visualization.csproj" />

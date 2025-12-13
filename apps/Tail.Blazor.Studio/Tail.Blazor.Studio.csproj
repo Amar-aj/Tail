@@ -46,7 +46,17 @@
   <PropertyGroup>
     <StaticWebAssetBasePath Condition="'$(StaticWebAssetBasePath)' == ''">/</StaticWebAssetBasePath>
     <BlazorEnableCompression>false</BlazorEnableCompression>
+    <EnableDefaultStaticWebAssetItems>false</EnableDefaultStaticWebAssetItems>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
+
+  <!-- Provide missing StaticWebAssetsPrepareForRun target for MAUI -->
+  <!-- This target is required by Microsoft.AspNetCore.Components.WebView.Maui but doesn't exist in MAUI projects -->
+  <Target Name="StaticWebAssetsPrepareForRun" Condition="'$(UseMaui)' == 'true'" />
+  
+  <!-- Provide missing StaticWebAssetsPrepareForPublish target for MAUI -->
+  <!-- This target is also required by Microsoft.AspNetCore.Components.WebView.Maui -->
+  <Target Name="StaticWebAssetsPrepareForPublish" Condition="'$(UseMaui)' == 'true'" />
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.0" />
