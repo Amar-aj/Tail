@@ -16,53 +16,75 @@
     </div>
 
     <!-- Development Guidelines - Dynamic Theming -->
-    <div class="mb-8 p-6 rounded-lg border-2" style="background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface)); border-color: var(--color-primary);">
-        <div class="flex items-start gap-4">
+    <div class="mb-8 p-6 rounded-lg border-2" style="background-color: var(--color-surface); border-color: var(--color-primary); position: relative;">
+        <div style="position: absolute; inset: 0; background-color: var(--color-primary); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+        <div class="flex items-start gap-4 relative z-10">
             <div class="flex-shrink-0 text-4xl">🎨</div>
             <div class="flex-1">
                 <h2 class="text-2xl font-bold mb-3" style="color: var(--color-text-primary);">
-                    ⚠️ Critical Development Guideline: Always Use Dynamic Theming
+                    ⚠️ Critical Development Guideline: Always Use Dynamic Theming (MAUI Compatible)
                 </h2>
                 <div class="space-y-3 text-base" style="color: var(--color-text-secondary);">
                     <p class="font-semibold" style="color: var(--color-text-primary);">
-                        When creating ANY new package or component, you MUST use the current theme system with CSS variables for all colors, backgrounds, borders, and text.
+                        When creating ANY new package or component, you MUST use the current theme system with CSS variables for all colors, backgrounds, borders, and text. <strong style="color: var(--color-primary);">All components are fully compatible with MAUI Blazor Hybrid.</strong>
                     </p>
-                    <div class="bg-opacity-50 p-4 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 50%, transparent);">
-                        <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Required Practices:</h3>
-                        <ul class="list-disc list-inside space-y-1 ml-2">
-                            <li><strong>Use CSS Variables:</strong> Always use <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-primary)</code>, <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">var(--color-surface)</code>, etc.</li>
-                            <li><strong>Never Hardcode Colors:</strong> Avoid hardcoded hex colors like <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">#3b82f6</code> or <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">bg-blue-500</code></li>
-                            <li><strong>Support Dark Mode:</strong> All components must work in both light and dark themes automatically</li>
-                            <li><strong>Use Theme-Aware Classes:</strong> Prefer <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">theme-card</code>, <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">theme-button</code> utility classes when available</li>
-                            <li><strong>Inline Styles for Dynamic Colors:</strong> Use <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">style="color: var(--color-text-primary)"</code> for dynamic theming</li>
-                        </ul>
+                    <div class="p-4 rounded relative" style="background-color: var(--color-surface-2);">
+                        <div style="position: absolute; inset: 0; background-color: var(--color-surface-2); opacity: 0.5; border-radius: inherit; pointer-events: none;"></div>
+                        <div class="relative z-10">
+                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Required Practices (MAUI Compatible):</h3>
+                            <ul class="list-disc list-inside space-y-1 ml-2">
+                                <li><strong>Use CSS Variables:</strong> Always use <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">var(--color-primary)</code>, <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">var(--color-surface)</code>, etc.</li>
+                                <li><strong>Never Hardcode Colors:</strong> Avoid hardcoded hex colors like <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">#3b82f6</code> or <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">bg-blue-500</code></li>
+                                <li><strong>Support Dark Mode:</strong> All components must work in both light and dark themes automatically</li>
+                                <li><strong>Use Theme-Aware Classes:</strong> Prefer <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">theme-card</code>, <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">theme-button</code> utility classes when available</li>
+                                <li><strong>Inline Styles for Dynamic Colors:</strong> Use <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">style="color: var(--color-text-primary)"</code> for dynamic theming</li>
+                                <li><strong>MAUI Compatibility:</strong> Avoid <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">color-mix()</code> - use opacity overlays or rgba() instead for MAUI WebView compatibility</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="bg-opacity-50 p-4 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
-                        <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">📋 Available CSS Variables (23 Total):</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                            <div>
-                                <strong style="color: var(--color-text-primary);">Colors:</strong>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-primary</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-secondary</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-success</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-warning</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-danger</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-info</code>
+                    <div class="p-4 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-warning);">
+                        <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                        <div class="relative z-10">
+                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">📋 Available CSS Variables (23 Total):</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                                <div>
+                                    <strong style="color: var(--color-text-primary);">Colors:</strong>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-primary</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-secondary</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-success</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-warning</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-danger</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-info</code>
+                                </div>
+                                <div>
+                                    <strong style="color: var(--color-text-primary);">Surfaces & Text:</strong>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-background</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-surface</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-text-primary</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-text-secondary</code>
+                                    <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: var(--color-surface-3);">--color-border</code>
+                                </div>
                             </div>
-                            <div>
-                                <strong style="color: var(--color-text-primary);">Surfaces & Text:</strong>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-background</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-surface</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-text-primary</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-text-secondary</code>
-                                <code class="block mt-1 px-2 py-1 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">--color-border</code>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded relative" style="background-color: var(--color-surface-2); border-left: 4px solid var(--color-info);">
+                        <div style="position: absolute; inset: 0; background-color: var(--color-info); opacity: 0.05; border-radius: inherit; pointer-events: none;"></div>
+                        <div class="relative z-10">
+                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">📱 MAUI Blazor Hybrid Compatibility:</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm">
+                                <li><strong>Full Support:</strong> All components work seamlessly in MAUI Blazor Hybrid apps</li>
+                                <li><strong>CSS Variables:</strong> Fully supported in MAUI WebView (Windows, Android, iOS, macOS)</li>
+                                <li><strong>Theme System:</strong> Dynamic theming works across all platforms</li>
+                                <li><strong>No color-mix():</strong> Avoid CSS color-mix() function - use opacity overlays or rgba() for transparency</li>
+                                <li><strong>JavaScript Interop:</strong> Limited JS interop in MAUI - prefer C# solutions where possible</li>
+                                <li><strong>Touch Support:</strong> All components support touch interactions on mobile platforms</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 pt-2">
                         <span class="text-2xl">📖</span>
                         <p>
-                            <strong style="color: var(--color-text-primary);">Reference:</strong> See <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">GLOBAL_THEME_IMPLEMENTATION.md</code> and <code class="px-1 py-0.5 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">THEME_USAGE_GUIDE.md</code> for detailed theming guidelines.
+                            <strong style="color: var(--color-text-primary);">Reference:</strong> See <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">GLOBAL_THEME_IMPLEMENTATION.md</code> and <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-3);">THEME_USAGE_GUIDE.md</code> for detailed theming guidelines.
                         </p>
                     </div>
                 </div>
@@ -556,8 +578,8 @@
 
     private List<PackageStatus> Packages = new()
     {
-        new PackageStatus { Name = "Tail.Blazor.Core", Description = "Core utilities and base components", ComponentCount = 5, Status = "Complete" },
-        new PackageStatus { Name = "Tail.Blazor.Buttons", Description = "Button components and variants", ComponentCount = 6, Status = "Complete" },
+        new PackageStatus { Name = "Tail.Blazor.Core", Description = "Core utilities and base components (MAUI Blazor Hybrid compatible)", ComponentCount = 5, Status = "Complete" },
+        new PackageStatus { Name = "Tail.Blazor.Buttons", Description = "Button components and variants (MAUI Blazor Hybrid compatible)", ComponentCount = 6, Status = "Complete" },
         new PackageStatus { Name = "Tail.Blazor.Layout", Description = "Layout and container components (Grid, Card, Panel, Container, Divider, ResponsiveLayout, Header, CollapsibleMenu, NavMenu, SplitPane, BottomSheet, DockingLayout)", ComponentCount = 12, Status = "Complete" },
         new PackageStatus { Name = "Tail.Blazor.Forms", Description = "Form input components (Input, Textarea, Select, Checkbox, Switch, Slider, Rating, Radio, MultiSelect, DatePicker, DateRangePicker, TimePicker, FileUpload, AutoComplete, ColorPicker, Mask, Numeric, OTPInput, TagInput, CurrencyInput, PhoneNumberInput, PasswordStrengthMeter, RichTextEditor, ImageCropper, AudioRecorder)", ComponentCount = 26, Status = "Complete" },
         new PackageStatus { Name = "Tail.Blazor.Feedback", Description = "Alert, toast, and feedback components (Alert, Badge, Spinner, Progress, Skeleton, Dialog, Toast, Popconfirm, EmptyState, Confetti, NotificationCenter, Tour)", ComponentCount = 14, Status = "Complete" },
@@ -572,9 +594,10 @@
 
     private List<FeatureStatus> Features = new()
     {
-        new FeatureStatus { Name = "Theme System", Description = "Dynamic theming with CSS variables and presets", IsComplete = true },
+        new FeatureStatus { Name = "MAUI Blazor Hybrid Support", Description = "Full compatibility with .NET MAUI Blazor Hybrid apps (Windows, Android, iOS, macOS)", IsComplete = true },
+        new FeatureStatus { Name = "Theme System", Description = "Dynamic theming with CSS variables and presets (MAUI compatible)", IsComplete = true },
         new FeatureStatus { Name = "Dark Mode", Description = "Full dark mode support across all components", IsComplete = true },
-        new FeatureStatus { Name = "Responsive Design", Description = "Mobile-first responsive components", IsComplete = true },
+        new FeatureStatus { Name = "Responsive Design", Description = "Mobile-first responsive components with touch support", IsComplete = true },
         new FeatureStatus { Name = "Accessibility", Description = "WCAG 2.2 AA compliance", IsComplete = true },
         new FeatureStatus { Name = "Documentation Site", Description = "Comprehensive documentation with examples", IsComplete = true },
         new FeatureStatus { Name = "Fixed Navigation", Description = "Fixed and scrollable navigation with active path", IsComplete = true },
@@ -618,6 +641,7 @@
 
     private List<UpdateInfo> RecentUpdates = new()
     {
+        new UpdateInfo { Title = "MAUI Blazor Hybrid Compatibility", Description = "All components now fully compatible with .NET MAUI Blazor Hybrid apps. Replaced color-mix() with MAUI-compatible opacity overlays. Full support for Windows, Android, iOS, and macOS platforms.", Date = DateTime.Now },
         new UpdateInfo { Title = "Scroll Spy Implemented", Description = "Added scroll spy component with navigation highlighting based on scroll position using Intersection Observer API", Date = DateTime.Now },
         new UpdateInfo { Title = "Image Zoom/Lightbox Implemented", Description = "Added image zoom and lightbox gallery component with thumbnails, keyboard navigation, and smooth transitions", Date = DateTime.Now },
         new UpdateInfo { Title = "Flowchart/Diagram Implemented", Description = "Added interactive flowchart component with nodes, edges, auto-routing, drag-and-drop, and export", Date = DateTime.Now },

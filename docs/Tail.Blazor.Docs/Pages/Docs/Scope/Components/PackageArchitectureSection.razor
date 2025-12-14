@@ -30,34 +30,43 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-success) 10%, transparent); border-left: 4px solid var(--color-success);">
-                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h4>
-                <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
-                    @foreach (var pro in CurrentArchitecture.Pros)
-                    {
-                        <li>@pro</li>
-                    }
-                </ul>
+            <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
+                <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                <div class="relative z-10">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
+                        @foreach (var pro in CurrentArchitecture.Pros)
+                        {
+                            <li>@pro</li>
+                        }
+                    </ul>
+                </div>
             </div>
-            <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
-                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">⚠️ Cons:</h4>
-                <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
-                    @foreach (var con in CurrentArchitecture.Cons)
-                    {
-                        <li>@con</li>
-                    }
-                </ul>
+            <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-warning);">
+                <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                <div class="relative z-10">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">⚠️ Cons:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
+                        @foreach (var con in CurrentArchitecture.Cons)
+                        {
+                            <li>@con</li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="p-3 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-info) 10%, transparent);">
-            <strong style="color: var(--color-text-primary);">Example:</strong>
-            <code class="block mt-1 px-2 py-1 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent); color: var(--color-text-primary);">
-                @CurrentArchitecture.ExampleUsage
-            </code>
-            <p class="mt-2" style="color: var(--color-text-secondary);">
-                @CurrentArchitecture.BundleSizeExample
-            </p>
+        <div class="p-3 rounded text-xs relative" style="background-color: var(--color-surface);">
+            <div style="position: absolute; inset: 0; background-color: var(--color-info); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+            <div class="relative z-10">
+                <strong style="color: var(--color-text-primary);">Example:</strong>
+                <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3); color: var(--color-text-primary);">
+                    @CurrentArchitecture.ExampleUsage
+                </code>
+                <p class="mt-2" style="color: var(--color-text-secondary);">
+                    @CurrentArchitecture.BundleSizeExample
+                </p>
+            </div>
         </div>
     </TailPanel>
 
@@ -81,34 +90,43 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-success) 10%, transparent); border-left: 4px solid var(--color-success);">
-                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h4>
-                <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
-                    @foreach (var pro in ProposedArchitecture.Pros)
-                    {
-                        <li>@pro</li>
-                    }
-                </ul>
+            <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
+                <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                <div class="relative z-10">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
+                        @foreach (var pro in ProposedArchitecture.Pros)
+                        {
+                            <li>@pro</li>
+                        }
+                    </ul>
+                </div>
             </div>
-            <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
-                <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">⚠️ Cons:</h4>
-                <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
-                    @foreach (var con in ProposedArchitecture.Cons)
-                    {
-                        <li>@con</li>
-                    }
-                </ul>
+            <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-warning);">
+                <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                <div class="relative z-10">
+                    <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">⚠️ Cons:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
+                        @foreach (var con in ProposedArchitecture.Cons)
+                        {
+                            <li>@con</li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="p-3 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-info) 10%, transparent);">
-            <strong style="color: var(--color-text-primary);">Example:</strong>
-            <code class="block mt-1 px-2 py-1 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent); color: var(--color-text-primary);">
-                @ProposedArchitecture.ExampleUsage
-            </code>
-            <p class="mt-2" style="color: var(--color-text-secondary);">
-                @ProposedArchitecture.BundleSizeExample
-            </p>
+        <div class="p-3 rounded text-xs relative" style="background-color: var(--color-surface);">
+            <div style="position: absolute; inset: 0; background-color: var(--color-info); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+            <div class="relative z-10">
+                <strong style="color: var(--color-text-primary);">Example:</strong>
+                <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3); color: var(--color-text-primary);">
+                    @ProposedArchitecture.ExampleUsage
+                </code>
+                <p class="mt-2" style="color: var(--color-text-secondary);">
+                    @ProposedArchitecture.BundleSizeExample
+                </p>
+            </div>
         </div>
     </TailPanel>
 
@@ -120,7 +138,7 @@
         <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
                 <thead>
-                    <tr style="background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface)); border-bottom: 1px solid var(--color-border);">
+                    <tr style="background-color: var(--color-surface-2); border-bottom: 1px solid var(--color-border);">
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Scenario</th>
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Package-Based</th>
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Component-Based</th>
@@ -150,7 +168,7 @@
         <div class="overflow-x-auto">
             <table class="min-w-full text-xs">
                 <thead>
-                    <tr style="background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface)); border-bottom: 1px solid var(--color-border);">
+                    <tr style="background-color: var(--color-surface-2); border-bottom: 1px solid var(--color-border);">
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Metric</th>
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Package-Based</th>
                         <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Component-Based</th>
@@ -179,13 +197,16 @@
         <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
             💡 Recommended Approach
         </h3>
-        <div class="p-4 rounded-lg mb-4" style="background-color: color-mix(in srgb, var(--color-primary) 10%, transparent); border-left: 4px solid var(--color-primary);">
+            <div class="p-4 rounded-lg mb-4 relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-primary);">
+                <div style="position: absolute; inset: 0; background-color: var(--color-primary); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                <div class="relative z-10">
             <p class="text-base font-semibold mb-2" style="color: var(--color-text-primary);">
                 @ComparisonAnalysis.RecommendedApproach
             </p>
             <p class="text-sm" style="color: var(--color-text-secondary);">
                 This allows developers to choose based on their needs: convenience (packages) or maximum lightweight (individual components).
             </p>
+                </div>
         </div>
 
         <div class="mb-4">
@@ -253,36 +274,42 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 rounded" style="background-color: color-mix(in srgb, var(--color-success) 10%, transparent); border-left: 4px solid var(--color-success);">
-                    <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Key Benefits:</h4>
-                    <ul class="list-disc list-inside space-y-1 text-xs">
-                        <li><strong>Ultra-Lightweight:</strong> Install only TailButton (3 KB) instead of entire Buttons package (22 KB)</li>
-                        <li><strong>Perfect Tree-Shaking:</strong> Unused components completely eliminated from final bundle</li>
-                        <li><strong>Maximum Flexibility:</strong> Mix and match components from different categories</li>
-                        <li><strong>Copy-Paste Option:</strong> Like shadcn/ui, allow copying component source directly</li>
-                        <li><strong>Backward Compatible:</strong> Keep package structure for developers who prefer it</li>
-                    </ul>
+                <div class="p-4 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
+                        <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Key Benefits:</h4>
+                        <ul class="list-disc list-inside space-y-1 text-xs">
+                            <li><strong>Ultra-Lightweight:</strong> Install only TailButton (3 KB) instead of entire Buttons package (22 KB)</li>
+                            <li><strong>Perfect Tree-Shaking:</strong> Unused components completely eliminated from final bundle</li>
+                            <li><strong>Maximum Flexibility:</strong> Mix and match components from different categories</li>
+                            <li><strong>Copy-Paste Option:</strong> Like shadcn/ui, allow copying component source directly</li>
+                            <li><strong>Backward Compatible:</strong> Keep package structure for developers who prefer it</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="p-4 rounded" style="background-color: color-mix(in srgb, var(--color-info) 10%, transparent); border-left: 4px solid var(--color-info);">
-                    <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">📦 Installation Options:</h4>
-                    <div class="space-y-2 text-xs">
-                        <div>
-                            <strong style="color: var(--color-text-primary);">Option 1: NuGet Package</strong>
-                            <code class="block mt-1 px-2 py-1 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">
-                                dotnet add package Tail.Blazor.Button
-                            </code>
-                        </div>
-                        <div>
-                            <strong style="color: var(--color-text-primary);">Option 2: CLI Installer</strong>
-                            <code class="block mt-1 px-2 py-1 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">
-                                tailblazor add button
-                            </code>
-                        </div>
-                        <div>
-                            <strong style="color: var(--color-text-primary);">Option 3: Copy-Paste</strong>
-                            <code class="block mt-1 px-2 py-1 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 70%, transparent);">
-                                Copy TailButton.razor to your project
-                            </code>
+                <div class="p-4 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-info);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-info); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
+                        <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">📦 Installation Options:</h4>
+                        <div class="space-y-2 text-xs">
+                            <div>
+                                <strong style="color: var(--color-text-primary);">Option 1: NuGet Package</strong>
+                                <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
+                                    dotnet add package Tail.Blazor.Button
+                                </code>
+                            </div>
+                            <div>
+                                <strong style="color: var(--color-text-primary);">Option 2: CLI Installer</strong>
+                                <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
+                                    tailblazor add button
+                                </code>
+                            </div>
+                            <div>
+                                <strong style="color: var(--color-text-primary);">Option 3: Copy-Paste</strong>
+                                <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
+                                    Copy TailButton.razor to your project
+                                </code>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -300,7 +327,9 @@
         </p>
 
         <!-- Shared Properties Library Approach -->
-        <div class="mb-6 p-4 rounded-lg border-2" style="background-color: color-mix(in srgb, var(--color-warning) 5%, var(--color-surface)); border-color: var(--color-warning);">
+        <div class="mb-6 p-4 rounded-lg border-2 relative" style="background-color: var(--color-surface); border-color: var(--color-warning);">
+            <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.05; border-radius: inherit; pointer-events: none;"></div>
+            <div class="relative z-10">
             <h4 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">
                 📚 Approach 1: Shared Properties Library
             </h4>
@@ -309,7 +338,9 @@
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-success) 10%, transparent); border-left: 4px solid var(--color-success);">
+                <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
                     <h5 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
                         <li>Code reuse - properties defined once</li>
@@ -318,8 +349,11 @@
                         <li>Shared enums and models</li>
                         <li>Type safety across components</li>
                     </ul>
+                    </div>
                 </div>
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-danger) 10%, transparent); border-left: 4px solid var(--color-danger);">
+                <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-danger);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-danger); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
                     <h5 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">❌ Cons:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
                         <li><strong>Larger bundle size</strong> - must include entire shared library</li>
@@ -328,10 +362,11 @@
                         <li><strong>Worse tree-shaking</strong> - shared code can't be eliminated</li>
                         <li><strong>Version coupling</strong> - all components tied to shared lib version</li>
                     </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-3 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 50%, transparent);">
+            <div class="p-3 rounded text-xs" style="background-color: var(--color-surface-2);">
                 <strong style="color: var(--color-text-primary);">Example Structure:</strong>
                 <pre class="mt-2 p-2 rounded overflow-x-auto" style="background-color: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border);"><code>Tail.Blazor.Common/          # Shared library (15-20 KB)
 ├── Enums/
@@ -355,7 +390,9 @@ Tail.Blazor.Button/          # Component (depends on Common)
         </div>
 
         <!-- Independent Properties Approach -->
-        <div class="mb-6 p-4 rounded-lg border-2" style="background-color: color-mix(in srgb, var(--color-success) 5%, var(--color-surface)); border-color: var(--color-success);">
+        <div class="mb-6 p-4 rounded-lg border-2 relative" style="background-color: var(--color-surface); border-color: var(--color-success);">
+            <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.05; border-radius: inherit; pointer-events: none;"></div>
+            <div class="relative z-10">
             <h4 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">
                 🎯 Approach 2: Independent Properties (Recommended for Lightweight)
             </h4>
@@ -364,7 +401,9 @@ Tail.Blazor.Button/          # Component (depends on Common)
             </p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-success) 10%, transparent); border-left: 4px solid var(--color-success);">
+                <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-success);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-success); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
                     <h5 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">✅ Pros:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
                         <li><strong>Smallest bundle size</strong> - only component code included</li>
@@ -376,7 +415,9 @@ Tail.Blazor.Button/          # Component (depends on Common)
                         <li><strong>Better performance</strong> - smaller runtime footprint</li>
                     </ul>
                 </div>
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 4px solid var(--color-warning);">
+                <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-warning);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
                     <h5 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">⚠️ Cons:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
                         <li>Some code duplication (enums, similar properties)</li>
@@ -387,7 +428,7 @@ Tail.Blazor.Button/          # Component (depends on Common)
                 </div>
             </div>
 
-            <div class="p-3 rounded text-xs" style="background-color: color-mix(in srgb, var(--color-surface-2) 50%, transparent);">
+            <div class="p-3 rounded text-xs" style="background-color: var(--color-surface-2);">
                 <strong style="color: var(--color-text-primary);">Example Structure:</strong>
                 <pre class="mt-2 p-2 rounded overflow-x-auto" style="background-color: var(--color-surface); color: var(--color-text-primary); border: 1px solid var(--color-border);"><code>Tail.Blazor.Button/          # Self-contained component (3 KB)
 ├── TailButton.razor
@@ -415,7 +456,7 @@ Tail.Blazor.Input/           # Self-contained component (4 KB)
             <div class="overflow-x-auto">
                 <table class="min-w-full text-xs">
                     <thead>
-                        <tr style="background-color: color-mix(in srgb, var(--color-border) 30%, var(--color-surface)); border-bottom: 1px solid var(--color-border);">
+                        <tr style="background-color: var(--color-surface-2); border-bottom: 1px solid var(--color-border);">
                             <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Scenario</th>
                             <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Shared Library</th>
                             <th class="px-4 py-2 text-left" style="color: var(--color-text-primary);">Independent</th>
@@ -472,7 +513,9 @@ Tail.Blazor.Input/           # Self-contained component (4 KB)
         </div>
 
         <!-- Recommendation -->
-        <div class="p-6 rounded-lg" style="background-color: color-mix(in srgb, var(--color-primary) 10%, transparent); border-left: 4px solid var(--color-primary);">
+        <div class="p-6 rounded-lg relative" style="background-color: var(--color-surface); border-left: 4px solid var(--color-primary);">
+            <div style="position: absolute; inset: 0; background-color: var(--color-primary); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+            <div class="relative z-10">
             <h4 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">
                 💡 Recommendation: Independent Properties (For Lightweight)
             </h4>
@@ -480,7 +523,7 @@ Tail.Blazor.Input/           # Self-contained component (4 KB)
                 <p>
                     <strong style="color: var(--color-text-primary);">For maximum lightweight and performance:</strong> Use <strong>Independent Properties</strong> approach where each component is self-contained.
                 </p>
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-surface-2) 50%, transparent);">
+                <div class="p-3 rounded" style="background-color: var(--color-surface-2);">
                     <h5 class="font-semibold mb-2" style="color: var(--color-text-primary);">Key Benefits:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs">
                         <li><strong>86% smaller</strong> for single component usage (3 KB vs 21 KB)</li>
@@ -490,7 +533,9 @@ Tail.Blazor.Input/           # Self-contained component (4 KB)
                         <li><strong>Lower memory</strong> - only component code in memory</li>
                     </ul>
                 </div>
-                <div class="p-3 rounded" style="background-color: color-mix(in srgb, var(--color-warning) 10%, transparent); border-left: 3px solid var(--color-warning);">
+                <div class="p-3 rounded relative" style="background-color: var(--color-surface); border-left: 3px solid var(--color-warning);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-warning); opacity: 0.1; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
                     <h5 class="font-semibold mb-2" style="color: var(--color-text-primary);">Mitigation for Code Duplication:</h5>
                     <ul class="list-disc list-inside space-y-1 text-xs">
                         <li>Use code generators/templates for common patterns</li>
@@ -499,6 +544,7 @@ Tail.Blazor.Input/           # Self-contained component (4 KB)
                         <li>Use source generators for common property patterns</li>
                         <li>Keep Core package minimal (only TailComponentBase, ThemeEngine)</li>
                     </ul>
+                    </div>
                 </div>
             </div>
         </div>
