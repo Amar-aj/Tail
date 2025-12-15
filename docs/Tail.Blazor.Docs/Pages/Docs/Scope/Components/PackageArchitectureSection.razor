@@ -13,7 +13,7 @@
     <!-- Current Architecture -->
     <TailPanel Variant="PanelVariant.Default" class="p-6 mb-6">
         <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
-            📦 Current Architecture: Package-Based
+            📦 Alternative Architecture: Meta-Package Based (Legacy)
         </h3>
         <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
             @CurrentArchitecture.Description
@@ -73,7 +73,7 @@
     <!-- Proposed Architecture -->
     <TailPanel Variant="PanelVariant.Default" class="p-6 mb-6">
         <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
-            🎯 Proposed Architecture: Component-Based (shadcn/ui style)
+            🎯 Current Architecture: Independent Package Architecture
         </h3>
         <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
             @ProposedArchitecture.Description
@@ -222,55 +222,164 @@
 
     <!-- Proposed Component Structure -->
     <TailPanel Variant="PanelVariant.Default" class="p-6">
-        <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
-            📁 Proposed Component-Based Structure
+            <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
+            📁 Independent Package Structure
         </h3>
         <div class="space-y-4 text-sm" style="color: var(--color-text-secondary);">
             <div>
                 <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">Recommended Structure:</h4>
                 <pre class="p-4 rounded overflow-x-auto text-xs" style="background-color: var(--color-surface-2); color: var(--color-text-primary); border: 1px solid var(--color-border);"><code>Tail.Blazor/
 ├── src/
-│   ├── core/                      # Core package (required, 48 KB)
-│   │   └── Tail.Blazor.Core/
-│   │       ├── TailComponentBase.cs
-│   │       ├── Theme/
-│   │       └── Tail.Blazor.Core.csproj
-│   │
-│   ├── components/                 # Individual component packages (95+ packages)
-│   │   ├── buttons/
-│   │   │   ├── Tail.Blazor.Button/        # 3 KB
-│   │   │   │   ├── TailButton.razor
-│   │   │   │   ├── ButtonEnums.cs
-│   │   │   │   └── Tail.Blazor.Button.csproj
+│   ├── components/                 # Individual component packages (97+ independent packages)
+│   │   ├── core/                   # Core package (required dependency)
+│   │   │   └── Tail.Blazor.Core/  # 48 KB - Base classes, theme engine
+│   │   │       ├── TailComponentBase.cs
+│   │   │       ├── Theme/
+│   │   │       └── Tail.Blazor.Core.csproj
+│   │   │
+│   │   ├── buttons/                # 6 independent button packages
+│   │   │   ├── Tail.Blazor.Button/        # 3 KB - Independent NuGet package
 │   │   │   ├── Tail.Blazor.IconButton/    # 2 KB
 │   │   │   ├── Tail.Blazor.ToggleButton/  # 2 KB
 │   │   │   ├── Tail.Blazor.SplitButton/   # 3 KB
 │   │   │   ├── Tail.Blazor.FAB/           # 3 KB
 │   │   │   └── Tail.Blazor.ButtonGroup/   # 4 KB
 │   │   │
-│   │   ├── forms/
+│   │   ├── forms/                  # 26 independent form packages
 │   │   │   ├── Tail.Blazor.Input/         # 4 KB
 │   │   │   ├── Tail.Blazor.Textarea/      # 3 KB
 │   │   │   ├── Tail.Blazor.Select/        # 5 KB
 │   │   │   ├── Tail.Blazor.Checkbox/      # 2 KB
-│   │   │   └── ... (26 form components)
+│   │   │   ├── Tail.Blazor.Switch/        # 2 KB
+│   │   │   ├── Tail.Blazor.Slider/        # 3 KB
+│   │   │   ├── Tail.Blazor.Rating/        # 2 KB
+│   │   │   ├── Tail.Blazor.Radio/         # 2 KB
+│   │   │   ├── Tail.Blazor.RadioGroup/    # 3 KB
+│   │   │   ├── Tail.Blazor.MultiSelect/   # 6 KB
+│   │   │   ├── Tail.Blazor.DatePicker/    # 8 KB
+│   │   │   ├── Tail.Blazor.DateRangePicker/ # 10 KB
+│   │   │   ├── Tail.Blazor.TimePicker/    # 6 KB
+│   │   │   ├── Tail.Blazor.FileUpload/    # 5 KB
+│   │   │   ├── Tail.Blazor.AutoComplete/  # 5 KB
+│   │   │   ├── Tail.Blazor.ColorPicker/   # 4 KB
+│   │   │   ├── Tail.Blazor.Mask/          # 3 KB
+│   │   │   ├── Tail.Blazor.Numeric/       # 3 KB
+│   │   │   ├── Tail.Blazor.OTPInput/      # 3 KB
+│   │   │   ├── Tail.Blazor.TagInput/      # 4 KB
+│   │   │   ├── Tail.Blazor.CurrencyInput/ # 4 KB
+│   │   │   ├── Tail.Blazor.PhoneNumberInput/ # 5 KB
+│   │   │   ├── Tail.Blazor.PasswordStrengthMeter/ # 4 KB
+│   │   │   ├── Tail.Blazor.RichTextEditor/ # 15 KB
+│   │   │   ├── Tail.Blazor.ImageCropper/  # 8 KB
+│   │   │   └── Tail.Blazor.AudioRecorder/  # 6 KB
 │   │   │
-│   │   ├── feedback/
+│   │   ├── feedback/               # 14 independent feedback packages
 │   │   │   ├── Tail.Blazor.Alert/         # 3 KB
+│   │   │   ├── Tail.Blazor.Badge/         # 2 KB
+│   │   │   ├── Tail.Blazor.Spinner/       # 2 KB
+│   │   │   ├── Tail.Blazor.Progress/      # 3 KB
+│   │   │   ├── Tail.Blazor.ProgressBarCircular/ # 3 KB
+│   │   │   ├── Tail.Blazor.Skeleton/      # 2 KB
 │   │   │   ├── Tail.Blazor.Dialog/        # 8 KB
 │   │   │   ├── Tail.Blazor.Toast/         # 4 KB
-│   │   │   └── ... (14 feedback components)
+│   │   │   ├── Tail.Blazor.ToastContainer/ # 3 KB
+│   │   │   ├── Tail.Blazor.Popconfirm/    # 4 KB
+│   │   │   ├── Tail.Blazor.EmptyState/    # 3 KB
+│   │   │   ├── Tail.Blazor.Confetti/      # 5 KB
+│   │   │   ├── Tail.Blazor.NotificationCenter/ # 8 KB
+│   │   │   └── Tail.Blazor.Tour/          # 10 KB
 │   │   │
-│   │   └── ... (other categories)
+│   │   ├── navigation/              # 15 independent navigation packages
+│   │   │   ├── Tail.Blazor.Tabs/          # 5 KB
+│   │   │   ├── Tail.Blazor.Accordion/     # 4 KB
+│   │   │   ├── Tail.Blazor.AccordionItem/ # 2 KB
+│   │   │   ├── Tail.Blazor.Breadcrumb/    # 3 KB
+│   │   │   ├── Tail.Blazor.Steps/         # 4 KB
+│   │   │   ├── Tail.Blazor.Sidebar/       # 6 KB
+│   │   │   ├── Tail.Blazor.Menu/          # 4 KB
+│   │   │   ├── Tail.Blazor.MenuItem/      # 2 KB
+│   │   │   ├── Tail.Blazor.Carousel/      # 6 KB
+│   │   │   ├── Tail.Blazor.ContextMenu/   # 5 KB
+│   │   │   ├── Tail.Blazor.Pagination/    # 4 KB
+│   │   │   ├── Tail.Blazor.CommandPalette/ # 8 KB
+│   │   │   ├── Tail.Blazor.FloatingActionMenu/ # 5 KB
+│   │   │   ├── Tail.Blazor.MegaMenu/      # 7 KB
+│   │   │   └── Tail.Blazor.ScrollSpy/     # 4 KB
+│   │   │
+│   │   ├── layout/                 # 12 independent layout packages
+│   │   │   ├── Tail.Blazor.Grid/          # 4 KB
+│   │   │   ├── Tail.Blazor.Card/          # 3 KB
+│   │   │   ├── Tail.Blazor.Panel/         # 3 KB
+│   │   │   ├── Tail.Blazor.Container/     # 2 KB
+│   │   │   ├── Tail.Blazor.Divider/       # 2 KB
+│   │   │   ├── Tail.Blazor.ResponsiveLayout/ # 5 KB
+│   │   │   ├── Tail.Blazor.Header/        # 3 KB
+│   │   │   ├── Tail.Blazor.CollapsibleMenu/ # 4 KB
+│   │   │   ├── Tail.Blazor.NavMenu/       # 5 KB
+│   │   │   ├── Tail.Blazor.SplitPane/     # 6 KB
+│   │   │   ├── Tail.Blazor.BottomSheet/   # 5 KB
+│   │   │   └── Tail.Blazor.DockingLayout/ # 12 KB
+│   │   │
+│   │   ├── data/                   # 10 independent data packages
+│   │   │   ├── Tail.Blazor.DataGrid/      # 25 KB
+│   │   │   ├── Tail.Blazor.ListView/      # 8 KB
+│   │   │   ├── Tail.Blazor.Scheduler/     # 15 KB
+│   │   │   ├── Tail.Blazor.Tree/          # 6 KB
+│   │   │   ├── Tail.Blazor.PivotDataGrid/ # 20 KB
+│   │   │   ├── Tail.Blazor.ResponsiveTable/ # 6 KB
+│   │   │   ├── Tail.Blazor.VirtualScroll/ # 8 KB
+│   │   │   ├── Tail.Blazor.KanbanBoard/   # 12 KB
+│   │   │   ├── Tail.Blazor.AdvancedFilter/ # 10 KB
+│   │   │   └── Tail.Blazor.Pager/         # 3 KB
+│   │   │
+│   │   ├── charts/                 # 2 independent chart packages
+│   │   │   ├── Tail.Blazor.Chart/         # 35 KB
+│   │   │   └── Tail.Blazor.Sparkline/     # 3 KB
+│   │   │
+│   │   ├── visualization/          # 6 independent visualization packages
+│   │   │   ├── Tail.Blazor.Timeline/      # 8 KB
+│   │   │   ├── Tail.Blazor.QRCode/        # 3 KB
+│   │   │   ├── Tail.Blazor.ArcGauge/      # 5 KB
+│   │   │   ├── Tail.Blazor.GanttChart/    # 18 KB
+│   │   │   ├── Tail.Blazor.OrganizationChart/ # 12 KB
+│   │   │   └── Tail.Blazor.Flowchart/     # 15 KB
+│   │   │
+│   │   ├── validators/             # 9 independent validator packages
+│   │   │   ├── Tail.Blazor.Validator/     # 4 KB
+│   │   │   ├── Tail.Blazor.CompareValidator/ # 3 KB
+│   │   │   ├── Tail.Blazor.RangeValidator/ # 3 KB
+│   │   │   ├── Tail.Blazor.RegexValidator/ # 3 KB
+│   │   │   ├── Tail.Blazor.RequiredValidator/ # 2 KB
+│   │   │   ├── Tail.Blazor.EmailValidator/ # 2 KB
+│   │   │   ├── Tail.Blazor.CustomValidator/ # 3 KB
+│   │   │   ├── Tail.Blazor.LengthValidator/ # 3 KB
+│   │   │   └── Tail.Blazor.NumericRangeValidator/ # 3 KB
+│   │   │
+│   │   ├── utils/                  # 2 independent utility packages
+│   │   │   ├── Tail.Blazor.Clipboard/     # 2 KB
+│   │   │   └── Tail.Blazor.ImageZoom/     # 5 KB
+│   │   │
+│   │   └── icons/                  # 1 independent icon package
+│   │       └── Tail.Blazor.Icon/          # 15 KB
 │   │
-│   └── packages/                   # Meta-packages (for convenience)
-│       ├── Tail.Blazor.Buttons/    # References all button components
-│       ├── Tail.Blazor.Forms/      # References all form components
-│       └── ... (grouped packages)
+│   └── packages/                    # Meta-packages (for convenience)
+│       ├── Tail.Blazor.Buttons/    # References all 6 button packages
+│       ├── Tail.Blazor.Forms/      # References all 26 form packages
+│       ├── Tail.Blazor.Feedback/   # References all 14 feedback components
+│       ├── Tail.Blazor.Navigation/ # References all 15 navigation components
+│       ├── Tail.Blazor.Layout/     # References all 12 layout components
+│       ├── Tail.Blazor.Data/       # References all 10 data components
+│       ├── Tail.Blazor.Charts/     # References all 2 chart components
+│       ├── Tail.Blazor.Visualization/ # References all 6 visualization components
+│       ├── Tail.Blazor.Validators/ # References all 9 validator components
+│       └── Tail.Blazor.Utils/      # References all 2 utility components
 │
 └── tools/
-    └── Tail.Blazor.CLI/            # Component installer (like shadcn/ui)
-        └── tailblazor add button   # Installs Tail.Blazor.Button</code></pre>
+    └── Tail.Blazor.CLI/            # Package installer (like shadcn/ui)
+        ├── tailblazor add button   # Installs Tail.Blazor.Button package
+        ├── tailblazor add input    # Installs Tail.Blazor.Input package
+        ├── tailblazor add dialog   # Installs Tail.Blazor.Dialog package
+        └── tailblazor list         # Lists all available packages</code></pre>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -279,11 +388,12 @@
                     <div class="relative z-10">
                         <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">✅ Key Benefits:</h4>
                         <ul class="list-disc list-inside space-y-1 text-xs">
-                            <li><strong>Ultra-Lightweight:</strong> Install only TailButton (3 KB) instead of entire Buttons package (22 KB)</li>
-                            <li><strong>Perfect Tree-Shaking:</strong> Unused components completely eliminated from final bundle</li>
-                            <li><strong>Maximum Flexibility:</strong> Mix and match components from different categories</li>
-                            <li><strong>Copy-Paste Option:</strong> Like shadcn/ui, allow copying component source directly</li>
-                            <li><strong>Backward Compatible:</strong> Keep package structure for developers who prefer it</li>
+                            <li><strong>Ultra-Lightweight:</strong> Install only Tail.Blazor.Button package (3 KB) instead of entire Buttons meta-package (22 KB)</li>
+                            <li><strong>Perfect Tree-Shaking:</strong> Unused packages completely eliminated from final bundle</li>
+                            <li><strong>Maximum Flexibility:</strong> Mix and match packages from different categories</li>
+                            <li><strong>Copy-Paste Option:</strong> Like shadcn/ui, allow copying package source directly</li>
+                            <li><strong>True Package Independence:</strong> Each package is a complete NuGet package</li>
+                            <li><strong>Backward Compatible:</strong> Keep meta-package structure for developers who prefer it</li>
                         </ul>
                     </div>
                 </div>
@@ -293,22 +403,25 @@
                         <h4 class="font-semibold mb-2" style="color: var(--color-text-primary);">📦 Installation Options:</h4>
                         <div class="space-y-2 text-xs">
                             <div>
-                                <strong style="color: var(--color-text-primary);">Option 1: NuGet Package</strong>
+                                <strong style="color: var(--color-text-primary);">Option 1: NuGet Package (Recommended)</strong>
                                 <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
                                     dotnet add package Tail.Blazor.Button
                                 </code>
+                                <p class="text-xs mt-1" style="color: var(--color-text-muted);">Installs independent NuGet package (3 KB)</p>
                             </div>
                             <div>
                                 <strong style="color: var(--color-text-primary);">Option 2: CLI Installer</strong>
                                 <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
                                     tailblazor add button
                                 </code>
+                                <p class="text-xs mt-1" style="color: var(--color-text-muted);">Installs Tail.Blazor.Button package</p>
                             </div>
                             <div>
                                 <strong style="color: var(--color-text-primary);">Option 3: Copy-Paste</strong>
                                 <code class="block mt-1 px-2 py-1 rounded" style="background-color: var(--color-surface-3);">
-                                    Copy TailButton.razor to your project
+                                    Copy TailButton.razor from package source
                                 </code>
+                                <p class="text-xs mt-1" style="color: var(--color-text-muted);">Copy package source code directly</p>
                             </div>
                         </div>
                     </div>
