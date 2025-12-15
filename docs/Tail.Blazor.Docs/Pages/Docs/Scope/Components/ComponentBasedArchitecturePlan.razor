@@ -1,0 +1,132 @@
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Docs.Pages.Docs.Scope.Models
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4" style="color: var(--color-text-primary);">
+        🎯 Component-Based Architecture Implementation Plan
+    </h2>
+    <p class="text-sm mb-6" style="color: var(--color-text-secondary);">
+        Comprehensive plan and folder structure for implementing independent, self-contained components following the shadcn/ui pattern for maximum lightweight and flexibility.
+    </p>
+
+    <!-- Implementation Plan Overview -->
+    <TailPanel Variant="PanelVariant.Default" class="p-6 mb-6">
+        <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
+            📋 Implementation Plan Overview
+        </h3>
+        <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
+            @ImplementationPlan.Description
+        </p>
+
+        <!-- Key Principles -->
+        <div class="mb-6">
+            <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">🎯 Key Principles:</h4>
+            <ul class="list-disc list-inside space-y-2 text-sm" style="color: var(--color-text-secondary);">
+                @foreach (var principle in ImplementationPlan.KeyPrinciples)
+                {
+                    <li>@principle</li>
+                }
+            </ul>
+        </div>
+
+        <!-- Benefits -->
+        <div class="mb-6">
+            <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">✅ Benefits:</h4>
+            <ul class="list-disc list-inside space-y-2 text-sm" style="color: var(--color-text-secondary);">
+                @foreach (var benefit in ImplementationPlan.Benefits)
+                {
+                    <li>@benefit</li>
+                }
+            </ul>
+        </div>
+
+        <!-- Implementation Phases -->
+        <div class="space-y-4">
+            <h4 class="text-lg font-semibold mb-4" style="color: var(--color-text-primary);">🚀 Implementation Phases:</h4>
+            @foreach (var phase in ImplementationPlan.Phases)
+            {
+                <div class="p-4 rounded-lg border-2 relative" style="background-color: var(--color-surface); border-color: var(--color-primary);">
+                    <div style="position: absolute; inset: 0; background-color: var(--color-primary); opacity: 0.05; border-radius: inherit; pointer-events: none;"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-3">
+                            <h5 class="text-lg font-semibold" style="color: var(--color-text-primary);">@phase.Name</h5>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-secondary);">
+                                    @phase.EstimatedDuration
+                                </span>
+                                <span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-info); color: white;">
+                                    @phase.Status
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-sm mb-3" style="color: var(--color-text-secondary);">@phase.Description</p>
+                        <div class="mt-3">
+                            <h6 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Tasks:</h6>
+                            <ul class="list-disc list-inside space-y-1 text-xs" style="color: var(--color-text-secondary);">
+                                @foreach (var task in phase.Tasks)
+                                {
+                                    <li>@task</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </TailPanel>
+
+    <!-- Folder Structure -->
+    <TailPanel Variant="PanelVariant.Default" class="p-6 mb-6">
+        <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary);">
+            📁 Component-Based Folder Structure
+        </h3>
+        <p class="text-sm mb-4" style="color: var(--color-text-secondary);">
+            @FolderStructure.Description
+        </p>
+        <div class="p-4 rounded-lg overflow-x-auto" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border);">
+            <pre class="text-xs font-mono whitespace-pre" style="color: var(--color-text-primary);">@RenderFolderStructure(FolderStructure.Structure, 0)</pre>
+        </div>
+    </TailPanel>
+</div>
+
+@code {
+    [Parameter] public ImplementationPlan ImplementationPlan { get; set; } = new();
+    [Parameter] public FolderStructure FolderStructure { get; set; } = new();
+
+    private string RenderFolderStructure(List<FolderItem> items, int indent)
+    {
+        var result = "";
+        var indentStr = new string(' ', indent * 2);
+        var treeChar = indent > 0 ? "├── " : "";
+        
+        foreach (var item in items)
+        {
+            var icon = item.Type switch
+            {
+                "Folder" => "📁",
+                "File" => "📄",
+                "Component" => "🧩",
+                _ => "📄"
+            };
+            
+            result += $"{indentStr}{treeChar}{icon} {item.Name}";
+            if (!string.IsNullOrEmpty(item.Size))
+            {
+                result += $" ({item.Size})";
+            }
+            if (!string.IsNullOrEmpty(item.Description) && item.Type != "File")
+            {
+                result += $"  # {item.Description}";
+            }
+            result += "\n";
+            
+            if (item.Children != null && item.Children.Any())
+            {
+                result += RenderFolderStructure(item.Children, indent + 1);
+            }
+        }
+        
+        return result;
+    }
+}
+

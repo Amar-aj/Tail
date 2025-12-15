@@ -94,6 +94,10 @@
 
     <OverviewCards />
 
+    <ComponentBasedArchitecturePlan 
+        ImplementationPlan="ComponentBasedPlan"
+        FolderStructure="ComponentFolderStructure" />
+
     <PackageArchitectureSection 
         CurrentArchitecture="CurrentArchitecture"
         ProposedArchitecture="ProposedArchitecture"
@@ -881,5 +885,407 @@
             "Phase 7: Use code generators/templates to minimize duplication while maintaining independence"
         },
         PropertiesManagementRecommendation = "Independent Properties: Each component manages its own properties, enums, and models for maximum lightweight (86% smaller for single component usage)"
+    };
+
+    // Component-Based Architecture Implementation Plan
+    private ImplementationPlan ComponentBasedPlan = new()
+    {
+        Title = "Component-Based Architecture Implementation",
+        Description = "Comprehensive plan to migrate from package-based to component-based architecture, enabling ultra-lightweight installations and perfect tree-shaking. Each component will be self-contained with independent properties, enums, and models.",
+        KeyPrinciples = new List<string>
+        {
+            "Independent Properties: Each component manages its own properties, enums, and models",
+            "Self-Contained: Components only depend on Tail.Blazor.Core (48 KB)",
+            "Copy-Paste Friendly: Components can be copied directly into projects",
+            "Perfect Tree-Shaking: Unused components completely eliminated at build time",
+            "Minimal Bundle Size: 86% smaller for single component usage (3 KB vs 21 KB)",
+            "Version Independence: Each component versioned separately",
+            "MAUI Compatible: All components work in MAUI Blazor Hybrid apps"
+        },
+        Benefits = new List<string>
+        {
+            "86% smaller bundle size for single component usage",
+            "Perfect tree-shaking - unused code completely eliminated",
+            "True independence - copy-paste component directly",
+            "Better performance - smaller bundles, faster load times",
+            "Lower memory footprint - only component code in memory",
+            "Maximum flexibility - mix and match components",
+            "Backward compatible - keep package structure for convenience"
+        },
+        Phases = new List<ImplementationPhase>
+        {
+            new ImplementationPhase
+            {
+                Name = "Phase 1: Foundation & Tooling",
+                Description = "Set up infrastructure, tooling, and templates for component-based architecture",
+                EstimatedDuration = "2-3 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Create component template generator (dotnet template)",
+                    "Set up folder structure for independent components",
+                    "Create component scaffolding tool (CLI)",
+                    "Define component naming conventions and standards",
+                    "Create component testing templates",
+                    "Set up CI/CD for individual component packages",
+                    "Create component documentation template"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 2: Core Component Migration",
+                Description = "Migrate high-usage components first (Button, Input, Card, Alert)",
+                EstimatedDuration = "3-4 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Extract TailButton to Tail.Blazor.Button (independent)",
+                    "Extract TailInput to Tail.Blazor.Input (independent)",
+                    "Extract TailCard to Tail.Blazor.Card (independent)",
+                    "Extract TailAlert to Tail.Blazor.Alert (independent)",
+                    "Create independent enums and models for each component",
+                    "Update component dependencies (only Core)",
+                    "Test tree-shaking and bundle size",
+                    "Create NuGet packages for each component"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 3: Form Components Migration",
+                Description = "Migrate all form components to independent packages",
+                EstimatedDuration = "4-5 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Migrate 26 form components to independent packages",
+                    "Create Tail.Blazor.Textarea, Tail.Blazor.Select, etc.",
+                    "Ensure each component is self-contained",
+                    "Test form validation and accessibility",
+                    "Update documentation for each component",
+                    "Create component installer CLI commands"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 4: Navigation & Layout Components",
+                Description = "Migrate navigation and layout components",
+                EstimatedDuration = "3-4 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Migrate 15 navigation components",
+                    "Migrate 12 layout components",
+                    "Ensure mobile compatibility (MAUI)",
+                    "Test responsive behavior",
+                    "Update routing and navigation examples"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 5: Data & Feedback Components",
+                Description = "Migrate data display and feedback components",
+                EstimatedDuration = "4-5 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Migrate 10 data components (DataGrid, ListView, etc.)",
+                    "Migrate 14 feedback components (Dialog, Toast, etc.)",
+                    "Optimize large components (DataGrid, Scheduler)",
+                    "Test performance with large datasets",
+                    "Update data binding examples"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 6: CLI Tool & Copy-Paste Support",
+                Description = "Create component installer CLI and enable copy-paste workflow",
+                EstimatedDuration = "2-3 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Create Tail.Blazor.CLI tool (like shadcn/ui)",
+                    "Implement 'tailblazor add <component>' command",
+                    "Enable copy-paste component source code",
+                    "Create component registry/index",
+                    "Add component dependency resolution",
+                    "Create component update mechanism"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 7: Documentation & Migration Guide",
+                Description = "Document component-based architecture and create migration guides",
+                EstimatedDuration = "2 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Document component-based architecture",
+                    "Create migration guide from packages to components",
+                    "Update all component documentation",
+                    "Create comparison examples (package vs component)",
+                    "Add bundle size calculator tool",
+                    "Create best practices guide"
+                }
+            },
+            new ImplementationPhase
+            {
+                Name = "Phase 8: Meta-Packages (Optional)",
+                Description = "Create convenience meta-packages that reference individual components",
+                EstimatedDuration = "1-2 weeks",
+                Status = "Planned",
+                Tasks = new List<string>
+                {
+                    "Create Tail.Blazor.Buttons (meta-package)",
+                    "Create Tail.Blazor.Forms (meta-package)",
+                    "Create Tail.Blazor.Data (meta-package)",
+                    "Ensure backward compatibility",
+                    "Document both approaches (packages vs components)"
+                }
+            }
+        }
+    };
+
+    private FolderStructure ComponentFolderStructure = new()
+    {
+        RootPath = "src/components",
+        Description = "Complete folder structure for independent component-based architecture. Each component is self-contained with its own package, enums, models, and tests.",
+        Structure = new List<FolderItem>
+        {
+            new FolderItem
+            {
+                Name = "components",
+                Type = "Folder",
+                Description = "Root folder for all independent components",
+                Children = new List<FolderItem>
+                {
+                    new FolderItem
+                    {
+                        Name = "buttons",
+                        Type = "Folder",
+                        Description = "Button component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.Button",
+                                Type = "Component",
+                                Description = "Independent button component package",
+                                Size = "3 KB",
+                                Children = new List<FolderItem>
+                                {
+                                    new FolderItem { Name = "TailButton.razor", Type = "File", Description = "Main component file" },
+                                    new FolderItem { Name = "TailButton.razor.cs", Type = "File", Description = "Component code-behind" },
+                                    new FolderItem { Name = "ButtonEnums.cs", Type = "File", Description = "Button-specific enums (Variant, Size)" },
+                                    new FolderItem { Name = "ButtonModels.cs", Type = "File", Description = "Button-specific models" },
+                                    new FolderItem { Name = "Tail.Blazor.Button.csproj", Type = "File", Description = "Project file (depends only on Core)" },
+                                    new FolderItem { Name = "_Imports.razor", Type = "File", Description = "Component imports" },
+                                    new FolderItem { Name = "README.md", Type = "File", Description = "Component documentation" }
+                                }
+                            },
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.IconButton",
+                                Type = "Component",
+                                Description = "Icon button component",
+                                Size = "2 KB",
+                                Children = new List<FolderItem>
+                                {
+                                    new FolderItem { Name = "TailIconButton.razor", Type = "File" },
+                                    new FolderItem { Name = "TailIconButton.razor.cs", Type = "File" },
+                                    new FolderItem { Name = "IconButtonEnums.cs", Type = "File" },
+                                    new FolderItem { Name = "Tail.Blazor.IconButton.csproj", Type = "File" }
+                                }
+                            },
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.ToggleButton",
+                                Type = "Component",
+                                Size = "2 KB"
+                            },
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.SplitButton",
+                                Type = "Component",
+                                Size = "3 KB"
+                            },
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.FAB",
+                                Type = "Component",
+                                Size = "3 KB"
+                            },
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.ButtonGroup",
+                                Type = "Component",
+                                Size = "4 KB"
+                            }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "forms",
+                        Type = "Folder",
+                        Description = "Form input component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem
+                            {
+                                Name = "Tail.Blazor.Input",
+                                Type = "Component",
+                                Size = "4 KB",
+                                Children = new List<FolderItem>
+                                {
+                                    new FolderItem { Name = "TailInput.razor", Type = "File" },
+                                    new FolderItem { Name = "TailInput.razor.cs", Type = "File" },
+                                    new FolderItem { Name = "InputEnums.cs", Type = "File" },
+                                    new FolderItem { Name = "InputModels.cs", Type = "File" },
+                                    new FolderItem { Name = "Tail.Blazor.Input.csproj", Type = "File" }
+                                }
+                            },
+                            new FolderItem { Name = "Tail.Blazor.Textarea", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Select", Type = "Component", Size = "5 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Checkbox", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Switch", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Slider", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Rating", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "Tail.Blazor.DatePicker", Type = "Component", Size = "8 KB" },
+                            new FolderItem { Name = "Tail.Blazor.TimePicker", Type = "Component", Size = "6 KB" },
+                            new FolderItem { Name = "... (26 total form components)", Type = "File", Description = "All form components as independent packages" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "feedback",
+                        Type = "Folder",
+                        Description = "Feedback and notification component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Alert", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Badge", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Spinner", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Progress", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Dialog", Type = "Component", Size = "8 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Toast", Type = "Component", Size = "4 KB" },
+                            new FolderItem { Name = "... (14 total feedback components)", Type = "File" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "navigation",
+                        Type = "Folder",
+                        Description = "Navigation component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Tabs", Type = "Component", Size = "5 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Accordion", Type = "Component", Size = "4 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Breadcrumb", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Steps", Type = "Component", Size = "4 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Sidebar", Type = "Component", Size = "6 KB" },
+                            new FolderItem { Name = "... (15 total navigation components)", Type = "File" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "layout",
+                        Type = "Folder",
+                        Description = "Layout component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Card", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Panel", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Grid", Type = "Component", Size = "4 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Container", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "... (12 total layout components)", Type = "File" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "data",
+                        Type = "Folder",
+                        Description = "Data display component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.DataGrid", Type = "Component", Size = "25 KB" },
+                            new FolderItem { Name = "Tail.Blazor.ListView", Type = "Component", Size = "8 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Scheduler", Type = "Component", Size = "15 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Tree", Type = "Component", Size = "6 KB" },
+                            new FolderItem { Name = "... (10 total data components)", Type = "File" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "charts",
+                        Type = "Folder",
+                        Description = "Chart component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Chart", Type = "Component", Size = "35 KB" },
+                            new FolderItem { Name = "Tail.Blazor.Sparkline", Type = "Component", Size = "3 KB" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "visualization",
+                        Type = "Folder",
+                        Description = "Visualization component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Timeline", Type = "Component", Size = "8 KB" },
+                            new FolderItem { Name = "Tail.Blazor.QRCode", Type = "Component", Size = "3 KB" },
+                            new FolderItem { Name = "Tail.Blazor.ArcGauge", Type = "Component", Size = "5 KB" },
+                            new FolderItem { Name = "... (7 total visualization components)", Type = "File" }
+                        }
+                    },
+                    new FolderItem
+                    {
+                        Name = "validators",
+                        Type = "Folder",
+                        Description = "Validation component category",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Tail.Blazor.Validator", Type = "Component", Size = "4 KB" },
+                            new FolderItem { Name = "Tail.Blazor.RequiredValidator", Type = "Component", Size = "2 KB" },
+                            new FolderItem { Name = "... (7 total validator components)", Type = "File" }
+                        }
+                    }
+                }
+            },
+            new FolderItem
+            {
+                Name = "tools",
+                Type = "Folder",
+                Description = "Development tools and CLI",
+                Children = new List<FolderItem>
+                {
+                    new FolderItem
+                    {
+                        Name = "Tail.Blazor.CLI",
+                        Type = "Component",
+                        Description = "Component installer CLI tool (like shadcn/ui)",
+                        Children = new List<FolderItem>
+                        {
+                            new FolderItem { Name = "Program.cs", Type = "File", Description = "CLI entry point" },
+                            new FolderItem { Name = "AddCommand.cs", Type = "File", Description = "'tailblazor add' command" },
+                            new FolderItem { Name = "RemoveCommand.cs", Type = "File", Description = "'tailblazor remove' command" },
+                            new FolderItem { Name = "ListCommand.cs", Type = "File", Description = "'tailblazor list' command" },
+                            new FolderItem { Name = "ComponentRegistry.cs", Type = "File", Description = "Component registry/index" }
+                        }
+                    }
+                }
+            },
+            new FolderItem
+            {
+                Name = "packages",
+                Type = "Folder",
+                Description = "Meta-packages for convenience (optional, references individual components)",
+                Children = new List<FolderItem>
+                {
+                    new FolderItem { Name = "Tail.Blazor.Buttons", Type = "Component", Description = "Meta-package referencing all button components" },
+                    new FolderItem { Name = "Tail.Blazor.Forms", Type = "Component", Description = "Meta-package referencing all form components" },
+                    new FolderItem { Name = "Tail.Blazor.Data", Type = "Component", Description = "Meta-package referencing all data components" }
+                }
+            }
+        }
     };
 }

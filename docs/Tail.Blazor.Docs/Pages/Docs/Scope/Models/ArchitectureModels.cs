@@ -37,3 +37,37 @@ public class PerformanceComparison
     public string Winner { get; set; } = string.Empty;
 }
 
+public class ImplementationPlan
+{
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public List<ImplementationPhase> Phases { get; set; } = new();
+    public List<string> KeyPrinciples { get; set; } = new();
+    public List<string> Benefits { get; set; } = new();
+}
+
+public class ImplementationPhase
+{
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public List<string> Tasks { get; set; } = new();
+    public string EstimatedDuration { get; set; } = string.Empty;
+    public string Status { get; set; } = "Planned";
+}
+
+public class FolderStructure
+{
+    public string RootPath { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public List<FolderItem> Structure { get; set; } = new();
+}
+
+public class FolderItem
+{
+    public string Name { get; set; } = string.Empty;
+    public string Type { get; set; } = "Folder"; // Folder, File, Component
+    public string Description { get; set; } = string.Empty;
+    public List<FolderItem> Children { get; set; } = new();
+    public string Size { get; set; } = string.Empty;
+}
+
