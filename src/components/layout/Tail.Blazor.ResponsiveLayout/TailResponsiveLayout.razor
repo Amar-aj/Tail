@@ -1,8 +1,11 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.JSInterop
 @using Tail.Blazor.ResponsiveLayout
 @inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
+@implements IDisposable
 
 <div class="@GetLayoutClasses()" style="@GetLayoutStyles()" id="@_layoutId">
     @if (ShowSidebar && LayoutMode != LayoutMode.FullWidth)
@@ -102,6 +105,7 @@
     [Parameter] public bool HeaderShadow { get; set; } = true;
     [Parameter] public bool MenuOpenByDefault { get; set; } = true;
     [Parameter] public bool MenuOpenOnMobileByDefault { get; set; } = false;
+    [Parameter] public bool AutoHideOnMobileAfterNavigation { get; set; } = true;
     [Parameter] public LayoutMode LayoutMode { get; set; } = LayoutMode.DrawerLeft;
     [Parameter] public DensityMode Density { get; set; } = DensityMode.Normal;
     [Parameter] public string? MobileMenuTitle { get; set; }
@@ -126,6 +130,12 @@
         else
         {
             _sidebarOpen = MenuOpenByDefault;
+        }
+        
+        // Subscribe to navigation changes if auto-hide is enabled
+        if (AutoHideOnMobileAfterNavigation)
+        {
+            Navigation.LocationChanged += OnLocationChanged;
         }
     }
 
@@ -173,6 +183,24 @@
     {
         _sidebarOpen = !_sidebarOpen;
         StateHasChanged();
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        // Auto-hide sidebar on mobile after navigation
+        if (AutoHideOnMobileAfterNavigation && _isMobile && _sidebarOpen)
+        {
+            _sidebarOpen = false;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (AutoHideOnMobileAfterNavigation)
+        {
+            Navigation.LocationChanged -= OnLocationChanged;
+        }
     }
 
     private string GetLayoutClasses()

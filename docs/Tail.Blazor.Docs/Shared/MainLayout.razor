@@ -7,19 +7,19 @@
 @using Tail.Blazor.Container
 
 <ThemeProvider>
-    <TailResponsiveLayout 
-        AppName="Tail.Blazor"
-        ShowMenuToggle="true"
-        ShowThemeToggle="true"
-        ShowAvatar="false"
-        StickyHeader="true"
-        HeaderShadow="true"
-        ShowSidebar="true"
-        MenuOpenByDefault="true"
-        MenuOpenOnMobileByDefault="false"
-        LayoutMode="LayoutMode.DrawerLeft"
-        Density="DensityMode.Normal"
-        MobileMenuTitle="Tail.Blazor Documentation">
+    <TailResponsiveLayout AppName="Tail.Blazor"
+                          ShowMenuToggle="true"
+                          ShowThemeToggle="true"
+                          ShowAvatar="false"
+                          StickyHeader="true"
+                          HeaderShadow="true"
+                          ShowSidebar="true"
+                          MenuOpenByDefault="true"
+                          MenuOpenOnMobileByDefault="false"
+                          LayoutMode="LayoutMode.DrawerLeft"
+                          Density="DensityMode.Normal"
+                          AutoHideOnMobileAfterNavigation="true"
+                          MobileMenuTitle="Tail.Blazor Documentation">
         <LogoTemplate>
             <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="flex items-center gap-2">
                 <h1 class="text-xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
