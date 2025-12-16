@@ -112,10 +112,21 @@
     private string _headerId = $"header-{Guid.NewGuid():N}";
     private bool _sidebarOpen = true;
     private bool _isMobile = false;
+    private bool _mobileStateInitialized = false;
 
     protected override void OnInitialized()
     {
-        _sidebarOpen = MenuOpenByDefault;
+        // Initialize sidebar state: assume mobile initially if MenuOpenOnMobileByDefault is false
+        // This ensures mobile users don't see the sidebar flash open on initial load
+        if (!MenuOpenOnMobileByDefault)
+        {
+            // Assume mobile initially, so start closed
+            _sidebarOpen = false;
+        }
+        else
+        {
+            _sidebarOpen = MenuOpenByDefault;
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -131,13 +142,24 @@
         try
         {
             var isMobile = await JSRuntime.InvokeAsync<bool>("eval", "window.innerWidth < 768");
-            if (isMobile != _isMobile)
+            
+            if (!_mobileStateInitialized || isMobile != _isMobile)
             {
                 _isMobile = isMobile;
-                if (!_isMobile && !MenuOpenOnMobileByDefault)
+                _mobileStateInitialized = true;
+                
+                // Update sidebar state based on screen size
+                if (_isMobile)
                 {
+                    // On mobile, use MenuOpenOnMobileByDefault
+                    _sidebarOpen = MenuOpenOnMobileByDefault;
+                }
+                else
+                {
+                    // On desktop, use MenuOpenByDefault
                     _sidebarOpen = MenuOpenByDefault;
                 }
+                
                 StateHasChanged();
             }
         }
