@@ -1,0 +1,127 @@
+{
+  "Utils": [
+    "Clipboard",
+    "ImageZoom"
+  ],
+  "Charts": [
+    "Chart",
+    "Sparkline"
+  ],
+  "Buttons": [
+    "Button",
+    "IconButton",
+    "ToggleButton",
+    "SplitButton",
+    "FAB",
+    "ButtonGroup"
+  ],
+  "Navigation": [
+    "Accordion",
+    "AccordionItem",
+    "Tabs",
+    "Breadcrumb",
+    "Menu",
+    "MenuItem",
+    "Sidebar",
+    "Steps",
+    "Pagination",
+    "Carousel",
+    "MegaMenu",
+    "ContextMenu",
+    "FloatingActionMenu",
+    "CommandPalette",
+    "ScrollSpy"
+  ],
+  "Icons": [
+    "Icon"
+  ],
+  "Feedback": [
+    "Alert",
+    "Badge",
+    "Dialog",
+    "Toast",
+    "ToastContainer",
+    "Spinner",
+    "Progress",
+    "ProgressBarCircular",
+    "Skeleton",
+    "EmptyState",
+    "Popconfirm",
+    "Confetti",
+    "NotificationCenter",
+    "Tour"
+  ],
+  "Visualization": [
+    "Timeline",
+    "ArcGauge",
+    "Flowchart",
+    "GanttChart",
+    "OrganizationChart",
+    "QRCode"
+  ],
+  "Validators": [
+    "Validator",
+    "RequiredValidator",
+    "EmailValidator",
+    "LengthValidator",
+    "RangeValidator",
+    "NumericRangeValidator",
+    "RegexValidator",
+    "CompareValidator",
+    "CustomValidator"
+  ],
+  "Data": [
+    "DataGrid",
+    "ListView",
+    "Tree",
+    "Scheduler",
+    "Pager",
+    "VirtualScroll",
+    "AdvancedFilter",
+    "KanbanBoard",
+    "PivotDataGrid",
+    "ResponsiveTable"
+  ],
+  "Forms": [
+    "Input",
+    "Textarea",
+    "Select",
+    "Checkbox",
+    "Radio",
+    "RadioGroup",
+    "Switch",
+    "Slider",
+    "Rating",
+    "DatePicker",
+    "DateRangePicker",
+    "TimePicker",
+    "ColorPicker",
+    "FileUpload",
+    "ImageCropper",
+    "AutoComplete",
+    "MultiSelect",
+    "TagInput",
+    "Mask",
+    "Numeric",
+    "CurrencyInput",
+    "PhoneNumberInput",
+    "OTPInput",
+    "PasswordStrengthMeter",
+    "RichTextEditor",
+    "AudioRecorder"
+  ],
+  "Layout": [
+    "Container",
+    "Grid",
+    "Panel",
+    "Card",
+    "Divider",
+    "Header",
+    "NavMenu",
+    "ResponsiveLayout",
+    "SplitPane",
+    "DockingLayout",
+    "BottomSheet",
+    "CollapsibleMenu"
+  ]
+}

@@ -1,0 +1,12 @@
+Tail.Blazor.Buttons
+Tail.Blazor.Charts
+Tail.Blazor.Core
+Tail.Blazor.Data
+Tail.Blazor.Feedback
+Tail.Blazor.Forms
+Tail.Blazor.Icons
+Tail.Blazor.Layout
+Tail.Blazor.Navigation
+Tail.Blazor.Utils
+Tail.Blazor.Validators
+Tail.Blazor.Visualization
