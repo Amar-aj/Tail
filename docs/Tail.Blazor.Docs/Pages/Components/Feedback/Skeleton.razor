@@ -20,7 +20,7 @@
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
         <CodePreview Title="Skeleton" Code="@basicCode">
             <PreviewContent>
-                <TailSkeleton Type="SkeletonType.Text" Width="200px" Height="20px" />
+                <TailSkeleton Type="SkeletonType.Text" Width="200" Height="20" />
             </PreviewContent>
         </CodePreview>
     </TailCard>
@@ -28,6 +28,6 @@
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Skeleton";
-    private string basicCode = @"<TailSkeleton Type=""SkeletonType.Text"" Width=""200px"" Height=""20px"" />";
+    private string basicCode = @"<TailSkeleton Type=""SkeletonType.Text"" Width=""200"" Height=""20"" />";
 }
 

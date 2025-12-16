@@ -107,14 +107,15 @@
                 ShowAvatar="@showAvatar"
                 StickyHeader="@stickyHeader"
                 HeaderShadow="@headerShadow"
-                ShowSidebar="@(selectedLayoutMode != LayoutMode.AppbarOnly)"
+                ShowSidebar="@(selectedLayoutModeStr != "AppbarOnly")"
                 MenuOpenByDefault="@menuOpenByDefault"
-                LayoutMode="@selectedLayoutMode"
-                Density="@selectedDensity"
+                LayoutMode="@selectedLayoutModeStr"
+                Density="@selectedDensityStr"
                 MenuPosition="@selectedMenuPosition"
                 CollapsibleMenu="@collapsibleMenu"
                 UserName="@userName"
                 UserEmail="@userEmail"
+                Email="@userEmail"
                 MobileMenuTitle="Navigation Menu">
                 <LogoTemplate>
                     <div class="flex items-center gap-2">
@@ -271,9 +272,8 @@
         new ActivityItem { Icon = "🔔", Title = "Notification sent", Description = "Email notification delivered", Time = "2h ago" }
     };
 
-    private string selectedLayoutMode => selectedLayoutModeStr;
-    private string selectedDensity => selectedDensityStr;
-    private string selectedMenuPosition => selectedMenuPositionStr;
+    // LayoutMode and DensityMode enums would need to be imported from the appropriate namespace
+    // For now, using strings directly
 
     private string GetCodeExample()
     {

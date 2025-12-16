@@ -21,11 +21,11 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Email</label>
-                        <TailInput Type="email" Placeholder="Enter your email" />
+                        <TailInput Type="email" Placeholder="Enter your email" Value="@email" ValueChanged="@((string? val) => email = val)" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Password</label>
-                        <TailInput Type="password" Placeholder="Enter password" />
+                        <TailInput Type="password" Placeholder="Enter password" Value="@password" ValueChanged="@((string? val) => password = val)" />
                     </div>
                     <TailButton Variant="ButtonVariant.Primary" FullWidth="true">
                         Sign In
@@ -79,7 +79,9 @@
                     <TailAutoComplete 
                         Label="City" 
                         Suggestions="@ExampleCities"
-                        TextSelector="c => (string)c" />
+                        TextSelector="c => (string)c"
+                        Value="@text"
+                        ValueChanged="@((string? val) => text = val)" />
                     <TailMultiSelect 
                         Label="Interests" 
                         Items="@InterestOptions"
@@ -111,6 +113,10 @@
 </div>
 
 @code {
+    private string email = string.Empty;
+    private string password = string.Empty;
+    private string text = string.Empty;
+    
     private List<object> ExampleCities => new List<string> { "New York", "London", "Paris", "Tokyo" }.Cast<object>().ToList();
 
     public class Product
