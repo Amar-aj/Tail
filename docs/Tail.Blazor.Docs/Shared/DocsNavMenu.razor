@@ -1,4 +1,4 @@
-@using Tail.Blazor.AccordionItem
+@using Tail.Blazor.CollapsibleMenu
 @using Tail.Blazor.Divider
 @using Tail.Blazor.Layout
 @using Tail.Blazor.Navigation
@@ -21,7 +21,7 @@
     </TailMenuItem>
 
     <!-- Documentation -->
-    <TailAccordionItem Title="Documentation" Icon="📚" IsExpanded="@IsExpanded("/docs")">
+    <TailCollapsibleMenu Title="📚 Documentation" IsExpanded="@GetExpandedState("/docs")" IsExpandedChanged="@((bool expanded) => HandleExpandedChanged("/docs", expanded))">
         <TailMenu class="pl-4 space-y-1">
             <TailMenuItem Href="/docs" IsActive="@IsActive("/docs")">
                 <ChildContent>Overview</ChildContent>
@@ -33,12 +33,12 @@
                 <ChildContent>Quick Start</ChildContent>
             </TailMenuItem>
         </TailMenu>
-    </TailAccordionItem>
+    </TailCollapsibleMenu>
 
     <!-- Components by Package -->
     @foreach (var packageGroup in componentPackageGroups)
     {
-        <TailAccordionItem Title="@($"{packageGroup.Icon} {packageGroup.Name}")" Icon="@packageGroup.Icon" IsExpanded="@IsExpanded(packageGroup.AllComponentsHref)">
+        <TailCollapsibleMenu Title="@($"{packageGroup.Icon} {packageGroup.Name}")" IsExpanded="@GetExpandedState(packageGroup.AllComponentsHref)" IsExpandedChanged="@((bool expanded) => HandleExpandedChanged(packageGroup.AllComponentsHref, expanded))">
             <TailMenu class="pl-4 space-y-1">
                 <TailMenuItem Href="@packageGroup.AllComponentsHref" IsActive="@IsActive(packageGroup.AllComponentsHref)">
                     <ChildContent>All @packageGroup.Name</ChildContent>
@@ -55,11 +55,11 @@
                     </TailMenu>
                 </TailContainer>
             </TailMenu>
-        </TailAccordionItem>
+        </TailCollapsibleMenu>
     }
 
     <!-- Theming -->
-    <TailAccordionItem Title="Theming" Icon="🎨" IsExpanded="@IsExpanded("/theming")">
+    <TailCollapsibleMenu Title="🎨 Theming" IsExpanded="@GetExpandedState("/theming")" IsExpandedChanged="@((bool expanded) => HandleExpandedChanged("/theming", expanded))">
         <TailMenu class="pl-4 space-y-1">
             <TailMenuItem Href="/theming" IsActive="@IsActive("/theming")">
                 <ChildContent>Overview</ChildContent>
@@ -74,10 +74,10 @@
                 <ChildContent>Theme Integration</ChildContent>
             </TailMenuItem>
         </TailMenu>
-    </TailAccordionItem>
+    </TailCollapsibleMenu>
 
     <!-- Resources -->
-    <TailAccordionItem Title="Resources" Icon="📚" IsExpanded="@IsExpanded("/examples")">
+    <TailCollapsibleMenu Title="📚 Resources" IsExpanded="@GetExpandedState("/examples")" IsExpandedChanged="@((bool expanded) => HandleExpandedChanged("/examples", expanded))">
         <TailMenu class="pl-4 space-y-1">
             <TailMenuItem Href="/examples" IsActive="@IsActive("/examples")">
                 <Icon>💡</Icon>
@@ -100,12 +100,13 @@
                 <ChildContent>Scope & Status</ChildContent>
             </TailMenuItem>
         </TailMenu>
-    </TailAccordionItem>
+    </TailCollapsibleMenu>
 </TailMenu>
 
 
 @code {
     private string? _currentPath;
+    private Dictionary<string, bool> _expandedStates = new();
 
     private class ComponentPackageGroup
     {
@@ -479,6 +480,23 @@
     private string GetScrollableClass(bool hasScrollableList)
     {
         return hasScrollableList ? "max-h-64 overflow-y-auto" : "";
+    }
+
+    private void HandleExpandedChanged(string href, bool expanded)
+    {
+        _expandedStates[href] = expanded;
+        StateHasChanged();
+    }
+
+    private bool GetExpandedState(string href)
+    {
+        // If manually toggled, use that state
+        if (_expandedStates.ContainsKey(href))
+        {
+            return _expandedStates[href];
+        }
+        // Otherwise, use the auto-expand logic based on active routes
+        return IsExpanded(href);
     }
 
     public void Dispose()
