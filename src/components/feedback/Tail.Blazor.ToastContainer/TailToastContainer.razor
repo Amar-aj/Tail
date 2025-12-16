@@ -5,13 +5,27 @@
 <div class="@GetContainerClasses()" style="@GetContainerStyles()">
     @foreach (var toast in Toasts)
     {
-        <TailToast 
-            Message="@toast.Message"
-            Title="@toast.Title"
-            Variant="@toast.Variant"
-            Dismissible="@toast.Dismissible"
-            AutoDismissAfter="@toast.AutoDismissAfter"
-            OnDismiss="() => RemoveToast(toast)" />
+        <div class="@GetToastClasses(toast)" style="@GetToastStyles(toast)">
+            <div class="flex items-start">
+                @if (!string.IsNullOrEmpty(toast.Title))
+                {
+                    <div class="font-semibold mb-1">@toast.Title</div>
+                }
+                <div>@toast.Message</div>
+                @if (toast.Dismissible)
+                {
+                    <button 
+                        type="button"
+                        class="flex-shrink-0 ml-3 text-current opacity-50 hover:opacity-100 focus:outline-none"
+                        @onclick="() => RemoveToast(toast)"
+                        aria-label="Dismiss">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                }
+            </div>
+        </div>
     }
 </div>
 
@@ -85,6 +99,54 @@
     {
         Toasts.Remove(toast);
         StateHasChanged();
+    }
+
+    private string GetToastClasses(ToastItem toast)
+    {
+        var classes = new List<string> { "rounded-lg", "p-4", "shadow-lg", "border", "mb-2", "transition-all" };
+
+        classes.Add(toast.Variant switch
+        {
+            ToastVariant.Success => "bg-green-50 border-green-200 text-green-800",
+            ToastVariant.Warning => "bg-yellow-50 border-yellow-200 text-yellow-800",
+            ToastVariant.Error => "bg-red-50 border-red-200 text-red-800",
+            ToastVariant.Info => "bg-blue-50 border-blue-200 text-blue-800",
+            _ => "bg-gray-50 border-gray-200 text-gray-800"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetToastStyles(ToastItem toast)
+    {
+        var styles = new List<string>();
+
+        if (toast.Variant == ToastVariant.Success)
+        {
+            styles.Add($"background-color: rgba(var(--color-success-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-success)");
+            styles.Add($"color: var(--color-success)");
+        }
+        else if (toast.Variant == ToastVariant.Warning)
+        {
+            styles.Add($"background-color: rgba(var(--color-warning-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-warning)");
+            styles.Add($"color: var(--color-warning)");
+        }
+        else if (toast.Variant == ToastVariant.Error)
+        {
+            styles.Add($"background-color: rgba(var(--color-danger-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-danger)");
+            styles.Add($"color: var(--color-danger)");
+        }
+        else
+        {
+            styles.Add($"background-color: rgba(var(--color-info-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-info)");
+            styles.Add($"color: var(--color-info)");
+        }
+
+        return string.Join("; ", styles);
     }
 }
 

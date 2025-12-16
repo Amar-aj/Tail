@@ -32,5 +32,4 @@ dotnet add package Tail.Blazor.ToastContainer
 ## Dependencies
 
 - Tail.Blazor.Core (required)
-- Tail.Blazor.Toast (required)
 
