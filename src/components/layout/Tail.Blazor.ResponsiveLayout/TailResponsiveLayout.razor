@@ -187,44 +187,50 @@
     {
         var classes = new List<string>();
         
-        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.FixedLeft)
-        {
-            classes.Add("left-0");
-        }
-        else if (LayoutMode == LayoutMode.DrawerRight || LayoutMode == LayoutMode.FixedRight)
-        {
-            classes.Add("right-0");
-        }
-
-        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
-        {
-            classes.Add("fixed top-0 h-full z-50 transform transition-transform duration-300 ease-in-out");
-            classes.Add(_sidebarOpen ? "translate-x-0" : (LayoutMode == LayoutMode.DrawerLeft ? "-translate-x-full" : "translate-x-full"));
-            classes.Add("md:relative md:translate-x-0");
-        }
-        else
-        {
-            classes.Add("relative");
-        }
-
+        // Base width and layout classes
         classes.Add("w-64 flex-shrink-0 flex flex-col");
         classes.Add("border-r");
         classes.Add("overflow-hidden");
         
         if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
         {
-            if (!MenuOpenOnMobileByDefault)
+            // Drawer mode: fixed positioning on mobile, relative on desktop
+            classes.Add("fixed top-0 h-full z-50 transform transition-transform duration-300 ease-in-out");
+            
+            // Position (left or right)
+            if (LayoutMode == LayoutMode.DrawerLeft)
             {
-                classes.Add("hidden md:flex");
+                classes.Add("left-0");
+                // Transform based on open state
+                classes.Add(_sidebarOpen ? "translate-x-0" : "-translate-x-full");
+            }
+            else // DrawerRight
+            {
+                classes.Add("right-0");
+                // Transform based on open state
+                classes.Add(_sidebarOpen ? "translate-x-0" : "translate-x-full");
+            }
+            
+            // On desktop (md and up), make it relative and always visible
+            classes.Add("md:relative md:translate-x-0 md:z-auto");
+        }
+        else if (LayoutMode == LayoutMode.FixedLeft || LayoutMode == LayoutMode.FixedRight)
+        {
+            // Fixed mode: always visible, relative positioning
+            classes.Add("relative");
+            if (LayoutMode == LayoutMode.FixedLeft)
+            {
+                classes.Add("left-0");
             }
             else
             {
-                classes.Add("flex");
+                classes.Add("right-0");
             }
         }
         else
         {
-            classes.Add("flex");
+            // FullWidth or other modes
+            classes.Add("relative");
         }
 
         return string.Join(" ", classes);

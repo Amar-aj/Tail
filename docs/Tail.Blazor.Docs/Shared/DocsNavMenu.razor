@@ -12,103 +12,101 @@
 @inject NavigationManager Navigation
 @implements IDisposable
 
-<TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="h-full flex flex-col">
-    <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="flex-1 overflow-y-auto p-2">
-        <TailMenu class="space-y-1">
-            <!-- Home -->
-            <TailMenuItem Href="/" IsActive="@IsActive("/")">
-                <Icon>🏠</Icon>
-                <ChildContent>Home</ChildContent>
+
+<TailMenu class="space-y-1">
+    <!-- Home -->
+    <TailMenuItem Href="/" IsActive="@IsActive("/")">
+        <Icon>🏠</Icon>
+        <ChildContent>Home</ChildContent>
+    </TailMenuItem>
+
+    <!-- Documentation -->
+    <TailAccordionItem Title="Documentation" Icon="📚" IsExpanded="@IsExpanded("/docs")">
+        <TailMenu class="pl-4 space-y-1">
+            <TailMenuItem Href="/docs" IsActive="@IsActive("/docs")">
+                <ChildContent>Overview</ChildContent>
             </TailMenuItem>
-
-            <!-- Documentation -->
-            <TailAccordionItem Title="Documentation" Icon="📚" IsExpanded="@IsExpanded("/docs")">
-                <TailMenu class="pl-4 space-y-1">
-                    <TailMenuItem Href="/docs" IsActive="@IsActive("/docs")">
-                        <ChildContent>Overview</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/docs/installation" IsActive="@IsActive("/docs/installation")">
-                        <ChildContent>Installation</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/getting-started" IsActive="@IsActive("/getting-started")">
-                        <ChildContent>Quick Start</ChildContent>
-                    </TailMenuItem>
-                </TailMenu>
-            </TailAccordionItem>
-
-            <!-- Components by Package -->
-            @foreach (var packageGroup in componentPackageGroups)
-            {
-                <TailAccordionItem Title="@($"{packageGroup.Icon} {packageGroup.Name}")" Icon="@packageGroup.Icon" IsExpanded="@IsExpanded(packageGroup.AllComponentsHref)">
-                    <TailMenu class="pl-4 space-y-1">
-                        <TailMenuItem Href="@packageGroup.AllComponentsHref" IsActive="@IsActive(packageGroup.AllComponentsHref)">
-                            <ChildContent>All @packageGroup.Name</ChildContent>
-                        </TailMenuItem>
-                        <TailDivider class="my-1" />
-                        <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="@GetScrollableClass(packageGroup.HasScrollableList)">
-                            <TailMenu class="space-y-1">
-                                @foreach (var component in packageGroup.Components)
-                                {
-                                    <TailMenuItem Href="@component.Href" IsActive="@IsActive(component.Href)" class="text-xs">
-                                        <ChildContent>@component.Text</ChildContent>
-                                    </TailMenuItem>
-                                }
-                            </TailMenu>
-                        </TailContainer>
-                    </TailMenu>
-                </TailAccordionItem>
-            }
-
-            <!-- Theming -->
-            <TailAccordionItem Title="Theming" Icon="🎨" IsExpanded="@IsExpanded("/theming")">
-                <TailMenu class="pl-4 space-y-1">
-                    <TailMenuItem Href="/theming" IsActive="@IsActive("/theming")">
-                        <ChildContent>Overview</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/theme-toggle-demo" IsActive="@IsActive("/theme-toggle-demo")">
-                        <ChildContent>Theme Toggle</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/theme-selector-demo" IsActive="@IsActive("/theme-selector-demo")">
-                        <ChildContent>Theme Selector</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/docs/theme-integration" IsActive="@IsActive("/docs/theme-integration")">
-                        <ChildContent>Theme Integration</ChildContent>
-                    </TailMenuItem>
-                </TailMenu>
-            </TailAccordionItem>
-
-            <!-- Resources -->
-            <TailAccordionItem Title="Resources" Icon="📚" IsExpanded="@IsExpanded("/examples")">
-                <TailMenu class="pl-4 space-y-1">
-                    <TailMenuItem Href="/examples" IsActive="@IsActive("/examples")">
-                        <Icon>💡</Icon>
-                        <ChildContent>Examples</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/best-practices" IsActive="@IsActive("/best-practices")">
-                        <Icon>✨</Icon>
-                        <ChildContent>Best Practices</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/faq" IsActive="@IsActive("/faq")">
-                        <Icon>❓</Icon>
-                        <ChildContent>FAQ</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/api" IsActive="@IsActive("/api")">
-                        <Icon>📚</Icon>
-                        <ChildContent>API Reference</ChildContent>
-                    </TailMenuItem>
-                    <TailMenuItem Href="/scope" IsActive="@IsActive("/scope")">
-                        <Icon>📊</Icon>
-                        <ChildContent>Scope & Status</ChildContent>
-                    </TailMenuItem>
-                </TailMenu>
-            </TailAccordionItem>
+            <TailMenuItem Href="/docs/installation" IsActive="@IsActive("/docs/installation")">
+                <ChildContent>Installation</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/getting-started" IsActive="@IsActive("/getting-started")">
+                <ChildContent>Quick Start</ChildContent>
+            </TailMenuItem>
         </TailMenu>
-    </TailContainer>
-</TailContainer>
+    </TailAccordionItem>
+
+    <!-- Components by Package -->
+    @foreach (var packageGroup in componentPackageGroups)
+    {
+        <TailAccordionItem Title="@($"{packageGroup.Icon} {packageGroup.Name}")" Icon="@packageGroup.Icon" IsExpanded="@IsExpanded(packageGroup.AllComponentsHref)">
+            <TailMenu class="pl-4 space-y-1">
+                <TailMenuItem Href="@packageGroup.AllComponentsHref" IsActive="@IsActive(packageGroup.AllComponentsHref)">
+                    <ChildContent>All @packageGroup.Name</ChildContent>
+                </TailMenuItem>
+                <TailDivider class="my-1" />
+                <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="@GetScrollableClass(packageGroup.HasScrollableList)">
+                    <TailMenu class="space-y-1">
+                        @foreach (var component in packageGroup.Components)
+                        {
+                            <TailMenuItem Href="@component.Href" IsActive="@IsActive(component.Href)" class="text-xs">
+                                <ChildContent>@component.Text</ChildContent>
+                            </TailMenuItem>
+                        }
+                    </TailMenu>
+                </TailContainer>
+            </TailMenu>
+        </TailAccordionItem>
+    }
+
+    <!-- Theming -->
+    <TailAccordionItem Title="Theming" Icon="🎨" IsExpanded="@IsExpanded("/theming")">
+        <TailMenu class="pl-4 space-y-1">
+            <TailMenuItem Href="/theming" IsActive="@IsActive("/theming")">
+                <ChildContent>Overview</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/theme-toggle-demo" IsActive="@IsActive("/theme-toggle-demo")">
+                <ChildContent>Theme Toggle</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/theme-selector-demo" IsActive="@IsActive("/theme-selector-demo")">
+                <ChildContent>Theme Selector</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/docs/theme-integration" IsActive="@IsActive("/docs/theme-integration")">
+                <ChildContent>Theme Integration</ChildContent>
+            </TailMenuItem>
+        </TailMenu>
+    </TailAccordionItem>
+
+    <!-- Resources -->
+    <TailAccordionItem Title="Resources" Icon="📚" IsExpanded="@IsExpanded("/examples")">
+        <TailMenu class="pl-4 space-y-1">
+            <TailMenuItem Href="/examples" IsActive="@IsActive("/examples")">
+                <Icon>💡</Icon>
+                <ChildContent>Examples</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/best-practices" IsActive="@IsActive("/best-practices")">
+                <Icon>✨</Icon>
+                <ChildContent>Best Practices</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/faq" IsActive="@IsActive("/faq")">
+                <Icon>❓</Icon>
+                <ChildContent>FAQ</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/api" IsActive="@IsActive("/api")">
+                <Icon>📚</Icon>
+                <ChildContent>API Reference</ChildContent>
+            </TailMenuItem>
+            <TailMenuItem Href="/scope" IsActive="@IsActive("/scope")">
+                <Icon>📊</Icon>
+                <ChildContent>Scope & Status</ChildContent>
+            </TailMenuItem>
+        </TailMenu>
+    </TailAccordionItem>
+</TailMenu>
+
 
 @code {
     private string? _currentPath;
-    
+
     private class ComponentPackageGroup
     {
         public string Name { get; set; } = string.Empty;
@@ -125,7 +123,7 @@
     {
         _currentPath = Navigation.Uri;
         Navigation.LocationChanged += OnLocationChanged;
-        
+
         componentPackageGroups = new List<ComponentPackageGroup>
         {
             new ComponentPackageGroup
