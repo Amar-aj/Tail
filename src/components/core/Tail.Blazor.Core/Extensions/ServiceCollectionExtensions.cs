@@ -13,6 +13,8 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddTailBlazorTheme(this IServiceCollection services)
     {
+        // Register ThemeEngine as Singleton
+        services.AddSingleton<ThemeEngine>();
         services.AddScoped<ThemeService>();
         return services;
     }

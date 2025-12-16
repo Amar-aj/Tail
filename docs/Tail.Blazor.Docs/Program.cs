@@ -8,6 +8,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddTailBlazor();
 
+// Register ThemeEngine as Singleton (required for ThemeProvider)
+builder.Services.AddSingleton<ThemeEngine>();
+
 // Add Theme Service with localStorage support
 builder.Services.AddScoped<ThemeService>();
 
