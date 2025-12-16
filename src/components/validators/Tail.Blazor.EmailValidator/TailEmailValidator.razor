@@ -1,0 +1,26 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.EmailValidator
+
+@if (!IsValid)
+{
+    <div class="text-sm text-red-600 mt-1" style="color: var(--color-danger);">
+        @(ErrorMessage ?? "Please enter a valid email address")
+    </div>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private bool IsValid
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Value)) return true;
+            return System.Text.RegularExpressions.Regex.IsMatch(Value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+        }
+    }
+}
+

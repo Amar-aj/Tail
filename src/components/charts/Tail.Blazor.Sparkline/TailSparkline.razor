@@ -1,0 +1,60 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Sparkline
+
+<div class="@GetSparklineClasses()" style="@GetSparklineStyles()">
+    <svg width="@Width" height="@Height" class="overflow-visible">
+        <polyline
+            points="@GetPoints()"
+            fill="none"
+            stroke="var(--color-primary)"
+            stroke-width="2" />
+    </svg>
+</div>
+
+@code {
+    [Parameter] public List<double> Data { get; set; } = new();
+    [Parameter] public int Width { get; set; } = 100;
+    [Parameter] public int Height { get; set; } = 30;
+    [Parameter] public string? Style { get; set; }
+
+    private double MaxValue => Data.Any() ? Data.Max() : 100;
+    private double MinValue => Data.Any() ? Data.Min() : 0;
+    private double Range => MaxValue - MinValue;
+
+    private string GetSparklineClasses()
+    {
+        var classes = new List<string> { "inline-block" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSparklineStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetPoints()
+    {
+        if (!Data.Any()) return "";
+        var points = new List<string>();
+        var stepX = Width / (double)Math.Max(1, Data.Count - 1);
+        for (int i = 0; i < Data.Count; i++)
+        {
+            var x = i * stepX;
+            var normalizedValue = Range > 0 ? (Data[i] - MinValue) / Range : 0.5;
+            var y = Height - (normalizedValue * Height);
+            points.Add($"{x},{y}");
+        }
+        return string.Join(" ", points);
+    }
+}
+

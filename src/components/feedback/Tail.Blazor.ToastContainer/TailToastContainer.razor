@@ -1,0 +1,101 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ToastContainer
+
+<div class="@GetContainerClasses()" style="@GetContainerStyles()">
+    @foreach (var toast in Toasts)
+    {
+        <TailToast 
+            Message="@toast.Message"
+            Title="@toast.Title"
+            Variant="@toast.Variant"
+            Dismissible="@toast.Dismissible"
+            AutoDismissAfter="@toast.AutoDismissAfter"
+            OnDismiss="() => RemoveToast(toast)" />
+    }
+</div>
+
+@code {
+    private List<ToastItem> Toasts { get; set; } = new();
+
+    [Parameter] public ToastPosition Position { get; set; } = ToastPosition.TopRight;
+    [Parameter] public int MaxToasts { get; set; } = 5;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "fixed", "z-50", "space-y-2" };
+
+        if (Position == ToastPosition.TopLeft || Position == ToastPosition.TopRight || Position == ToastPosition.TopCenter)
+        {
+            classes.Add("top-4");
+        }
+        else
+        {
+            classes.Add("bottom-4");
+        }
+
+        if (Position == ToastPosition.TopLeft || Position == ToastPosition.BottomLeft)
+        {
+            classes.Add("left-4");
+        }
+        else if (Position == ToastPosition.TopRight || Position == ToastPosition.BottomRight)
+        {
+            classes.Add("right-4");
+        }
+        else
+        {
+            classes.Add("left-1/2 transform -translate-x-1/2");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetContainerStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"max-width: 400px");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    public void ShowToast(string message, string? title = null, ToastVariant variant = ToastVariant.Info, int? autoDismissAfter = 5000)
+    {
+        if (Toasts.Count >= MaxToasts)
+        {
+            Toasts.RemoveAt(0);
+        }
+
+        Toasts.Add(new ToastItem
+        {
+            Message = message,
+            Title = title,
+            Variant = variant,
+            AutoDismissAfter = autoDismissAfter,
+            Dismissible = true
+        });
+
+        StateHasChanged();
+    }
+
+    private void RemoveToast(ToastItem toast)
+    {
+        Toasts.Remove(toast);
+        StateHasChanged();
+    }
+}
+
+@code {
+    public class ToastItem
+    {
+        public string Message { get; set; } = string.Empty;
+        public string? Title { get; set; }
+        public ToastVariant Variant { get; set; } = ToastVariant.Info;
+        public bool Dismissible { get; set; } = true;
+        public int? AutoDismissAfter { get; set; } = 5000;
+    }
+}
+

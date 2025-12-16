@@ -1,0 +1,105 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Checkbox
+
+<label class="@GetLabelClasses()" @attributes="AdditionalAttributes">
+    <input 
+        type="checkbox"
+        class="@GetCheckboxClasses()"
+        checked="@IsChecked"
+        @onchange="HandleChange"
+        disabled="@Disabled"
+        style="@GetCheckboxStyles()" />
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="@GetTextClasses()">@Label</span>
+    }
+    @if (ChildContent != null)
+    {
+        <span class="@GetTextClasses()">@ChildContent</span>
+    }
+</label>
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="text-sm text-red-600 mt-1">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsChecked { get; set; }
+    [Parameter] public EventCallback<bool> IsCheckedChanged { get; set; }
+    [Parameter] public CheckboxSize Size { get; set; } = CheckboxSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetLabelClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "cursor-pointer" };
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetCheckboxClasses()
+    {
+        var classes = new List<string> { "rounded", "border-gray-300", "text-primary", "focus:ring-2", "focus:ring-offset-2", "transition-colors" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            CheckboxSize.Xs => "w-3 h-3",
+            CheckboxSize.Sm => "w-4 h-4",
+            CheckboxSize.Md => "w-5 h-5",
+            CheckboxSize.Lg => "w-6 h-6",
+            CheckboxSize.Xl => "w-7 h-7",
+            _ => "w-5 h-5"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetTextClasses()
+    {
+        return Size switch
+        {
+            CheckboxSize.Xs => "ml-2 text-xs",
+            CheckboxSize.Sm => "ml-2 text-sm",
+            CheckboxSize.Md => "ml-2 text-base",
+            CheckboxSize.Lg => "ml-2 text-lg",
+            CheckboxSize.Xl => "ml-2 text-xl",
+            _ => "ml-2 text-base"
+        };
+    }
+
+    private string GetCheckboxStyles()
+    {
+        var styles = new List<string>();
+
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"accent-color: var(--color-primary)");
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        IsChecked = (bool)(e.Value ?? false);
+        await IsCheckedChanged.InvokeAsync(IsChecked);
+    }
+}
+

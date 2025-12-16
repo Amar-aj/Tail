@@ -1,0 +1,117 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.SplitButton
+
+<div class="inline-flex rounded-lg overflow-hidden" @attributes="AdditionalAttributes">
+    <button 
+        type="@Type"
+        class="@GetPrimaryButtonClasses()"
+        disabled="@(Disabled || IsLoading)"
+        @onclick="HandlePrimaryClick"
+        style="@GetButtonStyles()">
+        @if (IsLoading)
+        {
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        }
+        @PrimaryContent
+    </button>
+    <button 
+        type="button"
+        class="@GetDropdownButtonClasses()"
+        disabled="@(Disabled || IsLoading)"
+        @onclick="ToggleDropdown"
+        style="@GetButtonStyles()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+    </button>
+    @if (ShowDropdown && DropdownContent != null)
+    {
+        <div class="absolute mt-1 w-48 rounded-md shadow-lg z-50" style="background-color: var(--color-surface); border: 1px solid var(--color-border);">
+            @DropdownContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? PrimaryContent { get; set; }
+    [Parameter] public RenderFragment? DropdownContent { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Md;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public EventCallback<MouseEventArgs> OnPrimaryClick { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private bool ShowDropdown { get; set; }
+
+    private string GetPrimaryButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2", "rounded-l-lg", "border-r", "border-opacity-20" };
+
+        classes.Add(Size switch
+        {
+            ButtonSize.Xs => "px-2 py-1 text-xs",
+            ButtonSize.Sm => "px-3 py-1.5 text-sm",
+            ButtonSize.Md => "px-4 py-2 text-base",
+            ButtonSize.Lg => "px-5 py-2.5 text-lg",
+            ButtonSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetDropdownButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2", "rounded-r-lg", "px-2" };
+
+        classes.Add(Size switch
+        {
+            ButtonSize.Xs => "py-1",
+            ButtonSize.Sm => "py-1.5",
+            ButtonSize.Md => "py-2",
+            ButtonSize.Lg => "py-2.5",
+            ButtonSize.Xl => "py-3",
+            _ => "py-2"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandlePrimaryClick(MouseEventArgs e)
+    {
+        if (!Disabled && !IsLoading && OnPrimaryClick.HasDelegate)
+        {
+            await OnPrimaryClick.InvokeAsync(e);
+        }
+    }
+
+    private void ToggleDropdown()
+    {
+        if (!Disabled && !IsLoading)
+        {
+            ShowDropdown = !ShowDropdown;
+        }
+    }
+}
+

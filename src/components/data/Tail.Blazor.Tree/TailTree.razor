@@ -1,0 +1,46 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Tree
+
+<div class="@GetTreeClasses()" style="@GetTreeStyles()">
+    @foreach (var node in Nodes)
+    {
+        <TreeNode Node="@node" Level="0" />
+    }
+</div>
+
+@code {
+    [Parameter] public List<TreeNodeItem> Nodes { get; set; } = new();
+    [Parameter] public string? Style { get; set; }
+
+    private string GetTreeClasses()
+    {
+        var classes = new List<string> { "space-y-1" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetTreeStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+
+@code {
+    public class TreeNodeItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Label { get; set; } = string.Empty;
+        public List<TreeNodeItem> Children { get; set; } = new();
+        public bool IsExpanded { get; set; }
+    }
+}
+

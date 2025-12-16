@@ -1,0 +1,141 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Select
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1" for="@SelectId">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <select 
+        id="@SelectId"
+        class="@GetSelectClasses()"
+        value="@Value"
+        @onchange="HandleChange"
+        disabled="@Disabled"
+        required="@Required"
+        @attributes="AdditionalAttributes"
+        style="@GetSelectStyles()">
+        @if (!string.IsNullOrEmpty(Placeholder))
+        {
+            <option value="">@Placeholder</option>
+        }
+        @if (Items != null)
+        {
+            @foreach (var item in Items)
+            {
+                <option value="@item.Value" disabled="@item.Disabled">@item.Text</option>
+            }
+        }
+        else
+        {
+            @ChildContent
+        }
+    </select>
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private string SelectId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public SelectSize Size { get; set; } = SelectSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public List<SelectItem>? Items { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSelectClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            SelectSize.Xs => "px-2 py-1 text-xs",
+            SelectSize.Sm => "px-3 py-1.5 text-sm",
+            SelectSize.Md => "px-4 py-2 text-base",
+            SelectSize.Lg => "px-5 py-2.5 text-lg",
+            SelectSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        // Error state
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            classes.Add("border-red-500");
+        }
+        else
+        {
+            classes.Add("border-gray-300");
+        }
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSelectStyles()
+    {
+        var styles = new List<string>();
+
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            styles.Add("border-color: #ef4444");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
+

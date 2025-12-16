@@ -1,0 +1,53 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Confetti
+
+@if (IsActive)
+{
+    <div class="fixed inset-0 pointer-events-none z-50" style="overflow: hidden;">
+        @for (int i = 0; i < ParticleCount; i++)
+        {
+            <div 
+                class="absolute animate-bounce"
+                style="@GetParticleStyle(i)">
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsActive { get; set; }
+    [Parameter] public int ParticleCount { get; set; } = 50;
+    [Parameter] public ConfettiShape Shape { get; set; } = ConfettiShape.Mixed;
+    [Parameter] public int Duration { get; set; } = 3000;
+    [Parameter] public string? Style { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (IsActive && Duration > 0)
+        {
+            Task.Delay(Duration).ContinueWith(_ => IsActive = false);
+        }
+    }
+
+    private string GetParticleStyle(int index)
+    {
+        var random = new Random(index);
+        var colors = new[] { "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899" };
+        var color = colors[random.Next(colors.Length)];
+        var left = random.Next(0, 100);
+        var delay = random.Next(0, 500);
+        var size = random.Next(8, 16);
+
+        var shapeStyle = Shape switch
+        {
+            ConfettiShape.Circle => "border-radius: 50%;",
+            ConfettiShape.Rectangle => "",
+            ConfettiShape.Star => "clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);",
+            _ => random.Next(0, 2) == 0 ? "border-radius: 50%;" : ""
+        };
+
+        return $"left: {left}%; top: -10px; width: {size}px; height: {size}px; background-color: {color}; animation-delay: {delay}ms; {shapeStyle}";
+    }
+}
+

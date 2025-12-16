@@ -1,0 +1,105 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.MegaMenu
+
+<div class="relative" @onmouseenter="ShowMenu" @onmouseleave="HideMenu">
+    <button
+        type="button"
+        class="@GetTriggerClasses()"
+        style="@GetTriggerStyles()">
+        @Trigger
+    </button>
+    @if (IsVisible)
+    {
+        <div class="@GetMenuClasses()" style="@GetMenuStyles()">
+            <div class="grid grid-cols-@Columns gap-4 p-4">
+                @foreach (var section in Sections)
+                {
+                    <div>
+                        @if (!string.IsNullOrEmpty(section.Title))
+                        {
+                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">@section.Title</h3>
+                        }
+                        <ul class="space-y-1">
+                            @foreach (var item in section.Items)
+                            {
+                                <li>
+                                    <a
+                                        href="@item.Href"
+                                        class="block px-3 py-2 rounded hover:bg-gray-100 transition-colors"
+                                        style="color: var(--color-text-primary);">
+                                        @item.Label
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool IsVisible { get; set; }
+
+    [Parameter] public RenderFragment? Trigger { get; set; }
+    [Parameter] public List<MegaMenuSection> Sections { get; set; } = new();
+    [Parameter] public int Columns { get; set; } = 3;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetTriggerClasses()
+    {
+        return "px-4 py-2 hover:bg-gray-100 rounded transition-colors";
+    }
+
+    private string GetTriggerStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetMenuClasses()
+    {
+        var classes = new List<string> { "absolute", "top-full", "left-0", "z-50", "bg-white", "rounded-lg", "shadow-xl", "border", "mt-2" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetMenuStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void ShowMenu()
+    {
+        IsVisible = true;
+    }
+
+    private void HideMenu()
+    {
+        IsVisible = false;
+    }
+}
+
+@code {
+    public class MegaMenuSection
+    {
+        public string? Title { get; set; }
+        public List<MegaMenuItem> Items { get; set; } = new();
+    }
+
+    public class MegaMenuItem
+    {
+        public string Label { get; set; } = string.Empty;
+        public string? Href { get; set; }
+    }
+}
+

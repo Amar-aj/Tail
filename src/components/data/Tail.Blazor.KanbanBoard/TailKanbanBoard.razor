@@ -1,0 +1,85 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.KanbanBoard
+
+<div class="@GetBoardClasses()" style="@GetBoardStyles()">
+    @foreach (var column in Columns)
+    {
+        <div class="@GetColumnClasses()" style="@GetColumnStyles()">
+            <h3 class="font-semibold mb-4" style="color: var(--color-text-primary, black);">@column.Title</h3>
+            <div class="space-y-2">
+                @foreach (var card in column.Cards)
+                {
+                    <div class="@GetCardClasses()" style="@GetCardStyles()">
+                        @CardTemplate(card)
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<KanbanColumn> Columns { get; set; } = new();
+    [Parameter] public RenderFragment<KanbanCard> CardTemplate { get; set; } = default!;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetBoardClasses()
+    {
+        var classes = new List<string> { "flex", "space-x-4", "overflow-x-auto", "p-4" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetBoardStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetColumnClasses()
+    {
+        return "flex-shrink-0 w-64 bg-gray-50 rounded-lg p-4";
+    }
+
+    private string GetColumnStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface-secondary, #f9fafb)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetCardClasses()
+    {
+        return "bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow";
+    }
+
+    private string GetCardStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        return string.Join("; ", styles);
+    }
+}
+
+@code {
+    public class KanbanColumn
+    {
+        public string Title { get; set; } = string.Empty;
+        public List<KanbanCard> Cards { get; set; } = new();
+    }
+
+    public class KanbanCard
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Title { get; set; } = string.Empty;
+    }
+}
+

@@ -1,0 +1,109 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Radio
+
+<label class="@GetLabelClasses()" @attributes="AdditionalAttributes">
+    <input 
+        type="radio"
+        name="@GroupName"
+        value="@Value"
+        checked="@IsChecked"
+        @onchange="HandleChange"
+        disabled="@Disabled"
+        class="@GetRadioClasses()"
+        style="@GetRadioStyles()" />
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="@GetTextClasses()">@Label</span>
+    }
+    @if (ChildContent != null)
+    {
+        <span class="@GetTextClasses()">@ChildContent</span>
+    }
+</label>
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="text-sm text-red-600 mt-1">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string? GroupName { get; set; }
+    [Parameter] public bool IsChecked { get; set; }
+    [Parameter] public EventCallback<bool> IsCheckedChanged { get; set; }
+    [Parameter] public RadioSize Size { get; set; } = RadioSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetLabelClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "cursor-pointer" };
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetRadioClasses()
+    {
+        var classes = new List<string> { "rounded-full", "border-gray-300", "text-primary", "focus:ring-2", "focus:ring-offset-2", "transition-colors" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            RadioSize.Xs => "w-3 h-3",
+            RadioSize.Sm => "w-4 h-4",
+            RadioSize.Md => "w-5 h-5",
+            RadioSize.Lg => "w-6 h-6",
+            RadioSize.Xl => "w-7 h-7",
+            _ => "w-5 h-5"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetTextClasses()
+    {
+        return Size switch
+        {
+            RadioSize.Xs => "ml-2 text-xs",
+            RadioSize.Sm => "ml-2 text-sm",
+            RadioSize.Md => "ml-2 text-base",
+            RadioSize.Lg => "ml-2 text-lg",
+            RadioSize.Xl => "ml-2 text-xl",
+            _ => "ml-2 text-base"
+        };
+    }
+
+    private string GetRadioStyles()
+    {
+        var styles = new List<string>();
+
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"accent-color: var(--color-primary)");
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        IsChecked = (bool)(e.Value ?? false);
+        await IsCheckedChanged.InvokeAsync(IsChecked);
+    }
+}
+

@@ -1,0 +1,85 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ImageZoom
+
+<div class="@GetContainerClasses()" @onmouseenter="ShowZoom" @onmouseleave="HideZoom" @onmousemove="HandleMouseMove">
+    <img
+        src="@ImageSrc"
+        alt="@Alt"
+        class="@GetImageClasses()"
+        style="@GetImageStyles()" />
+    @if (IsZoomed)
+    {
+        <div class="@GetZoomClasses()" style="@GetZoomStyles()">
+            <img
+                src="@ImageSrc"
+                alt="@Alt"
+                class="w-full h-full object-cover"
+                style="transform: scale(@ZoomLevel); transform-origin: @(MouseX)% @(MouseY)%;" />
+        </div>
+    }
+</div>
+
+@code {
+    private bool IsZoomed { get; set; }
+    private double MouseX { get; set; }
+    private double MouseY { get; set; }
+
+    [Parameter] public string ImageSrc { get; set; } = string.Empty;
+    [Parameter] public string? Alt { get; set; }
+    [Parameter] public double ZoomLevel { get; set; } = 2.0;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "relative", "inline-block" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetImageClasses()
+    {
+        return "w-full h-auto";
+    }
+
+    private string GetImageStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetZoomClasses()
+    {
+        return "absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none";
+    }
+
+    private string GetZoomStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        return string.Join("; ", styles);
+    }
+
+    private void ShowZoom()
+    {
+        IsZoomed = true;
+    }
+
+    private void HideZoom()
+    {
+        IsZoomed = false;
+    }
+
+    private void HandleMouseMove(MouseEventArgs e)
+    {
+        // Mouse position tracking would require element reference in full implementation
+    }
+}
+

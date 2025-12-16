@@ -1,0 +1,47 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.CompareValidator
+
+@if (!IsValid)
+{
+    <div class="text-sm text-red-600 mt-1" style="color: var(--color-danger);">
+        @(ErrorMessage ?? GetDefaultMessage())
+    </div>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string? CompareTo { get; set; }
+    [Parameter] public CompareOperator Operator { get; set; } = CompareOperator.Equal;
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private bool IsValid
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Value) || string.IsNullOrWhiteSpace(CompareTo)) return true;
+            return Operator switch
+            {
+                CompareOperator.Equal => Value == CompareTo,
+                CompareOperator.NotEqual => Value != CompareTo,
+                CompareOperator.GreaterThan => string.Compare(Value, CompareTo) > 0,
+                CompareOperator.LessThan => string.Compare(Value, CompareTo) < 0,
+                _ => true
+            };
+        }
+    }
+
+    private string GetDefaultMessage()
+    {
+        return Operator switch
+        {
+            CompareOperator.Equal => "Values must match",
+            CompareOperator.NotEqual => "Values must not match",
+            CompareOperator.GreaterThan => "Value must be greater",
+            CompareOperator.LessThan => "Value must be less",
+            _ => "Invalid comparison"
+        };
+    }
+}
+

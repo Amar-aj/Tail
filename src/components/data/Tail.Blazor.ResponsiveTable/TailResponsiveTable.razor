@@ -1,0 +1,61 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ResponsiveTable
+
+<div class="@GetTableClasses()" style="@GetTableStyles()">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50" style="background-color: var(--color-surface-secondary, #f9fafb);">
+                <tr>
+                    @foreach (var column in Columns)
+                    {
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary, #6b7280);">
+                            @column
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200" style="background-color: var(--color-surface, white);">
+                @foreach (var row in Rows)
+                {
+                    <tr class="hover:bg-gray-50">
+                        @foreach (var cell in row)
+                        {
+                            <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: var(--color-text-primary, black);">
+                                @cell
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<string> Columns { get; set; } = new();
+    [Parameter] public List<List<string>> Rows { get; set; } = new();
+    [Parameter] public string? Style { get; set; }
+
+    private string GetTableClasses()
+    {
+        var classes = new List<string> { "rounded-lg", "border", "border-gray-200" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetTableStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

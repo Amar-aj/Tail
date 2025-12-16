@@ -1,0 +1,59 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Card
+
+<div class="@GetCardClasses()" style="@GetCardStyles()">
+    @if (Header != null)
+    {
+        <div class="p-4 border-b" style="border-color: var(--color-border, #e5e7eb);">
+            @Header
+        </div>
+    }
+    <div class="p-4">
+        @ChildContent
+    </div>
+    @if (Footer != null)
+    {
+        <div class="p-4 border-t" style="border-color: var(--color-border, #e5e7eb);">
+            @Footer
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Header { get; set; }
+    [Parameter] public RenderFragment? Footer { get; set; }
+    [Parameter] public bool Hoverable { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetCardClasses()
+    {
+        var classes = new List<string> { "bg-white", "rounded-lg", "border", "shadow-md", "overflow-hidden" };
+
+        if (Hoverable)
+        {
+            classes.Add("hover:shadow-lg transition-shadow");
+        }
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetCardStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

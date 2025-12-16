@@ -1,0 +1,102 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ToggleButton
+
+<button 
+    type="@Type"
+    class="@GetButtonClasses()"
+    disabled="@Disabled"
+    @onclick="HandleToggle"
+    @attributes="AdditionalAttributes"
+    style="@GetButtonStyles()"
+    aria-pressed="@IsToggled.ToString().ToLower()">
+    @if (IsToggled)
+    {
+        @ToggledContent ?? ChildContent
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? ToggledContent { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Md;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool IsToggled { get; set; }
+    [Parameter] public EventCallback<bool> IsToggledChanged { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public string? Style { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            ButtonSize.Xs => "px-2 py-1 text-xs",
+            ButtonSize.Sm => "px-3 py-1.5 text-sm",
+            ButtonSize.Md => "px-4 py-2 text-base",
+            ButtonSize.Lg => "px-5 py-2.5 text-lg",
+            ButtonSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        // Toggled state
+        if (IsToggled)
+        {
+            classes.Add("ring-2 ring-offset-2");
+        }
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+
+        // Use CSS variables for theming
+        if (IsToggled)
+        {
+            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"ring-color: var(--color-primary)");
+        }
+        else if (Variant == ButtonVariant.Outline)
+        {
+            styles.Add($"border-color: var(--color-primary)");
+            styles.Add($"color: var(--color-primary)");
+        }
+        else if (Variant == ButtonVariant.Soft)
+        {
+            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.1)");
+            styles.Add($"color: var(--color-primary)");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleToggle(MouseEventArgs e)
+    {
+        if (!Disabled)
+        {
+            IsToggled = !IsToggled;
+            await IsToggledChanged.InvokeAsync(IsToggled);
+        }
+    }
+}
+

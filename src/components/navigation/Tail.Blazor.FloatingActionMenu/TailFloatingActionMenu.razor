@@ -1,0 +1,118 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.FloatingActionMenu
+
+<div class="@GetContainerClasses()">
+    @if (IsExpanded)
+    {
+        <div class="absolute bottom-20 right-0 flex flex-col space-y-2">
+            @foreach (var item in Items)
+            {
+                <button
+                    type="button"
+                    class="@GetItemClasses()"
+                    @onclick="() => HandleItemClick(item)"
+                    style="@GetItemStyles()">
+                    @if (item.Icon != null)
+                    {
+                        <span class="mr-2">@item.Icon</span>
+                    }
+                    <span>@item.Label</span>
+                </button>
+            }
+        </div>
+    }
+    <button
+        type="button"
+        class="@GetFABClasses()"
+        @onclick="ToggleMenu"
+        style="@GetFABStyles()">
+        <svg class="w-6 h-6 transform transition-transform @(IsExpanded ? "rotate-45" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    </button>
+</div>
+
+@code {
+    private bool IsExpanded { get; set; }
+
+    [Parameter] public List<FloatingActionMenuItem> Items { get; set; } = new();
+    [Parameter] public FloatingActionMenuPosition Position { get; set; } = FloatingActionMenuPosition.BottomRight;
+    [Parameter] public EventCallback<FloatingActionMenuItem> OnItemClick { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "fixed", "z-50" };
+
+        classes.Add(Position switch
+        {
+            FloatingActionMenuPosition.BottomRight => "bottom-4 right-4",
+            FloatingActionMenuPosition.BottomLeft => "bottom-4 left-4",
+            FloatingActionMenuPosition.TopRight => "top-4 right-4",
+            FloatingActionMenuPosition.TopLeft => "top-4 left-4",
+            _ => "bottom-4 right-4"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetFABClasses()
+    {
+        return "w-14 h-14 rounded-full shadow-lg flex items-center justify-center text-white hover:shadow-xl transition-all";
+    }
+
+    private string GetFABStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetItemClasses()
+    {
+        return "px-4 py-2 bg-white rounded-lg shadow-md flex items-center text-left hover:shadow-lg transition-all";
+    }
+
+    private string GetItemStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private void ToggleMenu()
+    {
+        IsExpanded = !IsExpanded;
+    }
+
+    private async Task HandleItemClick(FloatingActionMenuItem item)
+    {
+        IsExpanded = false;
+        await OnItemClick.InvokeAsync(item);
+    }
+}
+
+@code {
+    public class FloatingActionMenuItem
+    {
+        public string Label { get; set; } = string.Empty;
+        public RenderFragment? Icon { get; set; }
+        public EventCallback OnClick { get; set; }
+    }
+
+    public enum FloatingActionMenuPosition
+    {
+        BottomRight,
+        BottomLeft,
+        TopRight,
+        TopLeft
+    }
+}
+

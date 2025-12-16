@@ -1,0 +1,130 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Tour
+
+@if (IsActive && CurrentStep != null)
+{
+    <div class="fixed inset-0 z-50 pointer-events-none">
+        <div class="absolute inset-0 bg-black opacity-50" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+        <div class="@GetTooltipClasses()" style="@GetTooltipStyles()">
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2" style="color: var(--color-text-primary);">@CurrentStep.Title</h3>
+                @if (!string.IsNullOrEmpty(CurrentStep.Content))
+                {
+                    <p style="color: var(--color-text-secondary);">@CurrentStep.Content</p>
+                }
+            </div>
+            <div class="flex justify-between items-center">
+                <div class="text-sm" style="color: var(--color-text-secondary);">
+                    Step @(CurrentStepIndex + 1) of @Steps.Count
+                </div>
+                <div class="flex gap-2">
+                    @if (CurrentStepIndex > 0)
+                    {
+                        <button 
+                            type="button"
+                            class="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-50"
+                            @onclick="PreviousStep"
+                            style="border-color: var(--color-border);">
+                            Previous
+                        </button>
+                    }
+                    @if (CurrentStepIndex < Steps.Count - 1)
+                    {
+                        <button 
+                            type="button"
+                            class="px-3 py-1 text-sm rounded text-white hover:opacity-90"
+                            @onclick="NextStep"
+                            style="background-color: var(--color-primary);">
+                            Next
+                        </button>
+                    }
+                    else
+                    {
+                        <button 
+                            type="button"
+                            class="px-3 py-1 text-sm rounded text-white hover:opacity-90"
+                            @onclick="FinishTour"
+                            style="background-color: var(--color-primary);">
+                            Finish
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public List<TourStep> Steps { get; set; } = new();
+    [Parameter] public bool IsActive { get; set; }
+    [Parameter] public EventCallback OnTourComplete { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private int CurrentStepIndex { get; set; }
+    private TourStep? CurrentStep => Steps.Count > 0 && CurrentStepIndex < Steps.Count ? Steps[CurrentStepIndex] : null;
+
+    private string GetTooltipClasses()
+    {
+        var classes = new List<string> { "absolute", "bg-white", "rounded-lg", "shadow-xl", "border", "p-4", "max-w-sm", "pointer-events-auto" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetTooltipStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        styles.Add($"top: 50%");
+        styles.Add($"left: 50%");
+        styles.Add($"transform: translate(-50%, -50%)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void NextStep()
+    {
+        if (CurrentStepIndex < Steps.Count - 1)
+        {
+            CurrentStepIndex++;
+        }
+    }
+
+    private void PreviousStep()
+    {
+        if (CurrentStepIndex > 0)
+        {
+            CurrentStepIndex--;
+        }
+    }
+
+    private async Task FinishTour()
+    {
+        IsActive = false;
+        await OnTourComplete.InvokeAsync();
+    }
+}
+
+@code {
+    public class TourStep
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Title { get; set; } = string.Empty;
+        public string? Content { get; set; }
+        public string? TargetSelector { get; set; }
+        public TourTooltipPlacement Placement { get; set; } = TourTooltipPlacement.Auto;
+    }
+
+    public enum TourTooltipPlacement
+    {
+        Auto,
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+}
+

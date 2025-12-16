@@ -1,0 +1,75 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Spinner
+
+<div class="@GetSpinnerClasses()" style="@GetSpinnerStyles()">
+    <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+</div>
+
+@code {
+    [Parameter] public SpinnerSize Size { get; set; } = SpinnerSize.Md;
+    [Parameter] public SpinnerColor Color { get; set; } = SpinnerColor.Primary;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetSpinnerClasses()
+    {
+        var classes = new List<string> { "inline-block" };
+
+        classes.Add(Size switch
+        {
+            SpinnerSize.Sm => "w-4 h-4",
+            SpinnerSize.Md => "w-6 h-6",
+            SpinnerSize.Lg => "w-8 h-8",
+            SpinnerSize.Xl => "w-12 h-12",
+            _ => "w-6 h-6"
+        });
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSpinnerStyles()
+    {
+        var styles = new List<string>();
+
+        if (Color == SpinnerColor.Primary)
+        {
+            styles.Add($"color: var(--color-primary)");
+        }
+        else if (Color == SpinnerColor.Success)
+        {
+            styles.Add($"color: var(--color-success)");
+        }
+        else if (Color == SpinnerColor.Warning)
+        {
+            styles.Add($"color: var(--color-warning)");
+        }
+        else if (Color == SpinnerColor.Danger)
+        {
+            styles.Add($"color: var(--color-danger)");
+        }
+        else if (Color == SpinnerColor.White)
+        {
+            styles.Add("color: white");
+        }
+        else
+        {
+            styles.Add("color: #6b7280");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+

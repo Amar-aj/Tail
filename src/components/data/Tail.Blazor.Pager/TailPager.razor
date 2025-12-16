@@ -1,0 +1,79 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Pager
+
+<div class="@GetPagerClasses()">
+    <span class="text-sm" style="color: var(--color-text-secondary, #6b7280);">
+        Showing @((CurrentPage - 1) * PageSize + 1) to @(Math.Min(CurrentPage * PageSize, TotalItems)) of @TotalItems
+    </span>
+    <div class="flex items-center space-x-2">
+        <button
+            type="button"
+            class="@GetButtonClasses()"
+            disabled="@(CurrentPage == 1)"
+            @onclick="PreviousPage"
+            style="@GetButtonStyles()">
+            Previous
+        </button>
+        <span class="px-4 py-2" style="color: var(--color-text-primary, black);">@CurrentPage / @TotalPages</span>
+        <button
+            type="button"
+            class="@GetButtonClasses()"
+            disabled="@(CurrentPage == TotalPages)"
+            @onclick="NextPage"
+            style="@GetButtonStyles()">
+            Next
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public int TotalPages { get; set; } = 1;
+    [Parameter] public int TotalItems { get; set; }
+    [Parameter] public int PageSize { get; set; } = 10;
+    [Parameter] public EventCallback<int> CurrentPageChanged { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetPagerClasses()
+    {
+        var classes = new List<string> { "flex", "items-center", "justify-between" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonClasses()
+    {
+        return "px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed";
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private async Task PreviousPage()
+    {
+        if (CurrentPage > 1)
+        {
+            CurrentPage--;
+            await CurrentPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task NextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            CurrentPage++;
+            await CurrentPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+}
+

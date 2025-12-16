@@ -1,0 +1,149 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.DatePicker
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1" for="@DatePickerId">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <div class="relative">
+        <input 
+            id="@DatePickerId"
+            type="date"
+            class="@GetInputClasses()"
+            value="@GetDateValue()"
+            @onchange="HandleChange"
+            min="@GetMinDate()"
+            max="@GetMaxDate()"
+            disabled="@Disabled"
+            required="@Required"
+            @attributes="AdditionalAttributes"
+            style="@GetInputStyles()" />
+        @if (IconStart != null)
+        {
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                @IconStart
+            </div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private string DatePickerId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter] public DateTime? Value { get; set; }
+    [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
+    [Parameter] public DatePickerSize Size { get; set; } = DatePickerSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public DateTime? MinDate { get; set; }
+    [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public RenderFragment? IconStart { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            DatePickerSize.Xs => "px-2 py-1 text-xs",
+            DatePickerSize.Sm => "px-3 py-1.5 text-sm",
+            DatePickerSize.Md => "px-4 py-2 text-base",
+            DatePickerSize.Lg => "px-5 py-2.5 text-lg",
+            DatePickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        if (IconStart != null)
+        {
+            classes.Add("pl-10");
+        }
+
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            classes.Add("border-red-500");
+        }
+        else
+        {
+            classes.Add("border-gray-300");
+        }
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetDateValue()
+    {
+        return Value?.ToString("yyyy-MM-dd") ?? "";
+    }
+
+    private string GetMinDate()
+    {
+        return MinDate?.ToString("yyyy-MM-dd") ?? "";
+    }
+
+    private string GetMaxDate()
+    {
+        return MaxDate?.ToString("yyyy-MM-dd") ?? "";
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            Value = date;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}
+

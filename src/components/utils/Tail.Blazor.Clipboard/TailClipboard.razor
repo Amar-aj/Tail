@@ -1,0 +1,59 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Clipboard
+
+<button
+    type="button"
+    class="@GetButtonClasses()"
+    @onclick="CopyToClipboard"
+    style="@GetButtonStyles()">
+    @if (IsCopied)
+    {
+        <span>Copied!</span>
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    private bool IsCopied { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public EventCallback OnCopied { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "px-4", "py-2", "rounded-lg", "transition-colors" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private async Task CopyToClipboard()
+    {
+        // Clipboard API would require JS interop in full implementation
+        IsCopied = true;
+        await OnCopied.InvokeAsync();
+        await Task.Delay(2000);
+        IsCopied = false;
+    }
+}
+

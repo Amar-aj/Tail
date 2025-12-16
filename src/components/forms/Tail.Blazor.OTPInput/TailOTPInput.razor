@@ -1,0 +1,141 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.OTPInput
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1">
+            @Label
+        </label>
+    }
+    <div class="flex gap-2 justify-center">
+        @for (int i = 0; i < Length; i++)
+        {
+            <input 
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                class="@GetInputClasses()"
+                value="@GetDigit(i)"
+                @oninput="(e) => HandleInput(i, e)"
+                @onkeydown="(e) => HandleKeyDown(i, e)"
+                @onpaste="HandlePaste"
+                disabled="@Disabled"
+                @attributes="AdditionalAttributes"
+                style="@GetInputStyles()" />
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1 text-center">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private string[] Digits { get; set; } = Array.Empty<string>();
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public int Length { get; set; } = 6;
+    [Parameter] public OTPInputSize Size { get; set; } = OTPInputSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Digits = new string[Length];
+        if (!string.IsNullOrEmpty(Value) && Value.Length == Length)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                Digits[i] = Value[i].ToString();
+            }
+        }
+    }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "text-center", "rounded-lg", "border", "border-gray-300", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            OTPInputSize.Xs => "w-8 h-8 text-xs",
+            OTPInputSize.Sm => "w-10 h-10 text-sm",
+            OTPInputSize.Md => "w-12 h-12 text-base",
+            OTPInputSize.Lg => "w-14 h-14 text-lg",
+            OTPInputSize.Xl => "w-16 h-16 text-xl",
+            _ => "w-12 h-12 text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetDigit(int index)
+    {
+        return index < Digits.Length ? Digits[index] : "";
+    }
+
+    private async Task HandleInput(int index, ChangeEventArgs e)
+    {
+        var input = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(input) && char.IsDigit(input[0]))
+        {
+            Digits[index] = input[0].ToString();
+            Value = string.Join("", Digits);
+            await ValueChanged.InvokeAsync(Value);
+
+            // Move to next input
+            if (index < Length - 1)
+            {
+                // Focus next input would require JS interop
+            }
+        }
+    }
+
+    private void HandleKeyDown(int index, KeyboardEventArgs e)
+    {
+        if (e.Key == "Backspace" && string.IsNullOrEmpty(Digits[index]) && index > 0)
+        {
+            // Focus previous input would require JS interop
+        }
+    }
+
+    private async Task HandlePaste(ClipboardEventArgs e)
+    {
+        // Paste handling would require JS interop
+    }
+}
+

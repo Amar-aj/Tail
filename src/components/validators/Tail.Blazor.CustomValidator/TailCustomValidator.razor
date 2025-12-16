@@ -1,0 +1,17 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.CustomValidator
+
+@if (!IsValid)
+{
+    <div class="text-sm text-red-600 mt-1" style="color: var(--color-danger);">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsValid { get; set; } = true;
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string? Style { get; set; }
+}
+

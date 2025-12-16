@@ -1,0 +1,132 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ColorPicker
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1" for="@ColorPickerId">
+            @Label
+        </label>
+    }
+    <div class="flex items-center gap-2">
+        <input 
+            id="@ColorPickerId"
+            type="color"
+            class="@GetColorInputClasses()"
+            value="@GetColorValue()"
+            @onchange="HandleChange"
+            disabled="@Disabled"
+            @attributes="AdditionalAttributes" />
+        <input 
+            type="text"
+            class="@GetTextInputClasses()"
+            value="@Value"
+            @oninput="HandleTextInput"
+            placeholder="#000000"
+            disabled="@Disabled"
+            style="@GetInputStyles()" />
+        @if (ShowPreview)
+        {
+            <div class="w-10 h-10 rounded border border-gray-300" style="background-color: @GetColorValue();"></div>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private string ColorPickerId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public ColorPickerSize Size { get; set; } = ColorPickerSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public bool ShowPreview { get; set; } = true;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetColorInputClasses()
+    {
+        var classes = new List<string> { "w-12", "h-10", "rounded", "border", "border-gray-300", "cursor-pointer" };
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetTextInputClasses()
+    {
+        var classes = new List<string> { "flex-1", "rounded-lg", "border", "border-gray-300", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            ColorPickerSize.Xs => "px-2 py-1 text-xs",
+            ColorPickerSize.Sm => "px-3 py-1.5 text-sm",
+            ColorPickerSize.Md => "px-4 py-2 text-base",
+            ColorPickerSize.Lg => "px-5 py-2.5 text-lg",
+            ColorPickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetColorValue()
+    {
+        return Value ?? "#000000";
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task HandleTextInput(ChangeEventArgs e)
+    {
+        var input = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(input) && System.Text.RegularExpressions.Regex.IsMatch(input, "^#[0-9A-Fa-f]{6}$"))
+        {
+            Value = input;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}
+

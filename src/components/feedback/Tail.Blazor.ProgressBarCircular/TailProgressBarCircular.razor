@@ -1,0 +1,86 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ProgressBarCircular
+
+<div class="@GetWrapperClasses()" style="@GetWrapperStyles()">
+    <svg class="transform -rotate-90" width="@Size" height="@Size">
+        <circle
+            cx="@(Size / 2)"
+            cy="@(Size / 2)"
+            r="@(Size / 2 - StrokeWidth)"
+            fill="none"
+            stroke="var(--color-surface-secondary, #e5e7eb)"
+            stroke-width="@StrokeWidth" />
+        <circle
+            cx="@(Size / 2)"
+            cy="@(Size / 2)"
+            r="@(Size / 2 - StrokeWidth)"
+            fill="none"
+            stroke="@GetStrokeColor()"
+            stroke-width="@StrokeWidth"
+            stroke-dasharray="@GetCircumference()"
+            stroke-dashoffset="@GetOffset()"
+            stroke-linecap="round"
+            class="transition-all duration-300" />
+    </svg>
+    @if (ShowLabel)
+    {
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-sm font-medium" style="color: var(--color-text-primary);">@Value%</span>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Value { get; set; }
+    [Parameter] public int Size { get; set; } = 100;
+    [Parameter] public int StrokeWidth { get; set; } = 8;
+    [Parameter] public ProgressBarCircularVariant Variant { get; set; } = ProgressBarCircularVariant.Primary;
+    [Parameter] public bool ShowLabel { get; set; } = true;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "relative", "inline-flex", "items-center", "justify-center" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetWrapperStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetStrokeColor()
+    {
+        return Variant switch
+        {
+            ProgressBarCircularVariant.Primary => "var(--color-primary)",
+            ProgressBarCircularVariant.Success => "var(--color-success)",
+            ProgressBarCircularVariant.Warning => "var(--color-warning)",
+            ProgressBarCircularVariant.Danger => "var(--color-danger)",
+            _ => "var(--color-info)"
+        };
+    }
+
+    private double GetCircumference()
+    {
+        var radius = Size / 2 - StrokeWidth;
+        return 2 * Math.PI * radius;
+    }
+
+    private double GetOffset()
+    {
+        var circumference = GetCircumference();
+        return circumference - (Value / 100.0 * circumference);
+    }
+}
+

@@ -1,0 +1,146 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.TagInput
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1">
+            @Label
+        </label>
+    }
+    <div 
+        class="@GetInputWrapperClasses()"
+        @onclick="FocusInput">
+        @foreach (var tag in Tags)
+        {
+            <span class="inline-flex items-center px-2 py-1 rounded bg-primary text-white text-sm mr-1 mb-1">
+                @tag
+                <button 
+                    type="button"
+                    class="ml-1 hover:bg-opacity-80 rounded"
+                    @onclick:stopPropagation="true"
+                    @onclick="() => RemoveTag(tag)">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </span>
+        }
+        <input 
+            type="text"
+            class="@GetInputClasses()"
+            @ref="inputRef"
+            value="@InputValue"
+            @oninput="HandleInput"
+            @onkeydown="HandleKeyDown"
+            placeholder="@Placeholder"
+            disabled="@Disabled"
+            @attributes="AdditionalAttributes"
+            style="@GetInputStyles()" />
+    </div>
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference inputRef;
+    private string InputValue { get; set; } = "";
+
+    [Parameter] public List<string> Tags { get; set; } = new();
+    [Parameter] public EventCallback<List<string>> TagsChanged { get; set; }
+    [Parameter] public TagInputSize Size { get; set; } = TagInputSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputWrapperClasses()
+    {
+        var classes = new List<string> { "flex", "flex-wrap", "items-center", "min-h-10", "rounded-lg", "border", "border-gray-300", "p-2", "focus-within:ring-2", "focus-within:ring-offset-2" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "flex-1", "border-0", "outline-none", "bg-transparent" };
+
+        classes.Add(Size switch
+        {
+            TagInputSize.Xs => "text-xs",
+            TagInputSize.Sm => "text-sm",
+            TagInputSize.Md => "text-base",
+            TagInputSize.Lg => "text-lg",
+            TagInputSize.Xl => "text-xl",
+            _ => "text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"color: var(--color-text-primary, black)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        InputValue = e.Value?.ToString() ?? "";
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(InputValue))
+        {
+            if (!Tags.Contains(InputValue))
+            {
+                Tags.Add(InputValue);
+                await TagsChanged.InvokeAsync(Tags);
+            }
+            InputValue = "";
+        }
+        else if (e.Key == "Backspace" && string.IsNullOrEmpty(InputValue) && Tags.Any())
+        {
+            Tags.RemoveAt(Tags.Count - 1);
+            await TagsChanged.InvokeAsync(Tags);
+        }
+    }
+
+    private async Task RemoveTag(string tag)
+    {
+        Tags.Remove(tag);
+        await TagsChanged.InvokeAsync(Tags);
+    }
+
+    private void FocusInput()
+    {
+        // Focus input would require JS interop
+    }
+}
+

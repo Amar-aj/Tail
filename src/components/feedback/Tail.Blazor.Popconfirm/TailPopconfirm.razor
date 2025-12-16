@@ -1,0 +1,112 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Popconfirm
+
+<div class="relative inline-block" @ref="containerRef">
+    <div @onclick="TogglePopconfirm" @onmouseenter="HandleMouseEnter" @onmouseleave="HandleMouseLeave">
+        @ChildContent
+    </div>
+    @if (IsVisible)
+    {
+        <div class="@GetPopconfirmClasses()" style="@GetPopconfirmStyles()">
+            <div class="mb-2">@Title</div>
+            <div class="flex justify-end gap-2">
+                <button 
+                    type="button"
+                    class="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-50"
+                    @onclick="HandleCancel"
+                    style="border-color: var(--color-border);">
+                    @CancelText
+                </button>
+                <button 
+                    type="button"
+                    class="px-3 py-1 text-sm rounded text-white hover:opacity-90"
+                    @onclick="HandleConfirm"
+                    style="background-color: var(--color-primary);">
+                    @ConfirmText
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference containerRef;
+    private bool IsVisible { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Title { get; set; } = "Are you sure?";
+    [Parameter] public string ConfirmText { get; set; } = "Confirm";
+    [Parameter] public string CancelText { get; set; } = "Cancel";
+    [Parameter] public PopconfirmTrigger Trigger { get; set; } = PopconfirmTrigger.Click;
+    [Parameter] public PopconfirmPlacement Placement { get; set; } = PopconfirmPlacement.Top;
+    [Parameter] public EventCallback OnConfirm { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetPopconfirmClasses()
+    {
+        var classes = new List<string> { "absolute", "z-50", "p-3", "rounded-lg", "shadow-lg", "border", "min-w-64", "bg-white" };
+
+        classes.Add(Placement switch
+        {
+            PopconfirmPlacement.Top => "bottom-full left-0 mb-2",
+            PopconfirmPlacement.Bottom => "top-full left-0 mt-2",
+            PopconfirmPlacement.Left => "right-full top-0 mr-2",
+            PopconfirmPlacement.Right => "left-full top-0 ml-2",
+            _ => "bottom-full left-0 mb-2"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetPopconfirmStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void TogglePopconfirm()
+    {
+        if (Trigger == PopconfirmTrigger.Click)
+        {
+            IsVisible = !IsVisible;
+        }
+    }
+
+    private void HandleMouseEnter()
+    {
+        if (Trigger == PopconfirmTrigger.Hover)
+        {
+            IsVisible = true;
+        }
+    }
+
+    private void HandleMouseLeave()
+    {
+        if (Trigger == PopconfirmTrigger.Hover)
+        {
+            IsVisible = false;
+        }
+    }
+
+    private async Task HandleConfirm()
+    {
+        IsVisible = false;
+        await OnConfirm.InvokeAsync();
+    }
+
+    private async Task HandleCancel()
+    {
+        IsVisible = false;
+        await OnCancel.InvokeAsync();
+    }
+}
+

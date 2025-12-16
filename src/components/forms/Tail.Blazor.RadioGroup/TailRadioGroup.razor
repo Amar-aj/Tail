@@ -1,0 +1,80 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.RadioGroup
+
+<div class="@GetWrapperClasses()" @attributes="AdditionalAttributes" style="@GetWrapperStyles()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-2">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <div class="@GetGroupClasses()">
+        @ChildContent
+    </div>
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public RadioGroupOrientation Orientation { get; set; } = RadioGroupOrientation.Vertical;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupClasses()
+    {
+        var classes = new List<string>();
+
+        if (Orientation == RadioGroupOrientation.Horizontal)
+        {
+            classes.Add("flex flex-row gap-4");
+        }
+        else
+        {
+            classes.Add("flex flex-col gap-2");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetWrapperStyles()
+    {
+        var styles = new List<string>();
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+

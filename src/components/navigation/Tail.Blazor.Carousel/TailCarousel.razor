@@ -1,0 +1,112 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Carousel
+
+<div class="@GetCarouselClasses()" style="@GetCarouselStyles()">
+    <div class="relative overflow-hidden rounded-lg">
+        <div class="flex transition-transform duration-300 ease-in-out" style="transform: translateX(-@(CurrentIndex * 100)%);">
+            @foreach (var item in Items)
+            {
+                <div class="min-w-full">
+                    @item
+                </div>
+            }
+        </div>
+        @if (ShowControls && Items.Count > 1)
+        {
+            <button 
+                type="button"
+                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-2 shadow-md"
+                @onclick="Previous"
+                style="background-color: rgba(255, 255, 255, 0.75);">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button 
+                type="button"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-75 hover:bg-opacity-100 rounded-full p-2 shadow-md"
+                @onclick="Next"
+                style="background-color: rgba(255, 255, 255, 0.75);">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        }
+        @if (ShowIndicators && Items.Count > 1)
+        {
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                @for (int i = 0; i < Items.Count; i++)
+                {
+                    <button
+                        type="button"
+                        class="w-2 h-2 rounded-full @(i == CurrentIndex ? "bg-white" : "bg-white bg-opacity-50")"
+                        @onclick="() => GoToIndex(i)"
+                        style="@(i == CurrentIndex ? "background-color: white;" : "background-color: rgba(255, 255, 255, 0.5);")">
+                    </button>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<RenderFragment> Items { get; set; } = new();
+    [Parameter] public int CurrentIndex { get; set; }
+    [Parameter] public bool ShowControls { get; set; } = true;
+    [Parameter] public bool ShowIndicators { get; set; } = true;
+    [Parameter] public bool AutoPlay { get; set; }
+    [Parameter] public int AutoPlayInterval { get; set; } = 3000;
+    [Parameter] public string? Style { get; set; }
+
+    private System.Threading.Timer? autoPlayTimer;
+
+    protected override void OnParametersSet()
+    {
+        if (AutoPlay && Items.Count > 1)
+        {
+            autoPlayTimer = new System.Threading.Timer(_ => Next(), null, AutoPlayInterval, AutoPlayInterval);
+        }
+    }
+
+    private string GetCarouselClasses()
+    {
+        var classes = new List<string> { "relative", "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetCarouselStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void Next()
+    {
+        CurrentIndex = (CurrentIndex + 1) % Items.Count;
+    }
+
+    private void Previous()
+    {
+        CurrentIndex = (CurrentIndex - 1 + Items.Count) % Items.Count;
+    }
+
+    private void GoToIndex(int index)
+    {
+        CurrentIndex = index;
+    }
+
+    public void Dispose()
+    {
+        autoPlayTimer?.Dispose();
+    }
+}
+

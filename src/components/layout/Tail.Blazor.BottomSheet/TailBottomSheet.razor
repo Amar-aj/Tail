@@ -1,0 +1,63 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.BottomSheet
+
+@if (IsVisible)
+{
+    <div class="fixed inset-0 z-50" @onclick="Close">
+        <div class="absolute inset-0 bg-black opacity-50" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+        <div 
+            class="@GetSheetClasses()"
+            @onclick:stopPropagation="true"
+            style="@GetSheetStyles()">
+            <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4" style="background-color: var(--color-border, #d1d5db);"></div>
+            @ChildContent
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public BottomSheetSize Size { get; set; } = BottomSheetSize.Md;
+    [Parameter] public bool CloseOnBackdropClick { get; set; } = true;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetSheetClasses()
+    {
+        var classes = new List<string> { "absolute", "bottom-0", "left-0", "right-0", "bg-white", "rounded-t-lg", "shadow-xl", "p-4", "transform", "transition-transform" };
+
+        classes.Add(Size switch
+        {
+            BottomSheetSize.Sm => "max-h-1/3",
+            BottomSheetSize.Md => "max-h-1/2",
+            BottomSheetSize.Lg => "max-h-3/4",
+            BottomSheetSize.Full => "max-h-full",
+            _ => "max-h-1/2"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSheetStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private async Task Close()
+    {
+        if (CloseOnBackdropClick)
+        {
+            IsVisible = false;
+            await IsVisibleChanged.InvokeAsync(false);
+        }
+    }
+}
+

@@ -1,0 +1,62 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.QRCode
+
+<div class="@GetQRCodeClasses()" style="@GetQRCodeStyles()">
+    <svg width="@Size" height="@Size" viewBox="0 0 25 25">
+        @GetQRCodeSquares()
+    </svg>
+</div>
+
+@code {
+    [Parameter] public string Value { get; set; } = string.Empty;
+    [Parameter] public int Size { get; set; } = 200;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetQRCodeClasses()
+    {
+        var classes = new List<string> { "inline-block" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetQRCodeStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private RenderFragment GetQRCodeSquares()
+    {
+        return builder =>
+        {
+            // Simplified QR code - full implementation would require QR code library
+            // This is a placeholder pattern
+            for (int x = 0; x < 25; x++)
+            {
+                for (int y = 0; y < 25; y++)
+                {
+                    var hash = (x * 17 + y * 23 + Value.GetHashCode()) % 3;
+                    if (hash == 0)
+                    {
+                        builder.OpenElement(0, "rect");
+                        builder.AddAttribute(1, "x", x.ToString());
+                        builder.AddAttribute(2, "y", y.ToString());
+                        builder.AddAttribute(3, "width", "1");
+                        builder.AddAttribute(4, "height", "1");
+                        builder.AddAttribute(5, "fill", "var(--color-text-primary, black)");
+                        builder.CloseElement();
+                    }
+                }
+            }
+        };
+    }
+}
+

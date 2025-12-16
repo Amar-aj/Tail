@@ -1,0 +1,82 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Panel
+
+<div class="@GetPanelClasses()" style="@GetPanelStyles()">
+    @if (!string.IsNullOrEmpty(Title))
+    {
+        <div class="p-4 border-b font-semibold" style="border-color: var(--color-border, #e5e7eb); color: var(--color-text-primary);">
+            @Title
+        </div>
+    }
+    <div class="p-4" style="color: var(--color-text-primary);">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public PanelVariant Variant { get; set; } = PanelVariant.Default;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetPanelClasses()
+    {
+        var classes = new List<string> { "rounded-lg", "border" };
+
+        classes.Add(Variant switch
+        {
+            PanelVariant.Success => "bg-green-50 border-green-200",
+            PanelVariant.Warning => "bg-yellow-50 border-yellow-200",
+            PanelVariant.Danger => "bg-red-50 border-red-200",
+            PanelVariant.Info => "bg-blue-50 border-blue-200",
+            _ => "bg-white border-gray-200"
+        });
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetPanelStyles()
+    {
+        var styles = new List<string>();
+
+        if (Variant == PanelVariant.Success)
+        {
+            styles.Add($"background-color: rgba(var(--color-success-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-success)");
+        }
+        else if (Variant == PanelVariant.Warning)
+        {
+            styles.Add($"background-color: rgba(var(--color-warning-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-warning)");
+        }
+        else if (Variant == PanelVariant.Danger)
+        {
+            styles.Add($"background-color: rgba(var(--color-danger-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-danger)");
+        }
+        else if (Variant == PanelVariant.Info)
+        {
+            styles.Add($"background-color: rgba(var(--color-info-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-info)");
+        }
+        else
+        {
+            styles.Add($"background-color: var(--color-surface, white)");
+            styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+

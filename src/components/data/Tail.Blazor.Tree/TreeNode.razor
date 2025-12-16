@@ -1,0 +1,38 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Tree
+
+<div>
+    <div class="flex items-center py-1 hover:bg-gray-50 rounded px-2" style="padding-left: @(Level * 20 + 8)px;">
+        @if (Node.Children.Any())
+        {
+            <button
+                type="button"
+                class="mr-2"
+                @onclick="Toggle">
+                <svg class="w-4 h-4 transform transition-transform @(Node.IsExpanded ? "rotate-90" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        }
+        <span style="color: var(--color-text-primary, black);">@Node.Label</span>
+    </div>
+    @if (Node.IsExpanded && Node.Children.Any())
+    {
+        @foreach (var child in Node.Children)
+        {
+            <TreeNode Node="@child" Level="@(Level + 1)" />
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public TreeNodeItem Node { get; set; } = default!;
+    [Parameter] public int Level { get; set; }
+
+    private void Toggle()
+    {
+        Node.IsExpanded = !Node.IsExpanded;
+    }
+}
+

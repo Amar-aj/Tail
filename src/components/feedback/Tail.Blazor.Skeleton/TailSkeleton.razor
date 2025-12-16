@@ -1,0 +1,81 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Skeleton
+
+<div class="@GetSkeletonClasses()" style="@GetSkeletonStyles()">
+    @if (Type == SkeletonType.Custom)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public SkeletonType Type { get; set; } = SkeletonType.Text;
+    [Parameter] public int? Width { get; set; }
+    [Parameter] public int? Height { get; set; }
+    [Parameter] public bool Animated { get; set; } = true;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetSkeletonClasses()
+    {
+        var classes = new List<string> { "bg-gray-200", "rounded" };
+
+        if (Animated)
+        {
+            classes.Add("animate-pulse");
+        }
+
+        if (Type == SkeletonType.Text)
+        {
+            classes.Add("h-4");
+        }
+        else if (Type == SkeletonType.Circle)
+        {
+            classes.Add("rounded-full");
+        }
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSkeletonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface-secondary, #e5e7eb)");
+
+        if (Width.HasValue)
+        {
+            styles.Add($"width: {Width}px");
+        }
+        else if (Type == SkeletonType.Text)
+        {
+            styles.Add("width: 100%");
+        }
+        else if (Type == SkeletonType.Circle)
+        {
+            styles.Add($"width: {Height ?? 40}px");
+        }
+
+        if (Height.HasValue)
+        {
+            styles.Add($"height: {Height}px");
+        }
+        else if (Type == SkeletonType.Circle)
+        {
+            styles.Add($"height: {Width ?? 40}px");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+

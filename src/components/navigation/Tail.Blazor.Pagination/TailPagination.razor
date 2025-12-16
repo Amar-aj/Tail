@@ -1,0 +1,144 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Pagination
+
+<nav class="@GetPaginationClasses()">
+    <button
+        type="button"
+        class="@GetButtonClasses()"
+        disabled="@(CurrentPage == 1)"
+        @onclick="PreviousPage"
+        style="@GetButtonStyles()">
+        Previous
+    </button>
+    @for (int i = 1; i <= TotalPages; i++)
+    {
+        @if (ShouldShowPage(i))
+        {
+            <button
+                type="button"
+                class="@GetPageButtonClasses(i)"
+                @onclick="() => GoToPage(i)"
+                style="@GetPageButtonStyles(i)">
+                @i
+            </button>
+        }
+        else if (ShouldShowEllipsis(i))
+        {
+            <span class="px-4 py-2">...</span>
+        }
+    }
+    <button
+        type="button"
+        class="@GetButtonClasses()"
+        disabled="@(CurrentPage == TotalPages)"
+        @onclick="NextPage"
+        style="@GetButtonStyles()">
+        Next
+    </button>
+</nav>
+
+@code {
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public int TotalPages { get; set; } = 1;
+    [Parameter] public EventCallback<int> CurrentPageChanged { get; set; }
+    [Parameter] public int VisiblePages { get; set; } = 5;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetPaginationClasses()
+    {
+        var classes = new List<string> { "flex", "items-center", "justify-center", "space-x-2" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonClasses()
+    {
+        return "px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed";
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetPageButtonClasses(int page)
+    {
+        var classes = new List<string> { "px-4", "py-2", "rounded-lg", "border", "transition-colors" };
+
+        if (page == CurrentPage)
+        {
+            classes.Add("bg-primary text-white border-primary");
+        }
+        else
+        {
+            classes.Add("border-gray-300 hover:bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetPageButtonStyles(int page)
+    {
+        var styles = new List<string>();
+
+        if (page == CurrentPage)
+        {
+            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"border-color: var(--color-primary)");
+        }
+        else
+        {
+            styles.Add($"border-color: var(--color-border, #d1d5db)");
+            styles.Add($"color: var(--color-text-primary, black)");
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private bool ShouldShowPage(int page)
+    {
+        if (page == 1 || page == TotalPages) return true;
+        var start = Math.Max(2, CurrentPage - VisiblePages / 2);
+        var end = Math.Min(TotalPages - 1, CurrentPage + VisiblePages / 2);
+        return page >= start && page <= end;
+    }
+
+    private bool ShouldShowEllipsis(int page)
+    {
+        return (page == 2 && CurrentPage > VisiblePages / 2 + 2) ||
+               (page == TotalPages - 1 && CurrentPage < TotalPages - VisiblePages / 2 - 1);
+    }
+
+    private async Task PreviousPage()
+    {
+        if (CurrentPage > 1)
+        {
+            CurrentPage--;
+            await CurrentPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task NextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            CurrentPage++;
+            await CurrentPageChanged.InvokeAsync(CurrentPage);
+        }
+    }
+
+    private async Task GoToPage(int page)
+    {
+        CurrentPage = page;
+        await CurrentPageChanged.InvokeAsync(CurrentPage);
+    }
+}
+

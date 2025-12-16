@@ -1,0 +1,120 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Chart
+
+<div class="@GetChartClasses()" style="@GetChartStyles()">
+    <svg width="@Width" height="@Height" class="overflow-visible">
+        @if (ChartType == ChartType.Line || ChartType == ChartType.Area)
+        {
+            <polyline
+                points="@GetLinePoints()"
+                fill="@(ChartType == ChartType.Area ? GetAreaFill() : "none")"
+                stroke="var(--color-primary)"
+                stroke-width="2" />
+        }
+        else if (ChartType == ChartType.Bar)
+        {
+            @for (int i = 0; i < Data.Count; i++)
+            {
+                var barHeight = (Data[i] / MaxValue) * Height;
+                var barWidth = Width / Data.Count - 4;
+                var x = i * (Width / Data.Count) + 2;
+                <rect
+                    x="@x"
+                    y="@(Height - barHeight)"
+                    width="@barWidth"
+                    height="@barHeight"
+                    fill="var(--color-primary)"
+                    rx="2" />
+            }
+        }
+        else if (ChartType == ChartType.Pie)
+        {
+            @GetPieSlices()
+        }
+    </svg>
+</div>
+
+@code {
+    [Parameter] public List<double> Data { get; set; } = new();
+    [Parameter] public ChartType ChartType { get; set; } = ChartType.Line;
+    [Parameter] public int Width { get; set; } = 400;
+    [Parameter] public int Height { get; set; } = 200;
+    [Parameter] public string? Style { get; set; }
+
+    private double MaxValue => Data.Any() ? Data.Max() : 100;
+
+    private string GetChartClasses()
+    {
+        var classes = new List<string> { "inline-block" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetChartStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetLinePoints()
+    {
+        if (!Data.Any()) return "";
+        var points = new List<string>();
+        var stepX = Width / (double)Math.Max(1, Data.Count - 1);
+        for (int i = 0; i < Data.Count; i++)
+        {
+            var x = i * stepX;
+            var y = Height - (Data[i] / MaxValue) * Height;
+            points.Add($"{x},{y}");
+        }
+        return string.Join(" ", points);
+    }
+
+    private string GetAreaFill()
+    {
+        return "var(--color-primary)";
+    }
+
+    private RenderFragment GetPieSlices()
+    {
+        return builder =>
+        {
+            var total = Data.Sum();
+            var currentAngle = 0.0;
+            var radius = Math.Min(Width, Height) / 2 - 10;
+            var centerX = Width / 2;
+            var centerY = Height / 2;
+
+            for (int i = 0; i < Data.Count; i++)
+            {
+                var sliceAngle = (Data[i] / total) * 360;
+                var startAngle = currentAngle;
+                var endAngle = currentAngle + sliceAngle;
+
+                var x1 = centerX + radius * Math.Cos(startAngle * Math.PI / 180);
+                var y1 = centerY + radius * Math.Sin(startAngle * Math.PI / 180);
+                var x2 = centerX + radius * Math.Cos(endAngle * Math.PI / 180);
+                var y2 = centerY + radius * Math.Sin(endAngle * Math.PI / 180);
+
+                var largeArc = sliceAngle > 180 ? 1 : 0;
+
+                builder.OpenElement(0, "path");
+                builder.AddAttribute(1, "d", $"M {centerX} {centerY} L {x1} {y1} A {radius} {radius} 0 {largeArc} 1 {x2} {y2} Z");
+                builder.AddAttribute(2, "fill", $"var(--color-primary)");
+                builder.AddAttribute(3, "opacity", $"{0.7 + (i * 0.1)}");
+                builder.CloseElement();
+
+                currentAngle = endAngle;
+            }
+        };
+    }
+}
+

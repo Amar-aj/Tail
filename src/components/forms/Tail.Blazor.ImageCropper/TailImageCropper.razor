@@ -1,0 +1,106 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ImageCropper
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1">
+            @Label
+        </label>
+    }
+    <div class="border border-gray-300 rounded-lg p-4" style="border-color: var(--color-border, #d1d5db);">
+        <div class="relative" style="min-height: 200px;">
+            @if (ImageData != null)
+            {
+                <img 
+                    src="@ImageData" 
+                    alt="Crop preview"
+                    class="max-w-full h-auto rounded"
+                    style="max-height: 400px;" />
+            }
+            else
+            {
+                <div class="flex items-center justify-center h-48 border-2 border-dashed border-gray-300 rounded">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p class="mt-2 text-sm text-gray-600">Upload an image to crop</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="mt-4 flex gap-2">
+            <input 
+                type="file"
+                accept="image/*"
+                class="hidden"
+                id="@FileInputId"
+                @ref="fileInput"
+                @onchange="HandleFileChange" />
+            <label for="@FileInputId" class="px-4 py-2 bg-primary text-white rounded-lg cursor-pointer hover:opacity-90" style="background-color: var(--color-primary); color: var(--color-text-on-primary, white);">
+                @if (ImageData == null)
+                {
+                    <span>Select Image</span>
+                }
+                else
+                {
+                    <span>Change Image</span>
+                }
+            </label>
+            @if (ImageData != null)
+            {
+                <button 
+                    type="button"
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                    @onclick="CropImage">
+                    Crop
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string FileInputId { get; set; } = Guid.NewGuid().ToString();
+    private ElementReference fileInput;
+    private string? ImageData { get; set; }
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public ImageCropperSize Size { get; set; } = ImageCropperSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public int AspectRatioWidth { get; set; } = 1;
+    [Parameter] public int AspectRatioHeight { get; set; } = 1;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private async Task HandleFileChange(InputFileChangeEventArgs e)
+    {
+        if (e.File != null)
+        {
+            // Convert file to base64 for preview
+            // Full implementation would require proper image processing
+            ImageData = "data:image/png;base64,..."; // Placeholder
+        }
+    }
+
+    private async Task CropImage()
+    {
+        // Image cropping would require JS interop
+        Value = ImageData;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
+

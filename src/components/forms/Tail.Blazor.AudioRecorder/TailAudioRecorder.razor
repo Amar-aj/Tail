@@ -1,0 +1,162 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.AudioRecorder
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1">
+            @Label
+        </label>
+    }
+    <div class="border border-gray-300 rounded-lg p-4" style="border-color: var(--color-border, #d1d5db);">
+        <div class="flex items-center justify-center gap-4">
+            @if (IsRecording)
+            {
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    <span class="text-sm text-gray-600">Recording... @RecordingTime</span>
+                </div>
+            }
+            else if (AudioData != null)
+            {
+                <audio controls src="@AudioData" class="max-w-md"></audio>
+            }
+            else
+            {
+                <p class="text-sm text-gray-500">No recording yet</p>
+            }
+        </div>
+        <div class="mt-4 flex justify-center gap-2">
+            @if (!IsRecording && AudioData == null)
+            {
+                <button 
+                    type="button"
+                    class="@GetButtonClasses()"
+                    @onclick="StartRecording"
+                    disabled="@Disabled"
+                    style="@GetButtonStyles()">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                    </svg>
+                    Start Recording
+                </button>
+            }
+            else if (IsRecording)
+            {
+                <button 
+                    type="button"
+                    class="@GetButtonClasses()"
+                    @onclick="StopRecording"
+                    disabled="@Disabled"
+                    style="@GetButtonStyles()">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Stop Recording
+                </button>
+            }
+            else
+            {
+                <button 
+                    type="button"
+                    class="@GetButtonClasses()"
+                    @onclick="StartRecording"
+                    disabled="@Disabled"
+                    style="@GetButtonStyles()">
+                    Record Again
+                </button>
+                <button 
+                    type="button"
+                    class="@GetButtonClasses()"
+                    @onclick="ClearRecording"
+                    disabled="@Disabled"
+                    style="@GetButtonStyles()">
+                    Clear
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool IsRecording { get; set; }
+    private string? AudioData { get; set; }
+    private string RecordingTime { get; set; } = "00:00";
+    private System.Threading.Timer? recordingTimer;
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public AudioRecorderSize Size { get; set; } = AudioRecorderSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "gap-2", "px-4", "py-2", "rounded-lg", "font-medium", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            AudioRecorderSize.Xs => "text-xs",
+            AudioRecorderSize.Sm => "text-sm",
+            AudioRecorderSize.Md => "text-base",
+            AudioRecorderSize.Lg => "text-lg",
+            AudioRecorderSize.Xl => "text-xl",
+            _ => "text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void StartRecording()
+    {
+        IsRecording = true;
+        RecordingTime = "00:00";
+        // Audio recording would require JS interop
+    }
+
+    private async Task StopRecording()
+    {
+        IsRecording = false;
+        // Stop recording and get audio data would require JS interop
+        AudioData = "data:audio/wav;base64,..."; // Placeholder
+        Value = AudioData;
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task ClearRecording()
+    {
+        AudioData = null;
+        Value = null;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
+

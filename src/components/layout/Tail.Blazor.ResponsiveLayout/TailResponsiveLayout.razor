@@ -1,0 +1,45 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.ResponsiveLayout
+
+<div class="@GetLayoutClasses()" style="@GetLayoutStyles()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ResponsiveLayoutBreakpoint Breakpoint { get; set; } = ResponsiveLayoutBreakpoint.Md;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetLayoutClasses()
+    {
+        var classes = new List<string> { "w-full" };
+
+        classes.Add(Breakpoint switch
+        {
+            ResponsiveLayoutBreakpoint.Sm => "sm:max-w-sm",
+            ResponsiveLayoutBreakpoint.Md => "md:max-w-md",
+            ResponsiveLayoutBreakpoint.Lg => "lg:max-w-lg",
+            ResponsiveLayoutBreakpoint.Xl => "xl:max-w-xl",
+            _ => "md:max-w-md"
+        });
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetLayoutStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

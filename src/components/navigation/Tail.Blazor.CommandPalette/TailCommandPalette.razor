@@ -1,0 +1,130 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.CommandPalette
+
+@if (IsVisible)
+{
+    <div class="fixed inset-0 z-50 flex items-start justify-center pt-20" @onclick="Close">
+        <div class="@GetPaletteClasses()" @onclick:stopPropagation="true" style="@GetPaletteStyles()">
+            <input
+                type="text"
+                class="w-full px-4 py-3 border-b rounded-t-lg focus:outline-none"
+                placeholder="@Placeholder"
+                @bind="SearchText"
+                @bind:event="oninput"
+                @onkeydown="HandleKeyDown"
+                style="border-color: var(--color-border, #e5e7eb); background-color: var(--color-surface, white); color: var(--color-text-primary, black);" />
+            <div class="max-h-96 overflow-y-auto">
+                @foreach (var command in FilteredCommands)
+                {
+                    <button
+                        type="button"
+                        class="@GetCommandClasses(command)"
+                        @onclick="() => ExecuteCommand(command)"
+                        style="@GetCommandStyles(command)">
+                        <span class="font-medium">@command.Label</span>
+                        @if (!string.IsNullOrEmpty(command.Description))
+                        {
+                            <span class="text-sm opacity-75">@command.Description</span>
+                        }
+                        @if (!string.IsNullOrEmpty(command.Shortcut))
+                        {
+                            <span class="ml-auto text-xs opacity-50">@command.Shortcut</span>
+                        }
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private string SearchText { get; set; } = "";
+    private int SelectedIndex { get; set; }
+
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+    [Parameter] public List<CommandItem> Commands { get; set; } = new();
+    [Parameter] public string Placeholder { get; set; } = "Type a command or search...";
+    [Parameter] public string? Style { get; set; }
+
+    private List<CommandItem> FilteredCommands => Commands
+        .Where(c => string.IsNullOrEmpty(SearchText) || 
+                    c.Label.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                    (c.Description?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false))
+        .ToList();
+
+    private string GetPaletteClasses()
+    {
+        var classes = new List<string> { "w-full", "max-w-2xl", "bg-white", "rounded-lg", "shadow-xl", "border", "overflow-hidden" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetPaletteStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetCommandClasses(CommandItem command)
+    {
+        var classes = new List<string> { "w-full", "text-left", "px-4", "py-3", "flex", "flex-col", "hover:bg-gray-100", "transition-colors" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetCommandStyles(CommandItem command)
+    {
+        var styles = new List<string>();
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            Close();
+        }
+        else if (e.Key == "Enter" && FilteredCommands.Any())
+        {
+            ExecuteCommand(FilteredCommands[SelectedIndex]);
+        }
+        else if (e.Key == "ArrowDown")
+        {
+            SelectedIndex = Math.Min(SelectedIndex + 1, FilteredCommands.Count - 1);
+        }
+        else if (e.Key == "ArrowUp")
+        {
+            SelectedIndex = Math.Max(SelectedIndex - 1, 0);
+        }
+    }
+
+    private async Task ExecuteCommand(CommandItem command)
+    {
+        await command.OnExecute.InvokeAsync();
+        await Close();
+    }
+
+    private async Task Close()
+    {
+        IsVisible = false;
+        await IsVisibleChanged.InvokeAsync(false);
+    }
+}
+
+@code {
+    public class CommandItem
+    {
+        public string Label { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string? Shortcut { get; set; }
+        public EventCallback OnExecute { get; set; }
+    }
+}
+

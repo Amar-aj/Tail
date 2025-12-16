@@ -1,0 +1,88 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.FAB
+
+<button 
+    type="@Type"
+    class="@GetButtonClasses()"
+    disabled="@(Disabled || IsLoading)"
+    @onclick="HandleClick"
+    @attributes="AdditionalAttributes"
+    style="@GetButtonStyles()">
+    @if (IsLoading)
+    {
+        <svg class="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public FABPosition Position { get; set; } = FABPosition.BottomRight;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "fixed", "z-50", "inline-flex", "items-center", "justify-center", "font-medium", "rounded-full", "shadow-lg", "transition-all", "hover:shadow-xl", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        // Position classes
+        classes.Add(Position switch
+        {
+            FABPosition.TopLeft => "top-4 left-4",
+            FABPosition.TopRight => "top-4 right-4",
+            FABPosition.BottomLeft => "bottom-4 left-4",
+            FABPosition.BottomRight => "bottom-4 right-4",
+            _ => "bottom-4 right-4"
+        });
+
+        // Size - FAB is typically large
+        classes.Add("w-14 h-14 text-xl");
+
+        if (Disabled || IsLoading)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+
+        // Use CSS variables for theming
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleClick(MouseEventArgs e)
+    {
+        if (!Disabled && !IsLoading && OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync(e);
+        }
+    }
+}
+

@@ -1,0 +1,48 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.LengthValidator
+
+@if (!IsValid)
+{
+    <div class="text-sm text-red-600 mt-1" style="color: var(--color-danger);">
+        @(ErrorMessage ?? GetDefaultMessage())
+    </div>
+}
+
+@code {
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public int? MinLength { get; set; }
+    [Parameter] public int? MaxLength { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private bool IsValid
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(Value)) return true;
+            var length = Value.Length;
+            if (MinLength.HasValue && length < MinLength.Value) return false;
+            if (MaxLength.HasValue && length > MaxLength.Value) return false;
+            return true;
+        }
+    }
+
+    private string GetDefaultMessage()
+    {
+        if (MinLength.HasValue && MaxLength.HasValue)
+        {
+            return $"Length must be between {MinLength} and {MaxLength} characters";
+        }
+        else if (MinLength.HasValue)
+        {
+            return $"Length must be at least {MinLength} characters";
+        }
+        else if (MaxLength.HasValue)
+        {
+            return $"Length must be at most {MaxLength} characters";
+        }
+        return "Invalid length";
+    }
+}
+

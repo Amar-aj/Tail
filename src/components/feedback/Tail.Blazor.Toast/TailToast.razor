@@ -1,0 +1,156 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Toast
+
+@if (IsVisible)
+{
+    <div class="@GetToastClasses()" role="alert" style="@GetToastStyles()">
+        <div class="flex items-start">
+            @if (ShowIcon && Icon == null)
+            {
+                <div class="flex-shrink-0 mr-3">
+                    @GetDefaultIcon()
+                </div>
+            }
+            else if (Icon != null)
+            {
+                <div class="flex-shrink-0 mr-3">
+                    @Icon
+                </div>
+            }
+            <div class="flex-1">
+                @if (!string.IsNullOrEmpty(Title))
+                {
+                    <div class="font-semibold mb-1">@Title</div>
+                }
+                <div>@Message</div>
+            </div>
+            @if (Dismissible)
+            {
+                <button 
+                    type="button"
+                    class="flex-shrink-0 ml-3 text-current opacity-50 hover:opacity-100 focus:outline-none"
+                    @onclick="HandleDismiss"
+                    aria-label="Dismiss">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    private bool IsVisible { get; set; } = true;
+    private System.Threading.Timer? autoDismissTimer;
+
+    [Parameter] public string? Message { get; set; }
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public ToastVariant Variant { get; set; } = ToastVariant.Info;
+    [Parameter] public bool Dismissible { get; set; } = true;
+    [Parameter] public bool ShowIcon { get; set; } = true;
+    [Parameter] public RenderFragment? Icon { get; set; }
+    [Parameter] public int? AutoDismissAfter { get; set; } = 5000;
+    [Parameter] public EventCallback OnDismiss { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && AutoDismissAfter.HasValue && AutoDismissAfter.Value > 0)
+        {
+            autoDismissTimer = new System.Threading.Timer(_ => HandleDismiss(), null, AutoDismissAfter.Value, Timeout.Infinite);
+        }
+    }
+
+    private string GetToastClasses()
+    {
+        var classes = new List<string> { "rounded-lg", "p-4", "shadow-lg", "border", "mb-2", "transition-all" };
+
+        classes.Add(Variant switch
+        {
+            ToastVariant.Success => "bg-green-50 border-green-200 text-green-800",
+            ToastVariant.Warning => "bg-yellow-50 border-yellow-200 text-yellow-800",
+            ToastVariant.Error => "bg-red-50 border-red-200 text-red-800",
+            ToastVariant.Info => "bg-blue-50 border-blue-200 text-blue-800",
+            _ => "bg-gray-50 border-gray-200 text-gray-800"
+        });
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetToastStyles()
+    {
+        var styles = new List<string>();
+
+        if (Variant == ToastVariant.Success)
+        {
+            styles.Add($"background-color: rgba(var(--color-success-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-success)");
+            styles.Add($"color: var(--color-success)");
+        }
+        else if (Variant == ToastVariant.Warning)
+        {
+            styles.Add($"background-color: rgba(var(--color-warning-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-warning)");
+            styles.Add($"color: var(--color-warning)");
+        }
+        else if (Variant == ToastVariant.Error)
+        {
+            styles.Add($"background-color: rgba(var(--color-danger-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-danger)");
+            styles.Add($"color: var(--color-danger)");
+        }
+        else
+        {
+            styles.Add($"background-color: rgba(var(--color-info-rgb), 0.1)");
+            styles.Add($"border-color: var(--color-info)");
+            styles.Add($"color: var(--color-info)");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private RenderFragment GetDefaultIcon()
+    {
+        return builder =>
+        {
+            builder.OpenElement(0, "svg");
+            builder.AddAttribute(1, "class", "w-5 h-5");
+            builder.AddAttribute(2, "fill", "none");
+            builder.AddAttribute(3, "viewBox", "0 0 24 24");
+            builder.AddAttribute(4, "stroke", "currentColor");
+            builder.AddMarkupContent(5, Variant switch
+            {
+                ToastVariant.Success => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z\" />",
+                ToastVariant.Warning => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z\" />",
+                ToastVariant.Error => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z\" />",
+                _ => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" />"
+            });
+            builder.CloseElement();
+        };
+    }
+
+    private async Task HandleDismiss()
+    {
+        IsVisible = false;
+        autoDismissTimer?.Dispose();
+        await OnDismiss.InvokeAsync();
+    }
+
+    public void Dispose()
+    {
+        autoDismissTimer?.Dispose();
+    }
+}
+

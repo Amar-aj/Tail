@@ -1,0 +1,133 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.DateRangePicker
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <div class="flex items-center gap-2">
+        <div class="flex-1">
+            <input 
+                type="date"
+                class="@GetInputClasses()"
+                value="@GetStartDateValue()"
+                @onchange="HandleStartDateChange"
+                min="@GetMinDate()"
+                max="@GetMaxDate()"
+                disabled="@Disabled"
+                style="@GetInputStyles()" />
+        </div>
+        <span class="text-gray-500">to</span>
+        <div class="flex-1">
+            <input 
+                type="date"
+                class="@GetInputClasses()"
+                value="@GetEndDateValue()"
+                @onchange="HandleEndDateChange"
+                min="@GetStartDateValue()"
+                max="@GetMaxDate()"
+                disabled="@Disabled"
+                style="@GetInputStyles()" />
+        </div>
+    </div>
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public DateTime? StartDate { get; set; }
+    [Parameter] public EventCallback<DateTime?> StartDateChanged { get; set; }
+    [Parameter] public DateTime? EndDate { get; set; }
+    [Parameter] public EventCallback<DateTime?> EndDateChanged { get; set; }
+    [Parameter] public DateRangePickerSize Size { get; set; } = DateRangePickerSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public DateTime? MinDate { get; set; }
+    [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            DateRangePickerSize.Xs => "px-2 py-1 text-xs",
+            DateRangePickerSize.Sm => "px-3 py-1.5 text-sm",
+            DateRangePickerSize.Md => "px-4 py-2 text-base",
+            DateRangePickerSize.Lg => "px-5 py-2.5 text-lg",
+            DateRangePickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        classes.Add("border-gray-300");
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetStartDateValue() => StartDate?.ToString("yyyy-MM-dd") ?? "";
+    private string GetEndDateValue() => EndDate?.ToString("yyyy-MM-dd") ?? "";
+    private string GetMinDate() => MinDate?.ToString("yyyy-MM-dd") ?? "";
+    private string GetMaxDate() => MaxDate?.ToString("yyyy-MM-dd") ?? "";
+
+    private async Task HandleStartDateChange(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            StartDate = date;
+            await StartDateChanged.InvokeAsync(StartDate);
+        }
+    }
+
+    private async Task HandleEndDateChange(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        {
+            EndDate = date;
+            await EndDateChanged.InvokeAsync(EndDate);
+        }
+    }
+}
+

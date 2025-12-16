@@ -1,0 +1,55 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.DockingLayout
+
+<div class="@GetLayoutClasses()" style="@GetLayoutStyles()">
+    @if (Top != null)
+    {
+        <div class="w-full">@Top</div>
+    }
+    <div class="flex flex-1">
+        @if (Left != null)
+        {
+            <div class="flex-shrink-0">@Left</div>
+        }
+        <div class="flex-1">@Center</div>
+        @if (Right != null)
+        {
+            <div class="flex-shrink-0">@Right</div>
+        }
+    </div>
+    @if (Bottom != null)
+    {
+        <div class="w-full">@Bottom</div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? Top { get; set; }
+    [Parameter] public RenderFragment? Left { get; set; }
+    [Parameter] public RenderFragment? Center { get; set; }
+    [Parameter] public RenderFragment? Right { get; set; }
+    [Parameter] public RenderFragment? Bottom { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetLayoutClasses()
+    {
+        var classes = new List<string> { "flex", "flex-col", "w-full", "h-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetLayoutStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

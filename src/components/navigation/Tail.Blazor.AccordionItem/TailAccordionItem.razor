@@ -1,0 +1,54 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.AccordionItem
+
+<div class="border-b" style="border-color: var(--color-border, #e5e7eb);">
+    <button
+        type="button"
+        class="@GetHeaderClasses()"
+        @onclick="Toggle"
+        style="@GetHeaderStyles()">
+        <span>@Title</span>
+        <svg 
+            class="w-5 h-5 transition-transform @(IsExpanded ? "transform rotate-180" : "")"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    @if (IsExpanded)
+    {
+        <div class="p-4" style="color: var(--color-text-primary);">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetHeaderClasses()
+    {
+        return "w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition-colors";
+    }
+
+    private string GetHeaderStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private async Task Toggle()
+    {
+        IsExpanded = !IsExpanded;
+        await IsExpandedChanged.InvokeAsync(IsExpanded);
+    }
+}
+

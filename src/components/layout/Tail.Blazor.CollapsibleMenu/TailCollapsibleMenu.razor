@@ -1,0 +1,59 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.CollapsibleMenu
+
+<div class="@GetMenuClasses()">
+    <button
+        type="button"
+        class="@GetToggleClasses()"
+        @onclick="Toggle"
+        style="@GetToggleStyles()">
+        @Title
+        <svg class="w-5 h-5 transform transition-transform @(IsExpanded ? "rotate-180" : "")" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+    @if (IsExpanded)
+    {
+        <div class="mt-2 space-y-1">
+            @ChildContent
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public bool IsExpanded { get; set; }
+    [Parameter] public EventCallback<bool> IsExpandedChanged { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetMenuClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetToggleClasses()
+    {
+        return "w-full flex items-center justify-between px-4 py-2 hover:bg-gray-100 rounded-lg transition-colors";
+    }
+
+    private string GetToggleStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private async Task Toggle()
+    {
+        IsExpanded = !IsExpanded;
+        await IsExpandedChanged.InvokeAsync(IsExpanded);
+    }
+}
+

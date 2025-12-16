@@ -1,0 +1,277 @@
+@inherits Tail.Blazor.Core.TailComponentBase
+@namespace Tail.Blazor.Core.Theme
+@inject ThemeService ThemeService
+@implements IDisposable
+
+<div class="@GetWrapperClasses()" style="@GetWrapperStyle()">
+    @if (ShowModeToggle)
+    {
+        <button 
+            type="button"
+            class="@GetToggleButtonClasses()"
+            style="@GetToggleButtonStyle()"
+            @onclick="ToggleMode"
+            title="@GetModeTooltip()">
+            @if (ThemeService.CurrentSettings.Mode == "Dark")
+            {
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            }
+            else
+            {
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            }
+        </button>
+    }
+
+    @if (ShowThemeSelector)
+    {
+        <div class="relative inline-block">
+            <button 
+                type="button"
+                class="@GetSelectorButtonClasses()"
+                style="@GetSelectorButtonStyle()"
+                @onclick="ToggleDropdown"
+                title="Select theme">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+                @if (ShowThemeName)
+                {
+                    <span class="ml-2">@ThemeService.CurrentSettings.PresetName</span>
+                }
+            </button>
+
+            @if (isDropdownOpen)
+            {
+                <div class="absolute right-0 mt-2 rounded-lg shadow-lg z-50 min-w-max"
+                     style="@GetDropdownStyle()">
+                    <div class="p-4">
+                        <div class="text-sm font-semibold mb-3" style="color: var(--color-text-primary)">
+                            Select Theme
+                        </div>
+                        
+                        <div class="grid gap-2">
+                            @foreach (var preset in ThemeService.GetPresets())
+                            {
+                                <button
+                                    type="button"
+                                    class="@GetThemeButtonClasses(preset.Name)"
+                                    style="@GetThemeButtonStyle(preset.Name)"
+                                    @onclick="() => ApplyTheme(preset.Name)">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="flex space-x-1">
+                                            <div class="w-4 h-4 rounded" style="background-color: @(GetPresetColor(preset, 0))"></div>
+                                            <div class="w-4 h-4 rounded" style="background-color: @(GetPresetColor(preset, 1))"></div>
+                                            <div class="w-4 h-4 rounded" style="background-color: @(GetPresetColor(preset, 2))"></div>
+                                        </div>
+                                        <div class="flex-1 text-left">
+                                            <div class="font-medium" style="color: var(--color-text-primary)">@preset.Name</div>
+                                            <div class="text-xs" style="color: var(--color-text-muted)">@preset.Description</div>
+                                        </div>
+                                        @if (ThemeService.CurrentSettings.PresetName == preset.Name)
+                                        {
+                                            <svg class="w-5 h-5" style="color: var(--color-primary)" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                            </svg>
+                                        }
+                                    </div>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public bool ShowModeToggle { get; set; } = true;
+    [Parameter] public bool ShowThemeSelector { get; set; } = true;
+    [Parameter] public bool ShowThemeName { get; set; } = false;
+    [Parameter] public DisplayStyle Style { get; set; } = DisplayStyle.Inline;
+
+    private bool isDropdownOpen = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+        ThemeService.OnThemeChanged += HandleThemeChanged;
+    }
+
+    private void HandleThemeChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ToggleMode()
+    {
+        await ThemeService.ToggleModeAsync();
+    }
+
+    private async Task ApplyTheme(string presetName)
+    {
+        await ThemeService.ApplyPresetAsync(presetName, ThemeService.CurrentSettings.Mode);
+        isDropdownOpen = false;
+    }
+
+    private void ToggleDropdown()
+    {
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string>();
+        
+        switch (Style)
+        {
+            case DisplayStyle.Inline:
+                classes.Add("inline-flex items-center gap-2");
+                break;
+            case DisplayStyle.Stack:
+                classes.Add("flex flex-col gap-2");
+                break;
+            case DisplayStyle.Floating:
+                classes.Add("fixed bottom-6 right-6 flex items-center gap-2 z-50");
+                break;
+        }
+
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetWrapperStyle()
+    {
+        if (Style == DisplayStyle.Floating)
+        {
+            return "box-shadow: var(--shadow-lg);";
+        }
+        return "";
+    }
+
+    private string GetToggleButtonClasses()
+    {
+        return "p-2 rounded-lg transition-all duration-200 hover:scale-110";
+    }
+
+    private string GetToggleButtonStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        ";
+    }
+
+    private string GetSelectorButtonClasses()
+    {
+        return "p-2 rounded-lg transition-all duration-200 inline-flex items-center hover:scale-105";
+    }
+
+    private string GetSelectorButtonStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+        ";
+    }
+
+    private string GetDropdownStyle()
+    {
+        return @"
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-lg);
+        ";
+    }
+
+    private string GetThemeButtonClasses(string presetName)
+    {
+        var classes = new List<string>
+        {
+            "p-3 rounded-lg transition-all duration-200 text-left w-full"
+        };
+
+        if (ThemeService.CurrentSettings.PresetName == presetName)
+        {
+            classes.Add("ring-2");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetThemeButtonStyle(string presetName)
+    {
+        var isActive = ThemeService.CurrentSettings.PresetName == presetName;
+        
+        if (isActive)
+        {
+            return @"
+                background-color: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+                border: 1px solid var(--color-primary);
+                ring-color: var(--color-primary);
+                border-radius: var(--radius-md);
+                transition: all var(--transition-fast);
+            ";
+        }
+        
+        return @"
+            background-color: var(--color-surface-2);
+            border: 1px solid transparent;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        ";
+    }
+
+    private string GetModeTooltip()
+    {
+        return ThemeService.CurrentSettings.Mode == "Dark" 
+            ? "Switch to light mode" 
+            : "Switch to dark mode";
+    }
+
+    private string GetPresetColor(ThemePreset preset, int index)
+    {
+        var colors = ThemeService.CurrentSettings.Mode == "Dark" ? preset.Dark : preset.Light;
+        
+        return index switch
+        {
+            0 => colors.Primary,
+            1 => colors.Secondary,
+            2 => colors.Accent,
+            _ => colors.Primary
+        };
+    }
+
+    public void Dispose()
+    {
+        ThemeService.OnThemeChanged -= HandleThemeChanged;
+    }
+
+    public enum DisplayStyle
+    {
+        Inline,
+        Stack,
+        Floating
+    }
+}

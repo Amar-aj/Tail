@@ -1,0 +1,83 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Sidebar
+
+<div class="@GetSidebarClasses()" style="@GetSidebarStyles()">
+    @if (IsCollapsible)
+    {
+        <button 
+            type="button"
+            class="absolute -right-3 top-4 w-6 h-6 rounded-full bg-white border border-gray-300 shadow-md flex items-center justify-center hover:bg-gray-50"
+            @onclick="ToggleCollapse">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="@(IsCollapsed ? "M9 5l7 7-7 7" : "M15 19l-7-7 7-7")" />
+            </svg>
+        </button>
+    }
+    @if (!string.IsNullOrEmpty(Header))
+    {
+        <div class="p-4 border-b" style="border-color: var(--color-border, #e5e7eb);">
+            @Header
+        </div>
+    }
+    <nav class="flex-1 p-4">
+        @ChildContent
+    </nav>
+    @if (Footer != null)
+    {
+        <div class="p-4 border-t" style="border-color: var(--color-border, #e5e7eb);">
+            @Footer
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Header { get; set; }
+    [Parameter] public RenderFragment? Footer { get; set; }
+    [Parameter] public bool IsCollapsed { get; set; }
+    [Parameter] public bool IsCollapsible { get; set; } = true;
+    [Parameter] public SidebarPosition Position { get; set; } = SidebarPosition.Left;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetSidebarClasses()
+    {
+        var classes = new List<string> { "relative", "bg-white", "border-r", "transition-all", "duration-300" };
+
+        classes.Add(Position switch
+        {
+            SidebarPosition.Left => "left-0",
+            SidebarPosition.Right => "right-0",
+            _ => "left-0"
+        });
+
+        if (IsCollapsed)
+        {
+            classes.Add("w-16");
+        }
+        else
+        {
+            classes.Add("w-64");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSidebarStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private void ToggleCollapse()
+    {
+        IsCollapsed = !IsCollapsed;
+    }
+}
+

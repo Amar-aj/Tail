@@ -1,0 +1,107 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.TimePicker
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1" for="@TimePickerId">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <input 
+        id="@TimePickerId"
+        type="time"
+        class="@GetInputClasses()"
+        value="@GetTimeValue()"
+        @onchange="HandleChange"
+        disabled="@Disabled"
+        required="@Required"
+        @attributes="AdditionalAttributes"
+        style="@GetInputStyles()" />
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+</div>
+
+@code {
+    private string TimePickerId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter] public TimeSpan? Value { get; set; }
+    [Parameter] public EventCallback<TimeSpan?> ValueChanged { get; set; }
+    [Parameter] public TimePickerSize Size { get; set; } = TimePickerSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            TimePickerSize.Xs => "px-2 py-1 text-xs",
+            TimePickerSize.Sm => "px-3 py-1.5 text-sm",
+            TimePickerSize.Md => "px-4 py-2 text-base",
+            TimePickerSize.Lg => "px-5 py-2.5 text-lg",
+            TimePickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        classes.Add("border-gray-300");
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetTimeValue()
+    {
+        return Value?.ToString(@"hh\:mm") ?? "";
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        if (TimeSpan.TryParse(e.Value?.ToString(), out var time))
+        {
+            Value = time;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+}
+

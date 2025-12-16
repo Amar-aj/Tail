@@ -1,0 +1,110 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Switch
+
+<label class="@GetLabelClasses()" @attributes="AdditionalAttributes">
+    <input 
+        type="checkbox"
+        role="switch"
+        class="@GetSwitchClasses()"
+        checked="@IsChecked"
+        @onchange="HandleChange"
+        disabled="@Disabled"
+        style="@GetSwitchStyles()" />
+    <span class="@GetSliderClasses()"></span>
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <span class="@GetTextClasses()">@Label</span>
+    }
+    @if (ChildContent != null)
+    {
+        <span class="@GetTextClasses()">@ChildContent</span>
+    }
+</label>
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="text-sm text-red-600 mt-1">
+        @ErrorMessage
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsChecked { get; set; }
+    [Parameter] public EventCallback<bool> IsCheckedChanged { get; set; }
+    [Parameter] public SwitchSize Size { get; set; } = SwitchSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetLabelClasses()
+    {
+        var classes = new List<string> { "relative", "inline-flex", "items-center", "cursor-pointer" };
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSwitchClasses()
+    {
+        var classes = new List<string> { "sr-only", "peer" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetSliderClasses()
+    {
+        var classes = new List<string> { "peer-focus:outline-none", "peer-focus:ring-2", "peer-focus:ring-offset-2", "rounded-full", "peer", "transition-all", "ease-in-out", "duration-200" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            SwitchSize.Xs => "w-8 h-4",
+            SwitchSize.Sm => "w-10 h-5",
+            SwitchSize.Md => "w-12 h-6",
+            SwitchSize.Lg => "w-14 h-7",
+            SwitchSize.Xl => "w-16 h-8",
+            _ => "w-12 h-6"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetTextClasses()
+    {
+        return Size switch
+        {
+            SwitchSize.Xs => "ml-2 text-xs",
+            SwitchSize.Sm => "ml-2 text-sm",
+            SwitchSize.Md => "ml-2 text-base",
+            SwitchSize.Lg => "ml-2 text-lg",
+            SwitchSize.Xl => "ml-2 text-xl",
+            _ => "ml-2 text-base"
+        };
+    }
+
+    private string GetSwitchStyles()
+    {
+        var styles = new List<string>();
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        IsChecked = (bool)(e.Value ?? false);
+        await IsCheckedChanged.InvokeAsync(IsChecked);
+    }
+}
+

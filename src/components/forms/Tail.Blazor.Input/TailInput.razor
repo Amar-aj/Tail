@@ -1,0 +1,227 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms
+@using Tail.Blazor.Input
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="@GetLabelClasses()" for="@InputId">
+            @Label
+            @if (Required)
+            {
+                <span class="text-red-500">*</span>
+            }
+        </label>
+    }
+    <div class="relative">
+        @if (IconStart != null)
+        {
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                @IconStart
+            </div>
+        }
+        <input 
+            id="@InputId"
+            type="@GetInputType()"
+            class="@GetInputClasses()"
+            placeholder="@Placeholder"
+            value="@Value"
+            @oninput="HandleInput"
+            @onfocus="HandleFocus"
+            @onblur="HandleBlur"
+            disabled="@Disabled"
+            readonly="@ReadOnly"
+            required="@Required"
+            maxlength="@MaxLength"
+            @attributes="AdditionalAttributes"
+            style="@GetInputStyles()" />
+        @if (ShowClearButton && !string.IsNullOrEmpty(Value))
+        {
+            <button 
+                type="button"
+                class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                @onclick="ClearValue"
+                tabindex="-1">
+                <svg class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        }
+        @if (IconEnd != null && !ShowClearButton)
+        {
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                @IconEnd
+            </div>
+        }
+    </div>
+    @if (ShowCharacterCount && MaxLength > 0)
+    {
+        <div class="text-xs text-gray-500 mt-1">
+            @(Value?.Length ?? 0) / @MaxLength
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="text-sm text-red-600 mt-1">
+            @ErrorMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(HelpText))
+    {
+        <div class="text-sm text-gray-500 mt-1">
+            @HelpText
+        </div>
+    }
+</div>
+
+@code {
+    private string InputId { get; set; } = Guid.NewGuid().ToString();
+
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
+    [Parameter] public InputType Type { get; set; } = InputType.Text;
+    [Parameter] public InputSize Size { get; set; } = InputSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? HelpText { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public int? MaxLength { get; set; }
+    [Parameter] public bool ShowClearButton { get; set; }
+    [Parameter] public bool ShowCharacterCount { get; set; }
+    [Parameter] public RenderFragment? IconStart { get; set; }
+    [Parameter] public RenderFragment? IconEnd { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnBlur { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetLabelClasses()
+    {
+        return "block text-sm font-medium mb-1";
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        // Size classes
+        classes.Add(Size switch
+        {
+            InputSize.Xs => "px-2 py-1 text-xs",
+            InputSize.Sm => "px-3 py-1.5 text-sm",
+            InputSize.Md => "px-4 py-2 text-base",
+            InputSize.Lg => "px-5 py-2.5 text-lg",
+            InputSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        // Icon padding
+        if (IconStart != null)
+        {
+            classes.Add("pl-10");
+        }
+        if (ShowClearButton || IconEnd != null)
+        {
+            classes.Add("pr-10");
+        }
+
+        // Error state
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            classes.Add("border-red-500");
+        }
+        else
+        {
+            classes.Add("border-gray-300");
+        }
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+
+        if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            styles.Add("border-color: #ef4444");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private string GetInputType()
+    {
+        return Type switch
+        {
+            InputType.Password => "password",
+            InputType.Email => "email",
+            InputType.Number => "number",
+            InputType.Tel => "tel",
+            InputType.Url => "url",
+            InputType.Search => "search",
+            InputType.Date => "date",
+            InputType.DateTimeLocal => "datetime-local",
+            InputType.Time => "time",
+            InputType.Month => "month",
+            InputType.Week => "week",
+            _ => "text"
+        };
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task HandleFocus(FocusEventArgs e)
+    {
+        if (OnFocus.HasDelegate)
+        {
+            await OnFocus.InvokeAsync(e);
+        }
+    }
+
+    private async Task HandleBlur(FocusEventArgs e)
+    {
+        if (OnBlur.HasDelegate)
+        {
+            await OnBlur.InvokeAsync(e);
+        }
+    }
+
+    private async Task ClearValue()
+    {
+        Value = null;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}
+

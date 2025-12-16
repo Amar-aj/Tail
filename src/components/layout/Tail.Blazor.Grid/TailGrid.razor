@@ -1,0 +1,40 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Grid
+
+<div class="@GetGridClasses()" style="@GetGridStyles()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public int Columns { get; set; } = 12;
+    [Parameter] public int Gap { get; set; } = 4;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetGridClasses()
+    {
+        var classes = new List<string> { "grid" };
+
+        classes.Add($"grid-cols-{Columns}");
+        classes.Add($"gap-{Gap}");
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetGridStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

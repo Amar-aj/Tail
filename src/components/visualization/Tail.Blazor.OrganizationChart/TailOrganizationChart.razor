@@ -1,0 +1,68 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.OrganizationChart
+
+<div class="@GetChartClasses()" style="@GetChartStyles()">
+    <div class="flex flex-col items-center">
+        @RenderNode(RootNode, 0)
+    </div>
+</div>
+
+@code {
+    [Parameter] public OrganizationNode RootNode { get; set; } = default!;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetChartClasses()
+    {
+        var classes = new List<string> { "w-full", "p-4" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetChartStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private RenderFragment RenderNode(OrganizationNode node, int level)
+    {
+        return builder =>
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "flex flex-col items-center mb-4");
+            builder.OpenElement(2, "div");
+            builder.AddAttribute(3, "class", "px-4 py-2 bg-primary rounded-lg text-white");
+            builder.AddAttribute(4, "style", "background-color: var(--color-primary);");
+            builder.AddContent(5, node.Name);
+            builder.CloseElement();
+            if (node.Children.Any())
+            {
+                builder.OpenElement(6, "div");
+                builder.AddAttribute(7, "class", "flex space-x-4 mt-4");
+                foreach (var child in node.Children)
+                {
+                    builder.AddContent(8, RenderNode(child, level + 1));
+                }
+                builder.CloseElement();
+            }
+            builder.CloseElement();
+        };
+    }
+}
+
+@code {
+    public class OrganizationNode
+    {
+        public string Name { get; set; } = string.Empty;
+        public List<OrganizationNode> Children { get; set; } = new();
+    }
+}
+

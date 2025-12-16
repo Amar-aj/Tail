@@ -1,0 +1,74 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Icon
+
+@if (CustomSvg != null)
+{
+    @CustomSvg
+}
+else
+{
+    <svg
+        class="@GetIconClasses()"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        style="@GetIconStyles()">
+        @GetIconPath()
+    </svg>
+}
+
+@code {
+    [Parameter] public RenderFragment? CustomSvg { get; set; }
+    [Parameter] public IconName Name { get; set; } = IconName.None;
+    [Parameter] public IconSize Size { get; set; } = IconSize.Md;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetIconClasses()
+    {
+        var classes = new List<string>();
+
+        classes.Add(Size switch
+        {
+            IconSize.Xs => "w-3 h-3",
+            IconSize.Sm => "w-4 h-4",
+            IconSize.Md => "w-5 h-5",
+            IconSize.Lg => "w-6 h-6",
+            IconSize.Xl => "w-8 h-8",
+            _ => "w-5 h-5"
+        });
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetIconStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"color: var(--color-text-primary, black)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private RenderFragment GetIconPath()
+    {
+        return builder =>
+        {
+            builder.AddMarkupContent(0, Name switch
+            {
+                IconName.Home => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\" />",
+                IconName.User => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\" />",
+                IconName.Search => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z\" />",
+                _ => "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 6v6m0 0v6m0-6h6m-6 0H6\" />"
+            });
+        };
+    }
+}
+

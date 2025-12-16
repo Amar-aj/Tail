@@ -1,0 +1,139 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.PhoneNumberInput
+
+<div class="@GetWrapperClasses()">
+    @if (!string.IsNullOrEmpty(Label))
+    {
+        <label class="block text-sm font-medium mb-1" for="@PhoneInputId">
+            @Label
+        </label>
+    }
+    <div class="flex items-center gap-2">
+        <select 
+            class="@GetSelectClasses()"
+            @bind="SelectedCountryCode"
+            disabled="@Disabled"
+            style="@GetSelectStyles()">
+            @foreach (var country in CountryCodes)
+            {
+                <option value="@country.Code">@country.Flag @country.Code</option>
+            }
+        </select>
+        <input 
+            id="@PhoneInputId"
+            type="tel"
+            class="@GetInputClasses()"
+            value="@PhoneNumber"
+            @oninput="HandleInput"
+            placeholder="@Placeholder"
+            disabled="@Disabled"
+            @attributes="AdditionalAttributes"
+            style="@GetInputStyles()" />
+    </div>
+</div>
+
+@code {
+    private string PhoneInputId { get; set; } = Guid.NewGuid().ToString();
+    private List<CountryCode> CountryCodes { get; set; } = new()
+    {
+        new() { Code = "+1", Flag = "🇺🇸", Country = "United States" },
+        new() { Code = "+44", Flag = "🇬🇧", Country = "United Kingdom" },
+        new() { Code = "+33", Flag = "🇫🇷", Country = "France" },
+        new() { Code = "+49", Flag = "🇩🇪", Country = "Germany" },
+        new() { Code = "+91", Flag = "🇮🇳", Country = "India" }
+    };
+
+    [Parameter] public string? PhoneNumber { get; set; }
+    [Parameter] public EventCallback<string?> PhoneNumberChanged { get; set; }
+    [Parameter] public string SelectedCountryCode { get; set; } = "+1";
+    [Parameter] public EventCallback<string> SelectedCountryCodeChanged { get; set; }
+    [Parameter] public PhoneNumberInputSize Size { get; set; } = PhoneNumberInputSize.Md;
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSelectClasses()
+    {
+        var classes = new List<string> { "rounded-lg", "border", "border-gray-300", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            PhoneNumberInputSize.Xs => "px-2 py-1 text-xs",
+            PhoneNumberInputSize.Sm => "px-3 py-1.5 text-sm",
+            PhoneNumberInputSize.Md => "px-4 py-2 text-base",
+            PhoneNumberInputSize.Lg => "px-5 py-2.5 text-lg",
+            PhoneNumberInputSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputClasses()
+    {
+        var classes = new List<string> { "flex-1", "rounded-lg", "border", "border-gray-300", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        classes.Add(Size switch
+        {
+            PhoneNumberInputSize.Xs => "px-2 py-1 text-xs",
+            PhoneNumberInputSize.Sm => "px-3 py-1.5 text-sm",
+            PhoneNumberInputSize.Md => "px-4 py-2 text-base",
+            PhoneNumberInputSize.Lg => "px-5 py-2.5 text-lg",
+            PhoneNumberInputSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+
+        if (Disabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetSelectStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        PhoneNumber = e.Value?.ToString();
+        await PhoneNumberChanged.InvokeAsync(PhoneNumber);
+    }
+}
+

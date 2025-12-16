@@ -1,0 +1,127 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.AdvancedFilter
+
+<div class="@GetFilterClasses()" style="@GetFilterStyles()">
+    <div class="mb-4">
+        <select class="@GetSelectClasses()" @bind="SelectedField" style="@GetSelectStyles()">
+            @foreach (var field in Fields)
+            {
+                <option value="@field">@field</option>
+            }
+        </select>
+        <select class="@GetSelectClasses()" @bind="SelectedOperator" style="@GetSelectStyles()">
+            <option value="equals">Equals</option>
+            <option value="contains">Contains</option>
+            <option value="startsWith">Starts With</option>
+            <option value="endsWith">Ends With</option>
+        </select>
+        <input
+            type="text"
+            class="@GetInputClasses()"
+            @bind="FilterValue"
+            @bind:event="oninput"
+            placeholder="Filter value"
+            style="@GetInputStyles()" />
+        <button
+            type="button"
+            class="@GetButtonClasses()"
+            @onclick="ApplyFilter"
+            style="@GetButtonStyles()">
+            Apply
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<string> Fields { get; set; } = new();
+    [Parameter] public EventCallback<FilterCriteria> OnFilterApplied { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string SelectedField { get; set; } = string.Empty;
+    private string SelectedOperator { get; set; } = "equals";
+    private string FilterValue { get; set; } = string.Empty;
+
+    private string GetFilterClasses()
+    {
+        var classes = new List<string> { "p-4", "bg-white", "rounded-lg", "border", "border-gray-200" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetFilterStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetSelectClasses()
+    {
+        return "px-3 py-2 border border-gray-300 rounded-lg mr-2";
+    }
+
+    private string GetSelectStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetInputClasses()
+    {
+        return "px-3 py-2 border border-gray-300 rounded-lg mr-2";
+    }
+
+    private string GetInputStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add($"background-color: var(--color-surface, white)");
+        styles.Add($"color: var(--color-text-primary, black)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetButtonClasses()
+    {
+        return "px-4 py-2 rounded-lg text-white hover:opacity-90";
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+        styles.Add($"background-color: var(--color-primary)");
+        styles.Add($"color: var(--color-text-on-primary, white)");
+        return string.Join("; ", styles);
+    }
+
+    private async Task ApplyFilter()
+    {
+        await OnFilterApplied.InvokeAsync(new FilterCriteria
+        {
+            Field = SelectedField,
+            Operator = SelectedOperator,
+            Value = FilterValue
+        });
+    }
+}
+
+@code {
+    public class FilterCriteria
+    {
+        public string Field { get; set; } = string.Empty;
+        public string Operator { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+    }
+}
+

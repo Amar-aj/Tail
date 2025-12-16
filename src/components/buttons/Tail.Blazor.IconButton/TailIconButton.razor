@@ -1,0 +1,113 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.IconButton
+
+<button 
+    type="@Type"
+    class="@GetButtonClasses()"
+    disabled="@(Disabled || IsLoading)"
+    @onclick="HandleClick"
+    @onclick:stopPropagation="StopPropagation"
+    @attributes="AdditionalAttributes"
+    style="@GetButtonStyles()">
+    @if (IsLoading)
+    {
+        <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    }
+    else
+    {
+        @ChildContent
+    }
+</button>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public ButtonVariant Variant { get; set; } = ButtonVariant.Primary;
+    [Parameter] public ButtonSize Size { get; set; } = ButtonSize.Md;
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool IsLoading { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public bool StopPropagation { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetButtonClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+
+        // Size classes - icon buttons are typically square
+        classes.Add(Size switch
+        {
+            ButtonSize.Xs => "p-1.5",
+            ButtonSize.Sm => "p-2",
+            ButtonSize.Md => "p-2.5",
+            ButtonSize.Lg => "p-3",
+            ButtonSize.Xl => "p-4",
+            _ => "p-2.5"
+        });
+
+        // Variant classes
+        if (Variant == ButtonVariant.Primary)
+        {
+            classes.Add("text-white");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
+        }
+        else if (Variant == ButtonVariant.Outline)
+        {
+            classes.Add("border-2");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-10");
+        }
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetButtonStyles()
+    {
+        var styles = new List<string>();
+
+        // Use CSS variables for theming
+        if (Variant == ButtonVariant.Primary)
+        {
+            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+        }
+        else if (Variant == ButtonVariant.Outline)
+        {
+            styles.Add($"border-color: var(--color-primary)");
+            styles.Add($"color: var(--color-primary)");
+        }
+        else if (Variant == ButtonVariant.Soft)
+        {
+            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.1)");
+            styles.Add($"color: var(--color-primary)");
+        }
+        else if (Variant == ButtonVariant.Ghost)
+        {
+            styles.Add($"color: var(--color-primary)");
+        }
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task HandleClick(MouseEventArgs e)
+    {
+        if (!Disabled && !IsLoading && OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync(e);
+        }
+    }
+}
+

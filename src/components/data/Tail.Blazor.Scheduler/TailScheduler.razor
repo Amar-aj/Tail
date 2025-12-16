@@ -1,0 +1,94 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Scheduler
+
+<div class="@GetSchedulerClasses()" style="@GetSchedulerStyles()">
+    <div class="grid grid-cols-7 gap-1">
+        @foreach (var day in DaysOfWeek)
+        {
+            <div class="p-2 text-center font-semibold text-sm" style="color: var(--color-text-primary, black);">
+                @day
+            </div>
+        }
+        @foreach (var day in CalendarDays)
+        {
+            <div class="p-2 border border-gray-200 min-h-20" style="border-color: var(--color-border, #e5e7eb);">
+                <div class="text-sm mb-1" style="color: var(--color-text-secondary, #6b7280);">@day.Day</div>
+                @foreach (var event in day.Events)
+                {
+                    <div class="text-xs p-1 mb-1 rounded bg-primary text-white" style="background-color: var(--color-primary);">
+                        @event.Title
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string[] DaysOfWeek = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+    [Parameter] public DateTime CurrentDate { get; set; } = DateTime.Now;
+    [Parameter] public List<SchedulerEvent> Events { get; set; } = new();
+    [Parameter] public string? Style { get; set; }
+
+    private List<CalendarDay> CalendarDays
+    {
+        get
+        {
+            var firstDay = new DateTime(CurrentDate.Year, CurrentDate.Month, 1);
+            var lastDay = firstDay.AddMonths(1).AddDays(-1);
+            var startDate = firstDay.AddDays(-(int)firstDay.DayOfWeek);
+            var days = new List<CalendarDay>();
+
+            for (int i = 0; i < 42; i++)
+            {
+                var date = startDate.AddDays(i);
+                days.Add(new CalendarDay
+                {
+                    Date = date,
+                    Day = date.Day,
+                    Events = Events.Where(e => e.Date.Date == date.Date).ToList()
+                });
+            }
+
+            return days;
+        }
+    }
+
+    private string GetSchedulerClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetSchedulerStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+
+@code {
+    public class CalendarDay
+    {
+        public DateTime Date { get; set; }
+        public int Day { get; set; }
+        public List<SchedulerEvent> Events { get; set; } = new();
+    }
+
+    public class SchedulerEvent
+    {
+        public DateTime Date { get; set; }
+        public string Title { get; set; } = string.Empty;
+    }
+}
+

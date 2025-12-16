@@ -1,0 +1,36 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Menu
+
+<nav class="@GetMenuClasses()" style="@GetMenuStyles()">
+    @ChildContent
+</nav>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public MenuVariant Variant { get; set; } = MenuVariant.Default;
+    [Parameter] public string? Style { get; set; }
+
+    private string GetMenuClasses()
+    {
+        var classes = new List<string> { "flex", "flex-col", "space-y-1" };
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetMenuStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+}
+

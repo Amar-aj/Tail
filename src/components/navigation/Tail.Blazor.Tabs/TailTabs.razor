@@ -1,0 +1,96 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Tabs
+
+<div class="@GetTabsClasses()">
+    <div class="flex border-b" style="border-color: var(--color-border, #e5e7eb);">
+        @foreach (var tab in Tabs)
+        {
+            <button
+                type="button"
+                class="@GetTabButtonClasses(tab)"
+                @onclick="() => SelectTab(tab)"
+                style="@GetTabButtonStyles(tab)">
+                @tab.Label
+            </button>
+        }
+    </div>
+    <div class="mt-4">
+        @if (ActiveTab != null)
+        {
+            @ActiveTab.Content
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public List<TabItem> Tabs { get; set; } = new();
+    [Parameter] public TabItem? ActiveTab { get; set; }
+    [Parameter] public EventCallback<TabItem> ActiveTabChanged { get; set; }
+    [Parameter] public TabsVariant Variant { get; set; } = TabsVariant.Default;
+    [Parameter] public string? Style { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (ActiveTab == null && Tabs.Any())
+        {
+            ActiveTab = Tabs.First();
+        }
+    }
+
+    private string GetTabsClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabButtonClasses(TabItem tab)
+    {
+        var classes = new List<string> { "px-4", "py-2", "font-medium", "transition-colors", "border-b-2", "border-transparent" };
+
+        if (tab == ActiveTab)
+        {
+            classes.Add("border-primary");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabButtonStyles(TabItem tab)
+    {
+        var styles = new List<string>();
+
+        if (tab == ActiveTab)
+        {
+            styles.Add($"color: var(--color-primary)");
+            styles.Add($"border-bottom-color: var(--color-primary)");
+        }
+        else
+        {
+            styles.Add($"color: var(--color-text-secondary, #6b7280)");
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private async Task SelectTab(TabItem tab)
+    {
+        ActiveTab = tab;
+        await ActiveTabChanged.InvokeAsync(tab);
+    }
+}
+
+@code {
+    public class TabItem
+    {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Label { get; set; } = string.Empty;
+        public RenderFragment? Content { get; set; }
+        public bool Disabled { get; set; }
+    }
+}
+

@@ -1,0 +1,49 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="@GetGroupClasses()" @attributes="AdditionalAttributes" style="@GetGroupStyles()">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Vertical { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private string GetGroupClasses()
+    {
+        var classes = new List<string> { "inline-flex" };
+
+        if (Vertical)
+        {
+            classes.Add("flex-col");
+        }
+        else
+        {
+            classes.Add("flex-row");
+        }
+
+        classes.Add("rounded-lg");
+        classes.Add("overflow-hidden");
+
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetGroupStyles()
+    {
+        var styles = new List<string>();
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+}
+

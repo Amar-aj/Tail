@@ -1,0 +1,139 @@
+@inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Web
+@using Tail.Blazor.Rating
+
+<div class="@GetWrapperClasses()" @attributes="AdditionalAttributes">
+    @for (int i = 1; i <= MaxRating; i++)
+    {
+        <button 
+            type="button"
+            class="@GetStarClasses(i)"
+            @onclick="() => HandleClick(i)"
+            @onmouseenter="() => HandleHover(i)"
+            @onmouseleave="HandleLeave"
+            disabled="@Disabled || ReadOnly"
+            style="@GetStarStyles(i)">
+            @if (i <= (HoveredRating ?? Value))
+            {
+                <svg class="@GetStarSizeClasses()" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+            }
+            else
+            {
+                <svg class="@GetStarSizeClasses()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+            }
+        </button>
+    }
+    @if (ShowValue && Value > 0)
+    {
+        <span class="ml-2 text-sm text-gray-600">@Value / @MaxRating</span>
+    }
+</div>
+
+@code {
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public int MaxRating { get; set; } = 5;
+    [Parameter] public RatingSize Size { get; set; } = RatingSize.Md;
+    [Parameter] public RatingColor Color { get; set; } = RatingColor.Yellow;
+    [Parameter] public bool ShowValue { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public string? Style { get; set; }
+
+    private int? HoveredRating { get; set; }
+
+    private string GetWrapperClasses()
+    {
+        var classes = new List<string> { "inline-flex", "items-center" };
+        if (!string.IsNullOrEmpty(Class))
+        {
+            classes.Add(Class);
+        }
+        return string.Join(" ", classes);
+    }
+
+    private string GetStarClasses(int starIndex)
+    {
+        var classes = new List<string> { "transition-colors", "focus:outline-none" };
+        
+        if (!Disabled && !ReadOnly)
+        {
+            classes.Add("cursor-pointer hover:scale-110");
+        }
+        else
+        {
+            classes.Add("cursor-default");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetStarSizeClasses()
+    {
+        return Size switch
+        {
+            RatingSize.Sm => "w-4 h-4",
+            RatingSize.Md => "w-5 h-5",
+            RatingSize.Lg => "w-6 h-6",
+            RatingSize.Xl => "w-8 h-8",
+            _ => "w-5 h-5"
+        };
+    }
+
+    private string GetStarStyles(int starIndex)
+    {
+        var styles = new List<string>();
+
+        var isActive = starIndex <= (HoveredRating ?? Value);
+        var color = isActive ? GetColorValue() : "#d1d5db";
+
+        styles.Add($"color: {color}");
+
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+
+        return string.Join("; ", styles);
+    }
+
+    private string GetColorValue()
+    {
+        return Color switch
+        {
+            RatingColor.Yellow => "#eab308",
+            RatingColor.Orange => "#f97316",
+            RatingColor.Red => "#ef4444",
+            RatingColor.Pink => "#ec4899",
+            RatingColor.Purple => "#a855f7",
+            _ => "var(--color-primary, #3b82f6)"
+        };
+    }
+
+    private async Task HandleClick(int rating)
+    {
+        if (!Disabled && !ReadOnly)
+        {
+            Value = rating;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private void HandleHover(int rating)
+    {
+        if (!Disabled && !ReadOnly)
+        {
+            HoveredRating = rating;
+        }
+    }
+
+    private void HandleLeave()
+    {
+        HoveredRating = null;
+    }
+}
+
