@@ -1,35 +1,29 @@
 @page "/components/input"
 @using Tail.Blazor.Input
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Input - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailInput</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
-        Text input component with validation support. Ultra-lightweight (~4 KB).
-    </p>
-
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+<DocPageTemplate Title="TailInput" 
+                 Description="Text input component with validation support. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Text Input" Code="@basicCode">
             <PreviewContent>
                 <TailInput @bind-Value="textValue" Placeholder="Enter text..." />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: @textValue</p>
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary)">Value: @textValue</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Input Types</h2>
+    <DocSection Title="Input Types">
         <CodePreview Title="Different Input Types" Code="@typesCode">
             <PreviewContent>
                 <div class="space-y-4">
@@ -40,10 +34,9 @@
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">States</h2>
+    <DocSection Title="States">
         <CodePreview Title="Disabled and Readonly" Code="@statesCode">
             <PreviewContent>
                 <div class="space-y-4">
@@ -52,8 +45,8 @@
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string textValue = string.Empty;
@@ -62,7 +55,7 @@
     private string numberValue = string.Empty;
     private string urlValue = string.Empty;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Input";
+    private string installCode = @"dotnet add package Tail.Blazor.Forms";
 
     private string basicCode = @"<TailInput @bind-Value=""textValue"" Placeholder=""Enter text..."" />";
 
@@ -73,4 +66,13 @@
 
     private string statesCode = @"<TailInput Value=""Disabled input"" Disabled=""true"" />
 <TailInput Value=""Readonly input"" ReadOnly=""true"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Input value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string", Default = "-", Description = "Placeholder text" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "InputType", Default = "Text", Description = "Input type (Text, Email, Password, etc.)" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the input" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make input read-only" }
+    };
 }

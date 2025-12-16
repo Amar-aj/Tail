@@ -15,7 +15,7 @@
     <div class="grid lg:grid-cols-2 gap-8">
         <!-- Theme Selector -->
         <div>
-            <TailThemeSelector ShowPreview="true" />
+            <TailThemeControl ShowThemeSelector="true" ShowModeToggle="true" />
         </div>
 
         <!-- Theme Preview -->
@@ -189,22 +189,39 @@
 
 @code {
     private ThemeSettings currentSettings = new();
+    private bool _isInitialized = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        // Initialize theme service
-        await ThemeService.InitializeAsync();
-        
-        currentSettings = await ThemeService.LoadThemeAsync();
+        // Subscribe to theme changes
         ThemeService.OnThemeChanged += OnThemeChanged;
+        
+        // Set default settings without JS interop
+        currentSettings = new ThemeSettings
+        {
+            PresetName = "Ocean",
+            Mode = "Light",
+            Colors = ThemePresets.Ocean.Light
+        };
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (firstRender && !_isInitialized)
         {
-            // Ensure theme is applied after first render
-            await ThemeService.InitializeAsync();
+            try
+            {
+                // Initialize theme service after first render when JS is available
+                await ThemeService.InitializeAsync();
+                currentSettings = await ThemeService.LoadThemeAsync();
+                _isInitialized = true;
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                // Handle JS interop errors gracefully
+                Console.WriteLine($"Theme initialization error: {ex.Message}");
+            }
         }
     }
 
@@ -212,8 +229,15 @@
     {
         InvokeAsync(async () =>
         {
-            currentSettings = await ThemeService.LoadThemeAsync();
-            StateHasChanged();
+            try
+            {
+                currentSettings = await ThemeService.LoadThemeAsync();
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Theme change error: {ex.Message}");
+            }
         });
     }
 

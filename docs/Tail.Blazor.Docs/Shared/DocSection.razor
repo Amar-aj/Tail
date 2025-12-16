@@ -1,0 +1,21 @@
+@namespace Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Card
+@using Tail.Blazor.Divider
+
+<TailCard Class="mb-8">
+    <Header>
+        @if (!string.IsNullOrEmpty(Title))
+        {
+            <h2 class="text-3xl font-bold" style="color: var(--color-text-primary)">@Title</h2>
+        }
+    </Header>
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+</TailCard>
+
+@code {
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
+

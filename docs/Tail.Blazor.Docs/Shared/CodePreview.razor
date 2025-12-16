@@ -4,13 +4,14 @@
 <div class="@GetContainerClasses()">
     @if (!string.IsNullOrEmpty(Title))
     {
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
-            <h4 class="text-sm font-semibold text-gray-900 dark:text-white">@Title</h4>
+        <div class="flex items-center justify-between mb-3 pb-2 border-b" style="border-color: var(--color-border)">
+            <h4 class="text-sm font-semibold" style="color: var(--color-text-primary)">@Title</h4>
             @if (ShowCopyButton)
             {
                 <button 
                     type="button"
                     class="@GetCopyButtonClasses()"
+                    style="@GetCopyButtonStyles()"
                     @onclick="CopyToClipboard"
                     title="Copy code">
                     @if (copied)
@@ -34,7 +35,7 @@
     
     @if (ShowPreview)
     {
-        <div class="@GetPreviewClasses()">
+        <div class="@GetPreviewClasses()" style="@GetPreviewStyles()">
             @if (PreviewContent != null)
             {
                 @PreviewContent
@@ -54,6 +55,7 @@
                 <button 
                     type="button"
                     class="@GetInlineCodeCopyClasses()"
+                    style="@GetInlineCodeCopyStyles()"
                     @onclick="CopyToClipboard"
                     title="Copy code">
                     @if (copied)
@@ -70,7 +72,7 @@
                     }
                 </button>
             }
-            <pre class="@GetCodeClasses()"><code class="@GetCodeLanguageClass()">@Code</code></pre>
+            <pre class="@GetCodeClasses()" style="@GetCodeStyles()"><code class="@GetCodeLanguageClass()">@Code</code></pre>
         </div>
     }
 </div>
@@ -90,7 +92,8 @@
     
     private string GetContainerClasses()
     {
-        var classes = new List<string> { "rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden mb-6" };
+        var classes = new List<string> { "rounded-lg border overflow-hidden mb-6" };
+        classes.Add("border-[var(--color-border)]");
         if (!string.IsNullOrEmpty(CssClass))
         {
             classes.Add(CssClass);
@@ -100,12 +103,22 @@
     
     private string GetPreviewClasses()
     {
-        return "p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700";
+        return "p-6 border-b";
+    }
+    
+    private string GetPreviewStyles()
+    {
+        return "background-color: var(--color-surface); border-color: var(--color-border);";
     }
     
     private string GetCodeClasses()
     {
-        return "bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm rounded-none m-0";
+        return "p-4 overflow-x-auto text-sm rounded-none m-0";
+    }
+    
+    private string GetCodeStyles()
+    {
+        return "background-color: var(--color-surface-inverse, #1f2937); color: var(--color-text-on-inverse, #f3f4f6);";
     }
     
     private string GetCodeLanguageClass()
@@ -121,34 +134,30 @@
             "transition-colors duration-200"
         };
         
+        return string.Join(" ", classes);
+    }
+    
+    private string GetCopyButtonStyles()
+    {
         if (copied)
         {
-            classes.Add("bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300");
+            return "background-color: var(--color-success-light, #d1fae5); color: var(--color-success-dark, #065f46);";
         }
-        else
-        {
-            classes.Add("bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300");
-            classes.Add("hover:bg-gray-200 dark:hover:bg-gray-600");
-        }
-        
-        return string.Join(" ", classes);
+        return "background-color: var(--color-surface-secondary, #f3f4f6); color: var(--color-text-secondary, #6b7280);";
     }
     
     private string GetInlineCodeCopyClasses()
     {
-        var classes = new List<string>
-        {
-            "absolute top-2 right-2 p-2 rounded-md",
-            "bg-gray-700 hover:bg-gray-600 text-gray-300",
-            "transition-colors duration-200"
-        };
-        
+        return "absolute top-2 right-2 p-2 rounded-md transition-colors duration-200";
+    }
+    
+    private string GetInlineCodeCopyStyles()
+    {
         if (copied)
         {
-            classes.Add("bg-green-700 hover:bg-green-600");
+            return "background-color: var(--color-success, #10b981); color: var(--color-text-on-primary, white);";
         }
-        
-        return string.Join(" ", classes);
+        return "background-color: var(--color-surface-inverse, #374151); color: var(--color-text-on-inverse, #d1d5db);";
     }
     
     private async Task CopyToClipboard()

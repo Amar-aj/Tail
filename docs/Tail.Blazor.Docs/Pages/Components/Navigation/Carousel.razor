@@ -1,0 +1,49 @@
+@page "/components/carousel"
+@using Tail.Blazor.Carousel
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Carousel - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailCarousel" 
+                 Description="Image and content carousel component with navigation controls. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Carousel" Code="@basicCode">
+            <PreviewContent>
+                <TailCarousel Items="@carouselItems" AutoPlay="true" ShowIndicators="true" ShowControls="true" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Carousel";
+
+    private string basicCode = @"<TailCarousel Items=""@carouselItems"" AutoPlay=""true"" ShowIndicators=""true"" ShowControls=""true"" />";
+
+    private List<RenderFragment> carouselItems = new();
+    
+    protected override void OnInitialized()
+    {
+        carouselItems = new List<RenderFragment>
+        {
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-primary-light, #dbeafe);'>Slide 1</div>"),
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-success-light, #d1fae5);'>Slide 2</div>"),
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-warning-light, #fef3c7);'>Slide 3</div>")
+        };
+    }
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<RenderFragment>", Default = "-", Description = "Carousel slide content" },
+        new DocPageTemplate.ApiParameter { Name = "AutoPlay", Type = "bool", Default = "false", Description = "Enable auto-play" },
+        new DocPageTemplate.ApiParameter { Name = "ShowIndicators", Type = "bool", Default = "true", Description = "Show slide indicators" }
+    };
+}
+

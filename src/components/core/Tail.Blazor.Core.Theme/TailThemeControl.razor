@@ -100,10 +100,24 @@
 
     private bool isDropdownOpen = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await ThemeService.InitializeAsync();
         ThemeService.OnThemeChanged += HandleThemeChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await ThemeService.InitializeAsync();
+            }
+            catch
+            {
+                // Handle JS interop errors gracefully during SSR
+            }
+        }
     }
 
     private void HandleThemeChanged()
@@ -265,7 +279,10 @@
 
     public void Dispose()
     {
-        ThemeService.OnThemeChanged -= HandleThemeChanged;
+        if (ThemeService != null)
+        {
+            ThemeService.OnThemeChanged -= HandleThemeChanged;
+        }
     }
 
     public enum DisplayStyle

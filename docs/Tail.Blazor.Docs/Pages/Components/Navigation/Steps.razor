@@ -1,0 +1,45 @@
+@page "/components/steps"
+@using Tail.Blazor.Steps
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Steps - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailSteps" 
+                 Description="Step indicator component for multi-step processes. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Steps" Code="@basicCode">
+            <PreviewContent>
+                <TailSteps Steps="@stepItems" CurrentStep="@currentStep" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private int currentStep = 1;
+
+    private string installCode = @"dotnet add package Tail.Blazor.Steps";
+
+    private string basicCode = @"<TailSteps Steps=""@stepItems"" CurrentStep=""@currentStep"" />";
+
+    private List<TailSteps.StepItem> stepItems = new()
+    {
+        new TailSteps.StepItem { Title = "Step 1", Description = "First step" },
+        new TailSteps.StepItem { Title = "Step 2", Description = "Second step" },
+        new TailSteps.StepItem { Title = "Step 3", Description = "Third step" }
+    };
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Steps", Type = "List<StepItem>", Default = "-", Description = "Step items" },
+        new DocPageTemplate.ApiParameter { Name = "CurrentStep", Type = "int", Default = "0", Description = "Current active step index" }
+    };
+}
+

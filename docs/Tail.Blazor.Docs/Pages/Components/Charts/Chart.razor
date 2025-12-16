@@ -1,0 +1,40 @@
+@page "/components/chart"
+@using Tail.Blazor.Chart
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Chart - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailChart" 
+                 Description="Chart component for data visualization with multiple chart types. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Charts"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Chart" Code="@basicCode">
+            <PreviewContent>
+                <TailChart ChartType="ChartType.Line" Data="@chartData" Width="400" Height="200" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Charts";
+
+    private string basicCode = @"<TailChart ChartType=""ChartType.Line"" Data=""@chartData"" Width=""400"" Height=""200"" />";
+
+    private List<double> chartData = new() { 12, 19, 3, 5, 2, 3, 10 };
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChartType", Type = "ChartType", Default = "Line", Description = "Chart type (Line, Bar, Area, Pie)" },
+        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "-", Description = "Chart data points" },
+        new DocPageTemplate.ApiParameter { Name = "Width", Type = "int", Default = "400", Description = "Chart width in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "200", Description = "Chart height in pixels" }
+    };
+}
+

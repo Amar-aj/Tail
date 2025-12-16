@@ -1,0 +1,79 @@
+@namespace Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Divider
+@using Tail.Blazor.Badge
+
+<TailContainer Size="ContainerSize.Xxl" Class="py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">@Title</h1>
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <p class="text-lg" style="color: var(--color-text-secondary)">@Description</p>
+        }
+        @if (!string.IsNullOrEmpty(PackageName))
+        {
+            <div class="mt-4">
+                <TailBadge Variant="Badge.BadgeVariant.Info" Size="Badge.BadgeSize.Sm">
+                    @PackageName
+                </TailBadge>
+            </div>
+        }
+    </div>
+
+    <!-- Content Sections -->
+    @ChildContent
+
+    <!-- API Reference Section -->
+    @if (ApiParameters != null && ApiParameters.Any())
+    {
+        <TailCard Class="mt-8">
+            <Header>
+                <h2 class="text-3xl font-bold" style="color: var(--color-text-primary)">API Reference</h2>
+            </Header>
+            <ChildContent>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y" style="border-color: var(--color-border)">
+                        <thead style="background-color: var(--color-surface-secondary)">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Parameter</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Default</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y" style="background-color: var(--color-surface); border-color: var(--color-border)">
+                            @foreach (var param in ApiParameters)
+                            {
+                                <tr>
+                                    <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">@param.Name</td>
+                                    <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">@param.Type</td>
+                                    <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">@param.Default</td>
+                                    <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">@param.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </ChildContent>
+        </TailCard>
+    }
+</TailContainer>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public string? PackageName { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public List<ApiParameter>? ApiParameters { get; set; }
+
+    public class ApiParameter
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string Default { get; set; } = "-";
+        public string Description { get; set; } = string.Empty;
+    }
+}
+

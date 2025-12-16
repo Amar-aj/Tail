@@ -1,0 +1,42 @@
+@page "/components/breadcrumb"
+@using Tail.Blazor.Breadcrumb
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Breadcrumb - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailBreadcrumb" 
+                 Description="Navigation breadcrumb component for showing current page location. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Breadcrumb" Code="@basicCode">
+            <PreviewContent>
+                <TailBreadcrumb Items="@breadcrumbItems" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Breadcrumb";
+
+    private string basicCode = @"<TailBreadcrumb Items=""@breadcrumbItems"" />";
+
+    private List<TailBreadcrumb.BreadcrumbItem> breadcrumbItems = new()
+    {
+        new TailBreadcrumb.BreadcrumbItem { Text = "Home", Href = "/" },
+        new TailBreadcrumb.BreadcrumbItem { Text = "Components", Href = "/components" },
+        new TailBreadcrumb.BreadcrumbItem { Text = "Breadcrumb", Href = "/components/breadcrumb" }
+    };
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<BreadcrumbItem>", Default = "-", Description = "Breadcrumb items" }
+    };
+}
+

@@ -1,0 +1,63 @@
+@page "/components/split-button"
+@using Tail.Blazor.Button
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
+@using Microsoft.AspNetCore.Components
+@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
+
+<PageTitle>SplitButton - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailSplitButton" 
+                 Description="Button with a dropdown menu for additional actions. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Buttons"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Split Button" Code="@basicCode">
+            <PreviewContent>
+                <TailSplitButton Variant="Blazor.SplitButton.ButtonVariant.Primary" OnPrimaryClick="HandleMainClick">
+                    <PrimaryContent>Save</PrimaryContent>
+                    <DropdownContent>
+                        <button @onclick="HandleSaveAs">Save As...</button>
+                        <button @onclick="HandleSaveAll">Save All</button>
+                    </DropdownContent>
+                </TailSplitButton>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="Alert.AlertVariant.Info" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string message = string.Empty;
+
+    private string installCode = @"dotnet add package Tail.Blazor.Buttons";
+
+    private string basicCode = @"<TailSplitButton Variant=""ButtonVariant.Primary"" OnPrimaryClick=""HandleMainClick"">
+    <PrimaryContent>Save</PrimaryContent>
+    <DropdownContent>
+        <button @onclick=""HandleSaveAs"">Save As...</button>
+        <button @onclick=""HandleSaveAll"">Save All</button>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "ButtonVariant", Default = "Primary", Description = "Button variant" },
+        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback", Default = "-", Description = "Main button click handler" }
+    };
+
+    private void HandleMainClick() => message = "Main button clicked!";
+    private void HandleSaveAs() => message = "Save As clicked!";
+    private void HandleSaveAll() => message = "Save All clicked!";
+}
+

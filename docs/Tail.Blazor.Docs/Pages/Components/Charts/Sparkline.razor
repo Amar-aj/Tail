@@ -1,0 +1,39 @@
+@page "/components/sparkline"
+@using Tail.Blazor.Chart
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Sparkline - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailSparkline" 
+                 Description="Miniature inline chart component for trend visualization. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Charts"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Sparkline" Code="@basicCode">
+            <PreviewContent>
+                <TailSparkline Data="@sparklineData" Width="200" Height="50" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Charts";
+
+    private string basicCode = @"<TailSparkline Data=""@sparklineData"" Width=""200"" Height=""50"" />";
+
+    private List<double> sparklineData = new() { 10, 20, 15, 25, 30, 20, 35 };
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "-", Description = "Data points" },
+        new DocPageTemplate.ApiParameter { Name = "Width", Type = "int", Default = "200", Description = "Chart width" },
+        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "50", Description = "Chart height" }
+    };
+}
+
