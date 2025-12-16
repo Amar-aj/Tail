@@ -43,7 +43,8 @@
                     </div>
                     <TailSwitch 
                         Label="Test Switch" 
-                        @bind-IsChecked="basicSwitch"
+                        IsChecked="@basicSwitch"
+                        IsCheckedChanged="@((bool val) => basicSwitch = val)"
                         OnToggle="HandleToggle"
                         Variant="SwitchVariant.Primary"
                         Size="SwitchSize.Md" />
@@ -60,23 +61,23 @@
             <PreviewContent>
                 <div class="space-y-4">
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Primary" Variant="SwitchVariant.Primary" @bind-IsChecked="primaryVariant" />
+                        <TailSwitch Label="Primary" Variant="SwitchVariant.Primary" IsChecked="@primaryVariant" IsCheckedChanged="@((bool val) => primaryVariant = val)" />
                         <span class="text-sm text-gray-500">Blue theme color</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Success" Variant="SwitchVariant.Success" @bind-IsChecked="successVariant" />
+                        <TailSwitch Label="Success" Variant="SwitchVariant.Success" IsChecked="@successVariant" IsCheckedChanged="@((bool val) => successVariant = val)" />
                         <span class="text-sm text-gray-500">Green for success states</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Warning" Variant="SwitchVariant.Warning" @bind-IsChecked="warningVariant" />
+                        <TailSwitch Label="Warning" Variant="SwitchVariant.Warning" IsChecked="@warningVariant" IsCheckedChanged="@((bool val) => warningVariant = val)" />
                         <span class="text-sm text-gray-500">Yellow for warnings</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Danger" Variant="SwitchVariant.Danger" @bind-IsChecked="dangerVariant" />
+                        <TailSwitch Label="Danger" Variant="SwitchVariant.Danger" IsChecked="@dangerVariant" IsCheckedChanged="@((bool val) => dangerVariant = val)" />
                         <span class="text-sm text-gray-500">Red for dangerous actions</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Emoji" Variant="SwitchVariant.Primary" @bind-IsChecked="emojiVariant" />
+                        <TailSwitch Label="Emoji" Variant="SwitchVariant.Primary" IsChecked="@emojiVariant" IsCheckedChanged="@((bool val) => emojiVariant = val)" />
                         <span class="text-sm text-gray-500">Primary variant with emoji labels</span>
                     </div>
                 </div>
@@ -92,15 +93,15 @@
             <PreviewContent>
                 <div class="space-y-6">
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Small" Size="SwitchSize.Sm" @bind-IsChecked="smSize" />
+                        <TailSwitch Label="Small" Size="SwitchSize.Sm" IsChecked="@smSize" IsCheckedChanged="@((bool val) => smSize = val)" />
                         <code class="text-xs text-gray-500">SwitchSize.Sm</code>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Medium (Default)" Size="SwitchSize.Md" @bind-IsChecked="mdSize" />
+                        <TailSwitch Label="Medium (Default)" Size="SwitchSize.Md" IsChecked="@mdSize" IsCheckedChanged="@((bool val) => mdSize = val)" />
                         <code class="text-xs text-gray-500">SwitchSize.Md</code>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <TailSwitch Label="Large" Size="SwitchSize.Lg" @bind-IsChecked="lgSize" />
+                        <TailSwitch Label="Large" Size="SwitchSize.Lg" IsChecked="@lgSize" IsCheckedChanged="@((bool val) => lgSize = val)" />
                         <code class="text-xs text-gray-500">SwitchSize.Lg</code>
                     </div>
                 </div>
@@ -119,7 +120,8 @@
                         Label="With default labels" 
                         ShowLabels="true"
                         Size="SwitchSize.Md"
-                        @bind-IsChecked="labelsDefault" />
+                        IsChecked="@labelsDefault"
+                        IsCheckedChanged="@((bool val) => labelsDefault = val)" />
                     
                     <TailSwitch 
                         Label="Custom labels" 
@@ -128,7 +130,8 @@
                         OffLabel="NO"
                         Size="SwitchSize.Lg"
                         Variant="SwitchVariant.Success"
-                        @bind-IsChecked="labelsCustom" />
+                        IsChecked="@labelsCustom"
+                        IsCheckedChanged="@((bool val) => labelsCustom = val)" />
                     
                     <TailSwitch 
                         Label="Emoji labels (Primary)" 
@@ -137,7 +140,8 @@
                         OffLabel="?"
                         Size="SwitchSize.Lg"
                         Variant="SwitchVariant.Primary"
-                        @bind-IsChecked="labelsEmoji" />
+                        IsChecked="@labelsEmoji"
+                        IsCheckedChanged="@((bool val) => labelsEmoji = val)" />
                     
                     <TailSwitch 
                         Label="Professional Emoji Style" 
@@ -146,7 +150,8 @@
                         OffLabel="❌"
                         Size="SwitchSize.Lg"
                         Variant="SwitchVariant.Primary"
-                        @bind-IsChecked="labelsEmojiPro" />
+                        IsChecked="@labelsEmojiPro"
+                        IsCheckedChanged="@((bool val) => labelsEmojiPro = val)" />
                     
                     <TailSwitch 
                         Label="Emoji Toggle (Light/Dark)" 
@@ -155,7 +160,8 @@
                         OffLabel="☀️"
                         Size="SwitchSize.Lg"
                         Variant="SwitchVariant.Primary"
-                        @bind-IsChecked="labelsEmojiTheme" />
+                        IsChecked="@labelsEmojiTheme"
+                        IsCheckedChanged="@((bool val) => labelsEmojiTheme = val)" />
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -175,7 +181,8 @@
                     
                     <TailSwitch 
                         Label="Click to toggle with delay" 
-                        @bind-IsChecked="loadingSwitch"
+                        IsChecked="@loadingSwitch"
+                        IsCheckedChanged="@((bool val) => loadingSwitch = val)"
                         Loading="@isLoading"
                         OnToggle="HandleLoadingToggle"
                         Variant="SwitchVariant.Primary" />
@@ -199,21 +206,24 @@
                     <TailSwitch 
                         Label="Checkmark icon" 
                         CheckedIcon="<svg class='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/></svg>"
-                        @bind-IsChecked="iconCheck"
+                        IsChecked="@iconCheck"
+                        IsCheckedChanged="@((bool val) => iconCheck = val)"
                         Variant="SwitchVariant.Success" />
                     
                     <TailSwitch 
                         Label="Lock/Unlock icons" 
                         CheckedIcon="<svg class='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path d='M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z'/></svg>"
                         UncheckedIcon="<svg class='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path fill-rule='evenodd' d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z' clip-rule='evenodd'/></svg>"
-                        @bind-IsChecked="iconLock"
+                        IsChecked="@iconLock"
+                        IsCheckedChanged="@((bool val) => iconLock = val)"
                         Variant="SwitchVariant.Warning" />
                     
                     <TailSwitch 
                         Label="Volume icons" 
                         CheckedIcon="<svg class='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path fill-rule='evenodd' d='M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z' clip-rule='evenodd'/></svg>"
                         UncheckedIcon="<svg class='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path fill-rule='evenodd' d='M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z' clip-rule='evenodd'/></svg>"
-                        @bind-IsChecked="iconVolume"
+                        IsChecked="@iconVolume"
+                        IsCheckedChanged="@((bool val) => iconVolume = val)"
                         Variant="SwitchVariant.Primary" />
                 </div>
             </PreviewContent>
@@ -244,7 +254,8 @@
                 <div class="space-y-4">
                     <TailSwitch 
                         Label="Toggle me to see events" 
-                        @bind-IsChecked="eventSwitch"
+                        IsChecked="@eventSwitch"
+                        IsCheckedChanged="@((bool val) => eventSwitch = val)"
                         OnToggle="HandleEventToggle"
                         Variant="SwitchVariant.Primary" />
                     
@@ -284,7 +295,7 @@
                                     <div class="font-medium text-gray-900 dark:text-white">?? Push Notifications</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">Receive alerts and updates</div>
                                 </div>
-                                <TailSwitch @bind-IsChecked="settings.Notifications" Variant="SwitchVariant.Primary" />
+                                <TailSwitch IsChecked="@settings.Notifications" IsCheckedChanged="@((bool val) => settings.Notifications = val)" Variant="SwitchVariant.Primary" />
                             </div>
                             
                             <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
@@ -292,7 +303,7 @@
                                     <div class="font-medium text-gray-900 dark:text-white">?? Email Updates</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">Daily digest emails</div>
                                 </div>
-                                <TailSwitch @bind-IsChecked="settings.EmailUpdates" Variant="SwitchVariant.Success" />
+                                <TailSwitch IsChecked="@settings.EmailUpdates" IsCheckedChanged="@((bool val) => settings.EmailUpdates = val)" Variant="SwitchVariant.Success" />
                             </div>
                             
                             <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
@@ -300,7 +311,7 @@
                                     <div class="font-medium text-gray-900 dark:text-white">?? Two-Factor Authentication</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">Extra security for your account</div>
                                 </div>
-                                <TailSwitch @bind-IsChecked="settings.TwoFactor" Variant="SwitchVariant.Success" />
+                                <TailSwitch IsChecked="@settings.TwoFactor" IsCheckedChanged="@((bool val) => settings.TwoFactor = val)" Variant="SwitchVariant.Success" />
                             </div>
                             
                             <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
@@ -308,7 +319,7 @@
                                     <div class="font-medium text-gray-900 dark:text-white">?? Dark Mode</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">Toggle dark theme</div>
                                 </div>
-                                <TailSwitch @bind-IsChecked="settings.DarkMode" ShowLabels="true" OnLabel="ON" OffLabel="OFF" Size="SwitchSize.Lg" />
+                                <TailSwitch IsChecked="@settings.DarkMode" IsCheckedChanged="@((bool val) => settings.DarkMode = val)" ShowLabels="true" OnLabel="ON" OffLabel="OFF" Size="SwitchSize.Lg" />
                             </div>
                             
                             <div class="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
@@ -316,7 +327,7 @@
                                     <div class="font-medium text-gray-900 dark:text-white">?? Analytics</div>
                                     <div class="text-sm text-gray-500 dark:text-gray-400">Help improve the app</div>
                                 </div>
-                                <TailSwitch @bind-IsChecked="settings.Analytics" Variant="SwitchVariant.Primary" />
+                                <TailSwitch IsChecked="@settings.Analytics" IsCheckedChanged="@((bool val) => settings.Analytics = val)" Variant="SwitchVariant.Primary" />
                             </div>
                         </div>
                         

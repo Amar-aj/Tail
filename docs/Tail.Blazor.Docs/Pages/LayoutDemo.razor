@@ -23,61 +23,61 @@
             <!-- Layout Mode -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Layout Mode</label>
-                <TailSelect @bind-Value="selectedLayoutModeStr" Items="@layoutModeOptions" />
+                <TailSelect Value="@selectedLayoutModeStr" ValueChanged="@((string? val) => selectedLayoutModeStr = val)" Items="@layoutModeOptions" />
             </div>
 
             <!-- Density -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Density</label>
-                <TailSelect @bind-Value="selectedDensityStr" Items="@densityOptions" />
+                <TailSelect Value="@selectedDensityStr" ValueChanged="@((string? val) => selectedDensityStr = val)" Items="@densityOptions" />
             </div>
 
             <!-- Menu Position -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Menu Position</label>
-                <TailSelect @bind-Value="selectedMenuPositionStr" Items="@menuPositionOptions" />
+                <TailSelect Value="@selectedMenuPositionStr" ValueChanged="@((string? val) => selectedMenuPositionStr = val)" Items="@menuPositionOptions" />
             </div>
 
             <!-- Show Menu Toggle -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Menu Toggle</label>
-                <TailSwitch @bind-IsChecked="showMenuToggle" Label="Enable Menu Toggle" />
+                <TailSwitch IsChecked="@showMenuToggle" IsCheckedChanged="@((bool val) => showMenuToggle = val)" Label="Enable Menu Toggle" />
             </div>
 
             <!-- Show Theme Toggle -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Theme Toggle</label>
-                <TailSwitch @bind-IsChecked="showThemeToggle" Label="Enable Theme Toggle" />
+                <TailSwitch IsChecked="@showThemeToggle" IsCheckedChanged="@((bool val) => showThemeToggle = val)" Label="Enable Theme Toggle" />
             </div>
 
             <!-- Show Avatar -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Show Avatar</label>
-                <TailSwitch @bind-IsChecked="showAvatar" Label="Enable Avatar" />
+                <TailSwitch IsChecked="@showAvatar" IsCheckedChanged="@((bool val) => showAvatar = val)" Label="Enable Avatar" />
             </div>
 
             <!-- Sticky Header -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Sticky Header</label>
-                <TailSwitch @bind-IsChecked="stickyHeader" Label="Sticky Header" />
+                <TailSwitch IsChecked="@stickyHeader" IsCheckedChanged="@((bool val) => stickyHeader = val)" Label="Sticky Header" />
             </div>
 
             <!-- Header Shadow -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Header Shadow</label>
-                <TailSwitch @bind-IsChecked="headerShadow" Label="Header Shadow" />
+                <TailSwitch IsChecked="@headerShadow" IsCheckedChanged="@((bool val) => headerShadow = val)" Label="Header Shadow" />
             </div>
 
             <!-- Collapsible Menu -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Collapsible Menu</label>
-                <TailSwitch @bind-IsChecked="collapsibleMenu" Label="Collapsible Menu" />
+                <TailSwitch IsChecked="@collapsibleMenu" IsCheckedChanged="@((bool val) => collapsibleMenu = val)" Label="Collapsible Menu" />
             </div>
 
             <!-- Menu Open by Default -->
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">Menu Open by Default</label>
-                <TailSwitch @bind-IsChecked="menuOpenByDefault" Label="Open by Default" />
+                <TailSwitch IsChecked="@menuOpenByDefault" IsCheckedChanged="@((bool val) => menuOpenByDefault = val)" Label="Open by Default" />
             </div>
         </div>
 
@@ -85,11 +85,11 @@
         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">User Name</label>
-                <TailInput @bind-Value="userName" Placeholder="Enter user name" />
+                <TailInput Value="@userName" ValueChanged="@((string? val) => userName = val)" Placeholder="Enter user name" />
             </div>
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">User Email</label>
-                <TailInput @bind-Value="userEmail" Placeholder="Enter user email" Type="InputType.Email" />
+                <TailInput Value="@userEmail" ValueChanged="@((string? val) => userEmail = val)" Placeholder="Enter user email" Type="InputType.Email" />
             </div>
         </div>
     </div>

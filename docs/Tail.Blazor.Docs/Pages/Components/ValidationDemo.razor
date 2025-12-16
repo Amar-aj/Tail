@@ -228,7 +228,8 @@
                     <div>
                         <TailSwitch 
                             Label="Enable Phone Validation"
-                            @bind-IsChecked="showPhoneValidation" />
+                            IsChecked="@showPhoneValidation"
+                            IsCheckedChanged="@((bool val) => showPhoneValidation = val)" />
                     </div>
                 </div>
             </PreviewContent>

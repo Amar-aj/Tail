@@ -1,21 +1,15 @@
 using Tail.Blazor.Core;
 using Tail.Blazor.Core.Theme;
-using Tail.Blazor.Core.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddTailBlazor(config =>
-{
-    config.ThemeMode = ThemeMode.Light;
-    config.ThemePalette = ThemePalette.Blue;
-    config.UseGradients = true;
-});
+builder.Services.AddTailBlazor();
 
 // Add Theme Service with localStorage support
-builder.Services.AddTailBlazorTheme();
+builder.Services.AddScoped<ThemeService>();
 
 var app = builder.Build();
 

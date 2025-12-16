@@ -70,7 +70,7 @@
                     <ul class="space-y-1 text-sm" style="color: var(--color-text-muted)">
                         @foreach (var feature in component.Features)
                         {
-                            <li>• @feature</li>
+                            <li>ï¿½ @feature</li>
                         }
                     </ul>
                 </div>
@@ -122,10 +122,10 @@
             <div class="p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
                 <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">TailInput - Enhanced Focus & Transitions</h3>
                 <div class="grid md:grid-cols-2 gap-4">
-                    <TailInput @bind-Value="@demoInput1" Label="Small Input" Size="InputSize.Sm" Placeholder="Focus me to see transition..." ShowClearButton="true" />
-                    <TailInput @bind-Value="@demoInput2" Label="Medium Input" Size="InputSize.Md" Placeholder="With smooth transitions..." ShowClearButton="true" />
-                    <TailInput @bind-Value="@demoInput3" Label="Large Input" Size="InputSize.Lg" Placeholder="Try typing something..." ShowClearButton="true" />
-                    <TailInput @bind-Value="@demoInput4" Label="With Error" ErrorMessage="This field is required" Placeholder="Error state styling..." />
+                    <TailInput Value="@demoInput1" ValueChanged="@((string? val) => demoInput1 = val)" Label="Small Input" Size="InputSize.Sm" Placeholder="Focus me to see transition..." ShowClearButton="true" />
+                    <TailInput Value="@demoInput2" ValueChanged="@((string? val) => demoInput2 = val)" Label="Medium Input" Size="InputSize.Md" Placeholder="With smooth transitions..." ShowClearButton="true" />
+                    <TailInput Value="@demoInput3" ValueChanged="@((string? val) => demoInput3 = val)" Label="Large Input" Size="InputSize.Lg" Placeholder="Try typing something..." ShowClearButton="true" />
+                    <TailInput Value="@demoInput4" ValueChanged="@((string? val) => demoInput4 = val)" Label="With Error" ErrorMessage="This field is required" Placeholder="Error state styling..." />
                 </div>
             </div>
         </div>
@@ -192,9 +192,9 @@ transition: var(--transition-normal);</pre>
                     <span class="font-semibold" style="color: var(--color-text-primary)">Mobile Optimization</span>
                 </div>
                 <ul class="text-sm space-y-1" style="color: var(--color-text-muted)">
-                    <li>• Touch-friendly interactions</li>
-                    <li>• Responsive breakpoints</li>
-                    <li>• Mobile-first approach</li>
+                    <li>ï¿½ Touch-friendly interactions</li>
+                    <li>ï¿½ Responsive breakpoints</li>
+                    <li>ï¿½ Mobile-first approach</li>
                 </ul>
             </div>
 
@@ -204,9 +204,9 @@ transition: var(--transition-normal);</pre>
                     <span class="font-semibold" style="color: var(--color-text-primary)">Accessibility Audit</span>
                 </div>
                 <ul class="text-sm space-y-1" style="color: var(--color-text-muted)">
-                    <li>• WCAG AA compliance</li>
-                    <li>• Screen reader support</li>
-                    <li>• Keyboard navigation</li>
+                    <li>ï¿½ WCAG AA compliance</li>
+                    <li>ï¿½ Screen reader support</li>
+                    <li>ï¿½ Keyboard navigation</li>
                 </ul>
             </div>
 
@@ -216,9 +216,9 @@ transition: var(--transition-normal);</pre>
                     <span class="font-semibold" style="color: var(--color-text-primary)">Focus Management</span>
                 </div>
                 <ul class="text-sm space-y-1" style="color: var(--color-text-muted)">
-                    <li>• Clear focus indicators</li>
-                    <li>• Tab order optimization</li>
-                    <li>• Focus trap for modals</li>
+                    <li>ï¿½ Clear focus indicators</li>
+                    <li>ï¿½ Tab order optimization</li>
+                    <li>ï¿½ Focus trap for modals</li>
                 </ul>
             </div>
 
@@ -228,9 +228,9 @@ transition: var(--transition-normal);</pre>
                     <span class="font-semibold" style="color: var(--color-text-primary)">Visual Consistency</span>
                 </div>
                 <ul class="text-sm space-y-1" style="color: var(--color-text-muted)">
-                    <li>• Unified spacing system</li>
-                    <li>• Consistent animations</li>
-                    <li>• Harmonized typography</li>
+                    <li>ï¿½ Unified spacing system</li>
+                    <li>ï¿½ Consistent animations</li>
+                    <li>ï¿½ Harmonized typography</li>
                 </ul>
             </div>
         </div>

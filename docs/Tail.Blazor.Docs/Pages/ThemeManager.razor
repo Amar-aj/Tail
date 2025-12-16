@@ -216,7 +216,7 @@
                     <!-- Inputs -->
                     <div class="mb-6">
                         <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Inputs</h3>
-                        <TailInput @bind-Value="@previewInput" Label="Sample Input" Placeholder="Type something..." />
+                        <TailInput Value="@previewInput" ValueChanged="@((string? val) => previewInput = val)" Label="Sample Input" Placeholder="Type something..." />
                     </div>
 
                     <!-- Surface Levels -->
