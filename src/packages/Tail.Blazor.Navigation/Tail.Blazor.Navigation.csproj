@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Navigation</Product>
-    <Description>Navigation components for Tail.Blazor - Sidebar, Menu, Tabs, Breadcrumb, Accordion, Carousel, Steps. Ultra-lightweight (80 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor navigation components. Includes: Tabs, Accordion, AccordionItem, Breadcrumb, Steps, Sidebar, Menu, MenuItem, Carousel, ContextMenu, Pagination, CommandPalette, FloatingActionMenu, MegaMenu, ScrollSpy. Ultra-lightweight (~45 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;navigation;menu;sidebar;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;navigation;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Tabs\Tail.Blazor.Tabs.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Accordion\Tail.Blazor.Accordion.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.AccordionItem\Tail.Blazor.AccordionItem.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Breadcrumb\Tail.Blazor.Breadcrumb.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Steps\Tail.Blazor.Steps.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Sidebar\Tail.Blazor.Sidebar.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Menu\Tail.Blazor.Menu.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.MenuItem\Tail.Blazor.MenuItem.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Carousel\Tail.Blazor.Carousel.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.ContextMenu\Tail.Blazor.ContextMenu.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.Pagination\Tail.Blazor.Pagination.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.CommandPalette\Tail.Blazor.CommandPalette.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.FloatingActionMenu\Tail.Blazor.FloatingActionMenu.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.MegaMenu\Tail.Blazor.MegaMenu.csproj" />
+    <ProjectReference Include="..\..\components\navigation\Tail.Blazor.ScrollSpy\Tail.Blazor.ScrollSpy.csproj" />
   </ItemGroup>
 
 </Project>
-

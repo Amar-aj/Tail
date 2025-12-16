@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Charts</Product>
-    <Description>Chart components for Tail.Blazor - Pie, Bar, Line, Area, Donut, Stacked, Sparkline. Minimal JS interop (65 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor chart components. Includes: Chart, Sparkline. Ultra-lightweight (~7 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;charts;visualization;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;charts;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\charts\Tail.Blazor.Chart\Tail.Blazor.Chart.csproj" />
+    <ProjectReference Include="..\..\components\charts\Tail.Blazor.Sparkline\Tail.Blazor.Sparkline.csproj" />
   </ItemGroup>
 
 </Project>
-

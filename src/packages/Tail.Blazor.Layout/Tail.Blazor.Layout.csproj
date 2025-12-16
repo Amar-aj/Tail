@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Layout</Product>
-    <Description>Layout components for Tail.Blazor - Card, Panel, Grid, Container, Section, Divider. Ultra-lightweight (45 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor layout components. Includes: Grid, Card, Panel, Container, Divider, ResponsiveLayout, Header, CollapsibleMenu, NavMenu, SplitPane, BottomSheet, DockingLayout. Ultra-lightweight (~36 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;layout;card;grid;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;layout;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Grid\Tail.Blazor.Grid.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Card\Tail.Blazor.Card.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Panel\Tail.Blazor.Panel.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Container\Tail.Blazor.Container.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Divider\Tail.Blazor.Divider.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.ResponsiveLayout\Tail.Blazor.ResponsiveLayout.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.Header\Tail.Blazor.Header.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.CollapsibleMenu\Tail.Blazor.CollapsibleMenu.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.NavMenu\Tail.Blazor.NavMenu.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.SplitPane\Tail.Blazor.SplitPane.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.BottomSheet\Tail.Blazor.BottomSheet.csproj" />
+    <ProjectReference Include="..\..\components\layout\Tail.Blazor.DockingLayout\Tail.Blazor.DockingLayout.csproj" />
   </ItemGroup>
 
 </Project>
-

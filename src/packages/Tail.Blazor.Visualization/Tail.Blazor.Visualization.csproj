@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Visualization</Product>
-    <Description>Visualization components for Tail.Blazor - Gauges, GoogleMap, QRCode, Timeline. Minimal JS interop (75 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor visualization components. Includes: Timeline, QRCode, ArcGauge, GanttChart, OrganizationChart, Flowchart. Ultra-lightweight (~24 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;visualization;gauges;maps;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;visualization;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.Timeline\Tail.Blazor.Timeline.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.QRCode\Tail.Blazor.QRCode.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.ArcGauge\Tail.Blazor.ArcGauge.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.GanttChart\Tail.Blazor.GanttChart.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.OrganizationChart\Tail.Blazor.OrganizationChart.csproj" />
+    <ProjectReference Include="..\..\components\visualization\Tail.Blazor.Flowchart\Tail.Blazor.Flowchart.csproj" />
   </ItemGroup>
 
 </Project>
-

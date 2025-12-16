@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Utils</Product>
-    <Description>Utility helpers for Tail.Blazor - JS interop helpers (minimal). Ultra-lightweight (28 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor utility components. Includes: Clipboard, ImageZoom. Ultra-lightweight (~5 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;utils;helpers;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;utils;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,13 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-    <PackageReference Include="Microsoft.JSInterop" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\utils\Tail.Blazor.Clipboard\Tail.Blazor.Clipboard.csproj" />
+    <ProjectReference Include="..\..\components\utils\Tail.Blazor.ImageZoom\Tail.Blazor.ImageZoom.csproj" />
   </ItemGroup>
 
 </Project>
-

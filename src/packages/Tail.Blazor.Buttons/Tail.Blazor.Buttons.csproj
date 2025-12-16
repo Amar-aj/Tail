@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Buttons</Product>
-    <Description>Button components for Tail.Blazor - All button types, FAB, Toggle, Split. Ultra-lightweight (22 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor button components. Includes: Button, IconButton, ToggleButton, SplitButton, FAB, ButtonGroup. Ultra-lightweight (~18 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;buttons;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;buttons;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.Button\Tail.Blazor.Button.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.IconButton\Tail.Blazor.IconButton.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.ToggleButton\Tail.Blazor.ToggleButton.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.SplitButton\Tail.Blazor.SplitButton.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.FAB\Tail.Blazor.FAB.csproj" />
+    <ProjectReference Include="..\..\components\buttons\Tail.Blazor.ButtonGroup\Tail.Blazor.ButtonGroup.csproj" />
   </ItemGroup>
 
 </Project>
-

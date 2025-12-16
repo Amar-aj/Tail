@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Validators</Product>
-    <Description>Validation components for Tail.Blazor - Required, Regex, Custom, Email, Length, NumericRange, Compare validators. Ultra-lightweight (35 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor validator components. Includes: Validator, RequiredValidator, EmailValidator, RegexValidator, LengthValidator, RangeValidator, CompareValidator, CustomValidator, NumericRangeValidator. Ultra-lightweight (~9 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;validation;validators;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;validators;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.Validator\Tail.Blazor.Validator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.RequiredValidator\Tail.Blazor.RequiredValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.EmailValidator\Tail.Blazor.EmailValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.RegexValidator\Tail.Blazor.RegexValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.LengthValidator\Tail.Blazor.LengthValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.RangeValidator\Tail.Blazor.RangeValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.CompareValidator\Tail.Blazor.CompareValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.CustomValidator\Tail.Blazor.CustomValidator.csproj" />
+    <ProjectReference Include="..\..\components\validators\Tail.Blazor.NumericRangeValidator\Tail.Blazor.NumericRangeValidator.csproj" />
   </ItemGroup>
 
 </Project>
-

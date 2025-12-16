@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Data</Product>
-    <Description>Data components for Tail.Blazor - DataGrid, ListView, Pager, Scheduler, Tree, PivotDataGrid. Ultra-lightweight (110 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor data components. Includes: DataGrid, ListView, Pager, Scheduler, Tree, PivotDataGrid, ResponsiveTable, VirtualScroll, KanbanBoard, AdvancedFilter. Ultra-lightweight (~50 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;datagrid;data;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;data;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.DataGrid\Tail.Blazor.DataGrid.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.ListView\Tail.Blazor.ListView.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.Pager\Tail.Blazor.Pager.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.Scheduler\Tail.Blazor.Scheduler.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.Tree\Tail.Blazor.Tree.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.PivotDataGrid\Tail.Blazor.PivotDataGrid.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.ResponsiveTable\Tail.Blazor.ResponsiveTable.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.VirtualScroll\Tail.Blazor.VirtualScroll.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.KanbanBoard\Tail.Blazor.KanbanBoard.csproj" />
+    <ProjectReference Include="..\..\components\data\Tail.Blazor.AdvancedFilter\Tail.Blazor.AdvancedFilter.csproj" />
   </ItemGroup>
 
 </Project>
-

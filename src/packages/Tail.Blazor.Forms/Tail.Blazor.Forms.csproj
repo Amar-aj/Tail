@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Forms</Product>
-    <Description>Form components for Tail.Blazor - Inputs, Selects, Validation, AutoComplete, ColorPicker, Mask, Numeric, Rating. Ultra-lightweight (95 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor form components. Includes: Input, Textarea, Select, Checkbox, Switch, Slider, Rating, Radio, RadioGroup, MultiSelect, DatePicker, DateRangePicker, TimePicker, FileUpload, AutoComplete, ColorPicker, Mask, Numeric, OTPInput, TagInput, CurrencyInput, PhoneNumberInput, PasswordStrengthMeter, RichTextEditor, ImageCropper, AudioRecorder. Ultra-lightweight (~78 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;forms;inputs;validation;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;forms;inputs;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,12 +24,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Input\Tail.Blazor.Input.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Textarea\Tail.Blazor.Textarea.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Select\Tail.Blazor.Select.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Checkbox\Tail.Blazor.Checkbox.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Switch\Tail.Blazor.Switch.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Slider\Tail.Blazor.Slider.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Rating\Tail.Blazor.Rating.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Radio\Tail.Blazor.Radio.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.RadioGroup\Tail.Blazor.RadioGroup.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.MultiSelect\Tail.Blazor.MultiSelect.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.DatePicker\Tail.Blazor.DatePicker.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.DateRangePicker\Tail.Blazor.DateRangePicker.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.TimePicker\Tail.Blazor.TimePicker.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.FileUpload\Tail.Blazor.FileUpload.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.AutoComplete\Tail.Blazor.AutoComplete.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.ColorPicker\Tail.Blazor.ColorPicker.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Mask\Tail.Blazor.Mask.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.Numeric\Tail.Blazor.Numeric.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.OTPInput\Tail.Blazor.OTPInput.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.TagInput\Tail.Blazor.TagInput.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.CurrencyInput\Tail.Blazor.CurrencyInput.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.PhoneNumberInput\Tail.Blazor.PhoneNumberInput.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.PasswordStrengthMeter\Tail.Blazor.PasswordStrengthMeter.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.RichTextEditor\Tail.Blazor.RichTextEditor.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.ImageCropper\Tail.Blazor.ImageCropper.csproj" />
+    <ProjectReference Include="..\..\components\forms\Tail.Blazor.AudioRecorder\Tail.Blazor.AudioRecorder.csproj" />
   </ItemGroup>
 
 </Project>
-
