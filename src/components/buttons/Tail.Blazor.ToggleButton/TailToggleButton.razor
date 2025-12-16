@@ -12,7 +12,14 @@
     aria-pressed="@IsToggled.ToString().ToLower()">
     @if (IsToggled)
     {
-        @ToggledContent ?? ChildContent
+        @if (ToggledContent != null)
+        {
+            @ToggledContent
+        }
+        else
+        {
+            @ChildContent
+        }
     }
     else
     {

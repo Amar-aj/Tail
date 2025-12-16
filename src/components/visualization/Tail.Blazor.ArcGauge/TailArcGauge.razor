@@ -17,15 +17,7 @@
             stroke-linecap="round" />
         @if (ShowLabel)
         {
-            <text
-                x="@(Size / 2)"
-                y="@(Size / 2 - 10)"
-                text-anchor="middle"
-                font-size="24"
-                font-weight="bold"
-                style="fill: var(--color-text-primary, black);">
-                @Value%
-            </text>
+            @((MarkupString)$"<text x=\"{Size / 2}\" y=\"{Size / 2 - 10}\" text-anchor=\"middle\" font-size=\"24\" font-weight=\"bold\" fill=\"var(--color-text-primary, black)\">{Value}%</text>")
         }
     </svg>
 </div>

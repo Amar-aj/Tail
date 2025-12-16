@@ -14,14 +14,7 @@
                 rx="5"
                 fill="var(--color-primary)"
                 style="fill: var(--color-primary);" />
-            <text
-                x="@(node.X + 50)"
-                y="@(node.Y + 30)"
-                text-anchor="middle"
-                fill="white"
-                font-size="14">
-                @node.Label
-            </text>
+            @((MarkupString)$"<text x=\"{node.X + 50}\" y=\"{node.Y + 30}\" text-anchor=\"middle\" fill=\"white\" font-size=\"14\">{node.Label}</text>")
         }
         @foreach (var connection in Connections)
         {

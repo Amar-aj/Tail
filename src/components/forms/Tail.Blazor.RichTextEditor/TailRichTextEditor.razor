@@ -11,18 +11,18 @@
     }
     <div class="border border-gray-300 rounded-lg overflow-hidden" style="border-color: var(--color-border, #d1d5db);">
         <div class="flex items-center gap-1 p-2 border-b border-gray-200 bg-gray-50" style="background-color: var(--color-surface-secondary, #f9fafb); border-color: var(--color-border, #d1d5db);">
-            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick="() => ExecuteCommand('bold')" title="Bold">
+            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick='() => ExecuteCommand("bold")' title="Bold">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z" />
                 </svg>
             </button>
-            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick="() => ExecuteCommand('italic')" title="Italic">
+            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick='() => ExecuteCommand("italic")' title="Italic">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                 </svg>
             </button>
-            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick="() => ExecuteCommand('underline')" title="Underline">
+            <button type="button" class="p-2 hover:bg-gray-200 rounded" @onclick='() => ExecuteCommand("underline")' title="Underline">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />

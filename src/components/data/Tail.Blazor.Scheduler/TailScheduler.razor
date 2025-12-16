@@ -14,10 +14,10 @@
         {
             <div class="p-2 border border-gray-200 min-h-20" style="border-color: var(--color-border, #e5e7eb);">
                 <div class="text-sm mb-1" style="color: var(--color-text-secondary, #6b7280);">@day.Day</div>
-                @foreach (var event in day.Events)
+                @foreach (var evt in day.Events)
                 {
                     <div class="text-xs p-1 mb-1 rounded bg-primary text-white" style="background-color: var(--color-primary);">
-                        @event.Title
+                        @evt.Title
                     </div>
                 }
             </div>

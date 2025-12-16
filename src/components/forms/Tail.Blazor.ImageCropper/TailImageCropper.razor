@@ -1,5 +1,6 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms
 @using Tail.Blazor.ImageCropper
 
 <div class="@GetWrapperClasses()">
@@ -32,13 +33,12 @@
             }
         </div>
         <div class="mt-4 flex gap-2">
-            <input 
-                type="file"
+            <InputFile 
                 accept="image/*"
                 class="hidden"
                 id="@FileInputId"
                 @ref="fileInput"
-                @onchange="HandleFileChange" />
+                OnChange="HandleFileChange" />
             <label for="@FileInputId" class="px-4 py-2 bg-primary text-white rounded-lg cursor-pointer hover:opacity-90" style="background-color: var(--color-primary); color: var(--color-text-on-primary, white);">
                 @if (ImageData == null)
                 {
@@ -64,7 +64,7 @@
 
 @code {
     private string FileInputId { get; set; } = Guid.NewGuid().ToString();
-    private ElementReference fileInput;
+    private InputFile? fileInput;
     private string? ImageData { get; set; }
 
     [Parameter] public string? Value { get; set; }

@@ -14,7 +14,7 @@
             </svg>
         </button>
     }
-    @if (!string.IsNullOrEmpty(Header))
+    @if (Header != null)
     {
         <div class="p-4 border-b" style="border-color: var(--color-border, #e5e7eb);">
             @Header

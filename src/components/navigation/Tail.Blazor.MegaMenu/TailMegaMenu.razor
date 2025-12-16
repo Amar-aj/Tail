@@ -13,15 +13,15 @@
     {
         <div class="@GetMenuClasses()" style="@GetMenuStyles()">
             <div class="grid grid-cols-@Columns gap-4 p-4">
-                @foreach (var section in Sections)
+                @foreach (var menuSection in Sections)
                 {
                     <div>
-                        @if (!string.IsNullOrEmpty(section.Title))
+                        @if (!string.IsNullOrEmpty(menuSection.Title))
                         {
-                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">@section.Title</h3>
+                            <h3 class="font-semibold mb-2" style="color: var(--color-text-primary);">@menuSection.Title</h3>
                         }
                         <ul class="space-y-1">
-                            @foreach (var item in section.Items)
+                            @foreach (var item in menuSection.Items)
                             {
                                 <li>
                                     <a

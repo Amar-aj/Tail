@@ -1,5 +1,6 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms
 @using Tail.Blazor.FileUpload
 
 <div class="@GetWrapperClasses()">
@@ -19,12 +20,11 @@
         @ondragover="HandleDragOver"
         @ondragleave="HandleDragLeave"
         style="@GetDropZoneStyles()">
-        <input 
-            type="file"
+        <InputFile 
             class="hidden"
             id="@FileInputId"
             @ref="fileInput"
-            @onchange="HandleFileChange"
+            OnChange="HandleFileChange"
             multiple="@Multiple"
             accept="@Accept"
             disabled="@Disabled" />
@@ -69,7 +69,7 @@
 
 @code {
     private string FileInputId { get; set; } = Guid.NewGuid().ToString();
-    private ElementReference fileInput;
+    private InputFile? fileInput;
     private bool IsDragOver { get; set; }
     private List<IBrowserFile> SelectedFiles { get; set; } = new();
 

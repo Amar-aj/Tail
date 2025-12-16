@@ -1,6 +1,7 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.VirtualScroll
+@typeparam T
 
 <div class="@GetContainerClasses()" style="@GetContainerStyles()" @onscroll="HandleScroll">
     <div style="height: @(TotalHeight)px; position: relative;">

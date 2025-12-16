@@ -1,6 +1,7 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.ListView
+@typeparam T
 
 <div class="@GetListViewClasses()" style="@GetListViewStyles()">
     @foreach (var item in Items)
