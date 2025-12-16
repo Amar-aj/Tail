@@ -1,0 +1,36 @@
+@page "/components/icon"
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Icon - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailIcon</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Icon component with Heroicons and Lucide support. Ultra-lightweight (~15 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Icon" Code="@basicCode">
+            <PreviewContent>
+                <div class="flex gap-4 items-center">
+                    <TailIcon Type="IconType.Heroicons" Name="home" Size="24" />
+                    <TailIcon Type="IconType.Lucide" Name="user" Size="24" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Icon";
+    private string basicCode = @"<TailIcon Type=""IconType.Heroicons"" Name=""home"" Size=""24"" />";
+}
+

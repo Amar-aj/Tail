@@ -1,0 +1,34 @@
+@page "/components/timeline"
+@using Tail.Blazor.Timeline
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Timeline - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailTimeline</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Timeline component. Ultra-lightweight (~8 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Timeline" Code="@basicCode">
+            <PreviewContent>
+                <TailTimeline Items="@timelineItems" />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private List<object> timelineItems = new();
+    private string installCode = @"dotnet add package Tail.Blazor.Timeline";
+    private string basicCode = @"<TailTimeline Items=""@timelineItems"" />";
+}
+

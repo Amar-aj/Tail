@@ -1,0 +1,94 @@
+@page "/components/fab"
+@using Tail.Blazor.FAB
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>FAB - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailFAB</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Floating Action Button for primary actions. Ultra-lightweight (~3 KB).
+    </p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Floating Action Button" Code="@basicCode">
+            <PreviewContent>
+                <div class="relative h-32">
+                    <TailFAB Position="FABPosition.BottomRight" OnClick="@(() => ShowMessage("FAB clicked!"))">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                </div>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md">
+                        @message
+                    </div>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Positions</h2>
+        <CodePreview Title="FAB Positions" Code="@positionsCode">
+            <PreviewContent>
+                <div class="relative h-64 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
+                    <TailFAB Position="FABPosition.TopLeft" Variant="ButtonVariant.Primary">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                    <TailFAB Position="FABPosition.TopRight" Variant="ButtonVariant.Success">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                    <TailFAB Position="FABPosition.BottomLeft" Variant="ButtonVariant.Warning">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                    <TailFAB Position="FABPosition.BottomRight" Variant="ButtonVariant.Danger">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string message = string.Empty;
+
+    private string installCode = @"dotnet add package Tail.Blazor.FAB";
+
+    private string basicCode = @"<TailFAB Position=""FABPosition.BottomRight"" OnClick=""HandleClick"">
+    <svg class=""w-6 h-6"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailFAB>";
+
+    private string positionsCode = @"<TailFAB Position=""FABPosition.TopLeft"">...</TailFAB>
+<TailFAB Position=""FABPosition.TopRight"">...</TailFAB>
+<TailFAB Position=""FABPosition.BottomLeft"">...</TailFAB>
+<TailFAB Position=""FABPosition.BottomRight"">...</TailFAB>";
+
+    private void ShowMessage(string msg)
+    {
+        message = msg;
+        StateHasChanged();
+    }
+}

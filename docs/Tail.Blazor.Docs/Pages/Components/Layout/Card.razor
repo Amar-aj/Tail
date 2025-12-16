@@ -1,0 +1,45 @@
+@page "/components/card"
+@using Tail.Blazor.Card
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Container
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Card - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailCard</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Card component with header and footer. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <Header>
+            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        </Header>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <Header>
+            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        </Header>
+        <CodePreview Title="Card" Code="@basicCode">
+            <PreviewContent>
+                <TailCard Hoverable="true">
+                    <Header>Card Title</Header>
+                    <p>Card content goes here.</p>
+                    <Footer>Card Footer</Footer>
+                </TailCard>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Card";
+    private string basicCode = @"<TailCard Hoverable=""true"">
+    <Header>Card Title</Header>
+    <p>Card content</p>
+    <Footer>Card Footer</Footer>
+</TailCard>";
+}
+

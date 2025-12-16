@@ -1,0 +1,132 @@
+@page "/components/icon-button"
+@using Tail.Blazor.IconButton
+@using Tail.Blazor.Docs.Shared
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>IconButton - Tail.Blazor</PageTitle>
+
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailIconButton</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Icon-only button component for compact actions. Ultra-lightweight (~2 KB).
+    </p>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Icon Button" Code="@basicCode">
+            <PreviewContent>
+                <TailIconButton Variant="ButtonVariant.Primary" OnClick="@(() => ShowMessage("Icon clicked!"))">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </TailIconButton>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md">
+                        @message
+                    </div>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Variants</h2>
+        <CodePreview Title="Button Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailIconButton Variant="ButtonVariant.Primary">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Success">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Warning">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Danger">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </TailIconButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Sizes</h2>
+        <CodePreview Title="Button Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-3">
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xs">
+                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Md">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Lg">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xl">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailIconButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </section>
+</div>
+
+@code {
+    private string message = string.Empty;
+
+    private string installCode = @"dotnet add package Tail.Blazor.IconButton";
+
+    private string basicCode = @"<TailIconButton Variant=""ButtonVariant.Primary"" OnClick=""HandleClick"">
+    <svg class=""w-5 h-5"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailIconButton>";
+
+    private string variantsCode = @"<TailIconButton Variant=""ButtonVariant.Primary"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Success"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Warning"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Danger"">...</TailIconButton>";
+
+    private string sizesCode = @"<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xs"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Md"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Lg"">...</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xl"">...</TailIconButton>";
+
+    private void ShowMessage(string msg)
+    {
+        message = msg;
+        StateHasChanged();
+    }
+}
+

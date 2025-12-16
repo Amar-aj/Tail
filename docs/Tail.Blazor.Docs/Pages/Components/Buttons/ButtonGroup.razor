@@ -1,0 +1,65 @@
+@page "/components/button-group"
+@using Tail.Blazor.ButtonGroup
+@using Tail.Blazor.Button
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ButtonGroup - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailButtonGroup</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Group related buttons together with seamless styling. Ultra-lightweight (~4 KB).
+    </p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Button Group" Code="@basicCode">
+            <PreviewContent>
+                <TailButtonGroup>
+                    <TailButton Variant="ButtonVariant.Primary">Left</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary">Middle</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary">Right</TailButton>
+                </TailButtonGroup>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">With Variants</h2>
+        <CodePreview Title="Mixed Variants" Code="@variantsCode">
+            <PreviewContent>
+                <TailButtonGroup>
+                    <TailButton Variant="ButtonVariant.Primary">Save</TailButton>
+                    <TailButton Variant="ButtonVariant.Success">Export</TailButton>
+                    <TailButton Variant="ButtonVariant.Warning">Edit</TailButton>
+                    <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
+                </TailButtonGroup>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.ButtonGroup";
+
+    private string basicCode = @"<TailButtonGroup>
+    <TailButton Variant=""ButtonVariant.Primary"">Left</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Middle</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Right</TailButton>
+</TailButtonGroup>";
+
+    private string variantsCode = @"<TailButtonGroup>
+    <TailButton Variant=""ButtonVariant.Primary"">Save</TailButton>
+    <TailButton Variant=""ButtonVariant.Success"">Export</TailButton>
+    <TailButton Variant=""ButtonVariant.Warning"">Edit</TailButton>
+    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
+</TailButtonGroup>";
+}

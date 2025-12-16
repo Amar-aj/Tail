@@ -1,0 +1,77 @@
+@page "/components/toggle-button"
+@using Tail.Blazor.ToggleButton
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ToggleButton - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailToggleButton</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+        Toggleable button component with on/off states. Ultra-lightweight (~2 KB).
+    </p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Toggle Button" Code="@basicCode">
+            <PreviewContent>
+                <TailToggleButton @bind-IsToggled="isToggled" Variant="ButtonVariant.Primary" OnClick="@(() => ShowMessage($"Toggled: {isToggled}"))">
+                    Toggle Me
+                </TailToggleButton>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md">
+                        @message
+                    </div>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Variants</h2>
+        <CodePreview Title="Button Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailToggleButton @bind-IsToggled="toggle1" Variant="ButtonVariant.Primary">Primary</TailToggleButton>
+                    <TailToggleButton @bind-IsToggled="toggle2" Variant="ButtonVariant.Success">Success</TailToggleButton>
+                    <TailToggleButton @bind-IsToggled="toggle3" Variant="ButtonVariant.Warning">Warning</TailToggleButton>
+                    <TailToggleButton @bind-IsToggled="toggle4" Variant="ButtonVariant.Danger">Danger</TailToggleButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string message = string.Empty;
+    private bool isToggled = false;
+    private bool toggle1 = false;
+    private bool toggle2 = false;
+    private bool toggle3 = false;
+    private bool toggle4 = false;
+
+    private string installCode = @"dotnet add package Tail.Blazor.ToggleButton";
+
+    private string basicCode = @"<TailToggleButton @bind-IsToggled=""isToggled"" Variant=""ButtonVariant.Primary"">
+    Toggle Me
+</TailToggleButton>";
+
+    private string variantsCode = @"<TailToggleButton @bind-IsToggled=""toggle1"" Variant=""ButtonVariant.Primary"">Primary</TailToggleButton>
+<TailToggleButton @bind-IsToggled=""toggle2"" Variant=""ButtonVariant.Success"">Success</TailToggleButton>
+<TailToggleButton @bind-IsToggled=""toggle3"" Variant=""ButtonVariant.Warning"">Warning</TailToggleButton>
+<TailToggleButton @bind-IsToggled=""toggle4"" Variant=""ButtonVariant.Danger"">Danger</TailToggleButton>";
+
+    private void ShowMessage(string msg)
+    {
+        message = msg;
+        StateHasChanged();
+    }
+}

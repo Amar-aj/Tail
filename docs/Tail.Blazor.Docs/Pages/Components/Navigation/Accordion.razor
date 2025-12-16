@@ -1,0 +1,39 @@
+@page "/components/accordion"
+@using Tail.Blazor.Accordion
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Accordion - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAccordion</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Accordion component for collapsible content. Ultra-lightweight (~4 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Accordion" Code="@basicCode">
+            <PreviewContent>
+                <TailAccordion>
+                    <TailAccordionItem Title="Item 1">Content 1</TailAccordionItem>
+                    <TailAccordionItem Title="Item 2">Content 2</TailAccordionItem>
+                </TailAccordion>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Accordion";
+    private string basicCode = @"<TailAccordion>
+    <TailAccordionItem Title=""Item 1"">Content 1</TailAccordionItem>
+    <TailAccordionItem Title=""Item 2"">Content 2</TailAccordionItem>
+</TailAccordion>";
+}
+

@@ -1,0 +1,34 @@
+@page "/components/email-validator"
+@using Tail.Blazor.EmailValidator
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>EmailValidator - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailEmailValidator</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Email validation component. Ultra-lightweight (~2 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Email Validator" Code="@basicCode">
+            <PreviewContent>
+                <TailEmailValidator Value="@emailValue" ErrorMessage="Invalid email address" />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string emailValue = string.Empty;
+    private string installCode = @"dotnet add package Tail.Blazor.EmailValidator";
+    private string basicCode = @"<TailEmailValidator Value=""@emailValue"" ErrorMessage=""Invalid email"" />";
+}
+

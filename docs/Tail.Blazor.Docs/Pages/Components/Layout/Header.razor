@@ -1,0 +1,33 @@
+@page "/components/header"
+@using Tail.Blazor.Header
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Header - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailHeader</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Header component. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Header" Code="@basicCode">
+            <PreviewContent>
+                <TailHeader Title="Page Title" />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Header";
+    private string basicCode = @"<TailHeader Title=""Page Title"" />";
+}
+

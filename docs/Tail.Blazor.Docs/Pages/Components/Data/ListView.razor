@@ -1,0 +1,42 @@
+@page "/components/list-view"
+@using Tail.Blazor.ListView
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ListView - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailListView</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">List view component with virtualization. Ultra-lightweight (~8 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="ListView" Code="@basicCode">
+            <PreviewContent>
+                <TailListView Items="@listItems" Virtualized="false">
+                    <ItemTemplate>
+                        <div class="p-4 border-b">@context</div>
+                    </ItemTemplate>
+                </TailListView>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private List<string> listItems = new() { "Item 1", "Item 2", "Item 3" };
+    private string installCode = @"dotnet add package Tail.Blazor.ListView";
+    private string basicCode = @"<TailListView Items=""@listItems"">
+    <ItemTemplate>
+        <div class=""p-4 border-b"">@context</div>
+    </ItemTemplate>
+</TailListView>";
+}
+

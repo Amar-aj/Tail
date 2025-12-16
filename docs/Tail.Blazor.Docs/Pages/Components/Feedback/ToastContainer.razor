@@ -1,0 +1,33 @@
+@page "/components/toast-container"
+@using Tail.Blazor.ToastContainer
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ToastContainer - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailToastContainer</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Toast container component. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Toast Container" Code="@basicCode">
+            <PreviewContent>
+                <TailToastContainer Position="ToastPosition.TopRight" />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.ToastContainer";
+    private string basicCode = @"<TailToastContainer Position=""ToastPosition.TopRight"" />";
+}
+

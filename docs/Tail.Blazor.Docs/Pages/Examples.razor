@@ -20,11 +20,11 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Email</label>
-                        <TailInput InputType="InputType.Email" Placeholder="Enter your email" />
+                        <TailInput Type="email" Placeholder="Enter your email" />
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Password</label>
-                        <TailInput InputType="InputType.Password" Placeholder="Enter password" />
+                        <TailInput Type="password" Placeholder="Enter password" />
                     </div>
                     <TailButton Variant="ButtonVariant.Primary" FullWidth="true">
                         Sign In
@@ -73,7 +73,7 @@
             <h2 class="text-2xl font-semibold mb-4">Advanced Form</h2>
             <TailCard>
                 <div class="space-y-4">
-                    <TailInput Label="Full Name" InputType="InputType.Text" Placeholder="Enter your name" />
+                    <TailInput Label="Full Name" Type="text" Placeholder="Enter your name" />
                     <TailDatePicker Label="Date of Birth" Value="@DateTime.Today.AddYears(-25)" />
                     <TailAutoComplete 
                         Label="City" 
@@ -138,13 +138,7 @@
         new Product { Name = "Keyboard", Category = "Accessories", Price = 79.99m, Stock = 25 }
     };
 
-    private List<Tail.Blazor.DataGrid.DataGridColumn<object>> ProductColumns { get; set; } = new()
-    {
-        new Tail.Blazor.DataGrid.DataGridColumn<object> { Header = "Product Name" },
-        new Tail.Blazor.DataGrid.DataGridColumn<object> { Header = "Category" },
-        new Tail.Blazor.DataGrid.DataGridColumn<object> { Header = "Price" },
-        new Tail.Blazor.DataGrid.DataGridColumn<object> { Header = "Stock" }
-    };
+    private List<object> ProductColumns { get; set; } = new();
 
     private List<IBrowserFile> ResumeFiles { get; set; } = new();
 

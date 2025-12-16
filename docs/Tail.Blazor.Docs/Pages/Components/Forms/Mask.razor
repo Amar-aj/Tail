@@ -1,0 +1,35 @@
+@page "/components/mask"
+@using Tail.Blazor.Mask
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Mask - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMask</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Masked input component. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Masked Input" Code="@basicCode">
+            <PreviewContent>
+                <TailMask @bind-Value="phoneValue" Mask="(###) ###-####" Placeholder="(123) 456-7890" />
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: @phoneValue</p>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string phoneValue = string.Empty;
+    private string installCode = @"dotnet add package Tail.Blazor.Mask";
+    private string basicCode = @"<TailMask @bind-Value=""phoneValue"" Mask=""(###) ###-####"" Placeholder=""(123) 456-7890"" />";
+}
+

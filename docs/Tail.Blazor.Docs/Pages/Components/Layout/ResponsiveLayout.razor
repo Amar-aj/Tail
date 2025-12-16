@@ -1,0 +1,38 @@
+@page "/components/responsive-layout"
+@using Tail.Blazor.ResponsiveLayout
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ResponsiveLayout - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailResponsiveLayout</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Responsive layout component. Ultra-lightweight (~5 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Responsive Layout" Code="@basicCode">
+            <PreviewContent>
+                <TailResponsiveLayout Breakpoints="@breakpoints">
+                    <p>Responsive content</p>
+                </TailResponsiveLayout>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private Dictionary<string, object> breakpoints = new();
+    private string installCode = @"dotnet add package Tail.Blazor.ResponsiveLayout";
+    private string basicCode = @"<TailResponsiveLayout Breakpoints=""@breakpoints"">
+    <p>Responsive content</p>
+</TailResponsiveLayout>";
+}
+

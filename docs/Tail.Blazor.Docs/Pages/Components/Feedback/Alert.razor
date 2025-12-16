@@ -1,0 +1,51 @@
+@page "/components/alert"
+@using Tail.Blazor.Alert
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Alert - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAlert</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Alert component for notifications. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Alert" Code="@basicCode">
+            <PreviewContent>
+                <TailAlert Variant="AlertVariant.Info" Title="Information" Message="This is an info alert." />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Variants</h2>
+        <CodePreview Title="Alert Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailAlert Variant="AlertVariant.Success" Title="Success" Message="Operation completed successfully." />
+                    <TailAlert Variant="AlertVariant.Warning" Title="Warning" Message="Please review your input." />
+                    <TailAlert Variant="AlertVariant.Danger" Title="Error" Message="An error occurred." />
+                    <TailAlert Variant="AlertVariant.Info" Title="Info" Message="Here's some information." />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Alert";
+    private string basicCode = @"<TailAlert Variant=""AlertVariant.Info"" Title=""Information"" Message=""This is an alert."" />";
+    private string variantsCode = @"<TailAlert Variant=""AlertVariant.Success"" Title=""Success"" Message=""Success message."" />
+<TailAlert Variant=""AlertVariant.Warning"" Title=""Warning"" Message=""Warning message."" />
+<TailAlert Variant=""AlertVariant.Danger"" Title=""Error"" Message=""Error message."" />
+<TailAlert Variant=""AlertVariant.Info"" Title=""Info"" Message=""Info message."" />";
+}
+

@@ -1,0 +1,39 @@
+@page "/components/radio"
+@using Tail.Blazor.Radio
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Radio - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRadio</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Radio button input component. Ultra-lightweight (~2 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Radio Buttons" Code="@basicCode">
+            <PreviewContent>
+                <div class="space-y-2">
+                    <TailRadio GroupName="options" Value="option1" @bind-IsChecked="isOption1" Label="Option 1" />
+                    <TailRadio GroupName="options" Value="option2" @bind-IsChecked="isOption2" Label="Option 2" />
+                    <TailRadio GroupName="options" Value="option3" @bind-IsChecked="isOption3" Label="Option 3" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private bool isOption1 = false;
+    private bool isOption2 = false;
+    private bool isOption3 = false;
+    private string installCode = @"dotnet add package Tail.Blazor.Radio";
+    private string basicCode = @"<TailRadio GroupName=""options"" Value=""option1"" @bind-IsChecked=""isOption1"" Label=""Option 1"" />";
+}

@@ -89,7 +89,7 @@
             </div>
             <div>
                 <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary);">User Email</label>
-                <TailInput Value="@userEmail" ValueChanged="@((string? val) => userEmail = val)" Placeholder="Enter user email" Type="InputType.Email" />
+                <TailInput Value="@userEmail" ValueChanged="@((string? val) => userEmail = val)" Placeholder="Enter user email" Type="email" />
             </div>
         </div>
     </div>
@@ -248,25 +248,9 @@
     private string userName = "John Doe";
     private string userEmail = "john.doe@example.com";
 
-    private List<Tail.Blazor.Forms.SelectItem> layoutModeOptions = new()
-    {
-        new Tail.Blazor.Forms.SelectItem { Value = "DrawerLeft", Text = "Drawer Left" },
-        new Tail.Blazor.Forms.SelectItem { Value = "ClippedDrawer", Text = "Clipped Drawer" },
-        new Tail.Blazor.Forms.SelectItem { Value = "AppbarOnly", Text = "Appbar Only" }
-    };
-
-    private List<Tail.Blazor.Forms.SelectItem> densityOptions = new()
-    {
-        new Tail.Blazor.Forms.SelectItem { Value = "Normal", Text = "Normal" },
-        new Tail.Blazor.Forms.SelectItem { Value = "Dense", Text = "Dense" },
-        new Tail.Blazor.Forms.SelectItem { Value = "Compact", Text = "Compact" }
-    };
-
-    private List<Tail.Blazor.Forms.SelectItem> menuPositionOptions = new()
-    {
-        new Tail.Blazor.Forms.SelectItem { Value = "Left", Text = "Left" },
-        new Tail.Blazor.Forms.SelectItem { Value = "Right", Text = "Right" }
-    };
+    private List<string> layoutModeOptions = new() { "DrawerLeft", "ClippedDrawer", "AppbarOnly" };
+    private List<string> densityOptions = new() { "Normal", "Dense", "Compact" };
+    private List<string> menuPositionOptions = new() { "Left", "Right" };
 
     private List<NavMenuItem> demoNavItems = new()
     {
@@ -285,23 +269,9 @@
         new ActivityItem { Icon = "🔔", Title = "Notification sent", Description = "Email notification delivered", Time = "2h ago" }
     };
 
-    private LayoutMode selectedLayoutMode
-    {
-        get => Enum.Parse<LayoutMode>(selectedLayoutModeStr);
-        set => selectedLayoutModeStr = value.ToString();
-    }
-
-    private DensityMode selectedDensity
-    {
-        get => Enum.Parse<DensityMode>(selectedDensityStr);
-        set => selectedDensityStr = value.ToString();
-    }
-
-    private TailCollapsibleMenu.MenuPosition selectedMenuPosition
-    {
-        get => Enum.Parse<TailCollapsibleMenu.MenuPosition>(selectedMenuPositionStr);
-        set => selectedMenuPositionStr = value.ToString();
-    }
+    private string selectedLayoutMode => selectedLayoutModeStr;
+    private string selectedDensity => selectedDensityStr;
+    private string selectedMenuPosition => selectedMenuPositionStr;
 
     private string GetCodeExample()
     {

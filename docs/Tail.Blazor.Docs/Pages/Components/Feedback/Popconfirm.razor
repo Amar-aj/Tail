@@ -1,0 +1,42 @@
+@page "/components/popconfirm"
+@using Tail.Blazor.Popconfirm
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Popconfirm - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPopconfirm</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Popconfirm component for confirmation dialogs. Ultra-lightweight (~4 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Popconfirm" Code="@basicCode">
+            <PreviewContent>
+                <TailPopconfirm Title="Are you sure?" OnConfirm="HandleConfirm">
+                    <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
+                </TailPopconfirm>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Popconfirm";
+    private string basicCode = @"<TailPopconfirm Title=""Are you sure?"" OnConfirm=""HandleConfirm"">
+    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
+</TailPopconfirm>";
+    
+    private void HandleConfirm()
+    {
+        // Handle confirmation
+    }
+}
+

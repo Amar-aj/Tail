@@ -1,0 +1,38 @@
+@page "/components/badge"
+@using Tail.Blazor.Badge
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Badge - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailBadge</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Badge component for labels and counts. Ultra-lightweight (~2 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Badge" Code="@basicCode">
+            <PreviewContent>
+                <div class="flex gap-3 items-center">
+                    <TailBadge Variant="BadgeVariant.Primary">New</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Success">Active</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Warning">Pending</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Danger">5</TailBadge>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Badge";
+    private string basicCode = @"<TailBadge Variant=""BadgeVariant.Primary"">New</TailBadge>";
+}
+

@@ -1,0 +1,33 @@
+@page "/components/progress"
+@using Tail.Blazor.Progress
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Progress - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailProgress</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Progress bar component. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Progress" Code="@basicCode">
+            <PreviewContent>
+                <TailProgress Value="75" Max="100" ShowValue="true" />
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Progress";
+    private string basicCode = @"<TailProgress Value=""75"" Max=""100"" ShowValue=""true"" />";
+}
+

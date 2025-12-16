@@ -1,0 +1,35 @@
+@page "/components/otp-input"
+@using Tail.Blazor.OTPInput
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>OTPInput - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailOTPInput</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">OTP code input component. Ultra-lightweight (~3 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="OTP Input" Code="@basicCode">
+            <PreviewContent>
+                <TailOTPInput @bind-Value="otpCode" Length="6" />
+                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Code: @otpCode</p>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string otpCode = string.Empty;
+    private string installCode = @"dotnet add package Tail.Blazor.OTPInput";
+    private string basicCode = @"<TailOTPInput @bind-Value=""otpCode"" Length=""6"" />";
+}
+

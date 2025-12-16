@@ -1,0 +1,37 @@
+@page "/components/spinner"
+@using Tail.Blazor.Spinner
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Layout
+@using Tail.Blazor.Card
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Spinner - Tail.Blazor</PageTitle>
+
+<TailContainer Size="ContainerSize.Xxl">
+    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailSpinner</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Loading spinner component. Ultra-lightweight (~2 KB).</p>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </TailCard>
+
+    <TailCard Class="mb-8">
+        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+        <CodePreview Title="Spinner" Code="@basicCode">
+            <PreviewContent>
+                <div class="flex gap-4 items-center">
+                    <TailSpinner Size="SpinnerSize.Sm" />
+                    <TailSpinner Size="SpinnerSize.Md" />
+                    <TailSpinner Size="SpinnerSize.Lg" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </TailCard>
+</TailContainer>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Spinner";
+    private string basicCode = @"<TailSpinner Size=""SpinnerSize.Md"" />";
+}
+
