@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -6,24 +7,25 @@
     <Version>1.0.0</Version>
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
-    <Product>Tail.Blazor Breadcrumb</Product>
-    <Description>Independent breadcrumb component package for Tail.Blazor - Ultra-lightweight (3 KB). Install only what you need.</Description>
+    <Product>Tail.Blazor Core Base</Product>
+    <Description>Base package for Tail.Blazor - TailComponentBase, configuration, and extensions. Required by all components. Ultra-lightweight (15 KB).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;component;navigation;breadcrumb;lightweight;performance;independent</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;base;lightweight;performance;required</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
+
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
-  </ItemGroup>
+
 </Project>
+

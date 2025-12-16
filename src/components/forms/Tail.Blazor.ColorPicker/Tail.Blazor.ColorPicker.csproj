@@ -24,6 +24,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\core\Tail.Blazor.Core\Tail.Blazor.Core.csproj" />
+    <ProjectReference Include="..\..\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
   </ItemGroup>
 </Project>

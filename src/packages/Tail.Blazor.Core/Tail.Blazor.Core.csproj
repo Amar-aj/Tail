@@ -8,11 +8,11 @@
     <Authors>Tail.Blazor Core Team</Authors>
     <Company>Tail.Blazor</Company>
     <Product>Tail.Blazor Core</Product>
-    <Description>Core package for Tail.Blazor - Base classes, theme engine, and configuration. Ultra-lightweight (48 KB).</Description>
+    <Description>Meta-package for all Tail.Blazor core components. Includes: Core.Base (TailComponentBase, Config, Extensions) and Core.Theme (Theme engine, service, presets, components). Ultra-lightweight (~48 KB total).</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
-    <PackageTags>blazor;tailwind;ui;components;lightweight;performance</PackageTags>
+    <PackageTags>blazor;tailwind;ui;components;core;meta-package;lightweight;performance</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
@@ -24,7 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+    <ProjectReference Include="..\..\components\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
+    <ProjectReference Include="..\..\components\core\Tail.Blazor.Core.Theme\Tail.Blazor.Core.Theme.csproj" />
   </ItemGroup>
 
 </Project>

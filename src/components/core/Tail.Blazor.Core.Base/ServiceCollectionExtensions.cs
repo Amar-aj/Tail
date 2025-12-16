@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Tail.Blazor.Core.Theme;
 
 namespace Tail.Blazor.Core;
 
@@ -22,17 +21,6 @@ public static class ServiceCollectionExtensions
         configure?.Invoke(config);
         
         services.AddSingleton(config);
-        
-        // Register theme engine
-        var themeEngine = new ThemeEngine
-        {
-            Mode = config.ThemeMode,
-            Palette = config.ThemePalette,
-            PrimaryColor = config.PrimaryColor,
-            SecondaryColor = config.SecondaryColor,
-            UseGradients = config.UseGradients
-        };
-        services.AddSingleton(themeEngine);
         
         return services;
     }

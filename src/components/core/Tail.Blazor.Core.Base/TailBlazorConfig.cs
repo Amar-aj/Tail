@@ -1,5 +1,3 @@
-using Tail.Blazor.Core.Theme;
-
 namespace Tail.Blazor.Core;
 
 /// <summary>
@@ -7,16 +5,6 @@ namespace Tail.Blazor.Core;
 /// </summary>
 public class TailBlazorConfig
 {
-    /// <summary>
-    /// Gets or sets the theme mode (Light, Dark, or Custom).
-    /// </summary>
-    public ThemeMode ThemeMode { get; set; } = ThemeMode.Light;
-
-    /// <summary>
-    /// Gets or sets the theme palette.
-    /// </summary>
-    public ThemePalette ThemePalette { get; set; } = ThemePalette.Default;
-
     /// <summary>
     /// Gets or sets whether to use Tailwind Play CDN (default) or local build.
     /// </summary>

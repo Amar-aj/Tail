@@ -255,4 +255,3 @@ internal class ColorPalette
     public string Accent { get; set; } = "#ec4899";
 }
 
-

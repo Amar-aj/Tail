@@ -196,16 +196,6 @@ public class ThemeService
                     document.body.style.backgroundColor = '{colors.Background}';
                     document.body.style.color = '{colors.TextPrimary}';
                     document.body.style.transition = 'background-color {colors.TransitionNormal}, color {colors.TransitionNormal}';
-                    
-                    console.log('? Theme applied: {CurrentSettings.PresetName} ({CurrentSettings.Mode} mode)');
-                    console.log('?? CSS Variables updated:', {{
-                        surfaces: 4,
-                        textColors: 3,
-                        borders: 2,
-                        shadows: 3,
-                        radius: 3,
-                        transitions: 2
-                    }});
                 }})();
             ";
 
@@ -213,7 +203,7 @@ public class ThemeService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"? Error applying theme: {ex.Message}");
+            Console.WriteLine($"Error applying theme: {ex.Message}");
         }
     }
 
