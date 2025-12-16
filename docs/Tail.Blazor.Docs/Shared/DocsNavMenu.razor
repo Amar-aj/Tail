@@ -123,6 +123,9 @@
     {
         _currentPath = Navigation.Uri;
         Navigation.LocationChanged += OnLocationChanged;
+        
+        // Normalize initial path
+        _currentPath = GetNormalizedPath(_currentPath);
 
         componentPackageGroups = new List<ComponentPackageGroup>
         {
@@ -346,8 +349,29 @@
 
     private void OnLocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
     {
-        _currentPath = e.Location;
+        _currentPath = GetNormalizedPath(e.Location);
         InvokeAsync(StateHasChanged);
+    }
+
+    private string GetNormalizedPath(string? path)
+    {
+        if (string.IsNullOrEmpty(path))
+            return string.Empty;
+
+        // Remove query string and hash
+        var cleanPath = path.Split('?')[0].Split('#')[0];
+        
+        // Normalize to base relative path
+        try
+        {
+            var baseRelative = Navigation.ToBaseRelativePath(cleanPath);
+            return baseRelative.ToLowerInvariant().TrimEnd('/');
+        }
+        catch
+        {
+            // Fallback to direct path normalization
+            return cleanPath.ToLowerInvariant().TrimEnd('/');
+        }
     }
 
     private bool IsActive(string href)
@@ -355,16 +379,29 @@
         if (string.IsNullOrEmpty(_currentPath) || string.IsNullOrEmpty(href))
             return false;
 
-        var currentPath = _currentPath.Split('?')[0].ToLowerInvariant();
-        var targetPath = href.ToLowerInvariant();
+        // _currentPath is already normalized
+        var currentPath = _currentPath;
+        var targetPath = GetNormalizedPath(href);
 
         // Exact match
         if (currentPath == targetPath)
             return true;
 
+        // For root path, only exact match
+        if (targetPath == "/" || targetPath == "")
+            return currentPath == "/" || currentPath == "";
+
         // Check if current path starts with target path (for sub-routes)
-        if (targetPath != "/" && currentPath.StartsWith(targetPath))
-            return true;
+        // Ensure we match whole path segments, not partial matches
+        if (currentPath.StartsWith(targetPath))
+        {
+            // Check if it's a complete segment match (ends with / or is at end of string)
+            if (currentPath.Length == targetPath.Length || 
+                currentPath[targetPath.Length] == '/')
+            {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -374,11 +411,69 @@
         if (string.IsNullOrEmpty(_currentPath) || string.IsNullOrEmpty(href))
             return false;
 
-        var currentPath = _currentPath.Split('?')[0].ToLowerInvariant();
-        var targetPath = href.ToLowerInvariant();
+        // _currentPath is already normalized
+        var currentPath = _currentPath;
+        var targetPath = GetNormalizedPath(href);
+
+        // For root path, don't expand
+        if (targetPath == "/" || targetPath == "")
+            return false;
 
         // Check if current path starts with target path (for sub-routes)
-        return targetPath != "/" && currentPath.StartsWith(targetPath);
+        if (currentPath.StartsWith(targetPath))
+        {
+            // Ensure it's a complete segment match
+            if (currentPath.Length == targetPath.Length || 
+                currentPath[targetPath.Length] == '/')
+            {
+                return true;
+            }
+        }
+
+        // Check if any child items in package groups are active
+        var packageGroup = componentPackageGroups.FirstOrDefault(pg => 
+            GetNormalizedPath(pg.AllComponentsHref) == targetPath);
+        
+        if (packageGroup != null)
+        {
+            // Check if the "All" link is active
+            if (IsActive(packageGroup.AllComponentsHref))
+                return true;
+
+            // Check if any child component is active
+            foreach (var component in packageGroup.Components)
+            {
+                if (IsActive(component.Href))
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Check Documentation section children
+        if (targetPath == "/docs" || targetPath == "docs")
+        {
+            if (IsActive("/docs") || IsActive("/docs/installation") || IsActive("/getting-started"))
+                return true;
+        }
+
+        // Check Theming section children
+        if (targetPath == "/theming" || targetPath == "theming")
+        {
+            if (IsActive("/theming") || IsActive("/theme-toggle-demo") || 
+                IsActive("/theme-selector-demo") || IsActive("/docs/theme-integration"))
+                return true;
+        }
+
+        // Check Resources section children
+        if (targetPath == "/examples" || targetPath == "examples")
+        {
+            if (IsActive("/examples") || IsActive("/best-practices") || 
+                IsActive("/faq") || IsActive("/api") || IsActive("/scope"))
+                return true;
+        }
+
+        return false;
     }
 
     private string GetScrollableClass(bool hasScrollableList)
