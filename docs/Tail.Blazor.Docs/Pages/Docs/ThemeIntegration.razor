@@ -1,9 +1,5 @@
 @page "/docs/theme-integration"
 @using Tail.Blazor.Core.Theme
-@using Tail.Blazor.Buttons
-@using Tail.Blazor.Forms
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Feedback
 @inject ThemeService ThemeService
 
 <PageTitle>Theme Integration Status - Tail.Blazor</PageTitle>
@@ -148,10 +144,15 @@
             </div>
 
             <!-- Card -->
-            <TailCard Header="Card Component" Shadow="true" Bordered="true">
-                <p class="text-gray-700 dark:text-gray-300">
-                    This card automatically adapts to your selected theme. Try switching themes to see it change!
-                </p>
+            <TailCard Hoverable="true">
+                <Header>
+                    <h3 class="font-semibold text-gray-900 dark:text-white">Card Component</h3>
+                </Header>
+                <ChildContent>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        This card automatically adapts to your selected theme. Try switching themes to see it change!
+                    </p>
+                </ChildContent>
             </TailCard>
 
             <!-- Alerts -->

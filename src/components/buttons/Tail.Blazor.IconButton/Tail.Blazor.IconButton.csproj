@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
+    <ProjectReference Include="..\Tail.Blazor.Button\Tail.Blazor.Button.csproj" />
   </ItemGroup>
 
 </Project>

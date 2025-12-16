@@ -33,10 +33,10 @@
         <CodePreview Title="Different Input Types" Code="@typesCode">
             <PreviewContent>
                 <div class="space-y-4">
-                    <TailInput @bind-Value="emailValue" Type="@("email")" Placeholder="Email address" />
-                    <TailInput @bind-Value="passwordValue" Type="@("password")" Placeholder="Password" />
-                    <TailInput @bind-Value="numberValue" Type="@("number")" Placeholder="Number" />
-                    <TailInput @bind-Value="urlValue" Type="@("url")" Placeholder="URL" />
+                    <TailInput @bind-Value="emailValue" Type="InputType.Email" Placeholder="Email address" />
+                    <TailInput @bind-Value="passwordValue" Type="InputType.Password" Placeholder="Password" />
+                    <TailInput @bind-Value="numberValue" Type="InputType.Number" Placeholder="Number" />
+                    <TailInput @bind-Value="urlValue" Type="InputType.Url" Placeholder="URL" />
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -66,10 +66,10 @@
 
     private string basicCode = @"<TailInput @bind-Value=""textValue"" Placeholder=""Enter text..."" />";
 
-    private string typesCode = @"<TailInput @bind-Value=""emailValue"" Type=""email"" Placeholder=""Email"" />
-<TailInput @bind-Value=""passwordValue"" Type=""password"" Placeholder=""Password"" />
-<TailInput @bind-Value=""numberValue"" Type=""number"" Placeholder=""Number"" />
-<TailInput @bind-Value=""urlValue"" Type=""url"" Placeholder=""URL"" />";
+    private string typesCode = @"<TailInput @bind-Value=""emailValue"" Type=""InputType.Email"" Placeholder=""Email"" />
+<TailInput @bind-Value=""passwordValue"" Type=""InputType.Password"" Placeholder=""Password"" />
+<TailInput @bind-Value=""numberValue"" Type=""InputType.Number"" Placeholder=""Number"" />
+<TailInput @bind-Value=""urlValue"" Type=""InputType.Url"" Placeholder=""URL"" />";
 
     private string statesCode = @"<TailInput Value=""Disabled input"" Disabled=""true"" />
 <TailInput Value=""Readonly input"" ReadOnly=""true"" />";

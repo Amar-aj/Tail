@@ -1,10 +1,5 @@
 @page "/theme-manager"
 @using Tail.Blazor.Core.Theme
-@using Tail.Blazor.Buttons
-@using Tail.Blazor.Forms
-@using Tail.Blazor.Layout
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
-@using ButtonSize = Tail.Blazor.Button.ButtonSize
 @inject ThemeService ThemeService
 
 <PageTitle>Theme Manager - Tail.Blazor</PageTitle>
@@ -208,11 +203,15 @@
                         <div class="space-y-3">
                             <TailCard>
                                 <Header>Default Surface</Header>
-                                <p class="text-sm" style="color: var(--color-text-secondary)">Using default surface color</p>
+                                <ChildContent>
+                                    <p class="text-sm" style="color: var(--color-text-secondary)">Using default surface color</p>
+                                </ChildContent>
                             </TailCard>
                             <TailCard>
                                 <Header>Elevated Surface</Header>
-                                <p class="text-sm" style="color: var(--color-text-secondary)">Using surface-2 color</p>
+                                <ChildContent>
+                                    <p class="text-sm" style="color: var(--color-text-secondary)">Using surface-2 color</p>
+                                </ChildContent>
                             </TailCard>
                         </div>
                     </div>

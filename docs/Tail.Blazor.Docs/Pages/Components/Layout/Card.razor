@@ -15,22 +15,28 @@
         <Header>
             <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
         </Header>
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <ChildContent>
+            <CodePreview Title="Install Package" Code="@installCode" />
+        </ChildContent>
     </TailCard>
 
     <TailCard Class="mb-8">
         <Header>
             <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
         </Header>
-        <CodePreview Title="Card" Code="@basicCode">
-            <PreviewContent>
-                <TailCard Hoverable="true">
-                    <Header>Card Title</Header>
-                    <p>Card content goes here.</p>
-                    <Footer>Card Footer</Footer>
-                </TailCard>
-            </PreviewContent>
-        </CodePreview>
+        <ChildContent>
+            <CodePreview Title="Card" Code="@basicCode">
+                <PreviewContent>
+                    <TailCard Hoverable="true">
+                        <Header>Card Title</Header>
+                        <ChildContent>
+                            <p>Card content goes here.</p>
+                        </ChildContent>
+                        <Footer>Card Footer</Footer>
+                    </TailCard>
+                </PreviewContent>
+            </CodePreview>
+        </ChildContent>
     </TailCard>
 </TailContainer>
 

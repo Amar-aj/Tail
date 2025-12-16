@@ -28,14 +28,3 @@ public enum ButtonSize
     Xl
 }
 
-/// <summary>
-/// Floating Action Button position options.
-/// </summary>
-public enum FABPosition
-{
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-}
-
