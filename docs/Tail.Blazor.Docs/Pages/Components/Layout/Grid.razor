@@ -20,7 +20,7 @@
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
         <CodePreview Title="Grid" Code="@basicCode">
             <PreviewContent>
-                <TailGrid Columns="3" Gap="GridGap.Md">
+                <TailGrid Columns="3" Gap="4">
                     <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 1</div>
                     <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 2</div>
                     <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 3</div>
@@ -32,7 +32,7 @@
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Grid";
-    private string basicCode = @"<TailGrid Columns=""3"" Gap=""GridGap.Md"">
+    private string basicCode = @"<TailGrid Columns=""3"" Gap=""4"">
     <div>Item 1</div>
     <div>Item 2</div>
     <div>Item 3</div>

@@ -21,8 +21,8 @@
         <CodePreview Title="Icon" Code="@basicCode">
             <PreviewContent>
                 <div class="flex gap-4 items-center">
-                    <TailIcon Type="IconType.Heroicons" Name="home" Size="24" />
-                    <TailIcon Type="IconType.Lucide" Name="user" Size="24" />
+                    <TailIcon Name="IconName.Home" Size="IconSize.Md" />
+                    <TailIcon Name="IconName.User" Size="IconSize.Md" />
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -31,6 +31,6 @@
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Icon";
-    private string basicCode = @"<TailIcon Type=""IconType.Heroicons"" Name=""home"" Size=""24"" />";
+    private string basicCode = @"<TailIcon Name=""IconName.Home"" Size=""IconSize.Md"" />";
 }
 

@@ -28,6 +28,7 @@
 
 @code {
     private List<object> gridData = new();
+    private List<TailDataGrid<object>.DataGridColumn<object>> columns = new();
     
     private string installCode = @"dotnet add package Tail.Blazor.DataGrid";
     private string basicCode = @"<TailDataGrid Data=""@gridData"" Columns=""@columns"" />";

@@ -33,10 +33,10 @@
         <CodePreview Title="Different Input Types" Code="@typesCode">
             <PreviewContent>
                 <div class="space-y-4">
-                    <TailInput @bind-Value="emailValue" Type="email" Placeholder="Email address" />
-                    <TailInput @bind-Value="passwordValue" Type="password" Placeholder="Password" />
-                    <TailInput @bind-Value="numberValue" Type="number" Placeholder="Number" />
-                    <TailInput @bind-Value="urlValue" Type="url" Placeholder="URL" />
+                    <TailInput @bind-Value="emailValue" Type="@("email")" Placeholder="Email address" />
+                    <TailInput @bind-Value="passwordValue" Type="@("password")" Placeholder="Password" />
+                    <TailInput @bind-Value="numberValue" Type="@("number")" Placeholder="Number" />
+                    <TailInput @bind-Value="urlValue" Type="@("url")" Placeholder="URL" />
                 </div>
             </PreviewContent>
         </CodePreview>

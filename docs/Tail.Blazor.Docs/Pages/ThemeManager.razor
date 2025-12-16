@@ -3,6 +3,8 @@
 @using Tail.Blazor.Buttons
 @using Tail.Blazor.Forms
 @using Tail.Blazor.Layout
+@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
+@using ButtonSize = Tail.Blazor.Button.ButtonSize
 @inject ThemeService ThemeService
 
 <PageTitle>Theme Manager - Tail.Blazor</PageTitle>
@@ -204,10 +206,12 @@
                     <div class="mb-6">
                         <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Cards</h3>
                         <div class="space-y-3">
-                            <TailCard Header="Default Surface" Elevation="TailCard.CardElevation.Small">
+                            <TailCard>
+                                <Header>Default Surface</Header>
                                 <p class="text-sm" style="color: var(--color-text-secondary)">Using default surface color</p>
                             </TailCard>
-                            <TailCard Header="Elevated Surface" Elevation="TailCard.CardElevation.Medium" SurfaceLevel="TailCard.CardSurface.Elevated">
+                            <TailCard>
+                                <Header>Elevated Surface</Header>
                                 <p class="text-sm" style="color: var(--color-text-secondary)">Using surface-2 color</p>
                             </TailCard>
                         </div>

@@ -29,7 +29,12 @@
 
 @code {
     private string selectedValue = string.Empty;
-    private List<string> options = new() { "Option 1", "Option 2", "Option 3" };
+    private List<SelectItem> options = new() 
+    { 
+        new SelectItem { Value = "1", Text = "Option 1" },
+        new SelectItem { Value = "2", Text = "Option 2" },
+        new SelectItem { Value = "3", Text = "Option 3" }
+    };
     private string installCode = @"dotnet add package Tail.Blazor.Select";
     private string basicCode = @"<TailSelect @bind-Value=""selectedValue"" Items=""@options"" />";
 }

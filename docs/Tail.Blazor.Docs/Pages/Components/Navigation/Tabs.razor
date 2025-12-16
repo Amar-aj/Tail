@@ -20,22 +20,21 @@
         <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
         <CodePreview Title="Tabs" Code="@basicCode">
             <PreviewContent>
-                <TailTabs @bind-ActiveTab="activeTab">
-                    <TailTabPanel Title="Tab 1">Content 1</TailTabPanel>
-                    <TailTabPanel Title="Tab 2">Content 2</TailTabPanel>
-                    <TailTabPanel Title="Tab 3">Content 3</TailTabPanel>
-                </TailTabs>
+                <TailTabs Tabs="@tabs" @bind-ActiveTab="activeTab" />
             </PreviewContent>
         </CodePreview>
     </TailCard>
 </TailContainer>
 
 @code {
-    private int activeTab = 0;
+    private TailTabs.TabItem? activeTab;
+    private List<TailTabs.TabItem> tabs = new()
+    {
+        new TailTabs.TabItem { Label = "Tab 1", Content = builder => builder.AddContent(0, "Content 1") },
+        new TailTabs.TabItem { Label = "Tab 2", Content = builder => builder.AddContent(0, "Content 2") },
+        new TailTabs.TabItem { Label = "Tab 3", Content = builder => builder.AddContent(0, "Content 3") }
+    };
     private string installCode = @"dotnet add package Tail.Blazor.Tabs";
-    private string basicCode = @"<TailTabs @bind-ActiveTab=""activeTab"">
-    <TailTabPanel Title=""Tab 1"">Content 1</TailTabPanel>
-    <TailTabPanel Title=""Tab 2"">Content 2</TailTabPanel>
-</TailTabs>";
+    private string basicCode = @"<TailTabs Tabs=""@tabs"" @bind-ActiveTab=""activeTab"" />";
 }
 
