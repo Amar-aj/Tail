@@ -25,5 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
+    <ProjectReference Include="..\..\buttons\Tail.Blazor.Button\Tail.Blazor.Button.csproj" />
+    <ProjectReference Include="..\..\core\Tail.Blazor.Core.Theme\Tail.Blazor.Core.Theme.csproj" />
   </ItemGroup>
 </Project>

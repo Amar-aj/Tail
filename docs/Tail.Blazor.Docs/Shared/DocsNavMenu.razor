@@ -1,317 +1,348 @@
+@using Tail.Blazor.AccordionItem
+@using Tail.Blazor.Divider
 @using Tail.Blazor.Layout
+@using Tail.Blazor.Navigation
+@using Tail.Blazor.Feedback
+@using Tail.Blazor.Buttons
+@using Tail.Blazor.Menu
+@using Tail.Blazor.MenuItem
 @using Tail.Blazor.Core.Theme
+@using Tail.Blazor.Core.Enums
 @using Tail.Blazor.Docs.Shared
 @inject NavigationManager Navigation
 @implements IDisposable
 
-<div class="docs-nav-sidebar">
-    <div class="docs-nav-header">
-        <div>
-            <h1 class="docs-nav-title">Tail.Blazor</h1>
-            <p class="docs-nav-version">v1.0.0</p>
-        </div>
-        <TailThemeToggle />
-    </div>
+<TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="h-full flex flex-col">
+    <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="flex-1 overflow-y-auto p-2">
+        <TailMenu class="space-y-1">
+            <!-- Home -->
+            <TailMenuItem Href="/" IsActive="@IsActive("/")">
+                <Icon>🏠</Icon>
+                <ChildContent>Home</ChildContent>
+            </TailMenuItem>
 
-    <div class="docs-nav-content">
-        <TailNavMenu Items="@navMenuItems" Size="NavMenuSize.Md" ShowIcons="true" ShowBadges="false" />
-    </div>
-</div>
+            <!-- Documentation -->
+            <TailAccordionItem Title="Documentation" Icon="📚" IsExpanded="@IsExpanded("/docs")">
+                <TailMenu class="pl-4 space-y-1">
+                    <TailMenuItem Href="/docs" IsActive="@IsActive("/docs")">
+                        <ChildContent>Overview</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/docs/installation" IsActive="@IsActive("/docs/installation")">
+                        <ChildContent>Installation</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/getting-started" IsActive="@IsActive("/getting-started")">
+                        <ChildContent>Quick Start</ChildContent>
+                    </TailMenuItem>
+                </TailMenu>
+            </TailAccordionItem>
+
+            <!-- Components by Package -->
+            @foreach (var packageGroup in componentPackageGroups)
+            {
+                <TailAccordionItem Title="@($"{packageGroup.Icon} {packageGroup.Name}")" Icon="@packageGroup.Icon" IsExpanded="@IsExpanded(packageGroup.AllComponentsHref)">
+                    <TailMenu class="pl-4 space-y-1">
+                        <TailMenuItem Href="@packageGroup.AllComponentsHref" IsActive="@IsActive(packageGroup.AllComponentsHref)">
+                            <ChildContent>All @packageGroup.Name</ChildContent>
+                        </TailMenuItem>
+                        <TailDivider class="my-1" />
+                        <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="@GetScrollableClass(packageGroup.HasScrollableList)">
+                            <TailMenu class="space-y-1">
+                                @foreach (var component in packageGroup.Components)
+                                {
+                                    <TailMenuItem Href="@component.Href" IsActive="@IsActive(component.Href)" class="text-xs">
+                                        <ChildContent>@component.Text</ChildContent>
+                                    </TailMenuItem>
+                                }
+                            </TailMenu>
+                        </TailContainer>
+                    </TailMenu>
+                </TailAccordionItem>
+            }
+
+            <!-- Theming -->
+            <TailAccordionItem Title="Theming" Icon="🎨" IsExpanded="@IsExpanded("/theming")">
+                <TailMenu class="pl-4 space-y-1">
+                    <TailMenuItem Href="/theming" IsActive="@IsActive("/theming")">
+                        <ChildContent>Overview</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/theme-toggle-demo" IsActive="@IsActive("/theme-toggle-demo")">
+                        <ChildContent>Theme Toggle</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/theme-selector-demo" IsActive="@IsActive("/theme-selector-demo")">
+                        <ChildContent>Theme Selector</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/docs/theme-integration" IsActive="@IsActive("/docs/theme-integration")">
+                        <ChildContent>Theme Integration</ChildContent>
+                    </TailMenuItem>
+                </TailMenu>
+            </TailAccordionItem>
+
+            <!-- Resources -->
+            <TailAccordionItem Title="Resources" Icon="📚" IsExpanded="@IsExpanded("/examples")">
+                <TailMenu class="pl-4 space-y-1">
+                    <TailMenuItem Href="/examples" IsActive="@IsActive("/examples")">
+                        <Icon>💡</Icon>
+                        <ChildContent>Examples</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/best-practices" IsActive="@IsActive("/best-practices")">
+                        <Icon>✨</Icon>
+                        <ChildContent>Best Practices</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/faq" IsActive="@IsActive("/faq")">
+                        <Icon>❓</Icon>
+                        <ChildContent>FAQ</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/api" IsActive="@IsActive("/api")">
+                        <Icon>📚</Icon>
+                        <ChildContent>API Reference</ChildContent>
+                    </TailMenuItem>
+                    <TailMenuItem Href="/scope" IsActive="@IsActive("/scope")">
+                        <Icon>📊</Icon>
+                        <ChildContent>Scope & Status</ChildContent>
+                    </TailMenuItem>
+                </TailMenu>
+            </TailAccordionItem>
+        </TailMenu>
+    </TailContainer>
+</TailContainer>
 
 @code {
     private string? _currentPath;
-    private List<NavMenuItem> navMenuItems = new();
+    
+    private class ComponentPackageGroup
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
+        public int ComponentCount { get; set; }
+        public string AllComponentsHref { get; set; } = string.Empty;
+        public List<NavMenuItem> Components { get; set; } = new();
+        public bool HasScrollableList { get; set; }
+    }
+
+    private List<ComponentPackageGroup> componentPackageGroups = new();
 
     protected override void OnInitialized()
     {
         _currentPath = Navigation.Uri;
         Navigation.LocationChanged += OnLocationChanged;
         
-        // Build navigation menu items with expandable groups
-        navMenuItems = new List<NavMenuItem>
+        componentPackageGroups = new List<ComponentPackageGroup>
         {
-            new NavMenuItem { Href = "/", Text = "Home", Icon = "🏠", ExactMatch = true },
-            
-            // Documentation Section (expandable)
-            new NavMenuItem 
-            { 
-                Text = "Documentation", 
-                Icon = "📚",
-                Children = new List<NavMenuItem>
+            new ComponentPackageGroup
+            {
+                Name = "Buttons",
+                Icon = "🔘",
+                ComponentCount = 6,
+                AllComponentsHref = "/components/buttons",
+                Components = new List<NavMenuItem>
                 {
-                    new NavMenuItem { Href = "/docs", Text = "Overview" },
-                    new NavMenuItem { Href = "/docs/installation", Text = "Installation" },
-                    new NavMenuItem { Href = "/getting-started", Text = "Quick Start" }
+                    new NavMenuItem { Href = "/components/button", Text = "Button" },
+                    new NavMenuItem { Href = "/components/icon-button", Text = "IconButton" },
+                    new NavMenuItem { Href = "/components/toggle-button", Text = "ToggleButton" },
+                    new NavMenuItem { Href = "/components/split-button", Text = "SplitButton" },
+                    new NavMenuItem { Href = "/components/fab", Text = "FAB" },
+                    new NavMenuItem { Href = "/components/button-group", Text = "ButtonGroup" }
                 }
             },
-            
-            // Independent Component Packages Section (expandable)
-            new NavMenuItem 
-            { 
-                Text = "Independent Component Packages", 
-                Icon = "📦",
-                Children = new List<NavMenuItem>
+            new ComponentPackageGroup
+            {
+                Name = "Forms",
+                Icon = "📝",
+                ComponentCount = 26,
+                AllComponentsHref = "/components/forms",
+                HasScrollableList = true,
+                Components = new List<NavMenuItem>
                 {
-                    // Buttons
-                    new NavMenuItem 
-                    { 
-                        Text = "Buttons", 
-                        Icon = "🔘",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/button", Text = "Button" },
-                            new NavMenuItem { Href = "/components/icon-button", Text = "IconButton" },
-                            new NavMenuItem { Href = "/components/toggle-button", Text = "ToggleButton" },
-                            new NavMenuItem { Href = "/components/split-button", Text = "SplitButton" },
-                            new NavMenuItem { Href = "/components/fab", Text = "FAB" },
-                            new NavMenuItem { Href = "/components/button-group", Text = "ButtonGroup" }
-                        }
-                    },
-                    
-                    // Forms
-                    new NavMenuItem 
-                    { 
-                        Text = "Forms", 
-                        Icon = "📝",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/input", Text = "Input" },
-                            new NavMenuItem { Href = "/components/textarea", Text = "Textarea" },
-                            new NavMenuItem { Href = "/components/select", Text = "Select" },
-                            new NavMenuItem { Href = "/components/checkbox", Text = "Checkbox" },
-                            new NavMenuItem { Href = "/components/radio", Text = "Radio" },
-                            new NavMenuItem { Href = "/components/radio-group", Text = "RadioGroup" },
-                            new NavMenuItem { Href = "/components/switch", Text = "Switch" },
-                            new NavMenuItem { Href = "/components/slider", Text = "Slider" },
-                            new NavMenuItem { Href = "/components/rating", Text = "Rating" },
-                            new NavMenuItem { Href = "/components/date-picker", Text = "DatePicker" },
-                            new NavMenuItem { Href = "/components/date-range-picker", Text = "DateRangePicker" },
-                            new NavMenuItem { Href = "/components/time-picker", Text = "TimePicker" },
-                            new NavMenuItem { Href = "/components/color-picker", Text = "ColorPicker" },
-                            new NavMenuItem { Href = "/components/file-upload", Text = "FileUpload" },
-                            new NavMenuItem { Href = "/components/image-cropper", Text = "ImageCropper" },
-                            new NavMenuItem { Href = "/components/auto-complete", Text = "AutoComplete" },
-                            new NavMenuItem { Href = "/components/multi-select", Text = "MultiSelect" },
-                            new NavMenuItem { Href = "/components/tag-input", Text = "TagInput" },
-                            new NavMenuItem { Href = "/components/mask", Text = "Mask" },
-                            new NavMenuItem { Href = "/components/numeric", Text = "Numeric" },
-                            new NavMenuItem { Href = "/components/currency-input", Text = "CurrencyInput" },
-                            new NavMenuItem { Href = "/components/phone-number-input", Text = "PhoneNumberInput" },
-                            new NavMenuItem { Href = "/components/otp-input", Text = "OTPInput" },
-                            new NavMenuItem { Href = "/components/password-strength-meter", Text = "PasswordStrengthMeter" },
-                            new NavMenuItem { Href = "/components/rich-text-editor", Text = "RichTextEditor" },
-                            new NavMenuItem { Href = "/components/audio-recorder", Text = "AudioRecorder" }
-                        }
-                    },
-                    
-                    // Layout
-                    new NavMenuItem 
-                    { 
-                        Text = "Layout", 
-                        Icon = "📐",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/container", Text = "Container" },
-                            new NavMenuItem { Href = "/components/grid", Text = "Grid" },
-                            new NavMenuItem { Href = "/components/panel", Text = "Panel" },
-                            new NavMenuItem { Href = "/components/card", Text = "Card" },
-                            new NavMenuItem { Href = "/components/divider", Text = "Divider" },
-                            new NavMenuItem { Href = "/components/header", Text = "Header" },
-                            new NavMenuItem { Href = "/components/nav-menu", Text = "NavMenu" },
-                            new NavMenuItem { Href = "/components/responsive-layout", Text = "ResponsiveLayout" },
-                            new NavMenuItem { Href = "/components/split-pane", Text = "SplitPane" },
-                            new NavMenuItem { Href = "/components/docking-layout", Text = "DockingLayout" },
-                            new NavMenuItem { Href = "/components/bottom-sheet", Text = "BottomSheet" },
-                            new NavMenuItem { Href = "/components/collapsible-menu", Text = "CollapsibleMenu" }
-                        }
-                    },
-                    
-                    // Navigation
-                    new NavMenuItem 
-                    { 
-                        Text = "Navigation", 
-                        Icon = "🧭",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/accordion", Text = "Accordion" },
-                            new NavMenuItem { Href = "/components/accordion-item", Text = "AccordionItem" },
-                            new NavMenuItem { Href = "/components/tabs", Text = "Tabs" },
-                            new NavMenuItem { Href = "/components/breadcrumb", Text = "Breadcrumb" },
-                            new NavMenuItem { Href = "/components/menu", Text = "Menu" },
-                            new NavMenuItem { Href = "/components/menu-item", Text = "MenuItem" },
-                            new NavMenuItem { Href = "/components/sidebar", Text = "Sidebar" },
-                            new NavMenuItem { Href = "/components/steps", Text = "Steps" },
-                            new NavMenuItem { Href = "/components/pagination", Text = "Pagination" },
-                            new NavMenuItem { Href = "/components/carousel", Text = "Carousel" },
-                            new NavMenuItem { Href = "/components/mega-menu", Text = "MegaMenu" },
-                            new NavMenuItem { Href = "/components/context-menu", Text = "ContextMenu" },
-                            new NavMenuItem { Href = "/components/floating-action-menu", Text = "FloatingActionMenu" },
-                            new NavMenuItem { Href = "/components/command-palette", Text = "CommandPalette" },
-                            new NavMenuItem { Href = "/components/scroll-spy", Text = "ScrollSpy" }
-                        }
-                    },
-                    
-                    // Feedback
-                    new NavMenuItem 
-                    { 
-                        Text = "Feedback", 
-                        Icon = "💬",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/alert", Text = "Alert" },
-                            new NavMenuItem { Href = "/components/badge", Text = "Badge" },
-                            new NavMenuItem { Href = "/components/dialog", Text = "Dialog" },
-                            new NavMenuItem { Href = "/components/toast", Text = "Toast" },
-                            new NavMenuItem { Href = "/components/toast-container", Text = "ToastContainer" },
-                            new NavMenuItem { Href = "/components/spinner", Text = "Spinner" },
-                            new NavMenuItem { Href = "/components/progress", Text = "Progress" },
-                            new NavMenuItem { Href = "/components/progress-bar-circular", Text = "ProgressBarCircular" },
-                            new NavMenuItem { Href = "/components/skeleton", Text = "Skeleton" },
-                            new NavMenuItem { Href = "/components/empty-state", Text = "EmptyState" },
-                            new NavMenuItem { Href = "/components/popconfirm", Text = "Popconfirm" },
-                            new NavMenuItem { Href = "/components/confetti", Text = "Confetti" },
-                            new NavMenuItem { Href = "/components/notification-center", Text = "NotificationCenter" },
-                            new NavMenuItem { Href = "/components/tour", Text = "Tour" }
-                        }
-                    },
-                    
-                    // Data
-                    new NavMenuItem 
-                    { 
-                        Text = "Data", 
-                        Icon = "📊",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/data-grid", Text = "DataGrid" },
-                            new NavMenuItem { Href = "/components/list-view", Text = "ListView" },
-                            new NavMenuItem { Href = "/components/tree", Text = "Tree" },
-                            new NavMenuItem { Href = "/components/scheduler", Text = "Scheduler" },
-                            new NavMenuItem { Href = "/components/pager", Text = "Pager" },
-                            new NavMenuItem { Href = "/components/virtual-scroll", Text = "VirtualScroll" },
-                            new NavMenuItem { Href = "/components/advanced-filter", Text = "AdvancedFilter" },
-                            new NavMenuItem { Href = "/components/kanban-board", Text = "KanbanBoard" },
-                            new NavMenuItem { Href = "/components/pivot-data-grid", Text = "PivotDataGrid" },
-                            new NavMenuItem { Href = "/components/responsive-table", Text = "ResponsiveTable" }
-                        }
-                    },
-                    
-                    // Charts
-                    new NavMenuItem 
-                    { 
-                        Text = "Charts", 
-                        Icon = "📈",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/chart", Text = "Chart" },
-                            new NavMenuItem { Href = "/components/sparkline", Text = "Sparkline" }
-                        }
-                    },
-                    
-                    // Visualization
-                    new NavMenuItem 
-                    { 
-                        Text = "Visualization", 
-                        Icon = "🎨",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/timeline", Text = "Timeline" },
-                            new NavMenuItem { Href = "/components/arc-gauge", Text = "ArcGauge" },
-                            new NavMenuItem { Href = "/components/flowchart", Text = "Flowchart" },
-                            new NavMenuItem { Href = "/components/gantt-chart", Text = "GanttChart" },
-                            new NavMenuItem { Href = "/components/organization-chart", Text = "OrganizationChart" },
-                            new NavMenuItem { Href = "/components/qr-code", Text = "QRCode" }
-                        }
-                    },
-                    
-                    // Validators
-                    new NavMenuItem 
-                    { 
-                        Text = "Validators", 
-                        Icon = "✅",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/validator", Text = "Validator" },
-                            new NavMenuItem { Href = "/components/required-validator", Text = "RequiredValidator" },
-                            new NavMenuItem { Href = "/components/email-validator", Text = "EmailValidator" },
-                            new NavMenuItem { Href = "/components/length-validator", Text = "LengthValidator" },
-                            new NavMenuItem { Href = "/components/range-validator", Text = "RangeValidator" },
-                            new NavMenuItem { Href = "/components/numeric-range-validator", Text = "NumericRangeValidator" },
-                            new NavMenuItem { Href = "/components/regex-validator", Text = "RegexValidator" },
-                            new NavMenuItem { Href = "/components/compare-validator", Text = "CompareValidator" },
-                            new NavMenuItem { Href = "/components/custom-validator", Text = "CustomValidator" }
-                        }
-                    },
-                    
-                    // Utils
-                    new NavMenuItem 
-                    { 
-                        Text = "Utils", 
-                        Icon = "🛠️",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/clipboard", Text = "Clipboard" },
-                            new NavMenuItem { Href = "/components/image-zoom", Text = "ImageZoom" }
-                        }
-                    },
-                    
-                    // Icons
-                    new NavMenuItem 
-                    { 
-                        Text = "Icons", 
-                        Icon = "🎯",
-                        Children = new List<NavMenuItem>
-                        {
-                            new NavMenuItem { Href = "/components/icon", Text = "Icon" }
-                        }
-                    }
+                    new NavMenuItem { Href = "/components/input", Text = "Input" },
+                    new NavMenuItem { Href = "/components/textarea", Text = "Textarea" },
+                    new NavMenuItem { Href = "/components/select", Text = "Select" },
+                    new NavMenuItem { Href = "/components/checkbox", Text = "Checkbox" },
+                    new NavMenuItem { Href = "/components/radio", Text = "Radio" },
+                    new NavMenuItem { Href = "/components/radio-group", Text = "RadioGroup" },
+                    new NavMenuItem { Href = "/components/switch", Text = "Switch" },
+                    new NavMenuItem { Href = "/components/slider", Text = "Slider" },
+                    new NavMenuItem { Href = "/components/rating", Text = "Rating" },
+                    new NavMenuItem { Href = "/components/date-picker", Text = "DatePicker" },
+                    new NavMenuItem { Href = "/components/date-range-picker", Text = "DateRangePicker" },
+                    new NavMenuItem { Href = "/components/time-picker", Text = "TimePicker" },
+                    new NavMenuItem { Href = "/components/color-picker", Text = "ColorPicker" },
+                    new NavMenuItem { Href = "/components/file-upload", Text = "FileUpload" },
+                    new NavMenuItem { Href = "/components/image-cropper", Text = "ImageCropper" },
+                    new NavMenuItem { Href = "/components/auto-complete", Text = "AutoComplete" },
+                    new NavMenuItem { Href = "/components/multi-select", Text = "MultiSelect" },
+                    new NavMenuItem { Href = "/components/tag-input", Text = "TagInput" },
+                    new NavMenuItem { Href = "/components/mask", Text = "Mask" },
+                    new NavMenuItem { Href = "/components/numeric", Text = "Numeric" },
+                    new NavMenuItem { Href = "/components/currency-input", Text = "CurrencyInput" },
+                    new NavMenuItem { Href = "/components/phone-number-input", Text = "PhoneNumberInput" },
+                    new NavMenuItem { Href = "/components/otp-input", Text = "OTPInput" },
+                    new NavMenuItem { Href = "/components/password-strength-meter", Text = "PasswordStrengthMeter" },
+                    new NavMenuItem { Href = "/components/rich-text-editor", Text = "RichTextEditor" },
+                    new NavMenuItem { Href = "/components/audio-recorder", Text = "AudioRecorder" }
                 }
             },
-            
-            // Meta Packages Section (expandable)
-            new NavMenuItem 
-            { 
-                Text = "Meta Packages", 
-                Icon = "📚",
-                Children = new List<NavMenuItem>
+            new ComponentPackageGroup
+            {
+                Name = "Layout",
+                Icon = "📐",
+                ComponentCount = 12,
+                AllComponentsHref = "/components/layout",
+                Components = new List<NavMenuItem>
                 {
-                    new NavMenuItem { Href = "/packages/core", Text = "Tail.Blazor.Core", Icon = "⚙️", Description = "Base classes, theme engine, config (~48 KB)" },
-                    new NavMenuItem { Href = "/packages/buttons", Text = "Tail.Blazor.Buttons", Icon = "🔘", Description = "All button components (~22 KB)" },
-                    new NavMenuItem { Href = "/packages/forms", Text = "Tail.Blazor.Forms", Icon = "📝", Description = "All form components (~95 KB)" },
-                    new NavMenuItem { Href = "/packages/layout", Text = "Tail.Blazor.Layout", Icon = "📐", Description = "All layout components (~45 KB)" },
-                    new NavMenuItem { Href = "/packages/navigation", Text = "Tail.Blazor.Navigation", Icon = "🧭", Description = "All navigation components (~80 KB)" },
-                    new NavMenuItem { Href = "/packages/feedback", Text = "Tail.Blazor.Feedback", Icon = "💬", Description = "All feedback components (~70 KB)" },
-                    new NavMenuItem { Href = "/packages/data", Text = "Tail.Blazor.Data", Icon = "📊", Description = "All data components (~110 KB)" },
-                    new NavMenuItem { Href = "/packages/charts", Text = "Tail.Blazor.Charts", Icon = "📈", Description = "Chart components (~65 KB)" },
-                    new NavMenuItem { Href = "/packages/visualization", Text = "Tail.Blazor.Visualization", Icon = "🎨", Description = "Visualization components (~75 KB)" },
-                    new NavMenuItem { Href = "/packages/validators", Text = "Tail.Blazor.Validators", Icon = "✅", Description = "Validation components (~35 KB)" },
-                    new NavMenuItem { Href = "/packages/utils", Text = "Tail.Blazor.Utils", Icon = "🛠️", Description = "Utility components (~28 KB)" },
-                    new NavMenuItem { Href = "/packages/icons", Text = "Tail.Blazor.Icons", Icon = "🎯", Description = "Icon component (~15 KB)" }
+                    new NavMenuItem { Href = "/components/container", Text = "Container" },
+                    new NavMenuItem { Href = "/components/grid", Text = "Grid" },
+                    new NavMenuItem { Href = "/components/panel", Text = "Panel" },
+                    new NavMenuItem { Href = "/components/card", Text = "Card" },
+                    new NavMenuItem { Href = "/components/divider", Text = "Divider" },
+                    new NavMenuItem { Href = "/components/header", Text = "Header" },
+                    new NavMenuItem { Href = "/components/nav-menu", Text = "NavMenu" },
+                    new NavMenuItem { Href = "/components/responsive-layout", Text = "ResponsiveLayout" },
+                    new NavMenuItem { Href = "/components/split-pane", Text = "SplitPane" },
+                    new NavMenuItem { Href = "/components/docking-layout", Text = "DockingLayout" },
+                    new NavMenuItem { Href = "/components/bottom-sheet", Text = "BottomSheet" },
+                    new NavMenuItem { Href = "/components/collapsible-menu", Text = "CollapsibleMenu" }
                 }
             },
-            
-            // Theming Section (expandable)
-            new NavMenuItem 
-            { 
-                Text = "Theming", 
+            new ComponentPackageGroup
+            {
+                Name = "Navigation",
+                Icon = "🧭",
+                ComponentCount = 15,
+                AllComponentsHref = "/components/navigation",
+                HasScrollableList = true,
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/accordion", Text = "Accordion" },
+                    new NavMenuItem { Href = "/components/accordion-item", Text = "AccordionItem" },
+                    new NavMenuItem { Href = "/components/tabs", Text = "Tabs" },
+                    new NavMenuItem { Href = "/components/breadcrumb", Text = "Breadcrumb" },
+                    new NavMenuItem { Href = "/components/menu", Text = "Menu" },
+                    new NavMenuItem { Href = "/components/menu-item", Text = "MenuItem" },
+                    new NavMenuItem { Href = "/components/sidebar", Text = "Sidebar" },
+                    new NavMenuItem { Href = "/components/steps", Text = "Steps" },
+                    new NavMenuItem { Href = "/components/pagination", Text = "Pagination" },
+                    new NavMenuItem { Href = "/components/carousel", Text = "Carousel" },
+                    new NavMenuItem { Href = "/components/mega-menu", Text = "MegaMenu" },
+                    new NavMenuItem { Href = "/components/context-menu", Text = "ContextMenu" },
+                    new NavMenuItem { Href = "/components/floating-action-menu", Text = "FloatingActionMenu" },
+                    new NavMenuItem { Href = "/components/command-palette", Text = "CommandPalette" },
+                    new NavMenuItem { Href = "/components/scroll-spy", Text = "ScrollSpy" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Feedback",
+                Icon = "💬",
+                ComponentCount = 14,
+                AllComponentsHref = "/components/feedback",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/alert", Text = "Alert" },
+                    new NavMenuItem { Href = "/components/badge", Text = "Badge" },
+                    new NavMenuItem { Href = "/components/dialog", Text = "Dialog" },
+                    new NavMenuItem { Href = "/components/toast", Text = "Toast" },
+                    new NavMenuItem { Href = "/components/toast-container", Text = "ToastContainer" },
+                    new NavMenuItem { Href = "/components/spinner", Text = "Spinner" },
+                    new NavMenuItem { Href = "/components/progress", Text = "Progress" },
+                    new NavMenuItem { Href = "/components/progress-bar-circular", Text = "ProgressBarCircular" },
+                    new NavMenuItem { Href = "/components/skeleton", Text = "Skeleton" },
+                    new NavMenuItem { Href = "/components/empty-state", Text = "EmptyState" },
+                    new NavMenuItem { Href = "/components/popconfirm", Text = "Popconfirm" },
+                    new NavMenuItem { Href = "/components/confetti", Text = "Confetti" },
+                    new NavMenuItem { Href = "/components/notification-center", Text = "NotificationCenter" },
+                    new NavMenuItem { Href = "/components/tour", Text = "Tour" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Data",
+                Icon = "📊",
+                ComponentCount = 10,
+                AllComponentsHref = "/components/data",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/data-grid", Text = "DataGrid" },
+                    new NavMenuItem { Href = "/components/list-view", Text = "ListView" },
+                    new NavMenuItem { Href = "/components/tree", Text = "Tree" },
+                    new NavMenuItem { Href = "/components/scheduler", Text = "Scheduler" },
+                    new NavMenuItem { Href = "/components/pager", Text = "Pager" },
+                    new NavMenuItem { Href = "/components/virtual-scroll", Text = "VirtualScroll" },
+                    new NavMenuItem { Href = "/components/advanced-filter", Text = "AdvancedFilter" },
+                    new NavMenuItem { Href = "/components/kanban-board", Text = "KanbanBoard" },
+                    new NavMenuItem { Href = "/components/pivot-data-grid", Text = "PivotDataGrid" },
+                    new NavMenuItem { Href = "/components/responsive-table", Text = "ResponsiveTable" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Charts",
+                Icon = "📈",
+                ComponentCount = 2,
+                AllComponentsHref = "/components/charts",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/chart", Text = "Chart" },
+                    new NavMenuItem { Href = "/components/sparkline", Text = "Sparkline" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Visualization",
                 Icon = "🎨",
-                Children = new List<NavMenuItem>
+                ComponentCount = 6,
+                AllComponentsHref = "/components/visualization",
+                Components = new List<NavMenuItem>
                 {
-                    new NavMenuItem { Href = "/theming", Text = "Overview" },
-                    new NavMenuItem { Href = "/theme-toggle-demo", Text = "Theme Toggle" },
-                    new NavMenuItem { Href = "/theme-selector-demo", Text = "Theme Selector" },
-                    new NavMenuItem { Href = "/docs/theme-integration", Text = "Theme Integration" }
+                    new NavMenuItem { Href = "/components/timeline", Text = "Timeline" },
+                    new NavMenuItem { Href = "/components/arc-gauge", Text = "ArcGauge" },
+                    new NavMenuItem { Href = "/components/flowchart", Text = "Flowchart" },
+                    new NavMenuItem { Href = "/components/gantt-chart", Text = "GanttChart" },
+                    new NavMenuItem { Href = "/components/organization-chart", Text = "OrganizationChart" },
+                    new NavMenuItem { Href = "/components/qr-code", Text = "QRCode" }
                 }
             },
-            
-            // Resources
-            new NavMenuItem { IsDivider = true },
-            new NavMenuItem { Href = "/examples", Text = "Examples", Icon = "💡" },
-            new NavMenuItem { Href = "/best-practices", Text = "Best Practices", Icon = "✨" },
-            new NavMenuItem { Href = "/faq", Text = "FAQ", Icon = "❓" },
-            new NavMenuItem { Href = "/api", Text = "API Reference", Icon = "📚" },
-            new NavMenuItem { Href = "/scope", Text = "Scope & Status", Icon = "📊" },
-            new NavMenuItem { Href = "/layout-modes", Text = "Layout Modes", Icon = "📐" },
-            new NavMenuItem { Href = "/layout-demo", Text = "Layout Demo", Icon = "🎨" }
+            new ComponentPackageGroup
+            {
+                Name = "Validators",
+                Icon = "✅",
+                ComponentCount = 7,
+                AllComponentsHref = "/components/validators",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/validator", Text = "Validator" },
+                    new NavMenuItem { Href = "/components/required-validator", Text = "RequiredValidator" },
+                    new NavMenuItem { Href = "/components/email-validator", Text = "EmailValidator" },
+                    new NavMenuItem { Href = "/components/length-validator", Text = "LengthValidator" },
+                    new NavMenuItem { Href = "/components/range-validator", Text = "RangeValidator" },
+                    new NavMenuItem { Href = "/components/numeric-range-validator", Text = "NumericRangeValidator" },
+                    new NavMenuItem { Href = "/components/regex-validator", Text = "RegexValidator" },
+                    new NavMenuItem { Href = "/components/compare-validator", Text = "CompareValidator" },
+                    new NavMenuItem { Href = "/components/custom-validator", Text = "CustomValidator" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Utils",
+                Icon = "🛠️",
+                ComponentCount = 2,
+                AllComponentsHref = "/components/utils",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/clipboard", Text = "Clipboard" },
+                    new NavMenuItem { Href = "/components/image-zoom", Text = "ImageZoom" }
+                }
+            },
+            new ComponentPackageGroup
+            {
+                Name = "Icons",
+                Icon = "🎯",
+                ComponentCount = 1,
+                AllComponentsHref = "/components/icons",
+                Components = new List<NavMenuItem>
+                {
+                    new NavMenuItem { Href = "/components/icon", Text = "Icon" }
+                }
+            }
         };
     }
 
@@ -319,6 +350,42 @@
     {
         _currentPath = e.Location;
         InvokeAsync(StateHasChanged);
+    }
+
+    private bool IsActive(string href)
+    {
+        if (string.IsNullOrEmpty(_currentPath) || string.IsNullOrEmpty(href))
+            return false;
+
+        var currentPath = _currentPath.Split('?')[0].ToLowerInvariant();
+        var targetPath = href.ToLowerInvariant();
+
+        // Exact match
+        if (currentPath == targetPath)
+            return true;
+
+        // Check if current path starts with target path (for sub-routes)
+        if (targetPath != "/" && currentPath.StartsWith(targetPath))
+            return true;
+
+        return false;
+    }
+
+    private bool IsExpanded(string href)
+    {
+        if (string.IsNullOrEmpty(_currentPath) || string.IsNullOrEmpty(href))
+            return false;
+
+        var currentPath = _currentPath.Split('?')[0].ToLowerInvariant();
+        var targetPath = href.ToLowerInvariant();
+
+        // Check if current path starts with target path (for sub-routes)
+        return targetPath != "/" && currentPath.StartsWith(targetPath);
+    }
+
+    private string GetScrollableClass(bool hasScrollableList)
+    {
+        return hasScrollableList ? "max-h-64 overflow-y-auto" : "";
     }
 
     public void Dispose()

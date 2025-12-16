@@ -1,6 +1,10 @@
 @inherits LayoutComponentBase
-@using Tail.Blazor.Layout
+@using Tail.Blazor.Badge
+@using Tail.Blazor.ResponsiveLayout
+@using Tail.Blazor.Feedback
 @using Tail.Blazor.Core.Theme
+@using Tail.Blazor.Core.Enums
+@using Tail.Blazor.Container
 
 <ThemeProvider>
     <TailResponsiveLayout 
@@ -13,23 +17,22 @@
         ShowSidebar="true"
         MenuOpenByDefault="true"
         MenuOpenOnMobileByDefault="false"
-        LayoutMode="LayoutMode.DrawerLeft"
-        Density="DensityMode.Normal"
+      @*   LayoutMode="Tail.Blazor.ResponsiveLayout.LayoutMode.DrawerLeft"
+        Density="Tail.Blazor.ResponsiveLayout.DensityMode.Normal" *@
         MobileMenuTitle="Tail.Blazor Documentation">
         <LogoTemplate>
-            <div class="flex items-center gap-2">
+            <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="flex items-center gap-2">
                 <h1 class="text-xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
-                <span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-primary); color: white;">v1.0.0</span>
-            </div>
+                <TailBadge Variant="Badge.BadgeVariant.Primary" Size="Badge.BadgeSize.Sm">v1.0.0</TailBadge>
+            </TailContainer>
         </LogoTemplate>
         <SidebarContent>
             <DocsNavMenu />
         </SidebarContent>
         <ChildContent>
-            <div class="p-6">
+            <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="p-6">
                 @Body
-            </div>
+            </TailContainer>
         </ChildContent>
     </TailResponsiveLayout>
 </ThemeProvider>
-

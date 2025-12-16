@@ -1,28 +1,166 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 @using Tail.Blazor.ResponsiveLayout
+@inject IJSRuntime JSRuntime
 
-<div class="@GetLayoutClasses()" style="@GetLayoutStyles()">
-    @ChildContent
+<div class="@GetLayoutClasses()" style="@GetLayoutStyles()" id="@_layoutId">
+    @if (ShowSidebar && LayoutMode != LayoutMode.FullWidth)
+    {
+        <!-- Sidebar Overlay (Mobile) -->
+        @if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
+        {
+            <div class="@GetOverlayClasses()" 
+                 style="@GetOverlayStyles()"
+                 @onclick="ToggleSidebar"
+                 @onclick:stopPropagation="true"></div>
+        }
+
+        <!-- Sidebar -->
+        <aside class="@GetSidebarClasses()" 
+               style="@GetSidebarStyles()"
+               id="@_sidebarId">
+            @if (!string.IsNullOrEmpty(MobileMenuTitle))
+            {
+                <div class="p-4 border-b flex items-center justify-between" style="border-color: var(--color-border);">
+                    <span class="font-semibold" style="color: var(--color-text-primary);">@MobileMenuTitle</span>
+                    @if (ShowMenuToggle)
+                    {
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ToggleSidebar" class="md:hidden">
+                            ✕
+                        </TailButton>
+                    }
+                </div>
+            }
+            <div class="flex-1 overflow-y-auto">
+                @SidebarContent
+            </div>
+        </aside>
+    }
+
+    <!-- Main Content Area -->
+    <div class="@GetMainContentClasses()" style="@GetMainContentStyles()">
+        <!-- Header -->
+        @if (ShowHeader)
+        {
+            <header class="@GetHeaderClasses()" 
+                    style="@GetHeaderStyles()"
+                    id="@_headerId">
+                <div class="flex items-center justify-between w-full">
+                    <div class="flex items-center gap-4">
+                        @if (ShowMenuToggle && ShowSidebar)
+                        {
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ToggleSidebar" class="md:hidden">
+                                ☰
+                            </TailButton>
+                        }
+                        @if (LogoTemplate != null)
+                        {
+                            <div class="flex items-center">
+                                @LogoTemplate
+                            </div>
+                        }
+                        else if (!string.IsNullOrEmpty(AppName))
+                        {
+                            <h1 class="text-xl font-bold" style="color: var(--color-text-primary);">@AppName</h1>
+                        }
+                    </div>
+                    <div class="flex items-center gap-2">
+                        @if (ShowThemeToggle)
+                        {
+                            <TailThemeToggle />
+                        }
+                        @if (ShowAvatar && AvatarContent != null)
+                        {
+                            @AvatarContent
+                        }
+                    </div>
+                </div>
+            </header>
+        }
+
+        <!-- Page Content -->
+        <main class="@GetContentClasses()" style="@GetContentStyles()">
+            @ChildContent
+        </main>
+    </div>
 </div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public ResponsiveLayoutBreakpoint Breakpoint { get; set; } = ResponsiveLayoutBreakpoint.Md;
+    [Parameter] public RenderFragment? LogoTemplate { get; set; }
+    [Parameter] public RenderFragment? SidebarContent { get; set; }
+    [Parameter] public RenderFragment? AvatarContent { get; set; }
+    
+    [Parameter] public string? AppName { get; set; }
+    [Parameter] public bool ShowMenuToggle { get; set; } = true;
+    [Parameter] public bool ShowThemeToggle { get; set; } = true;
+    [Parameter] public bool ShowAvatar { get; set; } = false;
+    [Parameter] public bool ShowSidebar { get; set; } = true;
+    [Parameter] public bool ShowHeader { get; set; } = true;
+    [Parameter] public bool StickyHeader { get; set; } = true;
+    [Parameter] public bool HeaderShadow { get; set; } = true;
+    [Parameter] public bool MenuOpenByDefault { get; set; } = true;
+    [Parameter] public bool MenuOpenOnMobileByDefault { get; set; } = false;
+    [Parameter] public LayoutMode LayoutMode { get; set; } = LayoutMode.DrawerLeft;
+    [Parameter] public DensityMode Density { get; set; } = DensityMode.Normal;
+    [Parameter] public string? MobileMenuTitle { get; set; }
     [Parameter] public string? Style { get; set; }
+
+    private string _layoutId = $"responsive-layout-{Guid.NewGuid():N}";
+    private string _sidebarId = $"sidebar-{Guid.NewGuid():N}";
+    private string _headerId = $"header-{Guid.NewGuid():N}";
+    private bool _sidebarOpen = true;
+    private bool _isMobile = false;
+
+    protected override void OnInitialized()
+    {
+        _sidebarOpen = MenuOpenByDefault;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UpdateMobileState();
+        }
+    }
+
+    private async Task UpdateMobileState()
+    {
+        try
+        {
+            var isMobile = await JSRuntime.InvokeAsync<bool>("eval", "window.innerWidth < 768");
+            if (isMobile != _isMobile)
+            {
+                _isMobile = isMobile;
+                if (!_isMobile && !MenuOpenOnMobileByDefault)
+                {
+                    _sidebarOpen = MenuOpenByDefault;
+                }
+                StateHasChanged();
+            }
+        }
+        catch
+        {
+            // Ignore JS errors during SSR
+        }
+    }
+
+    private void ToggleSidebar()
+    {
+        _sidebarOpen = !_sidebarOpen;
+        StateHasChanged();
+    }
 
     private string GetLayoutClasses()
     {
-        var classes = new List<string> { "w-full" };
-
-        classes.Add(Breakpoint switch
+        var classes = new List<string> { "w-full", "min-h-screen", "flex" };
+        
+        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
         {
-            ResponsiveLayoutBreakpoint.Sm => "sm:max-w-sm",
-            ResponsiveLayoutBreakpoint.Md => "md:max-w-md",
-            ResponsiveLayoutBreakpoint.Lg => "lg:max-w-lg",
-            ResponsiveLayoutBreakpoint.Xl => "xl:max-w-xl",
-            _ => "md:max-w-md"
-        });
+            classes.Add("relative");
+        }
 
         if (!string.IsNullOrEmpty(Class))
         {
@@ -35,11 +173,140 @@
     private string GetLayoutStyles()
     {
         var styles = new List<string>();
+        styles.Add("background-color: var(--color-background, #ffffff)");
+        
         if (!string.IsNullOrEmpty(Style))
         {
             styles.Add(Style);
         }
+        
         return string.Join("; ", styles);
     }
-}
 
+    private string GetSidebarClasses()
+    {
+        var classes = new List<string>();
+        
+        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.FixedLeft)
+        {
+            classes.Add("left-0");
+        }
+        else if (LayoutMode == LayoutMode.DrawerRight || LayoutMode == LayoutMode.FixedRight)
+        {
+            classes.Add("right-0");
+        }
+
+        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
+        {
+            classes.Add("fixed top-0 h-full z-50 transform transition-transform duration-300 ease-in-out");
+            classes.Add(_sidebarOpen ? "translate-x-0" : (LayoutMode == LayoutMode.DrawerLeft ? "-translate-x-full" : "translate-x-full"));
+            classes.Add("md:relative md:translate-x-0");
+        }
+        else
+        {
+            classes.Add("relative");
+        }
+
+        classes.Add("w-64 flex-shrink-0 flex flex-col");
+        classes.Add("border-r");
+        classes.Add("overflow-hidden");
+        
+        if (LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight)
+        {
+            if (!MenuOpenOnMobileByDefault)
+            {
+                classes.Add("hidden md:flex");
+            }
+            else
+            {
+                classes.Add("flex");
+            }
+        }
+        else
+        {
+            classes.Add("flex");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetSidebarStyles()
+    {
+        var styles = new List<string>();
+        styles.Add("background-color: var(--color-surface, #ffffff)");
+        styles.Add("border-color: var(--color-border, #e5e7eb)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetOverlayClasses()
+    {
+        var classes = new List<string> { "fixed", "inset-0", "bg-black", "bg-opacity-50", "z-40", "md:hidden" };
+        
+        if (!_sidebarOpen)
+        {
+            classes.Add("hidden");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetOverlayStyles()
+    {
+        return "transition-opacity duration-300";
+    }
+
+    private string GetMainContentClasses()
+    {
+        var classes = new List<string> { "flex-1", "flex", "flex-col", "min-w-0" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetMainContentStyles()
+    {
+        return "background-color: var(--color-background, #ffffff)";
+    }
+
+    private string GetHeaderClasses()
+    {
+        var classes = new List<string> { "w-full", "border-b", "p-4" };
+        
+        if (StickyHeader)
+        {
+            classes.Add("sticky top-0 z-30");
+        }
+        
+        if (HeaderShadow)
+        {
+            classes.Add("shadow-sm");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetHeaderStyles()
+    {
+        var styles = new List<string>();
+        styles.Add("background-color: var(--color-surface, #ffffff)");
+        styles.Add("border-color: var(--color-border, #e5e7eb)");
+        return string.Join("; ", styles);
+    }
+
+    private string GetContentClasses()
+    {
+        var classes = new List<string> { "flex-1", "overflow-y-auto" };
+        
+        classes.Add(Density switch
+        {
+            DensityMode.Compact => "p-2",
+            DensityMode.Comfortable => "p-8",
+            _ => "p-6"
+        });
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetContentStyles()
+    {
+        return "background-color: var(--color-background, #ffffff)";
+    }
+}
