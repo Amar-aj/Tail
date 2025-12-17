@@ -7,9 +7,9 @@
     class="@GetButtonClasses()"
     disabled="@Disabled"
     @onclick="HandleToggle"
-    @attributes="AdditionalAttributes"
-    style="@GetButtonStyles()"
-    aria-pressed="@IsToggled.ToString().ToLower()">
+    aria-pressed="@IsToggled.ToString().ToLower()"
+    aria-label="@AriaLabel"
+    title="@Tooltip">
     @if (IsToggled)
     {
         @if (ToggledContent != null)
@@ -35,12 +35,14 @@
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool IsToggled { get; set; }
     [Parameter] public EventCallback<bool> IsToggledChanged { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+    [Parameter] public string? AriaLabel { get; set; }
+    [Parameter] public string? Tooltip { get; set; }
     [Parameter] public string Type { get; set; } = "button";
-    [Parameter] public string? Style { get; set; }
 
     private string GetButtonClasses()
     {
-        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "transition-all", "duration-200", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
 
         // Size classes
         classes.Add(Size switch
@@ -56,7 +58,36 @@
         // Toggled state
         if (IsToggled)
         {
-            classes.Add("ring-2 ring-offset-2");
+            classes.Add("ring-2 ring-offset-2 scale-105");
+            classes.Add(Variant switch
+            {
+                ButtonVariant.Primary => "bg-primary text-on-primary ring-primary hover:bg-primary/90",
+                ButtonVariant.Success => "bg-success text-on-success ring-success hover:bg-success/90",
+                ButtonVariant.Warning => "bg-warning text-on-warning ring-warning hover:bg-warning/90",
+                ButtonVariant.Danger => "bg-danger text-on-danger ring-danger hover:bg-danger/90",
+                ButtonVariant.Info => "bg-info text-on-info ring-info hover:bg-info/90",
+                ButtonVariant.Outline => "bg-primary text-on-primary ring-primary hover:bg-primary/90",
+                ButtonVariant.Soft => "bg-primary text-on-primary ring-primary hover:bg-primary/90",
+                ButtonVariant.Ghost => "bg-primary text-on-primary ring-primary hover:bg-primary/90",
+                ButtonVariant.Link => "bg-primary text-on-primary ring-primary hover:bg-primary/90",
+                _ => "bg-primary text-on-primary ring-primary hover:bg-primary/90"
+            });
+        }
+        else
+        {
+            classes.Add(Variant switch
+            {
+                ButtonVariant.Primary => "text-primary hover:bg-primary/10 hover:text-primary",
+                ButtonVariant.Success => "text-success hover:bg-success/10 hover:text-success",
+                ButtonVariant.Warning => "text-warning hover:bg-warning/10 hover:text-warning",
+                ButtonVariant.Danger => "text-danger hover:bg-danger/10 hover:text-danger",
+                ButtonVariant.Info => "text-info hover:bg-info/10 hover:text-info",
+                ButtonVariant.Outline => "border border-primary text-primary hover:bg-primary/10",
+                ButtonVariant.Soft => "bg-primary/20 text-primary hover:bg-primary/30",
+                ButtonVariant.Ghost => "text-primary hover:bg-primary/10",
+                ButtonVariant.Link => "text-primary underline hover:bg-primary/10",
+                _ => "text-primary hover:bg-primary/10"
+            });
         }
 
         if (!string.IsNullOrEmpty(Class))
@@ -67,42 +98,16 @@
         return string.Join(" ", classes);
     }
 
-    private string GetButtonStyles()
-    {
-        var styles = new List<string>();
-
-        // Use CSS variables for theming
-        if (IsToggled)
-        {
-            styles.Add($"background-color: var(--color-primary)");
-            styles.Add($"color: var(--color-text-on-primary, white)");
-            styles.Add($"ring-color: var(--color-primary)");
-        }
-        else if (Variant == ButtonVariant.Outline)
-        {
-            styles.Add($"border-color: var(--color-primary)");
-            styles.Add($"color: var(--color-primary)");
-        }
-        else if (Variant == ButtonVariant.Soft)
-        {
-            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.1)");
-            styles.Add($"color: var(--color-primary)");
-        }
-
-        if (!string.IsNullOrEmpty(Style))
-        {
-            styles.Add(Style);
-        }
-
-        return string.Join("; ", styles);
-    }
-
     private async Task HandleToggle(MouseEventArgs e)
     {
         if (!Disabled)
         {
             IsToggled = !IsToggled;
             await IsToggledChanged.InvokeAsync(IsToggled);
+            if (OnClick.HasDelegate)
+            {
+                await OnClick.InvokeAsync(e);
+            }
         }
     }
 }

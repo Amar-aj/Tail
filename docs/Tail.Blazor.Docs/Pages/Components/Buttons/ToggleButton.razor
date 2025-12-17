@@ -19,7 +19,7 @@
     <DocSection Title="Basic Usage">
         <CodePreview Title="Toggle Button" Code="@basicCode">
             <PreviewContent>
-                <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" @bind-IsToggled="isToggled" OnClick="@(() => ShowMessage($"Toggled: {isToggled}"))">
+                <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" @bind-IsToggled="isToggled" OnClick="HandleClick">
                     Toggle Me
                 </TailToggleButton>
                 @if (!string.IsNullOrEmpty(message))
@@ -94,7 +94,7 @@
 
     private string installCode = @"dotnet add package Tail.Blazor.ToggleButton";
 
-    private string basicCode = @"<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" @bind-IsToggled=""isToggled"">
+    private string basicCode = @"<TailToggleButton Variant=""ButtonVariant.Primary"" @bind-IsToggled=""isToggled"" OnClick=""HandleClick"">
     Toggle Me
 </TailToggleButton>";
 
@@ -133,5 +133,7 @@
         message = msg;
         StateHasChanged();
     }
+
+    private void HandleClick(MouseEventArgs e) => ShowMessage($"Toggled: {isToggled}");
 }
 
