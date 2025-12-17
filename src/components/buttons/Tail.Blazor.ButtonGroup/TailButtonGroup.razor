@@ -8,23 +8,81 @@
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public bool Vertical { get; set; }
+    [Parameter] public ButtonGroupSpacing Spacing { get; set; } = ButtonGroupSpacing.None;
+    [Parameter] public ButtonGroupSize Size { get; set; } = ButtonGroupSize.Md;
+    [Parameter] public ButtonGroupBorderRadius BorderRadius { get; set; } = ButtonGroupBorderRadius.Md;
+    [Parameter] public bool Attached { get; set; } = true;
+    [Parameter] public bool ShowBorder { get; set; } = true;
+    [Parameter] public bool ShowShadow { get; set; } = false;
     [Parameter] public string? Style { get; set; }
 
     private string GetGroupClasses()
     {
-        var classes = new List<string> { "inline-flex" };
+        var classes = new List<string> { "tail-button-group" };
 
+        // Layout direction
         if (Vertical)
         {
-            classes.Add("flex-col");
+            classes.Add("tail-button-group-vertical");
         }
         else
         {
-            classes.Add("flex-row");
+            classes.Add("tail-button-group-horizontal");
         }
 
-        classes.Add("rounded-lg");
-        classes.Add("overflow-hidden");
+        // Spacing
+        classes.Add(Spacing switch
+        {
+            ButtonGroupSpacing.None => "tail-button-group-spacing-none",
+            ButtonGroupSpacing.Sm => "tail-button-group-spacing-sm",
+            ButtonGroupSpacing.Md => "tail-button-group-spacing-md",
+            ButtonGroupSpacing.Lg => "tail-button-group-spacing-lg",
+            _ => "tail-button-group-spacing-none"
+        });
+
+        // Size
+        classes.Add(Size switch
+        {
+            ButtonGroupSize.Xs => "tail-button-group-size-xs",
+            ButtonGroupSize.Sm => "tail-button-group-size-sm",
+            ButtonGroupSize.Md => "tail-button-group-size-md",
+            ButtonGroupSize.Lg => "tail-button-group-size-lg",
+            ButtonGroupSize.Xl => "tail-button-group-size-xl",
+            _ => "tail-button-group-size-md"
+        });
+
+        // Border radius
+        classes.Add(BorderRadius switch
+        {
+            ButtonGroupBorderRadius.None => "tail-button-group-radius-none",
+            ButtonGroupBorderRadius.Sm => "tail-button-group-radius-sm",
+            ButtonGroupBorderRadius.Md => "tail-button-group-radius-md",
+            ButtonGroupBorderRadius.Lg => "tail-button-group-radius-lg",
+            ButtonGroupBorderRadius.Full => "tail-button-group-radius-full",
+            _ => "tail-button-group-radius-md"
+        });
+
+        // Attached mode
+        if (Attached)
+        {
+            classes.Add("tail-button-group-attached");
+        }
+        else
+        {
+            classes.Add("tail-button-group-separated");
+        }
+
+        // Border
+        if (ShowBorder)
+        {
+            classes.Add("tail-button-group-bordered");
+        }
+
+        // Shadow
+        if (ShowShadow)
+        {
+            classes.Add("tail-button-group-shadow");
+        }
 
         if (!string.IsNullOrEmpty(Class))
         {
@@ -38,6 +96,12 @@
     {
         var styles = new List<string>();
 
+        // Use CSS variables for theming
+        if (ShowBorder)
+        {
+            styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        }
+
         if (!string.IsNullOrEmpty(Style))
         {
             styles.Add(Style);
@@ -46,4 +110,3 @@
         return string.Join("; ", styles);
     }
 }
-

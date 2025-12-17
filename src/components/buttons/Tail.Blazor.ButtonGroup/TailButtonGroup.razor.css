@@ -1,0 +1,167 @@
+/* TailButtonGroup Component Styles with CSS Variables */
+
+/* Base Group Container */
+.tail-button-group {
+    display: inline-flex;
+    position: relative;
+    isolation: isolate;
+}
+
+/* Horizontal Layout */
+.tail-button-group-horizontal {
+    flex-direction: row;
+}
+
+/* Vertical Layout */
+.tail-button-group-vertical {
+    flex-direction: column;
+}
+
+/* Spacing Variants */
+.tail-button-group-spacing-none {
+    gap: 0;
+}
+
+.tail-button-group-spacing-sm {
+    gap: 0.25rem; /* 4px */
+}
+
+.tail-button-group-spacing-md {
+    gap: 0.5rem; /* 8px */
+}
+
+.tail-button-group-spacing-lg {
+    gap: 0.75rem; /* 12px */
+}
+
+/* Size Variants - Affects overall group appearance */
+.tail-button-group-size-xs {
+    font-size: 0.75rem;
+}
+
+.tail-button-group-size-sm {
+    font-size: 0.875rem;
+}
+
+.tail-button-group-size-md {
+    font-size: 1rem;
+}
+
+.tail-button-group-size-lg {
+    font-size: 1.125rem;
+}
+
+.tail-button-group-size-xl {
+    font-size: 1.25rem;
+}
+
+/* Border Radius Variants */
+.tail-button-group-radius-none {
+    border-radius: 0;
+}
+
+.tail-button-group-radius-sm {
+    border-radius: var(--radius-sm, 0.25rem);
+}
+
+.tail-button-group-radius-md {
+    border-radius: var(--radius-md, 0.5rem);
+}
+
+.tail-button-group-radius-lg {
+    border-radius: var(--radius-lg, 0.75rem);
+}
+
+.tail-button-group-radius-full {
+    border-radius: 9999px;
+}
+
+/* Attached Mode - Buttons are connected */
+.tail-button-group-attached {
+    overflow: hidden;
+}
+
+.tail-button-group-attached.tail-button-group-horizontal > *:not(:first-child) {
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.tail-button-group-attached.tail-button-group-horizontal > *:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.tail-button-group-attached.tail-button-group-vertical > *:not(:first-child) {
+    margin-top: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.tail-button-group-attached.tail-button-group-vertical > *:not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* Separated Mode - Buttons have spacing */
+.tail-button-group-separated > * {
+    margin: 0;
+}
+
+/* Bordered Group */
+.tail-button-group-bordered {
+    border: 1px solid var(--color-border, #e5e7eb);
+    padding: 0.125rem;
+}
+
+.tail-button-group-bordered.tail-button-group-attached > * {
+    border: none;
+}
+
+.tail-button-group-bordered.tail-button-group-separated > * {
+    border: 1px solid var(--color-border, #e5e7eb);
+}
+
+/* Shadow */
+.tail-button-group-shadow {
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06));
+}
+
+/* Hover Effects */
+.tail-button-group-attached.tail-button-group-horizontal > *:hover {
+    z-index: 1;
+    position: relative;
+}
+
+.tail-button-group-attached.tail-button-group-vertical > *:hover {
+    z-index: 1;
+    position: relative;
+}
+
+/* Focus States */
+.tail-button-group-attached.tail-button-group-horizontal > *:focus-visible {
+    z-index: 2;
+    position: relative;
+}
+
+.tail-button-group-attached.tail-button-group-vertical > *:focus-visible {
+    z-index: 2;
+    position: relative;
+}
+
+/* Dark Mode Adjustments */
+html.dark .tail-button-group-bordered {
+    border-color: var(--color-border, #374151);
+}
+
+html.dark .tail-button-group-bordered.tail-button-group-separated > * {
+    border-color: var(--color-border, #374151);
+}
+
+/* Smooth Transitions */
+.tail-button-group > * {
+    transition-property: transform, box-shadow, z-index;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+}
+
