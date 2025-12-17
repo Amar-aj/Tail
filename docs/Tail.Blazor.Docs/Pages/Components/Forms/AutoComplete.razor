@@ -1,56 +1,247 @@
 @page "/components/auto-complete"
 @using Tail.Blazor.AutoComplete
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Button
+@using AlertVariant = Tail.Blazor.Alert.AlertVariant
 
 <PageTitle>AutoComplete - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailAutoComplete" 
-                 Description="Autocomplete input component with real-time filtering and suggestions dropdown. Ultra-lightweight (~5 KB)."
+                 Description="A versatile autocomplete input component with real-time filtering, keyboard navigation, and customizable suggestions. Supports loading states, custom templates, and event callbacks for flexible search experiences."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
-
+    
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="AutoComplete" Code="@basicCode">
+        <CodePreview Title="Simple AutoComplete" Code="@basicCode">
             <PreviewContent>
                 <TailAutoComplete @bind-Value="searchValue" Items="@suggestions" Placeholder="Type to search..." Label="Search Fruits" />
                 @if (!string.IsNullOrEmpty(searchValue))
                 {
-                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">You searched for: @searchValue</p>
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">You selected: @searchValue</p>
                 }
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Real-time filtering as you type</li>
-                <li>Dropdown suggestions list</li>
-                <li>Case-insensitive search</li>
-                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
-                <li>Label and placeholder support</li>
-                <li>Disabled state support</li>
-                <li>Keyboard navigation (Arrow keys, Enter, Escape)</li>
-                <li>Focus/blur handling</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Configurable max results limit</li>
+    <DocSection Title="Sizes">
+        <CodePreview Title="AutoComplete Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailAutoComplete Size="AutoCompleteSize.Xs" Items="@suggestions" Label="Extra Small" />
+                    <TailAutoComplete Size="AutoCompleteSize.Sm" Items="@suggestions" Label="Small" />
+                    <TailAutoComplete Size="AutoCompleteSize.Md" Items="@suggestions" Label="Medium" />
+                    <TailAutoComplete Size="AutoCompleteSize.Lg" Items="@suggestions" Label="Large" />
+                    <TailAutoComplete Size="AutoCompleteSize.Xl" Items="@suggestions" Label="Extra Large" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Custom Item Template">
+        <CodePreview Title="Custom Item Template" Code="@customTemplateCode">
+            <PreviewContent>
+                <TailAutoComplete @bind-Value="customValue" Items="@suggestions" Label="Fruits with Icons">
+                    <ItemTemplate Context="fruit">
+                        <div class="flex items-center gap-2">
+                            <TailIcon Class="w-4 h-4" />
+                            @fruit
+                        </div>
+                    </ItemTemplate>
+                </TailAutoComplete>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Events">
+        <CodePreview Title="Event Callbacks" Code="@eventsCode">
+            <PreviewContent>
+                <TailAutoComplete 
+                    @bind-Value="eventValue" 
+                    Items="@suggestions" 
+                    Label="AutoComplete with Events" 
+                    OnItemSelected="HandleItemSelected"
+                    OnSearch="HandleSearch" />
+                <div class="mt-4 text-sm" style="color: var(--color-text-secondary);">
+                    @eventMessage
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Disabled and Loading States" Code="@statesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailAutoComplete Disabled="true" Items="@suggestions" Label="Disabled AutoComplete" />
+                    <TailAutoComplete @bind-IsLoading="isLoading" Items="@suggestions" Label="Loading AutoComplete" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Keyboard Navigation">
+        <div class="prose prose-sm max-w-none">
+            <p>The AutoComplete component supports full keyboard navigation:</p>
+            <ul>
+                <li><strong>Arrow Down/Up:</strong> Navigate through suggestions</li>
+                <li><strong>Enter:</strong> Select highlighted item</li>
+                <li><strong>Escape:</strong> Close dropdown</li>
+                <li><strong>Tab:</strong> Move focus away and close dropdown</li>
             </ul>
+        </div>
+        <CodePreview Title="Keyboard Navigation Example" Code="@keyboardCode">
+            <PreviewContent>
+                <TailAutoComplete @bind-Value="keyboardValue" Items="@suggestions" Label="Keyboard Navigation" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <div class="prose prose-sm max-w-none">
+            <p>The AutoComplete component includes several accessibility features:</p>
+            <ul>
+                <li><strong>ARIA Labels:</strong> Use the <code>AriaLabel</code> parameter for screen readers</li>
+                <li><strong>Tooltips:</strong> The <code>Tooltip</code> parameter adds title attributes</li>
+                <li><strong>Role and State:</strong> Proper ARIA attributes for combobox behavior</li>
+                <li><strong>Keyboard Support:</strong> Full keyboard navigation as described above</li>
+                <li><strong>Focus Management:</strong> Proper focus indicators and blur handling</li>
+            </ul>
+        </div>
+        <CodePreview Title="Accessibility Example" Code="@accessibilityCode">
+            <PreviewContent>
+                <TailAutoComplete 
+                    AriaLabel="Search for fruits" 
+                    Tooltip="Type to find fruits" 
+                    @bind-Value="accessibleValue" 
+                    Items="@suggestions" 
+                    Label="Accessible AutoComplete" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Animations">
+        <div class="prose prose-sm max-w-none">
+            <p>The AutoComplete includes smooth animations for better user experience:</p>
+            <ul>
+                <li><strong>Dropdown Transition:</strong> Smooth show/hide with opacity and scale</li>
+                <li><strong>Item Highlighting:</strong> Instant highlighting on keyboard navigation</li>
+                <li><strong>Loading Spinner:</strong> Animated spinner during loading states</li>
+                <li><strong>Hover Effects:</strong> Smooth color transitions on item hover</li>
+            </ul>
+        </div>
+        <CodePreview Title="Animation Example" Code="@animationCode">
+            <PreviewContent>
+                <TailAutoComplete @bind-Value="animatedValue" Items="@suggestions" Label="Animated AutoComplete" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="font-semibold mb-2">Core Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Real-time filtering as you type</li>
+                    <li>Dropdown suggestions list</li>
+                    <li>Case-insensitive search</li>
+                    <li>Keyboard navigation (Arrow keys, Enter, Escape)</li>
+                    <li>Debounced search with configurable delay</li>
+                    <li>Configurable min characters and max items</li>
+                    <li>Custom item templates</li>
+                    <li>Loading state support</li>
+                    <li>Multiple sizes (XS, SM, MD, LG, XL)</li>
+                    <li>Label and placeholder support</li>
+                    <li>Disabled state support</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Advanced Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Full theme support with CSS variables</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility compliant (ARIA, keyboard navigation)</li>
+                    <li>Event callbacks for search and selection</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Hover and focus states with theme-aware colors</li>
+                    <li>Customizable item rendering</li>
+                    <li>Automatic dropdown positioning</li>
+                    <li>Focus/blur handling with delays</li>
+                    <li>Two-way binding support</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private string? searchValue;
+    private string? customValue;
+    private string? eventValue;
+    private string? keyboardValue;
+    private string? accessibleValue;
+    private string? animatedValue;
+    private bool isLoading = false;
+    private string eventMessage = string.Empty;
     private List<string> suggestions = new() { "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew" };
-    
-    private string installCode = @"dotnet add package Tail.Blazor.AutoComplete";
-    
+
+    private string installCode = @"dotnet add package Tail.Blazor.Forms";
+
     private string basicCode = @"<TailAutoComplete @bind-Value=""searchValue"" Items=""@suggestions"" Placeholder=""Type to search..."" Label=""Search Fruits"" />";
+
+    private string sizesCode = @"<TailAutoComplete Size=""AutoCompleteSize.Xs"" Items=""@suggestions"" Label=""Extra Small"" />
+<TailAutoComplete Size=""AutoCompleteSize.Sm"" Items=""@suggestions"" Label=""Small"" />
+<TailAutoComplete Size=""AutoCompleteSize.Md"" Items=""@suggestions"" Label=""Medium"" />
+<TailAutoComplete Size=""AutoCompleteSize.Lg"" Items=""@suggestions"" Label=""Large"" />
+<TailAutoComplete Size=""AutoCompleteSize.Xl"" Items=""@suggestions"" Label=""Extra Large"" />";
+
+    private string customTemplateCode = @"<TailAutoComplete @bind-Value=""value"" Items=""@suggestions"" Label=""Fruits with Icons"">
+    <ItemTemplate Context=""fruit"">
+        <div class=""flex items-center gap-2"">
+            <TailIcon Name=""Home"" Class=""w-4 h-4"" />
+            @fruit
+        </div>
+    </ItemTemplate>
+</TailAutoComplete>";
+
+    private string eventsCode = @"<TailAutoComplete 
+    @bind-Value=""value"" 
+    Items=""@suggestions"" 
+    Label=""AutoComplete with Events"" 
+    OnItemSelected=""HandleItemSelected""
+    OnSearch=""HandleSearch"" />";
+
+    private string statesCode = @"<TailAutoComplete Disabled=""true"" Items=""@suggestions"" Label=""Disabled AutoComplete"" />
+
+<TailAutoComplete @bind-IsLoading=""isLoading"" Items=""@suggestions"" Label=""Loading AutoComplete"" />";
+
+    private string keyboardCode = @"<TailAutoComplete @bind-Value=""value"" Items=""@suggestions"" Label=""Keyboard Navigation"" />";
+
+    private string accessibilityCode = @"<TailAutoComplete 
+    AriaLabel=""Search for fruits"" 
+    Tooltip=""Type to find fruits"" 
+    @bind-Value=""value"" 
+    Items=""@suggestions"" 
+    Label=""Accessible AutoComplete"" />";
+
+    private string animationCode = @"<TailAutoComplete @bind-Value=""value"" Items=""@suggestions"" Label=""Animated AutoComplete"" />";
+
+    private string iconsCode = @"<TailAutoComplete @bind-Value=""value"" Items=""@suggestions"">
+    <ChildContent>
+        <TailIcon Name=""Home"" Class=""w-4 h-4 mr-2"" />
+        Favorite
+    </ChildContent>
+    <ToggledContent>
+        <TailIcon Name=""Home"" Class=""w-4 h-4 mr-2 fill-current"" />
+        Favorited
+    </ToggledContent>
+</TailAutoComplete>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
@@ -61,8 +252,27 @@
         new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the input" },
         new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the autocomplete" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "MinChars", Type = "int", Default = "1", Description = "Minimum characters required to trigger search" },
+        new DocPageTemplate.ApiParameter { Name = "MaxItems", Type = "int", Default = "10", Description = "Maximum number of items to display" },
+        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
+        new DocPageTemplate.ApiParameter { Name = "ItemTemplate", Type = "RenderFragment<string>?", Default = "-", Description = "Custom template for rendering items" },
+        new DocPageTemplate.ApiParameter { Name = "OnItemSelected", Type = "EventCallback<string>", Default = "-", Description = "Event fired when an item is selected" },
+        new DocPageTemplate.ApiParameter { Name = "OnSearch", Type = "EventCallback<string>", Default = "-", Description = "Event fired when search is performed" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "-", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip text displayed on hover" },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
+
+    private void HandleItemSelected(string item)
+    {
+        eventMessage = $"Item selected: {item}";
+        StateHasChanged();
+    }
+
+    private void HandleSearch(string query)
+    {
+        eventMessage = $"Searching for: {query}";
+        StateHasChanged();
+    }
 }
 
