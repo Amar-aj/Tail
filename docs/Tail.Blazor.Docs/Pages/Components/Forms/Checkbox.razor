@@ -1,50 +1,206 @@
 @page "/components/checkbox"
 @using Tail.Blazor.Checkbox
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Button
+@using AlertVariant = Tail.Blazor.Alert.AlertVariant
 
 <PageTitle>Checkbox - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailCheckbox" 
-                 Description="Checkbox input component for boolean selection. Ultra-lightweight (~2 KB)."
+                 Description="A versatile checkbox component for boolean selection with customizable appearance, indeterminate state, and accessibility features. Supports multiple sizes, states, and event callbacks for flexible form interactions."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
-
+    
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Checkbox" Code="@basicCode">
+        <CodePreview Title="Simple Checkbox" Code="@basicCode">
             <PreviewContent>
                 <TailCheckbox @bind-IsChecked="isChecked" Label="Accept terms and conditions" />
-                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Checked: @isChecked</p>
+                @if (isChecked)
+                {
+                    <TailAlert Variant="AlertVariant.Success" Class="mt-4">
+                        Terms accepted!
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Checkbox Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailCheckbox Size="CheckboxSize.Xs" @bind-IsChecked="sizesChecked[0]" Label="Extra Small" />
+                    <TailCheckbox Size="CheckboxSize.Sm" @bind-IsChecked="sizesChecked[1]" Label="Small" />
+                    <TailCheckbox Size="CheckboxSize.Md" @bind-IsChecked="sizesChecked[2]" Label="Medium" />
+                    <TailCheckbox Size="CheckboxSize.Lg" @bind-IsChecked="sizesChecked[3]" Label="Large" />
+                    <TailCheckbox Size="CheckboxSize.Xl" @bind-IsChecked="sizesChecked[4]" Label="Extra Large" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Checkbox States" Code="@statesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailCheckbox @bind-IsChecked="statesChecked[0]" Label="Checked" />
+                    <TailCheckbox @bind-IsChecked="statesChecked[1]" IsIndeterminate="true" Label="Indeterminate" />
+                    <TailCheckbox Disabled="true" @bind-IsChecked="statesChecked[2]" Label="Disabled" />
+                    <TailCheckbox Disabled="true" @bind-IsChecked="statesChecked[3]" IsIndeterminate="true" Label="Disabled Indeterminate" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Custom Check Icon">
+        <CodePreview Title="Custom Check Icon" Code="@customIconCode">
+            <PreviewContent>
+                <TailCheckbox @bind-IsChecked="customIconChecked" Label="Custom Icon Checkbox">
+                    <CustomCheckIcon>
+                        <TailIcon Name="IconName.Home" Class="w-4 h-4 text-white" />
+                    </CustomCheckIcon>
+                </TailCheckbox>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Events">
+        <CodePreview Title="Event Callbacks" Code="@eventsCode">
+            <PreviewContent>
+                <TailCheckbox 
+                    @bind-IsChecked="eventChecked" 
+                    Label="Checkbox with Events" 
+                    OnCheckedChanged="HandleCheckedChanged" />
+                <div class="mt-4 text-sm" style="color: var(--color-text-secondary);">
+                    @eventMessage
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <div class="prose prose-sm max-w-none">
+            <p>The Checkbox component includes several accessibility features:</p>
+            <ul>
+                <li><strong>ARIA Labels:</strong> Use the <code>AriaLabel</code> parameter for screen readers</li>
+                <li><strong>Tooltips:</strong> The <code>Tooltip</code> parameter adds title attributes</li>
+                <li><strong>Keyboard Support:</strong> Space key toggles the checkbox</li>
+                <li><strong>Focus Management:</strong> Proper focus indicators and ring styles</li>
+                <li><strong>Indeterminate State:</strong> Properly communicated to assistive technologies</li>
+            </ul>
+        </div>
+        <CodePreview Title="Accessibility Example" Code="@accessibilityCode">
+            <PreviewContent>
+                <TailCheckbox 
+                    AriaLabel="Agree to terms" 
+                    Tooltip="Click to accept terms" 
+                    @bind-IsChecked="accessibleChecked" 
+                    Label="Accessible Checkbox" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Animations">
+        <div class="prose prose-sm max-w-none">
+            <p>The Checkbox includes smooth animations for better user experience:</p>
+            <ul>
+                <li><strong>State Transitions:</strong> Smooth color and border changes on check/uncheck</li>
+                <li><strong>Hover Effects:</strong> Border and text color changes on hover</li>
+                <li><strong>Focus Ring:</strong> Animated focus ring appearance</li>
+                <li><strong>Indeterminate Animation:</strong> Visual feedback for indeterminate state</li>
+            </ul>
+        </div>
+        <CodePreview Title="Animation Example" Code="@animationCode">
+            <PreviewContent>
+                <TailCheckbox @bind-IsChecked="animatedChecked" Label="Animated Checkbox" />
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Checkbox for boolean selection</li>
-                <li>Two-way binding support</li>
-                <li>Label support with positioning options</li>
-                <li>Disabled state support</li>
-                <li>Indeterminate state support</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Accessible with proper ARIA attributes</li>
-                <li>Keyboard navigation support</li>
-            </ul>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="font-semibold mb-2">Core Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Checkbox for boolean selection</li>
+                    <li>Two-way binding support</li>
+                    <li>Indeterminate state support</li>
+                    <li>Custom check icon</li>
+                    <li>Multiple sizes (XS, SM, MD, LG, XL)</li>
+                    <li>Label and custom content support</li>
+                    <li>Disabled state support</li>
+                    <li>Error message display</li>
+                    <li>Event callbacks for state changes</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Advanced Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Full theme support with CSS variables</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility compliant (ARIA, keyboard navigation)</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Hover and focus states with theme-aware colors</li>
+                    <li>Customizable appearance</li>
+                    <li>Flexible content with RenderFragments</li>
+                    <li>Proper indeterminate handling</li>
+                    <li>Enhanced visual feedback</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isChecked = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Checkbox";
-    
+    private bool[] sizesChecked = new bool[5];
+    private bool[] statesChecked = new bool[4];
+    private bool customIconChecked = false;
+    private bool eventChecked = false;
+    private bool accessibleChecked = false;
+    private bool animatedChecked = false;
+    private string eventMessage = string.Empty;
+
+    private string installCode = @"dotnet add package Tail.Blazor.Forms";
+
     private string basicCode = @"<TailCheckbox @bind-IsChecked=""isChecked"" Label=""Accept terms and conditions"" />";
+
+    private string sizesCode = @"<TailCheckbox Size=""CheckboxSize.Xs"" @bind-IsChecked=""isChecked"" Label=""Extra Small"" />
+<TailCheckbox Size=""CheckboxSize.Sm"" @bind-IsChecked=""isChecked"" Label=""Small"" />
+<TailCheckbox Size=""CheckboxSize.Md"" @bind-IsChecked=""isChecked"" Label=""Medium"" />
+<TailCheckbox Size=""CheckboxSize.Lg"" @bind-IsChecked=""isChecked"" Label=""Large"" />
+<TailCheckbox Size=""CheckboxSize.Xl"" @bind-IsChecked=""isChecked"" Label=""Extra Large"" />";
+
+    private string statesCode = @"<TailCheckbox @bind-IsChecked=""isChecked"" Label=""Checked"" />
+<TailCheckbox @bind-IsChecked=""isChecked"" IsIndeterminate=""true"" Label=""Indeterminate"" />
+<TailCheckbox Disabled=""true"" @bind-IsChecked=""isChecked"" Label=""Disabled"" />
+<TailCheckbox Disabled=""true"" @bind-IsChecked=""isChecked"" IsIndeterminate=""true"" Label=""Disabled Indeterminate"" />";
+
+    private string customIconCode = @"<TailCheckbox @bind-IsChecked=""isChecked"" Label=""Custom Icon Checkbox"">
+    <CustomCheckIcon>
+        <TailIcon Name=""Home"" Class=""w-4 h-4 text-white"" />
+    </CustomCheckIcon>
+</TailCheckbox>";
+
+    private string eventsCode = @"<TailCheckbox 
+    @bind-IsChecked=""isChecked"" 
+    Label=""Checkbox with Events"" 
+    OnCheckedChanged=""HandleCheckedChanged"" />";
+
+    private string accessibilityCode = @"<TailCheckbox 
+    AriaLabel=""Agree to terms"" 
+    Tooltip=""Click to accept terms"" 
+    @bind-IsChecked=""isChecked"" 
+    Label=""Accessible Checkbox"" />";
+
+    private string animationCode = @"<TailCheckbox @bind-IsChecked=""isChecked"" Label=""Animated Checkbox"" />";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
@@ -55,7 +211,17 @@
         new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Custom content for the checkbox label" },
         new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the checkbox" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "IsIndeterminate", Type = "bool", Default = "false", Description = "Show indeterminate state" },
+        new DocPageTemplate.ApiParameter { Name = "CustomCheckIcon", Type = "RenderFragment?", Default = "-", Description = "Custom icon for checked state" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "-", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip text displayed on hover" },
+        new DocPageTemplate.ApiParameter { Name = "OnCheckedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Additional event fired when checkbox state changes" },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
+
+    private void HandleCheckedChanged(bool isChecked)
+    {
+        eventMessage = $"Checkbox is now {(isChecked ? "checked" : "unchecked")}";
+        StateHasChanged();
+    }
 }

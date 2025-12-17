@@ -7,9 +7,18 @@
         type="checkbox"
         class="@GetCheckboxClasses()"
         checked="@IsChecked"
+        indeterminate="@IsIndeterminate"
         @onchange="HandleChange"
         disabled="@Disabled"
+        aria-label="@AriaLabel"
+        title="@Tooltip"
         style="@GetCheckboxStyles()" />
+    @if (CustomCheckIcon != null && IsChecked)
+    {
+        <span class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            @CustomCheckIcon
+        </span>
+    }
     @if (!string.IsNullOrEmpty(Label))
     {
         <span class="@GetTextClasses()">@Label</span>
@@ -21,7 +30,7 @@
 </label>
 @if (!string.IsNullOrEmpty(ErrorMessage))
 {
-    <div class="text-sm text-red-600 mt-1">
+    <div class="text-sm text-red-600 mt-1" style="color: var(--color-error, #dc2626);">
         @ErrorMessage
     </div>
 }
@@ -34,11 +43,15 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? ErrorMessage { get; set; }
     [Parameter] public bool Disabled { get; set; }
-    [Parameter] public string? Style { get; set; }
+    [Parameter] public bool IsIndeterminate { get; set; }
+    [Parameter] public RenderFragment? CustomCheckIcon { get; set; }
+    [Parameter] public string? AriaLabel { get; set; }
+    [Parameter] public string? Tooltip { get; set; }
+    [Parameter] public EventCallback<bool> OnCheckedChanged { get; set; }
 
     private string GetLabelClasses()
     {
-        var classes = new List<string> { "inline-flex", "items-center", "cursor-pointer" };
+        var classes = new List<string> { "inline-flex", "items-center", "cursor-pointer", "relative" };
         if (Disabled)
         {
             classes.Add("opacity-50 cursor-not-allowed");
@@ -52,9 +65,8 @@
 
     private string GetCheckboxClasses()
     {
-        var classes = new List<string> { "rounded", "border-gray-300", "text-primary", "focus:ring-2", "focus:ring-offset-2", "transition-colors" };
+        var classes = new List<string> { "rounded", "border-2", "transition-all", "duration-200", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2", "appearance-none" };
 
-        // Size classes
         classes.Add(Size switch
         {
             CheckboxSize.Xs => "w-3 h-3",
@@ -65,12 +77,28 @@
             _ => "w-5 h-5"
         });
 
+        if (IsChecked || IsIndeterminate)
+        {
+            classes.Add("bg-primary border-primary");
+        }
+        else
+        {
+            classes.Add("border-gray-300 hover:border-primary");
+        }
+
+        if (!Disabled)
+        {
+            classes.Add("focus:ring-primary");
+        }
+
         return string.Join(" ", classes);
     }
 
     private string GetTextClasses()
     {
-        return Size switch
+        var classes = new List<string> { "transition-colors", "duration-200" };
+
+        classes.Add(Size switch
         {
             CheckboxSize.Xs => "ml-2 text-xs",
             CheckboxSize.Sm => "ml-2 text-sm",
@@ -78,28 +106,51 @@
             CheckboxSize.Lg => "ml-2 text-lg",
             CheckboxSize.Xl => "ml-2 text-xl",
             _ => "ml-2 text-base"
-        };
+        });
+
+        if (Disabled)
+        {
+            classes.Add("text-gray-400");
+        }
+        else
+        {
+            classes.Add("text-gray-700 hover:text-primary");
+        }
+
+        return string.Join(" ", classes);
     }
 
     private string GetCheckboxStyles()
     {
         var styles = new List<string>();
 
-        styles.Add($"border-color: var(--color-border, #d1d5db)");
-        styles.Add($"accent-color: var(--color-primary)");
-
-        if (!string.IsNullOrEmpty(Style))
+        if (IsChecked)
         {
-            styles.Add(Style);
+            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"border-color: var(--color-primary)");
         }
-
+        else if (IsIndeterminate)
+        {
+            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"border-color: var(--color-primary)");
+            styles.Add($"background-image: linear-gradient(45deg, transparent 0%, transparent 50%, white 50%, white 100%)");
+        }
+        else
+        {
+            styles.Add($"border-color: var(--color-border, #d1d5db)");
+        }
         return string.Join("; ", styles);
     }
 
     private async Task HandleChange(ChangeEventArgs e)
     {
         IsChecked = (bool)(e.Value ?? false);
+        if (IsIndeterminate && IsChecked)
+        {
+            IsIndeterminate = false;
+        }
         await IsCheckedChanged.InvokeAsync(IsChecked);
+        await OnCheckedChanged.InvokeAsync(IsChecked);
     }
 }
 
