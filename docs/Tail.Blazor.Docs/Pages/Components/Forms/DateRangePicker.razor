@@ -1,35 +1,74 @@
 @page "/components/date-range-picker"
 @using Tail.Blazor.DateRangePicker
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>DateRangePicker - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDateRangePicker</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Date range selection component. Ultra-lightweight (~10 KB).</p>
+<DocPageTemplate Title="TailDateRangePicker" 
+                 Description="Date range selection component for selecting start and end dates. Ultra-lightweight (~10 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Date Range Picker" Code="@basicCode">
             <PreviewContent>
                 <TailDateRangePicker @bind-StartDate="startDate" @bind-EndDate="endDate" Label="Select Date Range" />
+                @if (startDate.HasValue || endDate.HasValue)
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">
+                        Range: @(startDate?.ToString("yyyy-MM-dd") ?? "?") to @(endDate?.ToString("yyyy-MM-dd") ?? "?")
+                    </p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Date range selection with start and end dates</li>
+                <li>Two-way binding for both dates</li>
+                <li>Min and max date constraints</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label support</li>
+                <li>Error message display</li>
+                <li>Required field support</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private DateTime? startDate = null;
     private DateTime? endDate = null;
+    
     private string installCode = @"dotnet add package Tail.Blazor.DateRangePicker";
-    private string basicCode = @"<TailDateRangePicker @bind-StartDate=""startDate"" @bind-EndDate=""endDate"" Label=""Select Range"" />";
+    
+    private string basicCode = @"<TailDateRangePicker @bind-StartDate=""startDate"" @bind-EndDate=""endDate"" Label=""Select Date Range"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "StartDate", Type = "DateTime?", Default = "-", Description = "Start date of the range (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "StartDateChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when start date changes" },
+        new DocPageTemplate.ApiParameter { Name = "EndDate", Type = "DateTime?", Default = "-", Description = "End date of the range (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "EndDateChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when end date changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "DateRangePickerSize", Default = "Md", Description = "Size of the date range picker (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the date range picker" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the date range picker as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the date range picker" },
+        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

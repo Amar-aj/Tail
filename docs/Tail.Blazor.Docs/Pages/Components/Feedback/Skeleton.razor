@@ -1,33 +1,60 @@
 @page "/components/skeleton"
 @using Tail.Blazor.Skeleton
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Skeleton - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailSkeleton</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Skeleton loading component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailSkeleton" 
+                 Description="Skeleton loading component for showing placeholder content while data loads. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Skeleton" Code="@basicCode">
             <PreviewContent>
-                <TailSkeleton Type="SkeletonType.Text" Width="200" Height="20" />
+                <div class="space-y-4">
+                    <TailSkeleton Type="@Tail.Blazor.Skeleton.SkeletonType.Text" Width="200" Height="20" />
+                    <TailSkeleton Type="@Tail.Blazor.Skeleton.SkeletonType.Rectangle" Width="100" Height="100" />
+                    <TailSkeleton Type="@Tail.Blazor.Skeleton.SkeletonType.Circle" Width="50" Height="50" />
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Skeleton loading placeholder</li>
+                <li>Multiple types (Text, Rectangle, Circle)</li>
+                <li>Customizable width and height</li>
+                <li>Animated shimmer effect</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Skeleton";
-    private string basicCode = @"<TailSkeleton Type=""SkeletonType.Text"" Width=""200"" Height=""20"" />";
+    
+    private string basicCode = @"<TailSkeleton Type=""Tail.Blazor.Skeleton.SkeletonType.Text"" Width=""200"" Height=""20"" />
+<TailSkeleton Type=""Tail.Blazor.Skeleton.SkeletonType.Rectangle"" Width=""100"" Height=""100"" />
+<TailSkeleton Type=""Tail.Blazor.Skeleton.SkeletonType.Circle"" Width=""50"" Height=""50"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "Tail.Blazor.Skeleton.SkeletonType", Default = "Rectangle", Description = "Type of skeleton (Text, Rectangle, Circle)" },
+        new DocPageTemplate.ApiParameter { Name = "Width", Type = "int?", Default = "-", Description = "Width of the skeleton in pixels (optional, uses 100% for Text type)" },
+        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int?", Default = "-", Description = "Height of the skeleton in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Animated", Type = "bool", Default = "true", Description = "Enable shimmer animation" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

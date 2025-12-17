@@ -1,36 +1,74 @@
 @page "/components/data-grid"
 @using Tail.Blazor.DataGrid
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>DataGrid - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDataGrid</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Advanced data grid with sorting, filtering, and paging. Ultra-lightweight (~25 KB).</p>
+<DocPageTemplate Title="TailDataGrid" 
+                 Description="Advanced data grid component for displaying tabular data with customizable columns. Ultra-lightweight (~25 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="DataGrid" Code="@basicCode">
             <PreviewContent>
                 <TailDataGrid Data="@gridData" Columns="@columns" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Data grid with customizable columns</li>
+                <li>Custom column rendering templates</li>
+                <li>Header support for each column</li>
+                <li>Row hover effects</li>
+                <li>Responsive table layout</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> gridData = new();
-    private List<TailDataGrid<object>.DataGridColumn<object>> columns = new();
+    private List<SampleItem> gridData = new()
+    {
+        new SampleItem { Id = 1, Name = "Item 1", Value = 100 },
+        new SampleItem { Id = 2, Name = "Item 2", Value = 200 },
+        new SampleItem { Id = 3, Name = "Item 3", Value = 300 }
+    };
+    
+    private List<TailDataGrid<SampleItem>.DataGridColumn<SampleItem>> columns = new()
+    {
+        new TailDataGrid<SampleItem>.DataGridColumn<SampleItem> { Header = "ID", Render = item => builder => builder.AddContent(0, item.Id) },
+        new TailDataGrid<SampleItem>.DataGridColumn<SampleItem> { Header = "Name", Render = item => builder => builder.AddContent(0, item.Name) },
+        new TailDataGrid<SampleItem>.DataGridColumn<SampleItem> { Header = "Value", Render = item => builder => builder.AddContent(0, item.Value) }
+    };
     
     private string installCode = @"dotnet add package Tail.Blazor.DataGrid";
+    
     private string basicCode = @"<TailDataGrid Data=""@gridData"" Columns=""@columns"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<T>", Default = "new()", Description = "Collection of items to display in the grid" },
+        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "List<TailDataGrid<T>.DataGridColumn<T>>", Default = "new()", Description = "Column definitions with header and render functions" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+
+    private class SampleItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int Value { get; set; }
+    }
 }
 

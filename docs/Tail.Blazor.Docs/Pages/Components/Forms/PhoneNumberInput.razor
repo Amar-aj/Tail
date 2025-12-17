@@ -1,35 +1,69 @@
 @page "/components/phone-number-input"
 @using Tail.Blazor.PhoneNumberInput
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>PhoneNumberInput - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPhoneNumberInput</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Phone number input component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailPhoneNumberInput" 
+                 Description="Phone number input component with country code selector and formatting. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Phone Number Input" Code="@basicCode">
             <PreviewContent>
-                <TailPhoneNumberInput @bind-Value="phoneNumber" CountryCode="US" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Phone: @phoneNumber</p>
+                <TailPhoneNumberInput @bind-PhoneNumber="phoneNumber" @bind-SelectedCountryCode="countryCode" Label="Phone Number" />
+                @if (!string.IsNullOrEmpty(phoneNumber))
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Phone: +@countryCode @phoneNumber</p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Phone number input with country code selector</li>
+                <li>Country code dropdown with flags</li>
+                <li>Automatic phone number formatting</li>
+                <li>Two-way binding for phone number and country code</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and placeholder support</li>
+                <li>Disabled state support</li>
+                <li>Validation error display</li>
+                <li>Full theme support with CSS variables</li>
+                <li>International phone number support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private string phoneNumber = string.Empty;
+    private string? phoneNumber = null;
+    private string countryCode = "+1";
+    
     private string installCode = @"dotnet add package Tail.Blazor.PhoneNumberInput";
-    private string basicCode = @"<TailPhoneNumberInput @bind-Value=""phoneNumber"" CountryCode=""US"" />";
+    
+    private string basicCode = @"<TailPhoneNumberInput @bind-PhoneNumber=""phoneNumber"" @bind-SelectedCountryCode=""countryCode"" Label=""Phone Number"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "PhoneNumber", Type = "string?", Default = "-", Description = "Phone number value (two-way binding, without country code)" },
+        new DocPageTemplate.ApiParameter { Name = "PhoneNumberChanged", Type = "EventCallback<string?>", Default = "-", Description = "Event fired when phone number changes" },
+        new DocPageTemplate.ApiParameter { Name = "SelectedCountryCode", Type = "string", Default = "+1", Description = "Selected country code (two-way binding, e.g., '+1', '+44')" },
+        new DocPageTemplate.ApiParameter { Name = "SelectedCountryCodeChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when country code changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "PhoneNumberInputSize", Default = "Md", Description = "Size of the phone number input (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the phone number input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text for the phone number input" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the phone number input" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

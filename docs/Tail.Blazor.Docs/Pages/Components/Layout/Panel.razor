@@ -1,37 +1,82 @@
 @page "/components/panel"
 @using Tail.Blazor.Panel
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Panel - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPanel</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Panel component with variants. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailPanel" 
+                 Description="Panel component with color variants for displaying grouped content. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Panel" Code="@basicCode">
             <PreviewContent>
-                <TailPanel Title="Panel Title" Variant="PanelVariant.Default">
-                    <p>Panel content</p>
+                <TailPanel Title="Panel Title" Variant="@Tail.Blazor.Panel.PanelVariant.Default">
+                    <p style="color: var(--color-text-primary);">Panel content goes here.</p>
                 </TailPanel>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <CodePreview Title="Panel Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailPanel Title="Success Panel" Variant="@Tail.Blazor.Panel.PanelVariant.Success">
+                        <p style="color: var(--color-text-primary);">This is a success panel.</p>
+                    </TailPanel>
+                    <TailPanel Title="Warning Panel" Variant="@Tail.Blazor.Panel.PanelVariant.Warning">
+                        <p style="color: var(--color-text-primary);">This is a warning panel.</p>
+                    </TailPanel>
+                    <TailPanel Title="Danger Panel" Variant="@Tail.Blazor.Panel.PanelVariant.Danger">
+                        <p style="color: var(--color-text-primary);">This is a danger panel.</p>
+                    </TailPanel>
+                    <TailPanel Title="Info Panel" Variant="@Tail.Blazor.Panel.PanelVariant.Info">
+                        <p style="color: var(--color-text-primary);">This is an info panel.</p>
+                    </TailPanel>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Panel component with color variants</li>
+                <li>Multiple variants (Default, Success, Warning, Danger, Info)</li>
+                <li>Optional title section</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Panel";
-    private string basicCode = @"<TailPanel Title=""Panel Title"" Variant=""PanelVariant.Default"">
+    
+    private string basicCode = @"<TailPanel Title=""Panel Title"" Variant=""Tail.Blazor.Panel.PanelVariant.Default"">
     <p>Panel content</p>
 </TailPanel>";
+
+    private string variantsCode = @"<TailPanel Title=""Success Panel"" Variant=""Tail.Blazor.Panel.PanelVariant.Success"">Content</TailPanel>
+<TailPanel Title=""Warning Panel"" Variant=""Tail.Blazor.Panel.PanelVariant.Warning"">Content</TailPanel>
+<TailPanel Title=""Danger Panel"" Variant=""Tail.Blazor.Panel.PanelVariant.Danger"">Content</TailPanel>
+<TailPanel Title=""Info Panel"" Variant=""Tail.Blazor.Panel.PanelVariant.Info"">Content</TailPanel>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display inside the panel" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Title text displayed in the panel header" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Panel.PanelVariant", Default = "Default", Description = "Visual style variant (Default, Success, Warning, Danger, Info)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

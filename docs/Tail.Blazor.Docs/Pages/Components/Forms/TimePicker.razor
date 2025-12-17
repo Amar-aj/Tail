@@ -1,35 +1,71 @@
 @page "/components/time-picker"
 @using Tail.Blazor.TimePicker
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>TimePicker - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailTimePicker</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Time selection component. Ultra-lightweight (~6 KB).</p>
+<DocPageTemplate Title="TailTimePicker" 
+                 Description="Time selection component with hour and minute selection. Ultra-lightweight (~6 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Time Picker" Code="@basicCode">
             <PreviewContent>
                 <TailTimePicker @bind-Value="selectedTime" Label="Select Time" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @selectedTime?.ToString("HH:mm")</p>
+                @if (selectedTime.HasValue)
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">
+                        Selected: @selectedTime.Value.ToString(@"hh\:mm")
+                    </p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Time selection with hour and minute</li>
+                <li>Two-way binding for TimeSpan?</li>
+                <li>Native time input support</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and help text support</li>
+                <li>Error message display</li>
+                <li>Required field support</li>
+                <li>Disabled state support</li>
+                <li>12/24 hour format options</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private TimeSpan? selectedTime = null;
+    
     private string installCode = @"dotnet add package Tail.Blazor.TimePicker";
+    
     private string basicCode = @"<TailTimePicker @bind-Value=""selectedTime"" Label=""Select Time"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "TimeSpan?", Default = "-", Description = "Selected time (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<TimeSpan?>", Default = "-", Description = "Event fired when time changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "TimePickerSize", Default = "Md", Description = "Size of the time picker (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the time picker" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the time picker as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the time picker" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

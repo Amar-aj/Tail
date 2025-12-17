@@ -1,40 +1,68 @@
 @page "/components/audio-recorder"
 @using Tail.Blazor.AudioRecorder
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>AudioRecorder - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAudioRecorder</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Audio recording component. Ultra-lightweight (~6 KB).</p>
+<DocPageTemplate Title="TailAudioRecorder" 
+                 Description="Audio recording component with start/stop controls and playback. Ultra-lightweight (~6 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Audio Recorder" Code="@basicCode">
             <PreviewContent>
-                <TailAudioRecorder @bind-Value="audioData" OnRecordingComplete="HandleRecording" />
+                <TailAudioRecorder @bind-Value="audioData" Label="Record Audio" />
+                @if (!string.IsNullOrEmpty(audioData))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                        Audio recorded successfully!
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Start/stop audio recording functionality</li>
+                <li>Recording time display with live timer</li>
+                <li>Audio playback controls</li>
+                <li>Clear recording option</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Two-way binding for audio data</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Visual recording indicator with pulsing animation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private string audioData = string.Empty;
-    private string installCode = @"dotnet add package Tail.Blazor.AudioRecorder";
-    private string basicCode = @"<TailAudioRecorder @bind-Value=""audioData"" OnRecordingComplete=""HandleRecording"" />";
+    private string? audioData;
     
-    private void HandleRecording(string data)
+    private string installCode = @"dotnet add package Tail.Blazor.AudioRecorder";
+    
+    private string basicCode = @"<TailAudioRecorder @bind-Value=""audioData"" Label=""Record Audio"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        audioData = data;
-        StateHasChanged();
-    }
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "Audio data as base64 string (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string?>", Default = "-", Description = "Event fired when audio data changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "AudioRecorderSize", Default = "Md", Description = "Size of the recorder (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the recorder" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the recorder" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

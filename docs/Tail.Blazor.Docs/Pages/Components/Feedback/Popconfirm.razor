@@ -1,43 +1,87 @@
 @page "/components/popconfirm"
 @using Tail.Blazor.Popconfirm
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
+@using PopconfirmTrigger = Tail.Blazor.Popconfirm.PopconfirmTrigger
+@using PopconfirmPlacement = Tail.Blazor.Popconfirm.PopconfirmPlacement
 
 <PageTitle>Popconfirm - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPopconfirm</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Popconfirm component for confirmation dialogs. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailPopconfirm" 
+                 Description="Popconfirm component for displaying confirmation dialogs on user actions. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Popconfirm" Code="@basicCode">
             <PreviewContent>
-                <TailPopconfirm Title="Are you sure?" OnConfirm="HandleConfirm">
-                    <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
+                <TailPopconfirm Title="Are you sure you want to delete this item?" OnConfirm="HandleConfirm" OnCancel="HandleCancel">
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">Delete</TailButton>
                 </TailPopconfirm>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Confirmation dialog popup</li>
+                <li>Click or hover trigger modes</li>
+                <li>4 placement options (Top, Bottom, Left, Right)</li>
+                <li>Custom confirm and cancel button text</li>
+                <li>Confirm and cancel event callbacks</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
+    private string message = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Popconfirm";
-    private string basicCode = @"<TailPopconfirm Title=""Are you sure?"" OnConfirm=""HandleConfirm"">
-    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
+    
+    private string basicCode = @"<TailPopconfirm Title=""Are you sure?"" OnConfirm=""HandleConfirm"" OnCancel=""HandleCancel"">
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">Delete</TailButton>
 </TailPopconfirm>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content that triggers the popconfirm (typically a button)" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string", Default = "Are you sure?", Description = "Title/message text for the confirmation dialog" },
+        new DocPageTemplate.ApiParameter { Name = "ConfirmText", Type = "string", Default = "Confirm", Description = "Text for the confirm button" },
+        new DocPageTemplate.ApiParameter { Name = "CancelText", Type = "string", Default = "Cancel", Description = "Text for the cancel button" },
+        new DocPageTemplate.ApiParameter { Name = "Trigger", Type = "PopconfirmTrigger", Default = "Click", Description = "Trigger mode (Click or Hover)" },
+        new DocPageTemplate.ApiParameter { Name = "Placement", Type = "PopconfirmPlacement", Default = "Top", Description = "Placement of the popconfirm (Top, Bottom, Left, Right)" },
+        new DocPageTemplate.ApiParameter { Name = "OnConfirm", Type = "EventCallback", Default = "-", Description = "Event fired when user confirms" },
+        new DocPageTemplate.ApiParameter { Name = "OnCancel", Type = "EventCallback", Default = "-", Description = "Event fired when user cancels" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void HandleConfirm()
     {
-        // Handle confirmation
+        message = "Item deleted!";
+        StateHasChanged();
+    }
+    
+    private void HandleCancel()
+    {
+        message = "Deletion cancelled.";
+        StateHasChanged();
     }
 }
 

@@ -1,35 +1,99 @@
 @page "/components/otp-input"
 @using Tail.Blazor.OTPInput
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>OTPInput - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailOTPInput</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">OTP code input component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailOTPInput" 
+                 Description="OTP (One-Time Password) code input component with separate digit inputs. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="OTP Input" Code="@basicCode">
             <PreviewContent>
-                <TailOTPInput @bind-Value="otpCode" Length="6" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Code: @otpCode</p>
+                <TailOTPInput @bind-Value="otpCode" Length="6" Label="Enter OTP Code" />
+                @if (!string.IsNullOrEmpty(otpCode) && otpCode.Length == 6)
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                        OTP Code entered: @otpCode
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Different Lengths">
+        <CodePreview Title="OTP Input Lengths" Code="@lengthsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">4-digit OTP</p>
+                        <TailOTPInput @bind-Value="otp4" Length="4" />
+                    </div>
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">6-digit OTP</p>
+                        <TailOTPInput @bind-Value="otp6" Length="6" />
+                    </div>
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">8-digit OTP</p>
+                        <TailOTPInput @bind-Value="otp8" Length="8" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>OTP code input with separate digit boxes</li>
+                <li>Configurable length (typically 4-8 digits)</li>
+                <li>Auto-advance to next input on digit entry</li>
+                <li>Auto-focus management</li>
+                <li>Paste support for full code</li>
+                <li>Backspace navigation</li>
+                <li>Two-way binding support</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Keyboard navigation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string otpCode = string.Empty;
+    private string otp4 = string.Empty;
+    private string otp6 = string.Empty;
+    private string otp8 = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.OTPInput";
-    private string basicCode = @"<TailOTPInput @bind-Value=""otpCode"" Length=""6"" />";
+    
+    private string basicCode = @"<TailOTPInput @bind-Value=""otpCode"" Length=""6"" Label=""Enter OTP Code"" />";
+
+    private string lengthsCode = @"<TailOTPInput @bind-Value=""otp4"" Length=""4"" />
+<TailOTPInput @bind-Value=""otp6"" Length=""6"" />
+<TailOTPInput @bind-Value=""otp8"" Length=""8"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "OTP code value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when OTP code changes" },
+        new DocPageTemplate.ApiParameter { Name = "Length", Type = "int", Default = "6", Description = "Number of OTP digits (typically 4-8)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "OTPInputSize", Default = "Md", Description = "Size of the OTP input boxes (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the OTP input" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the OTP input" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -1,34 +1,56 @@
 @page "/components/required-validator"
 @using Tail.Blazor.RequiredValidator
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Input
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>RequiredValidator - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRequiredValidator</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Required field validator. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailRequiredValidator" 
+                 Description="Required field validator for ensuring a value is not null or empty. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Validators"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Required Validator" Code="@basicCode">
             <PreviewContent>
+                <TailInput @bind-Value="requiredValue" Label="Required Field" />
                 <TailRequiredValidator Value="@requiredValue" ErrorMessage="This field is required" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Validates that a field is not null or empty</li>
+                <li>Displays error message when validation fails</li>
+                <li>Customizable error message</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string requiredValue = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.RequiredValidator";
-    private string basicCode = @"<TailRequiredValidator Value=""@requiredValue"" ErrorMessage=""Required field"" />";
+    
+    private string basicCode = @"<TailInput @bind-Value=""requiredValue"" Label=""Required Field"" />
+<TailRequiredValidator Value=""@requiredValue"" ErrorMessage=""This field is required"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "Value to validate" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "This field is required", Description = "Error message to display when validation fails" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

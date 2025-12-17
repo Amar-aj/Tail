@@ -1,0 +1,137 @@
+@page "/components/toggle-button"
+@using Tail.Blazor.ToggleButton
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
+@using Microsoft.AspNetCore.Components
+@using AlertVariant = Tail.Blazor.Alert.AlertVariant
+
+<PageTitle>ToggleButton - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailToggleButton" 
+                 Description="Toggle button component that can be toggled on/off. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Buttons"
+                 ApiParameters="@apiParameters">
+
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Toggle Button" Code="@basicCode">
+            <PreviewContent>
+                <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" @bind-IsToggled="isToggled" OnClick="@(() => ShowMessage($"Toggled: {isToggled}"))">
+                    Toggle Me
+                </TailToggleButton>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="@AlertVariant.Info" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <CodePreview Title="Button Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" @bind-IsToggled="toggleStates[0]">Primary</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Success" @bind-IsToggled="toggleStates[1]">Success</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Warning" @bind-IsToggled="toggleStates[2]">Warning</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Danger" @bind-IsToggled="toggleStates[3]">Danger</TailToggleButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Button Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap items-center gap-3">
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" Size="Tail.Blazor.ToggleButton.ButtonSize.Xs" @bind-IsToggled="toggleStates[4]">XS</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" Size="Tail.Blazor.ToggleButton.ButtonSize.Sm" @bind-IsToggled="toggleStates[5]">SM</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" Size="Tail.Blazor.ToggleButton.ButtonSize.Md" @bind-IsToggled="toggleStates[6]">MD</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" Size="Tail.Blazor.ToggleButton.ButtonSize.Lg" @bind-IsToggled="toggleStates[7]">LG</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" Size="Tail.Blazor.ToggleButton.ButtonSize.Xl" @bind-IsToggled="toggleStates[8]">XL</TailToggleButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Toggled Content">
+        <CodePreview Title="Toggled Content" Code="@toggledContentCode">
+            <PreviewContent>
+                <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary" @bind-IsToggled="customToggle">
+                    <ChildContent>Click to Like</ChildContent>
+                    <ToggledContent>❤️ Liked!</ToggledContent>
+                </TailToggleButton>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Toggle on/off state with visual feedback</li>
+                <li>Two-way binding support for IsToggled</li>
+                <li>Multiple variants (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)</li>
+                <li>Five sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Custom content for toggled and untoggled states</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Accessible with aria-pressed attribute</li>
+                <li>Disabled state support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string message = string.Empty;
+    private bool isToggled = false;
+    private bool customToggle = false;
+    private bool[] toggleStates = new bool[10];
+
+    private string installCode = @"dotnet add package Tail.Blazor.ToggleButton";
+
+    private string basicCode = @"<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" @bind-IsToggled=""isToggled"">
+    Toggle Me
+</TailToggleButton>";
+
+    private string variantsCode = @"<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" @bind-IsToggled=""state1"">Primary</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Success"" @bind-IsToggled=""state2"">Success</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Warning"" @bind-IsToggled=""state3"">Warning</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Danger"" @bind-IsToggled=""state4"">Danger</TailToggleButton>";
+
+    private string sizesCode = @"<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" Size=""Tail.Blazor.ToggleButton.ButtonSize.Xs"" @bind-IsToggled=""state"">XS</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" Size=""Tail.Blazor.ToggleButton.ButtonSize.Sm"" @bind-IsToggled=""state"">SM</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" Size=""Tail.Blazor.ToggleButton.ButtonSize.Md"" @bind-IsToggled=""state"">MD</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" Size=""Tail.Blazor.ToggleButton.ButtonSize.Lg"" @bind-IsToggled=""state"">LG</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" Size=""Tail.Blazor.ToggleButton.ButtonSize.Xl"" @bind-IsToggled=""state"">XL</TailToggleButton>";
+
+    private string toggledContentCode = @"<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"" @bind-IsToggled=""isToggled"">
+    <ChildContent>Click to Like</ChildContent>
+    <ToggledContent>❤️ Liked!</ToggledContent>
+</TailToggleButton>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.ToggleButton.ButtonVariant", Default = "Primary", Description = "Button variant style" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.ToggleButton.ButtonSize", Default = "Md", Description = "Button size" },
+        new DocPageTemplate.ApiParameter { Name = "IsToggled", Type = "bool", Default = "false", Description = "Toggle state (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "IsToggledChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when toggle state changes" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content displayed when not toggled" },
+        new DocPageTemplate.ApiParameter { Name = "ToggledContent", Type = "RenderFragment?", Default = "-", Description = "Content displayed when toggled (if not provided, uses ChildContent)" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "\"button\"", Description = "Button type attribute" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+
+    private void ShowMessage(string msg)
+    {
+        message = msg;
+        StateHasChanged();
+    }
+}
+

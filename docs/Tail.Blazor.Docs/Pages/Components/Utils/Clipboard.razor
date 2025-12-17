@@ -1,42 +1,70 @@
 @page "/components/clipboard"
 @using Tail.Blazor.Clipboard
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Clipboard - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailClipboard</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Clipboard component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailClipboard" 
+                 Description="Clipboard component for copying text to the clipboard. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Utils"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Clipboard" Code="@basicCode">
             <PreviewContent>
                 <TailClipboard Text="Copy this text" OnCopied="HandleCopied">
                     Copy to Clipboard
                 </TailClipboard>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Copy text to clipboard with a single click</li>
+                <li>Event callback when text is copied</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Customizable button content</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
+    private string message = string.Empty;
+
     private string installCode = @"dotnet add package Tail.Blazor.Clipboard";
+    
     private string basicCode = @"<TailClipboard Text=""Copy this text"" OnCopied=""HandleCopied"">
     Copy to Clipboard
 </TailClipboard>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Text", Type = "string", Default = "-", Description = "Text to copy to clipboard" },
+        new DocPageTemplate.ApiParameter { Name = "OnCopied", Type = "EventCallback", Default = "-", Description = "Event fired when text is successfully copied" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Button content" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void HandleCopied()
     {
-        // Handle copy event
+        message = "Text copied to clipboard!";
+        StateHasChanged();
     }
 }
 

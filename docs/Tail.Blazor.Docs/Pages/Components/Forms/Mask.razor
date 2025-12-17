@@ -1,35 +1,82 @@
 @page "/components/mask"
 @using Tail.Blazor.Mask
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Mask - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMask</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Masked input component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailMask" 
+                 Description="Masked input component for formatted text entry (phone numbers, dates, etc.). Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Masked Input" Code="@basicCode">
             <PreviewContent>
-                <TailMask @bind-Value="phoneValue" Mask="(###) ###-####" Placeholder="(123) 456-7890" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: @phoneValue</p>
+                <TailMask @bind-Value="phoneValue" Mask="(###) ###-####" Placeholder="(123) 456-7890" Label="Phone Number" />
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Value: @phoneValue</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Mask Patterns">
+        <CodePreview Title="Different Mask Patterns" Code="@maskPatternsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailMask @bind-Value="phoneValue" Mask="(###) ###-####" Placeholder="(123) 456-7890" Label="Phone" />
+                    <TailMask @bind-Value="dateValue" Mask="##/##/####" Placeholder="MM/DD/YYYY" Label="Date" />
+                    <TailMask @bind-Value="ssnValue" Mask="###-##-####" Placeholder="123-45-6789" Label="SSN" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Masked input with pattern formatting</li>
+                <li>Automatic formatting as user types</li>
+                <li>Common patterns (phone, date, SSN, etc.)</li>
+                <li>Custom mask patterns with #, *, A, etc.</li>
+                <li>Two-way binding support</li>
+                <li>Label and placeholder support</li>
+                <li>Disabled and readonly states</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Real-time formatting</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string phoneValue = string.Empty;
+    private string dateValue = string.Empty;
+    private string ssnValue = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Mask";
-    private string basicCode = @"<TailMask @bind-Value=""phoneValue"" Mask=""(###) ###-####"" Placeholder=""(123) 456-7890"" />";
+    
+    private string basicCode = @"<TailMask @bind-Value=""phoneValue"" Mask=""(###) ###-####"" Placeholder=""(123) 456-7890"" Label=""Phone Number"" />";
+
+    private string maskPatternsCode = @"<TailMask @bind-Value=""phoneValue"" Mask=""(###) ###-####"" Placeholder=""(123) 456-7890"" Label=""Phone"" />
+<TailMask @bind-Value=""dateValue"" Mask=""##/##/####"" Placeholder=""MM/DD/YYYY"" Label=""Date"" />
+<TailMask @bind-Value=""ssnValue"" Mask=""###-##-####"" Placeholder=""123-45-6789"" Label=""SSN"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Masked input value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when value changes" },
+        new DocPageTemplate.ApiParameter { Name = "Mask", Type = "string", Default = "-", Description = "Mask pattern (use # for digits, * for alphanumeric, A for letters)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the masked input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text showing mask format" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the masked input" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make input read-only" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

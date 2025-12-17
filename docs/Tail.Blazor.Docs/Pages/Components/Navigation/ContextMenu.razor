@@ -1,0 +1,95 @@
+@page "/components/context-menu"
+@using Tail.Blazor.ContextMenu
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>ContextMenu - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailContextMenu" 
+                 Description="Right-click context menu component for displaying contextual actions. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Context Menu" Code="@basicCode">
+            <PreviewContent>
+                <TailContextMenu Items="@menuItems" OnItemClick="HandleItemClick">
+                    <div style="padding: 2rem; background-color: var(--color-surface-secondary); border-radius: 8px; text-align: center; color: var(--color-text-secondary);">
+                        Right-click here to open context menu
+                    </div>
+                </TailContextMenu>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Right-click to open context menu</li>
+                <li>Automatic positioning and styling</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Customizable menu items</li>
+                <li>Event handling for item clicks</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string message = string.Empty;
+    
+    private List<TailContextMenu.ContextMenuItem> menuItems = new()
+    {
+        new TailContextMenu.ContextMenuItem { Label = "Copy" },
+        new TailContextMenu.ContextMenuItem { Label = "Paste" },
+        new TailContextMenu.ContextMenuItem { Label = "Cut" },
+        new TailContextMenu.ContextMenuItem { Label = "Delete" }
+    };
+
+    private string installCode = @"dotnet add package Tail.Blazor.ContextMenu";
+
+    private string basicCode = @"<TailContextMenu Items=""@menuItems"" OnItemClick=""HandleItemClick"">
+    <div>Right-click here</div>
+</TailContextMenu>
+
+@code {
+    private List<TailContextMenu.ContextMenuItem> menuItems = new()
+    {
+        new TailContextMenu.ContextMenuItem { Label = ""Copy"" },
+        new TailContextMenu.ContextMenuItem { Label = ""Paste"" }
+    };
+
+    private void HandleItemClick(TailContextMenu.ContextMenuItem item)
+    {
+        // Handle item click
+    }
+}";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<ContextMenuItem>", Default = "new()", Description = "List of context menu items to display" },
+        new DocPageTemplate.ApiParameter { Name = "OnItemClick", Type = "EventCallback<ContextMenuItem>", Default = "-", Description = "Event fired when a menu item is clicked" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content that will trigger the context menu on right-click" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+
+    private void HandleItemClick(TailContextMenu.ContextMenuItem item)
+    {
+        message = $"Clicked: {item.Label}";
+        StateHasChanged();
+    }
+}
+

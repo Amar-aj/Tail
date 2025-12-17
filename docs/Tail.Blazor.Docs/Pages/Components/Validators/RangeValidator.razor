@@ -1,34 +1,60 @@
 @page "/components/range-validator"
 @using Tail.Blazor.RangeValidator
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Numeric
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>RangeValidator - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRangeValidator</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Range validation component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailRangeValidator" 
+                 Description="Range validation component for validating numeric or string values within a specified range. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Validators"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Range Validator" Code="@basicCode">
             <PreviewContent>
-                <TailRangeValidator Value="@rangeValue" Min="0" Max="100" />
+                <TailNumeric @bind-Value="rangeValue" Label="Age (0-100)" Min="0" Max="100" />
+                <TailRangeValidator Value="@((double?)rangeValue)" Min="0" Max="100" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Validates values within a specified range</li>
+                <li>Configurable minimum and maximum values</li>
+                <li>Works with numeric and string values</li>
+                <li>Displays error message when validation fails</li>
+                <li>Customizable error message</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private int rangeValue = 0;
+    private decimal rangeValue = 0;
+    
     private string installCode = @"dotnet add package Tail.Blazor.RangeValidator";
-    private string basicCode = @"<TailRangeValidator Value=""@rangeValue"" Min=""0"" Max=""100"" />";
+    
+    private string basicCode = @"<TailNumeric @bind-Value=""rangeValue"" Label=""Age"" Min=""0"" Max=""100"" />
+<TailRangeValidator Value=""@rangeValue"" Min=""0"" Max=""100"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "double?", Default = "-", Description = "Numeric value to validate" },
+        new DocPageTemplate.ApiParameter { Name = "Min", Type = "double", Default = "-", Description = "Minimum allowed value" },
+        new DocPageTemplate.ApiParameter { Name = "Max", Type = "double", Default = "-", Description = "Maximum allowed value" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Custom error message" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

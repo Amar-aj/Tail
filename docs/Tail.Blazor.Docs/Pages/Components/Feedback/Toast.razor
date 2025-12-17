@@ -1,39 +1,68 @@
 @page "/components/toast"
 @using Tail.Blazor.Toast
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
 
 <PageTitle>Toast - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailToast</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Toast notification component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailToast" 
+                 Description="Toast notification component for displaying temporary messages. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Toast" Code="@basicCode">
             <PreviewContent>
-                <TailButton Variant="ButtonVariant.Primary" OnClick="ShowToast">Show Toast</TailButton>
+                <div class="space-y-4">
+                    <TailToast Message="Operation completed successfully!" Variant="Tail.Blazor.Toast.ToastVariant.Success" Title="Success" />
+                    <TailToast Message="Please review your input." Variant="Tail.Blazor.Toast.ToastVariant.Warning" Title="Warning" />
+                    <TailToast Message="An error occurred." Variant="Tail.Blazor.Toast.ToastVariant.Error" Title="Error" />
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Toast notification messages</li>
+                <li>Multiple variants (Success, Warning, Error, Info)</li>
+                <li>Optional title and message</li>
+                <li>Auto-dismiss after specified time</li>
+                <li>Dismissible with close button</li>
+                <li>Optional icon display</li>
+                <li>Custom icon support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Toast";
-    private string basicCode = @"<TailToast Message=""Toast message"" Variant=""ToastVariant.Success"" />";
     
-    private void ShowToast()
+    private string basicCode = @"<TailToast Message=""Operation completed successfully!"" Variant=""Tail.Blazor.Toast.ToastVariant.Success"" Title=""Success"" />
+<TailToast Message=""Please review your input."" Variant=""Tail.Blazor.Toast.ToastVariant.Warning"" Title=""Warning"" />
+<TailToast Message=""An error occurred."" Variant=""Tail.Blazor.Toast.ToastVariant.Error"" Title=""Error"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        // Show toast notification
-    }
+        new DocPageTemplate.ApiParameter { Name = "Message", Type = "string?", Default = "-", Description = "Main message text of the toast" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Title text of the toast" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Toast.ToastVariant", Default = "Info", Description = "Visual style variant (Success, Warning, Error, Info)" },
+        new DocPageTemplate.ApiParameter { Name = "Dismissible", Type = "bool", Default = "true", Description = "Show close button to dismiss the toast" },
+        new DocPageTemplate.ApiParameter { Name = "ShowIcon", Type = "bool", Default = "true", Description = "Show icon corresponding to the variant" },
+        new DocPageTemplate.ApiParameter { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Custom icon to display" },
+        new DocPageTemplate.ApiParameter { Name = "AutoDismissAfter", Type = "int?", Default = "5000", Description = "Auto-dismiss after milliseconds (null = no auto-dismiss)" },
+        new DocPageTemplate.ApiParameter { Name = "OnDismiss", Type = "EventCallback", Default = "-", Description = "Event fired when toast is dismissed" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

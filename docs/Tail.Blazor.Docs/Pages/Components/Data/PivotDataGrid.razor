@@ -1,34 +1,62 @@
 @page "/components/pivot-data-grid"
 @using Tail.Blazor.PivotDataGrid
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>PivotDataGrid - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPivotDataGrid</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Pivot table component. Ultra-lightweight (~20 KB).</p>
+<DocPageTemplate Title="TailPivotDataGrid" 
+                 Description="Pivot table component for displaying aggregated data in a cross-tabulated format. Ultra-lightweight (~20 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Pivot DataGrid" Code="@basicCode">
             <PreviewContent>
-                <TailPivotDataGrid Data="@pivotData" />
+                <TailPivotDataGrid RowHeader="Category" Columns="@columns" Rows="@rows" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Pivot table with row and column headers</li>
+                <li>Data aggregation and cross-tabulation</li>
+                <li>Customizable row header label</li>
+                <li>Dynamic column support</li>
+                <li>Responsive table layout</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> pivotData = new();
+    private List<string> columns = new() { "Q1", "Q2", "Q3", "Q4" };
+    private List<TailPivotDataGrid.PivotRow> rows = new()
+    {
+        new TailPivotDataGrid.PivotRow { Key = "Product A", Values = new Dictionary<string, string> { { "Q1", "100" }, { "Q2", "150" }, { "Q3", "120" }, { "Q4", "180" } } },
+        new TailPivotDataGrid.PivotRow { Key = "Product B", Values = new Dictionary<string, string> { { "Q1", "200" }, { "Q2", "250" }, { "Q3", "220" }, { "Q4", "280" } } },
+        new TailPivotDataGrid.PivotRow { Key = "Product C", Values = new Dictionary<string, string> { { "Q1", "80" }, { "Q2", "90" }, { "Q3", "100" }, { "Q4", "110" } } }
+    };
+    
     private string installCode = @"dotnet add package Tail.Blazor.PivotDataGrid";
-    private string basicCode = @"<TailPivotDataGrid Data=""@pivotData"" />";
+    
+    private string basicCode = @"<TailPivotDataGrid RowHeader=""Category"" Columns=""@columns"" Rows=""@rows"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "RowHeader", Type = "string", Default = "Row", Description = "Label for the row header column" },
+        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "List<string>", Default = "new()", Description = "List of column names/headers" },
+        new DocPageTemplate.ApiParameter { Name = "Rows", Type = "List<TailPivotDataGrid.PivotRow>", Default = "new()", Description = "List of pivot rows with keys and values dictionary" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

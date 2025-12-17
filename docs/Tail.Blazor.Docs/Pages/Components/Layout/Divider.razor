@@ -1,37 +1,74 @@
 @page "/components/divider"
 @using Tail.Blazor.Divider
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
+@using DividerOrientation = Tail.Blazor.Divider.DividerOrientation
 
 <PageTitle>Divider - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDivider</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Divider component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailDivider" 
+                 Description="Divider component for separating content sections. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Divider" Code="@basicCode">
             <PreviewContent>
                 <div>
-                    <p>Content above</p>
+                    <p style="color: var(--color-text-primary);">Content above</p>
                     <TailDivider Orientation="DividerOrientation.Horizontal" />
-                    <p>Content below</p>
+                    <p style="color: var(--color-text-primary);">Content below</p>
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Orientations">
+        <CodePreview Title="Divider Orientations" Code="@orientationsCode">
+            <PreviewContent>
+                <div class="flex items-center gap-4">
+                    <div>
+                        <p style="color: var(--color-text-primary);">Left</p>
+                    </div>
+                    <TailDivider Orientation="DividerOrientation.Vertical" />
+                    <div>
+                        <p style="color: var(--color-text-primary);">Right</p>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Horizontal and vertical divider orientations</li>
+                <li>Visual separation of content sections</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Divider";
+    
     private string basicCode = @"<TailDivider Orientation=""DividerOrientation.Horizontal"" />";
+
+    private string orientationsCode = @"<TailDivider Orientation=""DividerOrientation.Horizontal"" />
+<TailDivider Orientation=""DividerOrientation.Vertical"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Orientation", Type = "DividerOrientation", Default = "Horizontal", Description = "Orientation of the divider (Horizontal or Vertical)" },
+        new DocPageTemplate.ApiParameter { Name = "Text", Type = "string?", Default = "-", Description = "Optional text to display in the center of the divider" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

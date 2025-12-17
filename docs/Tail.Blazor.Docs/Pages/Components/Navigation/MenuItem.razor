@@ -1,33 +1,65 @@
 @page "/components/menu-item"
 @using Tail.Blazor.MenuItem
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Menu
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>MenuItem - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMenuItem</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Menu item component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailMenuItem" 
+                 Description="Menu item component for navigation links within menus. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Menu Item" Code="@basicCode">
             <PreviewContent>
-                <TailMenuItem Text="Home" Href="/" />
+                <TailMenu>
+                    <TailMenuItem Href="/home" IsActive="true">Home</TailMenuItem>
+                    <TailMenuItem Href="/about">About</TailMenuItem>
+                    <TailMenuItem Href="/contact">Contact</TailMenuItem>
+                </TailMenu>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Navigation link for menus</li>
+                <li>Active state styling</li>
+                <li>Optional icon support</li>
+                <li>Optional badge support</li>
+                <li>Click event handling</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.MenuItem";
-    private string basicCode = @"<TailMenuItem Text=""Home"" Href=""/"" />";
+    
+    private string basicCode = @"<TailMenu>
+    <TailMenuItem Href=""/home"" IsActive=""true"">Home</TailMenuItem>
+    <TailMenuItem Href=""/about"">About</TailMenuItem>
+</TailMenu>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content/text for the menu item" },
+        new DocPageTemplate.ApiParameter { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Optional icon to display before the content" },
+        new DocPageTemplate.ApiParameter { Name = "Badge", Type = "RenderFragment?", Default = "-", Description = "Optional badge to display after the content" },
+        new DocPageTemplate.ApiParameter { Name = "Href", Type = "string?", Default = "-", Description = "Navigation URL for the menu item" },
+        new DocPageTemplate.ApiParameter { Name = "IsActive", Type = "bool", Default = "false", Description = "Whether the menu item is currently active" },
+        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback", Default = "-", Description = "Event fired when the menu item is clicked" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -1,33 +1,87 @@
 @page "/components/empty-state"
 @using Tail.Blazor.EmptyState
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>EmptyState - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailEmptyState</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Empty state component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailEmptyState" 
+                 Description="Empty state component for displaying helpful messages when no data is available. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Empty State" Code="@basicCode">
             <PreviewContent>
                 <TailEmptyState Title="No items found" Description="Try adding some items to get started." />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="With Icon and Action">
+        <CodePreview Title="Empty State with Action" Code="@actionCode">
+            <PreviewContent>
+                <TailEmptyState Title="No items found" Description="Get started by adding your first item.">
+                    <Icon>
+                        <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        </svg>
+                    </Icon>
+                    <Action>
+                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Add Item</TailButton>
+                    </Action>
+                </TailEmptyState>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Empty state display with title and description</li>
+                <li>Optional icon support</li>
+                <li>Optional action buttons via Actions slot</li>
+                <li>Centered layout design</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+                <li>Customizable content</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.EmptyState";
-    private string basicCode = @"<TailEmptyState Title=""No items found"" Description=""Try adding some items."" />";
+    
+    private string basicCode = @"<TailEmptyState Title=""No items found"" Description=""Try adding some items to get started."" />";
+
+    private string actionCode = @"<TailEmptyState Title=""No items found"" Description=""Get started by adding your first item."">
+    <Icon>
+        <svg class=""w-16 h-16 mx-auto text-gray-400"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"" />
+        </svg>
+    </Icon>
+    <Action>
+        <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Add Item</TailButton>
+    </Action>
+</TailEmptyState>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Title text for the empty state" },
+        new DocPageTemplate.ApiParameter { Name = "Description", Type = "string?", Default = "-", Description = "Description text for the empty state" },
+        new DocPageTemplate.ApiParameter { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Icon content to display above the title" },
+        new DocPageTemplate.ApiParameter { Name = "Action", Type = "RenderFragment?", Default = "-", Description = "Action button to display below the description" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "EmptyStateSize", Default = "Md", Description = "Size of the empty state (Sm, Md, Lg)" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "EmptyStateVariant", Default = "Default", Description = "Visual style variant" },
+        new DocPageTemplate.ApiParameter { Name = "ShowDefaultIcon", Type = "bool", Default = "true", Description = "Show default icon if no custom icon is provided" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

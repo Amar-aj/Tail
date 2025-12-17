@@ -1,38 +1,68 @@
 @page "/components/pager"
 @using Tail.Blazor.Pager
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Pager - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPager</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Pagination component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailPager" 
+                 Description="Pagination component for navigating through pages of data. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Pager" Code="@basicCode">
             <PreviewContent>
-                <TailPager CurrentPage="2" TotalPages="10" TotalItems="100" PageSize="10" CurrentPageChanged="OnPageChanged" />
+                <TailPager CurrentPage="@currentPage" TotalPages="10" TotalItems="100" PageSize="10" CurrentPageChanged="OnPageChanged" />
+                <p class="mt-4 text-sm" style="color: var(--color-text-secondary);">Current Page: @currentPage</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Pagination navigation with page numbers</li>
+                <li>Previous and next buttons</li>
+                <li>First and last page buttons</li>
+                <li>Shows current page and total pages</li>
+                <li>Displays total items count</li>
+                <li>Configurable page size</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
+    private int currentPage = 2;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Pager";
-    private string basicCode = @"<TailPager CurrentPage=""2"" TotalPages=""10"" TotalItems=""100"" PageSize=""10"" CurrentPageChanged=""OnPageChanged"" />";
+    
+    private string basicCode = @"<TailPager CurrentPage=""@currentPage"" TotalPages=""10"" TotalItems=""100"" PageSize=""10"" CurrentPageChanged=""OnPageChanged"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "CurrentPage", Type = "int", Default = "1", Description = "Current page number (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "CurrentPageChanged", Type = "EventCallback<int>", Default = "-", Description = "Event fired when page changes" },
+        new DocPageTemplate.ApiParameter { Name = "TotalPages", Type = "int", Default = "1", Description = "Total number of pages" },
+        new DocPageTemplate.ApiParameter { Name = "TotalItems", Type = "int", Default = "0", Description = "Total number of items across all pages" },
+        new DocPageTemplate.ApiParameter { Name = "PageSize", Type = "int", Default = "10", Description = "Number of items per page" },
+        new DocPageTemplate.ApiParameter { Name = "ShowFirstLast", Type = "bool", Default = "true", Description = "Show first and last page buttons" },
+        new DocPageTemplate.ApiParameter { Name = "ShowPrevNext", Type = "bool", Default = "true", Description = "Show previous and next page buttons" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void OnPageChanged(int page)
     {
-        // Handle page change
+        currentPage = page;
+        StateHasChanged();
     }
 }
 

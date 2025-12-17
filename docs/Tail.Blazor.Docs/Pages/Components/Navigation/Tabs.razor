@@ -1,30 +1,40 @@
 @page "/components/tabs"
 @using Tail.Blazor.Tabs
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Tabs - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailTabs</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Tab component for organizing content. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailTabs" 
+                 Description="Tab component for organizing content into multiple panels. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Tabs" Code="@basicCode">
             <PreviewContent>
                 <TailTabs Tabs="@tabs" @bind-ActiveTab="activeTab" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Multiple tab panels for organizing content</li>
+                <li>Two-way binding for active tab</li>
+                <li>Custom tab labels and content</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Smooth transitions and animations</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private TailTabs.TabItem? activeTab;
@@ -34,7 +44,25 @@
         new TailTabs.TabItem { Label = "Tab 2", Content = builder => builder.AddContent(0, "Content 2") },
         new TailTabs.TabItem { Label = "Tab 3", Content = builder => builder.AddContent(0, "Content 3") }
     };
+    
     private string installCode = @"dotnet add package Tail.Blazor.Tabs";
-    private string basicCode = @"<TailTabs Tabs=""@tabs"" @bind-ActiveTab=""activeTab"" />";
+    
+    private string basicCode = @"<TailTabs Tabs=""@tabs"" @bind-ActiveTab=""activeTab"" />
+
+@code {
+    private TailTabs.TabItem? activeTab;
+    private List<TailTabs.TabItem> tabs = new()
+    {
+        new TailTabs.TabItem { Label = ""Tab 1"", Content = builder => builder.AddContent(0, ""Content 1"") },
+        new TailTabs.TabItem { Label = ""Tab 2"", Content = builder => builder.AddContent(0, ""Content 2"") }
+    };
+}";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Tabs", Type = "List<TabItem>", Default = "-", Description = "List of tab items to display" },
+        new DocPageTemplate.ApiParameter { Name = "ActiveTab", Type = "TabItem?", Default = "-", Description = "Currently active tab (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

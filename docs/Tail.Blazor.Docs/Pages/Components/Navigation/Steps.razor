@@ -20,6 +20,20 @@
             </PreviewContent>
         </CodePreview>
     </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Step indicator for multi-step processes</li>
+                <li>Active step highlighting</li>
+                <li>Completed steps show checkmarks</li>
+                <li>Connector lines between steps</li>
+                <li>Title and description support for each step</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {
@@ -38,8 +52,10 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Steps", Type = "List<StepItem>", Default = "-", Description = "Step items" },
-        new DocPageTemplate.ApiParameter { Name = "CurrentStep", Type = "int", Default = "0", Description = "Current active step index" }
+        new DocPageTemplate.ApiParameter { Name = "Steps", Type = "List<StepItem>", Default = "new()", Description = "List of step items to display" },
+        new DocPageTemplate.ApiParameter { Name = "CurrentStep", Type = "int", Default = "1", Description = "Current active step number (1-based)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 }
 

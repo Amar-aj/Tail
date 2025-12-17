@@ -1,42 +1,68 @@
 @page "/components/virtual-scroll"
 @using Tail.Blazor.VirtualScroll
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>VirtualScroll - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailVirtualScroll</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Virtual scrolling for large lists. Ultra-lightweight (~8 KB).</p>
+<DocPageTemplate Title="TailVirtualScroll" 
+                 Description="Virtual scrolling component for efficiently rendering large lists by only displaying visible items. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Virtual Scroll" Code="@basicCode">
             <PreviewContent>
-                <TailVirtualScroll Items="@virtualItems" ItemHeight="50" VisibleCount="10">
-                    <ItemTemplate>
-                        <div class="p-2">@context</div>
-                    </ItemTemplate>
-                </TailVirtualScroll>
+                <div style="height: 300px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <TailVirtualScroll Items="@virtualItems" ItemHeight="50" VisibleCount="10">
+                        <ItemTemplate>
+                            <div class="p-2" style="color: var(--color-text-primary); border-bottom: 1px solid var(--color-border);">@context</div>
+                        </ItemTemplate>
+                    </TailVirtualScroll>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Virtual scrolling for large datasets</li>
+                <li>Only renders visible items for performance</li>
+                <li>Configurable item height</li>
+                <li>Configurable visible item count</li>
+                <li>Custom item template</li>
+                <li>Smooth scrolling</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<string> virtualItems = Enumerable.Range(1, 1000).Select(i => $"Item {i}").ToList();
+    private List<string> virtualItems = Enumerable.Range(1, 100).Select(i => $"Item {i}").ToList();
+    
     private string installCode = @"dotnet add package Tail.Blazor.VirtualScroll";
+    
     private string basicCode = @"<TailVirtualScroll Items=""@virtualItems"" ItemHeight=""50"" VisibleCount=""10"">
     <ItemTemplate>
         <div class=""p-2"">@context</div>
     </ItemTemplate>
 </TailVirtualScroll>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "IEnumerable<T>", Default = "-", Description = "Collection of items to display" },
+        new DocPageTemplate.ApiParameter { Name = "ItemTemplate", Type = "RenderFragment<T>", Default = "-", Description = "Template for rendering each item" },
+        new DocPageTemplate.ApiParameter { Name = "ItemHeight", Type = "int", Default = "-", Description = "Fixed height of each item in pixels (required for virtualization)" },
+        new DocPageTemplate.ApiParameter { Name = "VisibleCount", Type = "int", Default = "-", Description = "Number of items to render at once" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

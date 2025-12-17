@@ -1,35 +1,87 @@
 @page "/components/date-picker"
 @using Tail.Blazor.DatePicker
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>DatePicker - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDatePicker</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Date selection component. Ultra-lightweight (~8 KB).</p>
+<DocPageTemplate Title="TailDatePicker" 
+                 Description="Date selection component with calendar picker. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Date Picker" Code="@basicCode">
             <PreviewContent>
                 <TailDatePicker @bind-Value="selectedDate" Label="Select Date" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @selectedDate?.ToString("yyyy-MM-dd")</p>
+                @if (selectedDate.HasValue)
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Selected: @selectedDate.Value.ToString("yyyy-MM-dd")</p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Date Range">
+        <CodePreview Title="Min and Max Dates" Code="@dateRangeCode">
+            <PreviewContent>
+                <TailDatePicker @bind-Value="selectedDate2" Label="Select Date" MinDate="@DateTime.Today" MaxDate="@DateTime.Today.AddDays(30)" HelpText="Select a date within the next 30 days" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Date selection with native date picker</li>
+                <li>Two-way binding for DateTime?</li>
+                <li>Min and max date constraints</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and help text support</li>
+                <li>Error message display</li>
+                <li>Required field support</li>
+                <li>Disabled state support</li>
+                <li>Icon support (IconStart)</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private DateTime? selectedDate = null;
+    private DateTime? selectedDate2 = null;
+    
     private string installCode = @"dotnet add package Tail.Blazor.DatePicker";
+    
     private string basicCode = @"<TailDatePicker @bind-Value=""selectedDate"" Label=""Select Date"" />";
+
+    private string dateRangeCode = @"<TailDatePicker @bind-Value=""selectedDate"" 
+                         Label=""Select Date"" 
+                         MinDate=""@DateTime.Today"" 
+                         MaxDate=""@DateTime.Today.AddDays(30)"" 
+                         HelpText=""Select a date within the next 30 days"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "DateTime?", Default = "-", Description = "Selected date (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when date changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "DatePickerSize", Default = "Md", Description = "Size of the date picker (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the date picker" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the date picker as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the date picker" },
+        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "IconStart", Type = "RenderFragment?", Default = "-", Description = "Icon to display at the start of the input" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

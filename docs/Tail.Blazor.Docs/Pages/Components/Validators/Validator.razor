@@ -1,35 +1,56 @@
 @page "/components/validator"
 @using Tail.Blazor.Validator
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Input
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Validator - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailValidator</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Base validator component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailValidator" 
+                 Description="Base validator component for displaying validation errors. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Validators"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Validator" Code="@basicCode">
             <PreviewContent>
-                <TailValidator Value="@testValue" IsValid="@isValid" />
+                <TailInput @bind-Value="testValue" Label="Test Input" />
+                <TailValidator IsValid="@isValid" ErrorMessage="This field cannot be empty" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Base validator component for validation logic</li>
+                <li>Displays error messages when validation fails</li>
+                <li>Customizable error message</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string testValue = string.Empty;
-    private bool isValid = true;
+    private bool isValid => !string.IsNullOrEmpty(testValue);
+    
     private string installCode = @"dotnet add package Tail.Blazor.Validator";
-    private string basicCode = @"<TailValidator Value=""@testValue"" IsValid=""@isValid"" />";
+    
+    private string basicCode = @"<TailValidator Value=""@testValue"" IsValid=""@isValid"" ErrorMessage=""Validation failed"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "IsValid", Type = "bool?", Default = "-", Description = "Boolean indicating if the value is valid (null/true = valid, false = invalid)" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display when validation fails" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

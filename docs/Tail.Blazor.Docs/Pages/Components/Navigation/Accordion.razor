@@ -2,39 +2,57 @@
 @using Tail.Blazor.Accordion
 @using Tail.Blazor.AccordionItem
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Accordion - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAccordion</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Accordion component for collapsible content. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailAccordion" 
+                 Description="Accordion component for displaying collapsible content sections. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Accordion" Code="@basicCode">
             <PreviewContent>
-                <TailAccordion>
-                    <TailAccordionItem Title="Item 1">Content 1</TailAccordionItem>
-                    <TailAccordionItem Title="Item 2">Content 2</TailAccordionItem>
-                </TailAccordion>
+                <TailAccordion Items="@accordionItems" AllowMultiple="false" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Collapsible content sections</li>
+                <li>Option to allow multiple items open at once</li>
+                <li>Expand/collapse animation</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
+    private List<Tail.Blazor.Accordion.TailAccordion.AccordionItem> accordionItems = new()
+    {
+        new Tail.Blazor.Accordion.TailAccordion.AccordionItem { Title = "Item 1", Content = builder => builder.AddContent(0, "Content for item 1"), IsExpanded = false },
+        new Tail.Blazor.Accordion.TailAccordion.AccordionItem { Title = "Item 2", Content = builder => builder.AddContent(0, "Content for item 2"), IsExpanded = false }
+    };
+    
     private string installCode = @"dotnet add package Tail.Blazor.Accordion";
-    private string basicCode = @"<TailAccordion>
-    <TailAccordionItem Title=""Item 1"">Content 1</TailAccordionItem>
-    <TailAccordionItem Title=""Item 2"">Content 2</TailAccordionItem>
-</TailAccordion>";
+    
+    private string basicCode = @"<TailAccordion Items=""@accordionItems"" AllowMultiple=""false"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<Tail.Blazor.Accordion.TailAccordion.AccordionItem>", Default = "new()", Description = "List of accordion items to display" },
+        new DocPageTemplate.ApiParameter { Name = "AllowMultiple", Type = "bool", Default = "false", Description = "Allow multiple items to be expanded at the same time" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

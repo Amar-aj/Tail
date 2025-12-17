@@ -1,42 +1,77 @@
 @page "/components/multi-select"
 @using Tail.Blazor.MultiSelect
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>MultiSelect - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMultiSelect</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Multi-selection dropdown component. Ultra-lightweight (~6 KB).</p>
+<DocPageTemplate Title="TailMultiSelect" 
+                 Description="Multi-selection dropdown component with tag display for selected items. Ultra-lightweight (~6 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="MultiSelect" Code="@basicCode">
             <PreviewContent>
-                <TailMultiSelect @bind-SelectedValues="selectedItems" Items="@options" Placeholder="Select items..." />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @string.Join(", ", selectedItems)</p>
+                <TailMultiSelect @bind-SelectedValues="selectedItems" Items="@options" Placeholder="Select items..." Label="Select Multiple Options" />
+                @if (selectedItems.Any())
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Selected: @string.Join(", ", selectedItems)</p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Multi-selection dropdown</li>
+                <li>Tag display for selected items</li>
+                <li>Individual tag removal buttons</li>
+                <li>Dropdown with checkboxes or toggle selection</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and placeholder support</li>
+                <li>Validation error display</li>
+                <li>Disabled state support</li>
+                <li>Required field support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Keyboard navigation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private List<string> selectedItems = new();
-    private List<MultiSelectItem> options = new() 
+    private List<Tail.Blazor.MultiSelect.MultiSelectItem> options = new() 
     { 
-        new MultiSelectItem { Value = "1", Text = "Option 1" },
-        new MultiSelectItem { Value = "2", Text = "Option 2" },
-        new MultiSelectItem { Value = "3", Text = "Option 3" },
-        new MultiSelectItem { Value = "4", Text = "Option 4" }
+        new Tail.Blazor.MultiSelect.MultiSelectItem { Value = "1", Text = "Option 1" },
+        new Tail.Blazor.MultiSelect.MultiSelectItem { Value = "2", Text = "Option 2" },
+        new Tail.Blazor.MultiSelect.MultiSelectItem { Value = "3", Text = "Option 3" },
+        new Tail.Blazor.MultiSelect.MultiSelectItem { Value = "4", Text = "Option 4" }
     };
+    
     private string installCode = @"dotnet add package Tail.Blazor.MultiSelect";
-    private string basicCode = @"<TailMultiSelect @bind-SelectedValues=""selectedItems"" Items=""@options"" Placeholder=""Select..."" />";
+    
+    private string basicCode = @"<TailMultiSelect @bind-SelectedValues=""selectedItems"" Items=""@options"" Placeholder=""Select items..."" Label=""Select Multiple Options"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "SelectedValues", Type = "List<string>?", Default = "-", Description = "List of selected values (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "SelectedValuesChanged", Type = "EventCallback<List<string>>", Default = "-", Description = "Event fired when selection changes" },
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<Tail.Blazor.MultiSelect.MultiSelectItem>?", Default = "-", Description = "List of selectable items" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "MultiSelectSize", Default = "Md", Description = "Size of the multi-select (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the multi-select" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text when no items are selected" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the multi-select as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the multi-select" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

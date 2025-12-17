@@ -1,34 +1,79 @@
 @page "/components/nav-menu"
 @using Tail.Blazor.NavMenu
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Menu
 @using Microsoft.AspNetCore.Components
+@using NavMenuOrientation = Tail.Blazor.NavMenu.NavMenuOrientation
 
 <PageTitle>NavMenu - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailNavMenu</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Navigation menu component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailNavMenu" 
+                 Description="Navigation menu component for horizontal or vertical menu layouts. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Nav Menu" Code="@basicCode">
             <PreviewContent>
-                <TailNavMenu Items="@navItems" />
+                <TailNavMenu Orientation="NavMenuOrientation.Horizontal">
+                    <TailMenuItem>Home</TailMenuItem>
+                    <TailMenuItem>About</TailMenuItem>
+                    <TailMenuItem>Contact</TailMenuItem>
+                </TailNavMenu>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Vertical Orientation">
+        <CodePreview Title="Vertical Nav Menu" Code="@verticalCode">
+            <PreviewContent>
+                <TailNavMenu Orientation="NavMenuOrientation.Vertical">
+                    <TailMenuItem>Home</TailMenuItem>
+                    <TailMenuItem>About</TailMenuItem>
+                    <TailMenuItem>Contact</TailMenuItem>
+                </TailNavMenu>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Navigation menu container</li>
+                <li>Horizontal or vertical orientation</li>
+                <li>Flexible content layout</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> navItems = new();
     private string installCode = @"dotnet add package Tail.Blazor.NavMenu";
-    private string basicCode = @"<TailNavMenu Items=""@navItems"" />";
+    
+    private string basicCode = @"<TailNavMenu Orientation=""NavMenuOrientation.Horizontal"">
+    <TailMenuItem>Home</TailMenuItem>
+    <TailMenuItem>About</TailMenuItem>
+    <TailMenuItem>Contact</TailMenuItem>
+</TailNavMenu>";
+
+    private string verticalCode = @"<TailNavMenu Orientation=""NavMenuOrientation.Vertical"">
+    <TailMenuItem>Home</TailMenuItem>
+    <TailMenuItem>About</TailMenuItem>
+    <TailMenuItem>Contact</TailMenuItem>
+</TailNavMenu>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Menu items to display (typically TailMenuItem components)" },
+        new DocPageTemplate.ApiParameter { Name = "Orientation", Type = "NavMenuOrientation", Default = "Horizontal", Description = "Menu orientation (Horizontal or Vertical)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

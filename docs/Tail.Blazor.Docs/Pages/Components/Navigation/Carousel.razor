@@ -16,16 +16,33 @@
     <DocSection Title="Basic Usage">
         <CodePreview Title="Carousel" Code="@basicCode">
             <PreviewContent>
-                <TailCarousel Items="@carouselItems" AutoPlay="true" ShowIndicators="true" ShowControls="true" />
+                <TailCarousel Items="@carouselItems" @bind-CurrentIndex="currentIndex" AutoPlay="false" ShowIndicators="true" ShowControls="true" />
             </PreviewContent>
         </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Image and content carousel with slide navigation</li>
+                <li>Previous and next navigation controls</li>
+                <li>Indicator dots for direct slide navigation</li>
+                <li>Optional auto-play functionality</li>
+                <li>Configurable auto-play interval</li>
+                <li>Smooth transitions between slides</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
+    private int currentIndex = 0;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Carousel";
 
-    private string basicCode = @"<TailCarousel Items=""@carouselItems"" AutoPlay=""true"" ShowIndicators=""true"" ShowControls=""true"" />";
+    private string basicCode = @"<TailCarousel Items=""@carouselItems"" @bind-CurrentIndex=""currentIndex"" AutoPlay=""false"" ShowIndicators=""true"" ShowControls=""true"" />";
 
     private List<RenderFragment> carouselItems = new();
     
@@ -33,17 +50,22 @@
     {
         carouselItems = new List<RenderFragment>
         {
-            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-primary-light, #dbeafe);'>Slide 1</div>"),
-            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-success-light, #d1fae5);'>Slide 2</div>"),
-            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-warning-light, #fef3c7);'>Slide 3</div>")
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-primary-light, #dbeafe); color: var(--color-text-primary);'>Slide 1</div>"),
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-success-light, #d1fae5); color: var(--color-text-primary);'>Slide 2</div>"),
+            builder => builder.AddMarkupContent(0, "<div class='p-8 text-center' style='background-color: var(--color-warning-light, #fef3c7); color: var(--color-text-primary);'>Slide 3</div>")
         };
     }
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<RenderFragment>", Default = "-", Description = "Carousel slide content" },
-        new DocPageTemplate.ApiParameter { Name = "AutoPlay", Type = "bool", Default = "false", Description = "Enable auto-play" },
-        new DocPageTemplate.ApiParameter { Name = "ShowIndicators", Type = "bool", Default = "true", Description = "Show slide indicators" }
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<RenderFragment>", Default = "new()", Description = "List of render fragments for each carousel slide" },
+        new DocPageTemplate.ApiParameter { Name = "CurrentIndex", Type = "int", Default = "0", Description = "Current active slide index (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowControls", Type = "bool", Default = "true", Description = "Show previous/next navigation buttons" },
+        new DocPageTemplate.ApiParameter { Name = "ShowIndicators", Type = "bool", Default = "true", Description = "Show slide indicator dots" },
+        new DocPageTemplate.ApiParameter { Name = "AutoPlay", Type = "bool", Default = "false", Description = "Enable automatic slide progression" },
+        new DocPageTemplate.ApiParameter { Name = "AutoPlayInterval", Type = "int", Default = "3000", Description = "Interval in milliseconds between auto-play transitions" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 }
 

@@ -1,34 +1,78 @@
 @page "/components/docking-layout"
 @using Tail.Blazor.DockingLayout
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>DockingLayout - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDockingLayout</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Docking layout component. Ultra-lightweight (~12 KB).</p>
+<DocPageTemplate Title="TailDockingLayout" 
+                 Description="Docking layout component for creating panel-based layouts with top, left, center, right, and bottom sections. Ultra-lightweight (~12 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Docking Layout" Code="@basicCode">
             <PreviewContent>
-                <TailDockingLayout Panels="@panels" />
+                <div style="height: 300px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <TailDockingLayout>
+                        <Top>
+                            <div style="padding: 1rem; background-color: var(--color-surface-secondary); color: var(--color-text-primary); text-align: center;">Top Panel</div>
+                        </Top>
+                        <Left>
+                            <div style="padding: 1rem; background-color: var(--color-surface-secondary); color: var(--color-text-primary); width: 150px;">Left Panel</div>
+                        </Left>
+                        <Center>
+                            <div style="padding: 1rem; color: var(--color-text-primary);">Center Content</div>
+                        </Center>
+                        <Right>
+                            <div style="padding: 1rem; background-color: var(--color-surface-secondary); color: var(--color-text-primary); width: 150px;">Right Panel</div>
+                        </Right>
+                        <Bottom>
+                            <div style="padding: 1rem; background-color: var(--color-surface-secondary); color: var(--color-text-primary); text-align: center;">Bottom Panel</div>
+                        </Bottom>
+                    </TailDockingLayout>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Docking layout with five panel areas</li>
+                <li>Top, Left, Center, Right, and Bottom sections</li>
+                <li>Flexible panel configuration</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> panels = new();
     private string installCode = @"dotnet add package Tail.Blazor.DockingLayout";
-    private string basicCode = @"<TailDockingLayout Panels=""@panels"" />";
+    
+    private string basicCode = @"<TailDockingLayout>
+    <Top>Top Panel</Top>
+    <Left>Left Panel</Left>
+    <Center>Center Content</Center>
+    <Right>Right Panel</Right>
+    <Bottom>Bottom Panel</Bottom>
+</TailDockingLayout>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Top", Type = "RenderFragment?", Default = "-", Description = "Content for the top panel" },
+        new DocPageTemplate.ApiParameter { Name = "Left", Type = "RenderFragment?", Default = "-", Description = "Content for the left panel" },
+        new DocPageTemplate.ApiParameter { Name = "Center", Type = "RenderFragment?", Default = "-", Description = "Content for the center/main area" },
+        new DocPageTemplate.ApiParameter { Name = "Right", Type = "RenderFragment?", Default = "-", Description = "Content for the right panel" },
+        new DocPageTemplate.ApiParameter { Name = "Bottom", Type = "RenderFragment?", Default = "-", Description = "Content for the bottom panel" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

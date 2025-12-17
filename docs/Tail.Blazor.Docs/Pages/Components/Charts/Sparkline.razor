@@ -20,20 +20,35 @@
             </PreviewContent>
         </CodePreview>
     </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Miniature inline chart for trend visualization</li>
+                <li>SVG-based rendering</li>
+                <li>Customizable width and height</li>
+                <li>Compact design for inline use</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Charts";
 
-    private string basicCode = @"<TailSparkline Data=""@sparklineData"" Width=""200"" Height=""50"" />";
+    private string basicCode = @"<TailSparkline Data=""@sparklineData"" Width=""100"" Height=""30"" />";
 
     private List<double> sparklineData = new() { 10, 20, 15, 25, 30, 20, 35 };
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "-", Description = "Data points" },
-        new DocPageTemplate.ApiParameter { Name = "Width", Type = "int", Default = "200", Description = "Chart width" },
-        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "50", Description = "Chart height" }
+        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "new()", Description = "Data points for the sparkline" },
+        new DocPageTemplate.ApiParameter { Name = "Width", Type = "int", Default = "100", Description = "Chart width in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "30", Description = "Chart height in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 }
 

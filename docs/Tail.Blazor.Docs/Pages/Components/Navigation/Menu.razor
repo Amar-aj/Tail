@@ -1,34 +1,59 @@
 @page "/components/menu"
 @using Tail.Blazor.Menu
+@using Tail.Blazor.MenuItem
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Menu - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMenu</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Menu component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailMenu" 
+                 Description="Menu component for displaying navigation menus. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Menu" Code="@basicCode">
             <PreviewContent>
-                <TailMenu Items="@menuItems" />
+                <TailMenu>
+                    <TailMenuItem Href="/home">Home</TailMenuItem>
+                    <TailMenuItem Href="/about">About</TailMenuItem>
+                    <TailMenuItem Href="/contact">Contact</TailMenuItem>
+                </TailMenu>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Menu container for navigation items</li>
+                <li>Flexible content layout</li>
+                <li>Works with TailMenuItem components</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> menuItems = new();
     private string installCode = @"dotnet add package Tail.Blazor.Menu";
-    private string basicCode = @"<TailMenu Items=""@menuItems"" />";
+    
+    private string basicCode = @"<TailMenu>
+    <TailMenuItem Href=""/home"">Home</TailMenuItem>
+    <TailMenuItem Href=""/about"">About</TailMenuItem>
+    <TailMenuItem Href=""/contact"">Contact</TailMenuItem>
+</TailMenu>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Menu items to display (typically TailMenuItem components)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

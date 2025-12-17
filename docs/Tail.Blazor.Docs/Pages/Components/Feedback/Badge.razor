@@ -1,38 +1,98 @@
 @page "/components/badge"
 @using Tail.Blazor.Badge
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Badge - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailBadge</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Badge component for labels and counts. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailBadge" 
+                 Description="Badge component for labels, counts, and status indicators. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Badge" Code="@basicCode">
             <PreviewContent>
-                <div class="flex gap-3 items-center">
-                    <TailBadge Variant="BadgeVariant.Primary">New</TailBadge>
-                    <TailBadge Variant="BadgeVariant.Success">Active</TailBadge>
-                    <TailBadge Variant="BadgeVariant.Warning">Pending</TailBadge>
-                    <TailBadge Variant="BadgeVariant.Danger">5</TailBadge>
+                <div class="flex gap-3 items-center flex-wrap">
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary">New</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Success">Active</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Warning">Pending</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Danger">5</TailBadge>
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <CodePreview Title="Badge Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="flex gap-3 items-center flex-wrap">
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary">Primary</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Success">Success</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Warning">Warning</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Danger">Danger</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Info">Info</TailBadge>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Badge Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="flex gap-3 items-center flex-wrap">
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary" Size="Tail.Blazor.Badge.BadgeSize.Sm">SM</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary" Size="Tail.Blazor.Badge.BadgeSize.Md">MD</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary" Size="Tail.Blazor.Badge.BadgeSize.Lg">LG</TailBadge>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Badge component for labels and counts</li>
+                <li>Multiple variants (Primary, Success, Warning, Danger, Info)</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg)</li>
+                <li>Pill/rounded style support</li>
+                <li>Dot badge option for minimal indicators</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Badge";
-    private string basicCode = @"<TailBadge Variant=""BadgeVariant.Primary"">New</TailBadge>";
+    
+    private string basicCode = @"<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"">New</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Success"">Active</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Warning"">Pending</TailBadge>";
+
+    private string variantsCode = @"<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"">Primary</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Success"">Success</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Warning"">Warning</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Danger"">Danger</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Info"">Info</TailBadge>";
+
+    private string sizesCode = @"<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"" Size=""Tail.Blazor.Badge.BadgeSize.Sm"">SM</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"" Size=""Tail.Blazor.Badge.BadgeSize.Md"">MD</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"" Size=""Tail.Blazor.Badge.BadgeSize.Lg"">LG</TailBadge>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display inside the badge" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Badge.BadgeVariant", Default = "Primary", Description = "Visual style variant (Primary, Success, Warning, Danger, Info, Gray)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Badge.BadgeSize", Default = "Md", Description = "Size of the badge (Sm, Md, Lg)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowDot", Type = "bool", Default = "false", Description = "Display a dot indicator before the badge text" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

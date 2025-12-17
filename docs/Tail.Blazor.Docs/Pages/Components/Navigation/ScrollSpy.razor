@@ -1,34 +1,63 @@
 @page "/components/scroll-spy"
 @using Tail.Blazor.ScrollSpy
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ScrollSpy - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailScrollSpy</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Scroll spy component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailScrollSpy" 
+                 Description="Scroll spy component for navigation links that highlight based on scroll position. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Scroll Spy" Code="@basicCode">
             <PreviewContent>
-                <TailScrollSpy Sections="@sections" />
+                <TailScrollSpy Items="@scrollSpyItems" ActiveId="@activeId" Position="@Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyPosition.Left" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Navigation links for page sections</li>
+                <li>Active section highlighting</li>
+                <li>Left or right positioning</li>
+                <li>Click to scroll to sections</li>
+                <li>Sticky positioning support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> sections = new();
+    private string? activeId = "section1";
+    private List<Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem> scrollSpyItems = new()
+    {
+        new Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem { Id = "section1", Label = "Section 1", Href = "#section1" },
+        new Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem { Id = "section2", Label = "Section 2", Href = "#section2" },
+        new Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem { Id = "section3", Label = "Section 3", Href = "#section3" }
+    };
+    
     private string installCode = @"dotnet add package Tail.Blazor.ScrollSpy";
-    private string basicCode = @"<TailScrollSpy Sections=""@sections"" />";
+    
+    private string basicCode = @"<TailScrollSpy Items=""@scrollSpyItems"" ActiveId=""@activeId"" Position=""Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyPosition.Left"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem>", Default = "new()", Description = "List of scroll spy items/sections" },
+        new DocPageTemplate.ApiParameter { Name = "ActiveId", Type = "string?", Default = "-", Description = "ID of the currently active section" },
+        new DocPageTemplate.ApiParameter { Name = "Position", Type = "Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyPosition", Default = "Left", Description = "Position of the scroll spy (Left or Right)" },
+        new DocPageTemplate.ApiParameter { Name = "OnItemClick", Type = "EventCallback<Tail.Blazor.ScrollSpy.TailScrollSpy.ScrollSpyItem>", Default = "-", Description = "Event fired when a scroll spy item is clicked" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

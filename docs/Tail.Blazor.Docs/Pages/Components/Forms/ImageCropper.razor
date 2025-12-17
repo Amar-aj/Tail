@@ -1,38 +1,70 @@
 @page "/components/image-cropper"
 @using Tail.Blazor.ImageCropper
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ImageCropper - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailImageCropper</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Image cropping component. Ultra-lightweight (~8 KB).</p>
+<DocPageTemplate Title="TailImageCropper" 
+                 Description="Image cropping component with aspect ratio control and preview. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Image Cropper" Code="@basicCode">
             <PreviewContent>
-                <TailImageCropper OnImageCropped="HandleCropped" />
+                <TailImageCropper @bind-Value="croppedImage" Label="Profile Picture" AspectRatioWidth="1" AspectRatioHeight="1" />
+                @if (!string.IsNullOrEmpty(croppedImage))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                        Image cropped successfully!
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Image upload and cropping</li>
+                <li>Aspect ratio control (configurable width/height)</li>
+                <li>Image preview before cropping</li>
+                <li>Crop functionality with visual selection</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Base64 image output</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Interactive crop selection</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private string installCode = @"dotnet add package Tail.Blazor.ImageCropper";
-    private string basicCode = @"<TailImageCropper OnImageCropped=""HandleCropped"" />";
+    private string? croppedImage = null;
     
-    private void HandleCropped(string imageData)
+    private string installCode = @"dotnet add package Tail.Blazor.ImageCropper";
+    
+    private string basicCode = @"<TailImageCropper @bind-Value=""croppedImage"" Label=""Profile Picture"" AspectRatioWidth=""1"" AspectRatioHeight=""1"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        // Handle cropped image
-    }
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "Cropped image data as base64 string (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string?>", Default = "-", Description = "Event fired when image is cropped" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ImageCropperSize", Default = "Md", Description = "Size of the image cropper (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the image cropper" },
+        new DocPageTemplate.ApiParameter { Name = "AspectRatioWidth", Type = "int", Default = "1", Description = "Width ratio for aspect ratio constraint" },
+        new DocPageTemplate.ApiParameter { Name = "AspectRatioHeight", Type = "int", Default = "1", Description = "Height ratio for aspect ratio constraint" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the image cropper" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -3,8 +3,6 @@
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
-@using ButtonSize = Tail.Blazor.Button.ButtonSize
 
 <PageTitle>Button - Tail.Blazor</PageTitle>
 
@@ -20,12 +18,12 @@
     <DocSection Title="Basic Usage">
         <CodePreview Title="Basic Button" Code="@basicCode">
             <PreviewContent>
-                <TailButton Variant="ButtonVariant.Primary" OnClick="@(() => ShowMessage("Button clicked!"))">
+                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="@(() => ShowMessage("Button clicked!"))">
                     Click Me
                 </TailButton>
                 @if (!string.IsNullOrEmpty(message))
                 {
-                    <TailAlert Variant="Alert.AlertVariant.Info" Class="mt-4">
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
                         @message
                     </TailAlert>
                 }
@@ -37,11 +35,11 @@
         <CodePreview Title="Button Variants" Code="@variantsCode">
             <PreviewContent>
                 <div class="flex flex-wrap gap-3">
-                    <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
-                    <TailButton Variant="ButtonVariant.Success">Success</TailButton>
-                    <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
-                    <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
-                    <TailButton Variant="ButtonVariant.Info">Info</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Primary</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Success</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Warning</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">Danger</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Info">Info</TailButton>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -51,11 +49,11 @@
         <CodePreview Title="Button Sizes" Code="@sizesCode">
             <PreviewContent>
                 <div class="flex flex-wrap items-center gap-3">
-                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xs">Extra Small</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Small</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Md">Medium</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Lg">Large</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xl">Extra Large</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xs">Extra Small</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Sm">Small</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Md">Medium</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Lg">Large</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xl">Extra Large</TailButton>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -65,10 +63,10 @@
         <CodePreview Title="Loading and Disabled States" Code="@statesCode">
             <PreviewContent>
                 <div class="flex flex-wrap gap-3">
-                    <TailButton Variant="ButtonVariant.Primary" IsLoading="@isLoading" OnClick="SimulateLoading">
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" IsLoading="@isLoading" OnClick="SimulateLoading">
                         @(isLoading ? "Loading..." : "Click to Load")
                     </TailButton>
-                    <TailButton Variant="ButtonVariant.Primary" Disabled="true">Disabled</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Disabled="true">Disabled</TailButton>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -81,31 +79,31 @@
 
     private string installCode = @"dotnet add package Tail.Blazor.Buttons";
 
-    private string basicCode = @"<TailButton Variant=""ButtonVariant.Primary"" OnClick=""HandleClick"">
+    private string basicCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" OnClick=""HandleClick"">
     Click Me
 </TailButton>";
 
-    private string variantsCode = @"<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
-<TailButton Variant=""ButtonVariant.Success"">Success</TailButton>
-<TailButton Variant=""ButtonVariant.Warning"">Warning</TailButton>
-<TailButton Variant=""ButtonVariant.Danger"">Danger</TailButton>
-<TailButton Variant=""ButtonVariant.Info"">Info</TailButton>";
+    private string variantsCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Primary</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">Success</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">Warning</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">Danger</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Info"">Info</TailButton>";
 
-    private string sizesCode = @"<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xs"">Extra Small</TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">Small</TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Md"">Medium</TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Lg"">Large</TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xl"">Extra Large</TailButton>";
+    private string sizesCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xs"">Extra Small</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Sm"">Small</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Md"">Medium</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Lg"">Large</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xl"">Extra Large</TailButton>";
 
-    private string statesCode = @"<TailButton Variant=""ButtonVariant.Primary"" IsLoading=""@isLoading"" OnClick=""HandleClick"">
+    private string statesCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" IsLoading=""@isLoading"" OnClick=""HandleClick"">
     Click to Load
 </TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>";
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "ButtonVariant", Default = "Primary", Description = "Color variant" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ButtonSize", Default = "Md", Description = "Button size" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Button.ButtonVariant", Default = "Primary", Description = "Color variant" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Button.ButtonSize", Default = "Md", Description = "Button size" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
         new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
         new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Click event handler" }

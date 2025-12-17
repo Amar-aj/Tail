@@ -1,0 +1,125 @@
+@page "/components/floating-action-menu"
+@using Tail.Blazor.FloatingActionMenu
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>FloatingActionMenu - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailFloatingActionMenu" 
+                 Description="Floating action menu component that expands to show multiple actions. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Floating Action Menu" Code="@basicCode">
+            <PreviewContent>
+                <div style="position: relative; height: 300px; background-color: var(--color-surface-secondary); border-radius: 8px; padding: 2rem;">
+                    <TailFloatingActionMenu Items="@menuItems" Position="@Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuPosition.BottomRight" OnItemClick="HandleItemClick" />
+                </div>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                        @message
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Positions">
+        <CodePreview Title="Different Positions" Code="@positionsCode">
+            <PreviewContent>
+                <div style="position: relative; height: 400px; background-color: var(--color-surface-secondary); border-radius: 8px; padding: 2rem;">
+                    <TailFloatingActionMenu Items="@menuItems" Position="@Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuPosition.BottomRight" OnItemClick="HandleItemClick" />
+                    <p style="color: var(--color-text-secondary); margin-top: 2rem;">Click the floating button to expand the menu</p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Floating action button with expandable menu</li>
+                <li>Multiple position options (TopLeft, TopRight, BottomLeft, BottomRight)</li>
+                <li>Smooth animations and transitions</li>
+                <li>Custom icons and labels for each action</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Event handling for menu item clicks</li>
+                <li>Responsive and accessible</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string message = string.Empty;
+    
+    private List<Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem> menuItems = new()
+    {
+        new Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem 
+        { 
+            Label = "Add Item",
+            Icon = (builder) => {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "class", "w-5 h-5");
+                builder.AddAttribute(2, "fill", "none");
+                builder.AddAttribute(3, "viewBox", "0 0 24 24");
+                builder.AddAttribute(4, "stroke", "currentColor");
+                builder.AddMarkupContent(5, "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 4v16m8-8H4\" />");
+                builder.CloseElement();
+            }
+        },
+        new Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem 
+        { 
+            Label = "Settings",
+            Icon = (builder) => {
+                builder.OpenElement(0, "svg");
+                builder.AddAttribute(1, "class", "w-5 h-5");
+                builder.AddAttribute(2, "fill", "none");
+                builder.AddAttribute(3, "viewBox", "0 0 24 24");
+                builder.AddAttribute(4, "stroke", "currentColor");
+                builder.AddMarkupContent(5, "<path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z\" /><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15 12a3 3 0 11-6 0 3 3 0 016 0z\" />");
+                builder.CloseElement();
+            }
+        }
+    };
+
+    private string installCode = @"dotnet add package Tail.Blazor.FloatingActionMenu";
+
+    private string basicCode = @"<TailFloatingActionMenu Items=""@menuItems"" Position=""FloatingActionMenuPosition.BottomRight"" OnItemClick=""HandleItemClick"" />
+
+@code {
+    private List<TailFloatingActionMenu.FloatingActionMenuItem> menuItems = new()
+    {
+        new Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem { Label = ""Add Item"" },
+        new Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem { Label = ""Settings"" }
+    };
+}";
+
+    private string positionsCode = @"<TailFloatingActionMenu Position=""FloatingActionMenuPosition.BottomRight"" Items=""@menuItems"" />
+<TailFloatingActionMenu Position=""FloatingActionMenuPosition.BottomLeft"" Items=""@menuItems"" />
+<TailFloatingActionMenu Position=""FloatingActionMenuPosition.TopRight"" Items=""@menuItems"" />
+<TailFloatingActionMenu Position=""FloatingActionMenuPosition.TopLeft"" Items=""@menuItems"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem>", Default = "new()", Description = "List of menu items to display when expanded" },
+        new DocPageTemplate.ApiParameter { Name = "Position", Type = "Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuPosition", Default = "BottomRight", Description = "Position of the floating action menu (TopLeft, TopRight, BottomLeft, BottomRight)" },
+        new DocPageTemplate.ApiParameter { Name = "OnItemClick", Type = "EventCallback<Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem>", Default = "-", Description = "Event fired when a menu item is clicked" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+
+    private void HandleItemClick(Tail.Blazor.FloatingActionMenu.TailFloatingActionMenu.FloatingActionMenuItem item)
+    {
+        message = $"Clicked: {item.Label}";
+        StateHasChanged();
+    }
+}
+

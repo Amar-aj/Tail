@@ -16,25 +16,40 @@
     <DocSection Title="Basic Usage">
         <CodePreview Title="Chart" Code="@basicCode">
             <PreviewContent>
-                <TailChart ChartType="ChartType.Line" Data="@chartData" Width="400" Height="200" />
+                <TailChart ChartType="Tail.Blazor.Chart.ChartType.Line" Data="@chartData" Width="400" Height="200" />
             </PreviewContent>
         </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Multiple chart types (Line, Bar, Area, Pie)</li>
+                <li>SVG-based rendering</li>
+                <li>Customizable width and height</li>
+                <li>Data visualization with multiple data points</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Charts";
 
-    private string basicCode = @"<TailChart ChartType=""ChartType.Line"" Data=""@chartData"" Width=""400"" Height=""200"" />";
+    private string basicCode = @"<TailChart ChartType=""Tail.Blazor.Chart.ChartType.Line"" Data=""@chartData"" Width=""400"" Height=""200"" />";
 
     private List<double> chartData = new() { 12, 19, 3, 5, 2, 3, 10 };
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "ChartType", Type = "ChartType", Default = "Line", Description = "Chart type (Line, Bar, Area, Pie)" },
-        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "-", Description = "Chart data points" },
+        new DocPageTemplate.ApiParameter { Name = "ChartType", Type = "Tail.Blazor.Chart.ChartType", Default = "Line", Description = "Chart type (Line, Bar, Area, Pie)" },
+        new DocPageTemplate.ApiParameter { Name = "Data", Type = "List<double>", Default = "new()", Description = "Chart data points" },
         new DocPageTemplate.ApiParameter { Name = "Width", Type = "int", Default = "400", Description = "Chart width in pixels" },
-        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "200", Description = "Chart height in pixels" }
+        new DocPageTemplate.ApiParameter { Name = "Height", Type = "int", Default = "200", Description = "Chart height in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 }
 

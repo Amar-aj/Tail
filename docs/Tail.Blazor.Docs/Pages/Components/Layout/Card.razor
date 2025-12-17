@@ -1,51 +1,66 @@
 @page "/components/card"
 @using Tail.Blazor.Card
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Container
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Card - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailCard</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Card component with header and footer. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailCard" 
+                 Description="Card component with header, content, and footer sections. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <Header>
-            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
-        </Header>
-        <ChildContent>
-            <CodePreview Title="Install Package" Code="@installCode" />
-        </ChildContent>
-    </TailCard>
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <Header>
-            <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
-        </Header>
-        <ChildContent>
-            <CodePreview Title="Card" Code="@basicCode">
-                <PreviewContent>
-                    <TailCard Hoverable="true">
-                        <Header>Card Title</Header>
-                        <ChildContent>
-                            <p>Card content goes here.</p>
-                        </ChildContent>
-                        <Footer>Card Footer</Footer>
-                    </TailCard>
-                </PreviewContent>
-            </CodePreview>
-        </ChildContent>
-    </TailCard>
-</TailContainer>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Card" Code="@basicCode">
+            <PreviewContent>
+                <TailCard Hoverable="true">
+                    <Header>Card Title</Header>
+                    <ChildContent>
+                        <p style="color: var(--color-text-primary);">Card content goes here.</p>
+                    </ChildContent>
+                    <Footer>Card Footer</Footer>
+                </TailCard>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Card component with structured sections</li>
+                <li>Optional header section</li>
+                <li>Optional footer section</li>
+                <li>Hoverable effect option</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Card";
+    
     private string basicCode = @"<TailCard Hoverable=""true"">
     <Header>Card Title</Header>
-    <p>Card content</p>
+    <ChildContent>
+        <p>Card content</p>
+    </ChildContent>
     <Footer>Card Footer</Footer>
 </TailCard>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Main content of the card" },
+        new DocPageTemplate.ApiParameter { Name = "Header", Type = "RenderFragment?", Default = "-", Description = "Header content displayed at the top of the card" },
+        new DocPageTemplate.ApiParameter { Name = "Footer", Type = "RenderFragment?", Default = "-", Description = "Footer content displayed at the bottom of the card" },
+        new DocPageTemplate.ApiParameter { Name = "Hoverable", Type = "bool", Default = "false", Description = "Apply hover effect to the card" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

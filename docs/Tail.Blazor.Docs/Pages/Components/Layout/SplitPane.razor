@@ -1,33 +1,74 @@
 @page "/components/split-pane"
 @using Tail.Blazor.SplitPane
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>SplitPane - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailSplitPane</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Split pane component. Ultra-lightweight (~6 KB).</p>
+<DocPageTemplate Title="TailSplitPane" 
+                 Description="Split pane component for dividing content into resizable panels. Ultra-lightweight (~6 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Split Pane" Code="@basicCode">
             <PreviewContent>
-                <TailSplitPane LeftContent="@(() => "Left Panel")" RightContent="@(() => "Right Panel")" />
+                <div style="height: 200px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <TailSplitPane SplitPercentage="30" Resizable="true">
+                        <Pane1>
+                            <div style="padding: 1rem; height: 100%; background-color: var(--color-surface-secondary); color: var(--color-text-primary);">
+                                Left Panel
+                            </div>
+                        </Pane1>
+                        <Pane2>
+                            <div style="padding: 1rem; height: 100%; background-color: var(--color-surface); color: var(--color-text-primary);">
+                                Right Panel
+                            </div>
+                        </Pane2>
+                    </TailSplitPane>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Split layout with two panels</li>
+                <li>Configurable split percentage</li>
+                <li>Resizable divider (optional)</li>
+                <li>Responsive layout support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.SplitPane";
-    private string basicCode = @"<TailSplitPane LeftContent=""@(() => ""Left"")"" RightContent=""@(() => ""Right"")"" />";
+    
+    private string basicCode = @"<TailSplitPane SplitPercentage=""30"" Resizable=""true"">
+    <Pane1>
+        <div>Left Panel</div>
+    </Pane1>
+    <Pane2>
+        <div>Right Panel</div>
+    </Pane2>
+</TailSplitPane>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Pane1", Type = "RenderFragment?", Default = "-", Description = "Content for the left/first pane" },
+        new DocPageTemplate.ApiParameter { Name = "Pane2", Type = "RenderFragment?", Default = "-", Description = "Content for the right/second pane" },
+        new DocPageTemplate.ApiParameter { Name = "SplitPercentage", Type = "int", Default = "50", Description = "Percentage width of the first pane (0-100)" },
+        new DocPageTemplate.ApiParameter { Name = "Resizable", Type = "bool", Default = "true", Description = "Allow resizing the split by dragging the divider" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

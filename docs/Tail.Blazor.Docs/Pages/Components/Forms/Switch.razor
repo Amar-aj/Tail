@@ -1,34 +1,60 @@
 @page "/components/switch"
 @using Tail.Blazor.Switch
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Switch - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailSwitch</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Toggle switch component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailSwitch" 
+                 Description="Toggle switch component for boolean input. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Switch" Code="@basicCode">
             <PreviewContent>
-                <TailSwitch @bind-Value="isEnabled" Label="Enable notifications" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Enabled: @isEnabled</p>
+                <TailSwitch @bind-IsChecked="isEnabled" Label="Enable notifications" />
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Enabled: @isEnabled</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Toggle switch for boolean values</li>
+                <li>Two-way binding support</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Smooth animations</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Accessible keyboard navigation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private bool isEnabled = false;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Switch";
-    private string basicCode = @"<TailSwitch @bind-Value=""isEnabled"" Label=""Enable notifications"" />";
+    
+    private string basicCode = @"<TailSwitch @bind-IsChecked=""isEnabled"" Label=""Enable notifications"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "IsChecked", Type = "bool", Default = "false", Description = "Switch checked state (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "IsCheckedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when switch state changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "SwitchSize", Default = "Md", Description = "Switch size (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the switch" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Custom content for the switch label" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the switch" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }

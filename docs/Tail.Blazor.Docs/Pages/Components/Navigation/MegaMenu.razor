@@ -1,34 +1,85 @@
 @page "/components/mega-menu"
 @using Tail.Blazor.MegaMenu
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>MegaMenu - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailMegaMenu</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Mega menu component. Ultra-lightweight (~7 KB).</p>
+<DocPageTemplate Title="TailMegaMenu" 
+                 Description="Mega menu component for displaying large multi-column dropdown menus. Ultra-lightweight (~7 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Mega Menu" Code="@basicCode">
             <PreviewContent>
-                <TailMegaMenu Items="@megaMenuItems" />
+                <TailMegaMenu Sections="@megaMenuSections" Columns="3">
+                    <Trigger>
+                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Products</TailButton>
+                    </Trigger>
+                </TailMegaMenu>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Large dropdown menu with multiple columns</li>
+                <li>Hover activation</li>
+                <li>Organized sections with titles</li>
+                <li>Configurable number of columns</li>
+                <li>Custom trigger button</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> megaMenuItems = new();
+    private List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection> megaMenuSections = new()
+    {
+        new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection 
+        { 
+            Title = "Category 1", 
+            Items = new List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem> 
+            { 
+                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 1", Href = "#" },
+                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 2", Href = "#" }
+            } 
+        },
+        new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection 
+        { 
+            Title = "Category 2", 
+            Items = new List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem> 
+            { 
+                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 3", Href = "#" },
+                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 4", Href = "#" }
+            } 
+        }
+    };
+    
     private string installCode = @"dotnet add package Tail.Blazor.MegaMenu";
-    private string basicCode = @"<TailMegaMenu Items=""@megaMenuItems"" />";
+    
+    private string basicCode = @"<TailMegaMenu Sections=""@megaMenuSections"" Columns=""3"">
+    <Trigger>
+        <TailButton>Products</TailButton>
+    </Trigger>
+</TailMegaMenu>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Trigger", Type = "RenderFragment?", Default = "-", Description = "Trigger element that activates the mega menu (typically a button)" },
+        new DocPageTemplate.ApiParameter { Name = "Sections", Type = "List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection>", Default = "new()", Description = "List of menu sections to display" },
+        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "int", Default = "3", Description = "Number of columns in the mega menu grid" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

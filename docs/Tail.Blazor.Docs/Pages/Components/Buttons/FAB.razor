@@ -1,31 +1,25 @@
 @page "/components/fab"
 @using Tail.Blazor.FAB
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
-@using ButtonSize = Tail.Blazor.Button.ButtonSize
 
 <PageTitle>FAB - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailFAB</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
-        Floating Action Button for primary actions. Ultra-lightweight (~3 KB).
-    </p>
+<DocPageTemplate Title="TailFAB" 
+                 Description="Floating Action Button for primary actions. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Buttons"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Floating Action Button" Code="@basicCode">
             <PreviewContent>
-                <div class="relative h-32">
-                    <TailFAB Position="FABPosition.BottomRight" OnClick="@(() => ShowMessage("FAB clicked!"))">
+                <div style="position: relative; height: 200px; background-color: var(--color-surface-secondary); border-radius: 8px;">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.BottomRight" OnClick="@(() => ShowMessage("FAB clicked!"))">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
@@ -33,64 +27,135 @@
                 </div>
                 @if (!string.IsNullOrEmpty(message))
                 {
-                    <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-md">
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
                         @message
-                    </div>
+                    </TailAlert>
                 }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Positions</h2>
+    <DocSection Title="Positions">
         <CodePreview Title="FAB Positions" Code="@positionsCode">
             <PreviewContent>
-                <div class="relative h-64 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
-                    <TailFAB Position="FABPosition.TopLeft" Variant="ButtonVariant.Primary">
+                <div style="position: relative; height: 300px; background-color: var(--color-surface-secondary); border: 2px dashed var(--color-border); border-radius: 8px; padding: 1rem;">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.TopLeft" OnClick="@(() => {})">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                     </TailFAB>
-                    <TailFAB Position="FABPosition.TopRight" Variant="ButtonVariant.Success">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.TopRight" OnClick="@(() => {})">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                     </TailFAB>
-                    <TailFAB Position="FABPosition.BottomLeft" Variant="ButtonVariant.Warning">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.BottomLeft" OnClick="@(() => {})">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                     </TailFAB>
-                    <TailFAB Position="FABPosition.BottomRight" Variant="ButtonVariant.Danger">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.BottomRight" OnClick="@(() => {})">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                    <p style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--color-text-secondary); font-size: 0.875rem;">
+                        FAB positioned at corners
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Loading and Disabled States" Code="@statesCode">
+            <PreviewContent>
+                <div style="position: relative; height: 150px; background-color: var(--color-surface-secondary); border-radius: 8px;">
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.BottomRight" IsLoading="@isLoading" OnClick="SimulateLoading">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </TailFAB>
+                    <TailFAB Position="@Tail.Blazor.FAB.FABPosition.BottomLeft" Disabled="true">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
                     </TailFAB>
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Floating action button for primary actions</li>
+                <li>Four position options (TopLeft, TopRight, BottomLeft, BottomRight)</li>
+                <li>Fixed positioning with z-index</li>
+                <li>Loading state with spinner</li>
+                <li>Disabled state support</li>
+                <li>Rounded circular design</li>
+                <li>Shadow effects for depth</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Hover and focus states</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string message = string.Empty;
+    private bool isLoading = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.FAB";
 
-    private string basicCode = @"<TailFAB Position=""FABPosition.BottomRight"" OnClick=""HandleClick"">
+    private string basicCode = @"<TailFAB Position=""Tail.Blazor.FAB.FABPosition.BottomRight"" OnClick=""HandleClick"">
     <svg class=""w-6 h-6"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
         <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
     </svg>
 </TailFAB>";
 
-    private string positionsCode = @"<TailFAB Position=""FABPosition.TopLeft"">...</TailFAB>
-<TailFAB Position=""FABPosition.TopRight"">...</TailFAB>
-<TailFAB Position=""FABPosition.BottomLeft"">...</TailFAB>
-<TailFAB Position=""FABPosition.BottomRight"">...</TailFAB>";
+    private string positionsCode = @"<TailFAB Position=""Tail.Blazor.FAB.FABPosition.TopLeft"">...</TailFAB>
+<TailFAB Position=""Tail.Blazor.FAB.FABPosition.TopRight"">...</TailFAB>
+<TailFAB Position=""Tail.Blazor.FAB.FABPosition.BottomLeft"">...</TailFAB>
+<TailFAB Position=""Tail.Blazor.FAB.FABPosition.BottomRight"">...</TailFAB>";
+
+    private string statesCode = @"<TailFAB Position=""Tail.Blazor.FAB.FABPosition.BottomRight"" IsLoading=""@isLoading"" OnClick=""HandleClick"">
+    <svg class=""w-6 h-6"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailFAB>
+<TailFAB Position=""Tail.Blazor.FAB.FABPosition.BottomLeft"" Disabled=""true"">
+    <svg class=""w-6 h-6"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"">
+        <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+    </svg>
+</TailFAB>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Position", Type = "Tail.Blazor.FAB.FABPosition", Default = "BottomRight", Description = "Position of the FAB (TopLeft, TopRight, BottomLeft, BottomRight)" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the FAB" },
+        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
+        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Click event handler" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "\"button\"", Description = "Button type attribute" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "FAB content (typically an icon)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 
     private void ShowMessage(string msg)
     {
         message = msg;
+        StateHasChanged();
+    }
+
+    private async Task SimulateLoading()
+    {
+        isLoading = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading = false;
+        message = "Loading completed!";
         StateHasChanged();
     }
 }

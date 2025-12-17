@@ -1,43 +1,90 @@
 @page "/components/file-upload"
 @using Tail.Blazor.FileUpload
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Forms
 
 <PageTitle>FileUpload - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailFileUpload</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">File upload component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailFileUpload" 
+                 Description="File upload component with drag-and-drop support. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="File Upload" Code="@basicCode">
             <PreviewContent>
-                <TailFileUpload OnFileSelected="HandleFileSelected" Accept=".pdf,.doc,.docx" />
-                @if (!string.IsNullOrEmpty(fileName))
+                <TailFileUpload FilesChanged="HandleFilesChanged" Accept=".pdf,.doc,.docx" Label="Upload Document" />
+                @if (selectedFiles.Any())
                 {
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @fileName</p>
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                        @selectedFiles.Count file(s) selected: @string.Join(", ", selectedFiles.Select(f => f.Name))
+                    </TailAlert>
                 }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Multiple Files">
+        <CodePreview Title="Multiple File Upload" Code="@multipleCode">
+            <PreviewContent>
+                <TailFileUpload OnFileSelected="HandleFileSelected" Multiple="true" Accept="image/*" Label="Upload Images" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>File upload with click or drag-and-drop</li>
+                <li>Multiple file selection support</li>
+                <li>File type filtering with Accept attribute</li>
+                <li>File list display with remove option</li>
+                <li>File size validation</li>
+                <li>Label and help text support</li>
+                <li>Required field support</li>
+                <li>Disabled state support</li>
+                <li>Progress indication</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Visual drag-and-drop feedback</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string fileName = string.Empty;
-    private string installCode = @"dotnet add package Tail.Blazor.FileUpload";
-    private string basicCode = @"<TailFileUpload OnFileSelected=""HandleFileSelected"" Accept="".pdf,.doc"" />";
     
-    private void HandleFileSelected(string name)
+    private string installCode = @"dotnet add package Tail.Blazor.FileUpload";
+    
+    private string basicCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Accept="".pdf,.doc,.docx"" Label=""Upload Document"" />";
+
+    private string multipleCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Multiple=""true"" Accept=""image/*"" Label=""Upload Images"" />";
+
+    private List<Microsoft.AspNetCore.Components.Forms.IBrowserFile> selectedFiles = new();
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        fileName = name;
+        new DocPageTemplate.ApiParameter { Name = "FilesChanged", Type = "EventCallback<IBrowserFile[]>", Default = "-", Description = "Event fired when files are selected or changed" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "FileUploadSize", Default = "Md", Description = "Size of the file upload component (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Multiple", Type = "bool", Default = "false", Description = "Allow multiple file selection" },
+        new DocPageTemplate.ApiParameter { Name = "Accept", Type = "string?", Default = "-", Description = "Accepted file types (e.g., '.pdf,.doc' or 'image/*')" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the file upload" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the file upload as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the file upload" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+    
+    private void HandleFilesChanged(Microsoft.AspNetCore.Components.Forms.IBrowserFile[] files)
+    {
+        selectedFiles = files.ToList();
         StateHasChanged();
     }
 }

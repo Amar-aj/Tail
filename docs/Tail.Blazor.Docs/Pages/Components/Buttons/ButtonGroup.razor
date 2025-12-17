@@ -2,66 +2,80 @@
 @using Tail.Blazor.ButtonGroup
 @using Tail.Blazor.Button
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
-@using ButtonSize = Tail.Blazor.Button.ButtonSize
 
 <PageTitle>ButtonGroup - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailButtonGroup</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
-        Group related buttons together with seamless styling. Ultra-lightweight (~4 KB).
-    </p>
+<DocPageTemplate Title="TailButtonGroup" 
+                 Description="Group related buttons together with seamless styling. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Buttons"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Button Group" Code="@basicCode">
             <PreviewContent>
                 <TailButtonGroup>
-                    <TailButton Variant="ButtonVariant.Primary">Left</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary">Middle</TailButton>
-                    <TailButton Variant="ButtonVariant.Primary">Right</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Left</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Middle</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Right</TailButton>
                 </TailButtonGroup>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">With Variants</h2>
+    <DocSection Title="Mixed Variants">
         <CodePreview Title="Mixed Variants" Code="@variantsCode">
             <PreviewContent>
                 <TailButtonGroup>
-                    <TailButton Variant="ButtonVariant.Primary">Save</TailButton>
-                    <TailButton Variant="ButtonVariant.Success">Export</TailButton>
-                    <TailButton Variant="ButtonVariant.Warning">Edit</TailButton>
-                    <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Save</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Export</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Edit</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">Delete</TailButton>
                 </TailButtonGroup>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Group related buttons together visually</li>
+                <li>Seamless borders between buttons</li>
+                <li>Rounded corners on first and last buttons</li>
+                <li>Supports all button variants and sizes</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Flexible layout and styling</li>
+                <li>Works with any TailButton components</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.ButtonGroup";
 
     private string basicCode = @"<TailButtonGroup>
-    <TailButton Variant=""ButtonVariant.Primary"">Left</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Middle</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Right</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Left</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Middle</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Right</TailButton>
 </TailButtonGroup>";
 
     private string variantsCode = @"<TailButtonGroup>
-    <TailButton Variant=""ButtonVariant.Primary"">Save</TailButton>
-    <TailButton Variant=""ButtonVariant.Success"">Export</TailButton>
-    <TailButton Variant=""ButtonVariant.Warning"">Edit</TailButton>
-    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Save</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">Export</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">Edit</TailButton>
+    <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">Delete</TailButton>
 </TailButtonGroup>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Button components to group together" },
+        new DocPageTemplate.ApiParameter { Name = "Vertical", Type = "bool", Default = "false", Description = "Display buttons vertically instead of horizontally" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" }
+    };
 }

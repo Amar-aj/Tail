@@ -1,42 +1,66 @@
 @page "/components/list-view"
 @using Tail.Blazor.ListView
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ListView - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailListView</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">List view component with virtualization. Ultra-lightweight (~8 KB).</p>
+<DocPageTemplate Title="TailListView" 
+                 Description="List view component with optional virtualization for displaying large lists. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="ListView" Code="@basicCode">
             <PreviewContent>
-                <TailListView Items="@listItems" Virtualized="false">
-                    <ItemTemplate>
-                        <div class="p-4 border-b">@context</div>
-                    </ItemTemplate>
-                </TailListView>
+                <div style="height: 200px; border: 1px solid var(--color-border); border-radius: 8px; overflow: auto;">
+                    <TailListView Items="@listItems" Virtualized="false">
+                        <ItemTemplate>
+                            <div class="p-4 border-b" style="border-color: var(--color-border); color: var(--color-text-primary);">@context</div>
+                        </ItemTemplate>
+                    </TailListView>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>List view for displaying items</li>
+                <li>Optional virtualization for large lists</li>
+                <li>Custom item template</li>
+                <li>Scrollable container</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<string> listItems = new() { "Item 1", "Item 2", "Item 3" };
+    private List<string> listItems = new() { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+    
     private string installCode = @"dotnet add package Tail.Blazor.ListView";
-    private string basicCode = @"<TailListView Items=""@listItems"">
+    
+    private string basicCode = @"<TailListView Items=""@listItems"" Virtualized=""false"">
     <ItemTemplate>
         <div class=""p-4 border-b"">@context</div>
     </ItemTemplate>
 </TailListView>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "IEnumerable<T>", Default = "-", Description = "Collection of items to display" },
+        new DocPageTemplate.ApiParameter { Name = "ItemTemplate", Type = "RenderFragment<T>", Default = "-", Description = "Template for rendering each item" },
+        new DocPageTemplate.ApiParameter { Name = "Virtualized", Type = "bool", Default = "false", Description = "Enable virtualization for large lists" },
+        new DocPageTemplate.ApiParameter { Name = "ItemHeight", Type = "int?", Default = "-", Description = "Fixed height of each item (for virtualization)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

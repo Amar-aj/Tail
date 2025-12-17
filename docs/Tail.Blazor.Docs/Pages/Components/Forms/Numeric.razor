@@ -1,35 +1,68 @@
 @page "/components/numeric"
 @using Tail.Blazor.Numeric
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Numeric - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailNumeric</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Numeric input component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailNumeric" 
+                 Description="Numeric input component with min/max constraints and step control. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Numeric Input" Code="@basicCode">
             <PreviewContent>
-                <TailNumeric @bind-Value="numericValue" Min="0" Max="100" Step="1" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Value: @numericValue</p>
+                <TailNumeric @bind-Value="numericValue" Min="0" Max="100" Step="1" Label="Enter Number" />
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Value: @numericValue</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Numeric input with decimal support</li>
+                <li>Min and max value constraints</li>
+                <li>Step increment/decrement</li>
+                <li>Two-way binding for decimal values</li>
+                <li>Label and help text support</li>
+                <li>Error message display</li>
+                <li>Disabled and readonly states</li>
+                <li>Increment/decrement buttons</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private decimal numericValue = 0;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Numeric";
-    private string basicCode = @"<TailNumeric @bind-Value=""numericValue"" Min=""0"" Max=""100"" Step=""1"" />";
+    
+    private string basicCode = @"<TailNumeric @bind-Value=""numericValue"" Min=""0"" Max=""100"" Step=""1"" Label=""Enter Number"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "decimal", Default = "0", Description = "Numeric value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<decimal>", Default = "-", Description = "Event fired when value changes" },
+        new DocPageTemplate.ApiParameter { Name = "Min", Type = "decimal?", Default = "-", Description = "Minimum allowed value" },
+        new DocPageTemplate.ApiParameter { Name = "Max", Type = "decimal?", Default = "-", Description = "Maximum allowed value" },
+        new DocPageTemplate.ApiParameter { Name = "Step", Type = "decimal", Default = "1", Description = "Step increment/decrement value" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the numeric input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the numeric input" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make input read-only" },
+        new DocPageTemplate.ApiParameter { Name = "ShowButtons", Type = "bool", Default = "true", Description = "Show increment/decrement buttons" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

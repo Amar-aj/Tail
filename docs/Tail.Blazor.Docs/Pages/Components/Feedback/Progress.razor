@@ -1,33 +1,76 @@
 @page "/components/progress"
 @using Tail.Blazor.Progress
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
+@using ProgressVariant = Tail.Blazor.Progress.ProgressVariant
 
 <PageTitle>Progress - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailProgress</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Progress bar component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailProgress" 
+                 Description="Progress bar component for displaying task completion. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Progress" Code="@basicCode">
             <PreviewContent>
-                <TailProgress Value="75" Max="100" ShowValue="true" />
+                <TailProgress Value="75" ShowLabel="true" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <CodePreview Title="Progress Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailProgress Value="60" Max="100" Variant="Tail.Blazor.Progress.ProgressVariant.Primary" ShowValue="true" />
+                    <TailProgress Value="70" Max="100" Variant="Tail.Blazor.Progress.ProgressVariant.Success" ShowValue="true" />
+                    <TailProgress Value="50" Max="100" Variant="Tail.Blazor.Progress.ProgressVariant.Warning" ShowValue="true" />
+                    <TailProgress Value="40" Max="100" Variant="Tail.Blazor.Progress.ProgressVariant.Danger" ShowValue="true" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Progress bar with value display</li>
+                <li>Multiple variants (Primary, Success, Warning, Danger)</li>
+                <li>Optional value label display</li>
+                <li>Customizable min and max values</li>
+                <li>Striped and animated styles</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Progress";
-    private string basicCode = @"<TailProgress Value=""75"" Max=""100"" ShowValue=""true"" />";
+    
+    private string basicCode = @"<TailProgress Value=""75"" ShowLabel=""true"" />";
+
+    private string variantsCode = @"<TailProgress Value=""60"" Variant=""Tail.Blazor.Progress.ProgressVariant.Primary"" ShowLabel=""true"" />
+<TailProgress Value=""70"" Variant=""Tail.Blazor.Progress.ProgressVariant.Success"" ShowLabel=""true"" />
+<TailProgress Value=""50"" Variant=""Tail.Blazor.Progress.ProgressVariant.Warning"" ShowLabel=""true"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "int", Default = "0", Description = "Current progress value (0-100)" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Progress.ProgressVariant", Default = "Primary", Description = "Visual style variant (Primary, Success, Warning, Danger)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Progress.ProgressSize", Default = "Md", Description = "Size of the progress bar (Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowLabel", Type = "bool", Default = "false", Description = "Display the progress value as text" },
+        new DocPageTemplate.ApiParameter { Name = "LabelPosition", Type = "Tail.Blazor.Progress.ProgressLabelPosition", Default = "Outside", Description = "Position of the label (None, Top, Bottom, Inside, Outside)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Custom label text to display" },
+        new DocPageTemplate.ApiParameter { Name = "Animated", Type = "bool", Default = "false", Description = "Animate the progress bar" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

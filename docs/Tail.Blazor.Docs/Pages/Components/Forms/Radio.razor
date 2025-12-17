@@ -1,23 +1,20 @@
 @page "/components/radio"
 @using Tail.Blazor.Radio
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Radio - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRadio</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Radio button input component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailRadio" 
+                 Description="Radio button input component for single selection from a group. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Radio Buttons" Code="@basicCode">
             <PreviewContent>
                 <div class="space-y-2">
@@ -25,15 +22,52 @@
                     <TailRadio GroupName="options" Value="option2" @bind-IsChecked="isOption2" Label="Option 2" />
                     <TailRadio GroupName="options" Value="option3" @bind-IsChecked="isOption3" Label="Option 3" />
                 </div>
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">
+                    Selected: @(isOption1 ? "Option 1" : isOption2 ? "Option 2" : isOption3 ? "Option 3" : "None")
+                </p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Radio button for single selection</li>
+                <li>Group management with GroupName</li>
+                <li>Two-way binding support</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Accessible with proper ARIA attributes</li>
+                <li>Keyboard navigation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private bool isOption1 = false;
     private bool isOption2 = false;
     private bool isOption3 = false;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Radio";
-    private string basicCode = @"<TailRadio GroupName=""options"" Value=""option1"" @bind-IsChecked=""isOption1"" Label=""Option 1"" />";
+    
+    private string basicCode = @"<TailRadio GroupName=""options"" Value=""option1"" @bind-IsChecked=""isOption1"" Label=""Option 1"" />
+<TailRadio GroupName=""options"" Value=""option2"" @bind-IsChecked=""isOption2"" Label=""Option 2"" />
+<TailRadio GroupName=""options"" Value=""option3"" @bind-IsChecked=""isOption3"" Label=""Option 3"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "GroupName", Type = "string", Default = "-", Description = "Name of the radio button group (required)" },
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "-", Description = "Value of this radio button" },
+        new DocPageTemplate.ApiParameter { Name = "IsChecked", Type = "bool", Default = "false", Description = "Checked state (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "IsCheckedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when checked state changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "RadioSize", Default = "Md", Description = "Radio button size (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the radio button" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Custom content for the radio button label" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the radio button" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }

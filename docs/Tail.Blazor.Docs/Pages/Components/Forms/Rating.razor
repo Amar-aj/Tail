@@ -1,35 +1,93 @@
 @page "/components/rating"
 @using Tail.Blazor.Rating
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Rating - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRating</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Star rating component. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailRating" 
+                 Description="Star rating component with hover effects and customizable colors. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Rating" Code="@basicCode">
             <PreviewContent>
                 <TailRating @bind-Value="rating" MaxRating="5" ShowValue="true" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Rating: @rating / 5</p>
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Rating: @rating / 5</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Sizes and Colors">
+        <CodePreview Title="Different Sizes and Colors" Code="@sizesColorsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">Large Orange</p>
+                        <TailRating @bind-Value="rating1" Size="RatingSize.Lg" Color="RatingColor.Orange" />
+                    </div>
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">Medium Red</p>
+                        <TailRating @bind-Value="rating2" Size="RatingSize.Md" Color="RatingColor.Red" />
+                    </div>
+                    <div>
+                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">Small Purple</p>
+                        <TailRating @bind-Value="rating3" Size="RatingSize.Sm" Color="RatingColor.Purple" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Star rating system</li>
+                <li>Customizable max rating (default 5)</li>
+                <li>Four sizes (Sm, Md, Lg, Xl)</li>
+                <li>Five color options (Yellow, Orange, Red, Pink, Purple)</li>
+                <li>Hover effects with preview</li>
+                <li>Optional value display</li>
+                <li>Disabled and readonly states</li>
+                <li>Click to set rating</li>
+                <li>Smooth animations</li>
+                <li>Full theme support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private int rating = 0;
+    private int rating1 = 3;
+    private int rating2 = 4;
+    private int rating3 = 5;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Rating";
+    
     private string basicCode = @"<TailRating @bind-Value=""rating"" MaxRating=""5"" ShowValue=""true"" />";
+
+    private string sizesColorsCode = @"<TailRating @bind-Value=""rating"" Size=""RatingSize.Lg"" Color=""RatingColor.Orange"" />
+<TailRating @bind-Value=""rating"" Size=""RatingSize.Md"" Color=""RatingColor.Red"" />
+<TailRating @bind-Value=""rating"" Size=""RatingSize.Sm"" Color=""RatingColor.Purple"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "int", Default = "0", Description = "Current rating value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<int>", Default = "-", Description = "Event fired when rating changes" },
+        new DocPageTemplate.ApiParameter { Name = "MaxRating", Type = "int", Default = "5", Description = "Maximum rating value" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "RatingSize", Default = "Md", Description = "Size of stars (Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Color", Type = "RatingColor", Default = "Yellow", Description = "Color of filled stars (Yellow, Orange, Red, Pink, Purple)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowValue", Type = "bool", Default = "false", Description = "Display rating value next to stars" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable rating interaction" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make rating read-only" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

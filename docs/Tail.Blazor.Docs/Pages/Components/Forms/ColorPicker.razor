@@ -1,35 +1,67 @@
 @page "/components/color-picker"
 @using Tail.Blazor.ColorPicker
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ColorPicker - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailColorPicker</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Color selection component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailColorPicker" 
+                 Description="Color selection component with visual picker and hex input. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Color Picker" Code="@basicCode">
             <PreviewContent>
-                <TailColorPicker @bind-Value="selectedColor" />
-                <div class="mt-4 w-20 h-20 rounded" style="background-color: @selectedColor"></div>
+                <TailColorPicker @bind-Value="selectedColor" Label="Choose Color" />
+                <div class="mt-4 flex items-center gap-4">
+                    <div class="w-20 h-20 rounded border-2" style="background-color: @selectedColor; border-color: var(--color-border);"></div>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">Selected: @selectedColor</p>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Native color picker input</li>
+                <li>Hex color code input field</li>
+                <li>Color preview display</li>
+                <li>Two-way binding for color value</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and help text support</li>
+                <li>Show/hide preview option</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Synchronized color picker and text input</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private string selectedColor = "#3b82f6";
+    private string? selectedColor = "#3b82f6";
+    
     private string installCode = @"dotnet add package Tail.Blazor.ColorPicker";
-    private string basicCode = @"<TailColorPicker @bind-Value=""selectedColor"" />";
+    
+    private string basicCode = @"<TailColorPicker @bind-Value=""selectedColor"" Label=""Choose Color"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "Selected color as hex string (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string?>", Default = "-", Description = "Event fired when color changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ColorPickerSize", Default = "Md", Description = "Size of the color picker (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the color picker" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the picker" },
+        new DocPageTemplate.ApiParameter { Name = "ShowPreview", Type = "bool", Default = "true", Description = "Show color preview box" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the color picker" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

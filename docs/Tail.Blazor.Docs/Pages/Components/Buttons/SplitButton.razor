@@ -1,9 +1,8 @@
 @page "/components/split-button"
-@using Tail.Blazor.Button
+@using Tail.Blazor.SplitButton
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
 
 <PageTitle>SplitButton - Tail.Blazor</PageTitle>
 
@@ -19,7 +18,7 @@
     <DocSection Title="Basic Usage">
         <CodePreview Title="Split Button" Code="@basicCode">
             <PreviewContent>
-                <TailSplitButton Variant="Blazor.SplitButton.ButtonVariant.Primary" OnPrimaryClick="HandleMainClick">
+                <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Primary" OnPrimaryClick="HandleMainClick">
                     <PrimaryContent>Save</PrimaryContent>
                     <DropdownContent>
                         <button @onclick="HandleSaveAs">Save As...</button>
@@ -28,12 +27,27 @@
                 </TailSplitButton>
                 @if (!string.IsNullOrEmpty(message))
                 {
-                    <TailAlert Variant="Alert.AlertVariant.Info" Class="mt-4">
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
                         @message
                     </TailAlert>
                 }
             </PreviewContent>
         </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Button with primary action and dropdown menu</li>
+                <li>Separate click handlers for main button and dropdown</li>
+                <li>Multiple variants and sizes supported</li>
+                <li>Loading state support</li>
+                <li>Disabled state support</li>
+                <li>Customizable dropdown content</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Seamless border between main button and dropdown</li>
+            </ul>
+        </div>
     </DocSection>
 </DocPageTemplate>
 
@@ -42,7 +56,7 @@
 
     private string installCode = @"dotnet add package Tail.Blazor.Buttons";
 
-    private string basicCode = @"<TailSplitButton Variant=""ButtonVariant.Primary"" OnPrimaryClick=""HandleMainClick"">
+    private string basicCode = @"<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Primary"" OnPrimaryClick=""HandleMainClick"">
     <PrimaryContent>Save</PrimaryContent>
     <DropdownContent>
         <button @onclick=""HandleSaveAs"">Save As...</button>
@@ -52,8 +66,16 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "ButtonVariant", Default = "Primary", Description = "Button variant" },
-        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback", Default = "-", Description = "Main button click handler" }
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.SplitButton.ButtonVariant", Default = "Primary", Description = "Button variant style" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.SplitButton.ButtonSize", Default = "Md", Description = "Button size" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
+        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
+        new DocPageTemplate.ApiParameter { Name = "OnPrimaryClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Main button click handler" },
+        new DocPageTemplate.ApiParameter { Name = "PrimaryContent", Type = "RenderFragment?", Default = "-", Description = "Content for the main button" },
+        new DocPageTemplate.ApiParameter { Name = "DropdownContent", Type = "RenderFragment?", Default = "-", Description = "Content for the dropdown menu" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "\"button\"", Description = "Button type attribute" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 
     private void HandleMainClick() => message = "Main button clicked!";

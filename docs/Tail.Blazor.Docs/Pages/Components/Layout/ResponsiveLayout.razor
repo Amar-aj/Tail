@@ -1,38 +1,94 @@
 @page "/components/responsive-layout"
 @using Tail.Blazor.ResponsiveLayout
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Menu
 @using Microsoft.AspNetCore.Components
+@using LayoutMode = Tail.Blazor.ResponsiveLayout.LayoutMode
 
 <PageTitle>ResponsiveLayout - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailResponsiveLayout</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Responsive layout component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailResponsiveLayout" 
+                 Description="Responsive layout component with sidebar, header, and main content area. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Responsive Layout" Code="@basicCode">
             <PreviewContent>
-                <TailResponsiveLayout Breakpoints="@breakpoints">
-                    <p>Responsive content</p>
-                </TailResponsiveLayout>
+                <div style="height: 400px; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <TailResponsiveLayout LayoutMode="LayoutMode.DrawerLeft" AppName="My App">
+                        <SidebarContent>
+                            <TailMenu class="p-4">
+                                <TailMenuItem>Home</TailMenuItem>
+                                <TailMenuItem>About</TailMenuItem>
+                                <TailMenuItem>Contact</TailMenuItem>
+                            </TailMenu>
+                        </SidebarContent>
+                        <ChildContent>
+                            <div style="padding: 2rem; color: var(--color-text-primary);">
+                                Main content area
+                            </div>
+                        </ChildContent>
+                    </TailResponsiveLayout>
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Responsive layout with sidebar and header</li>
+                <li>Multiple layout modes (DrawerLeft, DrawerRight, FixedLeft, FixedRight, FullWidth)</li>
+                <li>Mobile-responsive with drawer behavior</li>
+                <li>Optional header with logo, theme toggle, and avatar</li>
+                <li>Density modes (Compact, Normal, Comfortable)</li>
+                <li>Sticky header option</li>
+                <li>Menu toggle for mobile</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private Dictionary<string, object> breakpoints = new();
     private string installCode = @"dotnet add package Tail.Blazor.ResponsiveLayout";
-    private string basicCode = @"<TailResponsiveLayout Breakpoints=""@breakpoints"">
-    <p>Responsive content</p>
+    
+    private string basicCode = @"<TailResponsiveLayout LayoutMode=""LayoutMode.DrawerLeft"" AppName=""My App"">
+    <SidebarContent>
+        <TailMenu>
+            <TailMenuItem>Home</TailMenuItem>
+            <TailMenuItem>About</TailMenuItem>
+        </TailMenu>
+    </SidebarContent>
+    <ChildContent>
+        <div>Main content</div>
+    </ChildContent>
 </TailResponsiveLayout>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Main content area" },
+        new DocPageTemplate.ApiParameter { Name = "SidebarContent", Type = "RenderFragment?", Default = "-", Description = "Content for the sidebar" },
+        new DocPageTemplate.ApiParameter { Name = "LogoTemplate", Type = "RenderFragment?", Default = "-", Description = "Custom logo template" },
+        new DocPageTemplate.ApiParameter { Name = "AvatarContent", Type = "RenderFragment?", Default = "-", Description = "Avatar content for the header" },
+        new DocPageTemplate.ApiParameter { Name = "AppName", Type = "string?", Default = "-", Description = "Application name displayed in header" },
+        new DocPageTemplate.ApiParameter { Name = "LayoutMode", Type = "LayoutMode", Default = "DrawerLeft", Description = "Layout mode (DrawerLeft, DrawerRight, FixedLeft, FixedRight, FullWidth)" },
+        new DocPageTemplate.ApiParameter { Name = "Density", Type = "DensityMode", Default = "Normal", Description = "Density mode (Compact, Normal, Comfortable)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowSidebar", Type = "bool", Default = "true", Description = "Show/hide the sidebar" },
+        new DocPageTemplate.ApiParameter { Name = "ShowHeader", Type = "bool", Default = "true", Description = "Show/hide the header" },
+        new DocPageTemplate.ApiParameter { Name = "ShowMenuToggle", Type = "bool", Default = "true", Description = "Show menu toggle button" },
+        new DocPageTemplate.ApiParameter { Name = "ShowThemeToggle", Type = "bool", Default = "true", Description = "Show theme toggle button" },
+        new DocPageTemplate.ApiParameter { Name = "ShowAvatar", Type = "bool", Default = "false", Description = "Show avatar in header" },
+        new DocPageTemplate.ApiParameter { Name = "StickyHeader", Type = "bool", Default = "true", Description = "Make header sticky" },
+        new DocPageTemplate.ApiParameter { Name = "MobileMenuTitle", Type = "string?", Default = "-", Description = "Title for mobile menu drawer" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

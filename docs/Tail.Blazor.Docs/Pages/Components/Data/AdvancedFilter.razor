@@ -1,39 +1,68 @@
 @page "/components/advanced-filter"
 @using Tail.Blazor.AdvancedFilter
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>AdvancedFilter - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAdvancedFilter</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Advanced filtering component. Ultra-lightweight (~10 KB).</p>
+<DocPageTemplate Title="TailAdvancedFilter" 
+                 Description="Advanced filtering component for building complex filter criteria with field, operator, and value selection. Ultra-lightweight (~10 KB)."
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Advanced Filter" Code="@basicCode">
             <PreviewContent>
-                <TailAdvancedFilter Filters="@filters" OnFilterChanged="HandleFilterChanged" />
+                <TailAdvancedFilter Fields="@fields" OnFilterApplied="@((TailAdvancedFilter.FilterCriteria f) => HandleFilterApplied(f))" />
+                @if (lastFilter != null)
+                {
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                        Filter: @lastFilter.Field @lastFilter.Operator "@lastFilter.Value"
+                    </TailAlert>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Field selection dropdown</li>
+                <li>Multiple operators (Equals, Contains, Starts With, Ends With)</li>
+                <li>Filter value input</li>
+                <li>Apply filter button</li>
+                <li>Filter criteria event callback</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> filters = new();
-    private string installCode = @"dotnet add package Tail.Blazor.AdvancedFilter";
-    private string basicCode = @"<TailAdvancedFilter Filters=""@filters"" OnFilterChanged=""HandleFilterChanged"" />";
+    private List<string> fields = new() { "Name", "Email", "Status", "Date" };
+    private TailAdvancedFilter.FilterCriteria? lastFilter = null;
     
-    private void HandleFilterChanged(List<object> newFilters)
+    private string installCode = @"dotnet add package Tail.Blazor.AdvancedFilter";
+    
+    private string basicCode = @"<TailAdvancedFilter Fields=""@fields"" OnFilterApplied=""HandleFilterApplied"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        filters = newFilters;
+        new DocPageTemplate.ApiParameter { Name = "Fields", Type = "List<string>", Default = "new()", Description = "List of field names available for filtering" },
+        new DocPageTemplate.ApiParameter { Name = "OnFilterApplied", Type = "EventCallback<TailAdvancedFilter.FilterCriteria>", Default = "-", Description = "Event fired when filter is applied with filter criteria" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+    
+    private void HandleFilterApplied(TailAdvancedFilter.FilterCriteria filter)
+    {
+        lastFilter = filter;
         StateHasChanged();
     }
 }

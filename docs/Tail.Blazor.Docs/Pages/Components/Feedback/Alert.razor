@@ -1,32 +1,28 @@
 @page "/components/alert"
 @using Tail.Blazor.Alert
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Alert - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAlert</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Alert component for notifications. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailAlert" 
+                 Description="Alert component for displaying notifications and messages. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Alert" Code="@basicCode">
             <PreviewContent>
                 <TailAlert Variant="AlertVariant.Info" Title="Information" Message="This is an info alert." />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Variants</h2>
+    <DocSection Title="Variants">
         <CodePreview Title="Alert Variants" Code="@variantsCode">
             <PreviewContent>
                 <div class="space-y-4">
@@ -37,15 +33,40 @@
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Multiple variants (Success, Warning, Danger, Info)</li>
+                <li>Title and message support</li>
+                <li>Dismissible alerts</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Customizable styling</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Alert";
+    
     private string basicCode = @"<TailAlert Variant=""AlertVariant.Info"" Title=""Information"" Message=""This is an alert."" />";
+    
     private string variantsCode = @"<TailAlert Variant=""AlertVariant.Success"" Title=""Success"" Message=""Success message."" />
 <TailAlert Variant=""AlertVariant.Warning"" Title=""Warning"" Message=""Warning message."" />
 <TailAlert Variant=""AlertVariant.Danger"" Title=""Error"" Message=""Error message."" />
 <TailAlert Variant=""AlertVariant.Info"" Title=""Info"" Message=""Info message."" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "AlertVariant", Default = "Info", Description = "Alert variant (Success, Warning, Danger, Info)" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Alert title" },
+        new DocPageTemplate.ApiParameter { Name = "Message", Type = "string", Default = "-", Description = "Alert message content" },
+        new DocPageTemplate.ApiParameter { Name = "Dismissible", Type = "bool", Default = "false", Description = "Allow alert to be dismissed" },
+        new DocPageTemplate.ApiParameter { Name = "OnDismissed", Type = "EventCallback", Default = "-", Description = "Event fired when alert is dismissed" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

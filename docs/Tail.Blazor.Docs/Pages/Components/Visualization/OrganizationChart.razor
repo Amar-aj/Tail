@@ -1,34 +1,61 @@
 @page "/components/organization-chart"
 @using Tail.Blazor.OrganizationChart
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>OrganizationChart - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailOrganizationChart</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Organization chart component. Ultra-lightweight (~12 KB).</p>
+<DocPageTemplate Title="TailOrganizationChart" 
+                 Description="Organization chart component for displaying hierarchical organizational structures. Ultra-lightweight (~12 KB)."
+                 PackageName="Tail.Blazor.Visualization"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Organization Chart" Code="@basicCode">
             <PreviewContent>
-                <TailOrganizationChart Data="@orgData" />
+                <TailOrganizationChart RootNode="@rootNode" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Hierarchical organization chart display</li>
+                <li>Tree-like structure with parent-child relationships</li>
+                <li>Customizable node content</li>
+                <li>Recursive rendering of child nodes</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> orgData = new();
+    private Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode rootNode = new()
+    {
+        Name = "CEO",
+        Children = new List<Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode>
+        {
+            new Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode { Name = "CTO", Children = new List<Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode> { new Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode { Name = "Dev Lead" } } },
+            new Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode { Name = "CFO" }
+        }
+    };
+    
     private string installCode = @"dotnet add package Tail.Blazor.OrganizationChart";
-    private string basicCode = @"<TailOrganizationChart Data=""@orgData"" />";
+    
+    private string basicCode = @"<TailOrganizationChart RootNode=""@rootNode"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "RootNode", Type = "Tail.Blazor.OrganizationChart.TailOrganizationChart.OrganizationNode", Default = "-", Description = "Root node of the organization chart with hierarchical children" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

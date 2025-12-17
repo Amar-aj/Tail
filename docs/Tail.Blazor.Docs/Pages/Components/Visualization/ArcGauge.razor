@@ -1,33 +1,55 @@
 @page "/components/arc-gauge"
 @using Tail.Blazor.ArcGauge
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ArcGauge - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailArcGauge</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Arc gauge component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailArcGauge" 
+                 Description="Arc gauge component for displaying values as a semi-circular gauge. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Visualization"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Arc Gauge" Code="@basicCode">
             <PreviewContent>
-                <TailArcGauge Value="75" Max="100" />
+                <TailArcGauge Value="75" Size="200" ShowLabel="true" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Semi-circular arc gauge visualization</li>
+                <li>Displays percentage values</li>
+                <li>Customizable size</li>
+                <li>Optional label display</li>
+                <li>Configurable stroke width</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.ArcGauge";
-    private string basicCode = @"<TailArcGauge Value=""75"" Max=""100"" />";
+    
+    private string basicCode = @"<TailArcGauge Value=""75"" Size=""200"" ShowLabel=""true"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "int", Default = "-", Description = "Current value to display (0-100 for percentage)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "int", Default = "200", Description = "Width of the gauge in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "StrokeWidth", Type = "int", Default = "20", Description = "Width of the arc stroke in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "ShowLabel", Type = "bool", Default = "true", Description = "Show percentage label inside the gauge" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

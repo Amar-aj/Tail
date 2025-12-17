@@ -1,41 +1,69 @@
 @page "/components/confetti"
 @using Tail.Blazor.Confetti
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
 
 <PageTitle>Confetti - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailConfetti</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Confetti celebration component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailConfetti" 
+                 Description="Confetti celebration component for success animations and celebrations. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Confetti" Code="@basicCode">
             <PreviewContent>
-                <TailButton Variant="ButtonVariant.Primary" OnClick="TriggerConfetti">Celebrate!</TailButton>
-                <TailConfetti Trigger="@confettiTrigger" />
+                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="TriggerConfetti">Celebrate!</TailButton>
+                <TailConfetti IsActive="@isActive" Duration="3000" />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Animated confetti celebration effect</li>
+                <li>Multiple particle shapes (Circle, Rectangle, Star, Mixed)</li>
+                <li>Configurable particle count</li>
+                <li>Customizable animation duration</li>
+                <li>Automatic cleanup after duration</li>
+                <li>Full-screen overlay effect</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private bool confettiTrigger = false;
+    private bool isActive = false;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Confetti";
-    private string basicCode = @"<TailConfetti Trigger=""@confettiTrigger"" />";
+    
+    private string basicCode = @"<TailConfetti IsActive=""@isActive"" Duration=""3000"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "IsActive", Type = "bool", Default = "false", Description = "Activates the confetti animation" },
+        new DocPageTemplate.ApiParameter { Name = "ParticleCount", Type = "int", Default = "50", Description = "Number of confetti particles" },
+        new DocPageTemplate.ApiParameter { Name = "Shape", Type = "Tail.Blazor.Confetti.ConfettiShape", Default = "Mixed", Description = "Shape of confetti particles (Circle, Rectangle, Star, Mixed)" },
+        new DocPageTemplate.ApiParameter { Name = "Duration", Type = "int", Default = "3000", Description = "Duration of the animation in milliseconds (0 = infinite)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void TriggerConfetti()
     {
-        confettiTrigger = !confettiTrigger;
+        isActive = true;
+        StateHasChanged();
+        Task.Delay(100).ContinueWith(_ => {
+            isActive = false;
+            InvokeAsync(StateHasChanged);
+        });
     }
 }
 

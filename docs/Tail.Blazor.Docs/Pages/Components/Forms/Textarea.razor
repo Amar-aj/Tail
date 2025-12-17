@@ -1,34 +1,66 @@
 @page "/components/textarea"
 @using Tail.Blazor.Textarea
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Textarea - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailTextarea</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Multi-line text input component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailTextarea" 
+                 Description="Multi-line text input component for longer text content. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Textarea" Code="@basicCode">
             <PreviewContent>
                 <TailTextarea @bind-Value="textValue" Placeholder="Enter your message..." Rows="4" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Characters: @textValue.Length</p>
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Characters: @textValue.Length</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Multi-line text input</li>
+                <li>Two-way binding support</li>
+                <li>Customizable rows and columns</li>
+                <li>Placeholder text support</li>
+                <li>Label support</li>
+                <li>Disabled and readonly states</li>
+                <li>Character count display</li>
+                <li>Resizable (optional)</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Validation support</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string textValue = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Textarea";
-    private string basicCode = @"<TailTextarea @bind-Value=""textValue"" Placeholder=""Enter message..."" Rows=""4"" />";
+    
+    private string basicCode = @"<TailTextarea @bind-Value=""textValue"" Placeholder=""Enter your message..."" Rows=""4"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Textarea value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when value changes" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new DocPageTemplate.ApiParameter { Name = "Rows", Type = "int", Default = "3", Description = "Number of visible rows" },
+        new DocPageTemplate.ApiParameter { Name = "Cols", Type = "int?", Default = "-", Description = "Number of visible columns" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the textarea" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the textarea" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make textarea read-only" },
+        new DocPageTemplate.ApiParameter { Name = "Resizable", Type = "bool", Default = "true", Description = "Allow user to resize the textarea" },
+        new DocPageTemplate.ApiParameter { Name = "MaxLength", Type = "int?", Default = "-", Description = "Maximum character length" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }

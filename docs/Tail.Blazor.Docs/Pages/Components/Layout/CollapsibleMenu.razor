@@ -1,34 +1,69 @@
 @page "/components/collapsible-menu"
 @using Tail.Blazor.CollapsibleMenu
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Menu
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>CollapsibleMenu - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailCollapsibleMenu</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Collapsible menu component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailCollapsibleMenu" 
+                 Description="Collapsible menu component for expandable menu sections. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Collapsible Menu" Code="@basicCode">
             <PreviewContent>
-                <TailCollapsibleMenu Items="@menuItems" />
+                <TailCollapsibleMenu Title="Menu Section" @bind-IsExpanded="isExpanded">
+                    <TailMenu class="pl-4 space-y-1">
+                        <TailMenuItem>Item 1</TailMenuItem>
+                        <TailMenuItem>Item 2</TailMenuItem>
+                        <TailMenuItem>Item 3</TailMenuItem>
+                    </TailMenu>
+                </TailCollapsibleMenu>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Collapsible menu section with toggle</li>
+                <li>Expandable/collapsible content</li>
+                <li>Two-way binding for expanded state</li>
+                <li>Arrow icon indicator</li>
+                <li>Customizable title</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private List<object> menuItems = new();
+    private bool isExpanded = false;
+    
     private string installCode = @"dotnet add package Tail.Blazor.CollapsibleMenu";
-    private string basicCode = @"<TailCollapsibleMenu Items=""@menuItems"" />";
+    
+    private string basicCode = @"<TailCollapsibleMenu Title=""Menu Section"" @bind-IsExpanded=""isExpanded"">
+    <TailMenu class=""pl-4 space-y-1"">
+        <TailMenuItem>Item 1</TailMenuItem>
+        <TailMenuItem>Item 2</TailMenuItem>
+    </TailMenu>
+</TailCollapsibleMenu>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display when expanded (typically menu items)" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string", Default = "string.Empty", Description = "Title text for the collapsible menu" },
+        new DocPageTemplate.ApiParameter { Name = "IsExpanded", Type = "bool", Default = "false", Description = "Controls whether the menu is expanded (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "IsExpandedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when expanded state changes" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

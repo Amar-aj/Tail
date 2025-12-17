@@ -1,34 +1,64 @@
 @page "/components/rich-text-editor"
 @using Tail.Blazor.RichTextEditor
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>RichTextEditor - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRichTextEditor</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Rich text editor component. Ultra-lightweight (~15 KB).</p>
+<DocPageTemplate Title="TailRichTextEditor" 
+                 Description="Rich text editor component with formatting toolbar and HTML output. Ultra-lightweight (~15 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Rich Text Editor" Code="@basicCode">
             <PreviewContent>
-                <TailRichTextEditor @bind-Value="htmlContent" />
+                <TailRichTextEditor @bind-Value="htmlContent" Label="Content" Placeholder="Enter your text here..." />
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Rich text editing with formatting toolbar</li>
+                <li>Bold, italic, underline formatting</li>
+                <li>Text alignment options</li>
+                <li>Lists (ordered and unordered)</li>
+                <li>Link insertion</li>
+                <li>Heading styles</li>
+                <li>HTML output format</li>
+                <li>Two-way binding for content</li>
+                <li>Label and placeholder support</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Toolbar customization</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string htmlContent = string.Empty;
+    
     private string installCode = @"dotnet add package Tail.Blazor.RichTextEditor";
-    private string basicCode = @"<TailRichTextEditor @bind-Value=""htmlContent"" />";
+    
+    private string basicCode = @"<TailRichTextEditor @bind-Value=""htmlContent"" Label=""Content"" Placeholder=""Enter your text here..."" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "HTML content value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when content changes" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "RichTextEditorSize", Default = "Md", Description = "Size of the rich text editor (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the rich text editor" },
+        new DocPageTemplate.ApiParameter { Name = "MinHeight", Type = "int", Default = "200", Description = "Minimum height of the editor in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the rich text editor" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

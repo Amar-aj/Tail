@@ -1,41 +1,60 @@
 @page "/components/grid"
 @using Tail.Blazor.Grid
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Grid - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailGrid</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Responsive grid component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailGrid" 
+                 Description="Responsive grid component for creating flexible layouts. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Grid" Code="@basicCode">
             <PreviewContent>
                 <TailGrid Columns="3" Gap="4">
-                    <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 1</div>
-                    <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 2</div>
-                    <div class="p-4 bg-gray-100 dark:bg-gray-800">Item 3</div>
+                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 1</div>
+                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 2</div>
+                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 3</div>
                 </TailGrid>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Responsive CSS grid layout</li>
+                <li>Configurable number of columns</li>
+                <li>Customizable gap between grid items</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Grid";
+    
     private string basicCode = @"<TailGrid Columns=""3"" Gap=""4"">
     <div>Item 1</div>
     <div>Item 2</div>
     <div>Item 3</div>
 </TailGrid>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Grid items to display" },
+        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "int", Default = "12", Description = "Number of columns in the grid" },
+        new DocPageTemplate.ApiParameter { Name = "Gap", Type = "int", Default = "4", Description = "Gap between grid items (Tailwind gap value: 1-12)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

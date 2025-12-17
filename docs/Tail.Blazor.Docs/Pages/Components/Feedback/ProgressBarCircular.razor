@@ -1,33 +1,60 @@
 @page "/components/progress-bar-circular"
 @using Tail.Blazor.ProgressBarCircular
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ProgressBarCircular - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailProgressBarCircular</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Circular progress bar component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailProgressBarCircular" 
+                 Description="Circular progress bar component for displaying progress in a radial format. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Circular Progress" Code="@basicCode">
             <PreviewContent>
-                <TailProgressBarCircular Value="75" Max="100" ShowValue="true" />
+                <div class="flex gap-8 items-center">
+                    <TailProgressBarCircular Value="75" ShowLabel="true" />
+                    <TailProgressBarCircular Value="50" ShowLabel="true" Variant="@Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success" Size="80" />
+                    <TailProgressBarCircular Value="90" ShowLabel="true" Variant="@Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning" Size="120" />
+                </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Circular progress indicator</li>
+                <li>Value display in center (optional)</li>
+                <li>Multiple variants (Primary, Success, Warning, Danger, Info)</li>
+                <li>Customizable size and stroke width</li>
+                <li>Smooth animation</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.ProgressBarCircular";
-    private string basicCode = @"<TailProgressBarCircular Value=""75"" Max=""100"" ShowValue=""true"" />";
+    
+    private string basicCode = @"<TailProgressBarCircular Value=""75"" ShowLabel=""true"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "int", Default = "0", Description = "Progress value (0-100)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "int", Default = "100", Description = "Size of the circular progress in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "StrokeWidth", Type = "int", Default = "8", Description = "Width of the progress stroke in pixels" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant", Default = "Primary", Description = "Visual style variant (Primary, Success, Warning, Danger, Info)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowLabel", Type = "bool", Default = "true", Description = "Display the progress value in the center" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

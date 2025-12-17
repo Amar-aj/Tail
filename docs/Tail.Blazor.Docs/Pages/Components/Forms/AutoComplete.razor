@@ -1,35 +1,68 @@
 @page "/components/auto-complete"
 @using Tail.Blazor.AutoComplete
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>AutoComplete - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailAutoComplete</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Autocomplete input component. Ultra-lightweight (~5 KB).</p>
+<DocPageTemplate Title="TailAutoComplete" 
+                 Description="Autocomplete input component with real-time filtering and suggestions dropdown. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="AutoComplete" Code="@basicCode">
             <PreviewContent>
-                <TailAutoComplete @bind-Value="searchValue" Items="@suggestions" Placeholder="Search..." />
+                <TailAutoComplete @bind-Value="searchValue" Items="@suggestions" Placeholder="Type to search..." Label="Search Fruits" />
+                @if (!string.IsNullOrEmpty(searchValue))
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">You searched for: @searchValue</p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Real-time filtering as you type</li>
+                <li>Dropdown suggestions list</li>
+                <li>Case-insensitive search</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and placeholder support</li>
+                <li>Disabled state support</li>
+                <li>Keyboard navigation (Arrow keys, Enter, Escape)</li>
+                <li>Focus/blur handling</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Configurable max results limit</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
-    private string searchValue = string.Empty;
-    private List<string> suggestions = new() { "Apple", "Banana", "Cherry", "Date", "Elderberry" };
+    private string? searchValue;
+    private List<string> suggestions = new() { "Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew" };
+    
     private string installCode = @"dotnet add package Tail.Blazor.AutoComplete";
-    private string basicCode = @"<TailAutoComplete @bind-Value=""searchValue"" Items=""@suggestions"" Placeholder=""Search..."" />";
+    
+    private string basicCode = @"<TailAutoComplete @bind-Value=""searchValue"" Items=""@suggestions"" Placeholder=""Type to search..."" Label=""Search Fruits"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "Input value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string?>", Default = "-", Description = "Event fired when value changes" },
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<string>?", Default = "-", Description = "List of suggestion items to filter" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "AutoCompleteSize", Default = "Md", Description = "Size of the input (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the autocomplete" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -1,35 +1,68 @@
 @page "/components/tag-input"
 @using Tail.Blazor.TagInput
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>TagInput - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailTagInput</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Tag input component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailTagInput" 
+                 Description="Tag input component for adding and removing tags. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Tag Input" Code="@basicCode">
             <PreviewContent>
-                <TailTagInput @bind-Tags="tags" Placeholder="Add tags..." />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Tags: @string.Join(", ", tags)</p>
+                <TailTagInput @bind-Tags="tags" Placeholder="Add tags..." Label="Tags" />
+                @if (tags.Any())
+                {
+                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Tags: @string.Join(", ", tags)</p>
+                }
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Add tags by pressing Enter</li>
+                <li>Remove tags by clicking the X button</li>
+                <li>Remove last tag with Backspace when input is empty</li>
+                <li>Tag display with badges</li>
+                <li>Prevent duplicate tags</li>
+                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
+                <li>Label and help text support</li>
+                <li>Disabled state support</li>
+                <li>Two-way binding for tags list</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Keyboard navigation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private List<string> tags = new();
+    
     private string installCode = @"dotnet add package Tail.Blazor.TagInput";
-    private string basicCode = @"<TailTagInput @bind-Tags=""tags"" Placeholder=""Add tags..."" />";
+    
+    private string basicCode = @"<TailTagInput @bind-Tags=""tags"" Placeholder=""Add tags..."" Label=""Tags"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Tags", Type = "List<string>", Default = "new()", Description = "List of tags (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "TagsChanged", Type = "EventCallback<List<string>>", Default = "-", Description = "Event fired when tags change" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "TagInputSize", Default = "Md", Description = "Size of the tag input (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the tag input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text for the input" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the tag input" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

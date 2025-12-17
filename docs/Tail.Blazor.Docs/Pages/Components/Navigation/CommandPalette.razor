@@ -1,0 +1,131 @@
+@page "/components/command-palette"
+@using Tail.Blazor.CommandPalette
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Button
+@using Tail.Blazor.Alert
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>CommandPalette - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailCommandPalette" 
+                 Description="Command palette component (Cmd+K style) for quick command access and search. Ultra-lightweight (~5 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Command Palette" Code="@basicCode">
+            <PreviewContent>
+                <div>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="@(() => showPalette = true)">
+                        Open Command Palette (or press Ctrl+K)
+                    </TailButton>
+                    <TailCommandPalette IsVisible="@showPalette" IsVisibleChanged="@((bool visible) => showPalette = visible)" Commands="@GetCommands()" />
+                    @if (!string.IsNullOrEmpty(message))
+                    {
+                        <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                            @message
+                        </TailAlert>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Cmd+K style command palette interface</li>
+                <li>Real-time search and filtering</li>
+                <li>Keyboard navigation (Arrow keys, Enter, Escape)</li>
+                <li>Command descriptions and shortcuts display</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Customizable placeholder text</li>
+                <li>Event handling for command execution</li>
+                <li>Accessible and responsive</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private bool showPalette = false;
+    private string message = string.Empty;
+    
+    private List<Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem> GetCommands()
+    {
+        return new()
+        {
+            new Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem 
+            { 
+                Label = "New File",
+                Description = "Create a new file",
+                Shortcut = "Ctrl+N",
+                OnExecute = EventCallback.Factory.Create(this, () => ExecuteCommand("New File"))
+            },
+            new Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem 
+            { 
+                Label = "Save",
+                Description = "Save current file",
+                Shortcut = "Ctrl+S",
+                OnExecute = EventCallback.Factory.Create(this, () => ExecuteCommand("Save"))
+            },
+            new Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem 
+            { 
+                Label = "Search",
+                Description = "Search in files",
+                Shortcut = "Ctrl+F",
+                OnExecute = EventCallback.Factory.Create(this, () => ExecuteCommand("Search"))
+            },
+            new Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem 
+            { 
+                Label = "Settings",
+                Description = "Open application settings",
+                Shortcut = "Ctrl+,",
+                OnExecute = EventCallback.Factory.Create(this, () => ExecuteCommand("Settings"))
+            }
+        };
+    }
+
+    private string installCode = @"dotnet add package Tail.Blazor.CommandPalette";
+
+    private string basicCode = @"<TailCommandPalette IsVisible=""@showPalette"" 
+                         IsVisibleChanged=""@((bool visible) => showPalette = visible)"" 
+                         Commands=""@commands"" />
+
+@code {
+    private bool showPalette = false;
+    private List<Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem> commands = new()
+    {
+        new Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem 
+        { 
+            Label = ""New File"",
+            Description = ""Create a new file"",
+            Shortcut = ""Ctrl+N"",
+            OnExecute = EventCallback.Factory.Create(this, () => ExecuteCommand(""New File""))
+        }
+    };
+}";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "IsVisible", Type = "bool", Default = "false", Description = "Controls visibility of the command palette" },
+        new DocPageTemplate.ApiParameter { Name = "IsVisibleChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when visibility changes" },
+        new DocPageTemplate.ApiParameter { Name = "Commands", Type = "List<Tail.Blazor.CommandPalette.TailCommandPalette.CommandItem>", Default = "new()", Description = "List of commands to display and search" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string", Default = "\"Type a command or search...\"", Description = "Placeholder text for the search input" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
+
+    private void ExecuteCommand(string commandName)
+    {
+        message = $"Executed command: {commandName}";
+        showPalette = false;
+        StateHasChanged();
+    }
+
+}
+

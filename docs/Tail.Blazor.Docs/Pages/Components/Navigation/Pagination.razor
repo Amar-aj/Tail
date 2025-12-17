@@ -1,38 +1,67 @@
 @page "/components/pagination"
 @using Tail.Blazor.Pagination
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Pagination - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailPagination</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Pagination component. Ultra-lightweight (~4 KB).</p>
+<DocPageTemplate Title="TailPagination" 
+                 Description="Pagination component for navigating through pages with page numbers and ellipsis. Ultra-lightweight (~4 KB)."
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Pagination" Code="@basicCode">
             <PreviewContent>
-                <TailPagination CurrentPage="2" TotalPages="10" OnPageChanged="HandlePageChange" />
+                <TailPagination CurrentPage="@currentPage" TotalPages="10" CurrentPageChanged="HandlePageChange" VisiblePages="5" />
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                    Current Page: @currentPage
+                </TailAlert>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Page number navigation</li>
+                <li>Previous and next buttons</li>
+                <li>Ellipsis for large page counts</li>
+                <li>Configurable visible pages</li>
+                <li>Active page highlighting</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
+    private int currentPage = 2;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Pagination";
-    private string basicCode = @"<TailPagination CurrentPage=""2"" TotalPages=""10"" OnPageChanged=""HandlePageChange"" />";
+    
+    private string basicCode = @"<TailPagination CurrentPage=""@currentPage"" TotalPages=""10"" CurrentPageChanged=""HandlePageChange"" VisiblePages=""5"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "CurrentPage", Type = "int", Default = "1", Description = "Current active page number" },
+        new DocPageTemplate.ApiParameter { Name = "TotalPages", Type = "int", Default = "1", Description = "Total number of pages" },
+        new DocPageTemplate.ApiParameter { Name = "CurrentPageChanged", Type = "EventCallback<int>", Default = "-", Description = "Event fired when the page changes" },
+        new DocPageTemplate.ApiParameter { Name = "VisiblePages", Type = "int", Default = "5", Description = "Number of page buttons to show at once (excluding first and last)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void HandlePageChange(int page)
     {
-        // Handle page change
+        currentPage = page;
+        StateHasChanged();
     }
 }
 

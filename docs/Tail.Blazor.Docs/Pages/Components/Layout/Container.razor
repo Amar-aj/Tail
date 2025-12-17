@@ -1,37 +1,85 @@
 @page "/components/container"
 @using Tail.Blazor.Container
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Container - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailContainer</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Container component with responsive sizes. Ultra-lightweight (~2 KB).</p>
+<DocPageTemplate Title="TailContainer" 
+                 Description="Container component with responsive sizes for content layout. Ultra-lightweight (~2 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Container" Code="@basicCode">
             <PreviewContent>
-                <TailContainer Size="ContainerSize.Lg">
-                    <p>Container content</p>
+                <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Lg">
+                    <p style="color: var(--color-text-primary);">Container content</p>
                 </TailContainer>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Container Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Sm">
+                        <p style="color: var(--color-text-primary);">Small container</p>
+                    </TailContainer>
+                    <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Md">
+                        <p style="color: var(--color-text-primary);">Medium container</p>
+                    </TailContainer>
+                    <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Lg">
+                        <p style="color: var(--color-text-primary);">Large container</p>
+                    </TailContainer>
+                    <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Xl">
+                        <p style="color: var(--color-text-primary);">Extra Large container</p>
+                    </TailContainer>
+                    <TailContainer Size="@Tail.Blazor.Container.ContainerSize.Xxl">
+                        <p style="color: var(--color-text-primary);">Extra Extra Large container</p>
+                    </TailContainer>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Responsive container with max-width constraints</li>
+                <li>Multiple sizes (Sm, Md, Lg, Xl, Xxl, Full)</li>
+                <li>Centered content by default</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Container";
-    private string basicCode = @"<TailContainer Size=""ContainerSize.Lg"">
+    
+    private string basicCode = @"<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Lg"">
     <p>Container content</p>
 </TailContainer>";
+
+    private string sizesCode = @"<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Sm"">Small</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Md"">Medium</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Lg"">Large</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Xl"">Extra Large</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Xxl"">Extra Extra Large</TailContainer>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display inside the container" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Container.ContainerSize", Default = "Md", Description = "Container size (Sm, Md, Lg, Xl, Xxl, Full)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -1,33 +1,59 @@
 @page "/components/header"
 @using Tail.Blazor.Header
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Header - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailHeader</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Header component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailHeader" 
+                 Description="Header component for page titles and navigation. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Header" Code="@basicCode">
             <PreviewContent>
-                <TailHeader Title="Page Title" />
+                <TailHeader>
+                    <div style="padding: 1rem; color: var(--color-text-primary);">
+                        <h1 style="font-size: 1.5rem; font-weight: bold;">Page Title</h1>
+                    </div>
+                </TailHeader>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Header component for page titles</li>
+                <li>Optional subtitle support</li>
+                <li>Optional action buttons</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Header";
-    private string basicCode = @"<TailHeader Title=""Page Title"" />";
+    
+    private string basicCode = @"<TailHeader>
+    <div>
+        <h1>Page Title</h1>
+    </div>
+</TailHeader>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display inside the header" },
+        new DocPageTemplate.ApiParameter { Name = "Sticky", Type = "bool", Default = "false", Description = "Make the header sticky at the top of the viewport" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

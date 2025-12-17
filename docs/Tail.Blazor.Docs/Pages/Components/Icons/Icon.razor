@@ -1,36 +1,55 @@
 @page "/components/icon"
 @using Tail.Blazor.Icon
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Icon - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailIcon</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Icon component with Heroicons and Lucide support. Ultra-lightweight (~15 KB).</p>
+<DocPageTemplate Title="TailIcon" 
+                 Description="Icon component with Heroicons and Lucide support. Ultra-lightweight (~15 KB)."
+                 PackageName="Tail.Blazor.Icons"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Icon" Code="@basicCode">
             <PreviewContent>
                 <div class="flex gap-4 items-center">
-                    <TailIcon Name="IconName.Home" Size="IconSize.Md" />
-                    <TailIcon Name="IconName.User" Size="IconSize.Md" />
+                    <TailIcon Name="Tail.Blazor.Icon.IconName.Home" Size="Tail.Blazor.Icon.IconSize.Md" />
+                    <TailIcon Name="Tail.Blazor.Icon.IconName.User" Size="Tail.Blazor.Icon.IconSize.Md" />
                 </div>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Heroicons and Lucide icon library support</li>
+                <li>Multiple size options</li>
+                <li>Named icon support</li>
+                <li>Custom icon rendering</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Icon";
-    private string basicCode = @"<TailIcon Name=""IconName.Home"" Size=""IconSize.Md"" />";
+    
+    private string basicCode = @"<TailIcon Name=""Tail.Blazor.Icon.IconName.Home"" Size=""Tail.Blazor.Icon.IconSize.Md"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Name", Type = "Tail.Blazor.Icon.IconName?", Default = "-", Description = "Icon name from the icon library" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Icon.IconSize", Default = "Md", Description = "Size of the icon (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
 

@@ -20,12 +20,34 @@
             </PreviewContent>
         </CodePreview>
     </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Navigation breadcrumb component for showing page hierarchy</li>
+                <li>Automatic separator icons between items</li>
+                <li>Last item displayed as text (non-clickable)</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Customizable styling</li>
+                <li>Accessible navigation structure</li>
+            </ul>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Breadcrumb";
 
-    private string basicCode = @"<TailBreadcrumb Items=""@breadcrumbItems"" />";
+    private string basicCode = @"<TailBreadcrumb Items=""@breadcrumbItems"" />
+
+@code {
+    private List<TailBreadcrumb.BreadcrumbItem> breadcrumbItems = new()
+    {
+        new TailBreadcrumb.BreadcrumbItem { Text = ""Home"", Href = ""/"" },
+        new TailBreadcrumb.BreadcrumbItem { Text = ""Components"", Href = ""/components"" },
+        new TailBreadcrumb.BreadcrumbItem { Text = ""Breadcrumb"", Href = ""/components/breadcrumb"" }
+    };
+}";
 
     private List<TailBreadcrumb.BreadcrumbItem> breadcrumbItems = new()
     {
@@ -36,7 +58,9 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<BreadcrumbItem>", Default = "-", Description = "Breadcrumb items" }
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<BreadcrumbItem>", Default = "new()", Description = "List of breadcrumb items to display" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 }
 

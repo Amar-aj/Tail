@@ -1,41 +1,82 @@
 @page "/components/dialog"
 @using Tail.Blazor.Dialog
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 @using Microsoft.AspNetCore.Components
-@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
 
 <PageTitle>Dialog - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailDialog</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Modal dialog component. Ultra-lightweight (~8 KB).</p>
+<DocPageTemplate Title="TailDialog" 
+                 Description="Modal dialog component for displaying content in an overlay. Ultra-lightweight (~8 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Dialog" Code="@basicCode">
             <PreviewContent>
-                <TailButton Variant="ButtonVariant.Primary" OnClick="OpenDialog">Open Dialog</TailButton>
-                <TailDialog IsOpen="@isOpen" OnClose="CloseDialog" Title="Dialog Title">
-                    <p>Dialog content goes here.</p>
+                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="OpenDialog">Open Dialog</TailButton>
+                <TailDialog @bind-IsVisible="isOpen" Title="Dialog Title">
+                    <ChildContent>
+                        <p style="color: var(--color-text-primary);">Dialog content goes here.</p>
+                    </ChildContent>
+                    <Footer>
+                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Outline" OnClick="CloseDialog">Cancel</TailButton>
+                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="CloseDialog">Confirm</TailButton>
+                    </Footer>
                 </TailDialog>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Modal dialog with backdrop overlay</li>
+                <li>Multiple sizes (Sm, Md, Lg, Xl, Xxl, Full)</li>
+                <li>Optional title and footer sections</li>
+                <li>Close button option</li>
+                <li>Close on backdrop click option</li>
+                <li>Two-way binding for visibility</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Accessible with ARIA attributes</li>
+                <li>Lightweight and performant</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private bool isOpen = false;
+    
     private string installCode = @"dotnet add package Tail.Blazor.Dialog";
-    private string basicCode = @"<TailDialog IsOpen=""@isOpen"" OnClose=""CloseDialog"" Title=""Dialog Title"">
-    <p>Dialog content</p>
+    
+    private string basicCode = @"<TailDialog @bind-IsVisible=""isOpen"" Title=""Dialog Title"">
+    <ChildContent>
+        <p>Dialog content</p>
+    </ChildContent>
+    <Footer>
+        <TailButton OnClick=""CloseDialog"">Cancel</TailButton>
+        <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" OnClick=""CloseDialog"">Confirm</TailButton>
+    </Footer>
 </TailDialog>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "IsVisible", Type = "bool", Default = "false", Description = "Controls dialog visibility (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "IsVisibleChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when visibility changes" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Main content of the dialog" },
+        new DocPageTemplate.ApiParameter { Name = "Footer", Type = "RenderFragment?", Default = "-", Description = "Footer content (typically action buttons)" },
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Title text displayed in the header" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Dialog.DialogSize", Default = "Md", Description = "Size of the dialog (Sm, Md, Lg, Xl, Xxl, Full)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowCloseButton", Type = "bool", Default = "true", Description = "Show close button in header" },
+        new DocPageTemplate.ApiParameter { Name = "CloseOnBackdropClick", Type = "bool", Default = "true", Description = "Close dialog when clicking the backdrop" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
     
     private void OpenDialog() => isOpen = true;
     private void CloseDialog() => isOpen = false;

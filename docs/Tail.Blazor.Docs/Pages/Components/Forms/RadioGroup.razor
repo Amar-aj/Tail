@@ -1,35 +1,61 @@
 @page "/components/radio-group"
 @using Tail.Blazor.RadioGroup
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Layout
-@using Tail.Blazor.Card
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>RadioGroup - Tail.Blazor</PageTitle>
 
-<TailContainer Size="ContainerSize.Xxl">
-    <h1 class="text-4xl font-bold mb-2 text-gray-900 dark:text-white">TailRadioGroup</h1>
-    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Radio button group component. Ultra-lightweight (~3 KB).</p>
+<DocPageTemplate Title="TailRadioGroup" 
+                 Description="Radio button group component for managing multiple radio buttons. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Forms"
+                 ApiParameters="@apiParameters">
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Installation</h2>
+    <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
-    </TailCard>
+    </DocSection>
 
-    <TailCard Class="mb-8">
-        <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Basic Usage</h2>
+    <DocSection Title="Basic Usage">
         <CodePreview Title="Radio Group" Code="@basicCode">
             <PreviewContent>
                 <TailRadioGroup @bind-Value="selectedValue" Options="@radioOptions" />
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Selected: @selectedValue</p>
+                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Selected: @selectedValue</p>
             </PreviewContent>
         </CodePreview>
-    </TailCard>
-</TailContainer>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div style="color: var(--color-text-primary);">
+            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+                <li>Group management for radio buttons</li>
+                <li>Two-way binding for selected value</li>
+                <li>Options list support</li>
+                <li>Layout options (horizontal/vertical)</li>
+                <li>Label support</li>
+                <li>Disabled state support</li>
+                <li>Full theme support with CSS variables</li>
+                <li>Accessible keyboard navigation</li>
+            </ul>
+        </div>
+    </DocSection>
+</DocPageTemplate>
 
 @code {
     private string selectedValue = string.Empty;
     private List<string> radioOptions = new() { "Option 1", "Option 2", "Option 3" };
+    
     private string installCode = @"dotnet add package Tail.Blazor.RadioGroup";
+    
     private string basicCode = @"<TailRadioGroup @bind-Value=""selectedValue"" Options=""@radioOptions"" />";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Selected value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when selection changes" },
+        new DocPageTemplate.ApiParameter { Name = "Options", Type = "List<string>", Default = "new()", Description = "List of option values/labels" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the radio group" },
+        new DocPageTemplate.ApiParameter { Name = "Orientation", Type = "RadioGroupOrientation", Default = "Vertical", Description = "Layout orientation (Horizontal or Vertical)" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable all radio buttons in the group" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+    };
 }
