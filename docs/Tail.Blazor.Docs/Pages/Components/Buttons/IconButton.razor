@@ -3,12 +3,13 @@
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
 @using Tail.Blazor.Button
+@using Tail.Blazor.Badge
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>IconButton - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailIconButton" 
-                 Description="Icon-only button component for compact actions. Ultra-lightweight (~2 KB)."
+                 Description="Icon-only button component for compact actions. Ultra-lightweight (~2 KB). Supports all variants, shapes, and accessibility features."
                  PackageName="Tail.Blazor.Buttons"
                  ApiParameters="@apiParameters">
 
@@ -35,63 +36,254 @@
     </DocSection>
 
     <DocSection Title="Variants">
-        <CodePreview Title="Button Variants" Code="@variantsCode">
+        <p class="text-sm text-gray-600 mb-4">Icon buttons support all standard button variants for different visual styles.</p>
+        <CodePreview Title="All Variants" Code="@allVariantsCode">
             <PreviewContent>
-                <div class="flex flex-wrap gap-3">
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Success">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                    </TailIconButton>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Primary</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Success</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Success">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Warning</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Danger</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Info</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Info">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Outline</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Outline">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Soft</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Soft">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Ghost</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Ghost">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Link</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Link">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Shapes">
+        <p class="text-sm text-gray-600 mb-4">Choose between square and circular shapes for different design contexts.</p>
+        <CodePreview Title="Button Shapes" Code="@shapesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-6 items-center">
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Square</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Shape="TailIconButton.ButtonShape.Square">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Circle</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Shape="TailIconButton.ButtonShape.Circle">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Sizes">
+        <p class="text-sm text-gray-600 mb-4">Icon buttons come in five sizes to fit various UI requirements.</p>
         <CodePreview Title="Button Sizes" Code="@sizesCode">
             <PreviewContent>
-                <div class="flex flex-wrap items-center gap-3">
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xs">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Sm">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Md">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
-                    </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Lg">
+                <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">XS</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xs">
+                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">SM</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Sm">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">MD</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Md">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">LG</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Lg">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">XL</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xl">
+                            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="text-sm text-gray-600 mb-4">Icon buttons support loading and disabled states for better user experience.</p>
+        <CodePreview Title="Loading & Disabled States" Code="@statesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-6 items-center">
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Default</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Loading</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" IsLoading="true">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">Disabled</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Disabled="true">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <p class="text-sm text-gray-600 mb-4">Enhance accessibility with ARIA labels and tooltips for screen readers and user guidance.</p>
+        <CodePreview Title="Accessibility Features" Code="@accessibilityCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-6 items-center">
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">With Tooltip</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Tooltip="Add new item">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Gray" Size="Tail.Blazor.Badge.BadgeSize.Sm">With ARIA Label</TailBadge>
+                        <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" AriaLabel="Save document">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                            </svg>
+                        </TailIconButton>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Advanced Example">
+        <p class="text-sm text-gray-600 mb-4">Combine multiple features for a rich icon button experience.</p>
+        <CodePreview Title="Advanced Icon Button" Code="@advancedCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4 items-center">
+                    <TailIconButton 
+                        Variant="Tail.Blazor.Button.ButtonVariant.Soft" 
+                        Shape="TailIconButton.ButtonShape.Circle" 
+                        Size="@Tail.Blazor.Button.ButtonSize.Lg"
+                        Tooltip="Toggle theme"
+                        OnClick="@(() => ShowMessage("Theme toggled!"))">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </TailIconButton>
-                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xl">
-                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    <TailIconButton 
+                        Variant="Tail.Blazor.Button.ButtonVariant.Outline" 
+                        Shape="TailIconButton.ButtonShape.Square" 
+                        Size="@Tail.Blazor.Button.ButtonSize.Md"
+                        AriaLabel="Search"
+                        OnClick="@(() => ShowMessage("Search initiated!"))">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </TailIconButton>
+                    @if (!string.IsNullOrEmpty(message))
+                    {
+                        <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                            @message
+                        </TailAlert>
+                    }
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -109,10 +301,18 @@
     </svg>
 </TailIconButton>";
 
-    private string variantsCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">...</TailIconButton>
+    private string allVariantsCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">...</TailIconButton>
 <TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">...</TailIconButton>
 <TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">...</TailIconButton>
-<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">...</TailIconButton>";
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Info"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Outline"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Soft"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Ghost"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Link"">...</TailIconButton>";
+
+    private string shapesCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Shape=""TailIconButton.ButtonShape.Square"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Shape=""TailIconButton.ButtonShape.Circle"">...</TailIconButton>";
 
     private string sizesCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xs"">...</TailIconButton>
 <TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Sm"">...</TailIconButton>
@@ -120,15 +320,37 @@
 <TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Lg"">...</TailIconButton>
 <TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xl"">...</TailIconButton>";
 
+    private string statesCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" IsLoading=""true"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Disabled=""true"">...</TailIconButton>";
+
+    private string accessibilityCode = @"<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Tooltip=""Add new item"">...</TailIconButton>
+<TailIconButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" AriaLabel=""Save document"">...</TailIconButton>";
+
+    private string advancedCode = @"<TailIconButton 
+    Variant=""Tail.Blazor.Button.ButtonVariant.Soft"" 
+    Shape=""TailIconButton.ButtonShape.Circle"" 
+    Size=""Tail.Blazor.Button.ButtonSize.Lg""
+    Tooltip=""Toggle theme""
+    OnClick=""HandleClick"">
+    <!-- Icon content -->
+</TailIconButton>";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Button.ButtonVariant", Default = "Primary", Description = "Color variant" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Button.ButtonSize", Default = "Md", Description = "Button size" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Button.ButtonVariant", Default = "Primary", Description = @"Color variant (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Button.ButtonSize", Default = "Md", Description = "Button size (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Shape", Type = "TailIconButton.ButtonShape", Default = "Square", Description = "Button shape (Square, Circle)" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
         new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
-        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Click event handler" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "button", Description = "Button type attribute" },
         new DocPageTemplate.ApiParameter { Name = "StopPropagation", Type = "bool", Default = "false", Description = "Stop event propagation" },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Icon content (typically SVG)" }
+        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Click event handler" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "-", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip text (title attribute)" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Icon content (typically SVG)" },
+        new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "-", Description = "Additional attributes to apply" }
     };
 
     private void ShowMessage(string msg)
@@ -137,4 +359,3 @@
         StateHasChanged();
     }
 }
-
