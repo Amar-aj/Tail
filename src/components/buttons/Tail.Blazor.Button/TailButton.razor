@@ -12,13 +12,17 @@
     @if (IsLoading)
     {
         <span class="inline-flex items-center">
-            <svg class="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg class="@GetSpinnerClasses()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="color: inherit;">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             @if (!string.IsNullOrEmpty(LoadingText))
             {
-                @LoadingText
+                <span class="@GetLoadingTextClasses()">@LoadingText</span>
+            }
+            else if (ShowDefaultLoadingText)
+            {
+                <span class="@GetLoadingTextClasses()">@DefaultLoadingText</span>
             }
         </span>
     }
@@ -26,12 +30,12 @@
     {
         @if (IconStart != null)
         {
-            <span class="mr-2">@IconStart</span>
+            <span class="@GetIconStartClasses()">@IconStart</span>
         }
         @ChildContent
         @if (IconEnd != null)
         {
-            <span class="ml-2">@IconEnd</span>
+            <span class="@GetIconEndClasses()">@IconEnd</span>
         }
     }
 </button>
@@ -45,6 +49,8 @@
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public bool IsLoading { get; set; }
     [Parameter] public string? LoadingText { get; set; }
+    [Parameter] public bool ShowDefaultLoadingText { get; set; } = false;
+    [Parameter] public string DefaultLoadingText { get; set; } = "Loading...";
     [Parameter] public string Type { get; set; } = "button";
     [Parameter] public bool StopPropagation { get; set; }
     [Parameter] public RenderFragment? IconStart { get; set; }
@@ -94,27 +100,60 @@
         // Use CSS variables for theming
         if (Variant == ButtonVariant.Primary)
         {
-            styles.Add($"background-color: var(--color-primary)");
+            styles.Add($"background-color: var(--color-primary, #3b82f6)");
             styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"focus-ring-color: var(--color-primary, #3b82f6)");
+        }
+        else if (Variant == ButtonVariant.Success)
+        {
+            styles.Add($"background-color: var(--color-success, #10b981)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"focus-ring-color: var(--color-success, #10b981)");
+        }
+        else if (Variant == ButtonVariant.Warning)
+        {
+            styles.Add($"background-color: var(--color-warning, #f59e0b)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"focus-ring-color: var(--color-warning, #f59e0b)");
+        }
+        else if (Variant == ButtonVariant.Danger)
+        {
+            styles.Add($"background-color: var(--color-danger, #ef4444)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"focus-ring-color: var(--color-danger, #ef4444)");
+        }
+        else if (Variant == ButtonVariant.Info)
+        {
+            styles.Add($"background-color: var(--color-info, #3b82f6)");
+            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"focus-ring-color: var(--color-info, #3b82f6)");
         }
         else if (Variant == ButtonVariant.Outline)
         {
-            styles.Add($"border-color: var(--color-primary)");
-            styles.Add($"color: var(--color-primary)");
+            styles.Add($"border-color: var(--color-primary, #3b82f6)");
+            styles.Add($"color: var(--color-primary, #3b82f6)");
+            styles.Add($"background-color: transparent");
+            styles.Add($"focus-ring-color: var(--color-primary, #3b82f6)");
         }
         else if (Variant == ButtonVariant.Soft)
         {
-            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.1)");
-            styles.Add($"color: var(--color-primary)");
+            var primaryColor = "var(--color-primary, #3b82f6)";
+            styles.Add($"background-color: color-mix(in srgb, {primaryColor} 10%, transparent)");
+            styles.Add($"color: {primaryColor}");
+            styles.Add($"focus-ring-color: {primaryColor}");
         }
         else if (Variant == ButtonVariant.Ghost)
         {
-            styles.Add($"color: var(--color-primary)");
+            styles.Add($"color: var(--color-primary, #3b82f6)");
+            styles.Add($"background-color: transparent");
+            styles.Add($"focus-ring-color: var(--color-primary, #3b82f6)");
         }
         else if (Variant == ButtonVariant.Link)
         {
-            styles.Add($"color: var(--color-primary)");
+            styles.Add($"color: var(--color-primary, #3b82f6)");
+            styles.Add($"background-color: transparent");
             styles.Add("text-decoration: underline");
+            styles.Add($"focus-ring-color: var(--color-primary, #3b82f6)");
         }
 
         if (!string.IsNullOrEmpty(Style))
@@ -123,6 +162,58 @@
         }
 
         return string.Join("; ", styles);
+    }
+
+    private string GetSpinnerClasses()
+    {
+        return Size switch
+        {
+            ButtonSize.Xs => "animate-spin -ml-1 mr-1.5 h-3 w-3",
+            ButtonSize.Sm => "animate-spin -ml-1 mr-1.5 h-3.5 w-3.5",
+            ButtonSize.Md => "animate-spin -ml-1 mr-2 h-4 w-4",
+            ButtonSize.Lg => "animate-spin -ml-1 mr-2 h-5 w-5",
+            ButtonSize.Xl => "animate-spin -ml-1 mr-2 h-6 w-6",
+            _ => "animate-spin -ml-1 mr-2 h-4 w-4"
+        };
+    }
+
+    private string GetLoadingTextClasses()
+    {
+        return Size switch
+        {
+            ButtonSize.Xs => "text-xs",
+            ButtonSize.Sm => "text-sm",
+            ButtonSize.Md => "text-base",
+            ButtonSize.Lg => "text-lg",
+            ButtonSize.Xl => "text-xl",
+            _ => "text-base"
+        };
+    }
+
+    private string GetIconStartClasses()
+    {
+        return Size switch
+        {
+            ButtonSize.Xs => "mr-1",
+            ButtonSize.Sm => "mr-1.5",
+            ButtonSize.Md => "mr-2",
+            ButtonSize.Lg => "mr-2",
+            ButtonSize.Xl => "mr-2.5",
+            _ => "mr-2"
+        };
+    }
+
+    private string GetIconEndClasses()
+    {
+        return Size switch
+        {
+            ButtonSize.Xs => "ml-1",
+            ButtonSize.Sm => "ml-1.5",
+            ButtonSize.Md => "ml-2",
+            ButtonSize.Lg => "ml-2",
+            ButtonSize.Xl => "ml-2.5",
+            _ => "ml-2"
+        };
     }
 
     private async Task HandleClick(MouseEventArgs e)

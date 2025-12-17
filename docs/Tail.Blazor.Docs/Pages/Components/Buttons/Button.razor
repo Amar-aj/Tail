@@ -2,44 +2,56 @@
 @using Tail.Blazor.Button
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
+@using Tail.Blazor.Card
+@using Tail.Blazor.Feedback
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Button - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailButton" 
-                 Description="A versatile button component with multiple variants, sizes, and states. Ultra-lightweight (~3 KB)."
+                 Description="A professional, versatile button component with multiple variants, sizes, loading states, icons, and full theme support. Ultra-lightweight (~3 KB)."
                  PackageName="Tail.Blazor.Buttons"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Button" Code="@basicCode">
+        <CodePreview Title="Simple Button" Code="@basicCode">
             <PreviewContent>
-                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="@(() => ShowMessage("Button clicked!"))">
-                    Click Me
-                </TailButton>
-                @if (!string.IsNullOrEmpty(message))
-                {
-                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
-                        @message
-                    </TailAlert>
-                }
+                <div class="space-y-4">
+                    <TailButton Variant="ButtonVariant.Primary" OnClick="@(() => ShowMessage("Button clicked!"))">
+                        Click Me
+                    </TailButton>
+                    @if (!string.IsNullOrEmpty(message))
+                    {
+                        <TailAlert Variant="AlertVariant.Info" Class="mt-4">
+                            @message
+                        </TailAlert>
+                    }
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Variants">
-        <CodePreview Title="Button Variants" Code="@variantsCode">
+        <CodePreview Title="All Button Variants" Code="@variantsCode">
             <PreviewContent>
-                <div class="flex flex-wrap gap-3">
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Primary</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Success</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Warning</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">Danger</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Info">Info</TailButton>
+                <div class="space-y-4">
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
+                        <TailButton Variant="ButtonVariant.Success">Success</TailButton>
+                        <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
+                        <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
+                        <TailButton Variant="ButtonVariant.Info">Info</TailButton>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Outline">Outline</TailButton>
+                        <TailButton Variant="ButtonVariant.Soft">Soft</TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost">Ghost</TailButton>
+                        <TailButton Variant="ButtonVariant.Link">Link</TailButton>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -49,64 +61,344 @@
         <CodePreview Title="Button Sizes" Code="@sizesCode">
             <PreviewContent>
                 <div class="flex flex-wrap items-center gap-3">
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xs">Extra Small</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Sm">Small</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Md">Medium</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Lg">Large</TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Size="@Tail.Blazor.Button.ButtonSize.Xl">Extra Large</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xs">Extra Small</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Small</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Md">Medium</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Lg">Large</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Xl">Extra Large</TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Loading States">
+        <CodePreview Title="Loading with Spinner and Busy Text" Code="@loadingCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Primary" IsLoading="@isLoading1" LoadingText="Processing..." OnClick="SimulateLoading1">
+                            Submit
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Success" IsLoading="@isLoading2" ShowDefaultLoadingText="true" OnClick="SimulateLoading2">
+                            Save Changes
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Primary" IsLoading="@isLoading3" LoadingText="Saving..." OnClick="SimulateLoading3">
+                            Save
+                        </TailButton>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Outline" IsLoading="@isLoading4" LoadingText="Uploading..." OnClick="SimulateLoading4">
+                            Upload File
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Danger" IsLoading="@isLoading5" LoadingText="Deleting..." OnClick="SimulateLoading5">
+                            Delete
+                        </TailButton>
+                    </div>
+                    @if (!string.IsNullOrEmpty(loadingMessage))
+                    {
+                        <TailAlert Variant="AlertVariant.Success" Class="mt-2">
+                            @loadingMessage
+                        </TailAlert>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Icons">
+        <CodePreview Title="Buttons with Icons" Code="@iconsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Primary">
+                            <IconStart>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </IconStart>
+                            <ChildContent>Add Item</ChildContent>
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Success">
+                            <IconStart>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </IconStart>
+                            <ChildContent>Save</ChildContent>
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Danger">
+                            <IconStart>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </IconStart>
+                            <ChildContent>Delete</ChildContent>
+                        </TailButton>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <TailButton Variant="ButtonVariant.Outline">
+                            <ChildContent>Download</ChildContent>
+                            <IconEnd>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </IconEnd>
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Outline">
+                            <IconStart>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </IconStart>
+                            <ChildContent>Settings</ChildContent>
+                            <IconEnd>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </IconEnd>
+                        </TailButton>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="States">
-        <CodePreview Title="Loading and Disabled States" Code="@statesCode">
+        <CodePreview Title="Disabled and Loading States" Code="@statesCode">
             <PreviewContent>
                 <div class="flex flex-wrap gap-3">
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" IsLoading="@isLoading" OnClick="SimulateLoading">
-                        @(isLoading ? "Loading..." : "Click to Load")
-                    </TailButton>
-                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" Disabled="true">Disabled</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" Disabled="true">Disabled</TailButton>
+                    <TailButton Variant="ButtonVariant.Outline" Disabled="true">Disabled Outline</TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" IsLoading="true" LoadingText="Loading...">Loading</TailButton>
+                    <TailButton Variant="ButtonVariant.Success" IsLoading="true" ShowDefaultLoadingText="true">Processing</TailButton>
                 </div>
             </PreviewContent>
         </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Button Types">
+        <CodePreview Title="Button Type Attribute" Code="@typesCode">
+            <PreviewContent>
+                <form class="space-y-4" @onsubmit="HandleSubmit" @onsubmit:preventDefault="true">
+                    <div class="flex gap-3">
+                        <TailButton Variant="ButtonVariant.Primary" Type="submit">Submit Form</TailButton>
+                        <TailButton Variant="ButtonVariant.Outline" Type="button" OnClick="@(() => ShowMessage("Button clicked"))">Button Type</TailButton>
+                        <TailButton Variant="ButtonVariant.Outline" Type="reset">Reset</TailButton>
+                    </div>
+                    @if (!string.IsNullOrEmpty(message))
+                    {
+                        <TailAlert Variant="AlertVariant.Info">
+                            @message
+                        </TailAlert>
+                    }
+                </form>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Real-World Examples">
+        <CodePreview Title="Action Buttons" Code="@examplesCode">
+            <PreviewContent>
+                <TailCard Class="max-w-2xl">
+                    <Header>
+                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">User Actions</h3>
+                    </Header>
+                    <ChildContent>
+                        <div class="space-y-4">
+                            <div class="flex flex-wrap gap-3">
+                                <TailButton Variant="ButtonVariant.Primary" IsLoading="@saving" LoadingText="Saving..." OnClick="HandleSave">
+                                    <IconStart>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </IconStart>
+                                    <ChildContent>Save Changes</ChildContent>
+                                </TailButton>
+                                <TailButton Variant="ButtonVariant.Outline" OnClick="@(() => ShowMessage("Canceled"))">
+                                    <ChildContent>Cancel</ChildContent>
+                                </TailButton>
+                                <TailButton Variant="ButtonVariant.Danger" IsLoading="@deleting" LoadingText="Deleting..." OnClick="HandleDelete">
+                                    <IconStart>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </IconStart>
+                                    <ChildContent>Delete</ChildContent>
+                                </TailButton>
+                            </div>
+                            @if (!string.IsNullOrEmpty(message))
+                            {
+                                <TailAlert Variant="AlertVariant.Success">
+                                    @message
+                                </TailAlert>
+                            }
+                        </div>
+                    </ChildContent>
+                </TailCard>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <TailCard>
+            <ChildContent>
+                <div style="color: var(--color-text-primary);">
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                        <li><strong>9 Variants:</strong> Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link</li>
+                        <li><strong>5 Sizes:</strong> Xs, Sm, Md, Lg, Xl with responsive spacing</li>
+                        <li><strong>Loading States:</strong> Built-in spinner with customizable busy text</li>
+                        <li><strong>Icons Support:</strong> IconStart and IconEnd slots for flexible icon placement</li>
+                        <li><strong>Disabled State:</strong> Visual and functional disabled state</li>
+                        <li><strong>Button Types:</strong> Support for button, submit, and reset types</li>
+                        <li><strong>Event Handling:</strong> Click events with MouseEventArgs</li>
+                        <li><strong>Stop Propagation:</strong> Option to prevent event bubbling</li>
+                        <li><strong>Theme Support:</strong> Full CSS variable integration for seamless theming</li>
+                        <li><strong>Focus States:</strong> Accessible focus indicators</li>
+                        <li><strong>Hover Effects:</strong> Smooth transitions and hover states</li>
+                        <li><strong>Dark Mode:</strong> Automatic dark mode support</li>
+                        <li><strong>Lightweight:</strong> Only ~3 KB in size</li>
+                    </ul>
+                </div>
+            </ChildContent>
+        </TailCard>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <TailCard>
+            <ChildContent>
+                <div style="color: var(--color-text-primary);">
+                    <p class="mb-4">TailButton is built with accessibility in mind:</p>
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                        <li>Proper button semantics with <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">type</code> attribute</li>
+                        <li>Keyboard accessible - fully navigable with Tab and activated with Enter/Space</li>
+                        <li>Visible focus indicators with proper contrast</li>
+                        <li>Disabled state properly communicated to screen readers</li>
+                        <li>Loading state maintains button semantics</li>
+                        <li>High contrast ratios for all variants</li>
+                    </ul>
+                </div>
+            </ChildContent>
+        </TailCard>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private string message = string.Empty;
-    private bool isLoading = false;
+    private string loadingMessage = string.Empty;
+    private bool isLoading1 = false;
+    private bool isLoading2 = false;
+    private bool isLoading3 = false;
+    private bool isLoading4 = false;
+    private bool isLoading5 = false;
+    private bool saving = false;
+    private bool deleting = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Buttons";
-
-    private string basicCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" OnClick=""HandleClick"">
+    
+    private string basicCode = @"<TailButton Variant=""ButtonVariant.Primary"" OnClick=""HandleClick"">
     Click Me
 </TailButton>";
-
-    private string variantsCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Primary</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">Success</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">Warning</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Danger"">Danger</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Info"">Info</TailButton>";
-
-    private string sizesCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xs"">Extra Small</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Sm"">Small</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Md"">Medium</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Lg"">Large</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Size=""Tail.Blazor.Button.ButtonSize.Xl"">Extra Large</TailButton>";
-
-    private string statesCode = @"<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" IsLoading=""@isLoading"" OnClick=""HandleClick"">
-    Click to Load
+    
+    private string variantsCode = @"<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
+<TailButton Variant=""ButtonVariant.Success"">Success</TailButton>
+<TailButton Variant=""ButtonVariant.Warning"">Warning</TailButton>
+<TailButton Variant=""ButtonVariant.Danger"">Danger</TailButton>
+<TailButton Variant=""ButtonVariant.Info"">Info</TailButton>
+<TailButton Variant=""ButtonVariant.Outline"">Outline</TailButton>
+<TailButton Variant=""ButtonVariant.Soft"">Soft</TailButton>
+<TailButton Variant=""ButtonVariant.Ghost"">Ghost</TailButton>
+<TailButton Variant=""ButtonVariant.Link"">Link</TailButton>";
+    
+    private string sizesCode = @"<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xs"">Extra Small</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">Small</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Md"">Medium</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Lg"">Large</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Xl"">Extra Large</TailButton>";
+    
+    private string loadingCode = @"<TailButton Variant=""ButtonVariant.Primary"" 
+                 IsLoading=""@isLoading"" 
+                 LoadingText=""Processing..."" 
+                 OnClick=""HandleClick"">
+    Submit
 </TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>";
+
+<TailButton Variant=""ButtonVariant.Success"" 
+                 IsLoading=""@isLoading"" 
+                 ShowDefaultLoadingText=""true""
+                 DefaultLoadingText=""Loading..."" 
+                 OnClick=""HandleClick"">
+    Save Changes
+</TailButton>
+
+@code {
+    private bool isLoading = false;
+    
+    private async Task HandleClick(MouseEventArgs e)
+    {
+        isLoading = true;
+        await Task.Delay(2000); // Simulate async operation
+        isLoading = false;
+    }
+}";
+    
+    private string iconsCode = @"<TailButton Variant=""ButtonVariant.Primary"">
+    <IconStart>
+        <svg class=""w-5 h-5"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
+        </svg>
+    </IconStart>
+    <ChildContent>Add Item</ChildContent>
+</TailButton>
+
+<TailButton Variant=""ButtonVariant.Outline"">
+    <ChildContent>Download</ChildContent>
+    <IconEnd>
+        <svg class=""w-5 h-5"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"" />
+        </svg>
+    </IconEnd>
+</TailButton>";
+    
+    private string statesCode = @"<TailButton Variant=""ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" IsLoading=""true"" LoadingText=""Loading..."">Loading</TailButton>";
+    
+    private string typesCode = @"<form @onsubmit=""HandleSubmit"" @onsubmit:preventDefault=""true"">
+    <TailButton Variant=""ButtonVariant.Primary"" Type=""submit"">Submit Form</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Type=""button"">Button Type</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Type=""reset"">Reset</TailButton>
+</form>";
+    
+    private string examplesCode = @"<TailButton Variant=""ButtonVariant.Primary"" 
+                 IsLoading=""@saving"" 
+                 LoadingText=""Saving..."" 
+                 OnClick=""HandleSave"">
+    <IconStart>
+        <svg class=""w-5 h-5"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M5 13l4 4L19 7"" />
+        </svg>
+    </IconStart>
+    <ChildContent>Save Changes</ChildContent>
+</TailButton>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.Button.ButtonVariant", Default = "Primary", Description = "Color variant" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Button.ButtonSize", Default = "Md", Description = "Button size" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
-        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
-        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Click event handler" }
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "ButtonVariant", Default = "ButtonVariant.Primary", Description = "Button color variant. Options: Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link." },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ButtonSize", Default = "ButtonSize.Md", Description = "Button size. Options: Xs, Sm, Md, Lg, Xl." },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disables the button, preventing user interaction and applying disabled styling." },
+        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Shows a loading spinner and disables the button. When true, displays spinner with optional loading text." },
+        new DocPageTemplate.ApiParameter { Name = "LoadingText", Type = "string?", Default = "null", Description = "Custom text to display next to the loading spinner. If not provided and ShowDefaultLoadingText is false, only spinner is shown." },
+        new DocPageTemplate.ApiParameter { Name = "ShowDefaultLoadingText", Type = "bool", Default = "false", Description = "When true and LoadingText is null, displays the DefaultLoadingText next to the spinner." },
+        new DocPageTemplate.ApiParameter { Name = "DefaultLoadingText", Type = "string", Default = "\"Loading...\"", Description = "Default text to show when IsLoading is true and ShowDefaultLoadingText is true." },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "\"button\"", Description = "Button type attribute. Options: button, submit, reset." },
+        new DocPageTemplate.ApiParameter { Name = "StopPropagation", Type = "bool", Default = "false", Description = "Prevents click event from bubbling up to parent elements." },
+        new DocPageTemplate.ApiParameter { Name = "IconStart", Type = "RenderFragment?", Default = "null", Description = "Content (typically an icon) to display before the button text." },
+        new DocPageTemplate.ApiParameter { Name = "IconEnd", Type = "RenderFragment?", Default = "null", Description = "Content (typically an icon) to display after the button text." },
+        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Event callback fired when button is clicked. Provides MouseEventArgs for advanced handling." },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "null", Description = "Button text or content." },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline CSS styles." },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes. Inherited from TailComponentBase." },
+        new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "null", Description = "Additional HTML attributes. Inherited from TailComponentBase." }
     };
 
     private void ShowMessage(string msg)
@@ -115,14 +407,76 @@
         StateHasChanged();
     }
 
-    private async Task SimulateLoading()
+    private async Task SimulateLoading1()
     {
-        isLoading = true;
+        isLoading1 = true;
         StateHasChanged();
         await Task.Delay(2000);
-        isLoading = false;
-        message = "Loading completed!";
+        isLoading1 = false;
+        loadingMessage = "Processing completed!";
         StateHasChanged();
     }
-}
 
+    private async Task SimulateLoading2()
+    {
+        isLoading2 = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading2 = false;
+        loadingMessage = "Changes saved successfully!";
+        StateHasChanged();
+    }
+
+    private async Task SimulateLoading3()
+    {
+        isLoading3 = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading3 = false;
+        loadingMessage = "Saved!";
+        StateHasChanged();
+    }
+
+    private async Task SimulateLoading4()
+    {
+        isLoading4 = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading4 = false;
+        loadingMessage = "File uploaded successfully!";
+        StateHasChanged();
+    }
+
+    private async Task SimulateLoading5()
+    {
+        isLoading5 = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        isLoading5 = false;
+        loadingMessage = "Item deleted!";
+        StateHasChanged();
+    }
+
+    private void HandleSubmit()
+    {
+        ShowMessage("Form submitted!");
+    }
+
+    private async Task HandleSave()
+    {
+        saving = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        saving = false;
+        ShowMessage("Changes saved successfully!");
+    }
+
+    private async Task HandleDelete()
+    {
+        deleting = true;
+        StateHasChanged();
+        await Task.Delay(2000);
+        deleting = false;
+        ShowMessage("Item deleted successfully!");
+    }
+}
