@@ -4,19 +4,20 @@
 @using Tail.Blazor.Alert
 @using Tail.Blazor.Card
 @using Tail.Blazor.Feedback
-@using Microsoft.AspNetCore.Components
 
 <PageTitle>Button - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailButton" 
-                 Description="A professional, versatile button component with multiple variants, sizes, loading states, icons, and full theme support. Ultra-lightweight (~3 KB)."
+                 Description="A professional, versatile button component with 9 variants, 5 sizes, loading states, icons, tooltips, animations, and full theme support. Ultra-lightweight (~3 KB)."
                  PackageName="Tail.Blazor.Buttons"
                  ApiParameters="@apiParameters">
     
+    <!-- Installation Section -->
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
     </DocSection>
 
+    <!-- Basic Usage Section -->
     <DocSection Title="Basic Usage">
         <CodePreview Title="Simple Button" Code="@basicCode">
             <PreviewContent>
@@ -35,29 +36,46 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Variants">
+    <!-- Button Variants Section -->
+    <DocSection Title="Button Variants">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>TailButton supports 9 different variants to suit different use cases and visual emphasis levels.</p>
+        </div>
         <CodePreview Title="All Button Variants" Code="@variantsCode">
             <PreviewContent>
-                <div class="space-y-4">
-                    <div class="flex flex-wrap gap-3">
-                        <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
-                        <TailButton Variant="ButtonVariant.Success">Success</TailButton>
-                        <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
-                        <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
-                        <TailButton Variant="ButtonVariant.Info">Info</TailButton>
+                <div class="space-y-6">
+                    <!-- Solid Variants -->
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Solid Variants</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <TailButton Variant="ButtonVariant.Primary">Primary</TailButton>
+                            <TailButton Variant="ButtonVariant.Success">Success</TailButton>
+                            <TailButton Variant="ButtonVariant.Warning">Warning</TailButton>
+                            <TailButton Variant="ButtonVariant.Danger">Danger</TailButton>
+                            <TailButton Variant="ButtonVariant.Info">Info</TailButton>
+                        </div>
                     </div>
-                    <div class="flex flex-wrap gap-3">
-                        <TailButton Variant="ButtonVariant.Outline">Outline</TailButton>
-                        <TailButton Variant="ButtonVariant.Soft">Soft</TailButton>
-                        <TailButton Variant="ButtonVariant.Ghost">Ghost</TailButton>
-                        <TailButton Variant="ButtonVariant.Link">Link</TailButton>
+
+                    <!-- Outline & Soft Variants -->
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Alternative Variants</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <TailButton Variant="ButtonVariant.Outline">Outline</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Soft</TailButton>
+                            <TailButton Variant="ButtonVariant.Ghost">Ghost</TailButton>
+                            <TailButton Variant="ButtonVariant.Link">Link</TailButton>
+                        </div>
                     </div>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Sizes">
+    <!-- Button Sizes Section -->
+    <DocSection Title="Button Sizes">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Choose from 5 responsive sizes: Extra Small, Small, Medium (default), Large, and Extra Large.</p>
+        </div>
         <CodePreview Title="Button Sizes" Code="@sizesCode">
             <PreviewContent>
                 <div class="flex flex-wrap items-center gap-3">
@@ -71,8 +89,12 @@
         </CodePreview>
     </DocSection>
 
+    <!-- Loading States Section -->
     <DocSection Title="Loading States">
-        <CodePreview Title="Loading with Spinner and Busy Text" Code="@loadingCode">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Buttons can display loading spinners with optional text. Perfect for async operations.</p>
+        </div>
+        <CodePreview Title="Loading with Spinner and Text" Code="@loadingCode">
             <PreviewContent>
                 <div class="space-y-4">
                     <div class="flex flex-wrap gap-3">
@@ -105,7 +127,11 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="With Icons">
+    <!-- Buttons with Icons Section -->
+    <DocSection Title="Buttons with Icons">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Add icons before or after button text using IconStart and IconEnd slots. Icons scale with button size.</p>
+        </div>
         <CodePreview Title="Buttons with Icons" Code="@iconsCode">
             <PreviewContent>
                 <div class="space-y-4">
@@ -164,7 +190,11 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="States">
+    <!-- Button States Section -->
+    <DocSection Title="Button States">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Buttons support disabled and loading states with clear visual feedback.</p>
+        </div>
         <CodePreview Title="Disabled and Loading States" Code="@statesCode">
             <PreviewContent>
                 <div class="flex flex-wrap gap-3">
@@ -177,7 +207,11 @@
         </CodePreview>
     </DocSection>
 
+    <!-- Button Types Section -->
     <DocSection Title="Button Types">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Support for standard HTML button types: button (default), submit, and reset.</p>
+        </div>
         <CodePreview Title="Button Type Attribute" Code="@typesCode">
             <PreviewContent>
                 <form class="space-y-4" @onsubmit="HandleSubmit" @onsubmit:preventDefault="true">
@@ -197,8 +231,72 @@
         </CodePreview>
     </DocSection>
 
+    <!-- Responsive & Full Width Section -->
+    <DocSection Title="Responsive and Full Width">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Make buttons responsive with FullWidth parameter for maximum width control.</p>
+        </div>
+        <CodePreview Title="Full Width Button" Code="@fullWidthCode">
+            <PreviewContent>
+                <div class="space-y-3 max-w-md">
+                    <TailButton Variant="ButtonVariant.Primary" FullWidth="true">
+                        Full Width Button
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Outline" FullWidth="true">
+                        Full Width Outline
+                    </TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <!-- Tooltips Section -->
+    <DocSection Title="Tooltips and Accessibility">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Add tooltips and ARIA labels for better accessibility and user experience.</p>
+        </div>
+        <CodePreview Title="Button with Tooltip" Code="@tooltipCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" Tooltip="Click to submit the form">
+                        Submit
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Danger" Tooltip="Permanently delete this item" AriaLabel="Delete item">
+                        Delete
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Success" Tooltip="Save your changes" AriaLabel="Save">
+                        Save
+                    </TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <!-- Animations Section -->
+    <DocSection Title="Custom Animations">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Customize button animation duration for different interaction speeds.</p>
+        </div>
+        <CodePreview Title="Animation Duration" Code="@animationCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" AnimationDuration="duration-100">
+                        Fast (100ms)
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" AnimationDuration="duration-200">
+                        Normal (200ms)
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Primary" AnimationDuration="duration-500">
+                        Slow (500ms)
+                    </TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <!-- Real-World Examples Section -->
     <DocSection Title="Real-World Examples">
-        <CodePreview Title="Action Buttons" Code="@examplesCode">
+        <CodePreview Title="Action Buttons in a Card" Code="@examplesCode">
             <PreviewContent>
                 <TailCard Class="max-w-2xl">
                     <Header>
@@ -240,46 +338,114 @@
         </CodePreview>
     </DocSection>
 
+    <!-- Features Section -->
     <DocSection Title="Features">
         <TailCard>
             <ChildContent>
                 <div style="color: var(--color-text-primary);">
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                        <li><strong>9 Variants:</strong> Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link</li>
-                        <li><strong>5 Sizes:</strong> Xs, Sm, Md, Lg, Xl with responsive spacing</li>
-                        <li><strong>Loading States:</strong> Built-in spinner with customizable busy text</li>
-                        <li><strong>Icons Support:</strong> IconStart and IconEnd slots for flexible icon placement</li>
-                        <li><strong>Disabled State:</strong> Visual and functional disabled state</li>
-                        <li><strong>Button Types:</strong> Support for button, submit, and reset types</li>
-                        <li><strong>Event Handling:</strong> Click events with MouseEventArgs</li>
-                        <li><strong>Stop Propagation:</strong> Option to prevent event bubbling</li>
-                        <li><strong>Theme Support:</strong> Full CSS variable integration for seamless theming</li>
-                        <li><strong>Focus States:</strong> Accessible focus indicators</li>
-                        <li><strong>Hover Effects:</strong> Smooth transitions and hover states</li>
-                        <li><strong>Dark Mode:</strong> Automatic dark mode support</li>
-                        <li><strong>Lightweight:</strong> Only ~3 KB in size</li>
-                    </ul>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">Visual Features</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                                <li><strong>9 Variants:</strong> Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link</li>
+                                <li><strong>5 Sizes:</strong> Xs, Sm, Md, Lg, Xl with responsive spacing</li>
+                                <li><strong>Theme Support:</strong> Full CSS variable integration for seamless theming</li>
+                                <li><strong>Responsive Design:</strong> Fully responsive with mobile-optimized interactions</li>
+                                <li><strong>Full Width Option:</strong> Easy full-width layout control</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">Functional Features</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                                <li><strong>Loading States:</strong> Built-in spinner with customizable busy text</li>
+                                <li><strong>Icons Support:</strong> IconStart and IconEnd slots for flexible icon placement</li>
+                                <li><strong>Disabled State:</strong> Visual and functional disabled state</li>
+                                <li><strong>Button Types:</strong> Support for button, submit, and reset types</li>
+                                <li><strong>Stop Propagation:</strong> Option to prevent event bubbling</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t" style="border-color: var(--color-border);">
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">User Experience</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                                <li><strong>Focus States:</strong> Accessible focus indicators</li>
+                                <li><strong>Hover Effects:</strong> Smooth transitions and hover states</li>
+                                <li><strong>Dark Mode:</strong> Automatic dark mode support</li>
+                                <li><strong>Tooltips:</strong> Built-in tooltip support for better UX</li>
+                                <li><strong>Custom Animations:</strong> Configurable animation duration</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">Performance</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                                <li><strong>Lightweight:</strong> Only ~3 KB in size</li>
+                                <li><strong>Zero JS:</strong> Pure C# and CSS-based component</li>
+                                <li><strong>Fast Rendering:</strong> Optimized render performance</li>
+                                <li><strong>Minimal Dependencies:</strong> Only depends on Core package</li>
+                                <li><strong>Tree-Shakeable:</strong> Unused code eliminated in build</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </ChildContent>
         </TailCard>
     </DocSection>
 
-    <DocSection Title="Accessibility">
+    <!-- Accessibility Section -->
+    <DocSection Title="Accessibility & Best Practices">
         <TailCard>
             <ChildContent>
                 <div style="color: var(--color-text-primary);">
-                    <p class="mb-4">TailButton is built with accessibility in mind:</p>
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                    <h3 class="text-lg font-semibold mb-4">Accessibility Features</h3>
+                    <ul class="space-y-2 mb-6" style="list-style: disc; padding-left: 1.5rem;">
                         <li>Proper button semantics with <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">type</code> attribute</li>
                         <li>Keyboard accessible - fully navigable with Tab and activated with Enter/Space</li>
                         <li>Visible focus indicators with proper contrast</li>
                         <li>Disabled state properly communicated to screen readers</li>
                         <li>Loading state maintains button semantics</li>
                         <li>High contrast ratios for all variants</li>
+                        <li>ARIA labels support for icon-only buttons</li>
+                        <li>Tooltip support for improved accessibility</li>
+                    </ul>
+
+                    <h3 class="text-lg font-semibold mb-4">Best Practices</h3>
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                        <li><strong>Use clear labels:</strong> Button text should clearly describe the action</li>
+                        <li><strong>Provide tooltips:</strong> Use Tooltip parameter for icon-only buttons</li>
+                        <li><strong>Indicate loading:</strong> Always show loading state during async operations</li>
+                        <li><strong>Disable when needed:</strong> Disable destructive actions when waiting for confirmation</li>
+                        <li><strong>Proper size:</strong> Use appropriate size based on importance (Danger = Lg, Info = Sm)</li>
+                        <li><strong>Icon guidance:</strong> Use consistent, recognizable icons</li>
+                        <li><strong>Stop propagation:</strong> Only use when necessary to prevent event bubbling</li>
                     </ul>
                 </div>
             </ChildContent>
         </TailCard>
+    </DocSection>
+
+    <!-- Styling & Customization Section -->
+    <DocSection Title="Styling & Customization">
+        <CodePreview Title="Custom Styling" Code="@customStyleCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary" 
+                               Class="shadow-lg hover:shadow-xl" 
+                               Style="font-weight: bold; letter-spacing: 0.05em;">
+                        Custom Styled
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Outline" 
+                               Class="border-2 border-dashed"
+                               Style="border-style: dashed;">
+                        Dashed Border
+                    </TailButton>
+                    <TailButton Variant="ButtonVariant.Soft"
+                               Class="rounded-full px-6">
+                        Pill Shape
+                    </TailButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
     </DocSection>
 </DocPageTemplate>
 
@@ -298,13 +464,23 @@
     
     private string basicCode = @"<TailButton Variant=""ButtonVariant.Primary"" OnClick=""HandleClick"">
     Click Me
-</TailButton>";
+</TailButton>
+
+@code {
+    private async Task HandleClick(MouseEventArgs e)
+    {
+        // Handle button click
+    }
+}";
     
-    private string variantsCode = @"<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
+    private string variantsCode = @"<!-- Solid Variants -->
+<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
 <TailButton Variant=""ButtonVariant.Success"">Success</TailButton>
 <TailButton Variant=""ButtonVariant.Warning"">Warning</TailButton>
 <TailButton Variant=""ButtonVariant.Danger"">Danger</TailButton>
 <TailButton Variant=""ButtonVariant.Info"">Info</TailButton>
+
+<!-- Alternative Variants -->
 <TailButton Variant=""ButtonVariant.Outline"">Outline</TailButton>
 <TailButton Variant=""ButtonVariant.Soft"">Soft</TailButton>
 <TailButton Variant=""ButtonVariant.Ghost"">Ghost</TailButton>
@@ -342,7 +518,8 @@
     }
 }";
     
-    private string iconsCode = @"<TailButton Variant=""ButtonVariant.Primary"">
+    private string iconsCode = @"<!-- Icon Start -->
+<TailButton Variant=""ButtonVariant.Primary"">
     <IconStart>
         <svg class=""w-5 h-5"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
             <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
@@ -351,6 +528,7 @@
     <ChildContent>Add Item</ChildContent>
 </TailButton>
 
+<!-- Icon End -->
 <TailButton Variant=""ButtonVariant.Outline"">
     <ChildContent>Download</ChildContent>
     <IconEnd>
@@ -358,27 +536,111 @@
             <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"" />
         </svg>
     </IconEnd>
+</TailButton>
+
+<!-- Both Icons -->
+<TailButton Variant=""ButtonVariant.Outline"">
+    <IconStart>??</IconStart>
+    <ChildContent>Settings</ChildContent>
+    <IconEnd>?</IconEnd>
 </TailButton>";
     
-    private string statesCode = @"<TailButton Variant=""ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>
-<TailButton Variant=""ButtonVariant.Primary"" IsLoading=""true"" LoadingText=""Loading..."">Loading</TailButton>";
+    private string statesCode = @"<!-- Disabled -->
+<TailButton Variant=""ButtonVariant.Primary"" Disabled=""true"">Disabled</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"" IsLoading=""true"" LoadingText=""Loading..."">Loading</TailButton>
+
+<!-- Disabled Outline -->
+<TailButton Variant=""ButtonVariant.Outline"" Disabled=""true"">Disabled Outline</TailButton>
+
+<!-- Loading with default text -->
+<TailButton Variant=""ButtonVariant.Success"" IsLoading=""true"" ShowDefaultLoadingText=""true"">Processing</TailButton>";
     
     private string typesCode = @"<form @onsubmit=""HandleSubmit"" @onsubmit:preventDefault=""true"">
+    <!-- Submit Button -->
     <TailButton Variant=""ButtonVariant.Primary"" Type=""submit"">Submit Form</TailButton>
-    <TailButton Variant=""ButtonVariant.Outline"" Type=""button"">Button Type</TailButton>
+    
+    <!-- Regular Button -->
+    <TailButton Variant=""ButtonVariant.Outline"" Type=""button"" OnClick=""HandleClick"">Button Type</TailButton>
+    
+    <!-- Reset Button -->
     <TailButton Variant=""ButtonVariant.Outline"" Type=""reset"">Reset</TailButton>
-</form>";
+</form>
+
+@code {
+    private void HandleSubmit() => Console.WriteLine(""Form submitted"");
+    private void HandleClick() => Console.WriteLine(""Button clicked"");
+}";
+
+    private string fullWidthCode = @"<div class=""max-w-md"">
+    <TailButton Variant=""ButtonVariant.Primary"" FullWidth=""true"">
+        Full Width Button
+    </TailButton>
+    
+    <TailButton Variant=""ButtonVariant.Outline"" FullWidth=""true"" Class=""mt-2"">
+        Full Width Outline
+    </TailButton>
+</div>";
+
+    private string tooltipCode = @"<TailButton Variant=""ButtonVariant.Primary"" 
+             Tooltip=""Click to submit the form"">
+    Submit
+</TailButton>
+
+<TailButton Variant=""ButtonVariant.Danger"" 
+             Tooltip=""Permanently delete this item""
+             AriaLabel=""Delete item"">
+    Delete
+</TailButton>";
+
+    private string animationCode = @"<!-- Fast animation (100ms) -->
+<TailButton Variant=""ButtonVariant.Primary"" AnimationDuration=""duration-100"">
+    Fast (100ms)
+</TailButton>
+
+<!-- Normal animation (200ms) - Default -->
+<TailButton Variant=""ButtonVariant.Primary"" AnimationDuration=""duration-200"">
+    Normal (200ms)
+</TailButton>
+
+<!-- Slow animation (500ms) -->
+<TailButton Variant=""ButtonVariant.Primary"" AnimationDuration=""duration-500"">
+    Slow (500ms)
+</TailButton>";
     
     private string examplesCode = @"<TailButton Variant=""ButtonVariant.Primary"" 
-                 IsLoading=""@saving"" 
-                 LoadingText=""Saving..."" 
-                 OnClick=""HandleSave"">
+             IsLoading=""@saving"" 
+             LoadingText=""Saving..."" 
+             OnClick=""HandleSave"">
     <IconStart>
         <svg class=""w-5 h-5"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
             <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M5 13l4 4L19 7"" />
         </svg>
     </IconStart>
     <ChildContent>Save Changes</ChildContent>
+</TailButton>
+
+<TailButton Variant=""ButtonVariant.Outline"">
+    <ChildContent>Cancel</ChildContent>
+</TailButton>";
+
+    private string customStyleCode = @"<!-- Custom Shadow and Font -->
+<TailButton Variant=""ButtonVariant.Primary"" 
+           Class=""shadow-lg hover:shadow-xl"" 
+           Style=""font-weight: bold; letter-spacing: 0.05em;"">
+    Custom Styled
+</TailButton>
+
+<!-- Dashed Border -->
+<TailButton Variant=""ButtonVariant.Outline"" 
+           Class=""border-2 border-dashed""
+           Style=""border-style: dashed;"">
+    Dashed Border
+</TailButton>
+
+<!-- Pill Shape -->
+<TailButton Variant=""ButtonVariant.Soft""
+           Class=""rounded-full px-6"">
+    Pill Shape
 </TailButton>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
@@ -396,6 +658,11 @@
         new DocPageTemplate.ApiParameter { Name = "IconEnd", Type = "RenderFragment?", Default = "null", Description = "Content (typically an icon) to display after the button text." },
         new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Event callback fired when button is clicked. Provides MouseEventArgs for advanced handling." },
         new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "null", Description = "Button text or content." },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "null", Description = "Tooltip text shown on hover. Improves accessibility and UX." },
+        new DocPageTemplate.ApiParameter { Name = "FullWidth", Type = "bool", Default = "false", Description = "When true, button takes 100% width of container." },
+        new DocPageTemplate.ApiParameter { Name = "EnableRipple", Type = "bool", Default = "true", Description = "Enable/disable ripple effect on click." },
+        new DocPageTemplate.ApiParameter { Name = "AnimationDuration", Type = "string", Default = "\"duration-200\"", Description = "Tailwind animation duration class. Options: duration-75, duration-100, duration-200, duration-300, duration-500, etc." },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "null", Description = "ARIA label for accessibility. Recommended for icon-only buttons." },
         new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline CSS styles." },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes. Inherited from TailComponentBase." },
         new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "null", Description = "Additional HTML attributes. Inherited from TailComponentBase." }

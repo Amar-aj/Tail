@@ -8,6 +8,7 @@
     @onclick="HandleClick"
     @onclick:stopPropagation="StopPropagation"
     @attributes="AdditionalAttributes"
+    title="@Tooltip"
     style="@GetButtonStyles()">
     @if (IsLoading)
     {
@@ -57,10 +58,21 @@
     [Parameter] public RenderFragment? IconEnd { get; set; }
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Tooltip { get; set; }
+    [Parameter] public bool EnableRipple { get; set; } = true;
+    [Parameter] public bool FullWidth { get; set; } = false;
+    [Parameter] public string AnimationDuration { get; set; } = "duration-200";
+    [Parameter] public string? AriaLabel { get; set; }
 
     private string GetButtonClasses()
     {
-        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+        var classes = new List<string> { "inline-flex", "items-center", "justify-center", "font-medium", "rounded-lg", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2", AnimationDuration };
+
+        // Full width support
+        if (FullWidth)
+        {
+            classes.Add("w-full");
+        }
 
         // Size classes
         classes.Add(Size switch
@@ -79,10 +91,42 @@
             classes.Add("text-white");
             classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
         }
+        else if (Variant == ButtonVariant.Success)
+        {
+            classes.Add("text-white");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
+        }
+        else if (Variant == ButtonVariant.Warning)
+        {
+            classes.Add("text-white");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
+        }
+        else if (Variant == ButtonVariant.Danger)
+        {
+            classes.Add("text-white");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
+        }
+        else if (Variant == ButtonVariant.Info)
+        {
+            classes.Add("text-white");
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-90");
+        }
         else if (Variant == ButtonVariant.Outline)
         {
             classes.Add("border-2");
             classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-10");
+        }
+        else if (Variant == ButtonVariant.Soft)
+        {
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:brightness-110");
+        }
+        else if (Variant == ButtonVariant.Ghost)
+        {
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-opacity-10");
+        }
+        else if (Variant == ButtonVariant.Link)
+        {
+            classes.Add(Disabled || IsLoading ? "opacity-50 cursor-not-allowed" : "hover:underline");
         }
 
         if (!string.IsNullOrEmpty(Class))
