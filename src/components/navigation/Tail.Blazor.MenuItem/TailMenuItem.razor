@@ -29,15 +29,11 @@
 
     private string GetMenuItemClasses()
     {
-        var classes = new List<string> { "flex", "items-center", "px-4", "py-2", "rounded-lg", "transition-colors" };
+        var classes = new List<string> { "flex", "items-center", "px-4", "py-2", "rounded-lg", "transition-colors", "menu-item" };
 
         if (IsActive)
         {
-            classes.Add("bg-primary text-white");
-        }
-        else
-        {
-            classes.Add("hover:bg-gray-100");
+            classes.Add("active");
         }
 
         if (!string.IsNullOrEmpty(Class))
@@ -59,7 +55,8 @@
         }
         else
         {
-            styles.Add($"color: var(--color-text-primary, black)");
+            styles.Add($"color: var(--color-text-primary)");
+            styles.Add($"background-color: transparent");
         }
 
         if (!string.IsNullOrEmpty(Style))
