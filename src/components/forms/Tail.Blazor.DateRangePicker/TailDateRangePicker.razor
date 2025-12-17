@@ -1,11 +1,13 @@
 @inherits TailComponentBase
+@using Microsoft.AspNetCore.Components.Rendering
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.DateRangePicker
+@using System.Globalization
 
-<div class="@GetWrapperClasses()">
-    @if (!string.IsNullOrEmpty(Label))
+<div class="@GetWrapperClasses()" @ref="wrapperRef">
+    @if (!string.IsNullOrEmpty(Label) && DisplayMode != DatePickerDisplayMode.PopupOnly)
     {
-        <label class="block text-sm font-medium mb-1">
+        <label class="block text-sm font-medium mb-1" style="color: var(--color-text-primary)">
             @Label
             @if (Required)
             {
@@ -13,56 +15,217 @@
             }
         </label>
     }
-    <div class="flex items-center gap-2">
-        <div class="flex-1">
-            <input 
-                type="date"
-                class="@GetInputClasses()"
-                value="@GetStartDateValue()"
-                @onchange="HandleStartDateChange"
-                min="@GetMinDate()"
-                max="@GetMaxDate()"
-                disabled="@Disabled"
-                style="@GetInputStyles()" />
+    
+    @if (DisplayMode != DatePickerDisplayMode.PopupOnly)
+    {
+        <div class="flex items-center gap-2">
+            <div class="flex-1 relative">
+                <input 
+                    type="@GetInputType()"
+                    class="@GetInputClasses()"
+                    value="@GetStartDateValue()"
+                    @onchange="HandleStartDateChange"
+                    @onfocus="OnStartInputFocus"
+                    @onblur="OnStartInputBlur"
+                    min="@GetMinDate()"
+                    max="@GetMaxDate()"
+                    disabled="@Disabled"
+                    placeholder="@StartPlaceholder"
+                    style="@GetInputStyles()"
+                    @attributes="GetInputAttributes()" />
+                @if (ShowTime && !TimeOnlyMode)
+                {
+                    <input 
+                        type="time"
+                        class="@GetTimeInputClasses()"
+                        value="@GetStartTimeValue()"
+                        @onchange="HandleStartTimeChange"
+                        disabled="@Disabled"
+                        style="@GetInputStyles()" />
+                }
+            </div>
+            <span class="text-gray-500" style="color: var(--color-text-secondary)">to</span>
+            <div class="flex-1 relative">
+                <input 
+                    type="@GetInputType()"
+                    class="@GetInputClasses()"
+                    value="@GetEndDateValue()"
+                    @onchange="HandleEndDateChange"
+                    @onfocus="OnEndInputFocus"
+                    @onblur="OnEndInputBlur"
+                    min="@GetStartDateValue()"
+                    max="@GetMaxDate()"
+                    disabled="@Disabled"
+                    placeholder="@EndPlaceholder"
+                    style="@GetInputStyles()"
+                    @attributes="GetInputAttributes()" />
+                @if (ShowTime && !TimeOnlyMode)
+                {
+                    <input 
+                        type="time"
+                        class="@GetTimeInputClasses()"
+                        value="@GetEndTimeValue()"
+                        @onchange="HandleEndTimeChange"
+                        disabled="@Disabled"
+                        style="@GetInputStyles()" />
+                }
+            </div>
+            @if (DisplayMode == DatePickerDisplayMode.InputAndPopup && ShowCalendarButton)
+            {
+                <button 
+                    type="button"
+                    class="@GetCalendarButtonClasses()"
+                    @onclick="ToggleCalendar"
+                    disabled="@Disabled"
+                    style="@GetButtonStyles()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </button>
+            }
         </div>
-        <span class="text-gray-500">to</span>
-        <div class="flex-1">
-            <input 
-                type="date"
-                class="@GetInputClasses()"
-                value="@GetEndDateValue()"
-                @onchange="HandleEndDateChange"
-                min="@GetStartDateValue()"
-                max="@GetMaxDate()"
-                disabled="@Disabled"
-                style="@GetInputStyles()" />
+    }
+    else
+    {
+        <button 
+            type="button"
+            class="@GetTriggerButtonClasses()"
+            @onclick="ToggleCalendar"
+            disabled="@Disabled"
+            style="@GetButtonStyles()">
+            @if (StartDate.HasValue || EndDate.HasValue)
+            {
+                <span>@GetDisplayText()</span>
+            }
+            else
+            {
+                <span>@Placeholder</span>
+            }
+            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+        </button>
+    }
+    
+    @if (ShowCalendar && (DisplayMode == DatePickerDisplayMode.InputAndPopup || DisplayMode == DatePickerDisplayMode.PopupOnly))
+    {
+        <div class="@GetCalendarPopupClasses()" style="@GetCalendarPopupStyles()" @onclick:stopPropagation="true">
+            @RenderCalendar()
         </div>
-    </div>
+    }
+    
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="text-sm text-red-600 mt-1">
+        <div class="text-sm text-red-600 mt-1" style="color: var(--color-error, #dc2626)">
             @ErrorMessage
         </div>
     }
 </div>
 
 @code {
+    private ElementReference wrapperRef;
+    private bool ShowCalendar { get; set; } = false;
+    private DateTime currentViewDate = DateTime.Today;
+    private DatePickerViewMode currentViewMode = DatePickerViewMode.Days;
+    private List<DateTime> selectedDates = new();
+    private DateTime? tempStartDate;
+    private DateTime? tempEndDate;
+    private TimeSpan? tempStartTime;
+    private TimeSpan? tempEndTime;
+
+    // Date Range Parameters
     [Parameter] public DateTime? StartDate { get; set; }
     [Parameter] public EventCallback<DateTime?> StartDateChanged { get; set; }
     [Parameter] public DateTime? EndDate { get; set; }
     [Parameter] public EventCallback<DateTime?> EndDateChanged { get; set; }
+    
+    // DateOnly/TimeOnly Support
+    [Parameter] public DateOnly? StartDateOnly { get; set; }
+    [Parameter] public EventCallback<DateOnly?> StartDateOnlyChanged { get; set; }
+    [Parameter] public DateOnly? EndDateOnly { get; set; }
+    [Parameter] public EventCallback<DateOnly?> EndDateOnlyChanged { get; set; }
+    [Parameter] public TimeOnly? StartTimeOnly { get; set; }
+    [Parameter] public EventCallback<TimeOnly?> StartTimeOnlyChanged { get; set; }
+    [Parameter] public TimeOnly? EndTimeOnly { get; set; }
+    [Parameter] public EventCallback<TimeOnly?> EndTimeOnlyChanged { get; set; }
+    
+    // Time Selection
+    [Parameter] public bool ShowTime { get; set; } = false;
+    [Parameter] public bool TimeOnlyMode { get; set; } = false;
+    [Parameter] public HourFormat HourFormat { get; set; } = HourFormat.TwentyFourHour;
+    
+    // Display & UI
     [Parameter] public DateRangePickerSize Size { get; set; } = DateRangePickerSize.Md;
+    [Parameter] public DatePickerDisplayMode DisplayMode { get; set; } = DatePickerDisplayMode.InputAndPopup;
+    [Parameter] public bool ShowCalendarButton { get; set; } = true;
     [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Placeholder { get; set; } = "Select date range";
+    [Parameter] public string? StartPlaceholder { get; set; }
+    [Parameter] public string? EndPlaceholder { get; set; }
     [Parameter] public string? ErrorMessage { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public bool Disabled { get; set; }
+    
+    // Calendar Configuration
+    [Parameter] public DateTime? InitialViewDate { get; set; }
+    [Parameter] public int? YearRangeStart { get; set; }
+    [Parameter] public int? YearRangeEnd { get; set; }
+    [Parameter] public DatePickerViewMode InitialViewMode { get; set; } = DatePickerViewMode.Days;
+    [Parameter] public DateSelectionMode SelectionMode { get; set; } = DateSelectionMode.SingleRange;
+    [Parameter] public CalendarAnimation Animation { get; set; } = CalendarAnimation.Fade;
+    [Parameter] public int AnimationDuration { get; set; } = 200;
+    
+    // Date Restrictions
     [Parameter] public DateTime? MinDate { get; set; }
     [Parameter] public DateTime? MaxDate { get; set; }
+    [Parameter] public DateOnly? MinDateOnly { get; set; }
+    [Parameter] public DateOnly? MaxDateOnly { get; set; }
+    [Parameter] public List<DateTime> DisabledDates { get; set; } = new();
+    [Parameter] public List<DateOnly> DisabledDateOnly { get; set; } = new();
+    [Parameter] public Func<DateTime, bool>? IsDateDisabled { get; set; }
+    [Parameter] public List<DateTime> SpecialDates { get; set; } = new();
+    [Parameter] public List<DateOnly> SpecialDateOnly { get; set; } = new();
+    [Parameter] public Func<DateTime, string?>? GetDateClass { get; set; }
+    [Parameter] public Func<DateTime, string?>? GetDateTooltip { get; set; }
+    
+    // Custom Templates
+    [Parameter] public RenderFragment<DateTime>? DateTemplate { get; set; }
+    [Parameter] public RenderFragment? FooterTemplate { get; set; }
+    [Parameter] public RenderFragment? HeaderTemplate { get; set; }
+    
+    // Custom Parsing
+    [Parameter] public Func<string, DateTime?>? CustomDateParser { get; set; }
+    [Parameter] public Func<DateTime, string>? CustomDateFormatter { get; set; }
+    
+    // Styling
     [Parameter] public string? Style { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (InitialViewDate.HasValue)
+        {
+            currentViewDate = InitialViewDate.Value;
+        }
+        else if (StartDate.HasValue)
+        {
+            currentViewDate = StartDate.Value;
+        }
+        currentViewMode = InitialViewMode;
+        
+        if (StartDate.HasValue)
+        {
+            tempStartDate = StartDate;
+        }
+        if (EndDate.HasValue)
+        {
+            tempEndDate = EndDate;
+        }
+    }
 
     private string GetWrapperClasses()
     {
-        var classes = new List<string> { "w-full" };
+        var classes = new List<string> { "w-full relative" };
         if (!string.IsNullOrEmpty(Class))
         {
             classes.Add(Class);
@@ -94,6 +257,51 @@
         return string.Join(" ", classes);
     }
 
+    private string GetTimeInputClasses()
+    {
+        var classes = new List<string> { "block", "w-full", "mt-2", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2" };
+        classes.Add(Size switch
+        {
+            DateRangePickerSize.Xs => "px-2 py-1 text-xs",
+            DateRangePickerSize.Sm => "px-3 py-1.5 text-sm",
+            DateRangePickerSize.Md => "px-4 py-2 text-base",
+            DateRangePickerSize.Lg => "px-5 py-2.5 text-lg",
+            DateRangePickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+        return string.Join(" ", classes);
+    }
+
+    private string GetCalendarButtonClasses()
+    {
+        var classes = new List<string> { "px-3", "py-2", "rounded-lg", "border", "transition-all", "hover:shadow-md", "focus:outline-none", "focus:ring-2" };
+        classes.Add(Size switch
+        {
+            DateRangePickerSize.Xs => "px-2 py-1",
+            DateRangePickerSize.Sm => "px-2.5 py-1.5",
+            DateRangePickerSize.Md => "px-3 py-2",
+            DateRangePickerSize.Lg => "px-4 py-2.5",
+            DateRangePickerSize.Xl => "px-5 py-3",
+            _ => "px-3 py-2"
+        });
+        return string.Join(" ", classes);
+    }
+
+    private string GetTriggerButtonClasses()
+    {
+        var classes = new List<string> { "w-full", "flex", "items-center", "justify-between", "px-4", "py-2", "rounded-lg", "border", "transition-all", "hover:shadow-md", "focus:outline-none", "focus:ring-2" };
+        classes.Add(Size switch
+        {
+            DateRangePickerSize.Xs => "px-2 py-1 text-xs",
+            DateRangePickerSize.Sm => "px-3 py-1.5 text-sm",
+            DateRangePickerSize.Md => "px-4 py-2 text-base",
+            DateRangePickerSize.Lg => "px-5 py-2.5 text-lg",
+            DateRangePickerSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+        return string.Join(" ", classes);
+    }
+
     private string GetInputStyles()
     {
         var styles = new List<string>();
@@ -107,27 +315,630 @@
         return string.Join("; ", styles);
     }
 
-    private string GetStartDateValue() => StartDate?.ToString("yyyy-MM-dd") ?? "";
-    private string GetEndDateValue() => EndDate?.ToString("yyyy-MM-dd") ?? "";
-    private string GetMinDate() => MinDate?.ToString("yyyy-MM-dd") ?? "";
-    private string GetMaxDate() => MaxDate?.ToString("yyyy-MM-dd") ?? "";
+    private string GetButtonStyles()
+    {
+        return $"background-color: var(--color-surface, white); color: var(--color-text-primary, black); border-color: var(--color-border, #d1d5db);";
+    }
+
+    private string GetInputType()
+    {
+        if (TimeOnlyMode)
+            return "time";
+        if (ShowTime && !TimeOnlyMode)
+            return "datetime-local";
+        return "date";
+    }
+
+    private string GetStartDateValue()
+    {
+        if (TimeOnlyMode)
+            return "";
+        
+        if (StartDateOnly.HasValue)
+            return StartDateOnly.Value.ToString("yyyy-MM-dd");
+        
+        if (StartDate.HasValue)
+        {
+            if (CustomDateFormatter != null)
+                return CustomDateFormatter(StartDate.Value);
+            return StartDate.Value.ToString("yyyy-MM-dd");
+        }
+        return "";
+    }
+
+    private string GetEndDateValue()
+    {
+        if (TimeOnlyMode)
+            return "";
+            
+        if (EndDateOnly.HasValue)
+            return EndDateOnly.Value.ToString("yyyy-MM-dd");
+        
+        if (EndDate.HasValue)
+        {
+            if (CustomDateFormatter != null)
+                return CustomDateFormatter(EndDate.Value);
+            return EndDate.Value.ToString("yyyy-MM-dd");
+        }
+        return "";
+    }
+
+    private string GetStartTimeValue()
+    {
+        if (StartTimeOnly.HasValue)
+            return StartTimeOnly.Value.ToString("HH:mm");
+        
+        if (StartDate.HasValue && StartDate.Value.TimeOfDay != TimeSpan.Zero)
+            return StartDate.Value.ToString("HH:mm");
+        
+        return "";
+    }
+
+    private string GetEndTimeValue()
+    {
+        if (EndTimeOnly.HasValue)
+            return EndTimeOnly.Value.ToString("HH:mm");
+        
+        if (EndDate.HasValue && EndDate.Value.TimeOfDay != TimeSpan.Zero)
+            return EndDate.Value.ToString("HH:mm");
+        
+        return "";
+    }
+
+    private string GetMinDate() => (MinDateOnly?.ToDateTime(TimeOnly.MinValue) ?? MinDate)?.ToString("yyyy-MM-dd") ?? "";
+    private string GetMaxDate() => (MaxDateOnly?.ToDateTime(TimeOnly.MaxValue) ?? MaxDate)?.ToString("yyyy-MM-dd") ?? "";
+
+    private string GetDisplayText()
+    {
+        var start = StartDateOnly?.ToString() ?? StartDate?.ToString("yyyy-MM-dd") ?? "";
+        var end = EndDateOnly?.ToString() ?? EndDate?.ToString("yyyy-MM-dd") ?? "";
+        if (!string.IsNullOrEmpty(start) && !string.IsNullOrEmpty(end))
+            return $"{start} - {end}";
+        return start + end;
+    }
+
+    private Dictionary<string, object> GetInputAttributes()
+    {
+        var attrs = new Dictionary<string, object>();
+        if (AdditionalAttributes != null)
+        {
+            foreach (var attr in AdditionalAttributes)
+            {
+                attrs[attr.Key] = attr.Value;
+            }
+        }
+        return attrs;
+    }
 
     private async Task HandleStartDateChange(ChangeEventArgs e)
     {
-        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        var value = e.Value?.ToString();
+        if (string.IsNullOrEmpty(value))
         {
-            StartDate = date;
+            StartDate = null;
+            StartDateOnly = null;
+            await StartDateChanged.InvokeAsync(null);
+            await StartDateOnlyChanged.InvokeAsync(null);
+            return;
+        }
+
+        DateTime? parsedDate = null;
+        if (CustomDateParser != null)
+        {
+            parsedDate = CustomDateParser(value);
+        }
+        else if (DateTime.TryParse(value, out var date))
+        {
+            parsedDate = date;
+        }
+
+        if (parsedDate.HasValue)
+        {
+            StartDate = parsedDate;
+            StartDateOnly = DateOnly.FromDateTime(parsedDate.Value);
             await StartDateChanged.InvokeAsync(StartDate);
+            await StartDateOnlyChanged.InvokeAsync(StartDateOnly);
         }
     }
 
     private async Task HandleEndDateChange(ChangeEventArgs e)
     {
-        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        var value = e.Value?.ToString();
+        if (string.IsNullOrEmpty(value))
         {
-            EndDate = date;
+            EndDate = null;
+            EndDateOnly = null;
+            await EndDateChanged.InvokeAsync(null);
+            await EndDateOnlyChanged.InvokeAsync(null);
+            return;
+        }
+
+        DateTime? parsedDate = null;
+        if (CustomDateParser != null)
+        {
+            parsedDate = CustomDateParser(value);
+        }
+        else if (DateTime.TryParse(value, out var date))
+        {
+            parsedDate = date;
+        }
+
+        if (parsedDate.HasValue)
+        {
+            EndDate = parsedDate;
+            EndDateOnly = DateOnly.FromDateTime(parsedDate.Value);
             await EndDateChanged.InvokeAsync(EndDate);
+            await EndDateOnlyChanged.InvokeAsync(EndDateOnly);
         }
     }
-}
 
+    private async Task HandleStartTimeChange(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        if (string.IsNullOrEmpty(value))
+            return;
+
+        if (TimeSpan.TryParse(value, out var time))
+        {
+            tempStartTime = time;
+            if (StartDate.HasValue)
+            {
+                StartDate = StartDate.Value.Date.Add(time);
+                await StartDateChanged.InvokeAsync(StartDate);
+            }
+            if (StartTimeOnly.HasValue)
+            {
+                StartTimeOnly = TimeOnly.FromTimeSpan(time);
+                await StartTimeOnlyChanged.InvokeAsync(StartTimeOnly);
+            }
+        }
+    }
+
+    private async Task HandleEndTimeChange(ChangeEventArgs e)
+    {
+        var value = e.Value?.ToString();
+        if (string.IsNullOrEmpty(value))
+            return;
+
+        if (TimeSpan.TryParse(value, out var time))
+        {
+            tempEndTime = time;
+            if (EndDate.HasValue)
+            {
+                EndDate = EndDate.Value.Date.Add(time);
+                await EndDateChanged.InvokeAsync(EndDate);
+            }
+            if (EndTimeOnly.HasValue)
+            {
+                EndTimeOnly = TimeOnly.FromTimeSpan(time);
+                await EndTimeOnlyChanged.InvokeAsync(EndTimeOnly);
+            }
+        }
+    }
+
+    private void OnStartInputFocus()
+    {
+        if (DisplayMode == DatePickerDisplayMode.InputAndPopup)
+        {
+            ShowCalendar = true;
+        }
+    }
+
+    private void OnEndInputFocus()
+    {
+        if (DisplayMode == DatePickerDisplayMode.InputAndPopup)
+        {
+            ShowCalendar = true;
+        }
+    }
+
+    private void OnStartInputBlur()
+    {
+        // Delay to allow calendar clicks
+        Task.Delay(200).ContinueWith(_ => InvokeAsync(() => { /* Can close calendar here if needed */ }));
+    }
+
+    private void OnEndInputBlur()
+    {
+        // Delay to allow calendar clicks
+        Task.Delay(200).ContinueWith(_ => InvokeAsync(() => { /* Can close calendar here if needed */ }));
+    }
+
+    private void ToggleCalendar()
+    {
+        ShowCalendar = !ShowCalendar;
+    }
+
+    private string GetCalendarPopupClasses()
+    {
+        var classes = new List<string> { "absolute", "z-50", "mt-2", "rounded-lg", "border", "shadow-xl", "bg-white", "p-4" };
+        
+        if (Animation != CalendarAnimation.None)
+        {
+            classes.Add(Animation switch
+            {
+                CalendarAnimation.Fade => "animate-fade-in",
+                CalendarAnimation.SlideDown => "animate-slide-down",
+                CalendarAnimation.Scale => "animate-scale-in",
+                _ => ""
+            });
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetCalendarPopupStyles()
+    {
+        return $"background-color: var(--color-surface, white); border-color: var(--color-border, #d1d5db); min-width: 320px;";
+    }
+
+    private RenderFragment RenderCalendar()
+    {
+        return builder =>
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "calendar-container");
+            
+            // Header
+            if (HeaderTemplate != null)
+            {
+                builder.AddContent(2, HeaderTemplate);
+            }
+            else
+            {
+                RenderDefaultHeader(builder);
+            }
+            
+            // Calendar Content
+            builder.OpenElement(3, "div");
+            builder.AddAttribute(4, "class", "calendar-content");
+            
+            if (currentViewMode == DatePickerViewMode.Days)
+            {
+                RenderDaysView(builder);
+            }
+            else if (currentViewMode == DatePickerViewMode.Months)
+            {
+                RenderMonthsView(builder);
+            }
+            else if (currentViewMode == DatePickerViewMode.Years)
+            {
+                RenderYearsView(builder);
+            }
+            
+            builder.CloseElement(); // calendar-content
+            
+            // Footer
+            if (FooterTemplate != null)
+            {
+                builder.AddContent(5, FooterTemplate);
+            }
+            else
+            {
+                RenderDefaultFooter(builder);
+            }
+            
+            builder.CloseElement(); // calendar-container
+        };
+    }
+
+    private void RenderDefaultHeader(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(10, "div");
+        builder.AddAttribute(11, "class", "flex items-center justify-between mb-4");
+        
+        // Previous button
+        builder.OpenElement(12, "button");
+        builder.AddAttribute(13, "type", "button");
+        builder.AddAttribute(14, "class", "p-2 rounded hover:bg-gray-100 transition-colors");
+        builder.AddAttribute(15, "onclick", EventCallback.Factory.Create(this, () => NavigateCalendar(-1)));
+        builder.AddContent(16, "←");
+        builder.CloseElement();
+        
+        // Current month/year
+        builder.OpenElement(17, "button");
+        builder.AddAttribute(18, "type", "button");
+        builder.AddAttribute(19, "class", "px-4 py-2 font-semibold hover:bg-gray-100 rounded transition-colors");
+        builder.AddAttribute(20, "onclick", EventCallback.Factory.Create(this, () => { currentViewMode = DatePickerViewMode.Months; StateHasChanged(); }));
+        builder.AddContent(21, currentViewDate.ToString("MMMM yyyy"));
+        builder.CloseElement();
+        
+        // Next button
+        builder.OpenElement(22, "button");
+        builder.AddAttribute(23, "type", "button");
+        builder.AddAttribute(24, "class", "p-2 rounded hover:bg-gray-100 transition-colors");
+        builder.AddAttribute(25, "onclick", EventCallback.Factory.Create(this, () => NavigateCalendar(1)));
+        builder.AddContent(26, "→");
+        builder.CloseElement();
+        
+        builder.CloseElement();
+    }
+
+    private void RenderDaysView(RenderTreeBuilder builder)
+    {
+        // Week day headers
+        builder.OpenElement(30, "div");
+        builder.AddAttribute(31, "class", "grid grid-cols-7 gap-1 mb-2");
+        var weekDays = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+        foreach (var day in weekDays)
+        {
+            builder.OpenElement(32, "div");
+            builder.AddAttribute(33, "class", "text-center text-xs font-semibold py-2");
+            builder.AddContent(34, day);
+            builder.CloseElement();
+        }
+        builder.CloseElement();
+        
+        // Calendar days
+        var firstDay = new DateTime(currentViewDate.Year, currentViewDate.Month, 1);
+        var lastDay = firstDay.AddMonths(1).AddDays(-1);
+        var startDate = firstDay.AddDays(-(int)firstDay.DayOfWeek);
+        
+        builder.OpenElement(35, "div");
+        builder.AddAttribute(36, "class", "grid grid-cols-7 gap-1");
+        
+        for (int i = 0; i < 42; i++)
+        {
+            var date = startDate.AddDays(i);
+            var isCurrentMonth = date.Month == currentViewDate.Month;
+            var isDisabled = IsDateDisabledFunc(date);
+            var isSelected = IsDateSelected(date);
+            var isInRange = IsDateInRange(date);
+            var isSpecial = IsSpecialDate(date);
+            
+            builder.OpenElement(37, "button");
+            builder.AddAttribute(38, "type", "button");
+            builder.AddAttribute(39, "class", GetDayButtonClasses(isCurrentMonth, isDisabled, isSelected, isInRange, isSpecial));
+            builder.AddAttribute(40, "disabled", isDisabled);
+            builder.AddAttribute(41, "onclick", EventCallback.Factory.Create(this, () => SelectDate(date)));
+            if (GetDateTooltip != null)
+            {
+                var tooltip = GetDateTooltip(date);
+                if (!string.IsNullOrEmpty(tooltip))
+                {
+                    builder.AddAttribute(42, "title", tooltip);
+                }
+            }
+            
+            if (DateTemplate != null)
+            {
+                builder.AddContent(43, DateTemplate(date));
+            }
+            else
+            {
+                builder.AddContent(44, date.Day);
+            }
+            
+            builder.CloseElement();
+        }
+        
+        builder.CloseElement();
+    }
+
+    private void RenderMonthsView(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(50, "div");
+        builder.AddAttribute(51, "class", "grid grid-cols-3 gap-2");
+        
+        for (int month = 1; month <= 12; month++)
+        {
+            var monthDate = new DateTime(currentViewDate.Year, month, 1);
+            var isCurrentMonth = month == DateTime.Now.Month && currentViewDate.Year == DateTime.Now.Year;
+            
+            builder.OpenElement(52, "button");
+            builder.AddAttribute(53, "type", "button");
+            builder.AddAttribute(54, "class", $"p-3 rounded hover:bg-gray-100 transition-colors {(isCurrentMonth ? "bg-blue-100" : "")}");
+            builder.AddAttribute(55, "onclick", EventCallback.Factory.Create(this, () => { currentViewDate = monthDate; currentViewMode = DatePickerViewMode.Days; StateHasChanged(); }));
+            builder.AddContent(56, CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month));
+            builder.CloseElement();
+        }
+        
+        builder.CloseElement();
+    }
+
+    private void RenderYearsView(RenderTreeBuilder builder)
+    {
+        var startYear = YearRangeStart ?? (currentViewDate.Year - 10);
+        var endYear = YearRangeEnd ?? (currentViewDate.Year + 10);
+        
+        builder.OpenElement(60, "div");
+        builder.AddAttribute(61, "class", "grid grid-cols-4 gap-2 max-h-64 overflow-y-auto");
+        
+        for (int year = startYear; year <= endYear; year++)
+        {
+            var isCurrentYear = year == DateTime.Now.Year;
+            var isSelectedYear = year == currentViewDate.Year;
+            
+            builder.OpenElement(62, "button");
+            builder.AddAttribute(63, "type", "button");
+            builder.AddAttribute(64, "class", $"p-2 rounded hover:bg-gray-100 transition-colors {(isSelectedYear ? "bg-blue-100" : "")} {(isCurrentYear ? "font-bold" : "")}");
+            builder.AddAttribute(65, "onclick", EventCallback.Factory.Create(this, () => { currentViewDate = new DateTime(year, currentViewDate.Month, 1); currentViewMode = DatePickerViewMode.Months; StateHasChanged(); }));
+            builder.AddContent(66, year);
+            builder.CloseElement();
+        }
+        
+        builder.CloseElement();
+    }
+
+    private void RenderDefaultFooter(RenderTreeBuilder builder)
+    {
+        builder.OpenElement(70, "div");
+        builder.AddAttribute(71, "class", "flex items-center justify-between mt-4 pt-4 border-t");
+        builder.AddAttribute(72, "style", "border-color: var(--color-border)");
+        
+        builder.OpenElement(73, "button");
+        builder.AddAttribute(74, "type", "button");
+        builder.AddAttribute(75, "class", "px-4 py-2 text-sm rounded hover:bg-gray-100 transition-colors");
+        builder.AddAttribute(76, "onclick", EventCallback.Factory.Create(this, () => { ShowCalendar = false; }));
+        builder.AddContent(77, "Cancel");
+        builder.CloseElement();
+        
+        builder.OpenElement(78, "button");
+        builder.AddAttribute(79, "type", "button");
+        builder.AddAttribute(80, "class", "px-4 py-2 text-sm rounded text-white transition-colors");
+        builder.AddAttribute(81, "style", "background-color: var(--color-primary, #3b82f6)");
+        builder.AddAttribute(82, "onclick", EventCallback.Factory.Create(this, ApplySelection));
+        builder.AddContent(83, "Apply");
+        builder.CloseElement();
+        
+        builder.CloseElement();
+    }
+
+    private string GetDayButtonClasses(bool isCurrentMonth, bool isDisabled, bool isSelected, bool isInRange, bool isSpecial)
+    {
+        var classes = new List<string> { "p-2", "rounded", "text-sm", "transition-all", "hover:bg-gray-100" };
+        
+        if (!isCurrentMonth)
+        {
+            classes.Add("text-gray-400");
+        }
+        
+        if (isDisabled)
+        {
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+        
+        if (isSelected)
+        {
+            classes.Add("bg-blue-500 text-white hover:bg-blue-600");
+        }
+        else if (isInRange)
+        {
+            classes.Add("bg-blue-100");
+        }
+        
+        if (isSpecial)
+        {
+            classes.Add("font-bold");
+        }
+        
+        if (GetDateClass != null)
+        {
+            var customClass = GetDateClass(DateTime.Today); // Pass actual date
+            if (!string.IsNullOrEmpty(customClass))
+            {
+                classes.Add(customClass);
+            }
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private void NavigateCalendar(int direction)
+    {
+        if (currentViewMode == DatePickerViewMode.Days)
+        {
+            currentViewDate = currentViewDate.AddMonths(direction);
+        }
+        else if (currentViewMode == DatePickerViewMode.Months)
+        {
+            currentViewDate = currentViewDate.AddYears(direction);
+        }
+        else if (currentViewMode == DatePickerViewMode.Years)
+        {
+            currentViewDate = currentViewDate.AddYears(direction * 10);
+        }
+        StateHasChanged();
+    }
+
+    private bool IsDateDisabledFunc(DateTime date)
+    {
+        if (MinDate.HasValue && date < MinDate.Value.Date)
+            return true;
+        if (MaxDate.HasValue && date > MaxDate.Value.Date)
+            return true;
+        if (MinDateOnly.HasValue && date < MinDateOnly.Value.ToDateTime(TimeOnly.MinValue))
+            return true;
+        if (MaxDateOnly.HasValue && date > MaxDateOnly.Value.ToDateTime(TimeOnly.MaxValue))
+            return true;
+        if (DisabledDates.Contains(date.Date))
+            return true;
+        if (DisabledDateOnly.Contains(DateOnly.FromDateTime(date)))
+            return true;
+        if (IsDateDisabled != null && IsDateDisabled(date))
+            return true;
+        return false;
+    }
+
+    private bool IsDateSelected(DateTime date)
+    {
+        if (StartDate.HasValue && date.Date == StartDate.Value.Date)
+            return true;
+        if (EndDate.HasValue && date.Date == EndDate.Value.Date)
+            return true;
+        if (StartDateOnly.HasValue && date.Date == StartDateOnly.Value.ToDateTime(TimeOnly.MinValue).Date)
+            return true;
+        if (EndDateOnly.HasValue && date.Date == EndDateOnly.Value.ToDateTime(TimeOnly.MinValue).Date)
+            return true;
+        return false;
+    }
+
+    private bool IsDateInRange(DateTime date)
+    {
+        var start = StartDate?.Date ?? StartDateOnly?.ToDateTime(TimeOnly.MinValue).Date;
+        var end = EndDate?.Date ?? EndDateOnly?.ToDateTime(TimeOnly.MinValue).Date;
+        
+        if (start.HasValue && end.HasValue)
+        {
+            return date >= start.Value && date <= end.Value;
+        }
+        return false;
+    }
+
+    private bool IsSpecialDate(DateTime date)
+    {
+        if (SpecialDates.Contains(date.Date))
+            return true;
+        if (SpecialDateOnly.Contains(DateOnly.FromDateTime(date)))
+            return true;
+        return false;
+    }
+
+    private async Task SelectDate(DateTime date)
+    {
+        if (IsDateDisabledFunc(date))
+            return;
+        
+        if (!tempStartDate.HasValue || (tempStartDate.HasValue && tempEndDate.HasValue))
+        {
+            tempStartDate = date;
+            tempEndDate = null;
+        }
+        else if (tempStartDate.HasValue && !tempEndDate.HasValue)
+        {
+            if (date < tempStartDate.Value)
+            {
+                tempEndDate = tempStartDate;
+                tempStartDate = date;
+            }
+            else
+            {
+                tempEndDate = date;
+            }
+        }
+        
+        StateHasChanged();
+    }
+
+    private async Task ApplySelection()
+    {
+        if (tempStartDate.HasValue)
+        {
+            StartDate = tempStartDate;
+            StartDateOnly = DateOnly.FromDateTime(tempStartDate.Value);
+            await StartDateChanged.InvokeAsync(StartDate);
+            await StartDateOnlyChanged.InvokeAsync(StartDateOnly);
+        }
+        
+        if (tempEndDate.HasValue)
+        {
+            EndDate = tempEndDate;
+            EndDateOnly = DateOnly.FromDateTime(tempEndDate.Value);
+            await EndDateChanged.InvokeAsync(EndDate);
+            await EndDateOnlyChanged.InvokeAsync(EndDateOnly);
+        }
+        
+        ShowCalendar = false;
+        StateHasChanged();
+    }
+}

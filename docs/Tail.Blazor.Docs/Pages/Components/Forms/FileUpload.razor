@@ -8,7 +8,7 @@
 <PageTitle>FileUpload - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailFileUpload" 
-                 Description="File upload component with drag-and-drop support. Ultra-lightweight (~5 KB)."
+                 Description="File upload component with drag-and-drop, previews, progress and optional auto-upload. Lightweight and themeable via CSS variables."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
 
@@ -30,62 +30,93 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Multiple Files">
-        <CodePreview Title="Multiple File Upload" Code="@multipleCode">
+    <DocSection Title="Image Preview">
+        <CodePreview Title="Image Preview" Code="@previewCode">
             <PreviewContent>
-                <TailFileUpload OnFileSelected="HandleFileSelected" Multiple="true" Accept="image/*" Label="Upload Images" />
+                <TailFileUpload FilesChanged="HandleFilesChanged" Multiple="true" Accept="image/*" Label="Upload Images" ShowPreview="true" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Auto Upload & Upload Handler">
+        <CodePreview Title="Auto Upload" Code="@autoUploadCode">
+            <PreviewContent>
+                <TailFileUpload Multiple="true" Accept="image/*" Label="Auto Upload" AutoUpload="true" ShowUploadButton="false" @* UploadHandler="HandleUpload" *@ />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Validation & Limits">
+        <CodePreview Title="Max Files and Size" Code="@validationCode">
+            <PreviewContent>
+                <TailFileUpload Multiple="true" Accept="image/*" Label="Upload (Max 3 files, 2MB each)" MaxFiles="3" MaxFileSize="2097152" />
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Features">
         <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
+            <ul style="list-style: disc; padding-left: 1.5rem; gap: 0.5rem;">
                 <li>File upload with click or drag-and-drop</li>
-                <li>Multiple file selection support</li>
-                <li>File type filtering with Accept attribute</li>
-                <li>File list display with remove option</li>
-                <li>File size validation</li>
-                <li>Label and help text support</li>
-                <li>Required field support</li>
-                <li>Disabled state support</li>
-                <li>Progress indication</li>
+                <li>Image previews (base64) for images</li>
+                <li>Multiple file selection and limits (MaxFiles)</li>
+                <li>File size validation (MaxFileSize)</li>
+                <li>Progress indicator and upload state</li>
+                <li>Optional auto-upload (AutoUpload) and manual upload control</li>
+                <li>Custom upload handler via <code>UploadHandler</code> or <code>UploadRequested</code> event</li>
+                <li>Show/Hide action buttons (ShowUploadButton, ShowRemoveButton)</li>
                 <li>Full theme support with CSS variables</li>
-                <li>Visual drag-and-drop feedback</li>
+                <li>Accessible and responsive UI built with Tailwind CSS</li>
             </ul>
         </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
-    private string fileName = string.Empty;
-    
+    private List<IBrowserFile> selectedFiles = new();
+
     private string installCode = @"dotnet add package Tail.Blazor.FileUpload";
-    
+
     private string basicCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Accept="".pdf,.doc,.docx"" Label=""Upload Document"" />";
 
-    private string multipleCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Multiple=""true"" Accept=""image/*"" Label=""Upload Images"" />";
+    private string previewCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Multiple=""true"" Accept=""image/*"" Label=""Upload Images"" ShowPreview=""true"" />";
 
-    private List<Microsoft.AspNetCore.Components.Forms.IBrowserFile> selectedFiles = new();
+    private string autoUploadCode = @"<TailFileUpload Multiple=""true"" Accept=""image/*"" Label=""Auto Upload"" AutoUpload=""true"" ShowUploadButton=""false"" UploadHandler=""HandleUpload"" />";
+
+    private string validationCode = @"<TailFileUpload Multiple=""true"" Accept=""image/*"" Label=""Upload (Max 3 files, 2MB each)"" MaxFiles=""3"" MaxFileSize=""2097152"" />";
+
+    private void HandleFilesChanged(IBrowserFile[] files)
+    {
+        selectedFiles = files.ToList();
+    }
+
+    private async Task<bool> HandleUpload(IBrowserFile[] files)
+    {
+        // Example upload handler: implement real upload logic (e.g., send to API)
+        await Task.Delay(500);
+        return true;
+    }
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new DocPageTemplate.ApiParameter { Name = "FilesChanged", Type = "EventCallback<IBrowserFile[]>", Default = "-", Description = "Event fired when files are selected or changed" },
+        new DocPageTemplate.ApiParameter { Name = "FilesSelected", Type = "EventCallback<IBrowserFile[]>", Default = "-", Description = "Event fired after files are selected (preview generated)" },
         new DocPageTemplate.ApiParameter { Name = "Size", Type = "FileUploadSize", Default = "Md", Description = "Size of the file upload component (Xs, Sm, Md, Lg, Xl)" },
         new DocPageTemplate.ApiParameter { Name = "Multiple", Type = "bool", Default = "false", Description = "Allow multiple file selection" },
         new DocPageTemplate.ApiParameter { Name = "Accept", Type = "string?", Default = "-", Description = "Accepted file types (e.g., '.pdf,.doc' or 'image/*')" },
+        new DocPageTemplate.ApiParameter { Name = "MaxFiles", Type = "int", Default = "5", Description = "Maximum number of files allowed" },
+        new DocPageTemplate.ApiParameter { Name = "MaxFileSize", Type = "long", Default = "10485760", Description = "Maximum file size in bytes" },
+        new DocPageTemplate.ApiParameter { Name = "ShowPreview", Type = "bool", Default = "true", Description = "Show image preview for image files" },
+        new DocPageTemplate.ApiParameter { Name = "AutoUpload", Type = "bool", Default = "false", Description = "Automatically upload after selection" },
+        new DocPageTemplate.ApiParameter { Name = "UploadHandler", Type = "Func<IBrowserFile, Task<bool>>?", Default = "null", Description = "Optional custom upload handler" },
+        new DocPageTemplate.ApiParameter { Name = "ShowUploadButton", Type = "bool", Default = "true", Description = "Show manual upload button per file" },
+        new DocPageTemplate.ApiParameter { Name = "ShowRemoveButton", Type = "bool", Default = "true", Description = "Show remove button per file" },
         new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the file upload" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
-        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the file upload as required" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the field as required" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the file upload" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
         new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
-    
-    private void HandleFilesChanged(Microsoft.AspNetCore.Components.Forms.IBrowserFile[] files)
-    {
-        selectedFiles = files.ToList();
-        StateHasChanged();
-    }
 }
 

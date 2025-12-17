@@ -1,6 +1,7 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
 @using Tail.Blazor.FileUpload
 
 <div class="@GetWrapperClasses()">
@@ -15,6 +16,7 @@
         </label>
     }
     <div 
+        id="@DropZoneId"
         class="@GetDropZoneClasses()"
         @ondrop="HandleDrop"
         @ondragover="HandleDragOver"
@@ -43,22 +45,84 @@
             </div>
         </label>
     </div>
-    @if (SelectedFiles != null && SelectedFiles.Any())
+
+    @if (FileItems?.Any() == true)
     {
-        <div class="mt-2 space-y-1">
-            @foreach (var file in SelectedFiles)
+        <div class="mt-3 space-y-2">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-600">@FileItems.Count file(s)</div>
+                <div class="flex items-center gap-2">
+                    @if (ShowRemoveAll)
+                    {
+                        <button class="px-3 py-1 text-sm rounded-md bg-red-50 text-red-700 hover:bg-red-100" @onclick="RemoveAll" disabled="@Disabled">Remove All</button>
+                    }
+                    <button class="px-3 py-1 text-sm rounded-md bg-gray-50 text-gray-700 hover:bg-gray-100" @onclick="UploadAll" disabled="@Disabled || !FileItems.Any()">Upload All</button>
+                </div>
+            </div>
+
+            @foreach (var item in FileItems)
             {
-                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
-                    <span class="text-sm">@file.Name</span>
-                    <button type="button" @onclick="() => RemoveFile(file)" class="text-red-500 hover:text-red-700">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+                <div class="flex items-center justify-between p-2 rounded-lg border border-gray-100 shadow-sm bg-white">
+                    <div class="flex items-center gap-3">
+                        @if (!string.IsNullOrEmpty(item.PreviewUrl) && item.File.ContentType.StartsWith("image/"))
+                        {
+                            <img src="@item.PreviewUrl" class="w-12 h-12 object-cover rounded" alt="preview" />
+                        }
+                        else if (!string.IsNullOrEmpty(item.PreviewUrl) && item.File.ContentType.StartsWith("application/pdf"))
+                        {
+                            <div class="w-32 h-24 bg-gray-50 border rounded overflow-hidden">
+                                <iframe src="@item.PreviewUrl" class="w-full h-full" title="pdf-preview"></iframe>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="w-12 h-12 flex items-center justify-center rounded bg-gray-50 text-gray-500">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 11h10M7 15h10" />
+                                </svg>
+                            </div>
+                        }
+                        <div class="min-w-0">
+                            <div class="text-sm font-medium truncate">@item.File.Name</div>
+                            <div class="text-xs text-gray-500">@FormatFileSize(item.File.Size)</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        @if (item.Uploading)
+                        {
+                            <div class="w-32 h-2 bg-gray-200 rounded overflow-hidden">
+                                <div class="h-full bg-primary transition-all" style="width:@($"{item.Progress}%")"></div>
+                            </div>
+                        }
+                        else if (item.Uploaded)
+                        {
+                            <span class="text-xs text-green-600">Uploaded</span>
+                        }
+                        else if (!string.IsNullOrEmpty(item.Error))
+                        {
+                            <span class="text-xs text-red-600">@item.Error</span>
+                        }
+
+                        @if (ShowUploadButton && !item.Uploaded)
+                        {
+                            <button class="px-3 py-1 text-sm rounded bg-primary text-white hover:opacity-90" @onclick="() => UploadFile(item)" disabled="@Disabled">Upload</button>
+                        }
+
+                        @if (ShowRemoveButton)
+                        {
+                            <button class="p-1 text-red-500 hover:text-red-700" @onclick="() => RemoveFile(item)" aria-label="Remove file">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        }
+                    </div>
                 </div>
             }
         </div>
     }
+
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
         <div class="text-sm text-red-600 mt-1">
@@ -68,10 +132,24 @@
 </div>
 
 @code {
+    [Inject] private IJSRuntime JS { get; set; } = default!;
+    private IJSObjectReference? _module;
+    private string DropZoneId { get; set; } = "dz-" + Guid.NewGuid().ToString();
     private string FileInputId { get; set; } = Guid.NewGuid().ToString();
     private InputFile? fileInput;
     private bool IsDragOver { get; set; }
-    private List<IBrowserFile> SelectedFiles { get; set; } = new();
+
+    private class FileItem
+    {
+        public IBrowserFile File { get; set; } = default!;
+        public string? PreviewUrl { get; set; }
+        public int Progress { get; set; }
+        public bool Uploading { get; set; }
+        public bool Uploaded { get; set; }
+        public string? Error { get; set; }
+    }
+
+    private List<FileItem> FileItems { get; set; } = new();
 
     [Parameter] public EventCallback<IBrowserFile[]> FilesChanged { get; set; }
     [Parameter] public FileUploadSize Size { get; set; } = FileUploadSize.Md;
@@ -82,6 +160,50 @@
     [Parameter] public bool Required { get; set; }
     [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? Style { get; set; }
+
+    // New parameters
+    [Parameter] public int MaxFiles { get; set; } = 5;
+    [Parameter] public long MaxFileSize { get; set; } = 10 * 1024 * 1024; // 10 MB
+    [Parameter] public bool ShowPreview { get; set; } = true;
+    [Parameter] public bool AutoUpload { get; set; } = false;
+    [Parameter] public EventCallback<IBrowserFile[]> FilesSelected { get; set; }
+    [Parameter] public EventCallback<IBrowserFile[]> UploadRequested { get; set; }
+    [Parameter] public Func<IBrowserFile, Task<bool>>? UploadHandler { get; set; }
+    [Parameter] public bool ShowUploadButton { get; set; } = true;
+    [Parameter] public bool ShowRemoveButton { get; set; } = true;
+    [Parameter] public bool ShowRemoveAll { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                _module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Tail.Blazor.FileUpload/tailFileUpload.js");
+                if (_module != null)
+                {
+                    await _module.InvokeVoidAsync("attachDropHandler", DropZoneId, FileInputId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("JS interop attachDropHandler failed: " + ex.Message);
+            }
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_module != null)
+            {
+                await _module.InvokeVoidAsync("detachDropHandler", DropZoneId);
+                await _module.DisposeAsync();
+            }
+        }
+        catch { }
+    }
 
     private string GetWrapperClasses()
     {
@@ -121,7 +243,7 @@
         if (IsDragOver)
         {
             styles.Add($"border-color: var(--color-primary)");
-            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.1)");
+            styles.Add($"background-color: rgba(var(--color-primary-rgb), 0.08)");
         }
         if (!string.IsNullOrEmpty(Style))
         {
@@ -132,15 +254,62 @@
 
     private async Task HandleFileChange(InputFileChangeEventArgs e)
     {
-        if (Multiple)
+        var files = Multiple ? e.GetMultipleFiles(MaxFiles) : new[] { e.File };
+
+        foreach (var f in files)
         {
-            SelectedFiles = e.GetMultipleFiles(int.MaxValue).ToList();
+            if (FileItems.Count >= MaxFiles) break;
+
+            if (f.Size > MaxFileSize)
+            {
+                FileItems.Add(new FileItem { File = f, Error = $"File exceeds max size of {FormatFileSize(MaxFileSize)}" });
+                continue;
+            }
+
+            var item = new FileItem { File = f };
+            if (ShowPreview && f.ContentType.StartsWith("image/"))
+            {
+                try
+                {
+                    using var stream = f.OpenReadStream(MaxFileSize);
+                    var ms = new MemoryStream();
+                    await stream.CopyToAsync(ms);
+                    var bytes = ms.ToArray();
+                    var base64 = Convert.ToBase64String(bytes);
+                    item.PreviewUrl = $"data:{f.ContentType};base64,{base64}";
+                }
+                catch
+                {
+                    item.Error = "Unable to generate preview";
+                }
+            }
+            else if (ShowPreview && f.ContentType.StartsWith("application/pdf"))
+            {
+                try
+                {
+                    using var stream = f.OpenReadStream(MaxFileSize);
+                    var ms = new MemoryStream();
+                    await stream.CopyToAsync(ms);
+                    var bytes = ms.ToArray();
+                    var base64 = Convert.ToBase64String(bytes);
+                    item.PreviewUrl = $"data:{f.ContentType};base64,{base64}";
+                }
+                catch
+                {
+                    item.Error = "Unable to generate preview";
+                }
+            }
+
+            FileItems.Add(item);
         }
-        else
+
+        await FilesSelected.InvokeAsync(FileItems.Select(fi => fi.File).ToArray());
+        await FilesChanged.InvokeAsync(FileItems.Select(fi => fi.File).ToArray());
+
+        if (AutoUpload)
         {
-            SelectedFiles = new List<IBrowserFile> { e.File };
+            await UploadAll();
         }
-        await FilesChanged.InvokeAsync(SelectedFiles.ToArray());
     }
 
     private void HandleDragOver(DragEventArgs e)
@@ -156,16 +325,83 @@
         IsDragOver = false;
     }
 
-    private async Task HandleDrop(DragEventArgs e)
+    private Task HandleDrop(DragEventArgs e)
     {
+        // Native file drop requires JS interop to get DataTransfer files. Keep visual only.
         IsDragOver = false;
-        // File drop handling would require JavaScript interop
+        return Task.CompletedTask;
     }
 
-    private async Task RemoveFile(IBrowserFile file)
+    private async Task RemoveFile(FileItem item)
     {
-        SelectedFiles.Remove(file);
-        await FilesChanged.InvokeAsync(SelectedFiles.ToArray());
+        FileItems.Remove(item);
+        await FilesChanged.InvokeAsync(FileItems.Select(fi => fi.File).ToArray());
+    }
+
+    private async Task RemoveAll()
+    {
+        FileItems.Clear();
+        await FilesChanged.InvokeAsync(Array.Empty<IBrowserFile>());
+    }
+
+    private string FormatFileSize(long size)
+    {
+        if (size >= 1024 * 1024) return $"{(size / (1024.0 * 1024.0)):0.##} MB";
+        if (size >= 1024) return $"{(size / 1024.0):0.##} KB";
+        return $"{size} B";
+    }
+
+    private async Task UploadFile(FileItem item)
+    {
+        if (item.Uploading || item.Uploaded) return;
+        item.Uploading = true;
+        item.Progress = 0;
+        item.Error = null;
+
+        try
+        {
+            bool success = false;
+            if (UploadHandler != null)
+            {
+                success = await UploadHandler(item.File);
+            }
+            else if (UploadRequested.HasDelegate)
+            {
+                await UploadRequested.InvokeAsync(new[] { item.File });
+                success = true;
+            }
+            else
+            {
+                // No upload handler provided - simulate quick upload
+                // simulate progress
+                for (int p = 0; p <= 100; p += 20)
+                {
+                    item.Progress = p;
+                    StateHasChanged();
+                    await Task.Delay(80);
+                }
+                success = true;
+            }
+
+            item.Uploaded = success;
+            item.Uploading = false;
+            item.Progress = success ? 100 : 0;
+        }
+        catch (Exception ex)
+        {
+            item.Error = ex.Message;
+            item.Uploading = false;
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task UploadAll()
+    {
+        foreach (var item in FileItems.Where(fi => !fi.Uploaded && string.IsNullOrEmpty(fi.Error)).ToList())
+        {
+            await UploadFile(item);
+        }
     }
 }
 

@@ -1,74 +1,699 @@
 @page "/components/date-range-picker"
 @using Tail.Blazor.DateRangePicker
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Card
+@using Tail.Blazor.Alert
+@using Tail.Blazor.Feedback
+@using Tail.Blazor.Buttons
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>DateRangePicker - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailDateRangePicker" 
-                 Description="Date range selection component for selecting start and end dates. Ultra-lightweight (~10 KB)."
-                 PackageName="Tail.Blazor.Forms"
+                 Description="Advanced date range picker component with calendar view, time selection, DateOnly/TimeOnly support, special dates, custom templates, and full theming. Ultra-lightweight (~15 KB)."
+                 PackageName="Tail.Blazor.DateRangePicker"
                  ApiParameters="@apiParameters">
 
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Date Range Picker" Code="@basicCode">
+        <CodePreview Title="Simple Date Range Picker" Code="@basicCode">
             <PreviewContent>
+                <div class="space-y-4">
                 <TailDateRangePicker @bind-StartDate="startDate" @bind-EndDate="endDate" Label="Select Date Range" />
                 @if (startDate.HasValue || endDate.HasValue)
                 {
-                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
                         Range: @(startDate?.ToString("yyyy-MM-dd") ?? "?") to @(endDate?.ToString("yyyy-MM-dd") ?? "?")
+                        </p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Time Selection">
+        <CodePreview Title="Date Range with Time" Code="@timeCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="dateTimeStart" 
+                        @bind-EndDate="dateTimeEnd" 
+                        Label="Select Date & Time Range"
+                        ShowTime="true"
+                        HourFormat="HourFormat.TwentyFourHour" />
+                    @if (dateTimeStart.HasValue || dateTimeEnd.HasValue)
+                    {
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            Range: @(dateTimeStart?.ToString("yyyy-MM-dd HH:mm") ?? "?") to @(dateTimeEnd?.ToString("yyyy-MM-dd HH:mm") ?? "?")
+                        </p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Time Only Mode">
+        <CodePreview Title="Time Range Only" Code="@timeOnlyCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartTimeOnly="timeStart" 
+                        @bind-EndTimeOnly="timeEnd" 
+                        Label="Select Time Range"
+                        TimeOnlyMode="true"
+                        HourFormat="HourFormat.TwelveHour" />
+                    @if (timeStart.HasValue || timeEnd.HasValue)
+                    {
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            Time Range: @(timeStart?.ToString("hh:mm tt") ?? "?") to @(timeEnd?.ToString("hh:mm tt") ?? "?")
+                        </p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="DateOnly Support">
+        <CodePreview Title="Using DateOnly Types" Code="@dateOnlyCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDateOnly="dateOnlyStart" 
+                        @bind-EndDateOnly="dateOnlyEnd" 
+                        Label="Select Date Range (DateOnly)"
+                        MinDateOnly="@DateOnly.FromDateTime(DateTime.Today.AddDays(-30))"
+                        MaxDateOnly="@DateOnly.FromDateTime(DateTime.Today.AddDays(30))" />
+                    @if (dateOnlyStart.HasValue || dateOnlyEnd.HasValue)
+                    {
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            Range: @(dateOnlyStart?.ToString() ?? "?") to @(dateOnlyEnd?.ToString() ?? "?")
+                        </p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Calendar View">
+        <CodePreview Title="Calendar Popup" Code="@calendarCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="calendarStart" 
+                        @bind-EndDate="calendarEnd" 
+                        Label="Select with Calendar"
+                        DisplayMode="DatePickerDisplayMode.InputAndPopup"
+                        ShowCalendarButton="true"
+                        InitialViewDate="@DateTime.Today"
+                        InitialViewMode="DatePickerViewMode.Days" />
+                    @if (calendarStart.HasValue || calendarEnd.HasValue)
+                    {
+                        <p class="text-sm" style="color: var(--color-text-secondary);">
+                            Selected: @(calendarStart?.ToString("yyyy-MM-dd") ?? "?") to @(calendarEnd?.ToString("yyyy-MM-dd") ?? "?")
+                        </p>
+                    }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Display Modes">
+        <CodePreview Title="Different Display Options" Code="@displayModesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Input and Popup (Default)</p>
+                        <TailDateRangePicker 
+                            @bind-StartDate="mode1Start" 
+                            @bind-EndDate="mode1End" 
+                            DisplayMode="DatePickerDisplayMode.InputAndPopup" />
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Input Only</p>
+                        <TailDateRangePicker 
+                            @bind-StartDate="mode2Start" 
+                            @bind-EndDate="mode2End" 
+                            DisplayMode="DatePickerDisplayMode.InputOnly" />
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Popup Only</p>
+                        <TailDateRangePicker 
+                            @bind-StartDate="mode3Start" 
+                            @bind-EndDate="mode3End" 
+                            DisplayMode="DatePickerDisplayMode.PopupOnly"
+                            Placeholder="Click to select date range" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Size Variants" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker @bind-StartDate="sizeXsStart" @bind-EndDate="sizeXsEnd" Size="DateRangePickerSize.Xs" Label="Extra Small (Xs)" />
+                    <TailDateRangePicker @bind-StartDate="sizeSmStart" @bind-EndDate="sizeSmEnd" Size="DateRangePickerSize.Sm" Label="Small (Sm)" />
+                    <TailDateRangePicker @bind-StartDate="sizeMdStart" @bind-EndDate="sizeMdEnd" Size="DateRangePickerSize.Md" Label="Medium (Md)" />
+                    <TailDateRangePicker @bind-StartDate="sizeLgStart" @bind-EndDate="sizeLgEnd" Size="DateRangePickerSize.Lg" Label="Large (Lg)" />
+                    <TailDateRangePicker @bind-StartDate="sizeXlStart" @bind-EndDate="sizeXlEnd" Size="DateRangePickerSize.Xl" Label="Extra Large (Xl)" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Date Restrictions">
+        <CodePreview Title="Min/Max and Disabled Dates" Code="@restrictionsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="restrictedStart" 
+                        @bind-EndDate="restrictedEnd" 
+                        Label="Date Range with Restrictions"
+                        MinDate="@DateTime.Today"
+                        MaxDate="@DateTime.Today.AddDays(30)"
+                        DisabledDates="@disabledDates" />
+                    <p class="text-sm" style="color: var(--color-text-secondary);">
+                        Min: Today | Max: 30 days from today | Disabled: @string.Join(", ", disabledDates.Select(d => d.ToString("MM/dd")))
+
                     </p>
-                }
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Special Dates">
+        <CodePreview Title="Highlighted Special Dates" Code="@specialDatesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="specialStart" 
+                        @bind-EndDate="specialEnd" 
+                        Label="With Special Dates"
+                        SpecialDates="@specialDates"
+                        GetDateClass="@GetSpecialDateClass" />
+                    <p class="text-sm" style="color: var(--color-text-secondary);">
+                        Special dates highlighted: @string.Join(", ", specialDates.Select(d => d.ToString("MM/dd")))
+
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Year and Month Selection">
+        <CodePreview Title="Year Range Configuration" Code="@yearRangeCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="yearRangeStart" 
+                        @bind-EndDate="yearRangeEnd" 
+                        Label="Custom Year Range"
+                        InitialViewMode="DatePickerViewMode.Years"
+                        YearRangeStart="2020"
+                        YearRangeEnd="2030" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Templates">
+        <CodePreview Title="Custom Footer Template" Code="@customTemplateCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="templateStart" 
+                        @bind-EndDate="templateEnd" 
+                        Label="With Custom Footer">
+                        <FooterTemplate>
+                            <div class="flex items-center justify-between mt-4 pt-4 border-t" style="border-color: var(--color-border)">
+                                <TailButton Variant="Button.ButtonVariant.Outline" Size="Button.ButtonSize.Sm" OnClick="@(() => { templateStart = null; templateEnd = null; })">Clear</TailButton>
+                                <TailButton Variant="Button.ButtonVariant.Primary" Size="Button.ButtonSize.Sm" OnClick="@(() => { })">Apply</TailButton>
+                            </div>
+                        </FooterTemplate>
+                    </TailDateRangePicker>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Date Parsing">
+        <CodePreview Title="Custom Input Parser" Code="@customParserCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="parserStart" 
+                        @bind-EndDate="parserEnd" 
+                        Label="Custom Date Format"
+                        CustomDateParser="@ParseCustomDate"
+                        CustomDateFormatter="@FormatCustomDate" />
+                    <p class="text-sm" style="color: var(--color-text-secondary);">
+                        Try formats: "MM/dd/yyyy", "dd-MM-yyyy", or standard formats
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Different States" Code="@statesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker @bind-StartDate="state1Start" @bind-EndDate="state1End" Label="Normal" />
+                    <TailDateRangePicker @bind-StartDate="state2Start" @bind-EndDate="state2End" Label="Required" Required="true" />
+                    <TailDateRangePicker @bind-StartDate="state3Start" @bind-EndDate="state3End" Label="Disabled" Disabled="true" />
+                    <TailDateRangePicker @bind-StartDate="state4Start" @bind-EndDate="state4End" Label="With Error" ErrorMessage="Please select a valid date range" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Animations">
+        <CodePreview Title="Calendar Animation Types" Code="@animationsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDateRangePicker 
+                        @bind-StartDate="anim1Start" 
+                        @bind-EndDate="anim1End" 
+                        Label="Fade Animation"
+                        Animation="CalendarAnimation.Fade"
+                        AnimationDuration="300" />
+                    <TailDateRangePicker 
+                        @bind-StartDate="anim2Start" 
+                        @bind-EndDate="anim2End" 
+                        Label="Slide Down Animation"
+                        Animation="CalendarAnimation.SlideDown"
+                        AnimationDuration="250" />
+                    <TailDateRangePicker 
+                        @bind-StartDate="anim3Start" 
+                        @bind-EndDate="anim3End" 
+                        Label="Scale Animation"
+                        Animation="CalendarAnimation.Scale"
+                        AnimationDuration="200" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Real-World Examples">
+        <CodePreview Title="Booking System" Code="@bookingCode">
+            <PreviewContent>
+                <TailCard Class="max-w-md">
+                    <Header>
+                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">Hotel Booking</h3>
+                    </Header>
+                    <ChildContent>
+                        <div class="space-y-4">
+                            <TailDateRangePicker 
+                                @bind-StartDate="bookingStart" 
+                                @bind-EndDate="bookingEnd" 
+                                Label="Check-in / Check-out"
+                                ShowTime="false"
+                                MinDate="@DateTime.Today"
+                                Required="true" />
+                            @if (bookingStart.HasValue && bookingEnd.HasValue)
+                            {
+                                var nights = (bookingEnd.Value - bookingStart.Value).Days;
+                                <TailAlert Variant="AlertVariant.Info">
+                                    @nights night@(nights != 1 ? "s" : "") stay
+                                </TailAlert>
+                            }
+                        </div>
+                    </ChildContent>
+                </TailCard>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Features">
+        <TailCard>
+            <ChildContent>
+                <div style="color: var(--color-text-primary);">
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                        <li><strong>Two-way Data Binding:</strong> Full support for <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">@@bind-StartDate</code> and <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">@@bind-EndDate</code></li>
+                        <li><strong>Time Selection:</strong> Optional time selection with configurable 12/24-hour formats</li>
+                        <li><strong>Time-Only Mode:</strong> Select time ranges without dates</li>
+                        <li><strong>DateOnly/TimeOnly Support:</strong> Native support for .NET 6+ DateOnly and TimeOnly types</li>
+                        <li><strong>Calendar View:</strong> Beautiful popup calendar with month/year navigation</li>
+                        <li><strong>Multiple Display Modes:</strong> Input only, popup only, or both</li>
+                        <li><strong>Year/Month Selection:</strong> Quick navigation with configurable year ranges</li>
+                        <li><strong>Date Restrictions:</strong> Min/max dates, disabled dates, and custom validation functions</li>
+                        <li><strong>Special Dates:</strong> Highlight and style special dates with custom classes and tooltips</li>
+                        <li><strong>Custom Templates:</strong> Custom footer, header, and date cell templates</li>
+                        <li><strong>Custom Parsing:</strong> Custom date input parsing and formatting</li>
+                        <li><strong>Animations:</strong> Configurable calendar popup animations (fade, slide, scale)</li>
+                        <li><strong>Size Variants:</strong> Five size options (Xs, Sm, Md, Lg, Xl)</li>
+                        <li><strong>Full Theme Support:</strong> CSS variable integration for seamless theming</li>
+                        <li><strong>Accessibility:</strong> ARIA attributes, keyboard navigation, focus states</li>
+                        <li><strong>Responsive:</strong> Fully responsive design with mobile-friendly calendar</li>
+                        <li><strong>Validation:</strong> Built-in error message display and required field support</li>
+                        <li><strong>Disabled State:</strong> Visual and functional disabled state</li>
+                        <li><strong>Lightweight:</strong> Only ~15 KB in size</li>
+                    </ul>
+                </div>
+            </ChildContent>
+        </TailCard>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <TailCard>
+            <ChildContent>
         <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Date range selection with start and end dates</li>
-                <li>Two-way binding for both dates</li>
-                <li>Min and max date constraints</li>
-                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
-                <li>Label support</li>
-                <li>Error message display</li>
-                <li>Required field support</li>
-                <li>Disabled state support</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Validation support</li>
+                    <p class="mb-4">TailDateRangePicker is built with accessibility in mind:</p>
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+                        <li>Proper ARIA labels and roles for screen readers</li>
+                        <li>Keyboard navigation support (arrow keys, Enter, Escape)</li>
+                        <li>Visible focus indicators with proper contrast</li>
+                        <li>High contrast ratios for all states</li>
+                        <li>Semantic HTML structure</li>
+                        <li>Support for assistive technologies</li>
             </ul>
         </div>
+            </ChildContent>
+        </TailCard>
     </DocSection>
 </DocPageTemplate>
 
 @code {
+    // Basic
     private DateTime? startDate = null;
     private DateTime? endDate = null;
+    
+    // Time
+    private DateTime? dateTimeStart = null;
+    private DateTime? dateTimeEnd = null;
+    private TimeOnly? timeStart = null;
+    private TimeOnly? timeEnd = null;
+    
+    // DateOnly
+    private DateOnly? dateOnlyStart = null;
+    private DateOnly? dateOnlyEnd = null;
+    
+    // Calendar
+    private DateTime? calendarStart = null;
+    private DateTime? calendarEnd = null;
+    
+    // Display Modes
+    private DateTime? mode1Start = null;
+    private DateTime? mode1End = null;
+    private DateTime? mode2Start = null;
+    private DateTime? mode2End = null;
+    private DateTime? mode3Start = null;
+    private DateTime? mode3End = null;
+    
+    // Sizes
+    private DateTime? sizeXsStart = null;
+    private DateTime? sizeXsEnd = null;
+    private DateTime? sizeSmStart = null;
+    private DateTime? sizeSmEnd = null;
+    private DateTime? sizeMdStart = null;
+    private DateTime? sizeMdEnd = null;
+    private DateTime? sizeLgStart = null;
+    private DateTime? sizeLgEnd = null;
+    private DateTime? sizeXlStart = null;
+    private DateTime? sizeXlEnd = null;
+    
+    // Restrictions
+    private DateTime? restrictedStart = null;
+    private DateTime? restrictedEnd = null;
+    private List<DateTime> disabledDates = new() { DateTime.Today.AddDays(5), DateTime.Today.AddDays(10), DateTime.Today.AddDays(15) };
+    
+    // Special Dates
+    private DateTime? specialStart = null;
+    private DateTime? specialEnd = null;
+    private List<DateTime> specialDates = new() { DateTime.Today.AddDays(3), DateTime.Today.AddDays(7), DateTime.Today.AddDays(14) };
+    
+    // Year Range
+    private DateTime? yearRangeStart = null;
+    private DateTime? yearRangeEnd = null;
+    
+    // Templates
+    private DateTime? templateStart = null;
+    private DateTime? templateEnd = null;
+    
+    // Custom Parser
+    private DateTime? parserStart = null;
+    private DateTime? parserEnd = null;
+    
+    // States
+    private DateTime? state1Start = null;
+    private DateTime? state1End = null;
+    private DateTime? state2Start = null;
+    private DateTime? state2End = null;
+    private DateTime? state3Start = null;
+    private DateTime? state3End = null;
+    private DateTime? state4Start = null;
+    private DateTime? state4End = null;
+    
+    // Animations
+    private DateTime? anim1Start = null;
+    private DateTime? anim1End = null;
+    private DateTime? anim2Start = null;
+    private DateTime? anim2End = null;
+    private DateTime? anim3Start = null;
+    private DateTime? anim3End = null;
+    
+    // Booking
+    private DateTime? bookingStart = null;
+    private DateTime? bookingEnd = null;
     
     private string installCode = @"dotnet add package Tail.Blazor.DateRangePicker";
     
     private string basicCode = @"<TailDateRangePicker @bind-StartDate=""startDate"" @bind-EndDate=""endDate"" Label=""Select Date Range"" />";
+    
+    private string timeCode = @"<TailDateRangePicker 
+    @bind-StartDate=""dateTimeStart"" 
+    @bind-EndDate=""dateTimeEnd"" 
+    Label=""Select Date & Time Range""
+    ShowTime=""true""
+    HourFormat=""HourFormat.TwentyFourHour"" />";
+    
+    private string timeOnlyCode = @"<TailDateRangePicker 
+    @bind-StartTimeOnly=""timeStart"" 
+    @bind-EndTimeOnly=""timeEnd"" 
+    Label=""Select Time Range""
+    TimeOnlyMode=""true""
+    HourFormat=""HourFormat.TwelveHour"" />";
+    
+    private string dateOnlyCode = @"<TailDateRangePicker 
+    @bind-StartDateOnly=""dateOnlyStart"" 
+    @bind-EndDateOnly=""dateOnlyEnd"" 
+    Label=""Select Date Range (DateOnly)""
+    MinDateOnly=""@DateOnly.FromDateTime(DateTime.Today.AddDays(-30))""
+    MaxDateOnly=""@DateOnly.FromDateTime(DateTime.Today.AddDays(30))"" />";
+    
+    private string calendarCode = @"<TailDateRangePicker 
+    @bind-StartDate=""calendarStart"" 
+    @bind-EndDate=""calendarEnd"" 
+    Label=""Select with Calendar""
+    DisplayMode=""DatePickerDisplayMode.InputAndPopup""
+    ShowCalendarButton=""true""
+    InitialViewDate=""@DateTime.Today""
+    InitialViewMode=""DatePickerViewMode.Days"" />";
+    
+    private string displayModesCode = @"<TailDateRangePicker 
+    @bind-StartDate=""mode1Start"" 
+    @bind-EndDate=""mode1End"" 
+    DisplayMode=""DatePickerDisplayMode.InputAndPopup"" />
+
+<TailDateRangePicker 
+    @bind-StartDate=""mode2Start"" 
+    @bind-EndDate=""mode2End"" 
+    DisplayMode=""DatePickerDisplayMode.InputOnly"" />
+
+<TailDateRangePicker 
+    @bind-StartDate=""mode3Start"" 
+    @bind-EndDate=""mode3End"" 
+    DisplayMode=""DatePickerDisplayMode.PopupOnly""
+    Placeholder=""Click to select date range"" />";
+    
+    private string sizesCode = @"<TailDateRangePicker @bind-StartDate=""sizeXsStart"" @bind-EndDate=""sizeXsEnd"" Size=""DateRangePickerSize.Xs"" Label=""Extra Small (Xs)"" />
+<TailDateRangePicker @bind-StartDate=""sizeSmStart"" @bind-EndDate=""sizeSmEnd"" Size=""DateRangePickerSize.Sm"" Label=""Small (Sm)"" />
+<TailDateRangePicker @bind-StartDate=""sizeMdStart"" @bind-EndDate=""sizeMdEnd"" Size=""DateRangePickerSize.Md"" Label=""Medium (Md)"" />
+<TailDateRangePicker @bind-StartDate=""sizeLgStart"" @bind-EndDate=""sizeLgEnd"" Size=""DateRangePickerSize.Lg"" Label=""Large (Lg)"" />
+<TailDateRangePicker @bind-StartDate=""sizeXlStart"" @bind-EndDate=""sizeXlEnd"" Size=""DateRangePickerSize.Xl"" Label=""Extra Large (Xl)"" />";
+    
+    private string restrictionsCode = @"<TailDateRangePicker 
+    @bind-StartDate=""restrictedStart"" 
+    @bind-EndDate=""restrictedEnd"" 
+    Label=""Date Range with Restrictions""
+    MinDate=""@DateTime.Today""
+    MaxDate=""@DateTime.Today.AddDays(30)""
+    DisabledDates=""@disabledDates"" />";
+    
+    private string specialDatesCode = @"<TailDateRangePicker 
+    @bind-StartDate=""specialStart"" 
+    @bind-EndDate=""specialEnd"" 
+    Label=""With Special Dates""
+    SpecialDates=""@specialDates""
+    GetDateClass=""@((date) => specialDates.Contains(date.Date) ? \""ring-2 ring-yellow-400\"" : null)"" />";
+    
+    private string yearRangeCode = @"<TailDateRangePicker 
+    @bind-StartDate=""yearRangeStart"" 
+    @bind-EndDate=""yearRangeEnd"" 
+    Label=""Custom Year Range""
+    InitialViewMode=""DatePickerViewMode.Years""
+    YearRangeStart=""2020""
+    YearRangeEnd=""2030"" />";
+    
+    private string customTemplateCode = @"<TailDateRangePicker @bind-StartDate=""templateStart"" @bind-EndDate=""templateEnd"" Label=""With Custom Footer"">
+    <FooterTemplate>
+        <div class=""flex items-center justify-between mt-4 pt-4 border-t"">
+            <TailButton Variant=""Button.ButtonVariant.Outline"" OnClick=""@(() => { templateStart = null; templateEnd = null; })"">Clear</TailButton>
+            <TailButton Variant=""Button.ButtonVariant.Primary"" OnClick=""@(() => { })"">Apply</TailButton>
+        </div>
+    </FooterTemplate>
+</TailDateRangePicker>";
+    
+    private string customParserCode = @"<TailDateRangePicker 
+    @bind-StartDate=""parserStart"" 
+    @bind-EndDate=""parserEnd"" 
+    Label=""Custom Date Format""
+    CustomDateParser=""@ParseCustomDate""
+    CustomDateFormatter=""@FormatCustomDate"" />
+
+@code {
+    private DateTime? ParseCustomDate(string input)
+    {
+        if (DateTime.TryParse(input, out var date))
+            return date;
+        if (DateTime.TryParseExact(input, new[] { ""MM/dd/yyyy"", ""dd-MM-yyyy"" }, null, System.Globalization.DateTimeStyles.None, out date))
+            return date;
+        return null;
+    }
+    
+    private string FormatCustomDate(DateTime date)
+    {
+        return date.ToString(""MM/dd/yyyy"");
+    }
+}";
+    
+    private string statesCode = @"<TailDateRangePicker @bind-StartDate=""state1Start"" @bind-EndDate=""state1End"" Label=""Normal"" />
+<TailDateRangePicker @bind-StartDate=""state2Start"" @bind-EndDate=""state2End"" Label=""Required"" Required=""true"" />
+<TailDateRangePicker @bind-StartDate=""state3Start"" @bind-EndDate=""state3End"" Label=""Disabled"" Disabled=""true"" />
+<TailDateRangePicker @bind-StartDate=""state4Start"" @bind-EndDate=""state4End"" Label=""With Error"" ErrorMessage=""Please select a valid date range"" />";
+    
+    private string animationsCode = @"<TailDateRangePicker 
+    @bind-StartDate=""anim1Start"" 
+    @bind-EndDate=""anim1End"" 
+    Label=""Fade Animation""
+    Animation=""CalendarAnimation.Fade""
+    AnimationDuration=""300"" />
+
+<TailDateRangePicker 
+    @bind-StartDate=""anim2Start"" 
+    @bind-EndDate=""anim2End"" 
+    Label=""Slide Down Animation""
+    Animation=""CalendarAnimation.SlideDown""
+    AnimationDuration=""250"" />";
+
+    private string bookingCode = @"<TailCard>
+    <Header>
+        <h3>Hotel Booking</h3>
+    </Header>
+    <ChildContent>
+        <TailDateRangePicker 
+            @bind-StartDate=""bookingStart"" 
+            @bind-EndDate=""bookingEnd"" 
+            Label=""Check-in / Check-out""
+            ShowTime=""false""
+            MinDate=""@DateTime.Today""
+            Required=""true"" />
+    </ChildContent>
+</TailCard>";
+    
+    private DateTime? ParseCustomDate(string input)
+    {
+        if (DateTime.TryParse(input, out var date))
+            return date;
+        if (DateTime.TryParseExact(input, new[] { "MM/dd/yyyy", "dd-MM-yyyy" }, null, System.Globalization.DateTimeStyles.None, out date))
+            return date;
+        return null;
+    }
+    
+    private string FormatCustomDate(DateTime date)
+    {
+        return date.ToString("MM/dd/yyyy");
+    }
+    
+    private string? GetSpecialDateClass(DateTime date)
+    {
+        return specialDates.Contains(date.Date) ? "ring-2 ring-yellow-400" : null;
+    }
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "StartDate", Type = "DateTime?", Default = "-", Description = "Start date of the range (two-way binding)" },
+        // Date Range
+        new DocPageTemplate.ApiParameter { Name = "StartDate", Type = "DateTime?", Default = "null", Description = "Start date of the range (two-way binding with @@bind-StartDate)" },
         new DocPageTemplate.ApiParameter { Name = "StartDateChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when start date changes" },
-        new DocPageTemplate.ApiParameter { Name = "EndDate", Type = "DateTime?", Default = "-", Description = "End date of the range (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "EndDate", Type = "DateTime?", Default = "null", Description = "End date of the range (two-way binding with @@bind-EndDate)" },
         new DocPageTemplate.ApiParameter { Name = "EndDateChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when end date changes" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "DateRangePickerSize", Default = "Md", Description = "Size of the date range picker (Xs, Sm, Md, Lg, Xl)" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the date range picker" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
-        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the date range picker as required" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the date range picker" },
-        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum selectable date" },
-        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum selectable date" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+        
+        // DateOnly Support
+        new DocPageTemplate.ApiParameter { Name = "StartDateOnly", Type = "DateOnly?", Default = "null", Description = "Start date using DateOnly type (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "StartDateOnlyChanged", Type = "EventCallback<DateOnly?>", Default = "-", Description = "Event fired when start DateOnly changes" },
+        new DocPageTemplate.ApiParameter { Name = "EndDateOnly", Type = "DateOnly?", Default = "null", Description = "End date using DateOnly type (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "EndDateOnlyChanged", Type = "EventCallback<DateOnly?>", Default = "-", Description = "Event fired when end DateOnly changes" },
+        
+        // TimeOnly Support
+        new DocPageTemplate.ApiParameter { Name = "StartTimeOnly", Type = "TimeOnly?", Default = "null", Description = "Start time using TimeOnly type (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "StartTimeOnlyChanged", Type = "EventCallback<TimeOnly?>", Default = "-", Description = "Event fired when start TimeOnly changes" },
+        new DocPageTemplate.ApiParameter { Name = "EndTimeOnly", Type = "TimeOnly?", Default = "null", Description = "End time using TimeOnly type (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "EndTimeOnlyChanged", Type = "EventCallback<TimeOnly?>", Default = "-", Description = "Event fired when end TimeOnly changes" },
+        
+        // Time Selection
+        new DocPageTemplate.ApiParameter { Name = "ShowTime", Type = "bool", Default = "false", Description = "Show time selection inputs" },
+        new DocPageTemplate.ApiParameter { Name = "TimeOnlyMode", Type = "bool", Default = "false", Description = "Show only time selection (no date)" },
+        new DocPageTemplate.ApiParameter { Name = "HourFormat", Type = "HourFormat", Default = "HourFormat.TwentyFourHour", Description = "Hour format: TwelveHour or TwentyFourHour" },
+        
+        // Display & UI
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "DateRangePickerSize", Default = "DateRangePickerSize.Md", Description = "Size variant: Xs, Sm, Md, Lg, Xl" },
+        new DocPageTemplate.ApiParameter { Name = "DisplayMode", Type = "DatePickerDisplayMode", Default = "DatePickerDisplayMode.InputAndPopup", Description = "Display mode: InputAndPopup, InputOnly, or PopupOnly" },
+        new DocPageTemplate.ApiParameter { Name = "ShowCalendarButton", Type = "bool", Default = "true", Description = "Show calendar popup button" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "null", Description = "Label text displayed above the picker" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "\"Select date range\"", Description = "Placeholder text for popup-only mode" },
+        new DocPageTemplate.ApiParameter { Name = "StartPlaceholder", Type = "string?", Default = "null", Description = "Placeholder for start date input" },
+        new DocPageTemplate.ApiParameter { Name = "EndPlaceholder", Type = "string?", Default = "null", Description = "Placeholder for end date input" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "null", Description = "Error message displayed below the picker" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the picker as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the picker" },
+        
+        // Calendar Configuration
+        new DocPageTemplate.ApiParameter { Name = "InitialViewDate", Type = "DateTime?", Default = "null", Description = "Initial date to show in calendar (defaults to StartDate or today)" },
+        new DocPageTemplate.ApiParameter { Name = "YearRangeStart", Type = "int?", Default = "null", Description = "Start year for year selection (defaults to current year - 10)" },
+        new DocPageTemplate.ApiParameter { Name = "YearRangeEnd", Type = "int?", Default = "null", Description = "End year for year selection (defaults to current year + 10)" },
+        new DocPageTemplate.ApiParameter { Name = "InitialViewMode", Type = "DatePickerViewMode", Default = "DatePickerViewMode.Days", Description = "Initial calendar view: Days, Months, or Years" },
+        new DocPageTemplate.ApiParameter { Name = "SelectionMode", Type = "DateSelectionMode", Default = "DateSelectionMode.SingleRange", Description = "Selection mode: SingleRange or MultipleRanges" },
+        new DocPageTemplate.ApiParameter { Name = "Animation", Type = "CalendarAnimation", Default = "CalendarAnimation.Fade", Description = "Calendar popup animation: None, Fade, SlideDown, or Scale" },
+        new DocPageTemplate.ApiParameter { Name = "AnimationDuration", Type = "int", Default = "200", Description = "Animation duration in milliseconds" },
+        
+        // Date Restrictions
+        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "null", Description = "Minimum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "null", Description = "Maximum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "MinDateOnly", Type = "DateOnly?", Default = "null", Description = "Minimum selectable date (DateOnly)" },
+        new DocPageTemplate.ApiParameter { Name = "MaxDateOnly", Type = "DateOnly?", Default = "null", Description = "Maximum selectable date (DateOnly)" },
+        new DocPageTemplate.ApiParameter { Name = "DisabledDates", Type = "List<DateTime>", Default = "new()", Description = "List of disabled dates" },
+        new DocPageTemplate.ApiParameter { Name = "DisabledDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "List of disabled dates (DateOnly)" },
+        new DocPageTemplate.ApiParameter { Name = "IsDateDisabled", Type = "Func<DateTime, bool>?", Default = "null", Description = "Custom function to determine if a date is disabled" },
+        new DocPageTemplate.ApiParameter { Name = "SpecialDates", Type = "List<DateTime>", Default = "new()", Description = "List of special dates to highlight" },
+        new DocPageTemplate.ApiParameter { Name = "SpecialDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "List of special dates (DateOnly)" },
+        new DocPageTemplate.ApiParameter { Name = "GetDateClass", Type = "Func<DateTime, string?>?", Default = "null", Description = "Function to get custom CSS class for a date" },
+        new DocPageTemplate.ApiParameter { Name = "GetDateTooltip", Type = "Func<DateTime, string?>?", Default = "null", Description = "Function to get tooltip text for a date" },
+        
+        // Custom Templates
+        new DocPageTemplate.ApiParameter { Name = "DateTemplate", Type = "RenderFragment<DateTime>?", Default = "null", Description = "Custom template for rendering date cells" },
+        new DocPageTemplate.ApiParameter { Name = "FooterTemplate", Type = "RenderFragment?", Default = "null", Description = "Custom footer template for calendar" },
+        new DocPageTemplate.ApiParameter { Name = "HeaderTemplate", Type = "RenderFragment?", Default = "null", Description = "Custom header template for calendar" },
+        
+        // Custom Parsing
+        new DocPageTemplate.ApiParameter { Name = "CustomDateParser", Type = "Func<string, DateTime?>?", Default = "null", Description = "Custom function to parse date input strings" },
+        new DocPageTemplate.ApiParameter { Name = "CustomDateFormatter", Type = "Func<DateTime, string>?", Default = "null", Description = "Custom function to format dates for display" },
+        
+        // Styling
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline CSS styles" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes (inherited from TailComponentBase)" }
     };
 }
-

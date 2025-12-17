@@ -5,10 +5,25 @@ namespace Tail.Blazor.DateRangePicker;
 /// </summary>
 public enum DateRangePickerSize
 {
+    /// <summary>
+    /// Extra small size
+    /// </summary>
     Xs,
+    /// <summary>
+    /// Small size
+    /// </summary>
     Sm,
+    /// <summary>
+    /// Medium size (default)
+    /// </summary>
     Md,
+    /// <summary>
+    /// Large size
+    /// </summary>
     Lg,
+    /// <summary>
+    /// Extra large size
+    /// </summary>
     Xl
 }
 
