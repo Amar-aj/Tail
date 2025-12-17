@@ -1,87 +1,282 @@
 @page "/components/date-picker"
 @using Tail.Blazor.DatePicker
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Button
+@using AlertVariant = Tail.Blazor.Alert.AlertVariant
 
 <PageTitle>DatePicker - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailDatePicker" 
-                 Description="Date selection component with calendar picker. Ultra-lightweight (~8 KB)."
+                 Description="A beautiful, feature-rich date picker component with custom calendar popup, month/year navigation, time selection, and full theme support. Inspired by Radzen and MudBlazor UI patterns."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
-
+    
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Date Picker" Code="@basicCode">
+        <CodePreview Title="Simple Date Picker" Code="@basicCode">
             <PreviewContent>
                 <TailDatePicker @bind-Value="selectedDate" Label="Select Date" />
                 @if (selectedDate.HasValue)
                 {
-                    <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Selected: @selectedDate.Value.ToString("yyyy-MM-dd")</p>
+                    <TailAlert Variant="AlertVariant.Success" Class="mt-4">
+                        Selected: @selectedDate.Value.ToString("dd-MM-yyyy")
+                    </TailAlert>
                 }
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Date Range">
+    <DocSection Title="Sizes">
+        <CodePreview Title="Date Picker Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDatePicker Size="DatePickerSize.Xs" @bind-Value="sizesDates[0]" Label="Extra Small" />
+                    <TailDatePicker Size="DatePickerSize.Sm" @bind-Value="sizesDates[1]" Label="Small" />
+                    <TailDatePicker Size="DatePickerSize.Md" @bind-Value="sizesDates[2]" Label="Medium (Default)" />
+                    <TailDatePicker Size="DatePickerSize.Lg" @bind-Value="sizesDates[3]" Label="Large" />
+                    <TailDatePicker Size="DatePickerSize.Xl" @bind-Value="sizesDates[4]" Label="Extra Large" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Date Range Constraints">
         <CodePreview Title="Min and Max Dates" Code="@dateRangeCode">
             <PreviewContent>
-                <TailDatePicker @bind-Value="selectedDate2" Label="Select Date" MinDate="@DateTime.Today" MaxDate="@DateTime.Today.AddDays(30)" HelpText="Select a date within the next 30 days" />
+                <TailDatePicker @bind-Value="rangeDate" Label="Select Date" MinDate="@DateTime.Today" MaxDate="@DateTime.Today.AddDays(30)" HelpText="Select a date within the next 30 days" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Date and Time Picker">
+        <CodePreview Title="DateTime Selection" Code="@dateTimeCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDatePicker @bind-Value="dateTimeValue" Label="Select Date and Time" ShowTime="true" />
+                    <TailDatePicker @bind-Value="dateTimeWithSeconds" Label="With Seconds" ShowTime="true" ShowSeconds="true" />
+                </div>
+                @if (dateTimeValue.HasValue)
+                {
+                    <TailAlert Variant="AlertVariant.Info" Class="mt-4">
+                        Selected: @dateTimeValue.Value.ToString("dd-MM-yyyy HH:mm")
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Time Only Picker">
+        <CodePreview Title="Time Selection Only" Code="@timeOnlyCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDatePicker IsTimeOnly="true" @bind-TimeOnlyValue="timeOnlyValue" Label="Select Time" />
+                    <TailDatePicker IsTimeOnly="true" ShowSeconds="true" @bind-TimeOnlyValue="timeOnlyWithSeconds" Label="With Seconds" />
+                </div>
+                @if (timeOnlyValue.HasValue)
+                {
+                    <TailAlert Variant="AlertVariant.Info" Class="mt-4">
+                        Selected: @timeOnlyValue.Value.ToString("HH:mm")
+                    </TailAlert>
+                }
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Disabled and Required States" Code="@statesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDatePicker Disabled="true" Value="@DateTime.Today" Label="Disabled Date Picker" />
+                    <TailDatePicker Required="true" @bind-Value="requiredDate" Label="Required Date Picker" />
+                    <TailDatePicker @bind-Value="errorDate" Label="With Error" ErrorMessage="Please select a valid date" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Format">
+        <CodePreview Title="Different Date Formats" Code="@formatCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailDatePicker @bind-Value="formatDate" Label="DD/MM/YYYY" Format="dd/MM/yyyy" />
+                    <TailDatePicker @bind-Value="formatDate2" Label="MM-DD-YYYY (US Format)" Format="MM-dd-yyyy" />
+                    <TailDatePicker @bind-Value="formatDate3" Label="Long Format" Format="dddd, MMMM dd, yyyy" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <div class="prose prose-sm max-w-none mb-4" style="color: var(--color-text-primary);">
+            <p>The DatePicker component includes comprehensive accessibility features:</p>
+            <ul>
+                <li><strong>ARIA Labels:</strong> Use the <code>AriaLabel</code> parameter for screen readers</li>
+                <li><strong>Tooltips:</strong> The <code>Tooltip</code> parameter adds title attributes</li>
+                <li><strong>Keyboard Support:</strong> Full keyboard navigation in calendar</li>
+                <li><strong>Focus Management:</strong> Proper focus indicators and ring styles</li>
+                <li><strong>Required Field:</strong> Visual and semantic indication for required fields</li>
+            </ul>
+        </div>
+        <CodePreview Title="Accessibility Example" Code="@accessibilityCode">
+            <PreviewContent>
+                <TailDatePicker 
+                    AriaLabel="Select your birth date" 
+                    Tooltip="Choose your date of birth" 
+                    @bind-Value="accessibleDate" 
+                    Label="Accessible Date Picker" 
+                    Required="true" />
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Date selection with native date picker</li>
-                <li>Two-way binding for DateTime?</li>
-                <li>Min and max date constraints</li>
-                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
-                <li>Label and help text support</li>
-                <li>Error message display</li>
-                <li>Required field support</li>
-                <li>Disabled state support</li>
-                <li>Icon support (IconStart)</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Validation support</li>
-            </ul>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" style="color: var(--color-text-primary);">
+            <div class="p-4 rounded-lg border" style="border-color: var(--color-border); background-color: var(--color-surface);">
+                <h4 class="font-semibold mb-3 text-lg" style="color: var(--color-primary);">?? Calendar Features</h4>
+                <ul class="list-disc list-inside space-y-1.5 text-sm">
+                    <li>Custom calendar popup with beautiful UI</li>
+                    <li>Month navigation with prev/next buttons</li>
+                    <li>Month selector dropdown</li>
+                    <li>Year selector with configurable range</li>
+                    <li>Today highlighting</li>
+                    <li>Selected date highlighting</li>
+                    <li>Weekend day styling (red)</li>
+                    <li>Previous/next month days visible</li>
+                    <li>Min/max date constraints</li>
+                    <li>Custom disabled dates function</li>
+                </ul>
+            </div>
+            <div class="p-4 rounded-lg border" style="border-color: var(--color-border); background-color: var(--color-surface);">
+                <h4 class="font-semibold mb-3 text-lg" style="color: var(--color-primary);">? Time Features</h4>
+                <ul class="list-disc list-inside space-y-1.5 text-sm">
+                    <li>Time picker with hour/minute/second</li>
+                    <li>Increment/decrement buttons</li>
+                    <li>Direct input for time values</li>
+                    <li>24-hour format support</li>
+                    <li>Time-only mode</li>
+                    <li>Combined date and time picker</li>
+                    <li>Optional seconds display</li>
+                    <li>TimeOnly type support</li>
+                </ul>
+            </div>
+            <div class="p-4 rounded-lg border" style="border-color: var(--color-border); background-color: var(--color-surface);">
+                <h4 class="font-semibold mb-3 text-lg" style="color: var(--color-primary);">?? UI/UX Features</h4>
+                <ul class="list-disc list-inside space-y-1.5 text-sm">
+                    <li>Multiple sizes (XS to XL)</li>
+                    <li>Custom date format display</li>
+                    <li>Clear and Today buttons</li>
+                    <li>OK button to confirm selection</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Hover and focus states</li>
+                    <li>Error message display</li>
+                    <li>Help text support</li>
+                    <li>Disabled state styling</li>
+                </ul>
+            </div>
+            <div class="p-4 rounded-lg border" style="border-color: var(--color-border); background-color: var(--color-surface);">
+                <h4 class="font-semibold mb-3 text-lg" style="color: var(--color-primary);">?? Developer Features</h4>
+                <ul class="list-disc list-inside space-y-1.5 text-sm">
+                    <li>Two-way binding (DateTime?, TimeOnly?)</li>
+                    <li>Event callbacks (OnDateSelected, OnDateChanged)</li>
+                    <li>Full theme support with CSS variables</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility compliant (ARIA)</li>
+                    <li>Custom placeholder text</li>
+                    <li>Required field validation</li>
+                    <li>Custom CSS class support</li>
+                    <li>Additional attributes support</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private DateTime? selectedDate = null;
-    private DateTime? selectedDate2 = null;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.DatePicker";
-    
+    private DateTime? rangeDate = null;
+    private DateTime? dateTimeValue = null;
+    private DateTime? dateTimeWithSeconds = null;
+    private TimeOnly? timeOnlyValue = null;
+    private TimeOnly? timeOnlyWithSeconds = null;
+    private DateTime? requiredDate = null;
+    private DateTime? errorDate = null;
+    private DateTime? accessibleDate = null;
+    private DateTime? formatDate = null;
+    private DateTime? formatDate2 = null;
+    private DateTime? formatDate3 = null;
+    private DateTime?[] sizesDates = new DateTime?[5];
+
+    private string installCode = @"dotnet add package Tail.Blazor.Forms";
+
     private string basicCode = @"<TailDatePicker @bind-Value=""selectedDate"" Label=""Select Date"" />";
 
-    private string dateRangeCode = @"<TailDatePicker @bind-Value=""selectedDate"" 
-                         Label=""Select Date"" 
-                         MinDate=""@DateTime.Today"" 
-                         MaxDate=""@DateTime.Today.AddDays(30)"" 
-                         HelpText=""Select a date within the next 30 days"" />";
+    private string sizesCode = @"<TailDatePicker Size=""DatePickerSize.Xs"" @bind-Value=""date"" Label=""Extra Small"" />
+<TailDatePicker Size=""DatePickerSize.Sm"" @bind-Value=""date"" Label=""Small"" />
+<TailDatePicker Size=""DatePickerSize.Md"" @bind-Value=""date"" Label=""Medium"" />
+<TailDatePicker Size=""DatePickerSize.Lg"" @bind-Value=""date"" Label=""Large"" />
+<TailDatePicker Size=""DatePickerSize.Xl"" @bind-Value=""date"" Label=""Extra Large"" />";
+
+    private string dateRangeCode = @"<TailDatePicker 
+    @bind-Value=""date"" 
+    Label=""Select Date"" 
+    MinDate=""@DateTime.Today"" 
+    MaxDate=""@DateTime.Today.AddDays(30)"" 
+    HelpText=""Select a date within the next 30 days"" />";
+
+    private string dateTimeCode = @"<TailDatePicker @bind-Value=""dateTime"" Label=""Select Date and Time"" ShowTime=""true"" />
+<TailDatePicker @bind-Value=""dateTime"" Label=""With Seconds"" ShowTime=""true"" ShowSeconds=""true"" />";
+
+    private string timeOnlyCode = @"<TailDatePicker IsTimeOnly=""true"" @bind-TimeOnlyValue=""time"" Label=""Select Time"" />
+<TailDatePicker IsTimeOnly=""true"" ShowSeconds=""true"" @bind-TimeOnlyValue=""time"" Label=""With Seconds"" />";
+
+    private string statesCode = @"<TailDatePicker Disabled=""true"" Value=""@DateTime.Today"" Label=""Disabled"" />
+<TailDatePicker Required=""true"" @bind-Value=""date"" Label=""Required"" />
+<TailDatePicker @bind-Value=""date"" Label=""With Error"" ErrorMessage=""Please select a valid date"" />";
+
+    private string formatCode = @"<TailDatePicker @bind-Value=""date"" Label=""DD/MM/YYYY"" Format=""dd/MM/yyyy"" />
+<TailDatePicker @bind-Value=""date"" Label=""US Format"" Format=""MM-dd-yyyy"" />
+<TailDatePicker @bind-Value=""date"" Label=""Long Format"" Format=""dddd, MMMM dd, yyyy"" />";
+
+    private string accessibilityCode = @"<TailDatePicker 
+    AriaLabel=""Select your birth date"" 
+    Tooltip=""Choose your date of birth"" 
+    @bind-Value=""date"" 
+    Label=""Accessible Date Picker"" 
+    Required=""true"" />";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "DateTime?", Default = "-", Description = "Selected date (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when date changes" },
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "DateTime?", Default = "null", Description = "Selected date value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when date value changes" },
+        new DocPageTemplate.ApiParameter { Name = "TimeOnlyValue", Type = "TimeOnly?", Default = "null", Description = "Time-only value for time picker mode" },
+        new DocPageTemplate.ApiParameter { Name = "TimeOnlyValueChanged", Type = "EventCallback<TimeOnly?>", Default = "-", Description = "Event fired when time value changes" },
         new DocPageTemplate.ApiParameter { Name = "Size", Type = "DatePickerSize", Default = "Md", Description = "Size of the date picker (Xs, Sm, Md, Lg, Xl)" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the date picker" },
-        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
-        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the date picker as required" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "null", Description = "Label text displayed above the input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "null", Description = "Placeholder text when no date selected" },
+        new DocPageTemplate.ApiParameter { Name = "Format", Type = "string", Default = "\"dd-MM-yyyy\"", Description = "Date display format (e.g., dd/MM/yyyy)" },
+        new DocPageTemplate.ApiParameter { Name = "ShowTime", Type = "bool", Default = "false", Description = "Enable time selection with date" },
+        new DocPageTemplate.ApiParameter { Name = "ShowSeconds", Type = "bool", Default = "false", Description = "Show seconds in time picker" },
+        new DocPageTemplate.ApiParameter { Name = "IsTimeOnly", Type = "bool", Default = "false", Description = "Enable time-only picker mode" },
+        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "null", Description = "Minimum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "null", Description = "Maximum selectable date" },
+        new DocPageTemplate.ApiParameter { Name = "IsDateDisabled", Type = "Func<DateTime, bool>?", Default = "null", Description = "Custom function to disable specific dates" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark field as required" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the date picker" },
-        new DocPageTemplate.ApiParameter { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum selectable date" },
-        new DocPageTemplate.ApiParameter { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum selectable date" },
-        new DocPageTemplate.ApiParameter { Name = "IconStart", Type = "RenderFragment?", Default = "-", Description = "Icon to display at the start of the input" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "null", Description = "Error message to display" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "null", Description = "Help text displayed below input" },
+        new DocPageTemplate.ApiParameter { Name = "YearRange", Type = "int", Default = "10", Description = "Number of years to show in year selector" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "null", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "null", Description = "Tooltip text on hover" },
+        new DocPageTemplate.ApiParameter { Name = "OnDateSelected", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when a date is selected" },
+        new DocPageTemplate.ApiParameter { Name = "OnDateChanged", Type = "EventCallback<DateTime?>", Default = "-", Description = "Event fired when date changes" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline styles" }
     };
 }
 

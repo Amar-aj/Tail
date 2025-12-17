@@ -2,46 +2,268 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.DatePicker
 
-<div class="@GetWrapperClasses()">
+<div class="@GetWrapperClasses()" @onclick:stopPropagation="true">
     @if (!string.IsNullOrEmpty(Label))
     {
-        <label class="block text-sm font-medium mb-1" for="@DatePickerId">
+        <label class="block text-sm font-medium mb-1.5" for="@DatePickerId" style="color: var(--color-text-primary);">
             @Label
             @if (Required)
             {
-                <span class="text-red-500">*</span>
+                <span class="text-red-500 ml-0.5">*</span>
             }
         </label>
     }
+    
+    <!-- Input Field -->
     <div class="relative">
-        <input 
-            id="@DatePickerId"
-            type="date"
-            class="@GetInputClasses()"
-            value="@GetDateValue()"
-            @onchange="HandleChange"
-            min="@GetMinDate()"
-            max="@GetMaxDate()"
-            disabled="@Disabled"
-            required="@Required"
-            @attributes="AdditionalAttributes"
-            style="@GetInputStyles()" />
-        @if (IconStart != null)
+        <div class="relative flex items-center cursor-pointer" @onclick="ToggleCalendar">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                <svg class="@GetIconSizeClasses() transition-colors duration-200" style="color: var(--color-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    @if (IsTimeOnly)
+                    {
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    }
+                    else
+                    {
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    }
+                </svg>
+            </div>
+            <input 
+                id="@DatePickerId"
+                type="text"
+                class="@GetInputClasses()"
+                value="@GetDisplayValue()"
+                readonly
+                placeholder="@GetPlaceholder()"
+                disabled="@Disabled"
+                aria-label="@(AriaLabel ?? "Select date")"
+                title="@Tooltip"
+                @attributes="AdditionalAttributes"
+                style="@GetInputStyles()" />
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400 transition-transform duration-200 @(IsCalendarOpen ? "rotate-180" : "")" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Calendar Popup -->
+        @if (IsCalendarOpen)
         {
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                @IconStart
+            <div class="absolute z-[9999] mt-1 bg-white rounded-lg shadow-2xl border border-gray-200 p-4 min-w-[300px] animate-fadeIn" 
+                 style="background-color: var(--color-surface); border-color: var(--color-border);"
+                 @onclick:stopPropagation="true">
+                
+                @if (!IsTimeOnly)
+                {
+                    <!-- Month/Year Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <button type="button" class="p-1.5 rounded-lg hover:bg-blue-50 transition-colors" @onclick="PreviousMonth" aria-label="Previous month">
+                            <svg class="w-5 h-5" style="color: var(--color-text-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="flex items-center gap-2">
+                            <button type="button" class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-1" 
+                                    style="color: var(--color-text-primary);"
+                                    @onclick="ToggleMonthSelector">
+                                @CurrentViewDate.ToString("MMMM")
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <button type="button" class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-1" 
+                                    style="color: var(--color-text-primary);"
+                                    @onclick="ToggleYearSelector">
+                                @CurrentViewDate.Year
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <button type="button" class="p-1.5 rounded-lg hover:bg-blue-50 transition-colors" @onclick="NextMonth" aria-label="Next month">
+                            <svg class="w-5 h-5" style="color: var(--color-primary);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    @if (ShowMonthSelector)
+                    {
+                        <!-- Month Selector -->
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                var month = i;
+                                var monthName = new DateTime(CurrentViewDate.Year, month, 1).ToString("MMM");
+                                var isCurrentMonth = month == CurrentViewDate.Month;
+                                <button type="button" 
+                                        class="px-2 py-2 text-sm rounded-lg transition-colors @(isCurrentMonth ? "bg-primary text-white" : "hover:bg-blue-50")"
+                                        style="@(isCurrentMonth ? "background-color: var(--color-primary); color: white;" : "color: var(--color-text-primary);")"
+                                        @onclick="() => SelectMonth(month)">
+                                    @monthName
+                                </button>
+                            }
+                        </div>
+                    }
+                    else if (ShowYearSelector)
+                    {
+                        <!-- Year Selector -->
+                        <div class="grid grid-cols-4 gap-2 mb-4 max-h-48 overflow-y-auto">
+                            @for (int year = DateTime.Today.Year - YearRange; year <= DateTime.Today.Year + YearRange; year++)
+                            {
+                                var y = year;
+                                var isCurrentYear = y == CurrentViewDate.Year;
+                                <button type="button" 
+                                        class="px-2 py-2 text-sm rounded-lg transition-colors @(isCurrentYear ? "bg-primary text-white" : "hover:bg-blue-50")"
+                                        style="@(isCurrentYear ? "background-color: var(--color-primary); color: white;" : "color: var(--color-text-primary);")"
+                                        @onclick="() => SelectYear(y)">
+                                    @y
+                                </button>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Day Names Header -->
+                        <div class="grid grid-cols-7 gap-1 mb-2">
+                            @foreach (var dayName in new[] { "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su" })
+                            {
+                                <div class="text-center text-xs font-medium py-1" style="color: var(--color-text-secondary);">
+                                    @dayName
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Calendar Days -->
+                        <div class="grid grid-cols-7 gap-1">
+                            @foreach (var day in GetCalendarDays())
+                            {
+                                var isToday = day.Date == DateTime.Today;
+                                var isSelected = Value.HasValue && day.Date == Value.Value.Date;
+                                var isCurrentMonth = day.Month == CurrentViewDate.Month;
+                                var isDisabled = IsDateDisabledInternal(day);
+                                var isWeekend = day.DayOfWeek == DayOfWeek.Saturday || day.DayOfWeek == DayOfWeek.Sunday;
+                                
+                                <button type="button" 
+                                        class="@GetDayClasses(isToday, isSelected, isCurrentMonth, isDisabled, isWeekend)"
+                                        style="@GetDayStyles(isToday, isSelected, isCurrentMonth)"
+                                        disabled="@isDisabled"
+                                        @onclick="() => SelectDate(day)">
+                                    @day.Day
+                                </button>
+                            }
+                        </div>
+                    }
+                }
+
+                @if (ShowTime || IsTimeOnly)
+                {
+                    <!-- Time Picker -->
+                    <div class="@(IsTimeOnly ? "" : "mt-4 pt-4 border-t") border-gray-200" style="border-color: var(--color-border);">
+                        <div class="flex items-center justify-center gap-2">
+                            <div class="flex flex-col items-center">
+                                <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="IncrementHour">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                </button>
+                                <input type="text" class="w-12 text-center py-1 border rounded text-lg font-medium" 
+                                       style="background-color: var(--color-surface); color: var(--color-text-primary); border-color: var(--color-border);"
+                                       value="@SelectedHour.ToString("D2")" 
+                                       @onchange="e => SetHour(e.Value?.ToString())" />
+                                <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="DecrementHour">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="text-xl font-bold" style="color: var(--color-text-primary);">:</span>
+                            <div class="flex flex-col items-center">
+                                <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="IncrementMinute">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                    </svg>
+                                </button>
+                                <input type="text" class="w-12 text-center py-1 border rounded text-lg font-medium" 
+                                       style="background-color: var(--color-surface); color: var(--color-text-primary); border-color: var(--color-border);"
+                                       value="@SelectedMinute.ToString("D2")" 
+                                       @onchange="e => SetMinute(e.Value?.ToString())" />
+                                <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="DecrementMinute">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            @if (ShowSeconds)
+                            {
+                                <span class="text-xl font-bold" style="color: var(--color-text-primary);">:</span>
+                                <div class="flex flex-col items-center">
+                                    <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="IncrementSecond">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                        </svg>
+                                    </button>
+                                    <input type="text" class="w-12 text-center py-1 border rounded text-lg font-medium" 
+                                           style="background-color: var(--color-surface); color: var(--color-text-primary); border-color: var(--color-border);"
+                                           value="@SelectedSecond.ToString("D2")" 
+                                           @onchange="e => SetSecond(e.Value?.ToString())" />
+                                    <button type="button" class="p-1 hover:bg-blue-50 rounded transition-colors" @onclick="DecrementSecond">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Footer Actions -->
+                <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-200" style="border-color: var(--color-border);">
+                    <button type="button" 
+                            class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors"
+                            style="color: var(--color-error, #dc2626);"
+                            @onclick="ClearDate">
+                        Clear
+                    </button>
+                    <div class="flex gap-2">
+                        @if (!IsTimeOnly)
+                        {
+                            <button type="button" 
+                                    class="px-3 py-1.5 text-sm font-medium rounded-lg hover:bg-blue-50 transition-colors"
+                                    style="color: var(--color-primary);"
+                                    @onclick="SetToday">
+                                Today
+                            </button>
+                        }
+                        <button type="button" 
+                                class="px-4 py-1.5 text-sm font-medium rounded-lg transition-colors text-white hover:opacity-90"
+                                style="background-color: var(--color-primary);"
+                                @onclick="ConfirmSelection">
+                            OK
+                        </button>
+                    </div>
+                </div>
             </div>
         }
     </div>
+
     @if (!string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="text-sm text-red-600 mt-1">
-            @ErrorMessage
+        <div class="flex items-center gap-1 text-sm mt-1.5" style="color: var(--color-error, #dc2626);">
+            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>@ErrorMessage</span>
         </div>
     }
-    @if (!string.IsNullOrEmpty(HelpText))
+    @if (!string.IsNullOrEmpty(HelpText) && string.IsNullOrEmpty(ErrorMessage))
     {
-        <div class="text-sm text-gray-500 mt-1">
+        <div class="text-sm mt-1.5" style="color: var(--color-text-secondary);">
             @HelpText
         </div>
     }
@@ -49,6 +271,13 @@
 
 @code {
     private string DatePickerId { get; set; } = Guid.NewGuid().ToString();
+    private bool IsCalendarOpen { get; set; }
+    private bool ShowMonthSelector { get; set; }
+    private bool ShowYearSelector { get; set; }
+    private DateTime CurrentViewDate { get; set; } = DateTime.Today;
+    private int SelectedHour { get; set; }
+    private int SelectedMinute { get; set; }
+    private int SelectedSecond { get; set; }
 
     [Parameter] public DateTime? Value { get; set; }
     [Parameter] public EventCallback<DateTime?> ValueChanged { get; set; }
@@ -61,11 +290,68 @@
     [Parameter] public DateTime? MinDate { get; set; }
     [Parameter] public DateTime? MaxDate { get; set; }
     [Parameter] public RenderFragment? IconStart { get; set; }
+    [Parameter] public bool Clearable { get; set; }
+    [Parameter] public bool ShowTodayButton { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public string? AriaLabel { get; set; }
+    [Parameter] public string? Tooltip { get; set; }
+    [Parameter] public string Format { get; set; } = "dd-MM-yyyy";
+    [Parameter] public EventCallback<DateTime?> OnDateSelected { get; set; }
+    [Parameter] public EventCallback<DateTime?> OnDateChanged { get; set; }
+    [Parameter] public Func<DateTime, bool>? IsDateDisabled { get; set; }
     [Parameter] public string? Style { get; set; }
+
+    // Advanced features
+    [Parameter] public bool ShowTime { get; set; }
+    [Parameter] public bool ShowSeconds { get; set; }
+    [Parameter] public string TimeFormat { get; set; } = "HH:mm";
+    [Parameter] public bool IsTimeOnly { get; set; }
+    [Parameter] public List<DateTime> SpecialDates { get; set; } = new();
+    [Parameter] public DateTime InitialViewDate { get; set; } = DateTime.Today;
+    [Parameter] public int YearRange { get; set; } = 10;
+    [Parameter] public bool ShowCalendar { get; set; } = true;
+    [Parameter] public bool ShowInput { get; set; } = true;
+    [Parameter] public RenderFragment<DateTime>? FooterTemplate { get; set; }
+    [Parameter] public Func<string, DateTime?>? CustomParser { get; set; }
+    [Parameter] public bool MultipleSelection { get; set; }
+    [Parameter] public List<DateTime> SelectedDates { get; set; } = new();
+    [Parameter] public EventCallback<List<DateTime>> SelectedDatesChanged { get; set; }
+    [Parameter] public bool ShowYearMonthSelection { get; set; }
+    [Parameter] public DateOnly? DateOnlyValue { get; set; }
+    [Parameter] public TimeOnly? TimeOnlyValue { get; set; }
+    [Parameter] public EventCallback<TimeOnly?> TimeOnlyValueChanged { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CurrentViewDate = Value ?? InitialViewDate;
+        if (Value.HasValue)
+        {
+            SelectedHour = Value.Value.Hour;
+            SelectedMinute = Value.Value.Minute;
+            SelectedSecond = Value.Value.Second;
+        }
+        else if (TimeOnlyValue.HasValue)
+        {
+            SelectedHour = TimeOnlyValue.Value.Hour;
+            SelectedMinute = TimeOnlyValue.Value.Minute;
+            SelectedSecond = TimeOnlyValue.Value.Second;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (Value.HasValue && !IsCalendarOpen)
+        {
+            CurrentViewDate = Value.Value;
+            SelectedHour = Value.Value.Hour;
+            SelectedMinute = Value.Value.Minute;
+            SelectedSecond = Value.Value.Second;
+        }
+    }
 
     private string GetWrapperClasses()
     {
-        var classes = new List<string> { "w-full" };
+        var classes = new List<string> { "w-full", "relative" };
         if (!string.IsNullOrEmpty(Class))
         {
             classes.Add(Class);
@@ -73,37 +359,55 @@
         return string.Join(" ", classes);
     }
 
+    private string GetIconSizeClasses()
+    {
+        return Size switch
+        {
+            DatePickerSize.Xs => "w-3.5 h-3.5",
+            DatePickerSize.Sm => "w-4 h-4",
+            DatePickerSize.Md => "w-5 h-5",
+            DatePickerSize.Lg => "w-5 h-5",
+            DatePickerSize.Xl => "w-6 h-6",
+            _ => "w-5 h-5"
+        };
+    }
+
     private string GetInputClasses()
     {
-        var classes = new List<string> { "block", "w-full", "rounded-lg", "border", "transition-colors", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+        var classes = new List<string> 
+        { 
+            "block", "w-full", "rounded-lg", "border", "shadow-sm",
+            "transition-all", "duration-200", "ease-in-out",
+            "focus:outline-none", "focus:ring-2", "focus:ring-offset-1",
+            "cursor-pointer", "select-none"
+        };
 
         classes.Add(Size switch
         {
-            DatePickerSize.Xs => "px-2 py-1 text-xs",
-            DatePickerSize.Sm => "px-3 py-1.5 text-sm",
-            DatePickerSize.Md => "px-4 py-2 text-base",
-            DatePickerSize.Lg => "px-5 py-2.5 text-lg",
-            DatePickerSize.Xl => "px-6 py-3 text-xl",
-            _ => "px-4 py-2 text-base"
+            DatePickerSize.Xs => "pl-8 pr-8 py-1 text-xs",
+            DatePickerSize.Sm => "pl-9 pr-9 py-1.5 text-sm",
+            DatePickerSize.Md => "pl-10 pr-10 py-2.5 text-base",
+            DatePickerSize.Lg => "pl-11 pr-11 py-3 text-lg",
+            DatePickerSize.Xl => "pl-12 pr-12 py-3.5 text-xl",
+            _ => "pl-10 pr-10 py-2.5 text-base"
         });
-
-        if (IconStart != null)
-        {
-            classes.Add("pl-10");
-        }
 
         if (!string.IsNullOrEmpty(ErrorMessage))
         {
-            classes.Add("border-red-500");
+            classes.Add("border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500");
         }
         else
         {
-            classes.Add("border-gray-300");
+            classes.Add("border-gray-300 focus:ring-primary focus:border-primary");
         }
 
         if (Disabled)
         {
-            classes.Add("opacity-50 cursor-not-allowed bg-gray-50");
+            classes.Add("bg-gray-100 text-gray-500 cursor-not-allowed opacity-60");
+        }
+        else
+        {
+            classes.Add("bg-white hover:border-primary");
         }
 
         return string.Join(" ", classes);
@@ -112,9 +416,8 @@
     private string GetInputStyles()
     {
         var styles = new List<string>();
-        styles.Add($"background-color: var(--color-surface, white)");
-        styles.Add($"color: var(--color-text-primary, black)");
-        styles.Add($"border-color: var(--color-border, #d1d5db)");
+        styles.Add("background-color: var(--color-surface, white)");
+        styles.Add("color: var(--color-text-primary, #1f2937)");
         if (!string.IsNullOrEmpty(Style))
         {
             styles.Add(Style);
@@ -122,28 +425,252 @@
         return string.Join("; ", styles);
     }
 
-    private string GetDateValue()
+    private string GetDisplayValue()
     {
-        return Value?.ToString("yyyy-MM-dd") ?? "";
-    }
-
-    private string GetMinDate()
-    {
-        return MinDate?.ToString("yyyy-MM-dd") ?? "";
-    }
-
-    private string GetMaxDate()
-    {
-        return MaxDate?.ToString("yyyy-MM-dd") ?? "";
-    }
-
-    private async Task HandleChange(ChangeEventArgs e)
-    {
-        if (DateTime.TryParse(e.Value?.ToString(), out var date))
+        if (IsTimeOnly && TimeOnlyValue.HasValue)
         {
-            Value = date;
-            await ValueChanged.InvokeAsync(Value);
+            return ShowSeconds ? TimeOnlyValue.Value.ToString("HH:mm:ss") : TimeOnlyValue.Value.ToString("HH:mm");
         }
+        else if (Value.HasValue)
+        {
+            if (ShowTime)
+            {
+                var timeFormat = ShowSeconds ? "HH:mm:ss" : "HH:mm";
+                return Value.Value.ToString($"{Format} {timeFormat}");
+            }
+            return Value.Value.ToString(Format);
+        }
+        return "";
+    }
+
+    private string GetPlaceholder()
+    {
+        if (!string.IsNullOrEmpty(Placeholder)) return Placeholder;
+        if (IsTimeOnly) return ShowSeconds ? "HH:mm:ss" : "HH:mm";
+        if (ShowTime) return ShowSeconds ? $"{Format} HH:mm:ss" : $"{Format} HH:mm";
+        return Format;
+    }
+
+    private List<DateTime> GetCalendarDays()
+    {
+        var days = new List<DateTime>();
+        var firstDayOfMonth = new DateTime(CurrentViewDate.Year, CurrentViewDate.Month, 1);
+        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+        
+        // Get the first day of the week (Monday = 0)
+        var startDayOfWeek = ((int)firstDayOfMonth.DayOfWeek + 6) % 7;
+        
+        // Add days from previous month
+        for (int i = startDayOfWeek - 1; i >= 0; i--)
+        {
+            days.Add(firstDayOfMonth.AddDays(-i - 1));
+        }
+        
+        // Add days of current month
+        for (int day = 1; day <= lastDayOfMonth.Day; day++)
+        {
+            days.Add(new DateTime(CurrentViewDate.Year, CurrentViewDate.Month, day));
+        }
+        
+        // Add days from next month to complete the grid (6 rows)
+        while (days.Count < 42)
+        {
+            days.Add(lastDayOfMonth.AddDays(days.Count - lastDayOfMonth.Day - startDayOfWeek + 1));
+        }
+        
+        return days;
+    }
+
+    private string GetDayClasses(bool isToday, bool isSelected, bool isCurrentMonth, bool isDisabled, bool isWeekend)
+    {
+        var classes = new List<string>
+        {
+            "w-9", "h-9", "text-sm", "rounded-full", "flex", "items-center", "justify-center",
+            "transition-all", "duration-150"
+        };
+
+        if (isDisabled)
+        {
+            classes.Add("text-gray-300 cursor-not-allowed");
+        }
+        else if (isSelected)
+        {
+            classes.Add("text-white font-semibold");
+        }
+        else if (isToday)
+        {
+            classes.Add("font-semibold border-2 hover:bg-blue-50");
+        }
+        else if (!isCurrentMonth)
+        {
+            classes.Add("text-gray-400 hover:bg-gray-50");
+        }
+        else if (isWeekend)
+        {
+            classes.Add("text-red-500 hover:bg-red-50");
+        }
+        else
+        {
+            classes.Add("hover:bg-blue-50");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private string GetDayStyles(bool isToday, bool isSelected, bool isCurrentMonth)
+    {
+        if (isSelected)
+        {
+            return "background-color: var(--color-primary);";
+        }
+        else if (isToday)
+        {
+            return "border-color: var(--color-primary); color: var(--color-primary);";
+        }
+        else if (isCurrentMonth)
+        {
+            return "color: var(--color-text-primary);";
+        }
+        return "";
+    }
+
+    private bool IsDateDisabledInternal(DateTime date)
+    {
+        if (MinDate.HasValue && date.Date < MinDate.Value.Date) return true;
+        if (MaxDate.HasValue && date.Date > MaxDate.Value.Date) return true;
+        if (IsDateDisabled != null && IsDateDisabled(date)) return true;
+        return false;
+    }
+
+    private void ToggleCalendar()
+    {
+        if (!Disabled)
+        {
+            IsCalendarOpen = !IsCalendarOpen;
+            ShowMonthSelector = false;
+            ShowYearSelector = false;
+        }
+    }
+
+    private void ToggleMonthSelector()
+    {
+        ShowMonthSelector = !ShowMonthSelector;
+        ShowYearSelector = false;
+    }
+
+    private void ToggleYearSelector()
+    {
+        ShowYearSelector = !ShowYearSelector;
+        ShowMonthSelector = false;
+    }
+
+    private void SelectMonth(int month)
+    {
+        CurrentViewDate = new DateTime(CurrentViewDate.Year, month, 1);
+        ShowMonthSelector = false;
+    }
+
+    private void SelectYear(int year)
+    {
+        CurrentViewDate = new DateTime(year, CurrentViewDate.Month, 1);
+        ShowYearSelector = false;
+    }
+
+    private void PreviousMonth()
+    {
+        CurrentViewDate = CurrentViewDate.AddMonths(-1);
+    }
+
+    private void NextMonth()
+    {
+        CurrentViewDate = CurrentViewDate.AddMonths(1);
+    }
+
+    private async Task SelectDate(DateTime date)
+    {
+        if (IsDateDisabledInternal(date)) return;
+        
+        CurrentViewDate = date;
+        Value = new DateTime(date.Year, date.Month, date.Day, SelectedHour, SelectedMinute, SelectedSecond);
+        
+        if (!ShowTime)
+        {
+            await ConfirmSelection();
+        }
+    }
+
+    private void IncrementHour() => SelectedHour = (SelectedHour + 1) % 24;
+    private void DecrementHour() => SelectedHour = (SelectedHour + 23) % 24;
+    private void IncrementMinute() => SelectedMinute = (SelectedMinute + 1) % 60;
+    private void DecrementMinute() => SelectedMinute = (SelectedMinute + 59) % 60;
+    private void IncrementSecond() => SelectedSecond = (SelectedSecond + 1) % 60;
+    private void DecrementSecond() => SelectedSecond = (SelectedSecond + 59) % 60;
+
+    private void SetHour(string? value)
+    {
+        if (int.TryParse(value, out var hour) && hour >= 0 && hour <= 23)
+        {
+            SelectedHour = hour;
+        }
+    }
+
+    private void SetMinute(string? value)
+    {
+        if (int.TryParse(value, out var minute) && minute >= 0 && minute <= 59)
+        {
+            SelectedMinute = minute;
+        }
+    }
+
+    private void SetSecond(string? value)
+    {
+        if (int.TryParse(value, out var second) && second >= 0 && second <= 59)
+        {
+            SelectedSecond = second;
+        }
+    }
+
+    private async Task ClearDate()
+    {
+        Value = null;
+        TimeOnlyValue = null;
+        SelectedHour = 0;
+        SelectedMinute = 0;
+        SelectedSecond = 0;
+        await ValueChanged.InvokeAsync(Value);
+        await OnDateChanged.InvokeAsync(Value);
+        await TimeOnlyValueChanged.InvokeAsync(TimeOnlyValue);
+        IsCalendarOpen = false;
+    }
+
+    private async Task SetToday()
+    {
+        var today = DateTime.Today;
+        if (IsDateDisabledInternal(today)) return;
+        
+        CurrentViewDate = today;
+        Value = new DateTime(today.Year, today.Month, today.Day, SelectedHour, SelectedMinute, SelectedSecond);
+    }
+
+    private async Task ConfirmSelection()
+    {
+        if (IsTimeOnly)
+        {
+            TimeOnlyValue = new TimeOnly(SelectedHour, SelectedMinute, SelectedSecond);
+            await TimeOnlyValueChanged.InvokeAsync(TimeOnlyValue);
+        }
+        else
+        {
+            if (!Value.HasValue)
+            {
+                Value = DateTime.Today;
+            }
+            Value = new DateTime(Value.Value.Year, Value.Value.Month, Value.Value.Day, SelectedHour, SelectedMinute, SelectedSecond);
+            await ValueChanged.InvokeAsync(Value);
+            await OnDateChanged.InvokeAsync(Value);
+            await OnDateSelected.InvokeAsync(Value);
+        }
+        IsCalendarOpen = false;
     }
 }
 
