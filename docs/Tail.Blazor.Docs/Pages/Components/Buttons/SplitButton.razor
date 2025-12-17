@@ -3,11 +3,17 @@
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Button
+@using SplitButtonVariant = Tail.Blazor.SplitButton.ButtonVariant
+@using SplitButtonSize = Tail.Blazor.SplitButton.ButtonSize
+@using ButtonVariant = Tail.Blazor.Button.ButtonVariant
+@using ButtonSize = Tail.Blazor.Button.ButtonSize
 
 <PageTitle>SplitButton - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailSplitButton" 
-                 Description="Button with a dropdown menu for additional actions. Ultra-lightweight (~4 KB)."
+                 Description="A versatile button component with a primary action and an expandable dropdown menu for additional options. Supports multiple variants, sizes, and states for flexible UI design."
                  PackageName="Tail.Blazor.Buttons"
                  ApiParameters="@apiParameters">
     
@@ -16,18 +22,18 @@
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Split Button" Code="@basicCode">
+        <CodePreview Title="Simple Split Button" Code="@basicCode">
             <PreviewContent>
-                <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Primary" OnPrimaryClick="HandleMainClick">
+                <TailSplitButton Variant="SplitButtonVariant.Primary" OnPrimaryClick="HandleMainClick">
                     <PrimaryContent>Save</PrimaryContent>
                     <DropdownContent>
-                        <button @onclick="HandleSaveAs">Save As...</button>
-                        <button @onclick="HandleSaveAll">Save All</button>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start" @onclick="HandleSaveAs">Save As...</TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start" @onclick="HandleSaveAll">Save All</TailButton>
                     </DropdownContent>
                 </TailSplitButton>
                 @if (!string.IsNullOrEmpty(message))
                 {
-                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Info" Class="mt-4">
+                    <TailAlert Variant="AlertVariant.Info" Class="mt-4">
                         @message
                     </TailAlert>
                 }
@@ -35,18 +41,217 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Button with primary action and dropdown menu</li>
-                <li>Separate click handlers for main button and dropdown</li>
-                <li>Multiple variants and sizes supported</li>
-                <li>Loading state support</li>
-                <li>Disabled state support</li>
-                <li>Customizable dropdown content</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Seamless border between main button and dropdown</li>
+    <DocSection Title="Variants">
+        <CodePreview Title="Button Variants" Code="@variantsCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <TailSplitButton Variant="SplitButtonVariant.Primary">
+                        <PrimaryContent>Primary</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Success">
+                        <PrimaryContent>Success</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Warning">
+                        <PrimaryContent>Warning</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Danger">
+                        <PrimaryContent>Danger</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Info">
+                        <PrimaryContent>Info</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Outline">
+                        <PrimaryContent>Outline</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Soft">
+                        <PrimaryContent>Soft</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Ghost">
+                        <PrimaryContent>Ghost</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Variant="SplitButtonVariant.Link">
+                        <PrimaryContent>Link</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option 1</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Button Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap items-end gap-4">
+                    <TailSplitButton Size="SplitButtonSize.Xs">
+                        <PrimaryContent>XS</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Size="SplitButtonSize.Sm">
+                        <PrimaryContent>SM</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Size="SplitButtonSize.Md">
+                        <PrimaryContent>MD</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Size="SplitButtonSize.Lg">
+                        <PrimaryContent>LG</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Size="SplitButtonSize.Xl">
+                        <PrimaryContent>XL</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Loading and Disabled States" Code="@statesCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-4">
+                    <TailSplitButton IsLoading="true">
+                        <PrimaryContent>Loading</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                    <TailSplitButton Disabled="true">
+                        <PrimaryContent>Disabled</PrimaryContent>
+                        <DropdownContent>
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Option</TailButton>
+                        </DropdownContent>
+                    </TailSplitButton>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Icons">
+        <CodePreview Title="Split Button with Icons" Code="@iconsCode">
+            <PreviewContent>
+                <TailSplitButton>
+                    <PrimaryContent>
+                        <TailIcon  Class="w-4 h-4 mr-2" />
+                        Save
+                    </PrimaryContent>
+                    <DropdownContent>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">
+                            <TailIcon  Class="w-4 h-4 mr-2" />
+                            Save As...
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">
+                            <TailIcon  Class="w-4 h-4 mr-2" />
+                            Export
+                        </TailButton>
+                    </DropdownContent>
+                </TailSplitButton>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Dropdown Icon">
+        <CodePreview Title="Custom Dropdown Icon" Code="@customIconCode">
+            <PreviewContent>
+                <TailSplitButton>
+                    <PrimaryContent>Actions</PrimaryContent>
+                    <DropdownIcon>
+                        <TailIcon  Class="w-4 h-4" />
+                    </DropdownIcon>
+                    <DropdownContent>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Action 1</TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Action 2</TailButton>
+                    </DropdownContent>
+                </TailSplitButton>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <div class="prose prose-sm max-w-none">
+            <p>The SplitButton component includes several accessibility features:</p>
+            <ul>
+                <li><strong>ARIA Labels:</strong> Use the <code>AriaLabel</code> parameter to provide descriptive labels for screen readers.</li>
+                <li><strong>Tooltips:</strong> The <code>Tooltip</code> parameter adds title attributes for additional context.</li>
+                <li><strong>Keyboard Navigation:</strong> The dropdown can be toggled using Enter or Space keys.</li>
+                <li><strong>Focus Management:</strong> Proper focus indicators and ring styles for keyboard users.</li>
             </ul>
+        </div>
+        <CodePreview Title="Accessibility Example" Code="@accessibilityCode">
+            <PreviewContent>
+                <TailSplitButton AriaLabel="Save document with options" Tooltip="Click to save or choose save options">
+                    <PrimaryContent>Save</PrimaryContent>
+                    <DropdownContent>
+                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" Class="w-full justify-start">Save As...</TailButton>
+                    </DropdownContent>
+                </TailSplitButton>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="font-semibold mb-2">Core Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Primary action button with dropdown menu</li>
+                    <li>9 different button variants (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)</li>
+                    <li>5 size options (XS, SM, MD, LG, XL)</li>
+                    <li>Loading and disabled states</li>
+                    <li>Customizable dropdown content</li>
+                    <li>Custom dropdown icon support</li>
+                    <li>Smooth animations and transitions</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Advanced Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Full theme support with CSS variables</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility compliant (ARIA, keyboard navigation)</li>
+                    <li>Event callbacks for primary click and dropdown toggle</li>
+                    <li>Flexible content with RenderFragments</li>
+                    <li>Seamless border integration between buttons</li>
+                    <li>Hover and focus states</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 </DocPageTemplate>
@@ -56,25 +261,163 @@
 
     private string installCode = @"dotnet add package Tail.Blazor.Buttons";
 
-    private string basicCode = @"<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Primary"" OnPrimaryClick=""HandleMainClick"">
+    private string basicCode = @"<TailSplitButton Variant=""SplitButtonVariant.Primary"" OnPrimaryClick=""HandleMainClick"">
     <PrimaryContent>Save</PrimaryContent>
     <DropdownContent>
-        <button @onclick=""HandleSaveAs"">Save As...</button>
-        <button @onclick=""HandleSaveAll"">Save All</button>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"" @onclick=""HandleSaveAs"">Save As...</TailButton>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"" @onclick=""HandleSaveAll"">Save All</TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string variantsCode = @"<TailSplitButton Variant=""ButtonVariant.Primary"">
+    <PrimaryContent>Primary</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Success"">
+    <PrimaryContent>Success</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Warning"">
+    <PrimaryContent>Warning</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Danger"">
+    <PrimaryContent>Danger</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Info"">
+    <PrimaryContent>Info</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Outline"">
+    <PrimaryContent>Outline</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Soft"">
+    <PrimaryContent>Soft</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Ghost"">
+    <PrimaryContent>Ghost</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Link"">
+    <PrimaryContent>Link</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option 1</TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string sizesCode = @"<TailSplitButton Size=""ButtonSize.Xs"">
+    <PrimaryContent>XS</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Sm"">
+    <PrimaryContent>SM</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Md"">
+    <PrimaryContent>MD</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Lg"">
+    <PrimaryContent>LG</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Xl"">
+    <PrimaryContent>XL</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string statesCode = @"<TailSplitButton IsLoading=""true"">
+    <PrimaryContent>Loading</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>
+
+<TailSplitButton Disabled=""true"">
+    <PrimaryContent>Disabled</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Option</TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string iconsCode = @"<TailSplitButton>
+    <PrimaryContent>
+        <TailIcon Name=""save"" Class=""w-4 h-4 mr-2"" />
+        Save
+    </PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">
+            <TailIcon Name=""save"" Class=""w-4 h-4 mr-2"" />
+            Save As...
+        </TailButton>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">
+            <TailIcon Name=""download"" Class=""w-4 h-4 mr-2"" />
+            Export
+        </TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string customIconCode = @"<TailSplitButton>
+    <PrimaryContent>Actions</PrimaryContent>
+    <DropdownIcon>
+        <TailIcon Name=""chevron-down"" Class=""w-4 h-4"" />
+    </DropdownIcon>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Action 1</TailButton>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Action 2</TailButton>
+    </DropdownContent>
+</TailSplitButton>";
+
+    private string accessibilityCode = @"<TailSplitButton AriaLabel=""Save document with options"" Tooltip=""Click to save or choose save options"">
+    <PrimaryContent>Save</PrimaryContent>
+    <DropdownContent>
+        <TailButton Variant=""ButtonVariant.Ghost"" Size=""ButtonSize.Sm"" Class=""w-full justify-start"">Save As...</TailButton>
     </DropdownContent>
 </TailSplitButton>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.SplitButton.ButtonVariant", Default = "Primary", Description = "Button variant style" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.SplitButton.ButtonSize", Default = "Md", Description = "Button size" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "SplitButtonVariant", Default = "Primary", Description = "Button variant style (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "SplitButtonSize", Default = "Md", Description = "Button size (Xs, Sm, Md, Lg, Xl)" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the button" },
-        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner" },
-        new DocPageTemplate.ApiParameter { Name = "OnPrimaryClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Main button click handler" },
-        new DocPageTemplate.ApiParameter { Name = "PrimaryContent", Type = "RenderFragment?", Default = "-", Description = "Content for the main button" },
+        new DocPageTemplate.ApiParameter { Name = "IsLoading", Type = "bool", Default = "false", Description = "Show loading spinner on primary button" },
+        new DocPageTemplate.ApiParameter { Name = "OnPrimaryClick", Type = "EventCallback<MouseEventArgs>", Default = "-", Description = "Event callback for primary button click" },
+        new DocPageTemplate.ApiParameter { Name = "OnDropdownToggle", Type = "EventCallback", Default = "-", Description = "Event callback when dropdown is toggled" },
+        new DocPageTemplate.ApiParameter { Name = "PrimaryContent", Type = "RenderFragment?", Default = "-", Description = "Content for the primary button" },
         new DocPageTemplate.ApiParameter { Name = "DropdownContent", Type = "RenderFragment?", Default = "-", Description = "Content for the dropdown menu" },
+        new DocPageTemplate.ApiParameter { Name = "DropdownIcon", Type = "RenderFragment?", Default = "-", Description = "Custom icon for the dropdown button" },
         new DocPageTemplate.ApiParameter { Name = "Type", Type = "string", Default = "\"button\"", Description = "Button type attribute" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "-", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip text displayed on hover" },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
 
