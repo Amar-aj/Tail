@@ -1,0 +1,258 @@
+@page "/docs/hover-states"
+@using Tail.Blazor.Docs.Shared
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Hover States - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="Hover States & Interactions" 
+                 Description="Comprehensive hover state system using CSS variables for consistent, theme-aware interactions across all components."
+                 PackageName="Tail.Blazor.Core">
+    
+    <DocSection Title="Overview">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Tail.Blazor implements a comprehensive hover state system that automatically adapts to your theme. 
+            All hover effects use CSS variables, ensuring consistency across light and dark modes.
+        </p>
+        <TailAlert Variant="AlertVariant.Info" Class="mt-4">
+            <ChildContent>
+                <strong>Automatic Theme Support:</strong> All hover states automatically adjust colors and opacity based on your selected theme and mode (light/dark).
+            </ChildContent>
+        </TailAlert>
+    </DocSection>
+
+    <DocSection Title="Button Hover States">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Buttons feature smooth transitions with brightness adjustments and subtle lift effects.
+        </p>
+        <CodePreview Title="Button Hover Examples" Code="@buttonHoverCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailButton Variant="ButtonVariant.Primary">Hover Me - Primary</TailButton>
+                    <TailButton Variant="ButtonVariant.Success">Hover Me - Success</TailButton>
+                    <TailButton Variant="ButtonVariant.Warning">Hover Me - Warning</TailButton>
+                    <TailButton Variant="ButtonVariant.Danger">Hover Me - Danger</TailButton>
+                    <TailButton Variant="ButtonVariant.Outline">Hover Me - Outline</TailButton>
+                </div>
+                <div class="mt-4 p-3 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-secondary)">
+                    <strong>Hover Effects:</strong> Brightness increase, subtle lift (translateY), enhanced shadow
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Card Hover States">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Cards can be made hoverable with automatic lift effect and enhanced shadows.
+        </p>
+        <CodePreview Title="Hoverable Cards" Code="@cardHoverCode">
+            <PreviewContent>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <TailCard Hoverable="true">
+                        <Header>Hoverable Card 1</Header>
+                        <ChildContent>
+                            <p style="color: var(--color-text-secondary)">Hover over this card to see the lift effect.</p>
+                        </ChildContent>
+                    </TailCard>
+                    <TailCard Hoverable="true">
+                        <Header>Hoverable Card 2</Header>
+                        <ChildContent>
+                            <p style="color: var(--color-text-secondary)">Smooth transition with enhanced shadow.</p>
+                        </ChildContent>
+                    </TailCard>
+                    <TailCard Hoverable="true">
+                        <Header>Hoverable Card 3</Header>
+                        <ChildContent>
+                            <p style="color: var(--color-text-secondary)">Border color shifts to primary theme color.</p>
+                        </ChildContent>
+                    </TailCard>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Navigation Menu Hover States">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Navigation items feature subtle background tints using the primary color with controlled opacity.
+        </p>
+        <CodePreview Title="Menu Item Hovers" Code="@menuHoverCode" ShowCode="false">
+            <PreviewContent>
+                <div class="space-y-2 p-4 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border)">
+                    <div class="menu-item p-3 rounded cursor-pointer">Hover over this menu item</div>
+                    <div class="menu-item p-3 rounded cursor-pointer">Another menu item</div>
+                    <div class="menu-item active p-3 rounded cursor-pointer">Active menu item</div>
+                    <div class="menu-item p-3 rounded cursor-pointer">One more item</div>
+                </div>
+                <div class="mt-4 p-3 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-secondary)">
+                    <strong>Hover Effect:</strong> Primary color tint (8% opacity), smooth transition
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Input & Form Hover States">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Form inputs show primary color border hints on hover and full primary border on focus.
+        </p>
+        <CodePreview Title="Input Hover & Focus" Code="@inputHoverCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailInput Placeholder="Hover over this input..." Label="Hover Example" />
+                    <TailInput Placeholder="Click to see focus state" Label="Focus Example" />
+                    <TailTextarea Placeholder="Textarea also has hover states" Label="Textarea Example" Rows="3" />
+                </div>
+                <div class="mt-4 p-3 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-secondary)">
+                    <strong>States:</strong> Hover = 50% primary border | Focus = Full primary + shadow ring
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Badge & Tag Hover States">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Badges show subtle brightness increase and scale effect on hover.
+        </p>
+        <CodePreview Title="Badge Hovers" Code="@badgeHoverCode">
+            <PreviewContent>
+                <div class="flex flex-wrap gap-3">
+                    <TailBadge Variant="BadgeVariant.Primary" Size="BadgeSize.Md">Primary Badge</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Success" Size="BadgeSize.Md">Success Badge</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Warning" Size="BadgeSize.Md">Warning Badge</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Danger" Size="BadgeSize.Md">Danger Badge</TailBadge>
+                    <TailBadge Variant="BadgeVariant.Info" Size="BadgeSize.Md">Info Badge</TailBadge>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Custom Hover Utilities">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Use utility classes for enhanced hover effects on any element.
+        </p>
+        <CodePreview Title="Hover Utility Classes" Code="@utilityHoverCode">
+            <PreviewContent>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="hover-lift p-6 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer;">
+                        <strong style="color: var(--color-text-primary)">.hover-lift</strong>
+                        <p style="color: var(--color-text-secondary)">Enhanced lift effect (4px)</p>
+                    </div>
+                    <div class="hover-glow p-6 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer;">
+                        <strong style="color: var(--color-text-primary)">.hover-glow</strong>
+                        <p style="color: var(--color-text-secondary)">Glow effect with primary color</p>
+                    </div>
+                    <div class="hover-pulse p-6 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer;">
+                        <strong style="color: var(--color-text-primary)">.hover-pulse</strong>
+                        <p style="color: var(--color-text-secondary)">Continuous pulse animation</p>
+                    </div>
+                    <div class="no-hover p-6 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer;">
+                        <strong style="color: var(--color-text-primary)">.no-hover</strong>
+                        <p style="color: var(--color-text-secondary)">Disables all hover effects</p>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="CSS Variables Reference">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Key CSS variables controlling hover behavior across the system.
+        </p>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y" style="border-color: var(--color-border)">
+                <thead style="background-color: var(--color-surface-2)">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Variable</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Default Value</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase" style="color: var(--color-text-secondary)">Usage</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y" style="background-color: var(--color-surface); border-color: var(--color-border)">
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--hover-opacity</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">0.08</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Opacity for hover background tints (light mode)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--hover-opacity-dark</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">0.12</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Opacity for hover background tints (dark mode)</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--hover-scale</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">1.02</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Scale transform for hover effects</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--hover-brightness</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">1.1</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Brightness filter for hover effects</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--transition-fast</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">150ms</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Fast transition duration for hovers</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-mono" style="color: var(--color-text-primary)">--transition-normal</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">300ms</td>
+                        <td class="px-6 py-4 text-sm" style="color: var(--color-text-secondary)">Normal transition duration</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Customization">
+        <p class="mb-4" style="color: var(--color-text-secondary)">
+            Override hover behavior by defining custom CSS variables in your stylesheet.
+        </p>
+        <CodePreview Title="Custom Hover Configuration" Code="@customizationCode" ShowPreview="false" Language="css" />
+    </DocSection>
+
+</DocPageTemplate>
+
+@code {
+    private string buttonHoverCode = @"<TailButton Variant=""ButtonVariant.Primary"">Hover Me</TailButton>
+<TailButton Variant=""ButtonVariant.Success"">Hover Me</TailButton>
+<TailButton Variant=""ButtonVariant.Outline"">Hover Me</TailButton>";
+
+    private string cardHoverCode = @"<TailCard Hoverable=""true"">
+    <Header>Hoverable Card</Header>
+    <ChildContent>
+        <p>Hover over this card to see the lift effect.</p>
+    </ChildContent>
+</TailCard>";
+
+    private string menuHoverCode = @"<!-- Menu items automatically have hover states -->
+<TailMenuItem Href=""/example"">Menu Item</TailMenuItem>";
+
+    private string inputHoverCode = @"<TailInput Placeholder=""Hover over this input..."" Label=""Hover Example"" />
+<TailInput Placeholder=""Click to see focus state"" Label=""Focus Example"" />";
+
+    private string badgeHoverCode = @"<TailBadge Variant=""BadgeVariant.Primary"">Hover over badge</TailBadge>";
+
+    private string utilityHoverCode = @"<!-- Apply utility classes for enhanced hover effects -->
+<div class=""hover-lift"">Enhanced lift on hover</div>
+<div class=""hover-glow"">Glow effect on hover</div>
+<div class=""hover-pulse"">Pulse animation on hover</div>
+<div class=""no-hover"">No hover effect</div>";
+
+    private string customizationCode = @":root {
+  /* Customize hover opacity */
+  --hover-opacity: 0.12;
+  
+  /* Customize hover scale */
+  --hover-scale: 1.05;
+  
+  /* Customize hover brightness */
+  --hover-brightness: 1.15;
+  
+  /* Customize transition speed */
+  --transition-fast: 200ms;
+}
+
+/* Or override for dark mode specifically */
+html.dark {
+  --hover-opacity: 0.16;
+  --hover-brightness: 1.2;
+}";
+}
