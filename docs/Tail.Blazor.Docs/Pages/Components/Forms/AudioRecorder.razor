@@ -3,25 +3,28 @@
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Alert
 @using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Icon
+@using Tail.Blazor.Button
+@using AlertVariant = Tail.Blazor.Alert.AlertVariant
 
 <PageTitle>AudioRecorder - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailAudioRecorder" 
-                 Description="Audio recording component with start/stop controls and playback. Ultra-lightweight (~6 KB)."
+                 Description="A versatile audio recording component with start/stop controls, playback, progress tracking, and customizable settings. Supports multiple sizes, quality options, and event callbacks for flexible audio capture."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
-
+    
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Audio Recorder" Code="@basicCode">
+        <CodePreview Title="Simple Audio Recorder" Code="@basicCode">
             <PreviewContent>
                 <TailAudioRecorder @bind-Value="audioData" Label="Record Audio" />
                 @if (!string.IsNullOrEmpty(audioData))
                 {
-                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
+                    <TailAlert Variant="AlertVariant.Success" Class="mt-4">
                         Audio recorded successfully!
                     </TailAlert>
                 }
@@ -29,30 +32,163 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Start/stop audio recording functionality</li>
-                <li>Recording time display with live timer</li>
-                <li>Audio playback controls</li>
-                <li>Clear recording option</li>
-                <li>Multiple sizes (Xs, Sm, Md, Lg, Xl)</li>
-                <li>Label support</li>
-                <li>Disabled state support</li>
-                <li>Two-way binding for audio data</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Visual recording indicator with pulsing animation</li>
+    <DocSection Title="Sizes">
+        <CodePreview Title="Recorder Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailAudioRecorder Size="AudioRecorderSize.Xs" Label="Extra Small" />
+                    <TailAudioRecorder Size="AudioRecorderSize.Sm" Label="Small" />
+                    <TailAudioRecorder Size="AudioRecorderSize.Md" Label="Medium" />
+                    <TailAudioRecorder Size="AudioRecorderSize.Lg" Label="Large" />
+                    <TailAudioRecorder Size="AudioRecorderSize.Xl" Label="Extra Large" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Max Recording Time">
+        <CodePreview Title="Max Recording Time" Code="@maxTimeCode">
+            <PreviewContent>
+                <TailAudioRecorder @bind-Value="maxTimeAudio" Label="Record for max 30 seconds" MaxRecordingTime="30" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="States">
+        <CodePreview Title="Disabled State" Code="@statesCode">
+            <PreviewContent>
+                <TailAudioRecorder Disabled="true" Label="Disabled Recorder" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="With Events">
+        <CodePreview Title="Event Callbacks" Code="@eventsCode">
+            <PreviewContent>
+                <TailAudioRecorder 
+                    @bind-Value="eventAudio" 
+                    Label="Recorder with Events" 
+                    OnRecordingStart="HandleRecordingStart"
+                    OnRecordingStop="HandleRecordingStop"
+                    OnRecordingClear="HandleRecordingClear" />
+                <div class="mt-4 text-sm" style="color: var(--color-text-secondary);">
+                    @eventMessage
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <div class="prose prose-sm max-w-none">
+            <p>The AudioRecorder component includes several accessibility features:</p>
+            <ul>
+                <li><strong>ARIA Labels:</strong> Use the <code>AriaLabel</code> parameter to provide descriptive labels for screen readers.</li>
+                <li><strong>Tooltips:</strong> The <code>Tooltip</code> parameter adds title attributes for additional context.</li>
+                <li><strong>Keyboard Navigation:</strong> Buttons can be activated using Enter or Space keys.</li>
+                <li><strong>Focus Management:</strong> Proper focus indicators and ring styles for keyboard users.</li>
+                <li><strong>Live Regions:</strong> Recording time updates are announced to screen readers.</li>
             </ul>
+        </div>
+        <CodePreview Title="Accessibility Example" Code="@accessibilityCode">
+            <PreviewContent>
+                <TailAudioRecorder 
+                    AriaLabel="Record audio message" 
+                    Tooltip="Click to start recording your message" 
+                    @bind-Value="accessibleAudio" 
+                    Label="Accessible Recorder" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Animations">
+        <div class="prose prose-sm max-w-none">
+            <p>The AudioRecorder includes smooth animations for better user experience:</p>
+            <ul>
+                <li><strong>Pulse Animation:</strong> The recording indicator pulses during recording.</li>
+                <li><strong>Progress Bar:</strong> Visual progress bar shows recording time against max time.</li>
+                <li><strong>Button Hover:</strong> Buttons scale and show shadow on hover.</li>
+                <li><strong>Transition:</strong> All state changes are smoothly animated with CSS transitions.</li>
+            </ul>
+        </div>
+        <CodePreview Title="Animation Example" Code="@animationCode">
+            <PreviewContent>
+                <TailAudioRecorder @bind-Value="animatedAudio" Label="Animated Recorder" MaxRecordingTime="60" />
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Features">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="font-semibold mb-2">Core Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Start/stop audio recording functionality</li>
+                    <li>Recording time display with live timer</li>
+                    <li>Audio playback controls</li>
+                    <li>Clear recording option</li>
+                    <li>Progress bar for recording time</li>
+                    <li>Multiple sizes (XS, SM, MD, LG, XL)</li>
+                    <li>Label support</li>
+                    <li>Disabled state support</li>
+                    <li>Two-way binding for audio data</li>
+                    <li>Max recording time limit</li>
+                    <li>Audio quality settings</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Advanced Features</h4>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                    <li>Full theme support with CSS variables</li>
+                    <li>Responsive design</li>
+                    <li>Accessibility compliant (ARIA attributes, keyboard navigation)</li>
+                    <li>Event callbacks for recording lifecycle</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Hover and focus states with theme-aware colors</li>
+                    <li>Visual recording indicator with pulsing animation</li>
+                    <li>Automatic stop at max time</li>
+                    <li>Flexible content with RenderFragments</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private string? audioData;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.AudioRecorder";
-    
+    private string? maxTimeAudio;
+    private string? eventAudio;
+    private string? accessibleAudio;
+    private string? animatedAudio;
+    private string eventMessage = string.Empty;
+
+    private string installCode = @"dotnet add package Tail.Blazor.Forms";
+
     private string basicCode = @"<TailAudioRecorder @bind-Value=""audioData"" Label=""Record Audio"" />";
+
+    private string sizesCode = @"<TailAudioRecorder Size=""AudioRecorderSize.Xs"" Label=""Extra Small"" />
+<TailAudioRecorder Size=""AudioRecorderSize.Sm"" Label=""Small"" />
+<TailAudioRecorder Size=""AudioRecorderSize.Md"" Label=""Medium"" />
+<TailAudioRecorder Size=""AudioRecorderSize.Lg"" Label=""Large"" />
+<TailAudioRecorder Size=""AudioRecorderSize.Xl"" Label=""Extra Large"" />";
+
+    private string maxTimeCode = @"<TailAudioRecorder @bind-Value=""audioData"" Label=""Record for max 30 seconds"" MaxRecordingTime=""30"" />";
+
+    private string statesCode = @"<TailAudioRecorder Disabled=""true"" Label=""Disabled Recorder"" />";
+
+    private string eventsCode = @"<TailAudioRecorder 
+    @bind-Value=""audioData"" 
+    Label=""Recorder with Events"" 
+    OnRecordingStart=""HandleRecordingStart""
+    OnRecordingStop=""HandleRecordingStop""
+    OnRecordingClear=""HandleRecordingClear"" />";
+
+    private string accessibilityCode = @"<TailAudioRecorder 
+    AriaLabel=""Record audio message"" 
+    Tooltip=""Click to start recording your message"" 
+    @bind-Value=""audioData"" 
+    Label=""Accessible Recorder"" />";
+
+    private string animationCode = @"<TailAudioRecorder @bind-Value=""audioData"" Label=""Animated Recorder"" MaxRecordingTime=""60"" />";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
@@ -61,8 +197,32 @@
         new DocPageTemplate.ApiParameter { Name = "Size", Type = "AudioRecorderSize", Default = "Md", Description = "Size of the recorder (Xs, Sm, Md, Lg, Xl)" },
         new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the recorder" },
         new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the recorder" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "MaxRecordingTime", Type = "int", Default = "300", Description = "Maximum recording time in seconds" },
+        new DocPageTemplate.ApiParameter { Name = "Quality", Type = "AudioQuality", Default = "Medium", Description = "Audio recording quality (Low, Medium, High)" },
+        new DocPageTemplate.ApiParameter { Name = "OnRecordingStart", Type = "EventCallback", Default = "-", Description = "Event fired when recording starts" },
+        new DocPageTemplate.ApiParameter { Name = "OnRecordingStop", Type = "EventCallback", Default = "-", Description = "Event fired when recording stops" },
+        new DocPageTemplate.ApiParameter { Name = "OnRecordingClear", Type = "EventCallback", Default = "-", Description = "Event fired when recording is cleared" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "-", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip text displayed on hover" },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
     };
+
+    private void HandleRecordingStart()
+    {
+        eventMessage = "Recording started...";
+        StateHasChanged();
+    }
+
+    private void HandleRecordingStop()
+    {
+        eventMessage = "Recording stopped.";
+        StateHasChanged();
+    }
+
+    private void HandleRecordingClear()
+    {
+        eventMessage = "Recording cleared.";
+        StateHasChanged();
+    }
 }
 

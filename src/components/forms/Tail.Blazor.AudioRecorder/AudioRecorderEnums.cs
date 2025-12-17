@@ -12,3 +12,13 @@ public enum AudioRecorderSize
     Xl
 }
 
+/// <summary>
+/// Audio recording quality options.
+/// </summary>
+public enum AudioQuality
+{
+    Low,
+    Medium,
+    High
+}
+
