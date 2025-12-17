@@ -1,7 +1,11 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
 
-<div class="@GetGroupClasses()" @attributes="AdditionalAttributes" style="@GetGroupStyles()">
+<div class="@GetGroupClasses()" 
+     @attributes="AdditionalAttributes" 
+     style="@GetGroupStyles()"
+     role="group"
+     @aria-label="@AriaLabel">
     @ChildContent
 </div>
 
@@ -15,10 +19,15 @@
     [Parameter] public bool ShowBorder { get; set; } = true;
     [Parameter] public bool ShowShadow { get; set; } = false;
     [Parameter] public string? Style { get; set; }
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public string? AriaLabel { get; set; }
+    [Parameter] public string AnimationDuration { get; set; } = "duration-200";
+    [Parameter] public bool ResponsiveVertical { get; set; } = false;
+    [Parameter] public string? Variant { get; set; }
 
     private string GetGroupClasses()
     {
-        var classes = new List<string> { "tail-button-group" };
+        var classes = new List<string> { "tail-button-group", AnimationDuration };
 
         // Layout direction
         if (Vertical)
@@ -28,6 +37,13 @@
         else
         {
             classes.Add("tail-button-group-horizontal");
+        }
+
+        // Responsive vertical
+        if (ResponsiveVertical)
+        {
+            classes.Add("md:tail-button-group-horizontal");
+            classes.Add("tail-button-group-vertical");
         }
 
         // Spacing
@@ -84,6 +100,19 @@
             classes.Add("tail-button-group-shadow");
         }
 
+        // Disabled state
+        if (Disabled)
+        {
+            classes.Add("tail-button-group-disabled");
+            classes.Add("opacity-50 cursor-not-allowed");
+        }
+
+        // Variant
+        if (!string.IsNullOrEmpty(Variant))
+        {
+            classes.Add($"tail-button-group-{Variant}");
+        }
+
         if (!string.IsNullOrEmpty(Class))
         {
             classes.Add(Class);
@@ -100,6 +129,11 @@
         if (ShowBorder)
         {
             styles.Add($"border-color: var(--color-border, #e5e7eb)");
+        }
+
+        if (Disabled)
+        {
+            styles.Add("pointer-events: none");
         }
 
         if (!string.IsNullOrEmpty(Style))

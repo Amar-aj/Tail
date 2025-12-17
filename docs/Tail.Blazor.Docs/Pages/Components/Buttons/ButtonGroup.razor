@@ -4,117 +4,134 @@
 @using Tail.Blazor.Docs.Shared
 @using Tail.Blazor.Card
 @using Tail.Blazor.Alert
+@using Tail.Blazor.Feedback
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>ButtonGroup - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailButtonGroup" 
-                 Description="Group related buttons together with seamless styling, spacing options, size variants, and full theme support. Ultra-lightweight (~4 KB)."
+                 Description="A flexible button grouping component with horizontal and vertical layouts, custom spacing, sizing, and styling options. Perfect for creating button bars, toolbars, and action groups. Ultra-lightweight (~2 KB) with full responsiveness."
                  PackageName="Tail.Blazor.Buttons"
                  ApiParameters="@apiParameters">
 
+    <!-- Installation Section -->
     <DocSection Title="Installation">
         <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
     </DocSection>
 
-    <DocSection Title="Basic Usage">
-        <CodePreview Title="Horizontal Button Group" Code="@basicCode">
+    <!-- Quick Start Section -->
+    <DocSection Title="Quick Start">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Get started with button groups in seconds. Group related buttons together for better UX and cleaner interfaces.</p>
+        </div>
+        <CodePreview Title="Simple Button Group" Code="@basicCode">
             <PreviewContent>
                 <div class="space-y-4">
-                    <TailButtonGroup>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Left</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Middle</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Right</ChildContent>
-                        </TailButton>
-                    </TailButtonGroup>
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Horizontal (Default)</h4>
+                        <TailButtonGroup>
+                            <TailButton Variant="ButtonVariant.Primary">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Third</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Vertical</h4>
+                        <TailButtonGroup Vertical="true">
+                            <TailButton Variant="ButtonVariant.Primary">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Third</TailButton>
+                        </TailButtonGroup>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Vertical Layout">
-        <CodePreview Title="Vertical Button Group" Code="@verticalCode">
+    <!-- Layout Options Section -->
+    <DocSection Title="Layout Options">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>TailButtonGroup supports horizontal (default), vertical, and responsive layouts for different use cases and screen sizes.</p>
+        </div>
+        <CodePreview Title="Horizontal, Vertical & Responsive Layouts" Code="@layoutCode">
             <PreviewContent>
-                <div class="space-y-4">
-                    <TailButtonGroup Vertical="true">
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Top</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Middle</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Bottom</ChildContent>
-                        </TailButton>
-                    </TailButtonGroup>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Horizontal Layout (Default)</h4>
+                        <TailButtonGroup Vertical="false" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline">??</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Page 1</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Page 2</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Page 3</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">??</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Vertical Layout</h4>
+                        <TailButtonGroup Vertical="true" Style="max-width: 200px;">
+                            <TailButton Variant="ButtonVariant.Outline" FullWidth="true">Create</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" FullWidth="true">Edit</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" FullWidth="true">Delete</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Responsive (Mobile: Vertical, Desktop: Horizontal)</h4>
+                        <TailButtonGroup ResponsiveVertical="true" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Soft" FullWidth="true">Mobile</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft" FullWidth="true">Responsive</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft" FullWidth="true">Design</TailButton>
+                        </TailButtonGroup>
+                        <p class="text-xs mt-2" style="color: var(--color-text-secondary);">?? Resize your browser to see the layout change</p>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
+    <!-- Spacing Section -->
     <DocSection Title="Spacing Options">
-        <CodePreview Title="Different Spacing" Code="@spacingCode">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Control the space between grouped buttons with 4 spacing levels: None (attached), Sm, Md, and Lg.</p>
+        </div>
+        <CodePreview Title="Button Spacing Levels" Code="@spacingCode">
             <PreviewContent>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">No Spacing (Attached):</p>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">No Spacing (Attached)</h4>
                         <TailButtonGroup Spacing="ButtonGroupSpacing.None" Attached="true">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>One</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Two</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Three</ChildContent>
-                            </TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">One</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Two</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Three</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Small Spacing:</p>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Small Spacing</h4>
                         <TailButtonGroup Spacing="ButtonGroupSpacing.Sm" Attached="false">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>One</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Two</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Three</ChildContent>
-                            </TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">One</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Two</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Three</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Medium Spacing:</p>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Medium Spacing (Default)</h4>
                         <TailButtonGroup Spacing="ButtonGroupSpacing.Md" Attached="false">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>One</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Two</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Three</ChildContent>
-                            </TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">One</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Two</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Three</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Large Spacing:</p>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Large Spacing</h4>
                         <TailButtonGroup Spacing="ButtonGroupSpacing.Lg" Attached="false">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>One</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Two</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Three</ChildContent>
-                            </TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">One</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Two</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Three</TailButton>
                         </TailButtonGroup>
                     </div>
                 </div>
@@ -122,63 +139,56 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Border Radius">
-        <CodePreview Title="Border Radius Variants" Code="@radiusCode">
+    <!-- Size Options Section -->
+    <DocSection Title="Size Variants">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Choose from 5 size levels (Xs, Sm, Md, Lg, Xl) for different prominence and UI contexts.</p>
+        </div>
+        <CodePreview Title="All Size Options" Code="@sizeCode">
             <PreviewContent>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">None:</p>
-                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.None">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Extra Small</h4>
+                        <TailButtonGroup Size="ButtonGroupSize.Xs" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xs">Xs</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xs">Xs</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xs">Xs</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Small:</p>
-                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Sm">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Small</h4>
+                        <TailButtonGroup Size="ButtonGroupSize.Sm" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Sm</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Sm</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm">Sm</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Medium:</p>
-                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Md">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Medium (Default)</h4>
+                        <TailButtonGroup Size="ButtonGroupSize.Md" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Md">Md</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Md">Md</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Md">Md</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Large:</p>
-                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Lg">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Large</h4>
+                        <TailButtonGroup Size="ButtonGroupSize.Lg" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Lg">Lg</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Lg">Lg</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Lg">Lg</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Full (Pill):</p>
-                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Full">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Button</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Extra Large</h4>
+                        <TailButtonGroup Size="ButtonGroupSize.Xl" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xl">Xl</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xl">Xl</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Xl">Xl</TailButton>
                         </TailButtonGroup>
                     </div>
                 </div>
@@ -186,36 +196,87 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Attached vs Separated">
-        <CodePreview Title="Attached and Separated Modes" Code="@attachedCode">
+    <!-- Border Radius Section -->
+    <DocSection Title="Border Radius Options">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Customize the border radius from sharp corners to full pill shape with 5 radius options.</p>
+        </div>
+        <CodePreview Title="Border Radius Variations" Code="@radiusCode">
             <PreviewContent>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Attached (Default):</p>
-                        <TailButtonGroup Attached="true">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>First</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Second</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Third</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">No Radius</h4>
+                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.None" Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Soft">Angular</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Design</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Style</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">Separated:</p>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Small Radius</h4>
+                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Sm" Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Soft">Slightly</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Rounded</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Corners</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Medium Radius (Default)</h4>
+                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Md" Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Soft">Rounded</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Buttons</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Group</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Large Radius</h4>
+                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Lg" Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Soft">Very</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Rounded</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Style</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Full Radius (Pill)</h4>
+                        <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Full" Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Soft">Pill</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Shaped</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Group</TailButton>
+                        </TailButtonGroup>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <!-- Attached vs Separated Section -->
+    <DocSection Title="Attached vs Separated Modes">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Control whether buttons are attached (connected with shared borders) or separated with individual spacing.</p>
+        </div>
+        <CodePreview Title="Attachment Modes" Code="@attachedCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Attached Mode (Buttons Connected)</h4>
+                        <TailButtonGroup Attached="true" ShowBorder="true">
+                            <TailButton Variant="ButtonVariant.Outline">??</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Back</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Forward</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">??</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Separated Mode (Individual Buttons)</h4>
                         <TailButtonGroup Attached="false" Spacing="ButtonGroupSpacing.Md">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>First</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Second</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Third</ChildContent>
-                            </TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Save</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Cancel</TailButton>
+                            <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
                         </TailButtonGroup>
                     </div>
                 </div>
@@ -223,36 +284,38 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="With Borders and Shadow">
-        <CodePreview Title="Bordered and Shadowed Groups" Code="@borderedCode">
+    <!-- Styling & Visual Effects Section -->
+    <DocSection Title="Styling & Visual Effects">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Add visual emphasis to your button groups with borders, shadows, and custom styling options.</p>
+        </div>
+        <CodePreview Title="Border and Shadow Effects" Code="@stylingCode">
             <PreviewContent>
                 <div class="space-y-4">
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">With Border:</p>
-                        <TailButtonGroup ShowBorder="true">
-                            <TailButton Variant="ButtonVariant.Outline">
-                                <ChildContent>Option 1</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Outline">
-                                <ChildContent>Option 2</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Outline">
-                                <ChildContent>Option 3</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">No Border</h4>
+                        <TailButtonGroup ShowBorder="false" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Soft">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Third</TailButton>
                         </TailButtonGroup>
                     </div>
+
                     <div>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary);">With Shadow:</p>
-                        <TailButtonGroup ShowShadow="true">
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Action 1</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Action 2</ChildContent>
-                            </TailButton>
-                            <TailButton Variant="ButtonVariant.Primary">
-                                <ChildContent>Action 3</ChildContent>
-                            </TailButton>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">With Border (Default)</h4>
+                        <TailButtonGroup ShowBorder="true" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Soft">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Soft">Third</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">With Shadow Effect</h4>
+                        <TailButtonGroup ShowShadow="true" Spacing="ButtonGroupSpacing.Sm" ShowBorder="false">
+                            <TailButton Variant="ButtonVariant.Primary">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Third</TailButton>
                         </TailButtonGroup>
                     </div>
                 </div>
@@ -260,114 +323,96 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Mixed Variants">
-        <CodePreview Title="Different Button Variants" Code="@variantsCode">
+    <!-- Button States Section -->
+    <DocSection Title="Button States & Disabled Group">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Individual buttons maintain their own states, and you can disable the entire group with a single parameter.</p>
+        </div>
+        <CodePreview Title="Mixed States and Group Disabling" Code="@statesCode">
             <PreviewContent>
                 <div class="space-y-4">
-                    <TailButtonGroup>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <ChildContent>Save</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Success">
-                            <ChildContent>Export</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Warning">
-                            <ChildContent>Edit</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Danger">
-                            <ChildContent>Delete</ChildContent>
-                        </TailButton>
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Mixed Button States</h4>
+                        <TailButtonGroup Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Primary">Active</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline">Normal</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" Disabled="true">Disabled</TailButton>
+                            <TailButton Variant="ButtonVariant.Outline" IsLoading="true">Loading</TailButton>
+                        </TailButtonGroup>
+                    </div>
+
+                    <div>
+                        <h4 class="text-sm font-semibold mb-2" style="color: var(--color-text-primary);">Disabled Group (All Buttons Disabled)</h4>
+                        <TailButtonGroup Disabled="true" Spacing="ButtonGroupSpacing.Sm">
+                            <TailButton Variant="ButtonVariant.Primary">First</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Second</TailButton>
+                            <TailButton Variant="ButtonVariant.Primary">Third</TailButton>
+                        </TailButtonGroup>
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <!-- Button Variants Section -->
+    <DocSection Title="Mixed Button Variants">
+        <div style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+            <p>Combine different button variants within the same group for visual hierarchy and semantic meaning.</p>
+        </div>
+        <CodePreview Title="Different Variants Together" Code="@variantsCode">
+            <PreviewContent>
+                <div class="space-y-4">
+                    <TailButtonGroup Attached="false" Spacing="ButtonGroupSpacing.Md">
+                        <TailButton Variant="ButtonVariant.Primary">Save</TailButton>
+                        <TailButton Variant="ButtonVariant.Success">Export</TailButton>
+                        <TailButton Variant="ButtonVariant.Warning">Edit</TailButton>
+                        <TailButton Variant="ButtonVariant.Danger">Delete</TailButton>
                     </TailButtonGroup>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="With Icons">
-        <CodePreview Title="Button Groups with Icons" Code="@iconsCode">
-            <PreviewContent>
-                <div class="space-y-4">
-                    <TailButtonGroup>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <IconStart>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                            </IconStart>
-                            <ChildContent>Edit</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <IconStart>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                            </IconStart>
-                            <ChildContent>Copy</ChildContent>
-                        </TailButton>
-                        <TailButton Variant="ButtonVariant.Primary">
-                            <IconStart>
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </IconStart>
-                            <ChildContent>Delete</ChildContent>
-                        </TailButton>
-                    </TailButtonGroup>
-                </div>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
+    <!-- Real-World Examples Section -->
     <DocSection Title="Real-World Examples">
-        <CodePreview Title="Common Use Cases" Code="@examplesCode">
+        <CodePreview Title="Complete Examples" Code="@examplesCode">
             <PreviewContent>
-                <TailCard Class="max-w-2xl">
+                <TailCard>
                     <Header>
-                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">Action Toolbar</h3>
+                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">Document Editor Toolbar</h3>
                     </Header>
                     <ChildContent>
                         <div class="space-y-4">
                             <div>
-                                <p class="text-sm mb-2" style="color: var(--color-text-secondary);">File Actions:</p>
-                                <TailButtonGroup ShowBorder="true" BorderRadius="ButtonGroupBorderRadius.Md">
-                                    <TailButton Variant="ButtonVariant.Outline">
-                                        <IconStart>
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                            </svg>
-                                        </IconStart>
-                                        <ChildContent>New</ChildContent>
+                                <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Text Formatting</h4>
+                                <TailButtonGroup Spacing="ButtonGroupSpacing.Sm" ShowBorder="true">
+                                    <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" Title="Bold"><strong>B</strong></TailButton>
+                                    <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" Title="Italic"><em>I</em></TailButton>
+                                    <TailButton Variant="ButtonVariant.Outline" Size="ButtonSize.Sm" Title="Underline"><u>U</u></TailButton>
+                                </TailButtonGroup>
+                            </div>
+
+                            <div>
+                                <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">Document Actions</h4>
+                                <TailButtonGroup Attached="false" Spacing="ButtonGroupSpacing.Md">
+                                    <TailButton Variant="ButtonVariant.Primary">
+                                        <ChildContent>? Save</ChildContent>
                                     </TailButton>
                                     <TailButton Variant="ButtonVariant.Outline">
-                                        <IconStart>
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                                            </svg>
-                                        </IconStart>
-                                        <ChildContent>Open</ChildContent>
+                                        <ChildContent>?? Copy</ChildContent>
                                     </TailButton>
-                                    <TailButton Variant="ButtonVariant.Outline">
-                                        <IconStart>
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </IconStart>
-                                        <ChildContent>Save</ChildContent>
+                                    <TailButton Variant="ButtonVariant.Danger">
+                                        <ChildContent>??? Delete</ChildContent>
                                     </TailButton>
                                 </TailButtonGroup>
                             </div>
+
                             <div>
-                                <p class="text-sm mb-2" style="color: var(--color-text-secondary);">View Options:</p>
+                                <h4 class="text-sm font-semibold mb-3" style="color: var(--color-text-primary);">View Options</h4>
                                 <TailButtonGroup BorderRadius="ButtonGroupBorderRadius.Full" ShowShadow="true">
-                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">
-                                        <ChildContent>List</ChildContent>
-                                    </TailButton>
-                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">
-                                        <ChildContent>Grid</ChildContent>
-                                    </TailButton>
-                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">
-                                        <ChildContent>Card</ChildContent>
-                                    </TailButton>
+                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">List</TailButton>
+                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">Grid</TailButton>
+                                    <TailButton Variant="ButtonVariant.Soft" Size="ButtonSize.Sm">Card</TailButton>
                                 </TailButtonGroup>
                             </div>
                         </div>
@@ -377,45 +422,125 @@
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
+    <!-- Features Section -->
+    <DocSection Title="Key Features">
         <TailCard>
             <ChildContent>
                 <div style="color: var(--color-text-primary);">
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                        <li><strong>Layout Options:</strong> Horizontal and vertical layouts</li>
-                        <li><strong>Spacing Control:</strong> None, Small, Medium, Large spacing options</li>
-                        <li><strong>Size Variants:</strong> Xs, Sm, Md, Lg, Xl size options</li>
-                        <li><strong>Border Radius:</strong> None, Small, Medium, Large, Full (pill) radius options</li>
-                        <li><strong>Attached Mode:</strong> Seamless connected buttons with shared borders</li>
-                        <li><strong>Separated Mode:</strong> Individual buttons with spacing</li>
-                        <li><strong>Border Support:</strong> Optional border around the entire group</li>
-                        <li><strong>Shadow Effects:</strong> Optional shadow for depth</li>
-                        <li><strong>Mixed Variants:</strong> Support for different button variants in same group</li>
-                        <li><strong>Icon Support:</strong> Works with buttons that have icons</li>
-                        <li><strong>Theme Support:</strong> Full CSS variable integration for seamless theming</li>
-                        <li><strong>Hover Effects:</strong> Proper z-index handling for attached buttons</li>
-                        <li><strong>Focus States:</strong> Accessible focus indicators</li>
-                        <li><strong>Dark Mode:</strong> Automatic dark mode support</li>
-                        <li><strong>Lightweight:</strong> Only ~4 KB in size</li>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3 text-base" style="color: var(--color-text-primary);">Layout & Responsive</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                                <li>Horizontal & vertical layouts</li>
+                                <li>Responsive mobile-first design</li>
+                                <li>Auto-switch layouts on different screen sizes</li>
+                                <li>Full-width button support</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3 text-base" style="color: var(--color-text-primary);">Customization</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                                <li>4 spacing levels (None, Sm, Md, Lg)</li>
+                                <li>5 size options (Xs, Sm, Md, Lg, Xl)</li>
+                                <li>5 border radius options</li>
+                                <li>Attached and separated modes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t" style="border-color: var(--color-border);">
+                        <div>
+                            <h4 class="font-semibold mb-3 text-base" style="color: var(--color-text-primary);">Styling & Visual</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                                <li>Optional borders and shadows</li>
+                                <li>CSS variable theming support</li>
+                                <li>Smooth animations & transitions</li>
+                                <li>Dark mode compatible</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3 text-base" style="color: var(--color-text-primary);">Interaction & Accessibility</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                                <li>Individual button state management</li>
+                                <li>Group-level disabling</li>
+                                <li>ARIA labels & semantics</li>
+                                <li>Full keyboard accessibility</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </ChildContent>
+        </TailCard>
+    </DocSection>
+
+    <!-- Accessibility & Best Practices Section -->
+    <DocSection Title="Accessibility & Best Practices">
+        <TailCard>
+            <ChildContent>
+                <div style="color: var(--color-text-primary);">
+                    <h3 class="text-base font-semibold mb-4">? Accessibility Features</h3>
+                    <ul class="space-y-2 mb-6" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                        <li>Semantic HTML with <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2);">role="group"</code></li>
+                        <li>ARIA labels for group description</li>
+                        <li>Full keyboard accessibility through child buttons</li>
+                        <li>Proper disabled state communication</li>
+                        <li>High contrast ratios in all states</li>
+                        <li>Focus management inherited from buttons</li>
+                        <li>Screen reader friendly structure</li>
+                    </ul>
+
+                    <h3 class="text-base font-semibold mb-4">? Best Practices</h3>
+                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                        <li><strong>Use Labels:</strong> Provide AriaLabel for descriptive group purpose</li>
+                        <li><strong>Related Buttons:</strong> Group only logically related buttons together</li>
+                        <li><strong>Consistent Variants:</strong> Maintain button variant consistency within groups</li>
+                        <li><strong>Icon Clarity:</strong> Always combine icons with tooltips or text labels</li>
+                        <li><strong>Size Consistency:</strong> Keep button sizes uniform within a group</li>
+                        <li><strong>Mobile First:</strong> Use ResponsiveVertical for better mobile experience</li>
+                        <li><strong>Action Priority:</strong> Order buttons by importance (left to right)</li>
+                        <li><strong>Sufficient Spacing:</strong> Use appropriate spacing for touch targets (min 44px)</li>
                     </ul>
                 </div>
             </ChildContent>
         </TailCard>
     </DocSection>
 
-    <DocSection Title="Accessibility">
+    <!-- Performance Section -->
+    <DocSection Title="Performance & Bundle Size">
         <TailCard>
             <ChildContent>
                 <div style="color: var(--color-text-primary);">
-                    <p class="mb-4">TailButtonGroup is built with accessibility in mind:</p>
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                        <li>Maintains proper button semantics for all child buttons</li>
-                        <li>Keyboard accessible - all buttons remain fully navigable</li>
-                        <li>Proper z-index management for attached buttons on hover/focus</li>
-                        <li>Visible focus indicators with proper contrast</li>
-                        <li>Screen reader friendly - no additional ARIA needed</li>
-                        <li>High contrast ratios for all states</li>
-                    </ul>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">? Performance Benefits</h4>
+                            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem; color: var(--color-text-secondary);">
+                                <li>Ultra-lightweight (~2 KB)</li>
+                                <li>Zero JavaScript dependencies</li>
+                                <li>Pure C# component</li>
+                                <li>Optimized render performance</li>
+                                <li>Tree-shakeable unused code</li>
+                                <li>Fast initial load times</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-3" style="color: var(--color-text-primary);">?? Bundle Comparison</h4>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid var(--color-border);">
+                                        <td style="padding: 0.5rem 0; color: var(--color-text-secondary);">ButtonGroup Component</td>
+                                        <td style="padding: 0.5rem 0; text-align: right; font-weight: bold;">~2 KB</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid var(--color-border);">
+                                        <td style="padding: 0.5rem 0; color: var(--color-text-secondary);">With Dependencies</td>
+                                        <td style="padding: 0.5rem 0; text-align: right; font-weight: bold;">~4 KB</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0.5rem 0; color: var(--color-text-secondary);">Gzip Compressed</td>
+                                        <td style="padding: 0.5rem 0; text-align: right; font-weight: bold;">~1 KB</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </ChildContent>
         </TailCard>
@@ -425,121 +550,201 @@
 @code {
     private string installCode = @"dotnet add package Tail.Blazor.Buttons";
     
-    private string basicCode = @"<TailButtonGroup>
-    <TailButton Variant=""ButtonVariant.Primary"">Left</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Middle</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Right</TailButton>
-</TailButtonGroup>";
-    
-    private string verticalCode = @"<TailButtonGroup Vertical=""true"">
-    <TailButton Variant=""ButtonVariant.Primary"">Top</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Middle</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Bottom</TailButton>
-</TailButtonGroup>";
-    
-    private string spacingCode = @"<TailButtonGroup Spacing=""ButtonGroupSpacing.None"" Attached=""true"">
-    <TailButton Variant=""ButtonVariant.Primary"">One</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Two</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Three</TailButton>
+    private string basicCode = @"<!-- Horizontal Group -->
+<TailButtonGroup>
+    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Third</TailButton>
 </TailButtonGroup>
 
-<TailButtonGroup Spacing=""ButtonGroupSpacing.Md"" Attached=""false"">
-    <TailButton Variant=""ButtonVariant.Primary"">One</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Two</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Three</TailButton>
+<!-- Vertical Group -->
+<TailButtonGroup Vertical=""true"">
+    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Third</TailButton>
 </TailButtonGroup>";
-    
-    private string radiusCode = @"<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.None"">
-    <TailButton Variant=""ButtonVariant.Primary"">Button</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Button</TailButton>
+
+    private string layoutCode = @"<!-- Horizontal -->
+<TailButtonGroup Vertical=""false"">
+    <TailButton Variant=""ButtonVariant.Outline"">Prev</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">1</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">2</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Next</TailButton>
 </TailButtonGroup>
 
+<!-- Vertical -->
+<TailButtonGroup Vertical=""true"">
+    <TailButton Variant=""ButtonVariant.Outline"">Create</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Edit</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Delete</TailButton>
+</TailButtonGroup>
+
+<!-- Responsive: Vertical on Mobile, Horizontal on Desktop -->
+<TailButtonGroup ResponsiveVertical=""true"">
+    <TailButton Variant=""ButtonVariant.Soft"">Mobile First</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Responsive</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Design</TailButton>
+</TailButtonGroup>";
+
+    private string spacingCode = @"<!-- No Spacing (Attached) -->
+<TailButtonGroup Spacing=""ButtonGroupSpacing.None"">
+    <TailButton Variant=""ButtonVariant.Outline"">One</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Two</TailButton>
+</TailButtonGroup>
+
+<!-- Small Spacing -->
+<TailButtonGroup Spacing=""ButtonGroupSpacing.Sm"">
+    <TailButton Variant=""ButtonVariant.Outline"">One</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Two</TailButton>
+</TailButtonGroup>
+
+<!-- Medium Spacing (Default) -->
+<TailButtonGroup Spacing=""ButtonGroupSpacing.Md"">
+    <TailButton Variant=""ButtonVariant.Outline"">One</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Two</TailButton>
+</TailButtonGroup>
+
+<!-- Large Spacing -->
+<TailButtonGroup Spacing=""ButtonGroupSpacing.Lg"">
+    <TailButton Variant=""ButtonVariant.Outline"">One</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Two</TailButton>
+</TailButtonGroup>";
+
+    private string sizeCode = @"<TailButtonGroup Size=""ButtonGroupSize.Xs"">
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Xs"">Xs</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Xs"">Xs</TailButton>
+</TailButtonGroup>
+
+<TailButtonGroup Size=""ButtonGroupSize.Sm"">
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">Sm</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">Sm</TailButton>
+</TailButtonGroup>
+
+<TailButtonGroup Size=""ButtonGroupSize.Md"">
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Md"">Md</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Md"">Md</TailButton>
+</TailButtonGroup>";
+
+    private string radiusCode = @"<!-- No Radius -->
+<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.None"">
+    <TailButton Variant=""ButtonVariant.Soft"">Angular</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Corners</TailButton>
+</TailButtonGroup>
+
+<!-- Small Radius -->
+<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.Sm"">
+    <TailButton Variant=""ButtonVariant.Soft"">Slightly</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Rounded</TailButton>
+</TailButtonGroup>
+
+<!-- Medium Radius (Default) -->
+<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.Md"">
+    <TailButton Variant=""ButtonVariant.Soft"">Normal</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Rounded</TailButton>
+</TailButtonGroup>
+
+<!-- Large Radius -->
+<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.Lg"">
+    <TailButton Variant=""ButtonVariant.Soft"">Very</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Rounded</TailButton>
+</TailButtonGroup>
+
+<!-- Full Radius (Pill) -->
 <TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.Full"">
-    <TailButton Variant=""ButtonVariant.Primary"">Button</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Button</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Pill</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Shape</TailButton>
 </TailButtonGroup>";
-    
-    private string attachedCode = @"<TailButtonGroup Attached=""true"">
-    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Third</TailButton>
+
+    private string attachedCode = @"<!-- Attached (No Spacing) -->
+<TailButtonGroup Attached=""true"" ShowBorder=""true"">
+    <TailButton Variant=""ButtonVariant.Outline"">Back</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Forward</TailButton>
 </TailButtonGroup>
 
+<!-- Separated (With Spacing) -->
 <TailButtonGroup Attached=""false"" Spacing=""ButtonGroupSpacing.Md"">
-    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Third</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Save</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Cancel</TailButton>
+    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
 </TailButtonGroup>";
-    
-    private string borderedCode = @"<TailButtonGroup ShowBorder=""true"">
-    <TailButton Variant=""ButtonVariant.Outline"">Option 1</TailButton>
-    <TailButton Variant=""ButtonVariant.Outline"">Option 2</TailButton>
-    <TailButton Variant=""ButtonVariant.Outline"">Option 3</TailButton>
+
+    private string stylingCode = @"<!-- No Border -->
+<TailButtonGroup ShowBorder=""false"">
+    <TailButton Variant=""ButtonVariant.Soft"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Second</TailButton>
 </TailButtonGroup>
 
-<TailButtonGroup ShowShadow=""true"">
-    <TailButton Variant=""ButtonVariant.Primary"">Action 1</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Action 2</TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">Action 3</TailButton>
+<!-- With Border (Default) -->
+<TailButtonGroup ShowBorder=""true"">
+    <TailButton Variant=""ButtonVariant.Soft"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"">Second</TailButton>
+</TailButtonGroup>
+
+<!-- With Shadow -->
+<TailButtonGroup ShowShadow=""true"" ShowBorder=""false"">
+    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
 </TailButtonGroup>";
-    
-    private string variantsCode = @"<TailButtonGroup>
+
+    private string statesCode = @"<!-- Mixed States -->
+<TailButtonGroup Spacing=""ButtonGroupSpacing.Sm"">
+    <TailButton Variant=""ButtonVariant.Primary"">Active</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Normal</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" Disabled=""true"">Disabled</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"" IsLoading=""true"">Loading</TailButton>
+</TailButtonGroup>
+
+<!-- Disabled Group -->
+<TailButtonGroup Disabled=""true"" Spacing=""ButtonGroupSpacing.Sm"">
+    <TailButton Variant=""ButtonVariant.Primary"">First</TailButton>
+    <TailButton Variant=""ButtonVariant.Primary"">Second</TailButton>
+</TailButtonGroup>";
+
+    private string variantsCode = @"<TailButtonGroup Attached=""false"" Spacing=""ButtonGroupSpacing.Md"">
     <TailButton Variant=""ButtonVariant.Primary"">Save</TailButton>
     <TailButton Variant=""ButtonVariant.Success"">Export</TailButton>
     <TailButton Variant=""ButtonVariant.Warning"">Edit</TailButton>
     <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
 </TailButtonGroup>";
-    
-    private string iconsCode = @"<TailButtonGroup>
-    <TailButton Variant=""ButtonVariant.Primary"">
-        <IconStart>
-            <svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
-                <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"" />
-            </svg>
-        </IconStart>
-        <ChildContent>Edit</ChildContent>
+
+    private string examplesCode = @"<TailButtonGroup Spacing=""ButtonGroupSpacing.Sm"" ShowBorder=""true"">
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">
+        <strong>B</strong>
     </TailButton>
-    <TailButton Variant=""ButtonVariant.Primary"">
-        <IconStart>
-            <svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
-                <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"" />
-            </svg>
-        </IconStart>
-        <ChildContent>Copy</ChildContent>
+    <TailButton Variant=""ButtonVariant.Outline"" Size=""ButtonSize.Sm"">
+        <em>I</em>
     </TailButton>
-</TailButtonGroup>";
-    
-    private string examplesCode = @"<TailButtonGroup ShowBorder=""true"" BorderRadius=""ButtonGroupBorderRadius.Md"">
-    <TailButton Variant=""ButtonVariant.Outline"">
-        <IconStart>
-            <svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
-                <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M12 4v16m8-8H4"" />
-            </svg>
-        </IconStart>
-        <ChildContent>New</ChildContent>
-    </TailButton>
-    <TailButton Variant=""ButtonVariant.Outline"">
-        <IconStart>
-            <svg class=""w-4 h-4"" fill=""none"" stroke=""currentColor"" viewBox=""0 0 24 24"">
-                <path stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""2"" d=""M5 13l4 4L19 7"" />
-            </svg>
-        </IconStart>
-        <ChildContent>Save</ChildContent>
-    </TailButton>
+</TailButtonGroup>
+
+<TailButtonGroup Attached=""false"" Spacing=""ButtonGroupSpacing.Md"">
+    <TailButton Variant=""ButtonVariant.Primary"">Save</TailButton>
+    <TailButton Variant=""ButtonVariant.Outline"">Copy</TailButton>
+    <TailButton Variant=""ButtonVariant.Danger"">Delete</TailButton>
+</TailButtonGroup>
+
+<TailButtonGroup BorderRadius=""ButtonGroupBorderRadius.Full"" ShowShadow=""true"">
+    <TailButton Variant=""ButtonVariant.Soft"" Size=""ButtonSize.Sm"">List</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"" Size=""ButtonSize.Sm"">Grid</TailButton>
+    <TailButton Variant=""ButtonVariant.Soft"" Size=""ButtonSize.Sm"">Card</TailButton>
 </TailButtonGroup>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "null", Description = "Button components to group together. Typically TailButton components." },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "null", Description = "The button components to group together. Typically TailButton components." },
         new DocPageTemplate.ApiParameter { Name = "Vertical", Type = "bool", Default = "false", Description = "Display buttons vertically instead of horizontally." },
-        new DocPageTemplate.ApiParameter { Name = "Spacing", Type = "ButtonGroupSpacing", Default = "ButtonGroupSpacing.None", Description = "Spacing between buttons. Options: None, Sm, Md, Lg." },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ButtonGroupSize", Default = "ButtonGroupSize.Md", Description = "Size variant for the group. Options: Xs, Sm, Md, Lg, Xl." },
-        new DocPageTemplate.ApiParameter { Name = "BorderRadius", Type = "ButtonGroupBorderRadius", Default = "ButtonGroupBorderRadius.Md", Description = "Border radius for the group. Options: None, Sm, Md, Lg, Full." },
-        new DocPageTemplate.ApiParameter { Name = "Attached", Type = "bool", Default = "true", Description = "When true, buttons are connected with shared borders. When false, buttons are separated with spacing." },
-        new DocPageTemplate.ApiParameter { Name = "ShowBorder", Type = "bool", Default = "true", Description = "Show border around the entire button group." },
-        new DocPageTemplate.ApiParameter { Name = "ShowShadow", Type = "bool", Default = "false", Description = "Show shadow effect for depth." },
+        new DocPageTemplate.ApiParameter { Name = "Spacing", Type = "ButtonGroupSpacing", Default = "ButtonGroupSpacing.None", Description = "Space between buttons. Options: None, Sm, Md, Lg." },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "ButtonGroupSize", Default = "ButtonGroupSize.Md", Description = "Group size variant. Options: Xs, Sm, Md, Lg, Xl." },
+        new DocPageTemplate.ApiParameter { Name = "BorderRadius", Type = "ButtonGroupBorderRadius", Default = "ButtonGroupBorderRadius.Md", Description = "Corner roundness. Options: None, Sm, Md, Lg, Full (pill)." },
+        new DocPageTemplate.ApiParameter { Name = "Attached", Type = "bool", Default = "true", Description = "When true, buttons are attached (no spacing). When false, uses Spacing parameter." },
+        new DocPageTemplate.ApiParameter { Name = "ShowBorder", Type = "bool", Default = "true", Description = "Display border around the button group." },
+        new DocPageTemplate.ApiParameter { Name = "ShowShadow", Type = "bool", Default = "false", Description = "Display shadow effect for visual depth." },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable entire button group, making all buttons unclickable and faded." },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "null", Description = "ARIA label for accessibility. Describes the group's purpose for screen readers." },
+        new DocPageTemplate.ApiParameter { Name = "AnimationDuration", Type = "string", Default = "\"duration-200\"", Description = "Tailwind animation duration class for smooth transitions." },
+        new DocPageTemplate.ApiParameter { Name = "ResponsiveVertical", Type = "bool", Default = "false", Description = "When true, displays vertical on mobile and horizontal on desktop (responsive)." },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "string?", Default = "null", Description = "Optional variant class name for custom styling." },
         new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline CSS styles." },
         new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes. Inherited from TailComponentBase." },
-        new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "null", Description = "Additional HTML attributes. Inherited from TailComponentBase." }
+        new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "null", Description = "Additional HTML attributes." }
     };
 }
