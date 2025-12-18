@@ -2,23 +2,86 @@
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.Menu
 
-<nav class="@GetMenuClasses()" style="@GetMenuStyles()">
+<nav class="@GetMenuClasses()" style="@GetMenuStyles()" role="navigation" aria-label="@AriaLabel">
+    @if (HeaderTemplate != null)
+    {
+        <div class="mb-2">@HeaderTemplate</div>
+    }
+
     @ChildContent
+
+    @if (FooterTemplate != null)
+    {
+        <div class="mt-2">@FooterTemplate</div>
+    }
 </nav>
 
 @code {
+    // Local helper enums to avoid breaking changes if not defined elsewhere
+    public enum MenuOrientation { Vertical, Horizontal }
+    public enum MenuAlign { Start, Center, End }
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
-    [Parameter] public MenuVariant Variant { get; set; } = MenuVariant.Default;
+    [Parameter] public RenderFragment? HeaderTemplate { get; set; }
+    [Parameter] public RenderFragment? FooterTemplate { get; set; }
+
+    // Layout & behavior
+    [Parameter] public MenuVariant Variant { get; set; } = MenuVariant.Default; // Keep existing enum
+    [Parameter] public MenuOrientation Orientation { get; set; } = MenuOrientation.Vertical;
+    [Parameter] public MenuAlign Align { get; set; } = MenuAlign.Start;
+    [Parameter] public bool Dense { get; set; } = false;
+
+    // Theming (CSS variables expected to be provided by parent theme)
+    [Parameter] public string? HoverBackground { get; set; } = "var(--color-surface-hover)";
+    [Parameter] public string? HoverTextColor { get; set; } = "var(--color-text-primary)";
+    [Parameter] public string? ActiveBackground { get; set; } = "var(--color-primary)";
+    [Parameter] public string? ActiveTextColor { get; set; } = "var(--color-text-on-primary, #ffffff)";
+
+    // Accessibility & misc
+    [Parameter] public string? AriaLabel { get; set; } = "Main menu";
     [Parameter] public string? Style { get; set; }
+    [Parameter] public string? ItemClass { get; set; }
+    [Parameter] public int AnimationDuration { get; set; } = 200; // ms for hover/active transitions
 
     private string GetMenuClasses()
     {
-        var classes = new List<string> { "flex", "flex-col", "space-y-1" };
+        var classes = new List<string> { "flex" };
+
+        classes.Add(Orientation == MenuOrientation.Horizontal ? "flex-row items-center" : "flex-col");
+
+        if (Orientation == MenuOrientation.Horizontal)
+        {
+            classes.Add("space-x-2");
+        }
+        else
+        {
+            classes.Add("space-y-1");
+        }
+
+        if (Dense)
+        {
+            classes.Add("text-sm");
+        }
+        else
+        {
+            classes.Add("text-base");
+        }
+
+        // Alignment
+        classes.Add(Align switch
+        {
+            MenuAlign.Center => "justify-center",
+            MenuAlign.End => "justify-end",
+            _ => "justify-start",
+        });
 
         if (!string.IsNullOrEmpty(Class))
         {
             classes.Add(Class);
         }
+
+        // transition speed helper
+        classes.Add($"transition-all duration-{Math.Clamp(AnimationDuration, 0, 1000)}");
 
         return string.Join(" ", classes);
     }
@@ -26,10 +89,7 @@
     private string GetMenuStyles()
     {
         var styles = new List<string>();
-        if (!string.IsNullOrEmpty(Style))
-        {
-            styles.Add(Style);
-        }
+        if (!string.IsNullOrEmpty(Style)) styles.Add(Style);
         return string.Join("; ", styles);
     }
 }

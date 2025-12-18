@@ -1,20 +1,29 @@
 @inherits TailComponentBase
+@using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 @using Tail.Blazor.MenuItem
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
 <a 
     href="@Href"
     class="@GetMenuItemClasses()"
     @onclick="HandleClick"
-    style="@GetMenuItemStyles()">
+    @onclick:preventDefault="@PreventDefault"
+    style="@GetMenuItemStyles()"
+    target="@Target"
+    role="menuitem"
+    aria-disabled="@Disabled"
+    tabindex="@(Disabled ? -1 : 0)">
     @if (Icon != null)
     {
         <span class="mr-2">@Icon</span>
     }
-    <span>@ChildContent</span>
+    <span class="flex-1">@ChildContent</span>
     @if (Badge != null)
     {
-        <span class="ml-auto">@Badge</span>
+        <span class="ml-2">@Badge</span>
     }
 </a>
 
@@ -22,24 +31,48 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? Icon { get; set; }
     [Parameter] public RenderFragment? Badge { get; set; }
-    [Parameter] public string? Href { get; set; }
+    [Parameter] public string? Href { get; set; } = "#";
     [Parameter] public bool IsActive { get; set; }
-    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public EventCallback<MenuItemClickArgs> OnClick { get; set; }
+    [Parameter] public string? Target { get; set; }
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public bool PreventDefault { get; set; } = true;
     [Parameter] public string? Style { get; set; }
+
+    public record MenuItemClickArgs(string? Href, string? Target, MouseEventArgs? MouseEvent);
 
     private string GetMenuItemClasses()
     {
-        var classes = new List<string> { "flex", "items-center", "px-4", "py-2", "rounded-lg", "transition-colors", "menu-item" };
+        var classes = new List<string> { "flex", "items-center", "px-4", "py-2", "rounded-lg", "transition-colors", "duration-150", "ease-in-out", "transform-gpu", "transition-transform" };
+
+        // base colors using CSS variables
+        classes.Add("text-[color:var(--color-text-primary)]");
+        classes.Add("bg-transparent");
+
+        // subtle border for boxed appearance
+        classes.Add("border border-transparent");
 
         if (IsActive)
         {
-            classes.Add("active");
+            classes.Add("bg-[color:var(--color-primary)]");
+            classes.Add("text-[color:var(--color-text-on-primary,#ffffff)]");
+            classes.Add("font-semibold");
+            classes.Add("shadow-sm");
+        }
+        else
+        {
+            classes.Add("hover:bg-[color:var(--color-surface-hover)]");
+            classes.Add("hover:text-[color:var(--color-text-primary)]");
+            classes.Add("hover:-translate-y-0.5 hover:shadow-md");
+            classes.Add("focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[color:var(--color-primary)]");
         }
 
-        if (!string.IsNullOrEmpty(Class))
+        if (Disabled)
         {
-            classes.Add(Class);
+            classes.Add("opacity-50 pointer-events-none");
         }
+
+        if (!string.IsNullOrEmpty(Class)) classes.Add(Class);
 
         return string.Join(" ", classes);
     }
@@ -50,29 +83,43 @@
 
         if (IsActive)
         {
-            styles.Add($"background-color: var(--color-primary)");
-            styles.Add($"color: var(--color-text-on-primary, white)");
+            styles.Add($"background-color: var(--color-primary);");
+            styles.Add($"color: var(--color-text-on-primary, #ffffff);");
         }
         else
         {
-            styles.Add($"color: var(--color-text-primary)");
-            styles.Add($"background-color: transparent");
+            styles.Add($"color: var(--color-text-primary);");
+            styles.Add($"background-color: transparent;");
         }
 
-        if (!string.IsNullOrEmpty(Style))
-        {
-            styles.Add(Style);
-        }
+        if (!string.IsNullOrEmpty(Style)) styles.Add(Style);
 
         return string.Join("; ", styles);
     }
 
-    private async Task HandleClick()
+    private async Task HandleClick(MouseEventArgs e)
     {
+        if (Disabled) return;
+
         if (OnClick.HasDelegate)
         {
-            await OnClick.InvokeAsync();
+            await OnClick.InvokeAsync(new MenuItemClickArgs(Href, Target, e));
+            return;
         }
+
+        // If Href is empty or '#', do nothing
+        if (string.IsNullOrEmpty(Href) || Href == "#")
+            return;
+
+        // If target is _blank, open in new tab via JS
+        if (!string.IsNullOrEmpty(Target) && Target.Equals("_blank", StringComparison.OrdinalIgnoreCase))
+        {
+            await JSRuntime.InvokeVoidAsync("open", Href, Target);
+            return;
+        }
+
+        // Default SPA navigation
+        Navigation.NavigateTo(Href);
     }
 }
 
