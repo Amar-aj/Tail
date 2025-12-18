@@ -35,7 +35,7 @@
                     }
                 </div>
             }
-            <div class="flex-1 overflow-y-auto min-h-0">
+            <div class="@GetSidebarScrollAreaClasses()">
                 @SidebarContent
             </div>
         </aside>
@@ -110,6 +110,7 @@
     [Parameter] public DensityMode Density { get; set; } = DensityMode.Normal;
     [Parameter] public string? MobileMenuTitle { get; set; }
     [Parameter] public string? Style { get; set; }
+    [Parameter] public bool HideScrollbars { get; set; } = true;
 
     private string _layoutId = $"responsive-layout-{Guid.NewGuid():N}";
     private string _sidebarId = $"sidebar-{Guid.NewGuid():N}";
@@ -357,11 +358,28 @@
             _ => "p-6"
         });
 
+        if (HideScrollbars)
+        {
+            // Tailwind-only approach to visually hide scrollbars while keeping scroll
+            classes.AddRange(new[] { "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
+            // Note: The pr/-mr trick moves the scrollbar out of view in WebKit-based browsers
+        }
+
         return string.Join(" ", classes);
     }
 
     private string GetContentStyles()
     {
         return "background-color: var(--color-background, #ffffff)";
+    }
+
+    private string GetSidebarScrollAreaClasses()
+    {
+        var classes = new List<string> { "flex-1", "overflow-y-auto", "min-h-0" };
+        if (HideScrollbars)
+        {
+            classes.AddRange(new[] { "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
+        }
+        return string.Join(" ", classes);
     }
 }
