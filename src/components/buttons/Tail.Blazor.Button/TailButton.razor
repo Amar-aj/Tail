@@ -7,9 +7,10 @@
     disabled="@(Disabled || IsLoading)"
     @onclick="HandleClick"
     @onclick:stopPropagation="StopPropagation"
-    @attributes="AdditionalAttributes"
+    @attributes="GetCombinedAttributes()"
     title="@Tooltip"
-    style="@GetButtonStyles()">
+    style="@GetButtonStyles()"
+    tabindex="-1">
     @if (IsLoading)
     {
         <span class="inline-flex items-center">
@@ -63,6 +64,7 @@
     [Parameter] public bool FullWidth { get; set; } = false;
     [Parameter] public string AnimationDuration { get; set; } = "duration-200";
     [Parameter] public string? AriaLabel { get; set; }
+    [Parameter] public bool AutoFocus { get; set; } = false;
 
     private string GetButtonClasses()
     {
@@ -266,6 +268,28 @@
         {
             await OnClick.InvokeAsync(e);
         }
+    }
+
+    private Dictionary<string, object> GetCombinedAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+        
+        // Copy AdditionalAttributes if they exist
+        if (AdditionalAttributes != null)
+        {
+            foreach (var attr in AdditionalAttributes)
+            {
+                attributes[attr.Key] = attr.Value;
+            }
+        }
+        
+        // Only add autofocus if explicitly requested and not already in AdditionalAttributes
+        if (AutoFocus && !attributes.ContainsKey("autofocus"))
+        {
+            attributes["autofocus"] = true;
+        }
+        
+        return attributes;
     }
 }
 

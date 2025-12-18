@@ -66,12 +66,11 @@
             step="@Step"
             pattern="@Pattern"
             autocomplete="@AutoComplete"
-            autofocus="@AutoFocus"
             aria-label="@AriaLabel"
             aria-describedby="@GetAriaDescribedBy()"
             aria-invalid="@(!string.IsNullOrEmpty(ErrorMessage))"
             aria-required="@Required"
-            @attributes="AdditionalAttributes"
+            @attributes="GetCombinedAttributes()"
             style="@GetInputStyles()" />
         @if (ShowClearButton && !string.IsNullOrEmpty(Value) && !Disabled && !ReadOnly)
         {
@@ -162,7 +161,7 @@
     [Parameter] public string? Step { get; set; }
     [Parameter] public string? Pattern { get; set; }
     [Parameter] public string? AutoComplete { get; set; }
-    [Parameter] public bool AutoFocus { get; set; }
+    [Parameter] public bool AutoFocus { get; set; } = false;
     [Parameter] public string? AriaLabel { get; set; }
     [Parameter] public bool EnableAnimation { get; set; } = true;
     [Parameter] public int AnimationDuration { get; set; } = 200;
@@ -597,6 +596,28 @@
             ids.Add($"{InputId}-help");
         }
         return ids.Any() ? string.Join(" ", ids) : null;
+    }
+
+    private Dictionary<string, object> GetCombinedAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+        
+        // Copy AdditionalAttributes if they exist
+        if (AdditionalAttributes != null)
+        {
+            foreach (var attr in AdditionalAttributes)
+            {
+                attributes[attr.Key] = attr.Value;
+            }
+        }
+        
+        // Only add autofocus if explicitly requested and not already in AdditionalAttributes
+        if (AutoFocus && !attributes.ContainsKey("autofocus"))
+        {
+            attributes["autofocus"] = true;
+        }
+        
+        return attributes;
     }
 
     private async Task HandleInput(ChangeEventArgs e)

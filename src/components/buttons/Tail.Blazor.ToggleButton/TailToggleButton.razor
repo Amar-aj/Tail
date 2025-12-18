@@ -7,6 +7,7 @@
     class="@GetButtonClasses()"
     disabled="@Disabled"
     @onclick="HandleToggle"
+    @attributes="GetCombinedAttributes()"
     aria-pressed="@IsToggled.ToString().ToLower()"
     aria-label="@AriaLabel"
     title="@Tooltip">
@@ -39,6 +40,7 @@
     [Parameter] public string? AriaLabel { get; set; }
     [Parameter] public string? Tooltip { get; set; }
     [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public bool AutoFocus { get; set; } = false;
 
     private string GetButtonClasses()
     {
@@ -109,6 +111,28 @@
                 await OnClick.InvokeAsync(e);
             }
         }
+    }
+
+    private Dictionary<string, object> GetCombinedAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+        
+        // Copy AdditionalAttributes if they exist
+        if (AdditionalAttributes != null)
+        {
+            foreach (var attr in AdditionalAttributes)
+            {
+                attributes[attr.Key] = attr.Value;
+            }
+        }
+        
+        // Only add autofocus if explicitly requested and not already in AdditionalAttributes
+        if (AutoFocus && !attributes.ContainsKey("autofocus"))
+        {
+            attributes["autofocus"] = true;
+        }
+        
+        return attributes;
     }
 }
 

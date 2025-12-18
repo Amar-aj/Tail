@@ -7,7 +7,7 @@
     class="@GetButtonClasses()"
     disabled="@(Disabled || IsLoading)"
     @onclick="HandleClick"
-    @attributes="AdditionalAttributes"
+    @attributes="GetCombinedAttributes()"
     style="@GetButtonStyles()">
     @if (IsLoading)
     {
@@ -30,6 +30,7 @@
     [Parameter] public string Type { get; set; } = "button";
     [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter] public string? Style { get; set; }
+    [Parameter] public bool AutoFocus { get; set; } = false;
 
     private string GetButtonClasses()
     {
@@ -83,6 +84,28 @@
         {
             await OnClick.InvokeAsync(e);
         }
+    }
+
+    private Dictionary<string, object> GetCombinedAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+        
+        // Copy AdditionalAttributes if they exist
+        if (AdditionalAttributes != null)
+        {
+            foreach (var attr in AdditionalAttributes)
+            {
+                attributes[attr.Key] = attr.Value;
+            }
+        }
+        
+        // Only add autofocus if explicitly requested and not already in AdditionalAttributes
+        if (AutoFocus && !attributes.ContainsKey("autofocus"))
+        {
+            attributes["autofocus"] = true;
+        }
+        
+        return attributes;
     }
 }
 
