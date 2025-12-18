@@ -10,6 +10,7 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public ContainerSize Size { get; set; } = ContainerSize.Md;
     [Parameter] public string? Style { get; set; }
+    [Parameter] public bool HideScrollbars { get; set; } = true;
 
     private string GetContainerClasses()
     {
@@ -25,6 +26,20 @@
             ContainerSize.Full => "max-w-full",
             _ => "max-w-md"
         });
+
+        // Keep container responsive padding and ensure smooth scrolling when content overflows
+        // Use Tailwind-only utilities to visually hide scrollbars while preserving scrolling.
+        if (HideScrollbars)
+        {
+            // overflow-auto allows scrolling; scroll-smooth enables smooth behavior.
+            // pr-4 and -mr-4 push the scrollbar outside the visible content area in WebKit browsers.
+            // [scrollbar-width:none] hides scrollbar in Firefox; [-ms-overflow-style:none] hides IE/Edge legacy scrollbar.
+            classes.AddRange(new[] { "overflow-auto", "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
+        }
+        else
+        {
+            classes.Add("overflow-visible");
+        }
 
         if (!string.IsNullOrEmpty(Class))
         {
