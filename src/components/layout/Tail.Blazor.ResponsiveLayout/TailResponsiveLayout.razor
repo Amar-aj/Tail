@@ -53,7 +53,7 @@
                     <div class="flex items-center gap-4">
                         @if (ShowMenuToggle && ShowSidebar)
                         {
-                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ToggleSidebar" class="md:hidden">
+                            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ToggleSidebar">
                                 ☰
                             </TailButton>
                         }
@@ -261,8 +261,8 @@
                 classes.Add(_sidebarOpen ? "translate-x-0" : "translate-x-full");
             }
             
-            // On desktop (md and up), make it relative and always visible
-            classes.Add("md:relative md:translate-x-0 md:z-auto");
+            // On desktop (md and up), make it fixed and respect open state
+            classes.Add("md:fixed md:top-0 md:h-full md:z-50");
         }
         else if (LayoutMode == LayoutMode.FixedLeft || LayoutMode == LayoutMode.FixedRight)
         {
@@ -314,6 +314,20 @@
     private string GetMainContentClasses()
     {
         var classes = new List<string> { "flex-1", "flex", "flex-col", "min-w-0", "overflow-hidden" };
+        
+        // Add margin for drawer mode on desktop when sidebar is open
+        if ((LayoutMode == LayoutMode.DrawerLeft || LayoutMode == LayoutMode.DrawerRight) && !_isMobile && _sidebarOpen)
+        {
+            if (LayoutMode == LayoutMode.DrawerLeft)
+            {
+                classes.Add("md:ml-64");
+            }
+            else
+            {
+                classes.Add("md:mr-64");
+            }
+        }
+        
         return string.Join(" ", classes);
     }
 
@@ -353,9 +367,9 @@
         
         classes.Add(Density switch
         {
-            DensityMode.Compact => "p-2",
-            DensityMode.Comfortable => "p-8",
-            _ => "p-6"
+            DensityMode.Compact => "md:p-2",
+            DensityMode.Comfortable => "md:p-8",
+            _ => "md:p-6"
         });
 
         if (HideScrollbars)
@@ -363,6 +377,11 @@
             // Tailwind-only approach to visually hide scrollbars while keeping scroll
             classes.AddRange(new[] { "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
             // Note: The pr/-mr trick moves the scrollbar out of view in WebKit-based browsers
+        }
+        else
+        {
+            // Ensure scrollbars are visible when HideScrollbars is false
+            classes.AddRange(new[] { "scroll-smooth", "[scrollbar-width:auto]", "[-ms-overflow-style:auto]" });
         }
 
         return string.Join(" ", classes);
@@ -379,6 +398,11 @@
         if (HideScrollbars)
         {
             classes.AddRange(new[] { "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
+        }
+        else
+        {
+            // Ensure scrollbars are visible when HideScrollbars is false
+            classes.AddRange(new[] { "scroll-smooth", "[scrollbar-width:auto]", "[-ms-overflow-style:auto]" });
         }
         return string.Join(" ", classes);
     }

@@ -14,7 +14,7 @@
 
     private string GetContainerClasses()
     {
-        var classes = new List<string> { "mx-auto", "px-2" };
+        var classes = new List<string> { "px-2" };
 
         classes.Add(Size switch
         {
@@ -34,11 +34,12 @@
             // overflow-auto allows scrolling; scroll-smooth enables smooth behavior.
             // pr-4 and -mr-4 push the scrollbar outside the visible content area in WebKit browsers.
             // [scrollbar-width:none] hides scrollbar in Firefox; [-ms-overflow-style:none] hides IE/Edge legacy scrollbar.
-            classes.AddRange(new[] { "overflow-auto", "scroll-smooth", "pr-4", "-mr-4", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
+            classes.AddRange(new[] { "overflow-auto", "scroll-smooth", "[scrollbar-width:none]", "[-ms-overflow-style:none]" });
         }
         else
         {
-            classes.Add("overflow-visible");
+            // When HideScrollbars is false, show scrollbars normally and constrain height to enable overflow
+            classes.AddRange(new[] { "overflow-auto", "scroll-smooth", "h-full", "[scrollbar-width:auto]", "[-ms-overflow-style:auto]" });
         }
 
         if (!string.IsNullOrEmpty(Class))

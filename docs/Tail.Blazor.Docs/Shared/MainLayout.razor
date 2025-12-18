@@ -21,7 +21,7 @@
                           AutoHideOnMobileAfterNavigation="true"
                           MobileMenuTitle="Tail.Blazor Documentation">
         <LogoTemplate>
-            <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="flex items-center gap-2">
+            <TailContainer Size="Container.ContainerSize.Full" Class="flex items-center gap-2">
                 <h1 class="text-xl font-bold" style="color: var(--color-text-primary)">Tail.Blazor</h1>
                 <TailBadge Variant="Badge.BadgeVariant.Primary" Size="Badge.BadgeSize.Sm">v1.0.0</TailBadge>
             </TailContainer>
@@ -30,7 +30,7 @@
             <DocsNavMenu />
         </SidebarContent>
         <ChildContent>
-            <TailContainer Size="Tail.Blazor.Container.ContainerSize.Full" Class="p-1" HideScrollbars="false">
+            <TailContainer Size="Container.ContainerSize.Full" Class="p-1" HideScrollbars="false">
                 @Body
             </TailContainer>
         </ChildContent>
