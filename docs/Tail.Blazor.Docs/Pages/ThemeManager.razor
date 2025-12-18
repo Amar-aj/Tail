@@ -10,7 +10,7 @@
         <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg); border-radius: var(--radius-lg)">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">?? Theme Manager</h1>
+                    <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">Theme Manager</h1>
                     <p class="text-lg" style="color: var(--color-text-secondary)">Complete control over your application's theme and design system</p>
                 </div>
                 <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="true" />
@@ -22,7 +22,7 @@
             <div class="lg:col-span-1 space-y-6">
                 <!-- Preset Themes -->
                 <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? Preset Themes</h2>
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Preset Themes</h2>
                     
                     <div class="space-y-2">
                         @foreach (var preset in ThemeService.GetPresets())
@@ -58,7 +58,7 @@
                 <!-- Custom Color Editor -->
                 <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold" style="color: var(--color-text-primary)">?? Custom Colors</h2>
+                        <h2 class="text-xl font-semibold" style="color: var(--color-text-primary)">Custom Colors</h2>
                         <button 
                             type="button"
                             class="px-3 py-1 rounded-md text-sm font-medium transition-all"
@@ -100,7 +100,7 @@
             <!-- Middle Column: CSS Variables Inspector -->
             <div class="lg:col-span-1">
                 <div class="p-6 rounded-lg sticky top-6" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg); max-height: calc(100vh - 8rem); overflow-y: auto">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? CSS Variables</h2>
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">CSS Variables</h2>
                     
                     <!-- Current Theme Info -->
                     <div class="mb-6 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
@@ -184,7 +184,7 @@
             <div class="lg:col-span-1 space-y-6">
                 <!-- Component Previews -->
                 <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">??? Live Preview</h2>
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Live Preview</h2>
                     
                     <!-- Buttons -->
                     <div class="mb-6">
@@ -239,34 +239,26 @@
                     </div>
                 </div>
 
-                <!-- Export/Import -->
+                <!-- Theme Toggle & Selector Examples (merged from separate demo pages) -->
                 <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">?? Export/Import</h2>
-                    
-                    <div class="space-y-3">
-                        <button 
-                            type="button"
-                            class="w-full px-4 py-2 rounded-md font-medium transition-all"
-                            style="background-color: var(--color-primary); color: white; border-radius: var(--radius-md); transition: transform var(--transition-fast)"
-                            @onclick="ExportTheme">
-                            ?? Export Current Theme
-                        </button>
-                        
-                        <button 
-                            type="button"
-                            class="w-full px-4 py-2 rounded-md font-medium transition-all"
-                            style="border: 2px solid var(--color-primary); color: var(--color-primary); background-color: transparent; border-radius: var(--radius-md); transition: background-color var(--transition-fast)"
-                            @onclick="ResetToDefault">
-                            ?? Reset to Default
-                        </button>
+                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Theme Toggle & Selector</h2>
+
+                    <div class="mb-4">
+                        <h3 class="text-sm font-semibold mb-2" style="color: var(--color-text-secondary)">Toggle Component</h3>
+                        <div class="flex items-center gap-4 mb-3">
+                            <TailThemeToggle OnThemeChanged="HandleThemeToggleChanged" />
+                            <TailThemeToggle ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
+                            <TailThemeToggle Style="ThemeToggleStyle.Button" ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
+                        </div>
+                        <pre class="bg-[color:var(--color-surface-2)] p-3 rounded text-sm overflow-x-auto" style="color: var(--color-text-secondary)"><code>&lt;TailThemeToggle /&gt; &lt;TailThemeToggle ShowLabel=&quot;true&quot; /&gt;</code></pre>
                     </div>
 
-                    @if (!string.IsNullOrEmpty(exportedJson))
-                    {
-                        <div class="mt-4 p-3 rounded font-mono text-xs overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-primary); border-radius: var(--radius-sm); max-height: 200px; overflow-y: auto">
-                            @exportedJson
-                        </div>
-                    }
+                    <div>
+                        <h3 class="text-sm font-semibold mb-2" style="color: var(--color-text-secondary)">Theme Selector</h3>
+                        <p class="text-sm mb-2" style="color: var(--color-text-secondary)">Use the selector below to quickly switch themes or modes.</p>
+                        <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="false" />
+                        <pre class="bg-[color:var(--color-surface-2)] p-3 rounded text-sm overflow-x-auto mt-3" style="color: var(--color-text-secondary)"><code>&lt;TailThemeControl ShowModeToggle=&quot;true&quot; ShowThemeSelector=&quot;true&quot; /&gt;</code></pre>
+                    </div>
                 </div>
             </div>
         </div>
@@ -411,6 +403,11 @@
             TransitionFast = source.TransitionFast,
             TransitionNormal = source.TransitionNormal
         };
+    }
+
+    private void HandleThemeToggleChanged(ThemeMode mode)
+    {
+        // simple handler used by demos
     }
 
     public void Dispose()

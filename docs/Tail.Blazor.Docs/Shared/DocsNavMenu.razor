@@ -64,15 +64,10 @@
             <TailMenuItem Href="/theming" IsActive="@IsActive("/theming")">
                 <ChildContent>Overview</ChildContent>
             </TailMenuItem>
-            <TailMenuItem Href="/theme-toggle-demo" IsActive="@IsActive("/theme-toggle-demo")">
-                <ChildContent>Theme Toggle</ChildContent>
+            <TailMenuItem Href="/theme-manager" IsActive="@IsActive("/theme-manager")">
+                <ChildContent>Theme Manager</ChildContent>
             </TailMenuItem>
-            <TailMenuItem Href="/theme-selector-demo" IsActive="@IsActive("/theme-selector-demo")">
-                <ChildContent>Theme Selector</ChildContent>
-            </TailMenuItem>
-            <TailMenuItem Href="/docs/theme-integration" IsActive="@IsActive("/docs/theme-integration")">
-                <ChildContent>Theme Integration</ChildContent>
-            </TailMenuItem>
+          
         </TailMenu>
     </TailCollapsibleMenu>
 
@@ -461,8 +456,7 @@
         // Check Theming section children
         if (targetPath == "/theming" || targetPath == "theming")
         {
-            if (IsActive("/theming") || IsActive("/theme-toggle-demo") || 
-                IsActive("/theme-selector-demo") || IsActive("/docs/theme-integration"))
+            if (IsActive("/theming") || IsActive("/theme-manager") || IsActive("/docs/theme-integration"))
                 return true;
         }
 
