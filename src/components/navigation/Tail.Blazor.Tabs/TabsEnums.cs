@@ -7,6 +7,31 @@ public enum TabsVariant
 {
     Default,
     Pills,
-    Underline
+    Underline,
+    Enclosed,
+    Segmented
+}
+
+/// <summary>
+/// Tabs position.
+/// </summary>
+public enum TabsPosition
+{
+    Top,
+    Bottom,
+    Left,
+    Right
+}
+
+/// <summary>
+/// Tabs size.
+/// </summary>
+public enum TabsSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+    Xl
 }
 

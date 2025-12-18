@@ -1,274 +1,631 @@
 @page "/theme-manager"
 @using Tail.Blazor.Core.Theme
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
+@using Tail.Blazor.Input
+@using Tail.Blazor.Badge
+@using Tail.Blazor.Alert
+@using Tail.Blazor.Progress
+@using Tail.Blazor.Tabs
+@using Tail.Blazor.Grid
+@using Tail.Blazor.Divider
 @inject ThemeService ThemeService
 
 <PageTitle>Theme Manager - Tail.Blazor</PageTitle>
 
-<div class="min-h-screen p-6" style="background-color: var(--color-background)">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8 p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-lg); border-radius: var(--radius-lg)">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-4xl font-bold mb-2" style="color: var(--color-text-primary)">Theme Manager</h1>
-                    <p class="text-lg" style="color: var(--color-text-secondary)">Complete control over your application's theme and design system</p>
-                </div>
-                <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="true" />
-            </div>
+<DocPageTemplate Title="Theme Manager"
+                 Description="Complete control over your application's theme and design system with real-time customization, preset themes, and CSS variable management."
+                 PackageName="Tail.Blazor.Core.Theme"
+                 ApiParameters="@apiParameters">
+
+    <!-- Quick Actions Header -->
+    <div class="mb-6 p-4 rounded-lg flex items-center justify-between flex-wrap gap-4" 
+         style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-sm); border-radius: var(--radius-lg);">
+        <div class="flex items-center gap-3">
+            <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="true" />
         </div>
-
-        <div class="grid lg:grid-cols-3 gap-6">
-            <!-- Left Column: Preset Selection & Custom Editor -->
-            <div class="lg:col-span-1 space-y-6">
-                <!-- Preset Themes -->
-                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Preset Themes</h2>
-                    
-                    <div class="space-y-2">
-                        @foreach (var preset in ThemeService.GetPresets())
-                        {
-                            <button
-                                type="button"
-                                class="w-full p-4 rounded-lg text-left transition-all"
-                                style="@GetPresetButtonStyle(preset.Name)"
-                                @onclick="() => ApplyPreset(preset.Name)">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex-1">
-                                        <div class="font-semibold mb-1" style="color: var(--color-text-primary)">@preset.Name</div>
-                                        <div class="text-xs" style="color: var(--color-text-muted)">@preset.Description</div>
-                                    </div>
-                                    @if (ThemeService.CurrentSettings.PresetName == preset.Name)
-                                    {
-                                        <svg class="w-5 h-5 ml-2" style="color: var(--color-primary)" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                        </svg>
-                                    }
-                                </div>
-                                <div class="flex gap-1 mt-3">
-                                    @foreach (var color in GetPresetColors(preset))
-                                    {
-                                        <div class="w-8 h-8 rounded" style="background-color: @color; border: 1px solid var(--color-border)"></div>
-                                    }
-                                </div>
-                            </button>
-                        }
-                    </div>
-                </div>
-
-                <!-- Custom Color Editor -->
-                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-xl font-semibold" style="color: var(--color-text-primary)">Custom Colors</h2>
-                        <button 
-                            type="button"
-                            class="px-3 py-1 rounded-md text-sm font-medium transition-all"
-                            style="background-color: var(--color-primary); color: white; border-radius: var(--radius-sm); transition: transform var(--transition-fast)"
-                            @onclick="ApplyCustomTheme">
-                            Apply Custom
-                        </button>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Primary</label>
-                            <input type="color" @bind="customColors.Primary" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Secondary</label>
-                            <input type="color" @bind="customColors.Secondary" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Accent</label>
-                            <input type="color" @bind="customColors.Accent" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Success</label>
-                            <input type="color" @bind="customColors.Success" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Warning</label>
-                            <input type="color" @bind="customColors.Warning" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1" style="color: var(--color-text-secondary)">Danger</label>
-                            <input type="color" @bind="customColors.Danger" class="w-full h-10 rounded cursor-pointer" style="border: 1px solid var(--color-border)" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Middle Column: CSS Variables Inspector -->
-            <div class="lg:col-span-1">
-                <div class="p-6 rounded-lg sticky top-6" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg); max-height: calc(100vh - 8rem); overflow-y: auto">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">CSS Variables</h2>
-                    
-                    <!-- Current Theme Info -->
-                    <div class="mb-6 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm font-medium" style="color: var(--color-text-secondary)">Active Theme</span>
-                            <span class="px-2 py-1 rounded text-xs font-semibold" style="background-color: var(--color-primary); color: white; border-radius: var(--radius-sm)">
-                                @ThemeService.CurrentSettings.PresetName
-                            </span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium" style="color: var(--color-text-secondary)">Mode</span>
-                            <span class="text-sm font-semibold" style="color: var(--color-text-primary)">@ThemeService.CurrentSettings.Mode</span>
-                        </div>
-                    </div>
-
-                    <!-- Color Variables -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Colors (16)</h3>
-                        <div class="space-y-2">
-                            @foreach (var variable in GetColorVariables())
-                            {
-                                <div class="flex items-center justify-between p-2 rounded" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
-                                    <span class="text-xs font-mono" style="color: var(--color-text-secondary)">@variable.Name</span>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded border" style="background-color: @variable.Value; border-color: var(--color-border)"></div>
-                                        <span class="text-xs font-mono" style="color: var(--color-text-muted)">@variable.Value</span>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
-
-                    <!-- Shadow Variables -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Shadows (3)</h3>
-                        <div class="space-y-2">
-                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-sm); border-radius: var(--radius-sm)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-sm</span>
-                            </div>
-                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-md); border-radius: var(--radius-sm)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-md</span>
-                            </div>
-                            <div class="p-3 rounded" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-lg); border-radius: var(--radius-sm)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-lg</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Radius Variables -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Border Radius (3)</h3>
-                        <div class="space-y-2">
-                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-sm (4px)</span>
-                            </div>
-                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-md (6px)</span>
-                            </div>
-                            <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-lg)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-lg (8px)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Transition Variables -->
-                    <div>
-                        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wide" style="color: var(--color-text-muted)">Transitions (2)</h3>
-                        <div class="space-y-2">
-                            <div class="p-3 rounded cursor-pointer hover-test" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-fast)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-fast (150ms)</span>
-                            </div>
-                            <div class="p-3 rounded cursor-pointer hover-test" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-normal)">
-                                <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-normal (200ms)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Live Preview -->
-            <div class="lg:col-span-1 space-y-6">
-                <!-- Component Previews -->
-                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Live Preview</h2>
-                    
-                    <!-- Buttons -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Buttons</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Primary</TailButton>
-                            <TailButton Variant="ButtonVariant.Success" Size="ButtonSize.Sm">Success</TailButton>
-                            <TailButton Variant="ButtonVariant.Warning" Size="ButtonSize.Sm">Warning</TailButton>
-                            <TailButton Variant="ButtonVariant.Danger" Size="ButtonSize.Sm">Danger</TailButton>
-                        </div>
-                    </div>
-
-                    <!-- Cards -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Cards</h3>
-                        <div class="space-y-3">
-                            <TailCard>
-                                <Header>Default Surface</Header>
-                                <ChildContent>
-                                    <p class="text-sm" style="color: var(--color-text-secondary)">Using default surface color</p>
-                                </ChildContent>
-                            </TailCard>
-                            <TailCard>
-                                <Header>Elevated Surface</Header>
-                                <ChildContent>
-                                    <p class="text-sm" style="color: var(--color-text-secondary)">Using surface-2 color</p>
-                                </ChildContent>
-                            </TailCard>
-                        </div>
-                    </div>
-
-                    <!-- Inputs -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Inputs</h3>
-                        <TailInput Value="@previewInput" ValueChanged="@((string? val) => previewInput = val)" Label="Sample Input" Placeholder="Type something..." />
-                    </div>
-
-                    <!-- Surface Levels -->
-                    <div>
-                        <h3 class="text-sm font-semibold mb-3" style="color: var(--color-text-secondary)">Surface Levels</h3>
-                        <div class="space-y-2">
-                            <div class="p-4 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
-                                <span class="text-sm" style="color: var(--color-text-primary)">Surface</span>
-                            </div>
-                            <div class="p-4 rounded" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
-                                <span class="text-sm" style="color: var(--color-text-primary)">Surface 2</span>
-                            </div>
-                            <div class="p-4 rounded" style="background-color: var(--color-surface-3); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
-                                <span class="text-sm" style="color: var(--color-text-primary)">Surface 3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Theme Toggle & Selector Examples (merged from separate demo pages) -->
-                <div class="p-6 rounded-lg" style="background-color: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); border-radius: var(--radius-lg)">
-                    <h2 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Theme Toggle & Selector</h2>
-
-                    <div class="mb-4">
-                        <h3 class="text-sm font-semibold mb-2" style="color: var(--color-text-secondary)">Toggle Component</h3>
-                        <div class="flex items-center gap-4 mb-3">
-                            <TailThemeToggle OnThemeChanged="HandleThemeToggleChanged" />
-                            <TailThemeToggle ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
-                            <TailThemeToggle Style="ThemeToggleStyle.Button" ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
-                        </div>
-                        <pre class="bg-[color:var(--color-surface-2)] p-3 rounded text-sm overflow-x-auto" style="color: var(--color-text-secondary)"><code>&lt;TailThemeToggle /&gt; &lt;TailThemeToggle ShowLabel=&quot;true&quot; /&gt;</code></pre>
-                    </div>
-
-                    <div>
-                        <h3 class="text-sm font-semibold mb-2" style="color: var(--color-text-secondary)">Theme Selector</h3>
-                        <p class="text-sm mb-2" style="color: var(--color-text-secondary)">Use the selector below to quickly switch themes or modes.</p>
-                        <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="false" />
-                        <pre class="bg-[color:var(--color-surface-2)] p-3 rounded text-sm overflow-x-auto mt-3" style="color: var(--color-text-secondary)"><code>&lt;TailThemeControl ShowModeToggle=&quot;true&quot; ShowThemeSelector=&quot;true&quot; /&gt;</code></pre>
-                    </div>
-                </div>
-            </div>
+        <div class="flex items-center gap-2">
+            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ExportTheme">
+                <span class="mr-1">??</span> Export Theme
+            </TailButton>
+            <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="ResetToDefault">
+                <span class="mr-1">??</span> Reset
+            </TailButton>
         </div>
     </div>
-</div>
+
+    <!-- Stats Overview -->
+    <TailGrid Columns="4" Gap="4" Class="mb-8">
+        <TailCard Class="text-center">
+            <ChildContent>
+                <div class="text-3xl font-bold mb-1" style="color: var(--color-primary);">5</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Preset Themes</div>
+            </ChildContent>
+        </TailCard>
+        <TailCard Class="text-center">
+            <ChildContent>
+                <div class="text-3xl font-bold mb-1" style="color: var(--color-success);">16</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Color Variables</div>
+            </ChildContent>
+        </TailCard>
+        <TailCard Class="text-center">
+            <ChildContent>
+                <div class="text-3xl font-bold mb-1" style="color: var(--color-warning);">2</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Theme Modes</div>
+            </ChildContent>
+        </TailCard>
+        <TailCard Class="text-center">
+            <ChildContent>
+                <div class="text-3xl font-bold mb-1" style="color: var(--color-info);">?</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Custom Themes</div>
+            </ChildContent>
+        </TailCard>
+    </TailGrid>
+
+    <!-- Tabbed Content -->
+    <TailTabs ActiveIndex="@activeTab" OnTabChanged="@((int index) => activeTab = index)">
+        <Items>
+            <TailTabItem Title="?? Preset Themes" />
+            <TailTabItem Title="?? Custom Colors" />
+            <TailTabItem Title="?? CSS Variables" />
+            <TailTabItem Title="??? Live Preview" />
+            <TailTabItem Title="?? Components" />
+            <TailTabItem Title="?? Export & Import" />
+        </Items>
+        <Content>
+            <!-- Tab 1: Preset Themes -->
+            <TailTabPanel>
+                <DocSection Title="Preset Themes">
+                    <p class="mb-4" style="color: var(--color-text-secondary);">
+                        Choose from 5 professionally designed themes, each available in both Light and Dark modes.
+                    </p>
+                    
+                    <TailGrid Columns="2" Gap="4">
+                        @foreach (var preset in ThemeService.GetPresets())
+                        {
+                            <TailCard Class="cursor-pointer transition-all hover-lift" 
+                                      Style="@GetPresetCardStyle(preset.Name)"
+                                      @onclick="() => ApplyPreset(preset.Name)">
+                                <ChildContent>
+                                    <div class="p-4">
+                                        <div class="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h3 class="text-lg font-semibold mb-1" style="color: var(--color-text-primary)">
+                                                    @preset.Name
+                                                </h3>
+                                                <p class="text-xs" style="color: var(--color-text-muted)">@preset.Description</p>
+                                            </div>
+                                            @if (ThemeService.CurrentSettings.PresetName == preset.Name)
+                                            {
+                                                <TailBadge Variant="Badge.BadgeVariant.Success" Size="Badge.BadgeSize.Sm">
+                                                    ? Active
+                                                </TailBadge>
+                                            }
+                                        </div>
+                                        
+                                        <!-- Color Palette Preview -->
+                                        <div class="flex gap-1 mb-3">
+                                            @foreach (var color in GetPresetColors(preset))
+                                            {
+                                                <div class="flex-1 h-10 rounded transition-transform hover:scale-110" 
+                                                     style="background-color: @color; border: 1px solid var(--color-border); border-radius: var(--radius-sm);"
+                                                     title="@color"></div>
+                                            }
+                                        </div>
+                                        
+                                        <!-- Theme Mode Toggles -->
+                                        <div class="flex items-center gap-2 text-xs">
+                                            <button type="button" 
+                                                    class="px-2 py-1 rounded transition-all @(ThemeService.CurrentSettings.Mode == "Light" ? "font-semibold" : "")"
+                                                    style="@GetModeButtonStyle("Light")"
+                                                    @onclick='() => ApplyPresetWithMode(preset.Name, "Light")'
+                                                    @onclick:stopPropagation="true">
+                                                ?? Light
+                                            </button>
+                                            <button type="button" 
+                                                    class="px-2 py-1 rounded transition-all @(ThemeService.CurrentSettings.Mode == "Dark" ? "font-semibold" : "")"
+                                                    style="@GetModeButtonStyle("Dark")"
+                                                    @onclick='() => ApplyPresetWithMode(preset.Name, "Dark")'
+                                                    @onclick:stopPropagation="true">
+                                                ?? Dark
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                            </TailCard>
+                        }
+                    </TailGrid>
+                </DocSection>
+            </TailTabPanel>
+
+            <!-- Tab 2: Custom Colors -->
+            <TailTabPanel>
+                <DocSection Title="Custom Color Editor">
+                    <TailAlert Variant="AlertVariant.Info" Class="mb-4">
+                        <p class="text-sm">Create your own custom theme by selecting colors for each design token. Changes apply in real-time across all components.</p>
+                    </TailAlert>
+
+                    <TailGrid Columns="2" Gap="4">
+                        <!-- Brand Colors -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Brand Colors</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-4">
+                                    @foreach (var colorProp in new[] { 
+                                        ("Primary", nameof(customColors.Primary), "Main brand color"),
+                                        ("Secondary", nameof(customColors.Secondary), "Secondary brand color"),
+                                        ("Accent", nameof(customColors.Accent), "Accent highlights")
+                                    })
+                                    {
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2" style="color: var(--color-text-secondary)">
+                                                @colorProp.Item1
+                                                <span class="text-xs ml-1" style="color: var(--color-text-muted)">(@colorProp.Item3)</span>
+                                            </label>
+                                            <div class="flex items-center gap-2">
+                                                <input type="color" 
+                                                       value="@GetColorValue(colorProp.Item2)"
+                                                       @onchange="@(e => UpdateCustomColor(colorProp.Item2, e.Value?.ToString()))"
+                                                       class="w-20 h-10 rounded cursor-pointer border" 
+                                                       style="border-color: var(--color-border)" />
+                                                <input type="text" 
+                                                       value="@GetColorValue(colorProp.Item2)"
+                                                       @onchange="@(e => UpdateCustomColor(colorProp.Item2, e.Value?.ToString()))"
+                                                       class="flex-1 px-3 py-2 rounded text-sm font-mono"
+                                                       style="background-color: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-primary);"
+                                                       placeholder="#000000" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- State Colors -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">State Colors</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-4">
+                                    @foreach (var colorProp in new[] { 
+                                        ("Success", nameof(customColors.Success), "Success states"),
+                                        ("Warning", nameof(customColors.Warning), "Warning states"),
+                                        ("Danger", nameof(customColors.Danger), "Error/danger states")
+                                    })
+                                    {
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2" style="color: var(--color-text-secondary)">
+                                                @colorProp.Item1
+                                                <span class="text-xs ml-1" style="color: var(--color-text-muted)">(@colorProp.Item3)</span>
+                                            </label>
+                                            <div class="flex items-center gap-2">
+                                                <input type="color" 
+                                                       value="@GetColorValue(colorProp.Item2)"
+                                                       @onchange="@(e => UpdateCustomColor(colorProp.Item2, e.Value?.ToString()))"
+                                                       class="w-20 h-10 rounded cursor-pointer border" 
+                                                       style="border-color: var(--color-border)" />
+                                                <input type="text" 
+                                                       value="@GetColorValue(colorProp.Item2)"
+                                                       @onchange="@(e => UpdateCustomColor(colorProp.Item2, e.Value?.ToString()))"
+                                                       class="flex-1 px-3 py-2 rounded text-sm font-mono"
+                                                       style="background-color: var(--color-surface-2); border: 1px solid var(--color-border); color: var(--color-text-primary);"
+                                                       placeholder="#000000" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+                    </TailGrid>
+
+                    <div class="mt-4">
+                        <TailButton Variant="ButtonVariant.Primary" OnClick="ApplyCustomTheme" Class="mr-2">
+                            <span class="mr-1">?</span> Apply Custom Theme
+                        </TailButton>
+                        <TailButton Variant="ButtonVariant.Ghost" OnClick="ResetCustomColors">
+                            <span class="mr-1">??</span> Reset Colors
+                        </TailButton>
+                    </div>
+                </DocSection>
+            </TailTabPanel>
+
+            <!-- Tab 3: CSS Variables -->
+            <TailTabPanel>
+                <DocSection Title="CSS Variables Inspector">
+                    <div class="mb-4 p-4 rounded-lg" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium" style="color: var(--color-text-secondary)">Active Theme:</span>
+                                <TailBadge Variant="Badge.BadgeVariant.Primary" Size="Badge.BadgeSize.Sm">
+                                    @ThemeService.CurrentSettings.PresetName
+                                </TailBadge>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="font-medium" style="color: var(--color-text-secondary)">Mode:</span>
+                                <TailBadge Variant="@(ThemeService.CurrentSettings.Mode == "Dark" ? Badge.BadgeVariant.Gray : Badge.BadgeVariant.Warning)" 
+                                           Size="Badge.BadgeSize.Sm">
+                                    @(ThemeService.CurrentSettings.Mode == "Dark" ? "??" : "??") @ThemeService.CurrentSettings.Mode
+                                </TailBadge>
+                            </div>
+                        </div>
+                    </div>
+
+                    <TailGrid Columns="2" Gap="4">
+                        <!-- Color Variables -->
+                        <TailCard>
+                            <Header><h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Colors (16)</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-2">
+                                    @foreach (var variable in GetColorVariables())
+                                    {
+                                        <div class="flex items-center justify-between p-2 rounded hover:bg-opacity-50 transition-colors cursor-pointer" 
+                                             style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)"
+                                             @onclick="() => CopyToClipboard(variable.Name)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">@variable.Name</span>
+                                            <div class="flex items-center gap-2">
+                                                <div class="w-6 h-6 rounded border shadow-sm" 
+                                                     style="background-color: @variable.Value; border-color: var(--color-border)"></div>
+                                                <span class="text-xs font-mono" style="color: var(--color-text-muted)">@variable.Value</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Other Variables -->
+                        <div class="space-y-4">
+                            <!-- Shadows -->
+                            <TailCard>
+                                <Header><h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Shadows (3)</h3></Header>
+                                <ChildContent>
+                                    <div class="space-y-2">
+                                        <div class="p-3 rounded transition-all hover:scale-105" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-sm); border-radius: var(--radius-sm)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-sm</span>
+                                        </div>
+                                        <div class="p-3 rounded transition-all hover:scale-105" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-md); border-radius: var(--radius-sm)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-md</span>
+                                        </div>
+                                        <div class="p-3 rounded transition-all hover:scale-105" style="background-color: var(--color-surface-2); box-shadow: var(--shadow-lg); border-radius: var(--radius-sm)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--shadow-lg</span>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                            </TailCard>
+
+                            <!-- Border Radius -->
+                            <TailCard>
+                                <Header><h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Border Radius (3)</h3></Header>
+                                <ChildContent>
+                                    <div class="space-y-2">
+                                        <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-sm)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-sm (4px)</span>
+                                        </div>
+                                        <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-md)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-md (6px)</span>
+                                        </div>
+                                        <div class="p-3" style="background-color: var(--color-surface-2); border-radius: var(--radius-lg)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--radius-lg (8px)</span>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                            </TailCard>
+
+                            <!-- Transitions -->
+                            <TailCard>
+                                <Header><h3 class="text-sm font-semibold uppercase tracking-wide" style="color: var(--color-text-muted)">Transitions (2)</h3></Header>
+                                <ChildContent>
+                                    <div class="space-y-2">
+                                        <div class="p-3 rounded cursor-pointer hover-test" 
+                                             style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-fast)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-fast (150ms)</span>
+                                        </div>
+                                        <div class="p-3 rounded cursor-pointer hover-test" 
+                                             style="background-color: var(--color-surface-2); border-radius: var(--radius-sm); transition: background-color var(--transition-normal)">
+                                            <span class="text-xs font-mono" style="color: var(--color-text-secondary)">--transition-normal (300ms)</span>
+                                        </div>
+                                    </div>
+                                </ChildContent>
+                            </TailCard>
+                        </div>
+                    </TailGrid>
+                </DocSection>
+            </TailTabPanel>
+
+            <!-- Tab 4: Live Preview -->
+            <TailTabPanel>
+                <DocSection Title="Live Component Preview">
+                    <p class="mb-4" style="color: var(--color-text-secondary);">
+                        See how theme changes affect components in real-time.
+                    </p>
+
+                    <TailGrid Columns="2" Gap="4">
+                        <!-- Buttons -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Buttons</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-3">
+                                    <div class="flex flex-wrap gap-2">
+                                        <TailButton Variant="ButtonVariant.Primary" Size="ButtonSize.Sm">Primary</TailButton>
+                                        <TailButton Variant="ButtonVariant.Success" Size="ButtonSize.Sm">Success</TailButton>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <TailButton Variant="ButtonVariant.Warning" Size="ButtonSize.Sm">Warning</TailButton>
+                                        <TailButton Variant="ButtonVariant.Danger" Size="ButtonSize.Sm">Danger</TailButton>
+                                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm">Ghost</TailButton>
+                                    </div>
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Alerts -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Alerts</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-2">
+                                    <TailAlert Variant="AlertVariant.Info" Size="AlertSize.Sm">Information message</TailAlert>
+                                    <TailAlert Variant="AlertVariant.Success" Size="AlertSize.Sm">Success message</TailAlert>
+                                    <TailAlert Variant="AlertVariant.Warning" Size="AlertSize.Sm">Warning message</TailAlert>
+                                    <TailAlert Variant="AlertVariant.Danger" Size="AlertSize.Sm">Error message</TailAlert>
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Badges -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Badges</h3></Header>
+                            <ChildContent>
+                                <div class="flex flex-wrap gap-2">
+                                    <TailBadge Variant="Badge.BadgeVariant.Primary">Primary</TailBadge>
+                                    <TailBadge Variant="Badge.BadgeVariant.Success">Success</TailBadge>
+                                    <TailBadge Variant="Badge.BadgeVariant.Warning">Warning</TailBadge>
+                                    <TailBadge Variant="Badge.BadgeVariant.Danger">Danger</TailBadge>
+                                    <TailBadge Variant="Badge.BadgeVariant.Info">Info</TailBadge>
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Progress -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Progress Bars</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-3">
+                                    <TailProgress Value="75" Variant="ProgressVariant.Primary" Size="ProgressSize.Sm" ShowLabel="true" />
+                                    <TailProgress Value="60" Variant="ProgressVariant.Success" Size="ProgressSize.Sm" ShowLabel="true" />
+                                    <TailProgress Value="45" Variant="ProgressVariant.Warning" Size="ProgressSize.Sm" ShowLabel="true" />
+                                    <TailProgress Value="30" Variant="ProgressVariant.Danger" Size="ProgressSize.Sm" ShowLabel="true" />
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Surface Levels -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Surface Levels</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-2">
+                                    <div class="p-4 rounded" style="background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                        <span class="text-sm" style="color: var(--color-text-primary)">Surface</span>
+                                    </div>
+                                    <div class="p-4 rounded" style="background-color: var(--color-surface-2); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                        <span class="text-sm" style="color: var(--color-text-primary)">Surface 2</span>
+                                    </div>
+                                    <div class="p-4 rounded" style="background-color: var(--color-surface-3); border: 1px solid var(--color-border); border-radius: var(--radius-md)">
+                                        <span class="text-sm" style="color: var(--color-text-primary)">Surface 3</span>
+                                    </div>
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+
+                        <!-- Inputs -->
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Form Inputs</h3></Header>
+                            <ChildContent>
+                                <div class="space-y-3">
+                                    <TailInput Value="@previewInput" 
+                                               ValueChanged="@((string? val) => previewInput = val)" 
+                                               Label="Sample Input" 
+                                               Placeholder="Type something..." />
+                                    <TailInput Type="InputType.Email" 
+                                               Label="Email Input" 
+                                               Placeholder="email@example.com" />
+                                    <TailInput Type="InputType.Password" 
+                                               Label="Password Input" 
+                                               Placeholder="••••••••" />
+                                </div>
+                            </ChildContent>
+                        </TailCard>
+                    </TailGrid>
+                </DocSection>
+            </TailTabPanel>
+
+            <!-- Tab 5: Theme Toggle Components -->
+            <TailTabPanel>
+                <DocSection Title="Theme Toggle Components">
+                    <p class="mb-4" style="color: var(--color-text-secondary);">
+                        Ready-to-use components for theme switching in your application.
+                    </p>
+
+                    <TailGrid Columns="1" Gap="4">
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">TailThemeToggle</h3></Header>
+                            <ChildContent>
+                                <p class="text-sm mb-4" style="color: var(--color-text-secondary)">
+                                    Quick dark/light mode toggle button.
+                                </p>
+                                <div class="flex items-center gap-4 mb-4 p-4 rounded" style="background-color: var(--color-surface-2)">
+                                    <TailThemeToggle OnThemeChanged="HandleThemeToggleChanged" />
+                                    <TailThemeToggle ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
+                                    <TailThemeToggle Style="ThemeToggleStyle.Button" ShowLabel="true" OnThemeChanged="HandleThemeToggleChanged" />
+                                </div>
+                                <pre class="text-xs p-3 rounded overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)"><code>&lt;TailThemeToggle /&gt;
+&lt;TailThemeToggle ShowLabel="true" /&gt;
+&lt;TailThemeToggle Style="ThemeToggleStyle.Button" ShowLabel="true" /&gt;</code></pre>
+                            </ChildContent>
+                        </TailCard>
+
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">TailThemeControl</h3></Header>
+                            <ChildContent>
+                                <p class="text-sm mb-4" style="color: var(--color-text-secondary)">
+                                    Advanced theme selector with mode toggle and theme name display.
+                                </p>
+                                <div class="mb-4 p-4 rounded" style="background-color: var(--color-surface-2)">
+                                    <TailThemeControl ShowModeToggle="true" ShowThemeSelector="true" ShowThemeName="true" />
+                                </div>
+                                <pre class="text-xs p-3 rounded overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)"><code>&lt;TailThemeControl 
+    ShowModeToggle="true" 
+    ShowThemeSelector="true" 
+    ShowThemeName="true" /&gt;</code></pre>
+                            </ChildContent>
+                        </TailCard>
+                    </TailGrid>
+                </DocSection>
+            </TailTabPanel>
+
+            <!-- Tab 6: Export & Import -->
+            <TailTabPanel>
+                <DocSection Title="Export & Import Themes">
+                    <TailGrid Columns="2" Gap="4">
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Export Theme</h3></Header>
+                            <ChildContent>
+                                <p class="text-sm mb-4" style="color: var(--color-text-secondary)">
+                                    Export your current theme configuration as JSON for backup or sharing.
+                                </p>
+                                <TailButton Variant="ButtonVariant.Primary" OnClick="ExportTheme" Class="mb-4">
+                                    <span class="mr-1">??</span> Export Current Theme
+                                </TailButton>
+                                @if (!string.IsNullOrEmpty(exportedJson))
+                                {
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2" style="color: var(--color-text-secondary)">Exported JSON:</label>
+                                        <pre class="text-xs p-3 rounded overflow-auto max-h-96" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)">@exportedJson</pre>
+                                        <TailButton Variant="ButtonVariant.Ghost" Size="ButtonSize.Sm" OnClick="() => CopyToClipboard(exportedJson)" Class="mt-2">
+                                            ?? Copy to Clipboard
+                                        </TailButton>
+                                    </div>
+                                }
+                            </ChildContent>
+                        </TailCard>
+
+                        <TailCard>
+                            <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Import Theme</h3></Header>
+                            <ChildContent>
+                                <p class="text-sm mb-4" style="color: var(--color-text-secondary)">
+                                    Import a theme configuration from JSON. (Feature coming soon)
+                                </p>
+                                <TailAlert Variant="AlertVariant.Info" Size="AlertSize.Sm">
+                                    <p class="text-xs">Theme import functionality will be available in the next release.</p>
+                                </TailAlert>
+                            </ChildContent>
+                        </TailCard>
+                    </TailGrid>
+                </DocSection>
+            </TailTabPanel>
+        </Content>
+    </TailTabs>
+
+    <!-- Usage Examples Section -->
+    <DocSection Title="Usage Examples">
+        <TailGrid Columns="1" Gap="4">
+            <TailCard>
+                <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Basic Setup</h3></Header>
+                <ChildContent>
+                    <pre class="text-sm p-4 rounded overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)"><code>// Program.cs
+builder.Services.AddScoped&lt;ThemeService&gt;();
+
+// In your layout or component
+@@inject ThemeService ThemeService
+
+@@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ThemeService.InitializeAsync();
+    }
+}</code></pre>
+                </ChildContent>
+            </TailCard>
+
+            <TailCard>
+                <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Programmatic Theme Control</h3></Header>
+                <ChildContent>
+                    <pre class="text-sm p-4 rounded overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)"><code>// Apply a preset theme
+await ThemeService.ApplyPresetAsync("Ocean", "Dark");
+
+// Apply custom theme
+var customColors = new ThemeColors
+{
+    Primary = "#3b82f6",
+    Secondary = "#8b5cf6",
+    // ... other colors
+};
+await ThemeService.ApplyCustomThemeAsync(customColors, "Light");
+
+// Toggle between light and dark
+await ThemeService.ToggleModeAsync();</code></pre>
+                </ChildContent>
+            </TailCard>
+
+            <TailCard>
+                <Header><h3 class="text-lg font-semibold" style="color: var(--color-text-primary)">Using CSS Variables in Components</h3></Header>
+                <ChildContent>
+                    <pre class="text-sm p-4 rounded overflow-x-auto" style="background-color: var(--color-surface-3); color: var(--color-text-secondary)"><code>&lt;div style="background-color: var(--color-primary); 
+             color: white; 
+             padding: 1rem; 
+             border-radius: var(--radius-md);
+             box-shadow: var(--shadow-lg);"&gt;
+    Themed Component
+&lt;/div&gt;</code></pre>
+                </ChildContent>
+            </TailCard>
+        </TailGrid>
+    </DocSection>
+
+    <!-- Best Practices Section -->
+    <DocSection Title="Best Practices">
+        <TailGrid Columns="2" Gap="4">
+            <TailCard>
+                <Header><h3 class="text-lg font-semibold text-success" style="color: var(--color-success)">? Do</h3></Header>
+                <ChildContent>
+                    <ul class="space-y-2 text-sm" style="color: var(--color-text-secondary)">
+                        <li>• Always use CSS variables for colors and theming</li>
+                        <li>• Test your theme in both Light and Dark modes</li>
+                        <li>• Use semantic color names (primary, success, danger)</li>
+                        <li>• Ensure sufficient color contrast for accessibility</li>
+                        <li>• Persist theme settings to localStorage</li>
+                        <li>• Provide theme toggle controls in your UI</li>
+                    </ul>
+                </ChildContent>
+            </TailCard>
+
+            <TailCard>
+                <Header><h3 class="text-lg font-semibold text-danger" style="color: var(--color-danger)">? Don't</h3></Header>
+                <ChildContent>
+                    <ul class="space-y-2 text-sm" style="color: var(--color-text-secondary)">
+                        <li>• Don't hardcode colors in components</li>
+                        <li>• Don't override theme variables globally</li>
+                        <li>• Don't use too many custom colors</li>
+                        <li>• Don't ignore color contrast ratios</li>
+                        <li>• Don't modify theme state without proper handling</li>
+                        <li>• Don't forget to test on mobile devices</li>
+                    </ul>
+                </ChildContent>
+            </TailCard>
+        </TailGrid>
+    </DocSection>
+
+</DocPageTemplate>
 
 <style>
     .hover-test:hover {
         background-color: var(--color-primary) !important;
         transform: scale(1.02);
+        transition: all var(--transition-fast);
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
     }
 </style>
 
@@ -276,6 +633,20 @@
     private ThemeColors customColors = new();
     private string previewInput = "";
     private string exportedJson = "";
+    private int activeTab = 0;
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new() { Name = "PresetName", Type = "string", Default = "Ocean", Description = "Name of the active preset theme" },
+        new() { Name = "Mode", Type = "string", Default = "Light", Description = "Theme mode: 'Light' or 'Dark'" },
+        new() { Name = "Colors", Type = "ThemeColors", Default = "-", Description = "Theme color configuration object" },
+        new() { Name = "OnThemeChanged", Type = "Action", Default = "-", Description = "Callback when theme changes" },
+        new() { Name = "ShowModeToggle", Type = "bool", Default = "true", Description = "Show light/dark mode toggle in ThemeControl" },
+        new() { Name = "ShowThemeSelector", Type = "bool", Default = "true", Description = "Show theme selector dropdown" },
+        new() { Name = "ShowThemeName", Type = "bool", Default = "false", Description = "Display current theme name" },
+        new() { Name = "ShowLabel", Type = "bool", Default = "false", Description = "Show label text in ThemeToggle" },
+        new() { Name = "Style", Type = "ThemeToggleStyle", Default = "Switch", Description = "Toggle style: Switch or Button" }
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -295,18 +666,29 @@
         await ThemeService.ApplyPresetAsync(presetName, ThemeService.CurrentSettings.Mode);
     }
 
+    private async Task ApplyPresetWithMode(string presetName, string mode)
+    {
+        await ThemeService.ApplyPresetAsync(presetName, mode);
+    }
+
     private async Task ApplyCustomTheme()
     {
         await ThemeService.ApplyCustomThemeAsync(customColors, ThemeService.CurrentSettings.Mode);
     }
 
-    private string GetPresetButtonStyle(string presetName)
+    private void ResetCustomColors()
+    {
+        customColors = CloneColors(ThemeService.CurrentSettings.Colors);
+        StateHasChanged();
+    }
+
+    private string GetPresetCardStyle(string presetName)
     {
         var isActive = ThemeService.CurrentSettings.PresetName == presetName;
         
         if (isActive)
         {
-            return @"
+            return $@"
                 background-color: color-mix(in srgb, var(--color-primary) 15%, var(--color-surface));
                 border: 2px solid var(--color-primary);
                 border-radius: var(--radius-md);
@@ -314,13 +696,24 @@
             ";
         }
         
-        return @"
-            background-color: var(--color-surface-2);
-            border: 2px solid transparent;
+        return $@"
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
             border-radius: var(--radius-md);
             transition: all var(--transition-fast);
-            &:hover { border-color: var(--color-border); }
         ";
+    }
+
+    private string GetModeButtonStyle(string mode)
+    {
+        var isActive = ThemeService.CurrentSettings.Mode == mode;
+        
+        if (isActive)
+        {
+            return "background-color: var(--color-primary); color: white; border-radius: var(--radius-sm);";
+        }
+        
+        return "background-color: var(--color-surface-2); color: var(--color-text-secondary); border-radius: var(--radius-sm);";
     }
 
     private List<string> GetPresetColors(ThemePreset preset)
@@ -360,18 +753,35 @@
         };
     }
 
+    private string GetColorValue(string propertyName)
+    {
+        var prop = typeof(ThemeColors).GetProperty(propertyName);
+        return prop?.GetValue(customColors)?.ToString() ?? "#000000";
+    }
+
+    private void UpdateCustomColor(string propertyName, string? value)
+    {
+        if (string.IsNullOrEmpty(value)) return;
+        
+        var prop = typeof(ThemeColors).GetProperty(propertyName);
+        prop?.SetValue(customColors, value);
+        StateHasChanged();
+    }
+
     private void ExportTheme()
     {
         exportedJson = System.Text.Json.JsonSerializer.Serialize(ThemeService.CurrentSettings, new System.Text.Json.JsonSerializerOptions 
         { 
             WriteIndented = true 
         });
+        activeTab = 5; // Switch to Export & Import tab
     }
 
     private async Task ResetToDefault()
     {
         await ThemeService.ApplyPresetAsync("Ocean", "Light");
         exportedJson = "";
+        customColors = CloneColors(ThemeService.CurrentSettings.Colors);
     }
 
     private ThemeColors CloneColors(ThemeColors source)
@@ -407,7 +817,14 @@
 
     private void HandleThemeToggleChanged(ThemeMode mode)
     {
-        // simple handler used by demos
+        // Handler for theme toggle component demos
+    }
+
+    private async Task CopyToClipboard(string text)
+    {
+        // Clipboard copy would require JS interop
+        // For now, just provide visual feedback
+        await Task.CompletedTask;
     }
 
     public void Dispose()

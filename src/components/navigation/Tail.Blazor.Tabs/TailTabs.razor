@@ -1,86 +1,550 @@
 @inherits TailComponentBase
 @using Microsoft.AspNetCore.Components.Web
 @using Tail.Blazor.Tabs
+@using Microsoft.AspNetCore.Components.Rendering
 
-<div class="@GetTabsClasses()">
-    <div class="flex border-b" style="border-color: var(--color-border, #e5e7eb);">
-        @foreach (var tab in Tabs)
+<CascadingValue Value="this">
+    <div class="@GetTabsClasses()" style="@GetTabsStyles()">
+        @if (Items != null)
         {
-            <button
-                type="button"
-                class="@GetTabButtonClasses(tab)"
-                @onclick="() => SelectTab(tab)"
-                style="@GetTabButtonStyles(tab)">
-                @tab.Label
-            </button>
+            @Items
         }
+        
+        <div class="@GetTabHeaderClasses()" style="@GetTabHeaderStyles()">
+            @if (Position == TabsPosition.Left || Position == TabsPosition.Right)
+            {
+                <div class="@GetTabListClasses()">
+                    @foreach (var tab in Tabs)
+                    {
+                        @RenderTabButton(tab)
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="@GetTabListClasses()">
+                    @foreach (var tab in Tabs)
+                    {
+                        @RenderTabButton(tab)
+                    }
+                </div>
+            }
+        </div>
+        <div class="@GetTabContentClasses()" style="@GetTabContentStyles()">
+            @if (Content != null)
+            {
+                @Content
+            }
+            
+            @if (ActiveTab != null && _panelContents.ContainsKey(ActiveTab.Id))
+            {
+                <div class="@GetTabPanelClasses()" style="@GetTabPanelStyles()">
+                    @_panelContents[ActiveTab.Id]
+                </div>
+            }
+            else if (ActiveTab != null && ActiveTab.Content != null)
+            {
+                <div class="@GetTabPanelClasses()" style="@GetTabPanelStyles()">
+                    @ActiveTab.Content
+                </div>
+            }
+        </div>
     </div>
-    <div class="mt-4">
-        @if (ActiveTab != null)
-        {
-            @ActiveTab.Content
-        }
-    </div>
-</div>
+</CascadingValue>
 
 @code {
     [Parameter] public List<TabItem> Tabs { get; set; } = new();
     [Parameter] public TabItem? ActiveTab { get; set; }
     [Parameter] public EventCallback<TabItem> ActiveTabChanged { get; set; }
+    [Parameter] public int ActiveIndex { get; set; } = 0;
+    [Parameter] public EventCallback<int> ActiveIndexChanged { get; set; }
+    [Parameter] public EventCallback<int> OnTabChanged { get; set; }
     [Parameter] public TabsVariant Variant { get; set; } = TabsVariant.Default;
+    [Parameter] public TabsPosition Position { get; set; } = TabsPosition.Top;
+    [Parameter] public TabsSize Size { get; set; } = TabsSize.Md;
+    [Parameter] public bool Scrollable { get; set; } = false;
+    [Parameter] public bool Centered { get; set; } = false;
+    [Parameter] public bool FullWidth { get; set; } = false;
+    [Parameter] public bool EnableAnimation { get; set; } = true;
+    [Parameter] public int AnimationDuration { get; set; } = 200;
     [Parameter] public string? Style { get; set; }
+    [Parameter] public RenderFragment? Items { get; set; }
+    [Parameter] public RenderFragment? Content { get; set; }
+
+    private Dictionary<string, RenderFragment?> _panelContents = new();
+    private int _panelIndex = 0;
+
+    public void AddTab(TabItem tab)
+    {
+        Tabs.Add(tab);
+        StateHasChanged();
+    }
+
+    public void AddPanelContent(RenderFragment? content)
+    {
+        if (Tabs.Count > _panelIndex)
+        {
+            var tab = Tabs[_panelIndex];
+            _panelContents[tab.Id] = content;
+            _panelIndex++;
+        }
+    }
 
     protected override void OnParametersSet()
     {
+        // Sync ActiveIndex with ActiveTab
         if (ActiveTab == null && Tabs.Any())
         {
-            ActiveTab = Tabs.First();
+            if (ActiveIndex >= 0 && ActiveIndex < Tabs.Count)
+            {
+                ActiveTab = Tabs[ActiveIndex];
+            }
+            else
+            {
+                ActiveTab = Tabs.First();
+                ActiveIndex = 0;
+            }
+        }
+        else if (ActiveTab != null && !Tabs.Contains(ActiveTab))
+        {
+            ActiveTab = Tabs.FirstOrDefault();
+            ActiveIndex = ActiveTab != null ? Tabs.IndexOf(ActiveTab) : 0;
         }
     }
+
+    private RenderFragment RenderTabButton(TabItem tab) => builder =>
+    {
+        builder.OpenElement(0, "button");
+        builder.AddAttribute(1, "type", "button");
+        builder.AddAttribute(2, "class", GetTabButtonClasses(tab));
+        builder.AddAttribute(3, "style", GetTabButtonStyles(tab));
+        builder.AddAttribute(4, "disabled", tab.Disabled);
+        builder.AddAttribute(5, "onclick", EventCallback.Factory.Create(this, () => SelectTab(tab)));
+        builder.AddAttribute(6, "aria-selected", tab == ActiveTab);
+        builder.AddAttribute(7, "aria-controls", $"tabpanel-{tab.Id}");
+        builder.AddAttribute(8, "id", $"tab-{tab.Id}");
+        builder.AddAttribute(9, "role", "tab");
+        
+        // Icon
+        if (tab.Icon != null)
+        {
+            builder.OpenElement(10, "span");
+            builder.AddAttribute(11, "class", GetIconClasses());
+            builder.AddContent(12, tab.Icon);
+            builder.CloseElement();
+        }
+        
+        // Label
+        if (!string.IsNullOrEmpty(tab.Label))
+        {
+            builder.OpenElement(13, "span");
+            builder.AddContent(14, tab.Label);
+            builder.CloseElement();
+        }
+        
+        // Badge/Count
+        if (tab.Badge != null || tab.Count.HasValue)
+        {
+            builder.OpenElement(15, "span");
+            builder.AddAttribute(16, "class", GetBadgeClasses());
+            builder.AddAttribute(17, "style", GetBadgeStyles());
+            if (tab.Badge != null)
+            {
+                builder.AddContent(18, tab.Badge);
+            }
+            else if (tab.Count.HasValue)
+            {
+                builder.AddContent(19, tab.Count.Value);
+            }
+            builder.CloseElement();
+        }
+        
+        builder.CloseElement();
+    };
 
     private string GetTabsClasses()
     {
         var classes = new List<string> { "w-full" };
+        
+        if (Position == TabsPosition.Left || Position == TabsPosition.Right)
+        {
+            classes.Add("flex");
+            if (Position == TabsPosition.Left)
+            {
+                classes.Add("flex-row");
+            }
+            else
+            {
+                classes.Add("flex-row-reverse");
+            }
+        }
+        
         if (!string.IsNullOrEmpty(Class))
         {
             classes.Add(Class);
         }
+        
         return string.Join(" ", classes);
+    }
+
+    private string GetTabsStyles()
+    {
+        var styles = new List<string>();
+        if (!string.IsNullOrEmpty(Style))
+        {
+            styles.Add(Style);
+        }
+        return string.Join("; ", styles);
+    }
+
+    private string GetTabHeaderClasses()
+    {
+        var classes = new List<string>();
+        
+        if (Position == TabsPosition.Top || Position == TabsPosition.Bottom)
+        {
+            classes.Add("w-full");
+        }
+        else
+        {
+            classes.Add(Position == TabsPosition.Left ? "flex-shrink-0" : "flex-shrink-0");
+        }
+        
+        if (Position == TabsPosition.Bottom)
+        {
+            classes.Add("order-2");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabHeaderStyles()
+    {
+        var styles = new List<string>();
+        
+        if (Variant == TabsVariant.Enclosed)
+        {
+            styles.Add("border: 1px solid var(--color-border, #e5e7eb)");
+            styles.Add("border-radius: var(--radius-lg, 8px)");
+            styles.Add("background-color: var(--color-surface, white)");
+        }
+        
+        return string.Join("; ", styles);
+    }
+
+    private string GetTabListClasses()
+    {
+        var classes = new List<string> { "flex" };
+        
+        if (Position == TabsPosition.Top || Position == TabsPosition.Bottom)
+        {
+            classes.Add("flex-row");
+            if (Scrollable)
+            {
+                classes.Add("overflow-x-auto");
+                classes.Add("scrollbar-hide");
+            }
+        }
+        else
+        {
+            classes.Add("flex-col");
+        }
+        
+        if (Centered && !FullWidth)
+        {
+            classes.Add("justify-center");
+        }
+        else if (FullWidth)
+        {
+            classes.Add("w-full");
+        }
+        
+        if (Variant == TabsVariant.Pills)
+        {
+            classes.Add("gap-1");
+            classes.Add("p-1");
+            classes.Add("rounded-lg");
+        }
+        else if (Variant == TabsVariant.Segmented)
+        {
+            classes.Add("gap-0");
+            classes.Add("p-0");
+        }
+        else if (Variant == TabsVariant.Enclosed)
+        {
+            classes.Add("border-b");
+        }
+        else
+        {
+            classes.Add("border-b");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabListStyles()
+    {
+        var styles = new List<string>();
+        
+        if (Variant != TabsVariant.Pills && Variant != TabsVariant.Segmented && Variant != TabsVariant.Enclosed)
+        {
+            styles.Add("border-color: var(--color-border, #e5e7eb)");
+        }
+        
+        if (Variant == TabsVariant.Pills)
+        {
+            styles.Add("background-color: var(--color-surface-2, #f9fafb)");
+        }
+        
+        return string.Join("; ", styles);
     }
 
     private string GetTabButtonClasses(TabItem tab)
     {
-        var classes = new List<string> { "px-4", "py-2", "font-medium", "transition-colors", "border-b-2", "border-transparent" };
-
+        var classes = new List<string> { "font-medium", "transition-all", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2" };
+        
+        // Size classes
+        classes.Add(Size switch
+        {
+            TabsSize.Xs => "px-2 py-1 text-xs",
+            TabsSize.Sm => "px-3 py-1.5 text-sm",
+            TabsSize.Md => "px-4 py-2 text-base",
+            TabsSize.Lg => "px-5 py-2.5 text-lg",
+            TabsSize.Xl => "px-6 py-3 text-xl",
+            _ => "px-4 py-2 text-base"
+        });
+        
+        // Variant-specific classes
+        if (Variant == TabsVariant.Pills)
+        {
+            classes.Add("rounded-md");
+            if (tab == ActiveTab)
+            {
+                classes.Add("shadow-sm");
+            }
+        }
+        else if (Variant == TabsVariant.Segmented)
+        {
+            classes.Add("border");
+            classes.Add("first:rounded-l-md");
+            classes.Add("last:rounded-r-md");
+            classes.Add("first:border-l");
+            if (tab != Tabs.First())
+            {
+                classes.Add("border-l-0");
+            }
+        }
+        else if (Variant == TabsVariant.Enclosed)
+        {
+            classes.Add("border-b-2");
+            classes.Add("border-transparent");
+        }
+        else if (Variant == TabsVariant.Underline)
+        {
+            classes.Add("border-b-2");
+            classes.Add("border-transparent");
+        }
+        else // Default
+        {
+            classes.Add("border-b-2");
+            classes.Add("border-transparent");
+        }
+        
+        // Active state
         if (tab == ActiveTab)
         {
-            classes.Add("border-primary");
+            if (Variant == TabsVariant.Pills)
+            {
+                classes.Add("ring-2");
+                classes.Add("ring-offset-1");
+            }
         }
-
+        
+        // Disabled state
+        if (tab.Disabled)
+        {
+            classes.Add("opacity-50");
+            classes.Add("cursor-not-allowed");
+        }
+        else
+        {
+            classes.Add("cursor-pointer");
+        }
+        
+        // Animation
+        if (EnableAnimation)
+        {
+            classes.Add($"duration-{AnimationDuration}");
+        }
+        
+        // Full width
+        if (FullWidth)
+        {
+            classes.Add("flex-1");
+        }
+        
+        // Icon spacing
+        if (tab.Icon != null && !string.IsNullOrEmpty(tab.Label))
+        {
+            classes.Add("flex items-center gap-2");
+        }
+        else if (tab.Icon != null)
+        {
+            classes.Add("flex items-center justify-center");
+        }
+        
         return string.Join(" ", classes);
     }
 
     private string GetTabButtonStyles(TabItem tab)
     {
         var styles = new List<string>();
-
-        if (tab == ActiveTab)
+        
+        var isActive = tab == ActiveTab;
+        
+        // Active state colors
+        if (isActive)
         {
-            styles.Add($"color: var(--color-primary)");
-            styles.Add($"border-bottom-color: var(--color-primary)");
+            if (Variant == TabsVariant.Pills)
+            {
+                styles.Add("background-color: var(--color-primary, #3b82f6)");
+                styles.Add("color: var(--color-text-on-primary, white)");
+                styles.Add("--tw-ring-color: var(--color-primary, #3b82f6)");
+            }
+            else if (Variant == TabsVariant.Segmented)
+            {
+                styles.Add("background-color: var(--color-primary, #3b82f6)");
+                styles.Add("color: var(--color-text-on-primary, white)");
+                styles.Add("border-color: var(--color-primary, #3b82f6)");
+                styles.Add("z-index: 1");
+            }
+            else if (Variant == TabsVariant.Enclosed)
+            {
+                styles.Add("color: var(--color-primary, #3b82f6)");
+                styles.Add("border-bottom-color: var(--color-primary, #3b82f6)");
+            }
+            else
+            {
+                styles.Add("color: var(--color-primary, #3b82f6)");
+                styles.Add("border-bottom-color: var(--color-primary, #3b82f6)");
+            }
         }
         else
         {
-            styles.Add($"color: var(--color-text-secondary, #6b7280)");
+            if (Variant == TabsVariant.Pills)
+            {
+                styles.Add("color: var(--color-text-secondary, #6b7280)");
+                styles.Add("background-color: transparent");
+            }
+            else if (Variant == TabsVariant.Segmented)
+            {
+                styles.Add("color: var(--color-text-secondary, #6b7280)");
+                styles.Add("background-color: var(--color-surface, white)");
+                styles.Add("border-color: var(--color-border, #e5e7eb)");
+            }
+            else
+            {
+                styles.Add("color: var(--color-text-secondary, #6b7280)");
+            }
         }
-
+        
+        // Hover state (only if not disabled and not active)
+        if (!tab.Disabled && !isActive)
+        {
+            if (Variant == TabsVariant.Pills)
+            {
+                styles.Add("transition: all var(--transition-fast, 150ms)");
+            }
+            else
+            {
+                styles.Add("transition: color var(--transition-fast, 150ms), border-color var(--transition-fast, 150ms)");
+            }
+        }
+        
         return string.Join("; ", styles);
+    }
+
+    private string GetIconClasses()
+    {
+        return Size switch
+        {
+            TabsSize.Xs => "w-3 h-3",
+            TabsSize.Sm => "w-4 h-4",
+            TabsSize.Md => "w-4 h-4",
+            TabsSize.Lg => "w-5 h-5",
+            TabsSize.Xl => "w-6 h-6",
+            _ => "w-4 h-4"
+        };
+    }
+
+    private string GetBadgeClasses()
+    {
+        var classes = new List<string> { "ml-2", "px-1.5", "py-0.5", "rounded-full", "text-xs", "font-semibold" };
+        return string.Join(" ", classes);
+    }
+
+    private string GetBadgeStyles()
+    {
+        return "background-color: var(--color-primary, #3b82f6); color: var(--color-text-on-primary, white);";
+    }
+
+    private string GetTabContentClasses()
+    {
+        var classes = new List<string>();
+        
+        if (Position == TabsPosition.Top || Position == TabsPosition.Bottom)
+        {
+            classes.Add("mt-4");
+        }
+        else
+        {
+            classes.Add("flex-1");
+            classes.Add("ml-4");
+        }
+        
+        if (Position == TabsPosition.Bottom)
+        {
+            classes.Add("order-1");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabContentStyles()
+    {
+        return string.Empty;
+    }
+
+    private string GetTabPanelClasses()
+    {
+        var classes = new List<string> { "w-full" };
+        
+        if (EnableAnimation)
+        {
+            classes.Add("transition-all");
+            classes.Add($"duration-{AnimationDuration}");
+        }
+        
+        return string.Join(" ", classes);
+    }
+
+    private string GetTabPanelStyles()
+    {
+        return string.Empty;
     }
 
     private async Task SelectTab(TabItem tab)
     {
+        if (tab.Disabled)
+            return;
+            
         ActiveTab = tab;
+        var index = Tabs.IndexOf(tab);
+        ActiveIndex = index;
+        
         await ActiveTabChanged.InvokeAsync(tab);
+        await ActiveIndexChanged.InvokeAsync(index);
+        await OnTabChanged.InvokeAsync(index);
     }
 }
 
@@ -90,7 +554,9 @@
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Label { get; set; } = string.Empty;
         public RenderFragment? Content { get; set; }
+        public RenderFragment? Icon { get; set; }
         public bool Disabled { get; set; }
+        public string? Badge { get; set; }
+        public int? Count { get; set; }
     }
 }
-
