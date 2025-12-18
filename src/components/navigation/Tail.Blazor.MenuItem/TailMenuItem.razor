@@ -20,7 +20,7 @@
     {
         <span class="mr-2">@Icon</span>
     }
-    <span class="flex-1">@ChildContent</span>
+    <span class="flex-1 @(Underline ? "underline decoration-[color:var(--color-link-underline, var(--color-primary))] decoration-1" : "")">@ChildContent</span>
     @if (Badge != null)
     {
         <span class="ml-2">@Badge</span>
@@ -28,6 +28,8 @@
 </a>
 
 @code {
+    public enum ShadowLevel { None, Sm, Md, Lg }
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public RenderFragment? Icon { get; set; }
     [Parameter] public RenderFragment? Badge { get; set; }
@@ -38,26 +40,61 @@
     [Parameter] public bool Disabled { get; set; } = false;
     [Parameter] public bool PreventDefault { get; set; } = true;
     [Parameter] public string? Style { get; set; }
+    [Parameter] public string? ItemClass { get; set; }
+
+    // New visual parameters
+    [Parameter] public bool Bordered { get; set; } = true;
+    [Parameter] public ShadowLevel Shadow { get; set; } = ShadowLevel.None;
+    [Parameter] public bool Underline { get; set; } = true;
+    [Parameter] public string? BorderColor { get; set; } // overrides theme border color (CSS var or hex)
 
     public record MenuItemClickArgs(string? Href, string? Target, MouseEventArgs? MouseEvent);
 
     private string GetMenuItemClasses()
     {
-        var classes = new List<string> { "flex", "items-center", "px-4", "py-2", "rounded-lg", "transition-colors", "duration-150", "ease-in-out", "transform-gpu", "transition-transform" };
+        var classes = new List<string>
+        {
+            "flex", "items-center", "px-4", "py-2", "rounded-lg",
+            "transition-colors", "duration-150", "ease-in-out",
+            "transform-gpu", "transition-transform", "select-none"
+        };
 
         // base colors using CSS variables
         classes.Add("text-[color:var(--color-text-primary)]");
         classes.Add("bg-transparent");
 
-        // subtle border for boxed appearance
-        classes.Add("border border-transparent");
+        // border
+        if (Bordered)
+        {
+            classes.Add("border");
+            // use tailwind arbitrary value for border color where supported
+            classes.Add("border-[color:var(--color-border)]");
+            classes.Add("hover:border-[color:var(--color-border)]");
+        }
+        else
+        {
+            classes.Add("border border-transparent");
+        }
+
+        // shadow
+        switch (Shadow)
+        {
+            case ShadowLevel.Sm:
+                classes.Add("shadow-sm");
+                break;
+            case ShadowLevel.Md:
+                classes.Add("shadow-md");
+                break;
+            case ShadowLevel.Lg:
+                classes.Add("shadow-lg");
+                break;
+        }
 
         if (IsActive)
         {
             classes.Add("bg-[color:var(--color-primary)]");
             classes.Add("text-[color:var(--color-text-on-primary,#ffffff)]");
             classes.Add("font-semibold");
-            classes.Add("shadow-sm");
         }
         else
         {
@@ -65,14 +102,19 @@
             classes.Add("hover:text-[color:var(--color-text-primary)]");
             classes.Add("hover:-translate-y-0.5 hover:shadow-md");
             classes.Add("focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[color:var(--color-primary)]");
+            classes.Add("cursor-pointer");
         }
 
         if (Disabled)
         {
+            // show not-allowed cursor and prevent interaction
+            classes.Remove("cursor-pointer");
+            classes.Add("cursor-not-allowed");
             classes.Add("opacity-50 pointer-events-none");
         }
 
         if (!string.IsNullOrEmpty(Class)) classes.Add(Class);
+        if (!string.IsNullOrEmpty(ItemClass)) classes.Add(ItemClass);
 
         return string.Join(" ", classes);
     }
@@ -80,6 +122,13 @@
     private string GetMenuItemStyles()
     {
         var styles = new List<string>();
+
+        // border color from parameter or theme variable
+        if (Bordered)
+        {
+            var bc = !string.IsNullOrEmpty(BorderColor) ? BorderColor : "var(--color-border, #e5e7eb)";
+            styles.Add($"border-color: {bc}");
+        }
 
         if (IsActive)
         {
