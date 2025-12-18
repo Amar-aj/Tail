@@ -34,10 +34,11 @@
                 
                 let isDark = false;
                 let colors = null;
+                let settings = null; // declare settings so it's safe to reference later
                 
                 if (themeSettingsJson) {
                     // New theme system
-                    const settings = JSON.parse(themeSettingsJson);
+                    settings = JSON.parse(themeSettingsJson);
                     isDark = settings.Mode === 'Dark';
                     colors = settings.Colors;
                 } else if (legacyTheme) {
@@ -93,7 +94,9 @@
                     root.style.setProperty('--transition-fast', colors.TransitionFast || '150ms');
                     root.style.setProperty('--transition-normal', colors.TransitionNormal || '300ms');
                     
-                    console.log('Theme applied:', settings.PresetName, settings.Mode);
+                    if (settings) {
+                        console.log('Theme applied:', settings.PresetName, settings.Mode);
+                    }
                 }
             } catch (e) {
                 console.error('Error loading theme:', e);

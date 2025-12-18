@@ -43,9 +43,9 @@
     [Parameter] public string? ItemClass { get; set; }
 
     // New visual parameters
-    [Parameter] public bool Bordered { get; set; } = true;
+    [Parameter] public bool Bordered { get; set; } = false;
     [Parameter] public ShadowLevel Shadow { get; set; } = ShadowLevel.None;
-    [Parameter] public bool Underline { get; set; } = true;
+    [Parameter] public bool Underline { get; set; } = false;
     [Parameter] public string? BorderColor { get; set; } // overrides theme border color (CSS var or hex)
 
     public record MenuItemClickArgs(string? Href, string? Target, MouseEventArgs? MouseEvent);
