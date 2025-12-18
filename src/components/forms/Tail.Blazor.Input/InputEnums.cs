@@ -31,3 +31,22 @@ public enum InputSize
     Xl
 }
 
+/// <summary>
+/// Input variant options (visual style).
+/// </summary>
+public enum InputVariant
+{
+    /// <summary>
+    /// Standard variant with border.
+    /// </summary>
+    Standard,
+    /// <summary>
+    /// Outlined variant with border and transparent background.
+    /// </summary>
+    Outlined,
+    /// <summary>
+    /// Filled variant with background color.
+    /// </summary>
+    Filled
+}
+

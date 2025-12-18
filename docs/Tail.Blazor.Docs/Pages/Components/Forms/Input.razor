@@ -1,24 +1,62 @@
 @page "/components/input"
 @using Tail.Blazor.Input
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Icons
 @using Microsoft.AspNetCore.Components
 
 <PageTitle>Input - Tail.Blazor</PageTitle>
 
 <DocPageTemplate Title="TailInput" 
-                 Description="Text input component with validation support. Ultra-lightweight (~4 KB)."
+                 Description="A comprehensive text input component with validation, variants, floating labels, icons, and animations. Inspired by Radzen Blazor and MudBlazor. Ultra-lightweight (~4 KB)."
                  PackageName="Tail.Blazor.Forms"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Text Input" Code="@basicCode">
+        <CodePreview Title="Simple Text Input" Code="@basicCode">
             <PreviewContent>
-                <TailInput @bind-Value="textValue" Placeholder="Enter text..." />
-                <p class="mt-2 text-sm" style="color: var(--color-text-secondary)">Value: @textValue</p>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="textValue" Placeholder="Enter your name..." />
+                    <p class="text-sm" style="color: var(--color-text-secondary)">Value: <strong style="color: var(--color-text-primary)">@(string.IsNullOrEmpty(textValue) ? "Empty" : textValue)</strong></p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <CodePreview Title="Input Variants (Standard, Outlined, Filled)" Code="@variantsCode">
+            <PreviewContent>
+                <div class="space-y-6 max-w-md">
+                    <div>
+                        <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary)">Standard (Default)</label>
+                        <TailInput @bind-Value="variantValue1" Placeholder="Standard variant" Variant="InputVariant.Standard" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary)">Outlined</label>
+                        <TailInput @bind-Value="variantValue2" Placeholder="Outlined variant" Variant="InputVariant.Outlined" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2" style="color: var(--color-text-primary)">Filled</label>
+                        <TailInput @bind-Value="variantValue3" Placeholder="Filled variant" Variant="InputVariant.Filled" />
+                    </div>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <CodePreview Title="Input Sizes" Code="@sizesCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="sizeValue1" Placeholder="Extra Small" Size="InputSize.Xs" />
+                    <TailInput @bind-Value="sizeValue2" Placeholder="Small" Size="InputSize.Sm" />
+                    <TailInput @bind-Value="sizeValue3" Placeholder="Medium (Default)" Size="InputSize.Md" />
+                    <TailInput @bind-Value="sizeValue4" Placeholder="Large" Size="InputSize.Lg" />
+                    <TailInput @bind-Value="sizeValue5" Placeholder="Extra Large" Size="InputSize.Xl" />
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
@@ -26,22 +64,205 @@
     <DocSection Title="Input Types">
         <CodePreview Title="Different Input Types" Code="@typesCode">
             <PreviewContent>
-                <div class="space-y-4">
-                    <TailInput @bind-Value="emailValue" Type="InputType.Email" Placeholder="Email address" />
-                    <TailInput @bind-Value="passwordValue" Type="InputType.Password" Placeholder="Password" />
-                    <TailInput @bind-Value="numberValue" Type="InputType.Number" Placeholder="Number" />
-                    <TailInput @bind-Value="urlValue" Type="InputType.Url" Placeholder="URL" />
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="emailValue" Type="InputType.Email" Placeholder="Email address" Label="Email" />
+                    <TailInput @bind-Value="passwordValue" Type="InputType.Password" Placeholder="Password" Label="Password" />
+                    <TailInput @bind-Value="numberValue" Type="InputType.Number" Placeholder="Number" Label="Number" Min="0" Max="100" Step="1" />
+                    <TailInput @bind-Value="urlValue" Type="InputType.Url" Placeholder="https://example.com" Label="URL" />
+                    <TailInput @bind-Value="telValue" Type="InputType.Tel" Placeholder="+1 (555) 123-4567" Label="Phone" />
+                    <TailInput @bind-Value="searchValue" Type="InputType.Search" Placeholder="Search..." Label="Search" />
+                    <TailInput @bind-Value="dateValue" Type="InputType.Date" Label="Date" />
+                    <TailInput @bind-Value="timeValue" Type="InputType.Time" Label="Time" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Floating Labels">
+        <CodePreview Title="Floating Labels" Code="@floatingLabelCode">
+            <PreviewContent>
+                <div class="space-y-6 max-w-md">
+                    <TailInput @bind-Value="floatingValue1" Label="Username" FloatingLabel="true" Variant="InputVariant.Standard" />
+                    <TailInput @bind-Value="floatingValue2" Label="Email Address" FloatingLabel="true" Type="InputType.Email" Variant="InputVariant.Outlined" />
+                    <TailInput @bind-Value="floatingValue3" Label="Password" FloatingLabel="true" Type="InputType.Password" Variant="InputVariant.Filled" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Icons">
+        <CodePreview Title="Input with Icons" Code="@iconsCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="iconValue1" Placeholder="Search..." Label="Search">
+                        <IconStart>
+                            <TailIcon Name="Tail.Blazor.Icon.IconName.Search" Size="Tail.Blazor.Icon.IconSize.Sm" />
+                        </IconStart>
+                    </TailInput>
+                    <TailInput @bind-Value="iconValue2" Placeholder="Email" Type="InputType.Email" Label="Email">
+                        <IconStart>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-text-secondary);">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </IconStart>
+                    </TailInput>
+                    <TailInput @bind-Value="iconValue3" Placeholder="Password" Type="InputType.Password" Label="Password">
+                        <IconStart>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-text-secondary);">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </IconStart>
+                        <IconEnd>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color: var(--color-text-secondary);">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </IconEnd>
+                    </TailInput>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Adornments">
+        <CodePreview Title="Text Adornments (Prefix/Suffix)" Code="@adornmentsCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="adornmentValue1" Placeholder="0.00" Label="Price" AdornmentStart="$" />
+                    <TailInput @bind-Value="adornmentValue2" Placeholder="username" Label="Username" AdornmentStart="@("@")" AdornmentEnd=".com" />
+                    <TailInput @bind-Value="adornmentValue3" Placeholder="100" Label="Weight" AdornmentEnd="kg" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Validation & Error States">
+        <CodePreview Title="Error States and Validation" Code="@validationCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="errorValue1" Placeholder="Email" Type="InputType.Email" Label="Email" 
+                               ErrorMessage="Please enter a valid email address" />
+                    <TailInput @bind-Value="errorValue2" Placeholder="Password" Type="InputType.Password" Label="Password" 
+                               ErrorMessage="Password must be at least 8 characters" Variant="InputVariant.Outlined" />
+                    <TailInput @bind-Value="errorValue3" Placeholder="Username" Label="Username" 
+                               ErrorMessage="Username is required" Variant="InputVariant.Filled" Required="true" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Help Text">
+        <CodePreview Title="Help Text and Character Count" Code="@helpTextCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="helpValue1" Placeholder="Username" Label="Username" 
+                               HelpText="Choose a unique username (3-20 characters)" />
+                    <TailInput @bind-Value="helpValue2" Placeholder="Bio" Label="Bio" MaxLength="100" 
+                               ShowCharacterCount="true" HelpText="Tell us about yourself" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Clear Button">
+        <CodePreview Title="Clear Button" Code="@clearButtonCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="clearValue1" Placeholder="Search..." Label="Search" ShowClearButton="true" />
+                    <TailInput @bind-Value="clearValue2" Placeholder="Email" Type="InputType.Email" Label="Email" 
+                               ShowClearButton="true" Variant="InputVariant.Outlined" />
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
     <DocSection Title="States">
-        <CodePreview Title="Disabled and Readonly" Code="@statesCode">
+        <CodePreview Title="Disabled, Readonly, and Required" Code="@statesCode">
             <PreviewContent>
-                <div class="space-y-4">
-                    <TailInput Value="Disabled input" Disabled="true" />
-                    <TailInput Value="Readonly input" ReadOnly="true" />
+                <div class="space-y-4 max-w-md">
+                    <TailInput Value="Disabled input" Disabled="true" Label="Disabled" />
+                    <TailInput Value="Readonly input" ReadOnly="true" Label="Readonly" />
+                    <TailInput @bind-Value="requiredValue" Placeholder="Required field" Label="Required Field" Required="true" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Advanced Features">
+        <CodePreview Title="Pattern, Min/Max, AutoComplete" Code="@advancedCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="patternValue" Placeholder="XXX-XXX-XXXX" Label="Phone Number" 
+                               Pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" HelpText="Format: XXX-XXX-XXXX" />
+                    <TailInput @bind-Value="numberAdvanced" Type="InputType.Number" Placeholder="0-100" Label="Age" 
+                               Min="0" Max="100" Step="1" />
+                    <TailInput @bind-Value="autocompleteValue" Placeholder="Email" Type="InputType.Email" Label="Email" 
+                               AutoComplete="email" HelpText="Browser will suggest saved emails" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Event Handlers">
+        <CodePreview Title="Focus, Blur, and KeyDown Events" Code="@eventsCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="eventValue" Placeholder="Type and press Enter" Label="Input with Events" 
+                               OnFocus="@(() => eventMessage = "Focused!")" 
+                               OnBlur="@(() => eventMessage = "Blurred!")" 
+                               OnKeyDown="@((e) => { if (e.Key == "Enter") eventMessage = "Enter pressed!"; })" />
+                    <p class="text-sm" style="color: var(--color-text-secondary)">
+                        Event: <strong style="color: var(--color-text-primary)">@eventMessage</strong>
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Animations">
+        <CodePreview Title="Custom Animation Duration" Code="@animationCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="animValue1" Placeholder="Fast animation" Label="Fast (100ms)" 
+                               EnableAnimation="true" AnimationDuration="100" />
+                    <TailInput @bind-Value="animValue2" Placeholder="Default animation" Label="Default (200ms)" 
+                               EnableAnimation="true" AnimationDuration="200" />
+                    <TailInput @bind-Value="animValue3" Placeholder="Slow animation" Label="Slow (500ms)" 
+                               EnableAnimation="true" AnimationDuration="500" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Accessibility">
+        <CodePreview Title="ARIA Labels and Accessibility" Code="@accessibilityCode">
+            <PreviewContent>
+                <div class="space-y-4 max-w-md">
+                    <TailInput @bind-Value="ariaValue" Placeholder="Search" 
+                               AriaLabel="Search for products" 
+                               HelpText="Use this field to search for products" />
+                    <TailInput @bind-Value="ariaValue2" Placeholder="Email" Type="InputType.Email" 
+                               Label="Email Address" 
+                               AriaLabel="Enter your email address" 
+                               Required="true" />
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Real-World Examples">
+        <CodePreview Title="Login Form" Code="@loginFormCode">
+            <PreviewContent>
+                <div class="max-w-md mx-auto space-y-4 p-6 rounded-lg border" style="background-color: var(--color-surface); border-color: var(--color-border);">
+                    <h3 class="text-xl font-semibold mb-4" style="color: var(--color-text-primary)">Login</h3>
+                    <TailInput @bind-Value="loginEmail" Type="InputType.Email" Label="Email" 
+                               FloatingLabel="true" Variant="InputVariant.Outlined" Required="true" />
+                    <TailInput @bind-Value="loginPassword" Type="InputType.Password" Label="Password" 
+                               FloatingLabel="true" Variant="InputVariant.Outlined" Required="true" />
+                    <button class="w-full px-4 py-2 rounded-lg font-medium transition-colors" 
+                            style="background-color: var(--color-primary); color: var(--color-text-on-primary);">
+                        Sign In
+                    </button>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -49,30 +270,189 @@
 </DocPageTemplate>
 
 @code {
+    // Basic values
     private string textValue = string.Empty;
+    private string variantValue1 = string.Empty;
+    private string variantValue2 = string.Empty;
+    private string variantValue3 = string.Empty;
+    private string sizeValue1 = string.Empty;
+    private string sizeValue2 = string.Empty;
+    private string sizeValue3 = string.Empty;
+    private string sizeValue4 = string.Empty;
+    private string sizeValue5 = string.Empty;
     private string emailValue = string.Empty;
     private string passwordValue = string.Empty;
     private string numberValue = string.Empty;
     private string urlValue = string.Empty;
+    private string telValue = string.Empty;
+    private string searchValue = string.Empty;
+    private string dateValue = string.Empty;
+    private string timeValue = string.Empty;
+    private string floatingValue1 = string.Empty;
+    private string floatingValue2 = string.Empty;
+    private string floatingValue3 = string.Empty;
+    private string iconValue1 = string.Empty;
+    private string iconValue2 = string.Empty;
+    private string iconValue3 = string.Empty;
+    private string adornmentValue1 = string.Empty;
+    private string adornmentValue2 = string.Empty;
+    private string adornmentValue3 = string.Empty;
+    private string errorValue1 = string.Empty;
+    private string errorValue2 = string.Empty;
+    private string errorValue3 = string.Empty;
+    private string helpValue1 = string.Empty;
+    private string helpValue2 = string.Empty;
+    private string clearValue1 = string.Empty;
+    private string clearValue2 = string.Empty;
+    private string requiredValue = string.Empty;
+    private string patternValue = string.Empty;
+    private string numberAdvanced = string.Empty;
+    private string autocompleteValue = string.Empty;
+    private string eventValue = string.Empty;
+    private string eventMessage = "No events yet";
+    private string animValue1 = string.Empty;
+    private string animValue2 = string.Empty;
+    private string animValue3 = string.Empty;
+    private string ariaValue = string.Empty;
+    private string ariaValue2 = string.Empty;
+    private string loginEmail = string.Empty;
+    private string loginPassword = string.Empty;
 
     private string installCode = @"dotnet add package Tail.Blazor.Forms";
 
-    private string basicCode = @"<TailInput @bind-Value=""textValue"" Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailInput @bind-Value=""textValue"" Placeholder=""Enter your name..."" />";
 
-    private string typesCode = @"<TailInput @bind-Value=""emailValue"" Type=""InputType.Email"" Placeholder=""Email"" />
-<TailInput @bind-Value=""passwordValue"" Type=""InputType.Password"" Placeholder=""Password"" />
-<TailInput @bind-Value=""numberValue"" Type=""InputType.Number"" Placeholder=""Number"" />
-<TailInput @bind-Value=""urlValue"" Type=""InputType.Url"" Placeholder=""URL"" />";
+    private string variantsCode = @"<TailInput @bind-Value=""value"" Placeholder=""Standard"" Variant=""InputVariant.Standard"" />
+<TailInput @bind-Value=""value"" Placeholder=""Outlined"" Variant=""InputVariant.Outlined"" />
+<TailInput @bind-Value=""value"" Placeholder=""Filled"" Variant=""InputVariant.Filled"" />";
 
-    private string statesCode = @"<TailInput Value=""Disabled input"" Disabled=""true"" />
-<TailInput Value=""Readonly input"" ReadOnly=""true"" />";
+    private string sizesCode = @"<TailInput @bind-Value=""value"" Placeholder=""Extra Small"" Size=""InputSize.Xs"" />
+<TailInput @bind-Value=""value"" Placeholder=""Small"" Size=""InputSize.Sm"" />
+<TailInput @bind-Value=""value"" Placeholder=""Medium"" Size=""InputSize.Md"" />
+<TailInput @bind-Value=""value"" Placeholder=""Large"" Size=""InputSize.Lg"" />
+<TailInput @bind-Value=""value"" Placeholder=""Extra Large"" Size=""InputSize.Xl"" />";
+
+    private string typesCode = @"<TailInput @bind-Value=""email"" Type=""InputType.Email"" Placeholder=""Email"" Label=""Email"" />
+<TailInput @bind-Value=""password"" Type=""InputType.Password"" Placeholder=""Password"" Label=""Password"" />
+<TailInput @bind-Value=""number"" Type=""InputType.Number"" Placeholder=""Number"" Label=""Number"" Min=""0"" Max=""100"" />
+<TailInput @bind-Value=""url"" Type=""InputType.Url"" Placeholder=""https://example.com"" Label=""URL"" />
+<TailInput @bind-Value=""tel"" Type=""InputType.Tel"" Placeholder=""+1 (555) 123-4567"" Label=""Phone"" />
+<TailInput @bind-Value=""search"" Type=""InputType.Search"" Placeholder=""Search..."" Label=""Search"" />
+<TailInput @bind-Value=""date"" Type=""InputType.Date"" Label=""Date"" />
+<TailInput @bind-Value=""time"" Type=""InputType.Time"" Label=""Time"" />";
+
+    private string floatingLabelCode = @"<TailInput @bind-Value=""value"" Label=""Username"" FloatingLabel=""true"" Variant=""InputVariant.Standard"" />
+<TailInput @bind-Value=""value"" Label=""Email"" FloatingLabel=""true"" Type=""InputType.Email"" Variant=""InputVariant.Outlined"" />
+<TailInput @bind-Value=""value"" Label=""Password"" FloatingLabel=""true"" Type=""InputType.Password"" Variant=""InputVariant.Filled"" />";
+
+    private string iconsCode = @"<TailInput @bind-Value=""value"" Placeholder=""Search..."" Label=""Search"">
+    <IconStart>
+        <TailIcon Name=""Tail.Blazor.Icon.IconName.Search"" Size=""Tail.Blazor.Icon.IconSize.Sm"" />
+    </IconStart>
+</TailInput>
+<TailInput @bind-Value=""value"" Placeholder=""Email"" Type=""InputType.Email"" Label=""Email"">
+    <IconStart>
+        <svg class=""w-4 h-4"" fill=""none"" viewBox=""0 0 24 24"" stroke=""currentColor"" stroke-width=""2"">
+            <path stroke-linecap=""round"" stroke-linejoin=""round"" d=""M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"" />
+        </svg>
+    </IconStart>
+</TailInput>";
+
+    private string adornmentsCode = @"<TailInput @bind-Value=""value"" Placeholder=""0.00"" Label=""Price"" AdornmentStart=""$"" />
+<TailInput @bind-Value=""value"" Placeholder=""username"" Label=""Username"" AdornmentStart=""@@"" AdornmentEnd="".com"" />
+<TailInput @bind-Value=""value"" Placeholder=""100"" Label=""Weight"" AdornmentEnd=""kg"" />";
+
+    private string validationCode = @"<TailInput @bind-Value=""value"" Placeholder=""Email"" Type=""InputType.Email"" Label=""Email"" 
+                               ErrorMessage=""Please enter a valid email address"" />
+<TailInput @bind-Value=""value"" Placeholder=""Password"" Type=""InputType.Password"" Label=""Password"" 
+           ErrorMessage=""Password must be at least 8 characters"" Variant=""InputVariant.Outlined"" />";
+
+    private string helpTextCode = @"<TailInput @bind-Value=""value"" Placeholder=""Username"" Label=""Username"" 
+                               HelpText=""Choose a unique username (3-20 characters)"" />
+<TailInput @bind-Value=""value"" Placeholder=""Bio"" Label=""Bio"" MaxLength=""100"" 
+           ShowCharacterCount=""true"" HelpText=""Tell us about yourself"" />";
+
+    private string clearButtonCode = @"<TailInput @bind-Value=""value"" Placeholder=""Search..."" Label=""Search"" ShowClearButton=""true"" />
+<TailInput @bind-Value=""value"" Placeholder=""Email"" Type=""InputType.Email"" Label=""Email"" 
+           ShowClearButton=""true"" Variant=""InputVariant.Outlined"" />";
+
+    private string statesCode = @"<TailInput Value=""Disabled input"" Disabled=""true"" Label=""Disabled"" />
+<TailInput Value=""Readonly input"" ReadOnly=""true"" Label=""Readonly"" />
+<TailInput @bind-Value=""value"" Placeholder=""Required field"" Label=""Required Field"" Required=""true"" />";
+
+    private string advancedCode = @"<TailInput @bind-Value=""value"" Placeholder=""XXX-XXX-XXXX"" Label=""Phone Number"" 
+                               Pattern=""[0-9]{3}-[0-9]{3}-[0-9]{4}"" HelpText=""Format: XXX-XXX-XXXX"" />
+<TailInput @bind-Value=""value"" Type=""InputType.Number"" Placeholder=""0-100"" Label=""Age"" 
+           Min=""0"" Max=""100"" Step=""1"" />
+<TailInput @bind-Value=""value"" Placeholder=""Email"" Type=""InputType.Email"" Label=""Email"" 
+           AutoComplete=""email"" HelpText=""Browser will suggest saved emails"" />";
+
+    private string eventsCode = @"<TailInput @bind-Value=""value"" Placeholder=""Type and press Enter"" Label=""Input with Events"" 
+                               OnFocus=""@(() => message = \"Focused!\")"" 
+                               OnBlur=""@(() => message = \"Blurred!\")"" 
+                               OnKeyDown=""@((e) => { if (e.Key == \"Enter\") message = \"Enter pressed!\"; })"" />";
+
+    private string animationCode = @"<TailInput @bind-Value=""value"" Placeholder=""Fast animation"" Label=""Fast (100ms)"" 
+                               EnableAnimation=""true"" AnimationDuration=""100"" />
+<TailInput @bind-Value=""value"" Placeholder=""Default animation"" Label=""Default (200ms)"" 
+           EnableAnimation=""true"" AnimationDuration=""200"" />
+<TailInput @bind-Value=""value"" Placeholder=""Slow animation"" Label=""Slow (500ms)"" 
+           EnableAnimation=""true"" AnimationDuration=""500"" />";
+
+    private string accessibilityCode = @"<TailInput @bind-Value=""value"" Placeholder=""Search"" 
+                               AriaLabel=""Search for products"" 
+                               HelpText=""Use this field to search for products"" />
+<TailInput @bind-Value=""value"" Placeholder=""Email"" Type=""InputType.Email"" 
+           Label=""Email Address"" 
+           AriaLabel=""Enter your email address"" 
+           Required=""true"" />";
+
+    private string loginFormCode = @"<div class=""max-w-md mx-auto space-y-4 p-6 rounded-lg border"">
+    <h3 class=""text-xl font-semibold mb-4"">Login</h3>
+    <TailInput @bind-Value=""email"" Type=""InputType.Email"" Label=""Email"" 
+               FloatingLabel=""true"" Variant=""InputVariant.Outlined"" Required=""true"" />
+    <TailInput @bind-Value=""password"" Type=""InputType.Password"" Label=""Password"" 
+               FloatingLabel=""true"" Variant=""InputVariant.Outlined"" Required=""true"" />
+    <button class=""w-full px-4 py-2 rounded-lg font-medium"">
+        Sign In
+    </button>
+</div>";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Input value (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string", Default = "-", Description = "Placeholder text" },
-        new DocPageTemplate.ApiParameter { Name = "Type", Type = "InputType", Default = "Text", Description = "Input type (Text, Email, Password, etc.)" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the input" },
-        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make input read-only" }
+        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "null", Description = "Input value (two-way binding)" },
+        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string?>", Default = "-", Description = "Callback fired when value changes" },
+        new DocPageTemplate.ApiParameter { Name = "Type", Type = "InputType", Default = "Text", Description = "Input type (Text, Email, Password, Number, Tel, Url, Search, Date, DateTimeLocal, Time, Month, Week)" },
+        new DocPageTemplate.ApiParameter { Name = "Size", Type = "InputSize", Default = "Md", Description = "Input size (Xs, Sm, Md, Lg, Xl)" },
+        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "InputVariant", Default = "Standard", Description = "Input variant (Standard, Outlined, Filled)" },
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "null", Description = "Label text displayed above the input" },
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "null", Description = "Placeholder text" },
+        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "null", Description = "Help text displayed below the input" },
+        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "null", Description = "Error message displayed below the input (shows error state)" },
+        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Marks the input as required" },
+        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disables the input" },
+        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Makes the input read-only" },
+        new DocPageTemplate.ApiParameter { Name = "MaxLength", Type = "int?", Default = "null", Description = "Maximum character length" },
+        new DocPageTemplate.ApiParameter { Name = "ShowClearButton", Type = "bool", Default = "false", Description = "Shows a clear button when input has value" },
+        new DocPageTemplate.ApiParameter { Name = "ShowCharacterCount", Type = "bool", Default = "false", Description = "Shows character count (requires MaxLength)" },
+        new DocPageTemplate.ApiParameter { Name = "FloatingLabel", Type = "bool", Default = "false", Description = "Enables floating label animation" },
+        new DocPageTemplate.ApiParameter { Name = "IconStart", Type = "RenderFragment?", Default = "null", Description = "Icon displayed at the start of the input" },
+        new DocPageTemplate.ApiParameter { Name = "IconEnd", Type = "RenderFragment?", Default = "null", Description = "Icon displayed at the end of the input" },
+        new DocPageTemplate.ApiParameter { Name = "AdornmentStart", Type = "string?", Default = "null", Description = "Text adornment displayed at the start (e.g., $, @)" },
+        new DocPageTemplate.ApiParameter { Name = "AdornmentEnd", Type = "string?", Default = "null", Description = "Text adornment displayed at the end (e.g., kg, %)" },
+        new DocPageTemplate.ApiParameter { Name = "OnFocus", Type = "EventCallback<FocusEventArgs>", Default = "-", Description = "Callback fired when input receives focus" },
+        new DocPageTemplate.ApiParameter { Name = "OnBlur", Type = "EventCallback<FocusEventArgs>", Default = "-", Description = "Callback fired when input loses focus" },
+        new DocPageTemplate.ApiParameter { Name = "OnKeyDown", Type = "EventCallback<KeyboardEventArgs>", Default = "-", Description = "Callback fired when a key is pressed" },
+        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline styles" },
+        new DocPageTemplate.ApiParameter { Name = "Min", Type = "string?", Default = "null", Description = "Minimum value (for number, date inputs)" },
+        new DocPageTemplate.ApiParameter { Name = "Max", Type = "string?", Default = "null", Description = "Maximum value (for number, date inputs)" },
+        new DocPageTemplate.ApiParameter { Name = "Step", Type = "string?", Default = "null", Description = "Step value (for number inputs)" },
+        new DocPageTemplate.ApiParameter { Name = "Pattern", Type = "string?", Default = "null", Description = "HTML5 pattern for validation" },
+        new DocPageTemplate.ApiParameter { Name = "AutoComplete", Type = "string?", Default = "null", Description = "HTML5 autocomplete attribute" },
+        new DocPageTemplate.ApiParameter { Name = "AutoFocus", Type = "bool", Default = "false", Description = "Automatically focus the input on mount" },
+        new DocPageTemplate.ApiParameter { Name = "AriaLabel", Type = "string?", Default = "null", Description = "ARIA label for accessibility" },
+        new DocPageTemplate.ApiParameter { Name = "EnableAnimation", Type = "bool", Default = "true", Description = "Enables transition animations" },
+        new DocPageTemplate.ApiParameter { Name = "AnimationDuration", Type = "int", Default = "200", Description = "Animation duration in milliseconds" },
+        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes" }
     };
 }
