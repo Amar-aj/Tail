@@ -1,0 +1,56 @@
+@namespace Tail.Blazor.Popover
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Popover component for rich content overlays with arrow positioning and trigger options.
+/// </summary>
+<div class="popover" @attributes="AdditionalAttributes">
+    @if (IsOpen)
+    {
+        <div class="popover-content">
+            @ChildContent
+        </div>
+    }
+    @if (Trigger != PopoverTrigger.Manual)
+    {
+        <button class="popover-trigger" @onclick="TogglePopover">
+            @TriggerContent
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? TriggerContent { get; set; }
+
+    [Parameter]
+    public string Position { get; set; } = "top";
+
+    [Parameter]
+    public PopoverTrigger Trigger { get; set; } = PopoverTrigger.Click;
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task TogglePopover()
+    {
+        await IsOpenChanged.InvokeAsync(!IsOpen);
+    }
+
+    public enum PopoverTrigger
+    {
+        Click,
+        Hover,
+        Focus,
+        Manual
+    }
+}

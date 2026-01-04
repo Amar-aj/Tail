@@ -1,0 +1,31 @@
+@page "/components/codeblock"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>CodeBlock - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailCodeBlock" 
+                 Description="A syntax-highlighted code block component for displaying code snippets." 
+                 PackageName="Tail.Blazor.Layout"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic CodeBlock" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.CodeBlock";
+    private string basicCode = @"<TailCodeBlock Language=""csharp"" Code=""public class Hello { }"" CopyButton=""true"" />";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Code", Type = "string", Description = "Code to display", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Language", Type = "string", Description = "Programming language for syntax highlighting", Default = "text" },
+        new DocPageTemplate.ApiParameter { Name = "CopyButton", Type = "bool", Description = "Show copy to clipboard button", Default = "false" }
+    };
+}

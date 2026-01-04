@@ -1,0 +1,47 @@
+@namespace Tail.Blazor.Chip
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Standalone chip/tag component for labels, categories, and removable items.
+/// </summary>
+<div class="chip @VariantClass" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Icon))
+    {
+        <span class="chip-icon">@Icon</span>
+    }
+    <span class="chip-label">@Label</span>
+    @if (Removable)
+    {
+        <button class="chip-remove" @onclick="OnRemove">&times;</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; } = "";
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public bool Removable { get; set; }
+
+    [Parameter]
+    public EventCallback OnRemove { get; set; }
+
+    [Parameter]
+    public string Variant { get; set; } = "default";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string VariantClass => Variant switch
+    {
+        "primary" => "chip-primary",
+        "success" => "chip-success",
+        "warning" => "chip-warning",
+        "danger" => "chip-danger",
+        "info" => "chip-info",
+        _ => "chip-default"
+    };
+}

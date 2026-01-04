@@ -1,0 +1,60 @@
+@namespace Tail.Blazor.Avatar
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// User avatar component with initials, images, sizes, and status indicators.
+/// </summary>
+<div class="avatar @SizeClass @StatusClass" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(ImageUrl))
+    {
+        <img src="@ImageUrl" alt="@Alt" class="avatar-image" />
+    }
+    else if (!string.IsNullOrEmpty(Initials))
+    {
+        <span class="avatar-initials">@Initials</span>
+    }
+    @if (ShowStatus)
+    {
+        <span class="avatar-status"></span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public string? Initials { get; set; }
+
+    [Parameter]
+    public string? Alt { get; set; }
+
+    [Parameter]
+    public string Size { get; set; } = "md";
+
+    [Parameter]
+    public string? Status { get; set; }
+
+    [Parameter]
+    public bool ShowStatus { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string SizeClass => Size switch
+    {
+        "sm" => "avatar-sm",
+        "md" => "avatar-md",
+        "lg" => "avatar-lg",
+        "xl" => "avatar-xl",
+        _ => "avatar-md"
+    };
+
+    private string StatusClass => Status switch
+    {
+        "online" => "status-online",
+        "offline" => "status-offline",
+        "away" => "status-away",
+        _ => ""
+    };
+}

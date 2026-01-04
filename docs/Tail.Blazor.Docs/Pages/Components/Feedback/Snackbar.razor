@@ -1,0 +1,31 @@
+@page "/components/snackbar"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Snackbar - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailSnackbar" 
+                 Description="A lightweight notification component that displays temporary messages at the bottom of the screen." 
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Snackbar" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Snackbar";
+    private string basicCode = @"<TailSnackbar Message=""Notification message"" Duration=""3000"" />";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Message", Type = "string", Description = "The notification message", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Duration", Type = "int", Description = "How long to display in milliseconds", Default = "3000" },
+        new DocPageTemplate.ApiParameter { Name = "Severity", Type = "string", Description = "success, error, warning, info", Default = "info" }
+    };
+}

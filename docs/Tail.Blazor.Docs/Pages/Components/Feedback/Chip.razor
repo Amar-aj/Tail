@@ -1,0 +1,30 @@
+@page "/components/chip"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Chip - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailChip" 
+                 Description="A compact component representing a choice, filter, or action." 
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Chip" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Chip";
+    private string basicCode = @"<TailChip Label=""Tag"" OnDelete=""HandleDelete"" />";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string", Description = "The chip label text", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "OnDelete", Type = "EventCallback", Description = "Called when chip is deleted", Default = "" }
+    };
+}

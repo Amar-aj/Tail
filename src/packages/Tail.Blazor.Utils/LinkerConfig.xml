@@ -1,0 +1,11 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Utils">
+    <namespace fullname="Tail.Blazor.Utils" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Clipboard">
+    <namespace fullname="Tail.Blazor.Clipboard" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ImageZoom">
+    <namespace fullname="Tail.Blazor.ImageZoom" preserve="all" />
+  </assembly>
+</linker>

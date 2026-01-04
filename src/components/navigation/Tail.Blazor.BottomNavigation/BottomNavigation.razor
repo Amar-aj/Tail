@@ -1,0 +1,49 @@
+@namespace Tail.Blazor.BottomNavigation
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Mobile bottom navigation bar with icons, labels, and active states.
+/// </summary>
+<nav class="bottom-navigation" @attributes="AdditionalAttributes">
+    @foreach (var item in Items)
+    {
+        <button class="nav-item @(item.Id == ActiveItemId ? "active" : "")" @onclick="() => SelectItem(item)">
+            @if (!string.IsNullOrEmpty(item.Icon))
+            {
+                <span class="nav-icon">@item.Icon</span>
+            }
+            @if (!string.IsNullOrEmpty(item.Label))
+            {
+                <span class="nav-label">@item.Label</span>
+            }
+        </button>
+    }
+</nav>
+
+@code {
+    [Parameter]
+    public List<NavItem> Items { get; set; } = new();
+
+    [Parameter]
+    public string? ActiveItemId { get; set; }
+
+    [Parameter]
+    public EventCallback<NavItem> OnItemSelected { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SelectItem(NavItem item)
+    {
+        ActiveItemId = item.Id;
+        await OnItemSelected.InvokeAsync(item);
+    }
+
+    public class NavItem
+    {
+        public string Id { get; set; } = "";
+        public string? Label { get; set; }
+        public string? Icon { get; set; }
+        public string? Target { get; set; }
+    }
+}

@@ -1,0 +1,33 @@
+@page "/components/commandmenu"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>CommandMenu - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailCommandMenu" 
+                 Description="A command/search menu component for quick access to actions." 
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic CommandMenu" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.CommandMenu";
+    private string basicCode = @"<TailCommandMenu Placeholder=""Type to search..."">
+    <TailCommandItem Text=""Home"" Href=""/"" />
+    <TailCommandItem Text=""About"" Href=""/about"" />
+</TailCommandMenu>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string", Description = "Input placeholder text", Default = "Search..." },
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<CommandItem>", Description = "Menu items", Default = "" }
+    };
+}

@@ -1,0 +1,32 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Validators">
+    <namespace fullname="Tail.Blazor.Validators" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Validator">
+    <namespace fullname="Tail.Blazor.Validator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.RequiredValidator">
+    <namespace fullname="Tail.Blazor.RequiredValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.EmailValidator">
+    <namespace fullname="Tail.Blazor.EmailValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.RegexValidator">
+    <namespace fullname="Tail.Blazor.RegexValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.LengthValidator">
+    <namespace fullname="Tail.Blazor.LengthValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.RangeValidator">
+    <namespace fullname="Tail.Blazor.RangeValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.CompareValidator">
+    <namespace fullname="Tail.Blazor.CompareValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.CustomValidator">
+    <namespace fullname="Tail.Blazor.CustomValidator" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.NumericRangeValidator">
+    <namespace fullname="Tail.Blazor.NumericRangeValidator" preserve="all" />
+  </assembly>
+</linker>

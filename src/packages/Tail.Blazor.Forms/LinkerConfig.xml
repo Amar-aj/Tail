@@ -1,0 +1,83 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Forms">
+    <namespace fullname="Tail.Blazor.Forms" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Input">
+    <namespace fullname="Tail.Blazor.Input" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Textarea">
+    <namespace fullname="Tail.Blazor.Textarea" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Select">
+    <namespace fullname="Tail.Blazor.Select" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Checkbox">
+    <namespace fullname="Tail.Blazor.Checkbox" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Switch">
+    <namespace fullname="Tail.Blazor.Switch" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Slider">
+    <namespace fullname="Tail.Blazor.Slider" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Rating">
+    <namespace fullname="Tail.Blazor.Rating" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Radio">
+    <namespace fullname="Tail.Blazor.Radio" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.RadioGroup">
+    <namespace fullname="Tail.Blazor.RadioGroup" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.MultiSelect">
+    <namespace fullname="Tail.Blazor.MultiSelect" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.DatePicker">
+    <namespace fullname="Tail.Blazor.DatePicker" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.DateRangePicker">
+    <namespace fullname="Tail.Blazor.DateRangePicker" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.TimePicker">
+    <namespace fullname="Tail.Blazor.TimePicker" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.FileUpload">
+    <namespace fullname="Tail.Blazor.FileUpload" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.AutoComplete">
+    <namespace fullname="Tail.Blazor.AutoComplete" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ColorPicker">
+    <namespace fullname="Tail.Blazor.ColorPicker" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Mask">
+    <namespace fullname="Tail.Blazor.Mask" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Numeric">
+    <namespace fullname="Tail.Blazor.Numeric" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.OTPInput">
+    <namespace fullname="Tail.Blazor.OTPInput" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.TagInput">
+    <namespace fullname="Tail.Blazor.TagInput" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.CurrencyInput">
+    <namespace fullname="Tail.Blazor.CurrencyInput" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.PhoneNumberInput">
+    <namespace fullname="Tail.Blazor.PhoneNumberInput" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.PasswordStrengthMeter">
+    <namespace fullname="Tail.Blazor.PasswordStrengthMeter" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.RichTextEditor">
+    <namespace fullname="Tail.Blazor.RichTextEditor" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ImageCropper">
+    <namespace fullname="Tail.Blazor.ImageCropper" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.AudioRecorder">
+    <namespace fullname="Tail.Blazor.AudioRecorder" preserve="all" />
+  </assembly>
+</linker>

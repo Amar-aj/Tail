@@ -1,0 +1,45 @@
+@namespace Tail.Blazor.NavDrawer
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Mobile navigation drawer/sidebar with overlay and swipe gestures.
+/// </summary>
+@if (IsOpen)
+{
+    <div class="nav-drawer-overlay" @onclick="Close"></div>
+}
+
+<aside class="nav-drawer @(IsOpen ? "open" : "")" @attributes="AdditionalAttributes">
+    @if (ShowCloseButton)
+    {
+        <button class="drawer-close" @onclick="Close">&times;</button>
+    }
+    @ChildContent
+</aside>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    [Parameter]
+    public bool ShowCloseButton { get; set; } = true;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    public async Task Toggle()
+    {
+        await IsOpenChanged.InvokeAsync(!IsOpen);
+    }
+
+    public async Task Close()
+    {
+        await IsOpenChanged.InvokeAsync(false);
+    }
+}

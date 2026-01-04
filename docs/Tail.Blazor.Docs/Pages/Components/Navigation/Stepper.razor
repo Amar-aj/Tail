@@ -1,0 +1,34 @@
+@page "/components/stepper"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Stepper - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailStepper" 
+                 Description="A stepper component for guiding users through multi-step processes." 
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Stepper" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Stepper";
+    private string basicCode = @"<TailStepper ActiveStep=""0"">
+    <TailStepperStep Label=""Step 1"" />
+    <TailStepperStep Label=""Step 2"" />
+    <TailStepperStep Label=""Step 3"" />
+</TailStepper>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "ActiveStep", Type = "int", Description = "Currently active step index", Default = "0" },
+        new DocPageTemplate.ApiParameter { Name = "OnStepChange", Type = "EventCallback<int>", Description = "Called when step changes", Default = "" }
+    };
+}

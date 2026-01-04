@@ -1,0 +1,84 @@
+@page "/components/tooltip"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Tooltip - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailTooltip" 
+                 Description="Contextual tooltip component with positioning (top, bottom, left, right) and delay options. Ultra-lightweight (~3 KB)."
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
+
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Tooltip" Code="@basicCode">
+            <PreviewContent>
+                <div class="flex gap-4 items-center justify-center p-8">
+                    <TailTooltip Content="Hello from tooltip!" Position="top">
+                        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Hover me</button>
+                    </TailTooltip>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Positions">
+        <CodePreview Title="Tooltip Positions" Code="@positionsCode">
+            <PreviewContent>
+                <div class="flex gap-8 items-center justify-center p-8 flex-wrap">
+                    <TailTooltip Content="Top position" Position="top">
+                        <button class="px-3 py-2 bg-gray-300 rounded">Top</button>
+                    </TailTooltip>
+                    <TailTooltip Content="Bottom position" Position="bottom">
+                        <button class="px-3 py-2 bg-gray-300 rounded">Bottom</button>
+                    </TailTooltip>
+                    <TailTooltip Content="Left position" Position="left">
+                        <button class="px-3 py-2 bg-gray-300 rounded">Left</button>
+                    </TailTooltip>
+                    <TailTooltip Content="Right position" Position="right">
+                        <button class="px-3 py-2 bg-gray-300 rounded">Right</button>
+                    </TailTooltip>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"// Install package
+dotnet add package Tail.Blazor.Tooltip
+
+// Or using Package Manager
+Install-Package Tail.Blazor.Tooltip";
+
+    private string basicCode = @"<TailTooltip Content=""Hello from tooltip!"" Position=""top"">
+    <button>Hover me</button>
+</TailTooltip>";
+
+    private string positionsCode = @"<TailTooltip Content=""Top"" Position=""top"">
+    <button>Top</button>
+</TailTooltip>
+
+<TailTooltip Content=""Bottom"" Position=""bottom"">
+    <button>Bottom</button>
+</TailTooltip>
+
+<TailTooltip Content=""Left"" Position=""left"">
+    <button>Left</button>
+</TailTooltip>
+
+<TailTooltip Content=""Right"" Position=""right"">
+    <button>Right</button>
+</TailTooltip>";
+
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Content", Type = "string", Description = "Tooltip content text", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Position", Type = "string", Description = "Position: top, bottom, left, right", Default = "top" },
+        new DocPageTemplate.ApiParameter { Name = "DelayMs", Type = "int", Description = "Delay in milliseconds before showing", Default = "0" },
+        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment", Description = "Content to show tooltip on", Default = "" }
+    };
+}

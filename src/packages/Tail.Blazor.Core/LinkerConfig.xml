@@ -1,0 +1,11 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Core">
+    <namespace fullname="Tail.Blazor.Core" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Core.Base">
+    <namespace fullname="Tail.Blazor.Core.Base" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Core.Theme">
+    <namespace fullname="Tail.Blazor.Core.Theme" preserve="all" />
+  </assembly>
+</linker>

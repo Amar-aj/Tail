@@ -24,6 +24,7 @@ public class MissingFeature
     public string Description { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
     public string Priority { get; set; } = string.Empty;
+    public bool IsComplete { get; set; } = false;
 }
 
 public class PackageStatus

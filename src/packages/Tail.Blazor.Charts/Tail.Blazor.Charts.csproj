@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Version>1.0.0</Version>
@@ -13,14 +13,25 @@
     <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
     <PackageTags>blazor;tailwind;ui;components;charts;meta-package;lightweight;performance</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
+    <RazorLangVersion>7.0</RazorLangVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="LinkerConfig.xml">
+      <LogicalName>$(MSBuildProjectName).xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

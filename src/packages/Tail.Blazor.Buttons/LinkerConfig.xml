@@ -1,0 +1,23 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Buttons">
+    <namespace fullname="Tail.Blazor.Buttons" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Button">
+    <namespace fullname="Tail.Blazor.Button" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.IconButton">
+    <namespace fullname="Tail.Blazor.IconButton" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ToggleButton">
+    <namespace fullname="Tail.Blazor.ToggleButton" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.SplitButton">
+    <namespace fullname="Tail.Blazor.SplitButton" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.FAB">
+    <namespace fullname="Tail.Blazor.FAB" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ButtonGroup">
+    <namespace fullname="Tail.Blazor.ButtonGroup" preserve="all" />
+  </assembly>
+</linker>

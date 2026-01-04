@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
+    <RazorLangVersion>7.0</RazorLangVersion>
     <Company>Tail.Blazor</Company>
     <Authors>Tail.Blazor Core Team</Authors>
     <Copyright>Copyright © Tail.Blazor $(Year)</Copyright>
@@ -13,12 +14,29 @@
     <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
     <Version>1.0.0</Version>
     
-    <!-- Trim settings - disabled for web apps to avoid JSON serialization issues -->
+    <!-- Symbol packages for production debugging -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    
+    <!-- Suppress Blazor specific warnings -->
+    <NoWarn>BL9993;BL0007;BL0005</NoWarn>
+    
+    <!-- Trim settings disabled for web apps to avoid JSON serialization issues -->
     <EnableTrimAnalyzer Condition="'$(TargetFrameworks)' == '' AND '$(OutputType)' != 'Exe'">true</EnableTrimAnalyzer>
     <PublishTrimmed Condition="'$(TargetFrameworks)' == '' AND '$(OutputType)' != 'Exe'">false</PublishTrimmed>
     
     <!-- Support for .NET 8, 9, and 10 -->
     <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net8.0' OR '$(TargetFramework)' == 'net9.0' OR '$(TargetFramework)' == 'net10.0'">8.0</SupportedOSPlatformVersion>
+  </PropertyGroup>  
+  <!-- Tailwind CSS Build Target Uncomment to configure -->
+  <PropertyGroup>
+    <!-- Configuration for Tailwind CSS build: generates CSS from input.css to wwwroot/css -->
+    <!-- Debug mode: single file, Release mode: minified output -->
+    <!-- <Target Name="TailwindBuild" BeforeTargets="Build" Condition="'$(GenerateTailwind)' == 'true'"> -->
+    <!-- <Message Text="Building Tailwind CSS..." Importance="high" /> -->
+    <!-- <Exec Command="tailwindcss input output" Condition="'$(Configuration)' == 'Debug'" /> -->
+    <!-- <Exec Command="tailwindcss input minify output" Condition="'$(Configuration)' == 'Release'" /> -->
+    <!-- </Target> -->
   </PropertyGroup>
 </Project>
 

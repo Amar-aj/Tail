@@ -1,0 +1,35 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Data">
+    <namespace fullname="Tail.Blazor.Data" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.DataGrid">
+    <namespace fullname="Tail.Blazor.DataGrid" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ListView">
+    <namespace fullname="Tail.Blazor.ListView" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Pager">
+    <namespace fullname="Tail.Blazor.Pager" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Scheduler">
+    <namespace fullname="Tail.Blazor.Scheduler" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Tree">
+    <namespace fullname="Tail.Blazor.Tree" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.PivotDataGrid">
+    <namespace fullname="Tail.Blazor.PivotDataGrid" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ResponsiveTable">
+    <namespace fullname="Tail.Blazor.ResponsiveTable" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.VirtualScroll">
+    <namespace fullname="Tail.Blazor.VirtualScroll" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.KanbanBoard">
+    <namespace fullname="Tail.Blazor.KanbanBoard" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.AdvancedFilter">
+    <namespace fullname="Tail.Blazor.AdvancedFilter" preserve="all" />
+  </assembly>
+</linker>

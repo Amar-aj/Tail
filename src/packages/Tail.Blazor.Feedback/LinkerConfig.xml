@@ -1,0 +1,47 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Feedback">
+    <namespace fullname="Tail.Blazor.Feedback" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Alert">
+    <namespace fullname="Tail.Blazor.Alert" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Badge">
+    <namespace fullname="Tail.Blazor.Badge" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Spinner">
+    <namespace fullname="Tail.Blazor.Spinner" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Progress">
+    <namespace fullname="Tail.Blazor.Progress" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ProgressBarCircular">
+    <namespace fullname="Tail.Blazor.ProgressBarCircular" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Skeleton">
+    <namespace fullname="Tail.Blazor.Skeleton" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Dialog">
+    <namespace fullname="Tail.Blazor.Dialog" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Toast">
+    <namespace fullname="Tail.Blazor.Toast" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ToastContainer">
+    <namespace fullname="Tail.Blazor.ToastContainer" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Popconfirm">
+    <namespace fullname="Tail.Blazor.Popconfirm" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.EmptyState">
+    <namespace fullname="Tail.Blazor.EmptyState" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Confetti">
+    <namespace fullname="Tail.Blazor.Confetti" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.NotificationCenter">
+    <namespace fullname="Tail.Blazor.NotificationCenter" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Tour">
+    <namespace fullname="Tail.Blazor.Tour" preserve="all" />
+  </assembly>
+</linker>

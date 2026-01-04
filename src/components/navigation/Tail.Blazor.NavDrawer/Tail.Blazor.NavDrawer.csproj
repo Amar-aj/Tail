@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <Authors>Tail.Blazor Core Team</Authors>
+    <Company>Tail.Blazor</Company>
+    <Product>Tail.Blazor NavDrawer</Product>
+    <Description>Independent navigation drawer component package for Tail.Blazor - Ultra-lightweight (3 KB). Mobile drawer with swipe support.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://tailblazor.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tailblazor/tailblazor</RepositoryUrl>
+    <PackageTags>blazor;tailwind;ui;component;navigation;drawer;mobile;lightweight;performance;independent</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <RazorLangVersion>7.0</RazorLangVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Condition="'`$(TargetFramework)' == 'net8.0'" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Condition="'`$(TargetFramework)' == 'net8.0'" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Condition="'`$(TargetFramework)' == 'net9.0'" Version="9.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Condition="'`$(TargetFramework)' == 'net9.0'" Version="9.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Condition="'`$(TargetFramework)' == 'net10.0'" Version="10.*-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Condition="'`$(TargetFramework)' == 'net10.0'" Version="10.*-*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\Tail.Blazor.Core.Base\Tail.Blazor.Core.Base.csproj" />
+  </ItemGroup>
+</Project>

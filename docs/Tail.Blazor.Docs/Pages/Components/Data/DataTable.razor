@@ -1,0 +1,34 @@
+@page "/components/datatable"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>DataTable - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailDataTable" 
+                 Description="A data table component for displaying tabular data with sorting, filtering, and pagination." 
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic DataTable" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.DataTable";
+    private string basicCode = @"<TailDataTable Items=""@Items"" Sortable=""true"" Filterable=""true"">
+    <TailDataTableColumn Title=""Name"" Property=""Name"" />
+    <TailDataTableColumn Title=""Email"" Property=""Email"" />
+</TailDataTable>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<T>", Description = "Data items to display", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Sortable", Type = "bool", Description = "Enable column sorting", Default = "false" },
+        new DocPageTemplate.ApiParameter { Name = "Filterable", Type = "bool", Description = "Enable filtering", Default = "false" }
+    };
+}

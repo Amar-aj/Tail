@@ -1,0 +1,8 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Icons">
+    <namespace fullname="Tail.Blazor.Icons" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Icon">
+    <namespace fullname="Tail.Blazor.Icon" preserve="all" />
+  </assembly>
+</linker>

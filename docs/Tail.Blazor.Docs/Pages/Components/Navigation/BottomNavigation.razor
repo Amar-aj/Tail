@@ -1,0 +1,32 @@
+@page "/components/bottomnavigation"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>BottomNavigation - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailBottomNavigation" 
+                 Description="A navigation component that displays navigation items at the bottom of the screen." 
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic BottomNavigation" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.BottomNavigation";
+    private string basicCode = @"<TailBottomNavigation>
+    <TailBottomNavigationItem Icon=""home"" Label=""Home"" />
+    <TailBottomNavigationItem Icon=""search"" Label=""Search"" />
+</TailBottomNavigation>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<NavigationItem>", Description = "Navigation items to display", Default = "" }
+    };
+}

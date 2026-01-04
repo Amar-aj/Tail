@@ -1,0 +1,43 @@
+@namespace Tail.Blazor.InfiniteScroll
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Infinite scroll component for loading more data as user scrolls.
+/// </summary>
+<div class="infinite-scroll" @ref="scrollContainer" @attributes="AdditionalAttributes">
+    @ChildContent
+    @if (IsLoading)
+    {
+        <div class="infinite-scroll-loading">
+            <span>Loading more...</span>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
+    public EventCallback OnLoadMore { get; set; }
+
+    [Parameter]
+    public int ThresholdPixels { get; set; } = 200;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private ElementReference scrollContainer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Setup intersection observer for infinite scroll
+            await OnLoadMore.InvokeAsync();
+        }
+    }
+}

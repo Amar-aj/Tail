@@ -1,0 +1,56 @@
+@namespace Tail.Blazor.Snackbar
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Snackbar component for brief messages with action buttons (different from Toast).
+/// </summary>
+<div class="snackbar @PositionClass" @attributes="AdditionalAttributes">
+    <span class="snackbar-message">@Message</span>
+    @if (!string.IsNullOrEmpty(ActionText))
+    {
+        <button class="snackbar-action" @onclick="OnActionClick">@ActionText</button>
+    }
+    @if (ShowClose)
+    {
+        <button class="snackbar-close" @onclick="OnClose">&times;</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = "";
+
+    [Parameter]
+    public string? ActionText { get; set; }
+
+    [Parameter]
+    public EventCallback OnAction { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public bool ShowClose { get; set; } = true;
+
+    [Parameter]
+    public string Position { get; set; } = "bottom";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string PositionClass => Position switch
+    {
+        "top" => "snackbar-top",
+        "bottom" => "snackbar-bottom",
+        "top-left" => "snackbar-top-left",
+        "top-right" => "snackbar-top-right",
+        "bottom-left" => "snackbar-bottom-left",
+        "bottom-right" => "snackbar-bottom-right",
+        _ => "snackbar-bottom"
+    };
+
+    private async Task OnActionClick()
+    {
+        await OnAction.InvokeAsync();
+    }
+}

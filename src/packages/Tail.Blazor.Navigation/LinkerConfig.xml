@@ -1,0 +1,50 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Navigation">
+    <namespace fullname="Tail.Blazor.Navigation" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Tabs">
+    <namespace fullname="Tail.Blazor.Tabs" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Accordion">
+    <namespace fullname="Tail.Blazor.Accordion" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.AccordionItem">
+    <namespace fullname="Tail.Blazor.AccordionItem" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Breadcrumb">
+    <namespace fullname="Tail.Blazor.Breadcrumb" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Steps">
+    <namespace fullname="Tail.Blazor.Steps" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Sidebar">
+    <namespace fullname="Tail.Blazor.Sidebar" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Menu">
+    <namespace fullname="Tail.Blazor.Menu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.MenuItem">
+    <namespace fullname="Tail.Blazor.MenuItem" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Carousel">
+    <namespace fullname="Tail.Blazor.Carousel" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ContextMenu">
+    <namespace fullname="Tail.Blazor.ContextMenu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Pagination">
+    <namespace fullname="Tail.Blazor.Pagination" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.CommandPalette">
+    <namespace fullname="Tail.Blazor.CommandPalette" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.FloatingActionMenu">
+    <namespace fullname="Tail.Blazor.FloatingActionMenu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.MegaMenu">
+    <namespace fullname="Tail.Blazor.MegaMenu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ScrollSpy">
+    <namespace fullname="Tail.Blazor.ScrollSpy" preserve="all" />
+  </assembly>
+</linker>

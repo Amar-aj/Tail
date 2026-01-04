@@ -1,0 +1,41 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Layout">
+    <namespace fullname="Tail.Blazor.Layout" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Grid">
+    <namespace fullname="Tail.Blazor.Grid" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Card">
+    <namespace fullname="Tail.Blazor.Card" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Panel">
+    <namespace fullname="Tail.Blazor.Panel" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Container">
+    <namespace fullname="Tail.Blazor.Container" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Divider">
+    <namespace fullname="Tail.Blazor.Divider" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ResponsiveLayout">
+    <namespace fullname="Tail.Blazor.ResponsiveLayout" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Header">
+    <namespace fullname="Tail.Blazor.Header" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.CollapsibleMenu">
+    <namespace fullname="Tail.Blazor.CollapsibleMenu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.NavMenu">
+    <namespace fullname="Tail.Blazor.NavMenu" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.SplitPane">
+    <namespace fullname="Tail.Blazor.SplitPane" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.BottomSheet">
+    <namespace fullname="Tail.Blazor.BottomSheet" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.DockingLayout">
+    <namespace fullname="Tail.Blazor.DockingLayout" preserve="all" />
+  </assembly>
+</linker>

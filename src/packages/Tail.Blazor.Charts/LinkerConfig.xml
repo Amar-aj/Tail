@@ -1,0 +1,11 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Charts">
+    <namespace fullname="Tail.Blazor.Charts" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Chart">
+    <namespace fullname="Tail.Blazor.Chart" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Sparkline">
+    <namespace fullname="Tail.Blazor.Sparkline" preserve="all" />
+  </assembly>
+</linker>

@@ -1,0 +1,32 @@
+@page "/components/hovercard"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>HoverCard - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailHoverCard" 
+                 Description="A card component that appears on hover with detailed information." 
+                 PackageName="Tail.Blazor.Feedback"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic HoverCard" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.HoverCard";
+    private string basicCode = @"<TailHoverCard Title=""Card Title"">
+    Card content appears on hover
+</TailHoverCard>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string", Description = "The card title", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Trigger", Type = "string", Description = "Trigger element content", Default = "" }
+    };
+}

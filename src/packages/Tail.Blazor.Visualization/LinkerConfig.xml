@@ -1,0 +1,23 @@
+<linker>
+  <assembly fullname="Tail.Blazor.Visualization">
+    <namespace fullname="Tail.Blazor.Visualization" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Timeline">
+    <namespace fullname="Tail.Blazor.Timeline" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.QRCode">
+    <namespace fullname="Tail.Blazor.QRCode" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.ArcGauge">
+    <namespace fullname="Tail.Blazor.ArcGauge" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.GanttChart">
+    <namespace fullname="Tail.Blazor.GanttChart" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.OrganizationChart">
+    <namespace fullname="Tail.Blazor.OrganizationChart" preserve="all" />
+  </assembly>
+  <assembly fullname="Tail.Blazor.Flowchart">
+    <namespace fullname="Tail.Blazor.Flowchart" preserve="all" />
+  </assembly>
+</linker>

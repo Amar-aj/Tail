@@ -1,0 +1,30 @@
+@page "/components/link"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Link - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailLink" 
+                 Description="A hyperlink component with styling and interaction enhancements." 
+                 PackageName="Tail.Blazor.Navigation"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Link" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.Link";
+    private string basicCode = @"<TailLink Href=""/about"">Click me</TailLink>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "Href", Type = "string", Description = "Navigation target URL", Default = "#" },
+        new DocPageTemplate.ApiParameter { Name = "Target", Type = "string", Description = "_self, _blank, _parent, _top", Default = "_self" }
+    };
+}

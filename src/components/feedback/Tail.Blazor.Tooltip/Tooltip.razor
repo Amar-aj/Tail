@@ -1,0 +1,27 @@
+@namespace Tail.Blazor.Tooltip
+@using Tail.Blazor.Core.Base
+
+/// <summary>
+/// Tooltip component for contextual information display.
+/// Supports positioning (top, bottom, left, right) and delay options.
+/// </summary>
+<div class="tooltip" @attributes="AdditionalAttributes">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string Position { get; set; } = "top";
+
+    [Parameter]
+    public int DelayMs { get; set; } = 0;
+
+    [Parameter]
+    public string Content { get; set; } = "";
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

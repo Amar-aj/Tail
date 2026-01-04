@@ -1,0 +1,35 @@
+@page "/components/infinitescroll"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>InfiniteScroll - Tail.Blazor</PageTitle>
+
+<DocPageTemplate Title="TailInfiniteScroll" 
+                 Description="An infinite scroll component that automatically loads more content as user scrolls." 
+                 PackageName="Tail.Blazor.Data"
+                 ApiParameters="@apiParameters">
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" Code="@installCode" />
+    </DocSection>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic InfiniteScroll" Code="@basicCode">
+            <PreviewContent>
+                <!-- Component preview will be rendered here -->
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+</DocPageTemplate>
+
+@code {
+    private string installCode = @"dotnet add package Tail.Blazor.InfiniteScroll";
+    private string basicCode = @"<TailInfiniteScroll OnLoadMore=""HandleLoadMore"">
+    @foreach(var item in Items)
+    {
+        <div>@item</div>
+    }
+</TailInfiniteScroll>";
+    private List<DocPageTemplate.ApiParameter> apiParameters = new()
+    {
+        new DocPageTemplate.ApiParameter { Name = "OnLoadMore", Type = "EventCallback", Description = "Called when more items should load", Default = "" },
+        new DocPageTemplate.ApiParameter { Name = "Threshold", Type = "int", Description = "Pixel threshold from bottom", Default = "300" }
+    };
+}
