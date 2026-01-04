@@ -1,127 +1,206 @@
 @page "/components/validators"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Container
-@using Tail.Blazor.Card
-@using Tail.Blazor.Badge
 
-<TailContainer Size="ContainerSize.Full" Class="py-8">
+<PageTitle>Validators Components - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Category Header -->
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
-        <h1 class="text-4xl font-bold mt-2 mb-2">✅ Validators Components</h1>
-        <p class="text-gray-600">A collection of 9 validators components</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <a href="/components/validators/comparevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">CompareValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CompareValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/customvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">CustomValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CustomValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/emailvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">EmailValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.EmailValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/lengthvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">LengthValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.LengthValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/numericrangevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">NumericRangeValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.NumericRangeValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/rangevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">RangeValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RangeValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/regexvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">RegexValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RegexValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/requiredvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">RequiredValidator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RequiredValidator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/validators/validator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Validator</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Validator</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    </div>
-
-    <TailCard Class="mt-8">
-        <Header>
-            <h2 class="text-2xl font-bold">Statistics</h2>
-        </Header>
-        <ChildContent>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="p-4 bg-blue-50 rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">9</div>
-                    <p class="text-sm text-gray-600">Total Components</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">0</div>
-                    <p class="text-sm text-gray-600">Implemented</p>
-                </div>
-                <div class="p-4 bg-yellow-50 rounded-lg">
-                    <div class="text-2xl font-bold text-yellow-600">9</div>
-                    <p class="text-sm text-gray-600">Pending</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg">
-                    <div class="text-2xl font-bold text-purple-600">100%</div>
-                    <p class="text-sm text-gray-600">Coverage</p>
-                </div>
+        <div class="flex items-center mb-4">
+            <span class="text-5xl mr-4">✅</span>
+            <div>
+                <h1 class="text-4xl font-bold" style="color: var(--color-text-primary);">
+                    Validators Components
+                </h1>
+                <p class="text-lg mt-2" style="color: var(--color-text-secondary);">
+                    9 components with 3+ parameters
+                </p>
             </div>
-        </ChildContent>
-    </TailCard>
-</TailContainer>
+        </div>
+    </div>
 
-@code {
-    // Category overview logic
-}
+    <!-- Components Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- CompareValidator Component -->
+        <a href="/components/validators/comparevalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    CompareValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                CompareValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.CompareValidator</span>
+            </div>
+        </a>
+
+        <!-- CustomValidator Component -->
+        <a href="/components/validators/customvalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    CustomValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                CustomValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.CustomValidator</span>
+            </div>
+        </a>
+
+        <!-- EmailValidator Component -->
+        <a href="/components/validators/emailvalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    EmailValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                EmailValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.EmailValidator</span>
+            </div>
+        </a>
+
+        <!-- LengthValidator Component -->
+        <a href="/components/validators/lengthvalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    LengthValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                LengthValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.LengthValidator</span>
+            </div>
+        </a>
+
+        <!-- NumericRangeValidator Component -->
+        <a href="/components/validators/numericrangevalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    NumericRangeValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                NumericRangeValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.NumericRangeValidator</span>
+            </div>
+        </a>
+
+        <!-- RangeValidator Component -->
+        <a href="/components/validators/rangevalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    RangeValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                RangeValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.RangeValidator</span>
+            </div>
+        </a>
+
+        <!-- RegexValidator Component -->
+        <a href="/components/validators/regexvalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    RegexValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                RegexValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.RegexValidator</span>
+            </div>
+        </a>
+
+        <!-- RequiredValidator Component -->
+        <a href="/components/validators/requiredvalidator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    RequiredValidator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                RequiredValidator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.RequiredValidator</span>
+            </div>
+        </a>
+
+        <!-- Validator Component -->
+        <a href="/components/validators/validator" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Validator
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Validator component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.Validator</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="mt-8 flex justify-between items-center">
+        <a href="/components" class="text-sm hover:underline" style="color: var(--color-primary);">
+            ← Back to All Components
+        </a>
+        <div class="text-sm" style="color: var(--color-text-secondary);">
+            Total: 9 components
+        </div>
+    </div>
+</div>

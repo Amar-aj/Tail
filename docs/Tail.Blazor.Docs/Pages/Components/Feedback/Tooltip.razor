@@ -1,61 +1,48 @@
 @page "/components/feedback/tooltip"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
-@using Tail.Blazor.Tooltip
 
-<PageTitle>Tooltip - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Tooltip" 
-                 Description="Tooltip component"
+<DocPageTemplate Title="Tooltip"
+                 Description="Tooltip component for Tail.Blazor"
                  PackageName="Tail.Blazor.Tooltip"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a tooltip component with material design theme and comes with multiple functions.
-        </p>
-        <CodePreview Title="Basic Tooltip" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailTooltip>Sample Content</TailTooltip>
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
+            <p class="font-medium">🚧 Coming Soon</p>
+            <p class="text-sm mt-2">This component is planned but not yet implemented.</p>
+        </div>
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = true;
 
     private string installCode = @"dotnet add package Tail.Blazor.Tooltip";
 
-    private string basicCode = @"<TailTooltip>Sample Content</TailTooltip>";
+    private string basicCode = @"<TailTooltip />";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Position", Type = "string", Default = """top""", Description = "Position parameter" },
+        new() { Name = "DelayMs", Type = "int", Default = "0", Description = "DelayMs parameter" },
+        new() { Name = "Content", Type = "string", Default = "-", Description = "Content parameter" },
     };
 }

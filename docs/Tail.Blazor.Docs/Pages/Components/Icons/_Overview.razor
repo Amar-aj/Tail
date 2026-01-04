@@ -1,55 +1,54 @@
 @page "/components/icons"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Container
-@using Tail.Blazor.Card
-@using Tail.Blazor.Badge
 
-<TailContainer Size="ContainerSize.Full" Class="py-8">
+<PageTitle>Icons Components - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Category Header -->
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
-        <h1 class="text-4xl font-bold mt-2 mb-2">🎯 Icons Components</h1>
-        <p class="text-gray-600">A collection of 1 icons components</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <a href="/components/icons/icon" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Icon</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Icon</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    </div>
-
-    <TailCard Class="mt-8">
-        <Header>
-            <h2 class="text-2xl font-bold">Statistics</h2>
-        </Header>
-        <ChildContent>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="p-4 bg-blue-50 rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">1</div>
-                    <p class="text-sm text-gray-600">Total Components</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">0</div>
-                    <p class="text-sm text-gray-600">Implemented</p>
-                </div>
-                <div class="p-4 bg-yellow-50 rounded-lg">
-                    <div class="text-2xl font-bold text-yellow-600">1</div>
-                    <p class="text-sm text-gray-600">Pending</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg">
-                    <div class="text-2xl font-bold text-purple-600">100%</div>
-                    <p class="text-sm text-gray-600">Coverage</p>
-                </div>
+        <div class="flex items-center mb-4">
+            <span class="text-5xl mr-4">🎯</span>
+            <div>
+                <h1 class="text-4xl font-bold" style="color: var(--color-text-primary);">
+                    Icons Components
+                </h1>
+                <p class="text-lg mt-2" style="color: var(--color-text-secondary);">
+                    1 components with 2+ parameters
+                </p>
             </div>
-        </ChildContent>
-    </TailCard>
-</TailContainer>
+        </div>
+    </div>
 
-@code {
-    // Category overview logic
-}
+    <!-- Components Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Icon Component -->
+        <a href="/components/icons/icon" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Icon
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Icon component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.Icon</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="mt-8 flex justify-between items-center">
+        <a href="/components" class="text-sm hover:underline" style="color: var(--color-primary);">
+            ← Back to All Components
+        </a>
+        <div class="text-sm" style="color: var(--color-text-secondary);">
+            Total: 1 components
+        </div>
+    </div>
+</div>

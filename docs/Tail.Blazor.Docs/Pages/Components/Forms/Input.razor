@@ -1,61 +1,75 @@
 @page "/components/forms/input"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.Input
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>Input - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Input" 
-                 Description="Tail.Blazor.Input"
+<DocPageTemplate Title="Input"
+                 Description="Input component for Tail.Blazor"
                  PackageName="Tail.Blazor.Input"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a input component with material design theme and comes with multiple functions.
+            Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Basic Input" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailInput Placeholder="Enter text..." />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Size options to fit different layouts and contexts.
+        </p>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Input";
 
     private string basicCode = @"<TailInput Placeholder=""Enter text..."" />";
 
+    private string variantsCode = @"
+<TailInput Variant=""InputVariant.Primary"">Primary</TailInput>
+<TailInput Variant=""InputVariant.Secondary"">Secondary</TailInput>
+<TailInput Variant=""InputVariant.Outline"">Outline</TailInput>
+";
+
+    private string sizesCode = @"
+<TailInput Size=""InputSize.Sm"">Small</TailInput>
+<TailInput Size=""InputSize.Md"">Medium</TailInput>
+<TailInput Size=""InputSize.Lg"">Large</TailInput>
+";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Type", Type = "InputType", Default = "InputType.Text", Description = "Type parameter" },
+        new() { Name = "Size", Type = "InputSize", Default = "InputSize.Md", Description = "Size of the component" },
+        new() { Name = "Variant", Type = "InputVariant", Default = "InputVariant.Standard", Description = "Visual variant style for the component" },
+        new() { Name = "AutoFocus", Type = "bool", Default = "false", Description = "AutoFocus parameter" },
+        new() { Name = "EnableAnimation", Type = "bool", Default = "true", Description = "EnableAnimation parameter" },
+        new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
     };
 }

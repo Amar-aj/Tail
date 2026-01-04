@@ -1,280 +1,529 @@
 @page "/components/forms"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Container
-@using Tail.Blazor.Card
-@using Tail.Blazor.Badge
 
-<TailContainer Size="ContainerSize.Full" Class="py-8">
+<PageTitle>Forms Components - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Category Header -->
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
-        <h1 class="text-4xl font-bold mt-2 mb-2">📝 Forms Components</h1>
-        <p class="text-gray-600">A collection of 26 forms components</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <a href="/components/forms/audiorecorder" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">AudioRecorder</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.AudioRecorder</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/autocomplete" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">AutoComplete</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.AutoComplete</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/checkbox" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Checkbox</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Checkbox</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/colorpicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">ColorPicker</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ColorPicker</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/currencyinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">CurrencyInput</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CurrencyInput</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/datepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">DatePicker</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DatePicker</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/daterangepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">DateRangePicker</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DateRangePicker</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/fileupload" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">FileUpload</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.FileUpload</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/imagecropper" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">ImageCropper</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ImageCropper</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/input" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Input</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Input</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/mask" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Mask</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Mask</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/multiselect" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">MultiSelect</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.MultiSelect</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/numeric" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Numeric</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Numeric</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/otpinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">OTPInput</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.OTPInput</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/passwordstrengthmeter" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">PasswordStrengthMeter</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.PasswordStrengthMeter</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/phonenumberinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">PhoneNumberInput</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.PhoneNumberInput</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/radio" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Radio</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Radio</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/radiogroup" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">RadioGroup</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RadioGroup</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/rating" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Rating</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Rating</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/richtexteditor" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">RichTextEditor</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RichTextEditor</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/select" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Select</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Select</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/slider" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Slider</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Slider</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/switch" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Switch</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Switch</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/taginput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">TagInput</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.TagInput</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/textarea" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Textarea</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Textarea</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/forms/timepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">TimePicker</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.TimePicker</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    </div>
-
-    <TailCard Class="mt-8">
-        <Header>
-            <h2 class="text-2xl font-bold">Statistics</h2>
-        </Header>
-        <ChildContent>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="p-4 bg-blue-50 rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">26</div>
-                    <p class="text-sm text-gray-600">Total Components</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">0</div>
-                    <p class="text-sm text-gray-600">Implemented</p>
-                </div>
-                <div class="p-4 bg-yellow-50 rounded-lg">
-                    <div class="text-2xl font-bold text-yellow-600">26</div>
-                    <p class="text-sm text-gray-600">Pending</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg">
-                    <div class="text-2xl font-bold text-purple-600">100%</div>
-                    <p class="text-sm text-gray-600">Coverage</p>
-                </div>
+        <div class="flex items-center mb-4">
+            <span class="text-5xl mr-4">📝</span>
+            <div>
+                <h1 class="text-4xl font-bold" style="color: var(--color-text-primary);">
+                    Forms Components
+                </h1>
+                <p class="text-lg mt-2" style="color: var(--color-text-secondary);">
+                    26 components with 85+ parameters
+                </p>
             </div>
-        </ChildContent>
-    </TailCard>
-</TailContainer>
+        </div>
+    </div>
 
-@code {
-    // Category overview logic
-}
+    <!-- Components Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- AudioRecorder Component -->
+        <a href="/components/forms/audiorecorder" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    AudioRecorder
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                AudioRecorder component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>3 parameters</span>
+                <span class="font-mono">Tail.Blazor.AudioRecorder</span>
+            </div>
+        </a>
+
+        <!-- AutoComplete Component -->
+        <a href="/components/forms/autocomplete" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    AutoComplete
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                AutoComplete component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>3 parameters</span>
+                <span class="font-mono">Tail.Blazor.AutoComplete</span>
+            </div>
+        </a>
+
+        <!-- Checkbox Component -->
+        <a href="/components/forms/checkbox" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Checkbox
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Checkbox component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Checkbox</span>
+            </div>
+        </a>
+
+        <!-- ColorPicker Component -->
+        <a href="/components/forms/colorpicker" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    ColorPicker
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                ColorPicker component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.ColorPicker</span>
+            </div>
+        </a>
+
+        <!-- CurrencyInput Component -->
+        <a href="/components/forms/currencyinput" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    CurrencyInput
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                CurrencyInput component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>3 parameters</span>
+                <span class="font-mono">Tail.Blazor.CurrencyInput</span>
+            </div>
+        </a>
+
+        <!-- DatePicker Component -->
+        <a href="/components/forms/datepicker" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    DatePicker
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                DatePicker component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>9 parameters</span>
+                <span class="font-mono">Tail.Blazor.DatePicker</span>
+            </div>
+        </a>
+
+        <!-- DateRangePicker Component -->
+        <a href="/components/forms/daterangepicker" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    DateRangePicker
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                DateRangePicker component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>15 parameters</span>
+                <span class="font-mono">Tail.Blazor.DateRangePicker</span>
+            </div>
+        </a>
+
+        <!-- FileUpload Component -->
+        <a href="/components/forms/fileupload" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    FileUpload
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                FileUpload component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>8 parameters</span>
+                <span class="font-mono">Tail.Blazor.FileUpload</span>
+            </div>
+        </a>
+
+        <!-- ImageCropper Component -->
+        <a href="/components/forms/imagecropper" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    ImageCropper
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                ImageCropper component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>3 parameters</span>
+                <span class="font-mono">Tail.Blazor.ImageCropper</span>
+            </div>
+        </a>
+
+        <!-- Input Component -->
+        <a href="/components/forms/input" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Input
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Input component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>6 parameters</span>
+                <span class="font-mono">Tail.Blazor.Input</span>
+            </div>
+        </a>
+
+        <!-- Mask Component -->
+        <a href="/components/forms/mask" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Mask
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Mask component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.Mask</span>
+            </div>
+        </a>
+
+        <!-- MultiSelect Component -->
+        <a href="/components/forms/multiselect" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    MultiSelect
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                MultiSelect component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.MultiSelect</span>
+            </div>
+        </a>
+
+        <!-- Numeric Component -->
+        <a href="/components/forms/numeric" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Numeric
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Numeric component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>4 parameters</span>
+                <span class="font-mono">Tail.Blazor.Numeric</span>
+            </div>
+        </a>
+
+        <!-- OTPInput Component -->
+        <a href="/components/forms/otpinput" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    OTPInput
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                OTPInput component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.OTPInput</span>
+            </div>
+        </a>
+
+        <!-- PasswordStrengthMeter Component -->
+        <a href="/components/forms/passwordstrengthmeter" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    PasswordStrengthMeter
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                PasswordStrengthMeter component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.PasswordStrengthMeter</span>
+            </div>
+        </a>
+
+        <!-- PhoneNumberInput Component -->
+        <a href="/components/forms/phonenumberinput" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    PhoneNumberInput
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                PhoneNumberInput component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.PhoneNumberInput</span>
+            </div>
+        </a>
+
+        <!-- Radio Component -->
+        <a href="/components/forms/radio" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Radio
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Radio component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Radio</span>
+            </div>
+        </a>
+
+        <!-- RadioGroup Component -->
+        <a href="/components/forms/radiogroup" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    RadioGroup
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                RadioGroup component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.RadioGroup</span>
+            </div>
+        </a>
+
+        <!-- Rating Component -->
+        <a href="/components/forms/rating" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Rating
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Rating component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>3 parameters</span>
+                <span class="font-mono">Tail.Blazor.Rating</span>
+            </div>
+        </a>
+
+        <!-- RichTextEditor Component -->
+        <a href="/components/forms/richtexteditor" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    RichTextEditor
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                RichTextEditor component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.RichTextEditor</span>
+            </div>
+        </a>
+
+        <!-- Select Component -->
+        <a href="/components/forms/select" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Select
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Select component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Select</span>
+            </div>
+        </a>
+
+        <!-- Slider Component -->
+        <a href="/components/forms/slider" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Slider
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Slider component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>5 parameters</span>
+                <span class="font-mono">Tail.Blazor.Slider</span>
+            </div>
+        </a>
+
+        <!-- Switch Component -->
+        <a href="/components/forms/switch" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Switch
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Switch component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Switch</span>
+            </div>
+        </a>
+
+        <!-- TagInput Component -->
+        <a href="/components/forms/taginput" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    TagInput
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                TagInput component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.TagInput</span>
+            </div>
+        </a>
+
+        <!-- Textarea Component -->
+        <a href="/components/forms/textarea" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Textarea
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Textarea component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.Textarea</span>
+            </div>
+        </a>
+
+        <!-- TimePicker Component -->
+        <a href="/components/forms/timepicker" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    TimePicker
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                TimePicker component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.TimePicker</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="mt-8 flex justify-between items-center">
+        <a href="/components" class="text-sm hover:underline" style="color: var(--color-primary);">
+            ← Back to All Components
+        </a>
+        <div class="text-sm" style="color: var(--color-text-secondary);">
+            Total: 26 components
+        </div>
+    </div>
+</div>

@@ -1,61 +1,45 @@
 @page "/components/data/responsivetable"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.ResponsiveTable
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>ResponsiveTable - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="ResponsiveTable" 
-                 Description="Tail.Blazor.ResponsiveTable"
+<DocPageTemplate Title="ResponsiveTable"
+                 Description="ResponsiveTable component for Tail.Blazor"
                  PackageName="Tail.Blazor.ResponsiveTable"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a responsivetable component with material design theme and comes with multiple functions.
-        </p>
-        <CodePreview Title="Basic ResponsiveTable" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailResponsiveTable />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.ResponsiveTable";
 
     private string basicCode = @"<TailResponsiveTable />";
 
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Columns", Type = "List<string>", Default = "new()", Description = "Columns parameter" },
+        new() { Name = "Rows", Type = "List<List<string>>", Default = "new()", Description = "Rows parameter" },
     };
 }

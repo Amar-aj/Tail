@@ -1,61 +1,59 @@
 @page "/components/forms/rating"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.Rating
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>Rating - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Rating" 
-                 Description="Tail.Blazor.Rating"
+<DocPageTemplate Title="Rating"
+                 Description="Rating component for Tail.Blazor"
                  PackageName="Tail.Blazor.Rating"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a rating component with material design theme and comes with multiple functions.
+            Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Basic Rating" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailRating Placeholder="Enter text..." />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Rating";
 
     private string basicCode = @"<TailRating Placeholder=""Enter text..."" />";
 
+    private string sizesCode = @"
+<TailRating Size=""RatingSize.Sm"">Small</TailRating>
+<TailRating Size=""RatingSize.Md"">Medium</TailRating>
+<TailRating Size=""RatingSize.Lg"">Large</TailRating>
+";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "MaxRating", Type = "int", Default = "5", Description = "Maximum value constraint" },
+        new() { Name = "Size", Type = "RatingSize", Default = "RatingSize.Md", Description = "Size of the component" },
+        new() { Name = "Color", Type = "RatingColor", Default = "RatingColor.Yellow", Description = "Color scheme for the component" },
     };
 }

@@ -1,61 +1,72 @@
 @page "/components/buttons/buttongroup"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.ButtonGroup
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>ButtonGroup - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="ButtonGroup" 
-                 Description="Tail.Blazor.ButtonGroup"
+<DocPageTemplate Title="ButtonGroup"
+                 Description="ButtonGroup component for Tail.Blazor"
                  PackageName="Tail.Blazor.ButtonGroup"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a buttongroup component with material design theme and comes with multiple functions.
+            Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Basic ButtonGroup" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailButtonGroup>Click Me</TailButtonGroup>
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states like disabled and loading.
+        </p>
+        <CodePreview Title="Component States" Code="@statesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.ButtonGroup";
 
     private string basicCode = @"<TailButtonGroup>Click Me</TailButtonGroup>";
 
+    private string sizesCode = @"
+<TailButtonGroup Size=""ButtonGroupSize.Sm"">Small</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Md"">Medium</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Lg"">Large</TailButtonGroup>
+";
+
+    private string statesCode = @"
+<TailButtonGroup Disabled=""true"">Disabled</TailButtonGroup>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Spacing", Type = "ButtonGroupSpacing", Default = "ButtonGroupSpacing.None", Description = "Spacing parameter" },
+        new() { Name = "Size", Type = "ButtonGroupSize", Default = "ButtonGroupSize.Md", Description = "Size of the component" },
+        new() { Name = "BorderRadius", Type = "ButtonGroupBorderRadius", Default = "ButtonGroupBorderRadius.Md", Description = "BorderRadius parameter" },
+        new() { Name = "Attached", Type = "bool", Default = "true", Description = "Attached parameter" },
+        new() { Name = "ShowBorder", Type = "bool", Default = "true", Description = "ShowBorder parameter" },
+        new() { Name = "ShowShadow", Type = "bool", Default = "false", Description = "ShowShadow parameter" },
+        new() { Name = "Disabled", Type = "bool", Default = "false", Description = "Whether the component is disabled" },
+        new() { Name = "AnimationDuration", Type = "string", Default = """duration-200""", Description = "AnimationDuration parameter" },
+        new() { Name = "ResponsiveVertical", Type = "bool", Default = "false", Description = "ResponsiveVertical parameter" },
     };
 }

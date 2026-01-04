@@ -1,61 +1,57 @@
 @page "/components/forms/multiselect"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.MultiSelect
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>MultiSelect - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="MultiSelect" 
-                 Description="Tail.Blazor.MultiSelect"
+<DocPageTemplate Title="MultiSelect"
+                 Description="MultiSelect component for Tail.Blazor"
                  PackageName="Tail.Blazor.MultiSelect"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a multiselect component with material design theme and comes with multiple functions.
+            Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Basic MultiSelect" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailMultiSelect Placeholder="Enter text..." />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.MultiSelect";
 
     private string basicCode = @"<TailMultiSelect Placeholder=""Enter text..."" />";
 
+    private string sizesCode = @"
+<TailMultiSelect Size=""MultiSelectSize.Sm"">Small</TailMultiSelect>
+<TailMultiSelect Size=""MultiSelectSize.Md"">Medium</TailMultiSelect>
+<TailMultiSelect Size=""MultiSelectSize.Lg"">Large</TailMultiSelect>
+";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Size", Type = "MultiSelectSize", Default = "MultiSelectSize.Md", Description = "Size of the component" },
     };
 }

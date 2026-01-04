@@ -1,61 +1,66 @@
 @page "/components/navigation/menu"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.Menu
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>Menu - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Menu" 
-                 Description="Tail.Blazor.Menu"
+<DocPageTemplate Title="Menu"
+                 Description="Menu component for Tail.Blazor"
                  PackageName="Tail.Blazor.Menu"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a menu component with material design theme and comes with multiple functions.
+            Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Basic Menu" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailMenu />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Menu";
 
     private string basicCode = @"<TailMenu />";
 
+    private string variantsCode = @"
+<TailMenu Variant=""MenuVariant.Primary"">Primary</TailMenu>
+<TailMenu Variant=""MenuVariant.Secondary"">Secondary</TailMenu>
+<TailMenu Variant=""MenuVariant.Outline"">Outline</TailMenu>
+";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Variant", Type = "MenuVariant", Default = "MenuVariant.Default", Description = "Visual variant style for the component" },
+        new() { Name = "Orientation", Type = "MenuOrientation", Default = "MenuOrientation.Vertical", Description = "Orientation parameter" },
+        new() { Name = "Align", Type = "MenuAlign", Default = "MenuAlign.Start", Description = "Align parameter" },
+        new() { Name = "Dense", Type = "bool", Default = "false", Description = "Dense parameter" },
+        new() { Name = "HoverBackground", Type = "string?", Default = """var(--color-surface-hover)""", Description = "HoverBackground parameter" },
+        new() { Name = "HoverTextColor", Type = "string?", Default = """var(--color-text-primary)""", Description = "Color scheme for the component" },
+        new() { Name = "ActiveBackground", Type = "string?", Default = """var(--color-primary)""", Description = "ActiveBackground parameter" },
+        new() { Name = "ActiveTextColor", Type = "string?", Default = """var(--color-text-on-primary, #ffffff)""", Description = "Color scheme for the component" },
+        new() { Name = "AriaLabel", Type = "string?", Default = """Main menu""", Description = "Label text for the component" },
+        new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
     };
 }

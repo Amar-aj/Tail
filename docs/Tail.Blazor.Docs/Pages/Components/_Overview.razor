@@ -1,0 +1,328 @@
+@page "/components"
+@using Tail.Blazor.Docs.Shared
+
+<PageTitle>Components - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4" style="color: var(--color-text-primary);">
+            Tail.Blazor Components
+        </h1>
+        <p class="text-xl mb-6" style="color: var(--color-text-secondary);">
+            A comprehensive collection of 114 production-ready Blazor components
+        </p>
+        
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
+            <div class="p-4 rounded-lg" style="background-color: var(--color-surface-2);">
+                <div class="text-3xl font-bold" style="color: var(--color-primary);">114</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Components</div>
+            </div>
+            <div class="p-4 rounded-lg" style="background-color: var(--color-surface-2);">
+                <div class="text-3xl font-bold" style="color: var(--color-primary);">12</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Categories</div>
+            </div>
+            <div class="p-4 rounded-lg" style="background-color: var(--color-surface-2);">
+                <div class="text-3xl font-bold" style="color: var(--color-primary);">288+</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Parameters</div>
+            </div>
+            <div class="p-4 rounded-lg" style="background-color: var(--color-surface-2);">
+                <div class="text-3xl font-bold" style="color: var(--color-primary);">100%</div>
+                <div class="text-sm" style="color: var(--color-text-secondary);">Documented</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Categories Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Buttons Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">🔘</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Buttons</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Buttons components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>6 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/buttons/button" class="block text-sm hover:underline" style="color: var(--color-primary);">Button</a>
+                <a href="/components/buttons/buttongroup" class="block text-sm hover:underline" style="color: var(--color-primary);">ButtonGroup</a>
+                <a href="/components/buttons/fab" class="block text-sm hover:underline" style="color: var(--color-primary);">FAB</a>
+                <a href="/components/buttons/iconbutton" class="block text-sm hover:underline" style="color: var(--color-primary);">IconButton</a>
+                <a href="/components/buttons/splitbutton" class="block text-sm hover:underline" style="color: var(--color-primary);">SplitButton</a>
+                <a href="/components/buttons/togglebutton" class="block text-sm hover:underline" style="color: var(--color-primary);">ToggleButton</a>
+            </div>
+        </div>
+
+        <!-- Charts Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">📈</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Charts</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Charts components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>2 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/charts/chart" class="block text-sm hover:underline" style="color: var(--color-primary);">Chart</a>
+                <a href="/components/charts/sparkline" class="block text-sm hover:underline" style="color: var(--color-primary);">Sparkline</a>
+            </div>
+        </div>
+
+        <!-- Core Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">⚙️</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Core</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Core components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>3 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/core/core" class="block text-sm hover:underline" style="color: var(--color-primary);">Core</a>
+                <a href="/components/core/core.base" class="block text-sm hover:underline" style="color: var(--color-primary);">Core.Base</a>
+                <a href="/components/core/core.theme" class="block text-sm hover:underline" style="color: var(--color-primary);">Core.Theme</a>
+            </div>
+        </div>
+
+        <!-- Data Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">📊</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Data</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Data components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>11 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/data/advancedfilter" class="block text-sm hover:underline" style="color: var(--color-primary);">AdvancedFilter</a>
+                <a href="/components/data/datagrid" class="block text-sm hover:underline" style="color: var(--color-primary);">DataGrid</a>
+                <a href="/components/data/infinitescroll" class="block text-sm hover:underline" style="color: var(--color-primary);">InfiniteScroll</a>
+                <a href="/components/data/kanbanboard" class="block text-sm hover:underline" style="color: var(--color-primary);">KanbanBoard</a>
+                <a href="/components/data/listview" class="block text-sm hover:underline" style="color: var(--color-primary);">ListView</a>
+                <a href="/components/data/pager" class="block text-sm hover:underline" style="color: var(--color-primary);">Pager</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 5 more components...</div>
+            </div>
+        </div>
+
+        <!-- Feedback Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">💬</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Feedback</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Feedback components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>19 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/feedback/alert" class="block text-sm hover:underline" style="color: var(--color-primary);">Alert</a>
+                <a href="/components/feedback/avatar" class="block text-sm hover:underline" style="color: var(--color-primary);">Avatar</a>
+                <a href="/components/feedback/badge" class="block text-sm hover:underline" style="color: var(--color-primary);">Badge</a>
+                <a href="/components/feedback/chip" class="block text-sm hover:underline" style="color: var(--color-primary);">Chip</a>
+                <a href="/components/feedback/confetti" class="block text-sm hover:underline" style="color: var(--color-primary);">Confetti</a>
+                <a href="/components/feedback/dialog" class="block text-sm hover:underline" style="color: var(--color-primary);">Dialog</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 13 more components...</div>
+            </div>
+        </div>
+
+        <!-- Forms Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">📝</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Forms</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Forms components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>26 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/forms/audiorecorder" class="block text-sm hover:underline" style="color: var(--color-primary);">AudioRecorder</a>
+                <a href="/components/forms/autocomplete" class="block text-sm hover:underline" style="color: var(--color-primary);">AutoComplete</a>
+                <a href="/components/forms/checkbox" class="block text-sm hover:underline" style="color: var(--color-primary);">Checkbox</a>
+                <a href="/components/forms/colorpicker" class="block text-sm hover:underline" style="color: var(--color-primary);">ColorPicker</a>
+                <a href="/components/forms/currencyinput" class="block text-sm hover:underline" style="color: var(--color-primary);">CurrencyInput</a>
+                <a href="/components/forms/datepicker" class="block text-sm hover:underline" style="color: var(--color-primary);">DatePicker</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 20 more components...</div>
+            </div>
+        </div>
+
+        <!-- Icons Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">🎯</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Icons</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Icons components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>1 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/icons/icon" class="block text-sm hover:underline" style="color: var(--color-primary);">Icon</a>
+            </div>
+        </div>
+
+        <!-- Layout Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">📐</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Layout</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Layout components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>12 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/layout/bottomsheet" class="block text-sm hover:underline" style="color: var(--color-primary);">BottomSheet</a>
+                <a href="/components/layout/card" class="block text-sm hover:underline" style="color: var(--color-primary);">Card</a>
+                <a href="/components/layout/collapsiblemenu" class="block text-sm hover:underline" style="color: var(--color-primary);">CollapsibleMenu</a>
+                <a href="/components/layout/container" class="block text-sm hover:underline" style="color: var(--color-primary);">Container</a>
+                <a href="/components/layout/divider" class="block text-sm hover:underline" style="color: var(--color-primary);">Divider</a>
+                <a href="/components/layout/dockinglayout" class="block text-sm hover:underline" style="color: var(--color-primary);">DockingLayout</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 6 more components...</div>
+            </div>
+        </div>
+
+        <!-- Navigation Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">🧭</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Navigation</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Navigation components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>17 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/navigation/accordion" class="block text-sm hover:underline" style="color: var(--color-primary);">Accordion</a>
+                <a href="/components/navigation/accordionitem" class="block text-sm hover:underline" style="color: var(--color-primary);">AccordionItem</a>
+                <a href="/components/navigation/bottomnavigation" class="block text-sm hover:underline" style="color: var(--color-primary);">BottomNavigation</a>
+                <a href="/components/navigation/breadcrumb" class="block text-sm hover:underline" style="color: var(--color-primary);">Breadcrumb</a>
+                <a href="/components/navigation/carousel" class="block text-sm hover:underline" style="color: var(--color-primary);">Carousel</a>
+                <a href="/components/navigation/commandpalette" class="block text-sm hover:underline" style="color: var(--color-primary);">CommandPalette</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 11 more components...</div>
+            </div>
+        </div>
+
+        <!-- Utils Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">🛠️</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Utils</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Utils components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>2 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/utils/clipboard" class="block text-sm hover:underline" style="color: var(--color-primary);">Clipboard</a>
+                <a href="/components/utils/imagezoom" class="block text-sm hover:underline" style="color: var(--color-primary);">ImageZoom</a>
+            </div>
+        </div>
+
+        <!-- Validators Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">✅</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Validators</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Validators components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>9 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/validators/comparevalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">CompareValidator</a>
+                <a href="/components/validators/customvalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">CustomValidator</a>
+                <a href="/components/validators/emailvalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">EmailValidator</a>
+                <a href="/components/validators/lengthvalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">LengthValidator</a>
+                <a href="/components/validators/numericrangevalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">NumericRangeValidator</a>
+                <a href="/components/validators/rangevalidator" class="block text-sm hover:underline" style="color: var(--color-primary);">RangeValidator</a>
+                <div class="text-xs pt-1" style="color: var(--color-text-tertiary);">+ 3 more components...</div>
+            </div>
+        </div>
+
+        <!-- Visualization Category -->
+        <div class="p-6 rounded-lg border-2 transition-all hover:shadow-lg" 
+             style="background-color: var(--color-surface-1); border-color: var(--color-border);">
+            <div class="flex items-center mb-4">
+                <span class="text-3xl mr-3">🎨</span>
+                <h2 class="text-2xl font-bold" style="color: var(--color-text-primary);">Visualization</h2>
+            </div>
+            <p class="mb-4 text-sm" style="color: var(--color-text-secondary);">
+                Visualization components for Tail.Blazor
+            </p>
+            <div class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                <strong>6 components</strong>
+            </div>
+            <div class="space-y-1">
+                <a href="/components/visualization/arcgauge" class="block text-sm hover:underline" style="color: var(--color-primary);">ArcGauge</a>
+                <a href="/components/visualization/flowchart" class="block text-sm hover:underline" style="color: var(--color-primary);">Flowchart</a>
+                <a href="/components/visualization/ganttchart" class="block text-sm hover:underline" style="color: var(--color-primary);">GanttChart</a>
+                <a href="/components/visualization/organizationchart" class="block text-sm hover:underline" style="color: var(--color-primary);">OrganizationChart</a>
+                <a href="/components/visualization/qrcode" class="block text-sm hover:underline" style="color: var(--color-primary);">QRCode</a>
+                <a href="/components/visualization/timeline" class="block text-sm hover:underline" style="color: var(--color-primary);">Timeline</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Getting Started Section -->
+    <div class="mt-12 p-8 rounded-lg" style="background-color: var(--color-surface-2);">
+        <h2 class="text-2xl font-bold mb-4" style="color: var(--color-text-primary);">
+            Getting Started
+        </h2>
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Install any component package via NuGet:
+        </p>
+        <div class="p-4 rounded font-mono text-sm" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
+            dotnet add package Tail.Blazor.Button
+        </div>
+        <p class="mt-4" style="color: var(--color-text-secondary);">
+            All components are independently packaged for maximum flexibility and minimal bundle size.
+        </p>
+        <div class="mt-6">
+            <a href="/getting-started" class="inline-block px-6 py-3 rounded-lg font-medium transition-colors"
+               style="background-color: var(--color-primary); color: white;">
+                View Installation Guide →
+            </a>
+        </div>
+    </div>
+</div>

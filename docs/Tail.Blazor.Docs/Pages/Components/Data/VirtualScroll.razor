@@ -1,61 +1,52 @@
 @page "/components/data/virtualscroll"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
-@using Tail.Blazor.VirtualScroll
 
-<PageTitle>VirtualScroll - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="VirtualScroll" 
-                 Description="Tail.Blazor.VirtualScroll"
+<DocPageTemplate Title="VirtualScroll"
+                 Description="VirtualScroll component for Tail.Blazor"
                  PackageName="Tail.Blazor.VirtualScroll"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a virtualscroll component with material design theme and comes with multiple functions.
-        </p>
-        <CodePreview Title="Basic VirtualScroll" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailVirtualScroll />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
+            <p class="font-medium">⚠️ Generic Component</p>
+            <p class="text-sm mt-2">This component requires a type parameter. Example:</p>
+            <code class="block mt-2 p-2 rounded" style="background-color: var(--color-surface-1);">
+                &lt;TailVirtualScroll T="YourModel"&gt;...&lt;/TailVirtualScroll&gt;
+            </code>
+        </div>
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = true;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.VirtualScroll";
 
-    private string basicCode = @"@* VirtualScroll requires type parameter. Example: <TailVirtualScroll T=""YourModel"">...</TailVirtualScroll> *@";
+    private string basicCode = @"@* VirtualScroll requires type parameter *@";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Items", Type = "List<T>", Default = "new()", Description = "Data items collection" },
+        new() { Name = "ItemTemplate", Type = "RenderFragment<T>", Default = "default!", Description = "ItemTemplate parameter" },
+        new() { Name = "ItemHeight", Type = "int", Default = "50", Description = "ItemHeight parameter" },
+        new() { Name = "VisibleCount", Type = "int", Default = "10", Description = "Whether the component is visible" },
     };
 }

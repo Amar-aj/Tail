@@ -1,61 +1,85 @@
 @page "/components/buttons/button"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.Button
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>Button - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Button" 
-                 Description="Tail.Blazor.Button"
+<DocPageTemplate Title="Button"
+                 Description="Button component for Tail.Blazor"
                  PackageName="Tail.Blazor.Button"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a button component with material design theme and comes with multiple functions.
+            Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Basic Button" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailButton>Click Me</TailButton>
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Size options to fit different layouts and contexts.
+        </p>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states like disabled and loading.
+        </p>
+        <CodePreview Title="Component States" Code="@statesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Button";
 
     private string basicCode = @"<TailButton>Click Me</TailButton>";
 
+    private string variantsCode = @"
+<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
+<TailButton Variant=""ButtonVariant.Secondary"">Secondary</TailButton>
+<TailButton Variant=""ButtonVariant.Outline"">Outline</TailButton>
+";
+
+    private string sizesCode = @"
+<TailButton Size=""ButtonSize.Sm"">Small</TailButton>
+<TailButton Size=""ButtonSize.Md"">Medium</TailButton>
+<TailButton Size=""ButtonSize.Lg"">Large</TailButton>
+";
+
+    private string statesCode = @"
+<TailButton IsLoading=""true"">Loading</TailButton>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Variant", Type = "ButtonVariant", Default = "ButtonVariant.Primary", Description = "Visual variant style for the component" },
+        new() { Name = "Size", Type = "ButtonSize", Default = "ButtonSize.Md", Description = "Size of the component" },
+        new() { Name = "ShowDefaultLoadingText", Type = "bool", Default = "false", Description = "Whether the component is in loading state" },
+        new() { Name = "DefaultLoadingText", Type = "string", Default = """Loading...""", Description = "Whether the component is in loading state" },
+        new() { Name = "Type", Type = "string", Default = """button""", Description = "Type parameter" },
+        new() { Name = "EnableRipple", Type = "bool", Default = "true", Description = "EnableRipple parameter" },
+        new() { Name = "FullWidth", Type = "bool", Default = "false", Description = "FullWidth parameter" },
+        new() { Name = "AnimationDuration", Type = "string", Default = """duration-200""", Description = "AnimationDuration parameter" },
+        new() { Name = "AutoFocus", Type = "bool", Default = "false", Description = "AutoFocus parameter" },
     };
 }

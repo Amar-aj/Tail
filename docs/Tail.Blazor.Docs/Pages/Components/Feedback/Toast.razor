@@ -1,61 +1,60 @@
 @page "/components/feedback/toast"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.Toast
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>Toast - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="Toast" 
-                 Description="Tail.Blazor.Toast"
+<DocPageTemplate Title="Toast"
+                 Description="Toast component for Tail.Blazor"
                  PackageName="Tail.Blazor.Toast"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a toast component with material design theme and comes with multiple functions.
+            Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Basic Toast" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailToast>Sample Content</TailToast>
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.Toast";
 
-    private string basicCode = @"<TailToast>Sample Content</TailToast>";
+    private string basicCode = @"<TailToast />";
+
+    private string variantsCode = @"
+<TailToast Variant=""ToastVariant.Primary"">Primary</TailToast>
+<TailToast Variant=""ToastVariant.Secondary"">Secondary</TailToast>
+<TailToast Variant=""ToastVariant.Outline"">Outline</TailToast>
+";
+
+    private string statesCode = @"
+<TailComponent Disabled=""true"">Disabled</TailComponent>
+";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Variant", Type = "ToastVariant", Default = "ToastVariant.Info", Description = "Visual variant style for the component" },
+        new() { Name = "Dismissible", Type = "bool", Default = "true", Description = "Dismissible parameter" },
+        new() { Name = "ShowIcon", Type = "bool", Default = "true", Description = "Icon to display" },
+        new() { Name = "AutoDismissAfter", Type = "int?", Default = "5000", Description = "AutoDismissAfter parameter" },
     };
 }

@@ -1,154 +1,263 @@
 @page "/components/layout"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Container
-@using Tail.Blazor.Card
-@using Tail.Blazor.Badge
 
-<TailContainer Size="ContainerSize.Full" Class="py-8">
+<PageTitle>Layout Components - Tail.Blazor</PageTitle>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Category Header -->
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
-        <h1 class="text-4xl font-bold mt-2 mb-2">📐 Layout Components</h1>
-        <p class="text-gray-600">A collection of 12 layout components</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-        <a href="/components/layout/bottomsheet" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">BottomSheet</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.BottomSheet</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/card" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Card</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Card</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/collapsiblemenu" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">CollapsibleMenu</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CollapsibleMenu</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/container" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Container</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Container</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/divider" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Divider</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Divider</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/dockinglayout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">DockingLayout</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DockingLayout</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/grid" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Grid</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Grid</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/header" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Header</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Header</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/navmenu" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">NavMenu</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.NavMenu</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/panel" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">Panel</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Panel</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/responsivelayout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">ResponsiveLayout</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ResponsiveLayout</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    <a href="/components/layout/splitpane" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
-        <h4 class="font-semibold text-gray-800">SplitPane</h4>
-        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.SplitPane</p>
-        <div class="mt-2">
-            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                ⊘ Pending
-            </span>
-        </div>
-    </a>
-    </div>
-
-    <TailCard Class="mt-8">
-        <Header>
-            <h2 class="text-2xl font-bold">Statistics</h2>
-        </Header>
-        <ChildContent>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="p-4 bg-blue-50 rounded-lg">
-                    <div class="text-2xl font-bold text-blue-600">12</div>
-                    <p class="text-sm text-gray-600">Total Components</p>
-                </div>
-                <div class="p-4 bg-green-50 rounded-lg">
-                    <div class="text-2xl font-bold text-green-600">0</div>
-                    <p class="text-sm text-gray-600">Implemented</p>
-                </div>
-                <div class="p-4 bg-yellow-50 rounded-lg">
-                    <div class="text-2xl font-bold text-yellow-600">12</div>
-                    <p class="text-sm text-gray-600">Pending</p>
-                </div>
-                <div class="p-4 bg-purple-50 rounded-lg">
-                    <div class="text-2xl font-bold text-purple-600">100%</div>
-                    <p class="text-sm text-gray-600">Coverage</p>
-                </div>
+        <div class="flex items-center mb-4">
+            <span class="text-5xl mr-4">📐</span>
+            <div>
+                <h1 class="text-4xl font-bold" style="color: var(--color-text-primary);">
+                    Layout Components
+                </h1>
+                <p class="text-lg mt-2" style="color: var(--color-text-secondary);">
+                    12 components with 25+ parameters
+                </p>
             </div>
-        </ChildContent>
-    </TailCard>
-</TailContainer>
+        </div>
+    </div>
 
-@code {
-    // Category overview logic
-}
+    <!-- Components Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- BottomSheet Component -->
+        <a href="/components/layout/bottomsheet" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    BottomSheet
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                BottomSheet component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.BottomSheet</span>
+            </div>
+        </a>
+
+        <!-- Card Component -->
+        <a href="/components/layout/card" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Card
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Card component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.Card</span>
+            </div>
+        </a>
+
+        <!-- CollapsibleMenu Component -->
+        <a href="/components/layout/collapsiblemenu" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    CollapsibleMenu
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                CollapsibleMenu component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.CollapsibleMenu</span>
+            </div>
+        </a>
+
+        <!-- Container Component -->
+        <a href="/components/layout/container" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Container
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Container component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.Container</span>
+            </div>
+        </a>
+
+        <!-- Divider Component -->
+        <a href="/components/layout/divider" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Divider
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Divider component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Divider</span>
+            </div>
+        </a>
+
+        <!-- DockingLayout Component -->
+        <a href="/components/layout/dockinglayout" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    DockingLayout
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                DockingLayout component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.DockingLayout</span>
+            </div>
+        </a>
+
+        <!-- Grid Component -->
+        <a href="/components/layout/grid" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Grid
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Grid component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.Grid</span>
+            </div>
+        </a>
+
+        <!-- Header Component -->
+        <a href="/components/layout/header" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Header
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Header component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>0 parameters</span>
+                <span class="font-mono">Tail.Blazor.Header</span>
+            </div>
+        </a>
+
+        <!-- NavMenu Component -->
+        <a href="/components/layout/navmenu" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    NavMenu
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                NavMenu component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.NavMenu</span>
+            </div>
+        </a>
+
+        <!-- Panel Component -->
+        <a href="/components/layout/panel" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    Panel
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                Panel component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>1 parameters</span>
+                <span class="font-mono">Tail.Blazor.Panel</span>
+            </div>
+        </a>
+
+        <!-- ResponsiveLayout Component -->
+        <a href="/components/layout/responsivelayout" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    ResponsiveLayout
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                ResponsiveLayout component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>13 parameters</span>
+                <span class="font-mono">Tail.Blazor.ResponsiveLayout</span>
+            </div>
+        </a>
+
+        <!-- SplitPane Component -->
+        <a href="/components/layout/splitpane" 
+           class="block p-6 rounded-lg border-2 transition-all hover:shadow-lg hover:border-opacity-70"
+           style="background-color: var(--color-surface-1); border-color: var(--color-border); text-decoration: none;">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-semibold" style="color: var(--color-text-primary);">
+                    SplitPane
+                </h3>
+                
+            </div>
+            <p class="text-sm mb-3" style="color: var(--color-text-secondary);">
+                SplitPane component for Tail.Blazor
+            </p>
+            <div class="flex items-center justify-between text-xs" style="color: var(--color-text-tertiary);">
+                <span>2 parameters</span>
+                <span class="font-mono">Tail.Blazor.SplitPane</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Category Navigation -->
+    <div class="mt-8 flex justify-between items-center">
+        <a href="/components" class="text-sm hover:underline" style="color: var(--color-primary);">
+            ← Back to All Components
+        </a>
+        <div class="text-sm" style="color: var(--color-text-secondary);">
+            Total: 12 components
+        </div>
+    </div>
+</div>

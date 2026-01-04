@@ -1,61 +1,78 @@
 @page "/components/forms/daterangepicker"
-@using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
 @using Tail.Blazor.DateRangePicker
+@using Tail.Blazor.Docs.Shared
 
-<PageTitle>DateRangePicker - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="DateRangePicker" 
-                 Description="Tail.Blazor.DateRangePicker"
+<DocPageTemplate Title="DateRangePicker"
+                 Description="DateRangePicker component for Tail.Blazor"
                  PackageName="Tail.Blazor.DateRangePicker"
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
+        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
-            Represents a daterangepicker component with material design theme and comes with multiple functions.
+            Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Basic DateRangePicker" Code="@basicCode">
-            <PreviewContent>
-                <div class="p-4">
-                    @if (isGeneric)
-                    {
-                        <p class="text-sm" style="color: var(--color-text-secondary);">See code examples for proper usage with type parameters.</p>
-                    }
-                    else
-                    {
-                        <TailDateRangePicker Placeholder="Enter text..." />
-                    }
-                </div>
-            </PreviewContent>
-                </CodePreview>
+        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states like disabled and loading.
+        </p>
+        <CodePreview Title="Component States" Code="@statesCode" ShowPreview="false" Language="razor" />
     </DocSection>
 
     <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                <li>Full theme support with CSS variables</li>
-                <li>Responsive design for all screen sizes</li>
-                <li>Smooth transitions and animations</li>
-                <li>Accessibility features built-in</li>
-                <li>Lightweight and performant</li>
-                <li>Type-safe with IntelliSense support</li>
-            </ul>
-        </div>
+        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
+            <li>Full theme support with CSS variables</li>
+            <li>Responsive design</li>
+            <li>Accessibility features built-in</li>
+            <li>Type-safe with IntelliSense</li>
+        </ul>
     </DocSection>
 </DocPageTemplate>
 
 @code {
     private bool isGeneric = false;
+    private bool isMissing = false;
 
     private string installCode = @"dotnet add package Tail.Blazor.DateRangePicker";
 
     private string basicCode = @"<TailDateRangePicker Placeholder=""Enter text..."" />";
 
+    private string sizesCode = @"
+<TailDateRangePicker Size=""DateRangePickerSize.Sm"">Small</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Md"">Medium</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Lg"">Large</TailDateRangePicker>
+";
+
+    private string statesCode = @"
+<TailDateRangePicker Disabled=""true"">Disabled</TailDateRangePicker>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ShowTime", Type = "bool", Default = "false", Description = "ShowTime parameter" },
+        new() { Name = "TimeOnlyMode", Type = "bool", Default = "false", Description = "TimeOnlyMode parameter" },
+        new() { Name = "HourFormat", Type = "HourFormat", Default = "HourFormat.TwentyFourHour", Description = "HourFormat parameter" },
+        new() { Name = "Size", Type = "DateRangePickerSize", Default = "DateRangePickerSize.Md", Description = "Size of the component" },
+        new() { Name = "DisplayMode", Type = "DatePickerDisplayMode", Default = "DatePickerDisplayMode.InputAndPopup", Description = "DisplayMode parameter" },
+        new() { Name = "ShowCalendarButton", Type = "bool", Default = "true", Description = "ShowCalendarButton parameter" },
+        new() { Name = "Placeholder", Type = "string?", Default = """Select date range""", Description = "Placeholder text" },
+        new() { Name = "InitialViewMode", Type = "DatePickerViewMode", Default = "DatePickerViewMode.Days", Description = "InitialViewMode parameter" },
+        new() { Name = "SelectionMode", Type = "DateSelectionMode", Default = "DateSelectionMode.SingleRange", Description = "SelectionMode parameter" },
+        new() { Name = "Animation", Type = "CalendarAnimation", Default = "CalendarAnimation.Fade", Description = "Animation parameter" },
+        new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
+        new() { Name = "DisabledDates", Type = "List<DateTime>", Default = "new()", Description = "Whether the component is disabled" },
+        new() { Name = "DisabledDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "Whether the component is disabled" },
+        new() { Name = "SpecialDates", Type = "List<DateTime>", Default = "new()", Description = "SpecialDates parameter" },
+        new() { Name = "SpecialDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "SpecialDateOnly parameter" },
     };
 }
