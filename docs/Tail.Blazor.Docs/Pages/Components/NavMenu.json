@@ -1,0 +1,681 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-04T14:52:42.807249",
+  "menu": [
+    {
+      "label": "Getting Started",
+      "path": "/getting-started",
+      "icon": "rocket",
+      "children": []
+    },
+    {
+      "label": "Components",
+      "path": "#",
+      "icon": "cube",
+      "children": [
+        {
+          "label": "Buttons",
+          "path": "/components/buttons",
+          "icon": "button",
+          "children": [
+            {
+              "label": "Tail.Blazor.Button",
+              "path": "/components/buttons/button",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ButtonGroup",
+              "path": "/components/buttons/buttongroup",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.FAB",
+              "path": "/components/buttons/fab",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.IconButton",
+              "path": "/components/buttons/iconbutton",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.SplitButton",
+              "path": "/components/buttons/splitbutton",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ToggleButton",
+              "path": "/components/buttons/togglebutton",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Charts",
+          "path": "/components/charts",
+          "icon": "chart",
+          "children": [
+            {
+              "label": "Tail.Blazor.Chart",
+              "path": "/components/charts/chart",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Sparkline",
+              "path": "/components/charts/sparkline",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Core",
+          "path": "/components/core",
+          "icon": "cog",
+          "children": [
+            {
+              "label": "Tail.Blazor.Core",
+              "path": "/components/core/core",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Data",
+          "path": "/components/data",
+          "icon": "table",
+          "children": [
+            {
+              "label": "Tail.Blazor.AdvancedFilter",
+              "path": "/components/data/advancedfilter",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.DataGrid",
+              "path": "/components/data/datagrid",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.InfiniteScroll",
+              "path": "/components/data/infinitescroll",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.KanbanBoard",
+              "path": "/components/data/kanbanboard",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ListView",
+              "path": "/components/data/listview",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Pager",
+              "path": "/components/data/pager",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.PivotDataGrid",
+              "path": "/components/data/pivotdatagrid",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ResponsiveTable",
+              "path": "/components/data/responsivetable",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Scheduler",
+              "path": "/components/data/scheduler",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Tree",
+              "path": "/components/data/tree",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.VirtualScroll",
+              "path": "/components/data/virtualscroll",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Feedback",
+          "path": "/components/feedback",
+          "icon": "bell",
+          "children": [
+            {
+              "label": "Tail.Blazor.Alert",
+              "path": "/components/feedback/alert",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Avatar",
+              "path": "/components/feedback/avatar",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Badge",
+              "path": "/components/feedback/badge",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Chip",
+              "path": "/components/feedback/chip",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Confetti",
+              "path": "/components/feedback/confetti",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Dialog",
+              "path": "/components/feedback/dialog",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.EmptyState",
+              "path": "/components/feedback/emptystate",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.NotificationCenter",
+              "path": "/components/feedback/notificationcenter",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Popconfirm",
+              "path": "/components/feedback/popconfirm",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Popover",
+              "path": "/components/feedback/popover",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Progress",
+              "path": "/components/feedback/progress",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ProgressBarCircular",
+              "path": "/components/feedback/progressbarcircular",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Skeleton",
+              "path": "/components/feedback/skeleton",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Snackbar",
+              "path": "/components/feedback/snackbar",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Spinner",
+              "path": "/components/feedback/spinner",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Toast",
+              "path": "/components/feedback/toast",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ToastContainer",
+              "path": "/components/feedback/toastcontainer",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Tooltip",
+              "path": "/components/feedback/tooltip",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Tour",
+              "path": "/components/feedback/tour",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Forms",
+          "path": "/components/forms",
+          "icon": "input",
+          "children": [
+            {
+              "label": "Tail.Blazor.AudioRecorder",
+              "path": "/components/forms/audiorecorder",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.AutoComplete",
+              "path": "/components/forms/autocomplete",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Checkbox",
+              "path": "/components/forms/checkbox",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ColorPicker",
+              "path": "/components/forms/colorpicker",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.CurrencyInput",
+              "path": "/components/forms/currencyinput",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.DatePicker",
+              "path": "/components/forms/datepicker",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.DateRangePicker",
+              "path": "/components/forms/daterangepicker",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.FileUpload",
+              "path": "/components/forms/fileupload",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ImageCropper",
+              "path": "/components/forms/imagecropper",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Input",
+              "path": "/components/forms/input",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Mask",
+              "path": "/components/forms/mask",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.MultiSelect",
+              "path": "/components/forms/multiselect",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Numeric",
+              "path": "/components/forms/numeric",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.OTPInput",
+              "path": "/components/forms/otpinput",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.PasswordStrengthMeter",
+              "path": "/components/forms/passwordstrengthmeter",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.PhoneNumberInput",
+              "path": "/components/forms/phonenumberinput",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Radio",
+              "path": "/components/forms/radio",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.RadioGroup",
+              "path": "/components/forms/radiogroup",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Rating",
+              "path": "/components/forms/rating",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.RichTextEditor",
+              "path": "/components/forms/richtexteditor",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Select",
+              "path": "/components/forms/select",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Slider",
+              "path": "/components/forms/slider",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Switch",
+              "path": "/components/forms/switch",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.TagInput",
+              "path": "/components/forms/taginput",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Textarea",
+              "path": "/components/forms/textarea",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.TimePicker",
+              "path": "/components/forms/timepicker",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Icons",
+          "path": "/components/icons",
+          "icon": "star",
+          "children": [
+            {
+              "label": "Tail.Blazor.Icon",
+              "path": "/components/icons/icon",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Layout",
+          "path": "/components/layout",
+          "icon": "layout",
+          "children": [
+            {
+              "label": "Tail.Blazor.BottomSheet",
+              "path": "/components/layout/bottomsheet",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Card",
+              "path": "/components/layout/card",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.CollapsibleMenu",
+              "path": "/components/layout/collapsiblemenu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Container",
+              "path": "/components/layout/container",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Divider",
+              "path": "/components/layout/divider",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.DockingLayout",
+              "path": "/components/layout/dockinglayout",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Grid",
+              "path": "/components/layout/grid",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Header",
+              "path": "/components/layout/header",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.NavMenu",
+              "path": "/components/layout/navmenu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Panel",
+              "path": "/components/layout/panel",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ResponsiveLayout",
+              "path": "/components/layout/responsivelayout",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.SplitPane",
+              "path": "/components/layout/splitpane",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Navigation",
+          "path": "/components/navigation",
+          "icon": "menu",
+          "children": [
+            {
+              "label": "Tail.Blazor.Accordion",
+              "path": "/components/navigation/accordion",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.AccordionItem",
+              "path": "/components/navigation/accordionitem",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.BottomNavigation",
+              "path": "/components/navigation/bottomnavigation",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Breadcrumb",
+              "path": "/components/navigation/breadcrumb",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Carousel",
+              "path": "/components/navigation/carousel",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.CommandPalette",
+              "path": "/components/navigation/commandpalette",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ContextMenu",
+              "path": "/components/navigation/contextmenu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.FloatingActionMenu",
+              "path": "/components/navigation/floatingactionmenu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.MegaMenu",
+              "path": "/components/navigation/megamenu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Menu",
+              "path": "/components/navigation/menu",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.MenuItem",
+              "path": "/components/navigation/menuitem",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.NavDrawer",
+              "path": "/components/navigation/navdrawer",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Pagination",
+              "path": "/components/navigation/pagination",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ScrollSpy",
+              "path": "/components/navigation/scrollspy",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Sidebar",
+              "path": "/components/navigation/sidebar",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Steps",
+              "path": "/components/navigation/steps",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Tabs",
+              "path": "/components/navigation/tabs",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Utilities",
+          "path": "/components/utils",
+          "icon": "tool",
+          "children": [
+            {
+              "label": "Tail.Blazor.Clipboard",
+              "path": "/components/utils/clipboard",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.ImageZoom",
+              "path": "/components/utils/imagezoom",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Validators",
+          "path": "/components/validators",
+          "icon": "check",
+          "children": [
+            {
+              "label": "Tail.Blazor.CompareValidator",
+              "path": "/components/validators/comparevalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.CustomValidator",
+              "path": "/components/validators/customvalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.EmailValidator",
+              "path": "/components/validators/emailvalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.LengthValidator",
+              "path": "/components/validators/lengthvalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.NumericRangeValidator",
+              "path": "/components/validators/numericrangevalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.RangeValidator",
+              "path": "/components/validators/rangevalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.RegexValidator",
+              "path": "/components/validators/regexvalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.RequiredValidator",
+              "path": "/components/validators/requiredvalidator",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Validator",
+              "path": "/components/validators/validator",
+              "icon": "component"
+            }
+          ]
+        },
+        {
+          "label": "Visualization",
+          "path": "/components/visualization",
+          "icon": "chart-pie",
+          "children": [
+            {
+              "label": "Tail.Blazor.ArcGauge",
+              "path": "/components/visualization/arcgauge",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Flowchart",
+              "path": "/components/visualization/flowchart",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.GanttChart",
+              "path": "/components/visualization/ganttchart",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.OrganizationChart",
+              "path": "/components/visualization/organizationchart",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.QRCode",
+              "path": "/components/visualization/qrcode",
+              "icon": "component"
+            },
+            {
+              "label": "Tail.Blazor.Timeline",
+              "path": "/components/visualization/timeline",
+              "icon": "component"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Theming",
+      "path": "/theming",
+      "icon": "palette",
+      "children": []
+    },
+    {
+      "label": "API",
+      "path": "/api",
+      "icon": "code",
+      "children": []
+    },
+    {
+      "label": "FAQ",
+      "path": "/faq",
+      "icon": "question",
+      "children": []
+    }
+  ]
+}

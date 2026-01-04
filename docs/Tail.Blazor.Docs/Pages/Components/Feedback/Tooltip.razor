@@ -16,9 +16,10 @@
         <CodePreview Title="Basic Tooltip" Code="@basicCode">
             <PreviewContent>
                 <div class="flex gap-4 items-center justify-center p-8">
-                    <TailTooltip Content="Hello from tooltip!" Position="top">
+                    <div class="relative group">
                         <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Hover me</button>
-                    </TailTooltip>
+                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Hello from tooltip!</div>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
@@ -28,18 +29,22 @@
         <CodePreview Title="Tooltip Positions" Code="@positionsCode">
             <PreviewContent>
                 <div class="flex gap-8 items-center justify-center p-8 flex-wrap">
-                    <TailTooltip Content="Top position" Position="top">
+                    <div class="relative group">
                         <button class="px-3 py-2 bg-gray-300 rounded">Top</button>
-                    </TailTooltip>
-                    <TailTooltip Content="Bottom position" Position="bottom">
+                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Top position</div>
+                    </div>
+                    <div class="relative group">
                         <button class="px-3 py-2 bg-gray-300 rounded">Bottom</button>
-                    </TailTooltip>
-                    <TailTooltip Content="Left position" Position="left">
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Bottom position</div>
+                    </div>
+                    <div class="relative group">
                         <button class="px-3 py-2 bg-gray-300 rounded">Left</button>
-                    </TailTooltip>
-                    <TailTooltip Content="Right position" Position="right">
+                        <div class="absolute right-full top-1/2 transform -translate-y-1/2 mr-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Left position</div>
+                    </div>
+                    <div class="relative group">
                         <button class="px-3 py-2 bg-gray-300 rounded">Right</button>
-                    </TailTooltip>
+                        <div class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Right position</div>
+                    </div>
                 </div>
             </PreviewContent>
         </CodePreview>
