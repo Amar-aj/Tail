@@ -1,84 +1,85 @@
-@page "/components/dialog"
-@using Tail.Blazor.Dialog
+@page "/components/feedback/dialog"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
 @using Tail.Blazor.Button
-@using Microsoft.AspNetCore.Components
 
-<PageTitle>Dialog - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailDialog" 
-                 Description="Modal dialog component for displaying content in an overlay. Ultra-lightweight (~8 KB)."
-                 PackageName="Tail.Blazor.Feedback"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Dialog" 
+                 Description="A flexible and powerful Dialog component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Dialog">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Dialog"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Dialog" Code="@basicCode">
+        <CodePreview Title="Simple Dialog" 
+                     Code="<TailDialog>
+    <!-- Component content goes here -->
+</TailDialog>"
+                     Language="razor">
             <PreviewContent>
-                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="OpenDialog">Open Dialog</TailButton>
-                <TailDialog @bind-IsVisible="isOpen" Title="Dialog Title">
-                    <ChildContent>
-                        <p style="color: var(--color-text-primary);">Dialog content goes here.</p>
-                    </ChildContent>
-                    <Footer>
-                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Outline" OnClick="CloseDialog">Cancel</TailButton>
-                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="CloseDialog">Confirm</TailButton>
-                    </Footer>
-                </TailDialog>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Dialog component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Modal dialog with backdrop overlay</li>
-                <li>Multiple sizes (Sm, Md, Lg, Xl, Xxl, Full)</li>
-                <li>Optional title and footer sections</li>
-                <li>Close button option</li>
-                <li>Close on backdrop click option</li>
-                <li>Two-way binding for visibility</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Accessible with ARIA attributes</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/feedback" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Feedback Overview</h4>
+                <p class="text-sm text-gray-600">View all feedback components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private bool isOpen = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Dialog";
-    
-    private string basicCode = @"<TailDialog @bind-IsVisible=""isOpen"" Title=""Dialog Title"">
-    <ChildContent>
-        <p>Dialog content</p>
-    </ChildContent>
-    <Footer>
-        <TailButton OnClick=""CloseDialog"">Cancel</TailButton>
-        <TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"" OnClick=""CloseDialog"">Confirm</TailButton>
-    </Footer>
-</TailDialog>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "IsVisible", Type = "bool", Default = "false", Description = "Controls dialog visibility (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "IsVisibleChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when visibility changes" },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Main content of the dialog" },
-        new DocPageTemplate.ApiParameter { Name = "Footer", Type = "RenderFragment?", Default = "-", Description = "Footer content (typically action buttons)" },
-        new DocPageTemplate.ApiParameter { Name = "Title", Type = "string?", Default = "-", Description = "Title text displayed in the header" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.Dialog.DialogSize", Default = "Md", Description = "Size of the dialog (Sm, Md, Lg, Xl, Xxl, Full)" },
-        new DocPageTemplate.ApiParameter { Name = "ShowCloseButton", Type = "bool", Default = "true", Description = "Show close button in header" },
-        new DocPageTemplate.ApiParameter { Name = "CloseOnBackdropClick", Type = "bool", Default = "true", Description = "Close dialog when clicking the backdrop" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
-    
-    private void OpenDialog() => isOpen = true;
-    private void CloseDialog() => isOpen = false;
+    // Component logic can be added here if needed
 }
-

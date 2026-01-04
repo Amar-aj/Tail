@@ -1,65 +1,85 @@
-@page "/components/menu-item"
-@using Tail.Blazor.MenuItem
+@page "/components/navigation/menuitem"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Menu
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>MenuItem - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailMenuItem" 
-                 Description="Menu item component for navigation links within menus. Ultra-lightweight (~2 KB)."
-                 PackageName="Tail.Blazor.Navigation"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="MenuItem" 
+                 Description="A flexible and powerful MenuItem component for Tail.Blazor"
+                 PackageName="Tail.Blazor.MenuItem">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.MenuItem"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Menu Item" Code="@basicCode">
+        <CodePreview Title="Simple MenuItem" 
+                     Code="<TailMenuItem>
+    <!-- Component content goes here -->
+</TailMenuItem>"
+                     Language="razor">
             <PreviewContent>
-                <TailMenu>
-                    <TailMenuItem Href="/home" IsActive="true">Home</TailMenuItem>
-                    <TailMenuItem Href="/about">About</TailMenuItem>
-                    <TailMenuItem Href="/contact">Contact</TailMenuItem>
-                </TailMenu>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of MenuItem component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Navigation link for menus</li>
-                <li>Active state styling</li>
-                <li>Optional icon support</li>
-                <li>Optional badge support</li>
-                <li>Click event handling</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/navigation" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Navigation Overview</h4>
+                <p class="text-sm text-gray-600">View all navigation components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string installCode = @"dotnet add package Tail.Blazor.MenuItem";
-    
-    private string basicCode = @"<TailMenu>
-    <TailMenuItem Href=""/home"" IsActive=""true"">Home</TailMenuItem>
-    <TailMenuItem Href=""/about"">About</TailMenuItem>
-</TailMenu>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content/text for the menu item" },
-        new DocPageTemplate.ApiParameter { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Optional icon to display before the content" },
-        new DocPageTemplate.ApiParameter { Name = "Badge", Type = "RenderFragment?", Default = "-", Description = "Optional badge to display after the content" },
-        new DocPageTemplate.ApiParameter { Name = "Href", Type = "string?", Default = "-", Description = "Navigation URL for the menu item" },
-        new DocPageTemplate.ApiParameter { Name = "IsActive", Type = "bool", Default = "false", Description = "Whether the menu item is currently active" },
-        new DocPageTemplate.ApiParameter { Name = "OnClick", Type = "EventCallback", Default = "-", Description = "Event fired when the menu item is clicked" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

@@ -1,84 +1,85 @@
-@page "/components/sidebar"
-@using Tail.Blazor.Sidebar
+@page "/components/navigation/sidebar"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Menu
-@using Tail.Blazor.MenuItem
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Sidebar - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailSidebar" 
-                 Description="Sidebar navigation component with collapsible functionality. Ultra-lightweight (~6 KB)."
-                 PackageName="Tail.Blazor.Navigation"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Sidebar" 
+                 Description="A flexible and powerful Sidebar component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Sidebar">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Sidebar"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Sidebar" Code="@basicCode">
+        <CodePreview Title="Simple Sidebar" 
+                     Code="<TailSidebar>
+    <!-- Component content goes here -->
+</TailSidebar>"
+                     Language="razor">
             <PreviewContent>
-                <div style="height: 300px; position: relative; border: 1px solid var(--color-border); border-radius: 8px;">
-                    <TailSidebar @bind-IsCollapsed="isCollapsed" Position="@Tail.Blazor.Sidebar.SidebarPosition.Left" IsCollapsible="true">
-                        <Header>
-                            <h3 style="color: var(--color-text-primary); font-weight: bold;">Navigation</h3>
-                        </Header>
-                        <ChildContent>
-                            <TailMenu>
-                                <TailMenuItem Href="/home">Home</TailMenuItem>
-                                <TailMenuItem Href="/about">About</TailMenuItem>
-                                <TailMenuItem Href="/contact">Contact</TailMenuItem>
-                            </TailMenu>
-                        </ChildContent>
-                    </TailSidebar>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Sidebar component will appear here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Collapsible sidebar navigation</li>
-                <li>Left or right positioning</li>
-                <li>Optional header and footer sections</li>
-                <li>Smooth collapse/expand animation</li>
-                <li>Toggle button for collapsing</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/navigation" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Navigation Overview</h4>
+                <p class="text-sm text-gray-600">View all navigation components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private bool isCollapsed = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Sidebar";
-    
-    private string basicCode = @"<TailSidebar @bind-IsCollapsed=""isCollapsed"" Position=""Tail.Blazor.Sidebar.SidebarPosition.Left"" IsCollapsible=""true"">
-    <Header>
-        <h3>Navigation</h3>
-    </Header>
-    <ChildContent>
-        <TailMenu>
-            <TailMenuItem Href=""/home"">Home</TailMenuItem>
-            <TailMenuItem Href=""/about"">About</TailMenuItem>
-        </TailMenu>
-    </ChildContent>
-</TailSidebar>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Main content of the sidebar (typically navigation menu)" },
-        new DocPageTemplate.ApiParameter { Name = "Header", Type = "RenderFragment?", Default = "-", Description = "Content for the sidebar header" },
-        new DocPageTemplate.ApiParameter { Name = "Footer", Type = "RenderFragment?", Default = "-", Description = "Content for the sidebar footer" },
-        new DocPageTemplate.ApiParameter { Name = "IsCollapsed", Type = "bool", Default = "false", Description = "Whether the sidebar is collapsed (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "IsCollapsible", Type = "bool", Default = "true", Description = "Whether the sidebar can be collapsed" },
-        new DocPageTemplate.ApiParameter { Name = "Position", Type = "Tail.Blazor.Sidebar.SidebarPosition", Default = "Left", Description = "Position of the sidebar (Left or Right)" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

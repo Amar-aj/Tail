@@ -1,61 +1,85 @@
-@page "/components/steps"
-@using Tail.Blazor.Steps
+@page "/components/navigation/steps"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Steps - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailSteps" 
-                 Description="Step indicator component for multi-step processes. Ultra-lightweight (~4 KB)."
-                 PackageName="Tail.Blazor.Navigation"
-                 ApiParameters="@apiParameters">
+<DocPageTemplate Title="Steps" 
+                 Description="A flexible and powerful Steps component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Steps">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Steps"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Steps" Code="@basicCode">
+        <CodePreview Title="Simple Steps" 
+                     Code="<TailSteps>
+    <!-- Component content goes here -->
+</TailSteps>"
+                     Language="razor">
             <PreviewContent>
-                <TailSteps Steps="@stepItems" CurrentStep="@currentStep" />
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Steps component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Step indicator for multi-step processes</li>
-                <li>Active step highlighting</li>
-                <li>Completed steps show checkmarks</li>
-                <li>Connector lines between steps</li>
-                <li>Title and description support for each step</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/navigation" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Navigation Overview</h4>
+                <p class="text-sm text-gray-600">View all navigation components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private int currentStep = 1;
-
-    private string installCode = @"dotnet add package Tail.Blazor.Steps";
-
-    private string basicCode = @"<TailSteps Steps=""@stepItems"" CurrentStep=""@currentStep"" />";
-
-    private List<TailSteps.StepItem> stepItems = new()
-    {
-        new TailSteps.StepItem { Title = "Step 1", Description = "First step" },
-        new TailSteps.StepItem { Title = "Step 2", Description = "Second step" },
-        new TailSteps.StepItem { Title = "Step 3", Description = "Third step" }
-    };
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Steps", Type = "List<StepItem>", Default = "new()", Description = "List of step items to display" },
-        new DocPageTemplate.ApiParameter { Name = "CurrentStep", Type = "int", Default = "1", Description = "Current active step number (1-based)" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

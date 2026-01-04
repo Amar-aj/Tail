@@ -1,60 +1,85 @@
-@page "/components/progress-bar-circular"
-@using Tail.Blazor.ProgressBarCircular
+@page "/components/feedback/progressbarcircular"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>ProgressBarCircular - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailProgressBarCircular" 
-                 Description="Circular progress bar component for displaying progress in a radial format. Ultra-lightweight (~3 KB)."
-                 PackageName="Tail.Blazor.Feedback"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="ProgressBarCircular" 
+                 Description="A flexible and powerful ProgressBarCircular component for Tail.Blazor"
+                 PackageName="Tail.Blazor.ProgressBarCircular">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.ProgressBarCircular"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Circular Progress" Code="@basicCode">
+        <CodePreview Title="Simple ProgressBarCircular" 
+                     Code="<TailProgressBarCircular>
+    <!-- Component content goes here -->
+</TailProgressBarCircular>"
+                     Language="razor">
             <PreviewContent>
-                <div class="flex gap-8 items-center">
-                    <TailProgressBarCircular Value="75" ShowLabel="true" />
-                    <TailProgressBarCircular Value="50" ShowLabel="true" Variant="@Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success" Size="80" />
-                    <TailProgressBarCircular Value="90" ShowLabel="true" Variant="@Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning" Size="120" />
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of ProgressBarCircular component will appear here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Circular progress indicator</li>
-                <li>Value display in center (optional)</li>
-                <li>Multiple variants (Primary, Success, Warning, Danger, Info)</li>
-                <li>Customizable size and stroke width</li>
-                <li>Smooth animation</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/feedback" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Feedback Overview</h4>
+                <p class="text-sm text-gray-600">View all feedback components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string installCode = @"dotnet add package Tail.Blazor.ProgressBarCircular";
-    
-    private string basicCode = @"<TailProgressBarCircular Value=""75"" ShowLabel=""true"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "int", Default = "0", Description = "Progress value (0-100)" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "int", Default = "100", Description = "Size of the circular progress in pixels" },
-        new DocPageTemplate.ApiParameter { Name = "StrokeWidth", Type = "int", Default = "8", Description = "Width of the progress stroke in pixels" },
-        new DocPageTemplate.ApiParameter { Name = "Variant", Type = "Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant", Default = "Primary", Description = "Visual style variant (Primary, Success, Warning, Danger, Info)" },
-        new DocPageTemplate.ApiParameter { Name = "ShowLabel", Type = "bool", Default = "true", Description = "Display the progress value in the center" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

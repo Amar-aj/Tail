@@ -1,265 +1,85 @@
-@page "/components/switch"
-@using Tail.Blazor.Switch
+@page "/components/forms/switch"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
 @using Tail.Blazor.Card
-@using Tail.Blazor.Alert
-@using Tail.Blazor.Feedback
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Button
 
-<PageTitle>Switch - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailSwitch" 
-                 Description="A professional toggle switch component for boolean input with full theme support, accessibility features, and smooth animations. Ultra-lightweight (~2 KB)."
-                 PackageName="Tail.Blazor.Switch"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Switch" 
+                 Description="A flexible and powerful Switch component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Switch">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" ShowPreview="false" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Switch"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Simple Switch" Code="@basicCode">
+        <CodePreview Title="Simple Switch" 
+                     Code="<TailSwitch>
+    <!-- Component content goes here -->
+</TailSwitch>"
+                     Language="razor">
             <PreviewContent>
-                <div class="space-y-4">
-                    <TailSwitch @bind-IsChecked="isEnabled" Label="Enable notifications" />
-                    <p class="text-sm" style="color: var(--color-text-secondary);">Status: <strong style="color: var(--color-text-primary);">@(isEnabled ? "Enabled" : "Disabled")</strong></p>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Switch component will appear here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Sizes">
-        <CodePreview Title="Size Variants" Code="@sizesCode">
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
             <PreviewContent>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="sizeXs" Size="SwitchSize.Xs" Label="Extra Small (Xs)" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="sizeSm" Size="SwitchSize.Sm" Label="Small (Sm)" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="sizeMd" Size="SwitchSize.Md" Label="Medium (Md)" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="sizeLg" Size="SwitchSize.Lg" Label="Large (Lg)" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="sizeXl" Size="SwitchSize.Xl" Label="Extra Large (Xl)" />
-                    </div>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="States">
-        <CodePreview Title="Different States" Code="@statesCode">
-            <PreviewContent>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4">
-                        <TailSwitch @bind-IsChecked="checkedState" Label="Checked" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch IsChecked="false" Label="Unchecked" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch IsChecked="true" Disabled="true" Label="Checked & Disabled" />
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <TailSwitch IsChecked="false" Disabled="true" Label="Unchecked & Disabled" />
-                    </div>
-                </div>
-            </PreviewContent>
-        </CodePreview>
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/forms" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Forms Overview</h4>
+                <p class="text-sm text-gray-600">View all forms components</p>
+            </a>
+        </div>
     </DocSection>
 
-    <DocSection Title="With Error Message">
-        <CodePreview Title="Error Handling" Code="@errorCode">
-            <PreviewContent>
-                <div class="space-y-4">
-                    <TailSwitch @bind-IsChecked="hasError" Label="Accept terms and conditions" ErrorMessage="You must accept the terms to continue" />
-                </div>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Custom Content">
-        <CodePreview Title="Using ChildContent" Code="@customContentCode">
-            <PreviewContent>
-                <div class="space-y-4">
-                    <TailSwitch @bind-IsChecked="customContent">
-                        <span style="color: var(--color-text-primary); font-weight: 500;">Enable <strong>advanced</strong> features</span>
-                    </TailSwitch>
-                </div>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Event Handling">
-        <CodePreview Title="Change Event" Code="@eventCode">
-            <PreviewContent>
-                <div class="space-y-4">
-                    <TailSwitch IsChecked="@eventState" IsCheckedChanged="@OnSwitchChanged" Label="Toggle me" />
-                    @if (lastChangeTime != null)
-                    {
-                        <TailAlert Variant="AlertVariant.Info">
-                            Last changed: @lastChangeTime.Value.ToString("HH:mm:ss")
-                        </TailAlert>
-                    }
-                </div>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Real-World Examples">
-        <CodePreview Title="Settings Panel" Code="@settingsCode">
-            <PreviewContent>
-                <TailCard Class="max-w-md">
-                    <Header>
-                        <h3 class="text-lg font-semibold" style="color: var(--color-text-primary);">Notification Settings</h3>
-                    </Header>
-                    <ChildContent>
-                        <div class="space-y-4">
-                            <TailSwitch @bind-IsChecked="emailNotifications" Label="Email notifications" />
-                            <TailSwitch @bind-IsChecked="pushNotifications" Label="Push notifications" />
-                            <TailSwitch @bind-IsChecked="smsNotifications" Label="SMS notifications" />
-                            <TailSwitch @bind-IsChecked="marketingEmails" Label="Marketing emails" />
-                        </div>
-                    </ChildContent>
-                </TailCard>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Features">
-        <TailCard>
-            <ChildContent>
-                <div style="color: var(--color-text-primary);">
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                        <li><strong>Theme Support:</strong> Full CSS variable integration for seamless theming</li>
-                        <li><strong>Size Variants:</strong> Five size options (Xs, Sm, Md, Lg, Xl)</li>
-                        <li><strong>Two-way Binding:</strong> Built-in support for <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">@@bind-IsChecked</code></li>
-                        <li><strong>Label Support:</strong> Text label or custom RenderFragment content</li>
-                        <li><strong>Error Handling:</strong> Built-in error message display</li>
-                        <li><strong>Disabled State:</strong> Visual and functional disabled state</li>
-                        <li><strong>Smooth Animations:</strong> Professional 200ms transitions</li>
-                        <li><strong>Accessibility:</strong> ARIA attributes, keyboard navigation, focus states</li>
-                        <li><strong>Focus States:</strong> Visible focus indicators for accessibility</li>
-                        <li><strong>Hover Effects:</strong> Interactive hover states</li>
-                        <li><strong>Dark Mode:</strong> Automatic dark mode support</li>
-                        <li><strong>Lightweight:</strong> Only ~2 KB in size</li>
-                    </ul>
-                </div>
-            </ChildContent>
-        </TailCard>
-    </DocSection>
-
-    <DocSection Title="Accessibility">
-        <TailCard>
-            <ChildContent>
-                <div style="color: var(--color-text-primary);">
-                    <p class="mb-4">TailSwitch is built with accessibility in mind:</p>
-                    <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-                        <li>Uses <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">role="switch"</code> for proper screen reader support</li>
-                        <li>Includes <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">aria-checked</code> and <code class="px-1 py-0.5 rounded" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">aria-disabled</code> attributes</li>
-                        <li>Keyboard accessible - use Space or Enter to toggle</li>
-                        <li>Visible focus indicators with proper contrast</li>
-                        <li>High contrast ratios for all states</li>
-                    </ul>
-                </div>
-            </ChildContent>
-        </TailCard>
-    </DocSection>
 </DocPageTemplate>
 
 @code {
-    private bool isEnabled = false;
-    private bool sizeXs = false;
-    private bool sizeSm = false;
-    private bool sizeMd = true;
-    private bool sizeLg = false;
-    private bool sizeXl = false;
-    private bool checkedState = true;
-    private bool hasError = false;
-    private bool customContent = false;
-    private bool eventState = false;
-    private DateTime? lastChangeTime = null;
-    private bool emailNotifications = true;
-    private bool pushNotifications = false;
-    private bool smsNotifications = false;
-    private bool marketingEmails = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Switch";
-    
-    private string basicCode = @"<TailSwitch @bind-IsChecked=""isEnabled"" Label=""Enable notifications"" />";
-    
-    private string sizesCode = @"<TailSwitch @bind-IsChecked=""sizeXs"" Size=""SwitchSize.Xs"" Label=""Extra Small (Xs)"" />
-<TailSwitch @bind-IsChecked=""sizeSm"" Size=""SwitchSize.Sm"" Label=""Small (Sm)"" />
-<TailSwitch @bind-IsChecked=""sizeMd"" Size=""SwitchSize.Md"" Label=""Medium (Md)"" />
-<TailSwitch @bind-IsChecked=""sizeLg"" Size=""SwitchSize.Lg"" Label=""Large (Lg)"" />
-<TailSwitch @bind-IsChecked=""sizeXl"" Size=""SwitchSize.Xl"" Label=""Extra Large (Xl)"" />";
-    
-    private string statesCode = @"<TailSwitch @bind-IsChecked=""checkedState"" Label=""Checked"" />
-<TailSwitch IsChecked=""false"" Label=""Unchecked"" />
-<TailSwitch IsChecked=""true"" Disabled=""true"" Label=""Checked & Disabled"" />
-<TailSwitch IsChecked=""false"" Disabled=""true"" Label=""Unchecked & Disabled"" />";
-    
-    private string errorCode = @"<TailSwitch @bind-IsChecked=""hasError"" 
-                 Label=""Accept terms and conditions"" 
-                 ErrorMessage=""You must accept the terms to continue"" />";
-    
-    private string customContentCode = @"<TailSwitch @bind-IsChecked=""customContent"">
-    <span>Enable <strong>advanced</strong> features</span>
-</TailSwitch>";
-    
-    private string eventCode = @"<TailSwitch @bind-IsChecked=""eventState"" 
-                 IsCheckedChanged=""OnSwitchChanged"" 
-                 Label=""Toggle me"" />
-
-@code {
-    private bool eventState = false;
-    private DateTime? lastChangeTime = null;
-    
-    private async Task OnSwitchChanged(bool value)
-    {
-        eventState = value;
-        lastChangeTime = DateTime.Now;
-        await Task.CompletedTask;
-    }
-}";
-    
-    private string settingsCode = @"<TailCard>
-    <Header>
-        <h3>Notification Settings</h3>
-    </Header>
-    <ChildContent>
-        <div class=""space-y-4"">
-            <TailSwitch @bind-IsChecked=""emailNotifications"" Label=""Email notifications"" />
-            <TailSwitch @bind-IsChecked=""pushNotifications"" Label=""Push notifications"" />
-            <TailSwitch @bind-IsChecked=""smsNotifications"" Label=""SMS notifications"" />
-            <TailSwitch @bind-IsChecked=""marketingEmails"" Label=""Marketing emails"" />
-        </div>
-    </ChildContent>
-</TailCard>";
-
-    private async Task OnSwitchChanged(bool value)
-    {
-        eventState = value;
-        lastChangeTime = DateTime.Now;
-        await Task.CompletedTask;
-    }
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "IsChecked", Type = "bool", Default = "false", Description = "Switch checked state. Supports two-way binding with @@bind-IsChecked." },
-        new DocPageTemplate.ApiParameter { Name = "IsCheckedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event callback fired when switch state changes. Returns the new boolean value." },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "SwitchSize", Default = "SwitchSize.Md", Description = "Switch size variant. Options: Xs, Sm, Md, Lg, Xl." },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "null", Description = "Text label displayed next to the switch. Mutually exclusive with ChildContent." },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "null", Description = "Custom content for the switch label. Allows for rich HTML content. Mutually exclusive with Label." },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "null", Description = "Error message displayed below the switch when validation fails." },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disables the switch, preventing user interaction and applying disabled styling." },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "null", Description = "Additional inline CSS styles applied to the input element." },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "null", Description = "Additional CSS classes applied to the label container." },
-        new DocPageTemplate.ApiParameter { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "null", Description = "Additional HTML attributes applied to the label element. Inherited from TailComponentBase." }
-    };
+    // Component logic can be added here if needed
 }

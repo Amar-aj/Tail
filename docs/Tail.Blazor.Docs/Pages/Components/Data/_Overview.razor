@@ -1,62 +1,145 @@
 @page "/components/data"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
 
-<PageTitle>Data Components - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
+<TailContainer Size="ContainerSize.Full" Class="py-8">
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">Data Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of 11 data components for Tail.Blazor.</p>
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">📊 Data Components</h1>
+        <p class="text-gray-600">A collection of 11 data components</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="/components/data/advancedfilter" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.AdvancedFilter</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/datagrid" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.DataGrid</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/infinitescroll" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.InfiniteScroll</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/kanbanboard" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.KanbanBoard</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/listview" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ListView</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/pager" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Pager</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/pivotdatagrid" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.PivotDataGrid</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/responsivetable" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ResponsiveTable</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/scheduler" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Scheduler</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/tree" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Tree</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/data/virtualscroll" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.VirtualScroll</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <a href="/components/data/advancedfilter" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">AdvancedFilter</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.AdvancedFilter</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/datagrid" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">DataGrid</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DataGrid</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/infinitescroll" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">InfiniteScroll</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.InfiniteScroll</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/kanbanboard" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">KanbanBoard</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.KanbanBoard</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/listview" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ListView</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ListView</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/pager" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Pager</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Pager</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/pivotdatagrid" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">PivotDataGrid</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.PivotDataGrid</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/responsivetable" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ResponsiveTable</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ResponsiveTable</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/scheduler" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Scheduler</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Scheduler</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/tree" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Tree</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Tree</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/data/virtualscroll" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">VirtualScroll</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.VirtualScroll</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
     </div>
-</div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">11</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">0</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">11</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
 
 @code {
-    // Category page logic here
+    // Category overview logic
 }

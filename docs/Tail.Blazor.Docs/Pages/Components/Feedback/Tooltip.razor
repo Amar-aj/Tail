@@ -1,89 +1,85 @@
-@page "/components/tooltip"
+@page "/components/feedback/tooltip"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Tooltip - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailTooltip" 
-                 Description="Contextual tooltip component with positioning (top, bottom, left, right) and delay options. Ultra-lightweight (~3 KB)."
-                 PackageName="Tail.Blazor.Feedback"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Tooltip" 
+                 Description="A flexible and powerful Tooltip component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Tooltip">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Tooltip"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Tooltip" Code="@basicCode">
+        <CodePreview Title="Simple Tooltip" 
+                     Code="<TailTooltip>
+    <!-- Component content goes here -->
+</TailTooltip>"
+                     Language="razor">
             <PreviewContent>
-                <div class="flex gap-4 items-center justify-center p-8">
-                    <div class="relative group">
-                        <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Hover me</button>
-                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Hello from tooltip!</div>
-                    </div>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Tooltip component will appear here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Positions">
-        <CodePreview Title="Tooltip Positions" Code="@positionsCode">
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
             <PreviewContent>
-                <div class="flex gap-8 items-center justify-center p-8 flex-wrap">
-                    <div class="relative group">
-                        <button class="px-3 py-2 bg-gray-300 rounded">Top</button>
-                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Top position</div>
-                    </div>
-                    <div class="relative group">
-                        <button class="px-3 py-2 bg-gray-300 rounded">Bottom</button>
-                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Bottom position</div>
-                    </div>
-                    <div class="relative group">
-                        <button class="px-3 py-2 bg-gray-300 rounded">Left</button>
-                        <div class="absolute right-full top-1/2 transform -translate-y-1/2 mr-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Left position</div>
-                    </div>
-                    <div class="relative group">
-                        <button class="px-3 py-2 bg-gray-300 rounded">Right</button>
-                        <div class="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity">Right position</div>
-                    </div>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/feedback" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Feedback Overview</h4>
+                <p class="text-sm text-gray-600">View all feedback components</p>
+            </a>
+        </div>
     </DocSection>
 
 </DocPageTemplate>
 
 @code {
-    private string installCode = @"// Install package
-dotnet add package Tail.Blazor.Tooltip
-
-// Or using Package Manager
-Install-Package Tail.Blazor.Tooltip";
-
-    private string basicCode = @"<TailTooltip Content=""Hello from tooltip!"" Position=""top"">
-    <button>Hover me</button>
-</TailTooltip>";
-
-    private string positionsCode = @"<TailTooltip Content=""Top"" Position=""top"">
-    <button>Top</button>
-</TailTooltip>
-
-<TailTooltip Content=""Bottom"" Position=""bottom"">
-    <button>Bottom</button>
-</TailTooltip>
-
-<TailTooltip Content=""Left"" Position=""left"">
-    <button>Left</button>
-</TailTooltip>
-
-<TailTooltip Content=""Right"" Position=""right"">
-    <button>Right</button>
-</TailTooltip>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Content", Type = "string", Description = "Tooltip content text", Default = "" },
-        new DocPageTemplate.ApiParameter { Name = "Position", Type = "string", Description = "Position: top, bottom, left, right", Default = "top" },
-        new DocPageTemplate.ApiParameter { Name = "DelayMs", Type = "int", Description = "Delay in milliseconds before showing", Default = "0" },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment", Description = "Content to show tooltip on", Default = "" }
-    };
+    // Component logic can be added here if needed
 }

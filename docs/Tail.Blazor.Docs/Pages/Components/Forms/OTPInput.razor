@@ -1,99 +1,85 @@
-@page "/components/otp-input"
-@using Tail.Blazor.OTPInput
+@page "/components/forms/otpinput"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Alert
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>OTPInput - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailOTPInput" 
-                 Description="OTP (One-Time Password) code input component with separate digit inputs. Ultra-lightweight (~3 KB)."
-                 PackageName="Tail.Blazor.Forms"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="OTPInput" 
+                 Description="A flexible and powerful OTPInput component for Tail.Blazor"
+                 PackageName="Tail.Blazor.OTPInput">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
-    </DocSection>
-
-    <DocSection Title="Basic Usage">
-        <CodePreview Title="OTP Input" Code="@basicCode">
-            <PreviewContent>
-                <TailOTPInput @bind-Value="otpCode" Length="6" Label="Enter OTP Code" />
-                @if (!string.IsNullOrEmpty(otpCode) && otpCode.Length == 6)
-                {
-                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
-                        OTP Code entered: @otpCode
-                    </TailAlert>
-                }
-            </PreviewContent>
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.OTPInput"
+                     ShowPreview="false"
+                     Language="bash">
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Different Lengths">
-        <CodePreview Title="OTP Input Lengths" Code="@lengthsCode">
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Simple OTPInput" 
+                     Code="<TailOTPInput>
+    <!-- Component content goes here -->
+</TailOTPInput>"
+                     Language="razor">
             <PreviewContent>
-                <div class="space-y-4">
-                    <div>
-                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">4-digit OTP</p>
-                        <TailOTPInput @bind-Value="otp4" Length="4" />
-                    </div>
-                    <div>
-                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">6-digit OTP</p>
-                        <TailOTPInput @bind-Value="otp6" Length="6" />
-                    </div>
-                    <div>
-                        <p class="mb-2 text-sm" style="color: var(--color-text-secondary);">8-digit OTP</p>
-                        <TailOTPInput @bind-Value="otp8" Length="8" />
-                    </div>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of OTPInput component will appear here
+                    </p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>OTP code input with separate digit boxes</li>
-                <li>Configurable length (typically 4-8 digits)</li>
-                <li>Auto-advance to next input on digit entry</li>
-                <li>Auto-focus management</li>
-                <li>Paste support for full code</li>
-                <li>Backspace navigation</li>
-                <li>Two-way binding support</li>
-                <li>Label support</li>
-                <li>Disabled state support</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Keyboard navigation</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/forms" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Forms Overview</h4>
+                <p class="text-sm text-gray-600">View all forms components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string otpCode = string.Empty;
-    private string otp4 = string.Empty;
-    private string otp6 = string.Empty;
-    private string otp8 = string.Empty;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.OTPInput";
-    
-    private string basicCode = @"<TailOTPInput @bind-Value=""otpCode"" Length=""6"" Label=""Enter OTP Code"" />";
-
-    private string lengthsCode = @"<TailOTPInput @bind-Value=""otp4"" Length=""4"" />
-<TailOTPInput @bind-Value=""otp6"" Length=""6"" />
-<TailOTPInput @bind-Value=""otp8"" Length=""8"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "OTP code value (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when OTP code changes" },
-        new DocPageTemplate.ApiParameter { Name = "Length", Type = "int", Default = "6", Description = "Number of OTP digits (typically 4-8)" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "OTPInputSize", Default = "Md", Description = "Size of the OTP input boxes (Xs, Sm, Md, Lg, Xl)" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the OTP input" },
-        new DocPageTemplate.ApiParameter { Name = "HelpText", Type = "string?", Default = "-", Description = "Helper text to display below the input" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the OTP input" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

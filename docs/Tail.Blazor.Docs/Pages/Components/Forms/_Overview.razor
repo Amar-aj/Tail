@@ -1,122 +1,280 @@
 @page "/components/forms"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
 
-<PageTitle>Forms Components - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
+<TailContainer Size="ContainerSize.Full" Class="py-8">
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">Forms Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of 26 forms components for Tail.Blazor.</p>
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">📝 Forms Components</h1>
+        <p class="text-gray-600">A collection of 26 forms components</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="/components/forms/audiorecorder" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.AudioRecorder</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/autocomplete" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.AutoComplete</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/checkbox" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Checkbox</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/colorpicker" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ColorPicker</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/currencyinput" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.CurrencyInput</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/datepicker" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.DatePicker</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/daterangepicker" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.DateRangePicker</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/fileupload" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.FileUpload</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/imagecropper" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ImageCropper</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/input" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Input</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/mask" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Mask</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/multiselect" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.MultiSelect</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/numeric" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Numeric</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/otpinput" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.OTPInput</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/passwordstrengthmeter" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.PasswordStrengthMeter</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/phonenumberinput" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.PhoneNumberInput</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/radio" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Radio</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/radiogroup" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.RadioGroup</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/rating" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Rating</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/richtexteditor" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.RichTextEditor</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/select" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Select</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/slider" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Slider</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/switch" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Switch</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/taginput" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.TagInput</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/textarea" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Textarea</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/forms/timepicker" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.TimePicker</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <a href="/components/forms/audiorecorder" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">AudioRecorder</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.AudioRecorder</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/autocomplete" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">AutoComplete</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.AutoComplete</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/checkbox" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Checkbox</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Checkbox</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/colorpicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ColorPicker</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ColorPicker</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/currencyinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">CurrencyInput</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CurrencyInput</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/datepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">DatePicker</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DatePicker</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/daterangepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">DateRangePicker</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DateRangePicker</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/fileupload" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">FileUpload</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.FileUpload</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/imagecropper" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ImageCropper</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ImageCropper</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/input" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Input</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Input</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/mask" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Mask</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Mask</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/multiselect" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">MultiSelect</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.MultiSelect</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/numeric" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Numeric</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Numeric</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/otpinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">OTPInput</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.OTPInput</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/passwordstrengthmeter" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">PasswordStrengthMeter</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.PasswordStrengthMeter</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/phonenumberinput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">PhoneNumberInput</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.PhoneNumberInput</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/radio" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Radio</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Radio</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/radiogroup" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">RadioGroup</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RadioGroup</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/rating" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Rating</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Rating</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/richtexteditor" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">RichTextEditor</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RichTextEditor</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/select" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Select</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Select</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/slider" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Slider</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Slider</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/switch" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Switch</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Switch</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/taginput" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">TagInput</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.TagInput</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/textarea" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Textarea</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Textarea</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/forms/timepicker" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">TimePicker</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.TimePicker</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
     </div>
-</div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">26</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">0</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">26</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
 
 @code {
-    // Category page logic here
+    // Category overview logic
 }

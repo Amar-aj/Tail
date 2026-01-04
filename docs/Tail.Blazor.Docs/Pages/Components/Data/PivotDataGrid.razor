@@ -1,62 +1,85 @@
-@page "/components/pivot-data-grid"
-@using Tail.Blazor.PivotDataGrid
+@page "/components/data/pivotdatagrid"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>PivotDataGrid - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailPivotDataGrid" 
-                 Description="Pivot table component for displaying aggregated data in a cross-tabulated format. Ultra-lightweight (~20 KB)."
-                 PackageName="Tail.Blazor.Data"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="PivotDataGrid" 
+                 Description="A flexible and powerful PivotDataGrid component for Tail.Blazor"
+                 PackageName="Tail.Blazor.PivotDataGrid">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.PivotDataGrid"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Pivot DataGrid" Code="@basicCode">
+        <CodePreview Title="Simple PivotDataGrid" 
+                     Code="<TailPivotDataGrid>
+    <!-- Component content goes here -->
+</TailPivotDataGrid>"
+                     Language="razor">
             <PreviewContent>
-                <TailPivotDataGrid RowHeader="Category" Columns="@columns" Rows="@rows" />
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of PivotDataGrid component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Pivot table with row and column headers</li>
-                <li>Data aggregation and cross-tabulation</li>
-                <li>Customizable row header label</li>
-                <li>Dynamic column support</li>
-                <li>Responsive table layout</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/data" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Data Overview</h4>
+                <p class="text-sm text-gray-600">View all data components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private List<string> columns = new() { "Q1", "Q2", "Q3", "Q4" };
-    private List<TailPivotDataGrid.PivotRow> rows = new()
-    {
-        new TailPivotDataGrid.PivotRow { Key = "Product A", Values = new Dictionary<string, string> { { "Q1", "100" }, { "Q2", "150" }, { "Q3", "120" }, { "Q4", "180" } } },
-        new TailPivotDataGrid.PivotRow { Key = "Product B", Values = new Dictionary<string, string> { { "Q1", "200" }, { "Q2", "250" }, { "Q3", "220" }, { "Q4", "280" } } },
-        new TailPivotDataGrid.PivotRow { Key = "Product C", Values = new Dictionary<string, string> { { "Q1", "80" }, { "Q2", "90" }, { "Q3", "100" }, { "Q4", "110" } } }
-    };
-    
-    private string installCode = @"dotnet add package Tail.Blazor.PivotDataGrid";
-    
-    private string basicCode = @"<TailPivotDataGrid RowHeader=""Category"" Columns=""@columns"" Rows=""@rows"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "RowHeader", Type = "string", Default = "Row", Description = "Label for the row header column" },
-        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "List<string>", Default = "new()", Description = "List of column names/headers" },
-        new DocPageTemplate.ApiParameter { Name = "Rows", Type = "List<TailPivotDataGrid.PivotRow>", Default = "new()", Description = "List of pivot rows with keys and values dictionary" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

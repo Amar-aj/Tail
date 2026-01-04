@@ -1,67 +1,85 @@
-@page "/components/bottom-sheet"
-@using Tail.Blazor.BottomSheet
+@page "/components/layout/bottomsheet"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
 @using Tail.Blazor.Button
-@using Microsoft.AspNetCore.Components
 
-<PageTitle>BottomSheet - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailBottomSheet" 
-                 Description="Bottom sheet component that slides up from the bottom of the screen. Ultra-lightweight (~5 KB)."
-                 PackageName="Tail.Blazor.Layout"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="BottomSheet" 
+                 Description="A flexible and powerful BottomSheet component for Tail.Blazor"
+                 PackageName="Tail.Blazor.BottomSheet">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.BottomSheet"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Bottom Sheet" Code="@basicCode">
+        <CodePreview Title="Simple BottomSheet" 
+                     Code="<TailBottomSheet>
+    <!-- Component content goes here -->
+</TailBottomSheet>"
+                     Language="razor">
             <PreviewContent>
-                <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary" OnClick="OpenBottomSheet">Open Bottom Sheet</TailButton>
-                <TailBottomSheet @bind-IsVisible="isOpen" Size="@Tail.Blazor.BottomSheet.BottomSheetSize.Md">
-                    <p style="color: var(--color-text-primary); padding: 1rem;">Bottom sheet content goes here.</p>
-                </TailBottomSheet>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of BottomSheet component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Bottom sheet that slides up from bottom</li>
-                <li>Multiple sizes (Sm, Md, Lg, Full)</li>
-                <li>Backdrop overlay</li>
-                <li>Close on backdrop click option</li>
-                <li>Drag handle indicator</li>
-                <li>Two-way binding for visibility</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/layout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Layout Overview</h4>
+                <p class="text-sm text-gray-600">View all layout components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private bool isOpen = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.BottomSheet";
-    
-    private string basicCode = @"<TailBottomSheet @bind-IsVisible=""isOpen"" Size=""Tail.Blazor.BottomSheet.BottomSheetSize.Md"">
-    <p>Bottom sheet content</p>
-</TailBottomSheet>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "IsVisible", Type = "bool", Default = "false", Description = "Controls bottom sheet visibility (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "IsVisibleChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when visibility changes" },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Content to display in the bottom sheet" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "Tail.Blazor.BottomSheet.BottomSheetSize", Default = "Md", Description = "Size of the bottom sheet (Sm, Md, Lg, Full)" },
-        new DocPageTemplate.ApiParameter { Name = "CloseOnBackdropClick", Type = "bool", Default = "true", Description = "Close bottom sheet when clicking the backdrop" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
-    
-    private void OpenBottomSheet() => isOpen = true;
+    // Component logic can be added here if needed
 }
-

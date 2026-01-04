@@ -1,64 +1,85 @@
-@page "/components/compare-validator"
-@using Tail.Blazor.CompareValidator
+@page "/components/validators/comparevalidator"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Input
-@using Microsoft.AspNetCore.Components
-@using CompareOperator = Tail.Blazor.CompareValidator.CompareOperator
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>CompareValidator - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailCompareValidator" 
-                 Description="Compare validation component for comparing two values with various operators. Ultra-lightweight (~3 KB)."
-                 PackageName="Tail.Blazor.Validators"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="CompareValidator" 
+                 Description="A flexible and powerful CompareValidator component for Tail.Blazor"
+                 PackageName="Tail.Blazor.CompareValidator">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.CompareValidator"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Compare Validator" Code="@basicCode">
+        <CodePreview Title="Simple CompareValidator" 
+                     Code="<TailCompareValidator>
+    <!-- Component content goes here -->
+</TailCompareValidator>"
+                     Language="razor">
             <PreviewContent>
-                <TailInput @bind-Value="password" Label="Password" Type="@Tail.Blazor.Input.InputType.Password" />
-                <TailInput @bind-Value="confirmPassword" Label="Confirm Password" Type="@Tail.Blazor.Input.InputType.Password" />
-                <TailCompareValidator Value="@password" CompareTo="@confirmPassword" Operator="CompareOperator.Equal" ErrorMessage="Passwords must match" />
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of CompareValidator component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Compares two values using various operators</li>
-                <li>Operators: Equal, NotEqual, GreaterThan, LessThan</li>
-                <li>Displays error message when validation fails</li>
-                <li>Customizable error message</li>
-                <li>Useful for password confirmation, etc.</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/validators" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Validators Overview</h4>
+                <p class="text-sm text-gray-600">View all validators components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string password = string.Empty;
-    private string confirmPassword = string.Empty;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.CompareValidator";
-    
-    private string basicCode = @"<TailInput @bind-Value=""password"" Label=""Password"" Type=""InputType.Password"" />
-<TailInput @bind-Value=""confirmPassword"" Label=""Confirm Password"" Type=""InputType.Password"" />
-<TailCompareValidator Value=""@password"" CompareTo=""@confirmPassword"" Operator=""CompareOperator.Equal"" ErrorMessage=""Passwords must match"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string?", Default = "-", Description = "First value to compare" },
-        new DocPageTemplate.ApiParameter { Name = "CompareTo", Type = "string?", Default = "-", Description = "Second value to compare against" },
-        new DocPageTemplate.ApiParameter { Name = "Operator", Type = "CompareOperator", Default = "Equal", Description = "Comparison operator (Equal, NotEqual, GreaterThan, LessThan)" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Custom error message (default message is generated based on operator)" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

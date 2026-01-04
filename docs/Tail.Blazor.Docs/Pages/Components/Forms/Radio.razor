@@ -1,73 +1,85 @@
-@page "/components/radio"
-@using Tail.Blazor.Radio
+@page "/components/forms/radio"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Radio - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailRadio" 
-                 Description="Radio button input component for single selection from a group. Ultra-lightweight (~2 KB)."
-                 PackageName="Tail.Blazor.Forms"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Radio" 
+                 Description="A flexible and powerful Radio component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Radio">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Radio"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Radio Buttons" Code="@basicCode">
+        <CodePreview Title="Simple Radio" 
+                     Code="<TailRadio>
+    <!-- Component content goes here -->
+</TailRadio>"
+                     Language="razor">
             <PreviewContent>
-                <div class="space-y-2">
-                    <TailRadio GroupName="options" Value="option1" @bind-IsChecked="isOption1" Label="Option 1" />
-                    <TailRadio GroupName="options" Value="option2" @bind-IsChecked="isOption2" Label="Option 2" />
-                    <TailRadio GroupName="options" Value="option3" @bind-IsChecked="isOption3" Label="Option 3" />
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Radio component will appear here
+                    </p>
                 </div>
-                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">
-                    Selected: @(isOption1 ? "Option 1" : isOption2 ? "Option 2" : isOption3 ? "Option 3" : "None")
-                </p>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Radio button for single selection</li>
-                <li>Group management with GroupName</li>
-                <li>Two-way binding support</li>
-                <li>Label support</li>
-                <li>Disabled state support</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Accessible with proper ARIA attributes</li>
-                <li>Keyboard navigation support</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/forms" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Forms Overview</h4>
+                <p class="text-sm text-gray-600">View all forms components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private bool isOption1 = false;
-    private bool isOption2 = false;
-    private bool isOption3 = false;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Radio";
-    
-    private string basicCode = @"<TailRadio GroupName=""options"" Value=""option1"" @bind-IsChecked=""isOption1"" Label=""Option 1"" />
-<TailRadio GroupName=""options"" Value=""option2"" @bind-IsChecked=""isOption2"" Label=""Option 2"" />
-<TailRadio GroupName=""options"" Value=""option3"" @bind-IsChecked=""isOption3"" Label=""Option 3"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "GroupName", Type = "string", Default = "-", Description = "Name of the radio button group (required)" },
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "-", Description = "Value of this radio button" },
-        new DocPageTemplate.ApiParameter { Name = "IsChecked", Type = "bool", Default = "false", Description = "Checked state (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "IsCheckedChanged", Type = "EventCallback<bool>", Default = "-", Description = "Event fired when checked state changes" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "RadioSize", Default = "Md", Description = "Radio button size (Xs, Sm, Md, Lg, Xl)" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the radio button" },
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Custom content for the radio button label" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the radio button" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }

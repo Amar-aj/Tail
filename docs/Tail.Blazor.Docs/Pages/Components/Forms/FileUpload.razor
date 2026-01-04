@@ -1,122 +1,85 @@
-@page "/components/file-upload"
-@using Tail.Blazor.FileUpload
+@page "/components/forms/fileupload"
 @using Tail.Blazor.Docs.Shared
-@using Tail.Blazor.Alert
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Forms
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>FileUpload - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailFileUpload" 
-                 Description="File upload component with drag-and-drop, previews, progress and optional auto-upload. Lightweight and themeable via CSS variables."
-                 PackageName="Tail.Blazor.Forms"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="FileUpload" 
+                 Description="A flexible and powerful FileUpload component for Tail.Blazor"
+                 PackageName="Tail.Blazor.FileUpload">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.FileUpload"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="File Upload" Code="@basicCode">
+        <CodePreview Title="Simple FileUpload" 
+                     Code="<TailFileUpload>
+    <!-- Component content goes here -->
+</TailFileUpload>"
+                     Language="razor">
             <PreviewContent>
-                <TailFileUpload FilesChanged="HandleFilesChanged" Accept=".pdf,.doc,.docx" Label="Upload Document" />
-                @if (selectedFiles.Any())
-                {
-                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success" Class="mt-4">
-                        @selectedFiles.Count file(s) selected: @string.Join(", ", selectedFiles.Select(f => f.Name))
-                    </TailAlert>
-                }
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of FileUpload component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Image Preview">
-        <CodePreview Title="Image Preview" Code="@previewCode">
-            <PreviewContent>
-                <TailFileUpload FilesChanged="HandleFilesChanged" Multiple="true" Accept="image/*" Label="Upload Images" ShowPreview="true" />
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Auto Upload & Upload Handler">
-        <CodePreview Title="Auto Upload" Code="@autoUploadCode">
-            <PreviewContent>
-                <TailFileUpload Multiple="true" Accept="image/*" Label="Auto Upload" AutoUpload="true" ShowUploadButton="false" @* UploadHandler="HandleUpload" *@ />
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Validation & Limits">
-        <CodePreview Title="Max Files and Size" Code="@validationCode">
-            <PreviewContent>
-                <TailFileUpload Multiple="true" Accept="image/*" Label="Upload (Max 3 files, 2MB each)" MaxFiles="3" MaxFileSize="2097152" />
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; gap: 0.5rem;">
-                <li>File upload with click or drag-and-drop</li>
-                <li>Image previews (base64) for images</li>
-                <li>Multiple file selection and limits (MaxFiles)</li>
-                <li>File size validation (MaxFileSize)</li>
-                <li>Progress indicator and upload state</li>
-                <li>Optional auto-upload (AutoUpload) and manual upload control</li>
-                <li>Custom upload handler via <code>UploadHandler</code> or <code>UploadRequested</code> event</li>
-                <li>Show/Hide action buttons (ShowUploadButton, ShowRemoveButton)</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Accessible and responsive UI built with Tailwind CSS</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/forms" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Forms Overview</h4>
+                <p class="text-sm text-gray-600">View all forms components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private List<IBrowserFile> selectedFiles = new();
-
-    private string installCode = @"dotnet add package Tail.Blazor.FileUpload";
-
-    private string basicCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Accept="".pdf,.doc,.docx"" Label=""Upload Document"" />";
-
-    private string previewCode = @"<TailFileUpload FilesChanged=""HandleFilesChanged"" Multiple=""true"" Accept=""image/*"" Label=""Upload Images"" ShowPreview=""true"" />";
-
-    private string autoUploadCode = @"<TailFileUpload Multiple=""true"" Accept=""image/*"" Label=""Auto Upload"" AutoUpload=""true"" ShowUploadButton=""false"" UploadHandler=""HandleUpload"" />";
-
-    private string validationCode = @"<TailFileUpload Multiple=""true"" Accept=""image/*"" Label=""Upload (Max 3 files, 2MB each)"" MaxFiles=""3"" MaxFileSize=""2097152"" />";
-
-    private void HandleFilesChanged(IBrowserFile[] files)
-    {
-        selectedFiles = files.ToList();
-    }
-
-    private async Task<bool> HandleUpload(IBrowserFile[] files)
-    {
-        // Example upload handler: implement real upload logic (e.g., send to API)
-        await Task.Delay(500);
-        return true;
-    }
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "FilesChanged", Type = "EventCallback<IBrowserFile[]>", Default = "-", Description = "Event fired when files are selected or changed" },
-        new DocPageTemplate.ApiParameter { Name = "FilesSelected", Type = "EventCallback<IBrowserFile[]>", Default = "-", Description = "Event fired after files are selected (preview generated)" },
-        new DocPageTemplate.ApiParameter { Name = "Size", Type = "FileUploadSize", Default = "Md", Description = "Size of the file upload component (Xs, Sm, Md, Lg, Xl)" },
-        new DocPageTemplate.ApiParameter { Name = "Multiple", Type = "bool", Default = "false", Description = "Allow multiple file selection" },
-        new DocPageTemplate.ApiParameter { Name = "Accept", Type = "string?", Default = "-", Description = "Accepted file types (e.g., '.pdf,.doc' or 'image/*')" },
-        new DocPageTemplate.ApiParameter { Name = "MaxFiles", Type = "int", Default = "5", Description = "Maximum number of files allowed" },
-        new DocPageTemplate.ApiParameter { Name = "MaxFileSize", Type = "long", Default = "10485760", Description = "Maximum file size in bytes" },
-        new DocPageTemplate.ApiParameter { Name = "ShowPreview", Type = "bool", Default = "true", Description = "Show image preview for image files" },
-        new DocPageTemplate.ApiParameter { Name = "AutoUpload", Type = "bool", Default = "false", Description = "Automatically upload after selection" },
-        new DocPageTemplate.ApiParameter { Name = "UploadHandler", Type = "Func<IBrowserFile, Task<bool>>?", Default = "null", Description = "Optional custom upload handler" },
-        new DocPageTemplate.ApiParameter { Name = "ShowUploadButton", Type = "bool", Default = "true", Description = "Show manual upload button per file" },
-        new DocPageTemplate.ApiParameter { Name = "ShowRemoveButton", Type = "bool", Default = "true", Description = "Show remove button per file" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the file upload" },
-        new DocPageTemplate.ApiParameter { Name = "Required", Type = "bool", Default = "false", Description = "Mark the field as required" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the file upload" },
-        new DocPageTemplate.ApiParameter { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "Error message to display" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

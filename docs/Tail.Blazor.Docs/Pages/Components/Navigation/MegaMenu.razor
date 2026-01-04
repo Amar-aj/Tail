@@ -1,85 +1,85 @@
-@page "/components/mega-menu"
-@using Tail.Blazor.MegaMenu
+@page "/components/navigation/megamenu"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
 @using Tail.Blazor.Button
-@using Microsoft.AspNetCore.Components
 
-<PageTitle>MegaMenu - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailMegaMenu" 
-                 Description="Mega menu component for displaying large multi-column dropdown menus. Ultra-lightweight (~7 KB)."
-                 PackageName="Tail.Blazor.Navigation"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="MegaMenu" 
+                 Description="A flexible and powerful MegaMenu component for Tail.Blazor"
+                 PackageName="Tail.Blazor.MegaMenu">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.MegaMenu"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Mega Menu" Code="@basicCode">
+        <CodePreview Title="Simple MegaMenu" 
+                     Code="<TailMegaMenu>
+    <!-- Component content goes here -->
+</TailMegaMenu>"
+                     Language="razor">
             <PreviewContent>
-                <TailMegaMenu Sections="@megaMenuSections" Columns="3">
-                    <Trigger>
-                        <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Products</TailButton>
-                    </Trigger>
-                </TailMegaMenu>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of MegaMenu component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Large dropdown menu with multiple columns</li>
-                <li>Hover activation</li>
-                <li>Organized sections with titles</li>
-                <li>Configurable number of columns</li>
-                <li>Custom trigger button</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/navigation" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Navigation Overview</h4>
+                <p class="text-sm text-gray-600">View all navigation components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection> megaMenuSections = new()
-    {
-        new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection 
-        { 
-            Title = "Category 1", 
-            Items = new List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem> 
-            { 
-                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 1", Href = "#" },
-                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 2", Href = "#" }
-            } 
-        },
-        new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection 
-        { 
-            Title = "Category 2", 
-            Items = new List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem> 
-            { 
-                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 3", Href = "#" },
-                new Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuItem { Label = "Item 4", Href = "#" }
-            } 
-        }
-    };
-    
-    private string installCode = @"dotnet add package Tail.Blazor.MegaMenu";
-    
-    private string basicCode = @"<TailMegaMenu Sections=""@megaMenuSections"" Columns=""3"">
-    <Trigger>
-        <TailButton>Products</TailButton>
-    </Trigger>
-</TailMegaMenu>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Trigger", Type = "RenderFragment?", Default = "-", Description = "Trigger element that activates the mega menu (typically a button)" },
-        new DocPageTemplate.ApiParameter { Name = "Sections", Type = "List<Tail.Blazor.MegaMenu.TailMegaMenu.MegaMenuSection>", Default = "new()", Description = "List of menu sections to display" },
-        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "int", Default = "3", Description = "Number of columns in the mega menu grid" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

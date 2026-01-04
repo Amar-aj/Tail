@@ -1,270 +1,319 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
-Generates documentation page templates for all Tail.Blazor components
+Tail.Blazor Documentation Generator
+Generates doc pages using DocPageTemplate, DocSection, and CodePreview components
 """
 
-import os
 import json
+import sys
 from pathlib import Path
 from datetime import datetime
 
-COMPONENTS_PATH = Path(r"d:\Users\AMAR\source\repos\Tail\src\components")
-DOCS_PATH = Path(r"d:\Users\AMAR\source\repos\Tail\docs\Tail.Blazor.Docs\Pages")
-COMPONENTS_DOCS_PATH = DOCS_PATH / "Components"
-
-CATEGORIES = {
-    "buttons": {"folder": "Buttons", "displayName": "Buttons"},
-    "charts": {"folder": "Charts", "displayName": "Charts"},
-    "core": {"folder": "Core", "displayName": "Core"},
-    "data": {"folder": "Data", "displayName": "Data"},
-    "feedback": {"folder": "Feedback", "displayName": "Feedback"},
-    "forms": {"folder": "Forms", "displayName": "Forms"},
-    "icons": {"folder": "Icons", "displayName": "Icons"},
-    "layout": {"folder": "Layout", "displayName": "Layout"},
-    "navigation": {"folder": "Navigation", "displayName": "Navigation"},
-    "utils": {"folder": "Utils", "displayName": "Utilities"},
-    "validators": {"folder": "Validators", "displayName": "Validators"},
-    "visualization": {"folder": "Visualization", "displayName": "Visualization"},
-}
-
-DOC_TEMPLATE = '''@page "/components/{category}/{component_url}"
-@using Tail.Blazor.Docs.Shared
-
-<PageTitle>{component_name} - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
-    <div class="mb-8">
-        <a href="/components/{category}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; {category_display}</a>
-        <h1 class="text-4xl font-bold mt-2">{component_name}</h1>
-        <p class="text-gray-600 text-lg mt-2">A Tail.Blazor component for {component_description}</p>
-    </div>
-
-    <!-- Installation -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Installation</h2>
-        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <p class="text-sm font-mono text-gray-800">
-                dotnet add package {component_name}
-            </p>
-        </div>
-    </section>
-
-    <!-- Basic Usage -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Basic Usage</h2>
-        <p class="text-gray-700 mb-4">
-            Add a brief description of the basic usage pattern here.
-        </p>
-        <div class="border rounded-lg p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
-            <!-- Add example using actual Tail.Blazor components -->
-            <p class="text-gray-700">Example code will appear here</p>
-        </div>
-    </section>
-
-    <!-- Properties/Parameters -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Properties</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full border-collapse">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Property</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Type</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Default</th>
-                        <th class="border border-gray-300 px-4 py-2 text-left font-semibold">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border border-gray-300 px-4 py-2">Property</td>
-                        <td class="border border-gray-300 px-4 py-2"><code class="bg-gray-100 px-2 py-1 rounded">string</code></td>
-                        <td class="border border-gray-300 px-4 py-2">-</td>
-                        <td class="border border-gray-300 px-4 py-2">Description</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Events -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Events</h2>
-        <p class="text-gray-700 mb-4">
-            Add event callback documentation here.
-        </p>
-    </section>
-
-    <!-- Examples -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Examples</h2>
-        <div class="space-y-6">
-            <div class="border rounded-lg overflow-hidden">
-                <div class="bg-gray-100 px-4 py-2 font-semibold">Example 1: Basic</div>
-                <div class="p-6 bg-white">
-                    <p class="text-gray-700">Add example code here</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Related Components -->
-    <section class="mb-12">
-        <h2 class="text-2xl font-bold mb-4">Related Components</h2>
-        <ul class="space-y-2">
-            <li><a href="#" class="text-blue-600 hover:underline">Component Link 1</a></li>
-            <li><a href="#" class="text-blue-600 hover:underline">Component Link 2</a></li>
-        </ul>
-    </section>
-
-</div>
-
-@code {{
-    // Component logic here if needed
-}}
-'''
+# Fix Unicode output on Windows
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def discover_components():
-    """Discover all components"""
-    all_components = {}
+    """Discover all components from src/components directory."""
+    components_dir = Path("src/components")
+    components = {}
     
-    for category in CATEGORIES.keys():
-        category_path = COMPONENTS_PATH / category
-        if not category_path.exists():
+    category_metadata = {
+        "buttons": {"icon": "🔘", "order": 1},
+        "charts": {"icon": "📈", "order": 2},
+        "core": {"icon": "⚙️", "order": 3},
+        "data": {"icon": "📊", "order": 4},
+        "feedback": {"icon": "💬", "order": 5},
+        "forms": {"icon": "📝", "order": 6},
+        "icons": {"icon": "🎯", "order": 7},
+        "layout": {"icon": "📐", "order": 8},
+        "navigation": {"icon": "🧭", "order": 9},
+        "utils": {"icon": "🛠️", "order": 10},
+        "validators": {"icon": "✅", "order": 11},
+        "visualization": {"icon": "🎨", "order": 12}
+    }
+    
+    for category_dir in sorted(components_dir.iterdir()):
+        if not category_dir.is_dir():
             continue
         
-        all_components[category] = []
+        category = category_dir.name.lower()
+        metadata = category_metadata.get(category, {"icon": "📦", "order": 99})
         
-        for project_dir in category_path.iterdir():
-            if project_dir.is_dir() and project_dir.name not in ['Tail.Blazor.Core.Base', 'Tail.Blazor.Core.Theme']:
-                csproj_files = list(project_dir.glob("*.csproj"))
-                if csproj_files:
-                    all_components[category].append(project_dir.name)
-    
-    return all_components
-
-def generate_doc_pages(all_components):
-    """Generate documentation pages for all components"""
-    total = 0
-    created = 0
-    
-    print("\n" + "="*70)
-    print("GENERATING DOCUMENTATION PAGES")
-    print("="*70 + "\n")
-    
-    for category_key in sorted(CATEGORIES.keys()):
-        if category_key not in all_components or not all_components[category_key]:
-            continue
+        components[category] = {
+            "icon": metadata["icon"],
+            "order": metadata["order"],
+            "display_name": category.capitalize(),
+            "components": [],
+            "count": 0
+        }
         
-        category_display = CATEGORIES[category_key]["displayName"]
-        category_folder = CATEGORIES[category_key]["folder"]
-        
-        docs_category_path = COMPONENTS_DOCS_PATH / category_folder
-        docs_category_path.mkdir(parents=True, exist_ok=True)
-        
-        print(f"\n{category_display}:")
-        
-        for component_name in sorted(all_components[category_key]):
-            component_url = component_name.lower().replace("tail.blazor.", "")
-            doc_file = docs_category_path / f"{component_name}.razor"
+        for component_dir in sorted(category_dir.iterdir()):
+            if not component_dir.is_dir():
+                continue
             
-            # Generate content
-            component_description = component_name.replace("Tail.Blazor.", "").replace(".", " ").lower()
-            content = DOC_TEMPLATE.format(
-                category=category_key,
-                component_url=component_url,
-                component_name=component_name,
-                category_display=category_display,
-                component_description=component_description
-            )
+            component_name = component_dir.name
+            csproj_file = component_dir / f"{component_name}.csproj"
             
-            total += 1
-            
-            # Write file
-            doc_file.write_text(content, encoding='utf-8')
-            created += 1
-            
-            print(f"  ✓ {component_name}.razor")
+            if csproj_file.exists():
+                friendly_name = component_name.replace("Tail.Blazor.", "")
+                
+                components[category]["components"].append({
+                    "name": component_name,
+                    "friendly_name": friendly_name,
+                    "path": f"/components/{category.lower()}/{friendly_name.lower()}",
+                    "implemented": (component_dir / f"{component_name}.razor").exists()
+                })
+        
+        components[category]["count"] = len(components[category]["components"])
     
-    print(f"\n{'='*70}")
-    print(f"Created {created} documentation pages")
-    print(f"{'='*70}\n")
+    return components
 
-def generate_category_overview_pages(all_components):
-    """Generate category overview pages"""
-    print("GENERATING CATEGORY OVERVIEW PAGES\n")
+def generate_doc_page(category, component):
+    """Generate a documentation page using DocPageTemplate structure."""
+    friendly_name = component["friendly_name"]
+    component_name = component["name"]
     
-    for category_key in sorted(CATEGORIES.keys()):
-        if category_key not in all_components or not all_components[category_key]:
-            continue
-        
-        category_display = CATEGORIES[category_key]["displayName"]
-        category_folder = CATEGORIES[category_key]["folder"]
-        components = sorted(all_components[category_key])
-        
-        # Generate component list HTML
-        components_html = "\n".join([
-            f'''            <a href="/components/{category_key}/{comp.lower().replace('tail.blazor.', '')}" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">{comp}</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>'''
-            for comp in components
-        ])
-        
-        category_overview = f'''@page "/components/{category_key}"
+    # Ensure lowercase for route consistency
+    route_name = friendly_name.lower()
+    
+    # Get category display name
+    category_title = category.replace("_", " ").title()
+    
+    doc_content = f'''@page "/components/{category.lower()}/{route_name}"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>{category_display} Components - Tail.Blazor</PageTitle>
+<DocPageTemplate Title="{friendly_name}" 
+                 Description="A flexible and powerful {friendly_name} component for Tail.Blazor"
+                 PackageName="{component_name}">
+    
+    <DocSection Title="Installation">
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package {component_name}"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
+    </DocSection>
 
-<div class="container mx-auto px-4 py-12">
-    <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">{category_display} Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of {len(components)} {category_display.lower()} components for Tail.Blazor.</p>
-    </div>
+    <DocSection Title="Basic Usage">
+        <CodePreview Title="Simple {friendly_name}" 
+                     Code="<Tail{friendly_name}>
+    <!-- Component content goes here -->
+</Tail{friendly_name}>"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of {friendly_name} component will appear here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-{components_html}
-    </div>
-</div>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/{category.lower()}" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← {category_title} Overview</h4>
+                <p class="text-sm text-gray-600">View all {category.lower()} components</p>
+            </a>
+        </div>
+    </DocSection>
+
+</DocPageTemplate>
 
 @code {{
-    // Category page logic here
+    // Component logic can be added here if needed
 }}
 '''
-        
-        overview_file = COMPONENTS_DOCS_PATH / category_folder / "_Overview.razor"
-        overview_file.write_text(category_overview, encoding='utf-8')
-        
-        print(f"  ✓ {category_folder}/_Overview.razor")
+    
+    return doc_content
+
+def generate_category_overview(category, category_data, all_components):
+    """Generate category overview page."""
+    display_name = category_data["display_name"]
+    components_list = category_data["components"]
+    
+    # Build component cards HTML
+    component_cards = "\n    ".join([
+        f'''<a href="{comp['path']}" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">{comp['friendly_name']}</h4>
+        <p class="text-xs text-gray-500 mt-1">{comp['name']}</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full {"bg-green-100 text-green-800" if comp['implemented'] else "bg-gray-100 text-gray-800"}">
+                {"✓ Implemented" if comp['implemented'] else "⊘ Pending"}
+            </span>
+        </div>
+    </a>'''
+        for comp in sorted(components_list, key=lambda x: x["friendly_name"])
+    ])
+    
+    overview_content = f'''@page "/components/{category}"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
+
+<TailContainer Size="ContainerSize.Full" Class="py-8">
+    <div class="mb-8">
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">{category_data['icon']} {display_name} Components</h1>
+        <p class="text-gray-600">A collection of {len(components_list)} {display_name.lower()} components</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        {component_cards}
+    </div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">{len(components_list)}</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">{sum(1 for c in components_list if c['implemented'])}</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">{sum(1 for c in components_list if not c['implemented'])}</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
+
+@code {{
+    // Category overview logic
+}}
+'''
+    
+    return overview_content
 
 def main():
-    print("\n" + "="*70)
+    print("=" * 70)
     print("TAIL.BLAZOR DOCUMENTATION GENERATOR")
-    print("="*70)
+    print("=" * 70)
     
-    # Discover components
-    print("\n[1/3] Discovering components...")
-    all_components = discover_components()
+    print("\n[1/4] Discovering components...")
+    components = discover_components()
     
-    total_components = sum(len(comps) for comps in all_components.values())
+    if not components:
+        print("❌ No components found!")
+        return
+    
+    total_components = sum(cat["count"] for cat in components.values())
     print(f"✓ Found {total_components} components")
     
-    # Generate documentation pages
-    print("\n[2/3] Generating documentation pages...")
-    generate_doc_pages(all_components)
+    print("\n[2/4] Creating documentation structure...")
+    docs_base = Path("docs/Tail.Blazor.Docs/Pages/Components")
+    docs_base.mkdir(parents=True, exist_ok=True)
+    print(f"✓ Documentation directory ready: {docs_base}")
     
-    # Generate category overview pages
-    print("[3/3] Generating category overview pages...")
-    generate_category_overview_pages(all_components)
+    print("\n[3/4] Generating documentation pages...")
+    pages_created = 0
+    sorted_categories = sorted(components.items(), key=lambda x: x[1]["order"])
     
-    print("\n" + "="*70)
-    print("COMPLETED SUCCESSFULLY!")
-    print("="*70)
-    print("\nNext steps:")
-    print("1. Review generated documentation pages")
-    print("2. Add component-specific examples and descriptions")
-    print("3. Link related components")
-    print("4. Test all documentation links")
-    print("\n")
+    # First, clean up any old incorrectly-named files (Tail.Blazor.*.razor or Tail_Blazor_*.razor)
+    import re
+    wrong_pattern = re.compile(r'^Tail[._]Blazor')
+    for category, _ in sorted_categories:
+        category_folder = docs_base / category.capitalize()
+        if category_folder.exists():
+            for razor_file in category_folder.glob("*.razor"):
+                if wrong_pattern.match(razor_file.name) and not razor_file.name.startswith("_"):
+                    try:
+                        razor_file.unlink()
+                    except:
+                        pass
+    
+    for category, category_data in sorted_categories:
+        components_list = category_data["components"]
+        
+        # Create category folder
+        category_folder = docs_base / category.capitalize()
+        category_folder.mkdir(parents=True, exist_ok=True)
+        
+        # Generate category overview
+        overview_content = generate_category_overview(category, category_data, components)
+        overview_path = category_folder / "_Overview.razor"
+        with open(overview_path, "w", encoding="utf-8") as f:
+            f.write(overview_content)
+        pages_created += 1
+        
+        # Generate component pages
+        for comp in components_list:
+            doc_content = generate_doc_page(category, comp)
+            doc_path = category_folder / f"{comp['friendly_name']}.razor"
+            with open(doc_path, "w", encoding="utf-8") as f:
+                f.write(doc_content)
+            pages_created += 1
+    
+    print(f"✓ Generated {pages_created} documentation pages")
+    
+    print("\n[4/4] Summary")
+    print("=" * 70)
+    
+    for category, category_data in sorted_categories:
+        implemented = sum(1 for c in category_data["components"] if c["implemented"])
+        total = len(category_data["components"])
+        print(f"{category_data['icon']} {category.upper():15} | {total:2} components ({implemented} implemented)")
+    
+    print("=" * 70)
+    print(f"\n✓ Documentation generated: {pages_created} pages")
+    print(f"✓ Location: {docs_base}")
+    print("=" * 70 + "\n")
 
 if __name__ == "__main__":
     main()

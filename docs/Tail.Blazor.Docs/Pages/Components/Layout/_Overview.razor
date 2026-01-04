@@ -1,66 +1,154 @@
 @page "/components/layout"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
 
-<PageTitle>Layout Components - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
+<TailContainer Size="ContainerSize.Full" Class="py-8">
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">Layout Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of 12 layout components for Tail.Blazor.</p>
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">📐 Layout Components</h1>
+        <p class="text-gray-600">A collection of 12 layout components</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="/components/layout/bottomsheet" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.BottomSheet</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/card" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Card</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/collapsiblemenu" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.CollapsibleMenu</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/container" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Container</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/divider" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Divider</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/dockinglayout" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.DockingLayout</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/grid" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Grid</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/header" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Header</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/navmenu" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.NavMenu</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/panel" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Panel</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/responsivelayout" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ResponsiveLayout</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/layout/splitpane" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.SplitPane</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <a href="/components/layout/bottomsheet" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">BottomSheet</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.BottomSheet</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/card" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Card</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Card</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/collapsiblemenu" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">CollapsibleMenu</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CollapsibleMenu</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/container" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Container</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Container</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/divider" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Divider</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Divider</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/dockinglayout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">DockingLayout</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.DockingLayout</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/grid" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Grid</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Grid</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/header" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Header</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Header</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/navmenu" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">NavMenu</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.NavMenu</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/panel" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Panel</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Panel</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/responsivelayout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ResponsiveLayout</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ResponsiveLayout</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/layout/splitpane" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">SplitPane</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.SplitPane</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
     </div>
-</div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">12</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">0</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">12</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
 
 @code {
-    // Category page logic here
+    // Category overview logic
 }

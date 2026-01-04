@@ -1,66 +1,85 @@
-@page "/components/textarea"
-@using Tail.Blazor.Textarea
+@page "/components/forms/textarea"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Textarea - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailTextarea" 
-                 Description="Multi-line text input component for longer text content. Ultra-lightweight (~3 KB)."
-                 PackageName="Tail.Blazor.Forms"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Textarea" 
+                 Description="A flexible and powerful Textarea component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Textarea">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Textarea"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Textarea" Code="@basicCode">
+        <CodePreview Title="Simple Textarea" 
+                     Code="<TailTextarea>
+    <!-- Component content goes here -->
+</TailTextarea>"
+                     Language="razor">
             <PreviewContent>
-                <TailTextarea @bind-Value="textValue" Placeholder="Enter your message..." Rows="4" />
-                <p class="mt-2 text-sm" style="color: var(--color-text-secondary);">Characters: @textValue.Length</p>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Textarea component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Multi-line text input</li>
-                <li>Two-way binding support</li>
-                <li>Customizable rows and columns</li>
-                <li>Placeholder text support</li>
-                <li>Label support</li>
-                <li>Disabled and readonly states</li>
-                <li>Character count display</li>
-                <li>Resizable (optional)</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Validation support</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/forms" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Forms Overview</h4>
+                <p class="text-sm text-gray-600">View all forms components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string textValue = string.Empty;
-    
-    private string installCode = @"dotnet add package Tail.Blazor.Textarea";
-    
-    private string basicCode = @"<TailTextarea @bind-Value=""textValue"" Placeholder=""Enter your message..."" Rows=""4"" />";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Value", Type = "string", Default = "string.Empty", Description = "Textarea value (two-way binding)" },
-        new DocPageTemplate.ApiParameter { Name = "ValueChanged", Type = "EventCallback<string>", Default = "-", Description = "Event fired when value changes" },
-        new DocPageTemplate.ApiParameter { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
-        new DocPageTemplate.ApiParameter { Name = "Rows", Type = "int", Default = "3", Description = "Number of visible rows" },
-        new DocPageTemplate.ApiParameter { Name = "Cols", Type = "int?", Default = "-", Description = "Number of visible columns" },
-        new DocPageTemplate.ApiParameter { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the textarea" },
-        new DocPageTemplate.ApiParameter { Name = "Disabled", Type = "bool", Default = "false", Description = "Disable the textarea" },
-        new DocPageTemplate.ApiParameter { Name = "ReadOnly", Type = "bool", Default = "false", Description = "Make textarea read-only" },
-        new DocPageTemplate.ApiParameter { Name = "Resizable", Type = "bool", Default = "true", Description = "Allow user to resize the textarea" },
-        new DocPageTemplate.ApiParameter { Name = "MaxLength", Type = "int?", Default = "-", Description = "Maximum character length" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }

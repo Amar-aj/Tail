@@ -1,60 +1,85 @@
-@page "/components/grid"
-@using Tail.Blazor.Grid
+@page "/components/layout/grid"
 @using Tail.Blazor.Docs.Shared
-@using Microsoft.AspNetCore.Components
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>Grid - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailGrid" 
-                 Description="Responsive grid component for creating flexible layouts. Ultra-lightweight (~4 KB)."
-                 PackageName="Tail.Blazor.Layout"
-                 ApiParameters="@apiParameters">
-
+<DocPageTemplate Title="Grid" 
+                 Description="A flexible and powerful Grid component for Tail.Blazor"
+                 PackageName="Tail.Blazor.Grid">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.Grid"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Grid" Code="@basicCode">
+        <CodePreview Title="Simple Grid" 
+                     Code="<TailGrid>
+    <!-- Component content goes here -->
+</TailGrid>"
+                     Language="razor">
             <PreviewContent>
-                <TailGrid Columns="3" Gap="4">
-                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 1</div>
-                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 2</div>
-                    <div class="p-4" style="background-color: var(--color-surface-secondary); border-radius: 8px; color: var(--color-text-primary);">Item 3</div>
-                </TailGrid>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of Grid component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Features">
-        <div style="color: var(--color-text-primary);">
-            <ul style="list-style: disc; padding-left: 1.5rem; space-y-2;">
-                <li>Responsive CSS grid layout</li>
-                <li>Configurable number of columns</li>
-                <li>Customizable gap between grid items</li>
-                <li>Full theme support with CSS variables</li>
-                <li>Lightweight and performant</li>
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
             </ul>
         </div>
     </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/layout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Layout Overview</h4>
+                <p class="text-sm text-gray-600">View all layout components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string installCode = @"dotnet add package Tail.Blazor.Grid";
-    
-    private string basicCode = @"<TailGrid Columns=""3"" Gap=""4"">
-    <div>Item 1</div>
-    <div>Item 2</div>
-    <div>Item 3</div>
-</TailGrid>";
-
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "Grid items to display" },
-        new DocPageTemplate.ApiParameter { Name = "Columns", Type = "int", Default = "12", Description = "Number of columns in the grid" },
-        new DocPageTemplate.ApiParameter { Name = "Gap", Type = "int", Default = "4", Description = "Gap between grid items (Tailwind gap value: 1-12)" },
-        new DocPageTemplate.ApiParameter { Name = "Style", Type = "string?", Default = "-", Description = "Additional inline styles" },
-        new DocPageTemplate.ApiParameter { Name = "Class", Type = "string?", Default = "-", Description = "Additional CSS classes" }
-    };
+    // Component logic can be added here if needed
 }
-

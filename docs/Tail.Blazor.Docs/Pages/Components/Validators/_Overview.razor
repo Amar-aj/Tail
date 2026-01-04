@@ -1,54 +1,127 @@
 @page "/components/validators"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
 
-<PageTitle>Validators Components - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
+<TailContainer Size="ContainerSize.Full" Class="py-8">
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">Validators Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of 9 validators components for Tail.Blazor.</p>
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">✅ Validators Components</h1>
+        <p class="text-gray-600">A collection of 9 validators components</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="/components/validators/comparevalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.CompareValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/customvalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.CustomValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/emailvalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.EmailValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/lengthvalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.LengthValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/numericrangevalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.NumericRangeValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/rangevalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.RangeValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/regexvalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.RegexValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/requiredvalidator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.RequiredValidator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/validators/validator" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Validator</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <a href="/components/validators/comparevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">CompareValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CompareValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/customvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">CustomValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.CustomValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/emailvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">EmailValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.EmailValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/lengthvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">LengthValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.LengthValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/numericrangevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">NumericRangeValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.NumericRangeValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/rangevalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">RangeValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RangeValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/regexvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">RegexValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RegexValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/requiredvalidator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">RequiredValidator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.RequiredValidator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/validators/validator" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Validator</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Validator</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
     </div>
-</div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">9</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">0</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">9</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
 
 @code {
-    // Category page logic here
+    // Category overview logic
 }

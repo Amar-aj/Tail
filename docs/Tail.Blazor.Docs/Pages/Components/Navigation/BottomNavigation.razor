@@ -1,32 +1,85 @@
-@page "/components/bottomnavigation"
+@page "/components/navigation/bottomnavigation"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Button
 
-<PageTitle>BottomNavigation - Tail.Blazor</PageTitle>
-
-<DocPageTemplate Title="TailBottomNavigation" 
-                 Description="A navigation component that displays navigation items at the bottom of the screen." 
-                 PackageName="Tail.Blazor.Navigation"
-                 ApiParameters="@apiParameters">
+<DocPageTemplate Title="BottomNavigation" 
+                 Description="A flexible and powerful BottomNavigation component for Tail.Blazor"
+                 PackageName="Tail.Blazor.BottomNavigation">
+    
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" Code="@installCode" />
+        <CodePreview Title="Install Package" 
+                     Code="dotnet add package Tail.Blazor.BottomNavigation"
+                     ShowPreview="false"
+                     Language="bash">
+        </CodePreview>
     </DocSection>
+
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic BottomNavigation" Code="@basicCode">
+        <CodePreview Title="Simple BottomNavigation" 
+                     Code="<TailBottomNavigation>
+    <!-- Component content goes here -->
+</TailBottomNavigation>"
+                     Language="razor">
             <PreviewContent>
-                <!-- Component preview will be rendered here -->
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Preview of BottomNavigation component will appear here
+                    </p>
+                </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
+
+    <DocSection Title="Properties">
+        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
+        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
+                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
+                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Events & Callbacks">
+        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
+        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+            <ul class="space-y-2">
+                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
+                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
+            </ul>
+        </div>
+    </DocSection>
+
+    <DocSection Title="Examples">
+        <CodePreview Title="Advanced Usage" 
+                     Code="@*
+Add your advanced example code here
+*@"
+                     Language="razor">
+            <PreviewContent>
+                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <p class="text-gray-600 text-center">
+                        Advanced examples will be added here
+                    </p>
+                </div>
+            </PreviewContent>
+        </CodePreview>
+    </DocSection>
+
+    <DocSection Title="Related Components">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="/components/navigation" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                <h4 class="font-semibold text-gray-800">← Navigation Overview</h4>
+                <p class="text-sm text-gray-600">View all navigation components</p>
+            </a>
+        </div>
+    </DocSection>
+
 </DocPageTemplate>
 
 @code {
-    private string installCode = @"dotnet add package Tail.Blazor.BottomNavigation";
-    private string basicCode = @"<TailBottomNavigation>
-    <TailBottomNavigationItem Icon=""home"" Label=""Home"" />
-    <TailBottomNavigationItem Icon=""search"" Label=""Search"" />
-</TailBottomNavigation>";
-    private List<DocPageTemplate.ApiParameter> apiParameters = new()
-    {
-        new DocPageTemplate.ApiParameter { Name = "Items", Type = "List<NavigationItem>", Description = "Navigation items to display", Default = "" }
-    };
+    // Component logic can be added here if needed
 }

@@ -1,94 +1,217 @@
 @page "/components/feedback"
+@using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Container
+@using Tail.Blazor.Card
+@using Tail.Blazor.Badge
 
-<PageTitle>Feedback Components - Tail.Blazor</PageTitle>
-
-<div class="container mx-auto px-4 py-12">
+<TailContainer Size="ContainerSize.Full" Class="py-8">
     <div class="mb-8">
-        <a href="/components" class="text-blue-600 hover:text-blue-700 text-sm font-medium">&larr; All Components</a>
-        <h1 class="text-4xl font-bold mt-2">Feedback Components</h1>
-        <p class="text-gray-600 text-lg mt-2">A collection of 19 feedback components for Tail.Blazor.</p>
+        <a href="/components" class="text-blue-600 hover:text-blue-700">← Components</a>
+        <h1 class="text-4xl font-bold mt-2 mb-2">💬 Feedback Components</h1>
+        <p class="text-gray-600">A collection of 19 feedback components</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <a href="/components/feedback/alert" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Alert</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/avatar" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Avatar</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/badge" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Badge</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/chip" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Chip</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/confetti" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Confetti</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/dialog" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Dialog</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/emptystate" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.EmptyState</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/notificationcenter" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.NotificationCenter</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/popconfirm" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Popconfirm</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/popover" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Popover</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/progress" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Progress</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/progressbarcircular" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ProgressBarCircular</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/skeleton" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Skeleton</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/snackbar" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Snackbar</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/spinner" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Spinner</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/toast" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Toast</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/toastcontainer" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.ToastContainer</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/tooltip" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Tooltip</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
-            <a href="/components/feedback/tour" class="block p-4 border rounded-lg hover:shadow-lg hover:border-blue-400 transition">
-                <h3 class="font-bold text-lg">Tail.Blazor.Tour</h3>
-                <p class="text-gray-600 text-sm">Click to view documentation</p>
-            </a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <a href="/components/feedback/alert" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Alert</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Alert</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/avatar" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Avatar</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Avatar</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/badge" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Badge</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Badge</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/chip" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Chip</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Chip</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/confetti" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Confetti</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Confetti</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/dialog" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Dialog</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Dialog</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/emptystate" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">EmptyState</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.EmptyState</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/notificationcenter" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">NotificationCenter</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.NotificationCenter</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/popconfirm" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Popconfirm</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Popconfirm</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/popover" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Popover</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Popover</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/progress" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Progress</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Progress</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/progressbarcircular" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ProgressBarCircular</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ProgressBarCircular</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/skeleton" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Skeleton</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Skeleton</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/snackbar" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Snackbar</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Snackbar</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/spinner" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Spinner</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Spinner</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/toast" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Toast</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Toast</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/toastcontainer" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">ToastContainer</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.ToastContainer</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/tooltip" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Tooltip</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Tooltip</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
+    <a href="/components/feedback/tour" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition">
+        <h4 class="font-semibold text-gray-800">Tour</h4>
+        <p class="text-xs text-gray-500 mt-1">Tail.Blazor.Tour</p>
+        <div class="mt-2">
+            <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
+                ⊘ Pending
+            </span>
+        </div>
+    </a>
     </div>
-</div>
+
+    <TailCard Class="mt-8">
+        <Header>
+            <h2 class="text-2xl font-bold">Statistics</h2>
+        </Header>
+        <ChildContent>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="p-4 bg-blue-50 rounded-lg">
+                    <div class="text-2xl font-bold text-blue-600">19</div>
+                    <p class="text-sm text-gray-600">Total Components</p>
+                </div>
+                <div class="p-4 bg-green-50 rounded-lg">
+                    <div class="text-2xl font-bold text-green-600">0</div>
+                    <p class="text-sm text-gray-600">Implemented</p>
+                </div>
+                <div class="p-4 bg-yellow-50 rounded-lg">
+                    <div class="text-2xl font-bold text-yellow-600">19</div>
+                    <p class="text-sm text-gray-600">Pending</p>
+                </div>
+                <div class="p-4 bg-purple-50 rounded-lg">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <p class="text-sm text-gray-600">Coverage</p>
+                </div>
+            </div>
+        </ChildContent>
+    </TailCard>
+</TailContainer>
 
 @code {
-    // Category page logic here
+    // Category overview logic
 }
