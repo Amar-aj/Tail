@@ -41,10 +41,16 @@ def extract_razor_code(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
-    # Find @code { ... }
-    match = re.search(r'@code\s*\{(.*?)\n\}', content, re.DOTALL)
-    if match:
-        return match.group(1).strip()
+    # Find all @code blocks (there might be multiple)
+    code_blocks = []
+    pattern = r'@code\s*\{(.*?)(?=\n@code|\n\}|$)'
+    
+    for match in re.finditer(pattern, content, re.DOTALL):
+        code_blocks.append(match.group(1).strip())
+    
+    # Combine all code blocks
+    if code_blocks:
+        return '\n'.join(code_blocks)
     return ""
 
 
@@ -52,22 +58,72 @@ def extract_parameters(code_block):
     """Extract [Parameter] properties from code block."""
     parameters = []
     
-    # Find all [Parameter] declarations
-    pattern = r'\[Parameter\]\s+(?:public\s+)?(\w+(?:<.*?>)?)\s+(\w+)\s*(?:\{.*?\})?(?:=\s*([^;]+))?;'
+    # Improved pattern to handle complex types, generics, nullable, etc.
+    # Matches: [Parameter] public Type? Name { get; set; } = defaultValue;
+    pattern = r'\[Parameter\]\s+(?:public\s+)?([\w\.<>?,\s]+?)\s+(\w+)\s*(?:\{\s*get[^}]*set[^}]*\})?(?:=\s*([^;]+))?;'
     
     for match in re.finditer(pattern, code_block, re.DOTALL):
         param_type = match.group(1).strip()
         param_name = match.group(2).strip()
         default_value = match.group(3).strip() if match.group(3) else None
         
-        # Get description from comment
-        desc = extract_xml_comment(code_block, f'public {param_type} {param_name}')
+        # Clean up type (remove extra whitespace)
+        param_type = re.sub(r'\s+', ' ', param_type)
+        
+        # Clean default value
+        if default_value:
+            default_value = default_value.strip()
+            # Remove common C# keywords
+            if default_value in ['true', 'false', 'null', 'string.Empty', 'new()']:
+                pass
+            elif default_value.startswith('new '):
+                default_value = default_value.replace('new ', '').strip()
+            elif default_value.startswith('"') and default_value.endswith('"'):
+                default_value = default_value[1:-1]
+        
+        # Get description from XML comment
+        desc = extract_xml_comment(code_block, f'{param_name}')
+        if not desc:
+            # Try to find summary comment above
+            lines = code_block.split('\n')
+            for i, line in enumerate(lines):
+                if param_name in line and '[Parameter]' in line:
+                    # Look backward for comment
+                    for j in range(max(0, i-5), i):
+                        if '///' in lines[j] or '<summary>' in lines[j]:
+                            comment_text = ' '.join(lines[j:i])
+                            summary_match = re.search(r'<summary>(.*?)</summary>', comment_text, re.DOTALL)
+                            if summary_match:
+                                desc = summary_match.group(1).strip()
+                                break
+                    break
+        
+        # Generate default description if none found
+        if not desc:
+            if 'variant' in param_name.lower():
+                desc = f'Visual variant style for the component'
+            elif 'size' in param_name.lower():
+                desc = f'Size of the component'
+            elif 'disabled' in param_name.lower():
+                desc = f'Whether the component is disabled'
+            elif 'loading' in param_name.lower() or 'isloading' in param_name.lower():
+                desc = f'Whether the component is in loading state'
+            elif 'icon' in param_name.lower():
+                desc = f'Icon to display'
+            elif 'label' in param_name.lower():
+                desc = f'Label text for the component'
+            elif 'placeholder' in param_name.lower():
+                desc = f'Placeholder text'
+            elif 'color' in param_name.lower():
+                desc = f'Color scheme for the component'
+            else:
+                desc = f'{param_name} parameter'
         
         parameters.append({
             'name': param_name,
             'type': param_type,
             'default': default_value,
-            'required': default_value is None,
+            'required': default_value is None and '?' not in param_type,
             'description': desc
         })
     
@@ -105,22 +161,29 @@ def extract_enums(file_path):
         with open(cs_file, 'r', encoding='utf-8') as f:
             content = f.read()
         
-        # Find enum definitions
-        enum_pattern = r'public\s+enum\s+(\w+)\s*\{([^}]+)\}'
+        # Find enum definitions - improved pattern
+        enum_pattern = r'(?:public\s+)?enum\s+(\w+)\s*\{([^}]+)\}'
         for match in re.finditer(enum_pattern, content, re.DOTALL):
             enum_name = match.group(1)
             enum_members = match.group(2)
             
             members = []
+            # Handle multi-line enum definitions
             for member_line in enum_members.split(','):
+                # Remove comments
+                member_line = re.sub(r'//.*$', '', member_line, flags=re.MULTILINE)
+                member_line = re.sub(r'/\*.*?\*/', '', member_line, flags=re.DOTALL)
                 member = member_line.strip().split('=')[0].strip()
-                if member:
+                # Remove XML comments
+                member = re.sub(r'<.*?>', '', member).strip()
+                if member and not member.startswith('///'):
                     members.append(member)
             
-            enums[enum_name] = {
-                'members': members,
-                'source': cs_file.name
-            }
+            if members:
+                enums[enum_name] = {
+                    'members': members,
+                    'source': cs_file.name
+                }
     
     return enums
 

@@ -8,109 +8,61 @@
         "name": "Tail.Blazor.Button",
         "friendly_name": "Button",
         "description": "# Tail.Blazor.Button\n\nIndependent NuGet package for the TailButton component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "ButtonVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailButton.razor",
-        "extracted_at": "2026-01-04T16:03:39.546483"
+        "extracted_at": "2026-01-04T19:08:25.996653"
       },
       "Tail.Blazor.ButtonGroup": {
         "name": "Tail.Blazor.ButtonGroup",
         "friendly_name": "ButtonGroup",
         "description": "# Tail.Blazor.ButtonGroup\n\nIndependent NuGet package for the TailButtonGroup component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Vertical",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailButtonGroup.razor",
-        "extracted_at": "2026-01-04T16:03:39.547440"
+        "extracted_at": "2026-01-04T19:08:25.997783"
       },
       "Tail.Blazor.FAB": {
         "name": "Tail.Blazor.FAB",
         "friendly_name": "FAB",
         "description": "# Tail.Blazor.FAB\n\nIndependent NuGet package for the TailFAB (Floating Action Button) component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Position",
-            "type": "FABPosition",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailFAB.razor",
-        "extracted_at": "2026-01-04T16:03:39.548233"
+        "extracted_at": "2026-01-04T19:08:25.998824"
       },
       "Tail.Blazor.IconButton": {
         "name": "Tail.Blazor.IconButton",
         "friendly_name": "IconButton",
         "description": "# Tail.Blazor.IconButton\n\nIndependent NuGet package for the TailIconButton component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "ButtonVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailIconButton.razor",
-        "extracted_at": "2026-01-04T16:03:39.549158"
+        "extracted_at": "2026-01-04T19:08:26.000493"
       },
       "Tail.Blazor.SplitButton": {
         "name": "Tail.Blazor.SplitButton",
         "friendly_name": "SplitButton",
         "description": "# Tail.Blazor.SplitButton\n\nIndependent NuGet package for the TailSplitButton component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "ButtonVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSplitButton.razor",
-        "extracted_at": "2026-01-04T16:03:39.550363"
+        "extracted_at": "2026-01-04T19:08:26.002552"
       },
       "Tail.Blazor.ToggleButton": {
         "name": "Tail.Blazor.ToggleButton",
         "friendly_name": "ToggleButton",
         "description": "# Tail.Blazor.ToggleButton\n\nIndependent NuGet package for the TailToggleButton component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "ButtonVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailToggleButton.razor",
-        "extracted_at": "2026-01-04T16:03:39.551298"
+        "extracted_at": "2026-01-04T19:08:26.003767"
       }
     }
   },
@@ -123,37 +75,21 @@
         "name": "Tail.Blazor.Chart",
         "friendly_name": "Chart",
         "description": "# Tail.Blazor.Chart\n\nIndependent NuGet package for the TailChart component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Data",
-            "type": "List<double>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailChart.razor",
-        "extracted_at": "2026-01-04T16:03:39.552153"
+        "extracted_at": "2026-01-04T19:08:26.004596"
       },
       "Tail.Blazor.Sparkline": {
         "name": "Tail.Blazor.Sparkline",
         "friendly_name": "Sparkline",
         "description": "# Tail.Blazor.Sparkline\n\nIndependent NuGet package for the TailSparkline component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Data",
-            "type": "List<double>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSparkline.razor",
-        "extracted_at": "2026-01-04T16:03:39.552883"
+        "extracted_at": "2026-01-04T19:08:26.005317"
       }
     }
   },
@@ -166,19 +102,11 @@
         "name": "Tail.Blazor.Core.Theme",
         "friendly_name": "Core.Theme",
         "description": "",
-        "parameters": [
-          {
-            "name": "ShowModeToggle",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailThemeControl.razor",
-        "extracted_at": "2026-01-04T16:03:39.554733"
+        "extracted_at": "2026-01-04T19:08:26.006585"
       }
     }
   },
@@ -191,37 +119,21 @@
         "name": "Tail.Blazor.AdvancedFilter",
         "friendly_name": "AdvancedFilter",
         "description": "# Tail.Blazor.AdvancedFilter\n\nIndependent NuGet package for the TailAdvancedFilter component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Fields",
-            "type": "List<string>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailAdvancedFilter.razor",
-        "extracted_at": "2026-01-04T16:03:39.555744"
+        "extracted_at": "2026-01-04T19:08:26.007427"
       },
       "Tail.Blazor.DataGrid": {
         "name": "Tail.Blazor.DataGrid",
         "friendly_name": "DataGrid",
         "description": "# Tail.Blazor.DataGrid\n\nIndependent NuGet package for the TailDataGrid component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Data",
-            "type": "List<T>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailDataGrid.razor",
-        "extracted_at": "2026-01-04T16:03:39.556507"
+        "extracted_at": "2026-01-04T19:08:26.008040"
       },
       "Tail.Blazor.InfiniteScroll": {
         "name": "Tail.Blazor.InfiniteScroll",
@@ -231,151 +143,87 @@
         "events": [],
         "enums": {},
         "main_file": "InfiniteScroll.razor",
-        "extracted_at": "2026-01-04T16:03:39.557708"
+        "extracted_at": "2026-01-04T19:08:26.008969"
       },
       "Tail.Blazor.KanbanBoard": {
         "name": "Tail.Blazor.KanbanBoard",
         "friendly_name": "KanbanBoard",
         "description": "# Tail.Blazor.KanbanBoard\n\nIndependent NuGet package for the TailKanbanBoard component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Columns",
-            "type": "List<KanbanColumn>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailKanbanBoard.razor",
-        "extracted_at": "2026-01-04T16:03:39.558906"
+        "extracted_at": "2026-01-04T19:08:26.009664"
       },
       "Tail.Blazor.ListView": {
         "name": "Tail.Blazor.ListView",
         "friendly_name": "ListView",
         "description": "# Tail.Blazor.ListView\n\nIndependent NuGet package for the TailListView component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<T>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailListView.razor",
-        "extracted_at": "2026-01-04T16:03:39.560194"
+        "extracted_at": "2026-01-04T19:08:26.010305"
       },
       "Tail.Blazor.Pager": {
         "name": "Tail.Blazor.Pager",
         "friendly_name": "Pager",
         "description": "# Tail.Blazor.Pager\n\nIndependent NuGet package for the TailPager component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "CurrentPage",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPager.razor",
-        "extracted_at": "2026-01-04T16:03:39.561096"
+        "extracted_at": "2026-01-04T19:08:26.010975"
       },
       "Tail.Blazor.PivotDataGrid": {
         "name": "Tail.Blazor.PivotDataGrid",
         "friendly_name": "PivotDataGrid",
         "description": "# Tail.Blazor.PivotDataGrid\n\nIndependent NuGet package for the TailPivotDataGrid component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "RowHeader",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPivotDataGrid.razor",
-        "extracted_at": "2026-01-04T16:03:39.561774"
+        "extracted_at": "2026-01-04T19:08:26.011593"
       },
       "Tail.Blazor.ResponsiveTable": {
         "name": "Tail.Blazor.ResponsiveTable",
         "friendly_name": "ResponsiveTable",
         "description": "# Tail.Blazor.ResponsiveTable\n\nIndependent NuGet package for the TailResponsiveTable component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Columns",
-            "type": "List<string>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailResponsiveTable.razor",
-        "extracted_at": "2026-01-04T16:03:39.562477"
+        "extracted_at": "2026-01-04T19:08:26.012195"
       },
       "Tail.Blazor.Scheduler": {
         "name": "Tail.Blazor.Scheduler",
         "friendly_name": "Scheduler",
         "description": "# Tail.Blazor.Scheduler\n\nIndependent NuGet package for the TailScheduler component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "CurrentDate",
-            "type": "DateTime",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailScheduler.razor",
-        "extracted_at": "2026-01-04T16:03:39.563207"
+        "extracted_at": "2026-01-04T19:08:26.012826"
       },
       "Tail.Blazor.Tree": {
         "name": "Tail.Blazor.Tree",
         "friendly_name": "Tree",
         "description": "# Tail.Blazor.Tree\n\nIndependent NuGet package for the TailTree component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Nodes",
-            "type": "List<TreeNodeItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTree.razor",
-        "extracted_at": "2026-01-04T16:03:39.563855"
+        "extracted_at": "2026-01-04T19:08:26.013410"
       },
       "Tail.Blazor.VirtualScroll": {
         "name": "Tail.Blazor.VirtualScroll",
         "friendly_name": "VirtualScroll",
         "description": "# Tail.Blazor.VirtualScroll\n\nIndependent NuGet package for the TailVirtualScroll component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<T>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailVirtualScroll.razor",
-        "extracted_at": "2026-01-04T16:03:39.564521"
+        "extracted_at": "2026-01-04T19:08:26.014363"
       }
     }
   },
@@ -388,163 +236,91 @@
         "name": "Tail.Blazor.Alert",
         "friendly_name": "Alert",
         "description": "# Tail.Blazor.Alert\n\nIndependent NuGet package for the TailAlert component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "AlertVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailAlert.razor",
-        "extracted_at": "2026-01-04T16:03:39.565754"
+        "extracted_at": "2026-01-04T19:08:26.015839"
       },
       "Tail.Blazor.Avatar": {
         "name": "Tail.Blazor.Avatar",
         "friendly_name": "Avatar",
         "description": "",
-        "parameters": [
-          {
-            "name": "Size",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "Avatar.razor",
-        "extracted_at": "2026-01-04T16:03:39.566445"
+        "extracted_at": "2026-01-04T19:08:26.017322"
       },
       "Tail.Blazor.Badge": {
         "name": "Tail.Blazor.Badge",
         "friendly_name": "Badge",
         "description": "# Tail.Blazor.Badge\n\nIndependent NuGet package for the TailBadge component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "BadgeVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailBadge.razor",
-        "extracted_at": "2026-01-04T16:03:39.567639"
+        "extracted_at": "2026-01-04T19:08:26.018395"
       },
       "Tail.Blazor.Chip": {
         "name": "Tail.Blazor.Chip",
         "friendly_name": "Chip",
         "description": "",
-        "parameters": [
-          {
-            "name": "Label",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "Chip.razor",
-        "extracted_at": "2026-01-04T16:03:39.568520"
+        "extracted_at": "2026-01-04T19:08:26.019013"
       },
       "Tail.Blazor.Confetti": {
         "name": "Tail.Blazor.Confetti",
         "friendly_name": "Confetti",
         "description": "# Tail.Blazor.Confetti\n\nIndependent NuGet package for the TailConfetti component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsActive",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailConfetti.razor",
-        "extracted_at": "2026-01-04T16:03:39.569267"
+        "extracted_at": "2026-01-04T19:08:26.019683"
       },
       "Tail.Blazor.Dialog": {
         "name": "Tail.Blazor.Dialog",
         "friendly_name": "Dialog",
         "description": "# Tail.Blazor.Dialog\n\nIndependent NuGet package for the TailDialog component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsVisible",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailDialog.razor",
-        "extracted_at": "2026-01-04T16:03:39.570417"
+        "extracted_at": "2026-01-04T19:08:26.020391"
       },
       "Tail.Blazor.EmptyState": {
         "name": "Tail.Blazor.EmptyState",
         "friendly_name": "EmptyState",
         "description": "# Tail.Blazor.EmptyState\n\nIndependent NuGet package for the TailEmptyState component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Size",
-            "type": "EmptyStateSize",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailEmptyState.razor",
-        "extracted_at": "2026-01-04T16:03:39.572039"
+        "extracted_at": "2026-01-04T19:08:26.021101"
       },
       "Tail.Blazor.NotificationCenter": {
         "name": "Tail.Blazor.NotificationCenter",
         "friendly_name": "NotificationCenter",
         "description": "# Tail.Blazor.NotificationCenter\n\nIndependent NuGet package for the TailNotificationCenter component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Notifications",
-            "type": "List<NotificationItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailNotificationCenter.razor",
-        "extracted_at": "2026-01-04T16:03:39.572956"
+        "extracted_at": "2026-01-04T19:08:26.022082"
       },
       "Tail.Blazor.Popconfirm": {
         "name": "Tail.Blazor.Popconfirm",
         "friendly_name": "Popconfirm",
         "description": "# Tail.Blazor.Popconfirm\n\nIndependent NuGet package for the TailPopconfirm component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Title",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPopconfirm.razor",
-        "extracted_at": "2026-01-04T16:03:39.574269"
+        "extracted_at": "2026-01-04T19:08:26.023168"
       },
       "Tail.Blazor.Popover": {
         "name": "Tail.Blazor.Popover",
@@ -554,133 +330,77 @@
         "events": [],
         "enums": {},
         "main_file": "Popover.razor",
-        "extracted_at": "2026-01-04T16:03:39.575148"
+        "extracted_at": "2026-01-04T19:08:26.023867"
       },
       "Tail.Blazor.Progress": {
         "name": "Tail.Blazor.Progress",
         "friendly_name": "Progress",
         "description": "# Tail.Blazor.Progress\n\nIndependent NuGet package for the TailProgress component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailProgress.razor",
-        "extracted_at": "2026-01-04T16:03:39.576283"
+        "extracted_at": "2026-01-04T19:08:26.024601"
       },
       "Tail.Blazor.ProgressBarCircular": {
         "name": "Tail.Blazor.ProgressBarCircular",
         "friendly_name": "ProgressBarCircular",
         "description": "# Tail.Blazor.ProgressBarCircular\n\nIndependent NuGet package for the TailProgressBarCircular component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailProgressBarCircular.razor",
-        "extracted_at": "2026-01-04T16:03:39.577283"
+        "extracted_at": "2026-01-04T19:08:26.025279"
       },
       "Tail.Blazor.Skeleton": {
         "name": "Tail.Blazor.Skeleton",
         "friendly_name": "Skeleton",
         "description": "# Tail.Blazor.Skeleton\n\nIndependent NuGet package for the TailSkeleton component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Type",
-            "type": "SkeletonType",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSkeleton.razor",
-        "extracted_at": "2026-01-04T16:03:39.578132"
+        "extracted_at": "2026-01-04T19:08:26.025944"
       },
       "Tail.Blazor.Snackbar": {
         "name": "Tail.Blazor.Snackbar",
         "friendly_name": "Snackbar",
         "description": "",
-        "parameters": [
-          {
-            "name": "Message",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "Snackbar.razor",
-        "extracted_at": "2026-01-04T16:03:39.578855"
+        "extracted_at": "2026-01-04T19:08:26.026576"
       },
       "Tail.Blazor.Spinner": {
         "name": "Tail.Blazor.Spinner",
         "friendly_name": "Spinner",
         "description": "# Tail.Blazor.Spinner\n\nIndependent NuGet package for the TailSpinner component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Size",
-            "type": "SpinnerSize",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSpinner.razor",
-        "extracted_at": "2026-01-04T16:03:39.579891"
+        "extracted_at": "2026-01-04T19:08:26.027249"
       },
       "Tail.Blazor.Toast": {
         "name": "Tail.Blazor.Toast",
         "friendly_name": "Toast",
         "description": "# Tail.Blazor.Toast\n\nIndependent NuGet package for the TailToast component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "ToastVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailToast.razor",
-        "extracted_at": "2026-01-04T16:03:39.581091"
+        "extracted_at": "2026-01-04T19:08:26.028098"
       },
       "Tail.Blazor.ToastContainer": {
         "name": "Tail.Blazor.ToastContainer",
         "friendly_name": "ToastContainer",
         "description": "# Tail.Blazor.ToastContainer\n\nIndependent NuGet package for the TailToastContainer component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Position",
-            "type": "ToastPosition",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailToastContainer.razor",
-        "extracted_at": "2026-01-04T16:03:39.582366"
+        "extracted_at": "2026-01-04T19:08:26.028884"
       },
       "Tail.Blazor.Tooltip": {
         "name": "Tail.Blazor.Tooltip",
@@ -690,25 +410,17 @@
         "events": [],
         "enums": {},
         "main_file": "Tooltip.razor",
-        "extracted_at": "2026-01-04T16:03:39.583077"
+        "extracted_at": "2026-01-04T19:08:26.029466"
       },
       "Tail.Blazor.Tour": {
         "name": "Tail.Blazor.Tour",
         "friendly_name": "Tour",
         "description": "# Tail.Blazor.Tour\n\nIndependent NuGet package for the TailTour component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Steps",
-            "type": "List<TourStep>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTour.razor",
-        "extracted_at": "2026-01-04T16:03:39.584400"
+        "extracted_at": "2026-01-04T19:08:26.030281"
       }
     }
   },
@@ -721,469 +433,261 @@
         "name": "Tail.Blazor.AudioRecorder",
         "friendly_name": "AudioRecorder",
         "description": "# Tail.Blazor.AudioRecorder\n\nIndependent NuGet package for the TailAudioRecorder component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailAudioRecorder.razor",
-        "extracted_at": "2026-01-04T16:03:39.586218"
+        "extracted_at": "2026-01-04T19:08:26.031587"
       },
       "Tail.Blazor.AutoComplete": {
         "name": "Tail.Blazor.AutoComplete",
         "friendly_name": "AutoComplete",
         "description": "# Tail.Blazor.AutoComplete\n\nIndependent NuGet package for the TailAutoComplete component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailAutoComplete.razor",
-        "extracted_at": "2026-01-04T16:03:39.587348"
+        "extracted_at": "2026-01-04T19:08:26.032972"
       },
       "Tail.Blazor.Checkbox": {
         "name": "Tail.Blazor.Checkbox",
         "friendly_name": "Checkbox",
         "description": "# Tail.Blazor.Checkbox\n\nIndependent NuGet package for the TailCheckbox component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsChecked",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCheckbox.razor",
-        "extracted_at": "2026-01-04T16:03:39.588283"
+        "extracted_at": "2026-01-04T19:08:26.034758"
       },
       "Tail.Blazor.ColorPicker": {
         "name": "Tail.Blazor.ColorPicker",
         "friendly_name": "ColorPicker",
         "description": "# Tail.Blazor.ColorPicker\n\nIndependent NuGet package for the TailColorPicker component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailColorPicker.razor",
-        "extracted_at": "2026-01-04T16:03:39.589372"
+        "extracted_at": "2026-01-04T19:08:26.036234"
       },
       "Tail.Blazor.CurrencyInput": {
         "name": "Tail.Blazor.CurrencyInput",
         "friendly_name": "CurrencyInput",
         "description": "# Tail.Blazor.CurrencyInput\n\nIndependent NuGet package for the TailCurrencyInput component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<decimal?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCurrencyInput.razor",
-        "extracted_at": "2026-01-04T16:03:39.590837"
+        "extracted_at": "2026-01-04T19:08:26.037108"
       },
       "Tail.Blazor.DatePicker": {
         "name": "Tail.Blazor.DatePicker",
         "friendly_name": "DatePicker",
         "description": "# Tail.Blazor.DatePicker\n\nIndependent NuGet package for the TailDatePicker component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<DateTime?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailDatePicker.razor",
-        "extracted_at": "2026-01-04T16:03:39.592915"
+        "extracted_at": "2026-01-04T19:08:26.038538"
       },
       "Tail.Blazor.DateRangePicker": {
         "name": "Tail.Blazor.DateRangePicker",
         "friendly_name": "DateRangePicker",
         "description": "# Tail.Blazor.DateRangePicker\n\nIndependent NuGet package for the TailDateRangePicker component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "StartDateChanged",
-            "type": "EventCallback<DateTime?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailDateRangePicker.razor",
-        "extracted_at": "2026-01-04T16:03:39.595326"
+        "extracted_at": "2026-01-04T19:08:26.040957"
       },
       "Tail.Blazor.FileUpload": {
         "name": "Tail.Blazor.FileUpload",
         "friendly_name": "FileUpload",
         "description": "# Tail.Blazor.FileUpload\n\nIndependent NuGet package for the TailFileUpload component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "FilesChanged",
-            "type": "EventCallback<IBrowserFile[]>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailFileUpload.razor",
-        "extracted_at": "2026-01-04T16:03:39.596661"
+        "extracted_at": "2026-01-04T19:08:26.043168"
       },
       "Tail.Blazor.ImageCropper": {
         "name": "Tail.Blazor.ImageCropper",
         "friendly_name": "ImageCropper",
         "description": "# Tail.Blazor.ImageCropper\n\nIndependent NuGet package for the TailImageCropper component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailImageCropper.razor",
-        "extracted_at": "2026-01-04T16:03:39.597486"
+        "extracted_at": "2026-01-04T19:08:26.043927"
       },
       "Tail.Blazor.Input": {
         "name": "Tail.Blazor.Input",
         "friendly_name": "Input",
         "description": "# Tail.Blazor.Input\n\nIndependent NuGet package for the TailInput component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailInput.razor",
-        "extracted_at": "2026-01-04T16:03:39.598747"
+        "extracted_at": "2026-01-04T19:08:26.045530"
       },
       "Tail.Blazor.Mask": {
         "name": "Tail.Blazor.Mask",
         "friendly_name": "Mask",
         "description": "# Tail.Blazor.Mask\n\nIndependent NuGet package for the TailMask component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailMask.razor",
-        "extracted_at": "2026-01-04T16:03:39.599688"
+        "extracted_at": "2026-01-04T19:08:26.046399"
       },
       "Tail.Blazor.MultiSelect": {
         "name": "Tail.Blazor.MultiSelect",
         "friendly_name": "MultiSelect",
         "description": "# Tail.Blazor.MultiSelect\n\nIndependent NuGet package for the TailMultiSelect component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "SelectedValuesChanged",
-            "type": "List<string>? SelectedValues { get; set; }\n    [Parameter] public EventCallback<List<string>>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailMultiSelect.razor",
-        "extracted_at": "2026-01-04T16:03:39.600552"
+        "extracted_at": "2026-01-04T19:08:26.047212"
       },
       "Tail.Blazor.Numeric": {
         "name": "Tail.Blazor.Numeric",
         "friendly_name": "Numeric",
         "description": "# Tail.Blazor.Numeric\n\nIndependent NuGet package for the TailNumeric component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "decimal",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailNumeric.razor",
-        "extracted_at": "2026-01-04T16:03:39.601423"
+        "extracted_at": "2026-01-04T19:08:26.048189"
       },
       "Tail.Blazor.OTPInput": {
         "name": "Tail.Blazor.OTPInput",
         "friendly_name": "OTPInput",
         "description": "# Tail.Blazor.OTPInput\n\nIndependent NuGet package for the TailOTPInput component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailOTPInput.razor",
-        "extracted_at": "2026-01-04T16:03:39.602478"
+        "extracted_at": "2026-01-04T19:08:26.049186"
       },
       "Tail.Blazor.PasswordStrengthMeter": {
         "name": "Tail.Blazor.PasswordStrengthMeter",
         "friendly_name": "PasswordStrengthMeter",
         "description": "# Tail.Blazor.PasswordStrengthMeter\n\nIndependent NuGet package for the TailPasswordStrengthMeter component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPasswordStrengthMeter.razor",
-        "extracted_at": "2026-01-04T16:03:39.603874"
+        "extracted_at": "2026-01-04T19:08:26.050871"
       },
       "Tail.Blazor.PhoneNumberInput": {
         "name": "Tail.Blazor.PhoneNumberInput",
         "friendly_name": "PhoneNumberInput",
         "description": "# Tail.Blazor.PhoneNumberInput\n\nIndependent NuGet package for the TailPhoneNumberInput component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "PhoneNumberChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPhoneNumberInput.razor",
-        "extracted_at": "2026-01-04T16:03:39.605311"
+        "extracted_at": "2026-01-04T19:08:26.052086"
       },
       "Tail.Blazor.Radio": {
         "name": "Tail.Blazor.Radio",
         "friendly_name": "Radio",
         "description": "# Tail.Blazor.Radio\n\nIndependent NuGet package for the TailRadio component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsChecked",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailRadio.razor",
-        "extracted_at": "2026-01-04T16:03:39.606459"
+        "extracted_at": "2026-01-04T19:08:26.052904"
       },
       "Tail.Blazor.RadioGroup": {
         "name": "Tail.Blazor.RadioGroup",
         "friendly_name": "RadioGroup",
         "description": "# Tail.Blazor.RadioGroup\n\nIndependent NuGet package for the TailRadioGroup component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Required",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailRadioGroup.razor",
-        "extracted_at": "2026-01-04T16:03:39.607953"
+        "extracted_at": "2026-01-04T19:08:26.053582"
       },
       "Tail.Blazor.Rating": {
         "name": "Tail.Blazor.Rating",
         "friendly_name": "Rating",
         "description": "# Tail.Blazor.Rating\n\nIndependent NuGet package for the TailRating component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailRating.razor",
-        "extracted_at": "2026-01-04T16:03:39.609255"
+        "extracted_at": "2026-01-04T19:08:26.054661"
       },
       "Tail.Blazor.RichTextEditor": {
         "name": "Tail.Blazor.RichTextEditor",
         "friendly_name": "RichTextEditor",
         "description": "# Tail.Blazor.RichTextEditor\n\nIndependent NuGet package for the TailRichTextEditor component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailRichTextEditor.razor",
-        "extracted_at": "2026-01-04T16:03:39.610050"
+        "extracted_at": "2026-01-04T19:08:26.055402"
       },
       "Tail.Blazor.Select": {
         "name": "Tail.Blazor.Select",
         "friendly_name": "Select",
         "description": "# Tail.Blazor.Select\n\nIndependent NuGet package for the TailSelect component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSelect.razor",
-        "extracted_at": "2026-01-04T16:03:39.610842"
+        "extracted_at": "2026-01-04T19:08:26.056177"
       },
       "Tail.Blazor.Slider": {
         "name": "Tail.Blazor.Slider",
         "friendly_name": "Slider",
         "description": "# Tail.Blazor.Slider\n\nIndependent NuGet package for the TailSlider component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "double",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSlider.razor",
-        "extracted_at": "2026-01-04T16:03:39.611639"
+        "extracted_at": "2026-01-04T19:08:26.057210"
       },
       "Tail.Blazor.Switch": {
         "name": "Tail.Blazor.Switch",
         "friendly_name": "Switch",
         "description": "# Tail.Blazor.Switch\n\nIndependent NuGet package for the TailSwitch component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsChecked",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSwitch.razor",
-        "extracted_at": "2026-01-04T16:03:39.612614"
+        "extracted_at": "2026-01-04T19:08:26.058093"
       },
       "Tail.Blazor.TagInput": {
         "name": "Tail.Blazor.TagInput",
         "friendly_name": "TagInput",
         "description": "# Tail.Blazor.TagInput\n\nIndependent NuGet package for the TailTagInput component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Tags",
-            "type": "List<string>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTagInput.razor",
-        "extracted_at": "2026-01-04T16:03:39.613914"
+        "extracted_at": "2026-01-04T19:08:26.058894"
       },
       "Tail.Blazor.Textarea": {
         "name": "Tail.Blazor.Textarea",
         "friendly_name": "Textarea",
         "description": "# Tail.Blazor.Textarea\n\nIndependent NuGet package for the TailTextarea component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<string?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTextarea.razor",
-        "extracted_at": "2026-01-04T16:03:39.615257"
+        "extracted_at": "2026-01-04T19:08:26.060320"
       },
       "Tail.Blazor.TimePicker": {
         "name": "Tail.Blazor.TimePicker",
         "friendly_name": "TimePicker",
         "description": "# Tail.Blazor.TimePicker\n\nIndependent NuGet package for the TailTimePicker component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ValueChanged",
-            "type": "EventCallback<TimeSpan?>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTimePicker.razor",
-        "extracted_at": "2026-01-04T16:03:39.616202"
+        "extracted_at": "2026-01-04T19:08:26.061037"
       }
     }
   },
@@ -1196,19 +700,11 @@
         "name": "Tail.Blazor.Icon",
         "friendly_name": "Icon",
         "description": "# Tail.Blazor.Icon\n\nIndependent NuGet package for the TailIcon component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Name",
-            "type": "IconName",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailIcon.razor",
-        "extracted_at": "2026-01-04T16:03:39.617213"
+        "extracted_at": "2026-01-04T19:08:26.061949"
       }
     }
   },
@@ -1221,91 +717,51 @@
         "name": "Tail.Blazor.BottomSheet",
         "friendly_name": "BottomSheet",
         "description": "# Tail.Blazor.BottomSheet\n\nIndependent NuGet package for the TailBottomSheet component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsVisible",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailBottomSheet.razor",
-        "extracted_at": "2026-01-04T16:03:39.618518"
+        "extracted_at": "2026-01-04T19:08:26.062762"
       },
       "Tail.Blazor.Card": {
         "name": "Tail.Blazor.Card",
         "friendly_name": "Card",
         "description": "# Tail.Blazor.Card\n\nIndependent NuGet package for the TailCard component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Hoverable",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCard.razor",
-        "extracted_at": "2026-01-04T16:03:39.619526"
+        "extracted_at": "2026-01-04T19:08:26.063398"
       },
       "Tail.Blazor.CollapsibleMenu": {
         "name": "Tail.Blazor.CollapsibleMenu",
         "friendly_name": "CollapsibleMenu",
         "description": "# Tail.Blazor.CollapsibleMenu\n\nIndependent NuGet package for the TailCollapsibleMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Title",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCollapsibleMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.620274"
+        "extracted_at": "2026-01-04T19:08:26.064023"
       },
       "Tail.Blazor.Container": {
         "name": "Tail.Blazor.Container",
         "friendly_name": "Container",
         "description": "# Tail.Blazor.Container\n\nIndependent NuGet package for the TailContainer component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Size",
-            "type": "ContainerSize",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailContainer.razor",
-        "extracted_at": "2026-01-04T16:03:39.620993"
+        "extracted_at": "2026-01-04T19:08:26.065101"
       },
       "Tail.Blazor.Divider": {
         "name": "Tail.Blazor.Divider",
         "friendly_name": "Divider",
         "description": "# Tail.Blazor.Divider\n\nIndependent NuGet package for the TailDivider component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Orientation",
-            "type": "DividerOrientation",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailDivider.razor",
-        "extracted_at": "2026-01-04T16:03:39.621711"
+        "extracted_at": "2026-01-04T19:08:26.065778"
       },
       "Tail.Blazor.DockingLayout": {
         "name": "Tail.Blazor.DockingLayout",
@@ -1315,115 +771,67 @@
         "events": [],
         "enums": {},
         "main_file": "TailDockingLayout.razor",
-        "extracted_at": "2026-01-04T16:03:39.622611"
+        "extracted_at": "2026-01-04T19:08:26.067135"
       },
       "Tail.Blazor.Grid": {
         "name": "Tail.Blazor.Grid",
         "friendly_name": "Grid",
         "description": "# Tail.Blazor.Grid\n\nIndependent NuGet package for the TailGrid component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Columns",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailGrid.razor",
-        "extracted_at": "2026-01-04T16:03:39.623690"
+        "extracted_at": "2026-01-04T19:08:26.067978"
       },
       "Tail.Blazor.Header": {
         "name": "Tail.Blazor.Header",
         "friendly_name": "Header",
         "description": "# Tail.Blazor.Header\n\nIndependent NuGet package for the TailHeader component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Sticky",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailHeader.razor",
-        "extracted_at": "2026-01-04T16:03:39.624990"
+        "extracted_at": "2026-01-04T19:08:26.068707"
       },
       "Tail.Blazor.NavMenu": {
         "name": "Tail.Blazor.NavMenu",
         "friendly_name": "NavMenu",
         "description": "# Tail.Blazor.NavMenu\n\nIndependent NuGet package for the TailNavMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Orientation",
-            "type": "NavMenuOrientation",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailNavMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.625860"
+        "extracted_at": "2026-01-04T19:08:26.069453"
       },
       "Tail.Blazor.Panel": {
         "name": "Tail.Blazor.Panel",
         "friendly_name": "Panel",
         "description": "# Tail.Blazor.Panel\n\nIndependent NuGet package for the TailPanel component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "PanelVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPanel.razor",
-        "extracted_at": "2026-01-04T16:03:39.626873"
+        "extracted_at": "2026-01-04T19:08:26.070140"
       },
       "Tail.Blazor.ResponsiveLayout": {
         "name": "Tail.Blazor.ResponsiveLayout",
         "friendly_name": "ResponsiveLayout",
         "description": "# Tail.Blazor.ResponsiveLayout\n\nIndependent NuGet package for the TailResponsiveLayout component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ShowMenuToggle",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailResponsiveLayout.razor",
-        "extracted_at": "2026-01-04T16:03:39.628557"
+        "extracted_at": "2026-01-04T19:08:26.071520"
       },
       "Tail.Blazor.SplitPane": {
         "name": "Tail.Blazor.SplitPane",
         "friendly_name": "SplitPane",
         "description": "# Tail.Blazor.SplitPane\n\nIndependent NuGet package for the TailSplitPane component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "SplitPercentage",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSplitPane.razor",
-        "extracted_at": "2026-01-04T16:03:39.629725"
+        "extracted_at": "2026-01-04T19:08:26.072253"
       }
     }
   },
@@ -1436,19 +844,11 @@
         "name": "Tail.Blazor.Accordion",
         "friendly_name": "Accordion",
         "description": "# Tail.Blazor.Accordion\n\nIndependent NuGet package for the TailAccordion component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<AccordionItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailAccordion.razor",
-        "extracted_at": "2026-01-04T16:03:39.631499"
+        "extracted_at": "2026-01-04T19:08:26.073245"
       },
       "Tail.Blazor.AccordionItem": {
         "name": "Tail.Blazor.AccordionItem",
@@ -1458,7 +858,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailAccordionItem.razor",
-        "extracted_at": "2026-01-04T16:03:39.632635"
+        "extracted_at": "2026-01-04T19:08:26.073928"
       },
       "Tail.Blazor.BottomNavigation": {
         "name": "Tail.Blazor.BottomNavigation",
@@ -1468,151 +868,87 @@
         "events": [],
         "enums": {},
         "main_file": "BottomNavigation.razor",
-        "extracted_at": "2026-01-04T16:03:39.633532"
+        "extracted_at": "2026-01-04T19:08:26.074537"
       },
       "Tail.Blazor.Breadcrumb": {
         "name": "Tail.Blazor.Breadcrumb",
         "friendly_name": "Breadcrumb",
         "description": "# Tail.Blazor.Breadcrumb\n\nIndependent NuGet package for the TailBreadcrumb component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<BreadcrumbItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailBreadcrumb.razor",
-        "extracted_at": "2026-01-04T16:03:39.634924"
+        "extracted_at": "2026-01-04T19:08:26.075156"
       },
       "Tail.Blazor.Carousel": {
         "name": "Tail.Blazor.Carousel",
         "friendly_name": "Carousel",
         "description": "# Tail.Blazor.Carousel\n\nIndependent NuGet package for the TailCarousel component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<RenderFragment>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCarousel.razor",
-        "extracted_at": "2026-01-04T16:03:39.636467"
+        "extracted_at": "2026-01-04T19:08:26.075829"
       },
       "Tail.Blazor.CommandPalette": {
         "name": "Tail.Blazor.CommandPalette",
         "friendly_name": "CommandPalette",
         "description": "# Tail.Blazor.CommandPalette\n\nIndependent NuGet package for the TailCommandPalette component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsVisible",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCommandPalette.razor",
-        "extracted_at": "2026-01-04T16:03:39.637992"
+        "extracted_at": "2026-01-04T19:08:26.076546"
       },
       "Tail.Blazor.ContextMenu": {
         "name": "Tail.Blazor.ContextMenu",
         "friendly_name": "ContextMenu",
         "description": "# Tail.Blazor.ContextMenu\n\nIndependent NuGet package for the TailContextMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<ContextMenuItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailContextMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.639127"
+        "extracted_at": "2026-01-04T19:08:26.077321"
       },
       "Tail.Blazor.FloatingActionMenu": {
         "name": "Tail.Blazor.FloatingActionMenu",
         "friendly_name": "FloatingActionMenu",
         "description": "# Tail.Blazor.FloatingActionMenu\n\nIndependent NuGet package for the TailFloatingActionMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<FloatingActionMenuItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailFloatingActionMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.640350"
+        "extracted_at": "2026-01-04T19:08:26.078025"
       },
       "Tail.Blazor.MegaMenu": {
         "name": "Tail.Blazor.MegaMenu",
         "friendly_name": "MegaMenu",
         "description": "# Tail.Blazor.MegaMenu\n\nIndependent NuGet package for the TailMegaMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Sections",
-            "type": "List<MegaMenuSection>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailMegaMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.642338"
+        "extracted_at": "2026-01-04T19:08:26.078819"
       },
       "Tail.Blazor.Menu": {
         "name": "Tail.Blazor.Menu",
         "friendly_name": "Menu",
         "description": "# Tail.Blazor.Menu\n\nIndependent NuGet package for the TailMenu component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Variant",
-            "type": "MenuVariant",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailMenu.razor",
-        "extracted_at": "2026-01-04T16:03:39.644419"
+        "extracted_at": "2026-01-04T19:08:26.079589"
       },
       "Tail.Blazor.MenuItem": {
         "name": "Tail.Blazor.MenuItem",
         "friendly_name": "MenuItem",
         "description": "# Tail.Blazor.MenuItem\n\nIndependent NuGet package for the TailMenuItem component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsActive",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailMenuItem.razor",
-        "extracted_at": "2026-01-04T16:03:39.645634"
+        "extracted_at": "2026-01-04T19:08:26.080433"
       },
       "Tail.Blazor.NavDrawer": {
         "name": "Tail.Blazor.NavDrawer",
@@ -1622,97 +958,57 @@
         "events": [],
         "enums": {},
         "main_file": "NavDrawer.razor",
-        "extracted_at": "2026-01-04T16:03:39.646564"
+        "extracted_at": "2026-01-04T19:08:26.081045"
       },
       "Tail.Blazor.Pagination": {
         "name": "Tail.Blazor.Pagination",
         "friendly_name": "Pagination",
         "description": "# Tail.Blazor.Pagination\n\nIndependent NuGet package for the TailPagination component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "CurrentPage",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailPagination.razor",
-        "extracted_at": "2026-01-04T16:03:39.647838"
+        "extracted_at": "2026-01-04T19:08:26.082024"
       },
       "Tail.Blazor.ScrollSpy": {
         "name": "Tail.Blazor.ScrollSpy",
         "friendly_name": "ScrollSpy",
         "description": "# Tail.Blazor.ScrollSpy\n\nIndependent NuGet package for the TailScrollSpy component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<ScrollSpyItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailScrollSpy.razor",
-        "extracted_at": "2026-01-04T16:03:39.648937"
+        "extracted_at": "2026-01-04T19:08:26.083046"
       },
       "Tail.Blazor.Sidebar": {
         "name": "Tail.Blazor.Sidebar",
         "friendly_name": "Sidebar",
         "description": "# Tail.Blazor.Sidebar\n\nIndependent NuGet package for the TailSidebar component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "IsCollapsed",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSidebar.razor",
-        "extracted_at": "2026-01-04T16:03:39.650055"
+        "extracted_at": "2026-01-04T19:08:26.084383"
       },
       "Tail.Blazor.Steps": {
         "name": "Tail.Blazor.Steps",
         "friendly_name": "Steps",
         "description": "# Tail.Blazor.Steps\n\nIndependent NuGet package for the TailSteps component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Steps",
-            "type": "List<StepItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailSteps.razor",
-        "extracted_at": "2026-01-04T16:03:39.651301"
+        "extracted_at": "2026-01-04T19:08:26.085323"
       },
       "Tail.Blazor.Tabs": {
         "name": "Tail.Blazor.Tabs",
         "friendly_name": "Tabs",
         "description": "# Tail.Blazor.Tabs\n\nIndependent NuGet package for the TailTabs component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Disabled",
-            "type": "bool",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTabItem.razor",
-        "extracted_at": "2026-01-04T16:03:39.652259"
+        "extracted_at": "2026-01-04T19:08:26.086031"
       }
     }
   },
@@ -1725,37 +1021,21 @@
         "name": "Tail.Blazor.Clipboard",
         "friendly_name": "Clipboard",
         "description": "# Tail.Blazor.Clipboard\n\nIndependent NuGet package for the TailClipboard component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "OnCopied",
-            "type": "EventCallback",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailClipboard.razor",
-        "extracted_at": "2026-01-04T16:03:39.653375"
+        "extracted_at": "2026-01-04T19:08:26.086939"
       },
       "Tail.Blazor.ImageZoom": {
         "name": "Tail.Blazor.ImageZoom",
         "friendly_name": "ImageZoom",
         "description": "# Tail.Blazor.ImageZoom\n\nIndependent NuGet package for the TailImageZoom component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "ImageSrc",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailImageZoom.razor",
-        "extracted_at": "2026-01-04T16:03:39.654135"
+        "extracted_at": "2026-01-04T19:08:26.087600"
       }
     }
   },
@@ -1768,19 +1048,11 @@
         "name": "Tail.Blazor.CompareValidator",
         "friendly_name": "CompareValidator",
         "description": "# Tail.Blazor.CompareValidator\n\nIndependent NuGet package for the TailCompareValidator component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Operator",
-            "type": "CompareOperator",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailCompareValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.655346"
+        "extracted_at": "2026-01-04T19:08:26.088402"
       },
       "Tail.Blazor.CustomValidator": {
         "name": "Tail.Blazor.CustomValidator",
@@ -1790,7 +1062,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailCustomValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.656210"
+        "extracted_at": "2026-01-04T19:08:26.088978"
       },
       "Tail.Blazor.EmailValidator": {
         "name": "Tail.Blazor.EmailValidator",
@@ -1800,7 +1072,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailEmailValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.659252"
+        "extracted_at": "2026-01-04T19:08:26.089569"
       },
       "Tail.Blazor.LengthValidator": {
         "name": "Tail.Blazor.LengthValidator",
@@ -1810,7 +1082,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailLengthValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.660013"
+        "extracted_at": "2026-01-04T19:08:26.090193"
       },
       "Tail.Blazor.NumericRangeValidator": {
         "name": "Tail.Blazor.NumericRangeValidator",
@@ -1820,7 +1092,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailNumericRangeValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.660756"
+        "extracted_at": "2026-01-04T19:08:26.090786"
       },
       "Tail.Blazor.RangeValidator": {
         "name": "Tail.Blazor.RangeValidator",
@@ -1830,7 +1102,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailRangeValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.661610"
+        "extracted_at": "2026-01-04T19:08:26.091381"
       },
       "Tail.Blazor.RegexValidator": {
         "name": "Tail.Blazor.RegexValidator",
@@ -1840,7 +1112,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailRegexValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.662242"
+        "extracted_at": "2026-01-04T19:08:26.092037"
       },
       "Tail.Blazor.RequiredValidator": {
         "name": "Tail.Blazor.RequiredValidator",
@@ -1850,7 +1122,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailRequiredValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.662951"
+        "extracted_at": "2026-01-04T19:08:26.092703"
       },
       "Tail.Blazor.Validator": {
         "name": "Tail.Blazor.Validator",
@@ -1860,7 +1132,7 @@
         "events": [],
         "enums": {},
         "main_file": "TailValidator.razor",
-        "extracted_at": "2026-01-04T16:03:39.664086"
+        "extracted_at": "2026-01-04T19:08:26.093315"
       }
     }
   },
@@ -1873,109 +1145,61 @@
         "name": "Tail.Blazor.ArcGauge",
         "friendly_name": "ArcGauge",
         "description": "# Tail.Blazor.ArcGauge\n\nIndependent NuGet package for the TailArcGauge component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "int",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailArcGauge.razor",
-        "extracted_at": "2026-01-04T16:03:39.665385"
+        "extracted_at": "2026-01-04T19:08:26.094215"
       },
       "Tail.Blazor.Flowchart": {
         "name": "Tail.Blazor.Flowchart",
         "friendly_name": "Flowchart",
         "description": "# Tail.Blazor.Flowchart\n\nIndependent NuGet package for the TailFlowchart component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Nodes",
-            "type": "List<FlowchartNode>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailFlowchart.razor",
-        "extracted_at": "2026-01-04T16:03:39.666380"
+        "extracted_at": "2026-01-04T19:08:26.094957"
       },
       "Tail.Blazor.GanttChart": {
         "name": "Tail.Blazor.GanttChart",
         "friendly_name": "GanttChart",
         "description": "# Tail.Blazor.GanttChart\n\nIndependent NuGet package for the TailGanttChart component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Tasks",
-            "type": "List<GanttTask>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailGanttChart.razor",
-        "extracted_at": "2026-01-04T16:03:39.667681"
+        "extracted_at": "2026-01-04T19:08:26.095668"
       },
       "Tail.Blazor.OrganizationChart": {
         "name": "Tail.Blazor.OrganizationChart",
         "friendly_name": "OrganizationChart",
         "description": "# Tail.Blazor.OrganizationChart\n\nIndependent NuGet package for the TailOrganizationChart component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "RootNode",
-            "type": "OrganizationNode",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailOrganizationChart.razor",
-        "extracted_at": "2026-01-04T16:03:39.668799"
+        "extracted_at": "2026-01-04T19:08:26.096399"
       },
       "Tail.Blazor.QRCode": {
         "name": "Tail.Blazor.QRCode",
         "friendly_name": "QRCode",
         "description": "# Tail.Blazor.QRCode\n\nIndependent NuGet package for the TailQRCode component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Value",
-            "type": "string",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailQRCode.razor",
-        "extracted_at": "2026-01-04T16:03:39.669646"
+        "extracted_at": "2026-01-04T19:08:26.097123"
       },
       "Tail.Blazor.Timeline": {
         "name": "Tail.Blazor.Timeline",
         "friendly_name": "Timeline",
         "description": "# Tail.Blazor.Timeline\n\nIndependent NuGet package for the TailTimeline component.\n\n## Installation",
-        "parameters": [
-          {
-            "name": "Items",
-            "type": "List<TimelineItem>",
-            "default": null,
-            "required": true,
-            "description": ""
-          }
-        ],
+        "parameters": [],
         "events": [],
         "enums": {},
         "main_file": "TailTimeline.razor",
-        "extracted_at": "2026-01-04T16:03:39.670308"
+        "extracted_at": "2026-01-04T19:08:26.097807"
       }
     }
   }
