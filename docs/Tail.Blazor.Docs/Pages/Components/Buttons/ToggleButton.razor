@@ -1,6 +1,7 @@
 @page "/components/buttons/togglebutton"
 @using Tail.Blazor.ToggleButton
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="ToggleButton"
                  Description="ToggleButton component for Tail.Blazor"
@@ -8,25 +9,68 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailToggleButton>Click Me</TailToggleButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailToggleButton>Default</TailToggleButton>
+<TailToggleButton>Variant 1</TailToggleButton>
+<TailToggleButton>Variant 2</TailToggleButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <TailTabPanel Label="Preview" IsActive="true">
+                <PreviewUI>
+                    <TailToggleButton>Small</TailToggleButton>
+<TailToggleButton>Medium</TailToggleButton>
+<TailToggleButton>Large</TailToggleButton>
+                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -43,20 +87,20 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.ToggleButton";
+    private string installCode = "dotnet add package Tail.Blazor.ToggleButton";
 
     private string basicCode = @"<TailToggleButton>Click Me</TailToggleButton>";
 
     private string variantsCode = @"
-<TailToggleButton Variant=""ButtonVariant.Primary"">Primary</TailToggleButton>
-<TailToggleButton Variant=""ButtonVariant.Secondary"">Secondary</TailToggleButton>
-<TailToggleButton Variant=""ButtonVariant.Outline"">Outline</TailToggleButton>
+<TailToggleButton>Default</TailToggleButton>
+<TailToggleButton>Variant 1</TailToggleButton>
+<TailToggleButton>Variant 2</TailToggleButton>
 ";
 
     private string sizesCode = @"
-<TailToggleButton Size=""ButtonSize.Sm"">Small</TailToggleButton>
-<TailToggleButton Size=""ButtonSize.Md"">Medium</TailToggleButton>
-<TailToggleButton Size=""ButtonSize.Lg"">Large</TailToggleButton>
+<TailToggleButton>Small</TailToggleButton>
+<TailToggleButton>Medium</TailToggleButton>
+<TailToggleButton>Large</TailToggleButton>
 ";
 
     private string statesCode = @"

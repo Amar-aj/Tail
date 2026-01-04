@@ -1,6 +1,7 @@
 @page "/components/forms/fileupload"
 @using Tail.Blazor.FileUpload
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="FileUpload"
                  Description="FileUpload component for Tail.Blazor"
@@ -8,18 +9,44 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailFileUpload Placeholder="Enter text..." />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <TailTabPanel Label="Preview" IsActive="true">
+                <PreviewUI>
+                    <TailFileUpload>Small</TailFileUpload>
+<TailFileUpload>Medium</TailFileUpload>
+<TailFileUpload>Large</TailFileUpload>
+                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -36,14 +63,14 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.FileUpload";
+    private string installCode = "dotnet add package Tail.Blazor.FileUpload";
 
     private string basicCode = @"<TailFileUpload Placeholder=""Enter text..."" />";
 
     private string sizesCode = @"
-<TailFileUpload Size=""FileUploadSize.Sm"">Small</TailFileUpload>
-<TailFileUpload Size=""FileUploadSize.Md"">Medium</TailFileUpload>
-<TailFileUpload Size=""FileUploadSize.Lg"">Large</TailFileUpload>
+<TailFileUpload>Small</TailFileUpload>
+<TailFileUpload>Medium</TailFileUpload>
+<TailFileUpload>Large</TailFileUpload>
 ";
 
     private string statesCode = @"

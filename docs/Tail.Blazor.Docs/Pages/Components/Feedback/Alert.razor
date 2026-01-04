@@ -1,6 +1,7 @@
 @page "/components/feedback/alert"
 @using Tail.Blazor.Alert
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="Alert"
                  Description="Alert component for Tail.Blazor"
@@ -8,18 +9,50 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailAlert />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailAlert>Default</TailAlert>
+<TailAlert>Variant 1</TailAlert>
+<TailAlert>Variant 2</TailAlert>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -36,14 +69,14 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Alert";
+    private string installCode = "dotnet add package Tail.Blazor.Alert";
 
     private string basicCode = @"<TailAlert />";
 
     private string variantsCode = @"
-<TailAlert Variant=""AlertVariant.Primary"">Primary</TailAlert>
-<TailAlert Variant=""AlertVariant.Secondary"">Secondary</TailAlert>
-<TailAlert Variant=""AlertVariant.Outline"">Outline</TailAlert>
+<TailAlert>Default</TailAlert>
+<TailAlert>Variant 1</TailAlert>
+<TailAlert>Variant 2</TailAlert>
 ";
 
     private string statesCode = @"

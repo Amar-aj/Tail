@@ -1,5 +1,6 @@
 @page "/components/feedback/avatar"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="Avatar"
                  Description="Avatar component for Tail.Blazor"
@@ -7,7 +8,7 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
@@ -31,14 +32,14 @@
     private bool isGeneric = false;
     private bool isMissing = true;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Avatar";
+    private string installCode = "dotnet add package Tail.Blazor.Avatar";
 
     private string basicCode = @"<TailAvatar />";
 
     private string sizesCode = @"
-<TailAvatar Size=""string.Sm"">Small</TailAvatar>
-<TailAvatar Size=""string.Md"">Medium</TailAvatar>
-<TailAvatar Size=""string.Lg"">Large</TailAvatar>
+<TailAvatar>Small</TailAvatar>
+<TailAvatar>Medium</TailAvatar>
+<TailAvatar>Large</TailAvatar>
 ";
 
     private string statesCode = @"

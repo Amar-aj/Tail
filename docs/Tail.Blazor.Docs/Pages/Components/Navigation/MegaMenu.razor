@@ -1,6 +1,7 @@
 @page "/components/navigation/megamenu"
 @using Tail.Blazor.MegaMenu
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="MegaMenu"
                  Description="MegaMenu component for Tail.Blazor"
@@ -8,11 +9,26 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailMegaMenu />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -29,7 +45,7 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.MegaMenu";
+    private string installCode = "dotnet add package Tail.Blazor.MegaMenu";
 
     private string basicCode = @"<TailMegaMenu />";
 

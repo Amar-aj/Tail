@@ -1,6 +1,7 @@
 @page "/components/forms/textarea"
 @using Tail.Blazor.Textarea
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="Textarea"
                  Description="Textarea component for Tail.Blazor"
@@ -8,18 +9,44 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailTextarea Placeholder="Enter text..." />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <TailTabPanel Label="Preview" IsActive="true">
+                <PreviewUI>
+                    <TailTextarea>Small</TailTextarea>
+<TailTextarea>Medium</TailTextarea>
+<TailTextarea>Large</TailTextarea>
+                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -36,14 +63,14 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Textarea";
+    private string installCode = "dotnet add package Tail.Blazor.Textarea";
 
     private string basicCode = @"<TailTextarea Placeholder=""Enter text..."" />";
 
     private string sizesCode = @"
-<TailTextarea Size=""TextareaSize.Sm"">Small</TailTextarea>
-<TailTextarea Size=""TextareaSize.Md"">Medium</TailTextarea>
-<TailTextarea Size=""TextareaSize.Lg"">Large</TailTextarea>
+<TailTextarea>Small</TailTextarea>
+<TailTextarea>Medium</TailTextarea>
+<TailTextarea>Large</TailTextarea>
 ";
 
     private string statesCode = @"

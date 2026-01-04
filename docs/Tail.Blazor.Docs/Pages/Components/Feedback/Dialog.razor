@@ -1,6 +1,7 @@
 @page "/components/feedback/dialog"
 @using Tail.Blazor.Dialog
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="Dialog"
                  Description="Dialog component for Tail.Blazor"
@@ -8,18 +9,44 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailDialog />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <TailTabPanel Label="Preview" IsActive="true">
+                <PreviewUI>
+                    <TailDialog>Small</TailDialog>
+<TailDialog>Medium</TailDialog>
+<TailDialog>Large</TailDialog>
+                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -36,14 +63,14 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Dialog";
+    private string installCode = "dotnet add package Tail.Blazor.Dialog";
 
     private string basicCode = @"<TailDialog />";
 
     private string sizesCode = @"
-<TailDialog Size=""DialogSize.Sm"">Small</TailDialog>
-<TailDialog Size=""DialogSize.Md"">Medium</TailDialog>
-<TailDialog Size=""DialogSize.Lg"">Large</TailDialog>
+<TailDialog>Small</TailDialog>
+<TailDialog>Medium</TailDialog>
+<TailDialog>Large</TailDialog>
 ";
 
     private string statesCode = @"

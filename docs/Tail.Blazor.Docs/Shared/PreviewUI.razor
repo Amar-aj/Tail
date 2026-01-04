@@ -1,0 +1,61 @@
+@namespace Tail.Blazor.Docs.Shared
+
+<div class="preview-container p-6 rounded-lg" style="@GetContainerStyles()">
+    @if (ChildContent != null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <div class="text-center py-8" style="color: var(--color-text-secondary);">
+            <p class="text-sm">Preview will be displayed here</p>
+        </div>
+    }
+</div>
+
+@code {
+    /// <summary>
+    /// Child content to render as preview (actual compiled Blazor components)
+    /// </summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    
+    /// <summary>
+    /// Additional CSS classes for the container
+    /// </summary>
+    [Parameter] public string? CssClass { get; set; }
+    
+    /// <summary>
+    /// Background style: "light", "dark", "gradient", or "transparent"
+    /// </summary>
+    [Parameter] public string Background { get; set; } = "light";
+    
+    private string GetContainerStyles()
+    {
+        var styles = new List<string>();
+        
+        switch (Background.ToLower())
+        {
+            case "dark":
+                styles.Add("background-color: var(--color-surface-inverse, #1f2937)");
+                styles.Add("color: var(--color-text-on-inverse, #f3f4f6)");
+                break;
+            case "gradient":
+                styles.Add("background: linear-gradient(135deg, var(--color-surface-1) 0%, var(--color-surface-2) 100%)");
+                break;
+            case "transparent":
+                styles.Add("background-color: transparent");
+                break;
+            default: // light
+                styles.Add("background-color: var(--color-surface)");
+                styles.Add("border: 1px solid var(--color-border)");
+                break;
+        }
+        
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            return string.Join("; ", styles) + $"; {CssClass}";
+        }
+        
+        return string.Join("; ", styles);
+    }
+}

@@ -1,5 +1,6 @@
 @page "/components/data/datagrid"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="DataGrid"
                  Description="DataGrid component for Tail.Blazor"
@@ -7,7 +8,7 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
@@ -34,7 +35,7 @@
     private bool isGeneric = true;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.DataGrid";
+    private string installCode = "dotnet add package Tail.Blazor.DataGrid";
 
     private string basicCode = @"@* DataGrid requires type parameter *@";
 

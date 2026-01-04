@@ -1,5 +1,6 @@
 @page "/components/data/virtualscroll"
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="VirtualScroll"
                  Description="VirtualScroll component for Tail.Blazor"
@@ -7,7 +8,7 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
@@ -34,7 +35,7 @@
     private bool isGeneric = true;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.VirtualScroll";
+    private string installCode = "dotnet add package Tail.Blazor.VirtualScroll";
 
     private string basicCode = @"@* VirtualScroll requires type parameter *@";
 

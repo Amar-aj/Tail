@@ -1,6 +1,7 @@
 @page "/components/forms/slider"
 @using Tail.Blazor.Slider
 @using Tail.Blazor.Docs.Shared
+@using Tail.Blazor.Tabs
 
 <DocPageTemplate Title="Slider"
                  Description="Slider component for Tail.Blazor"
@@ -8,25 +9,68 @@
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailSlider Placeholder="Enter text..." />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Variants">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailSlider>Default</TailSlider>
+<TailSlider>Variant 1</TailSlider>
+<TailSlider>Variant 2</TailSlider>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Sizes">
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <TailTabPanel Label="Preview" IsActive="true">
+                <PreviewUI>
+                    <TailSlider>Small</TailSlider>
+<TailSlider>Medium</TailSlider>
+<TailSlider>Large</TailSlider>
+                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 
     <DocSection Title="Features">
@@ -43,20 +87,20 @@
     private bool isGeneric = false;
     private bool isMissing = false;
 
-    private string installCode = @"dotnet add package Tail.Blazor.Slider";
+    private string installCode = "dotnet add package Tail.Blazor.Slider";
 
     private string basicCode = @"<TailSlider Placeholder=""Enter text..."" />";
 
     private string variantsCode = @"
-<TailSlider Variant=""SliderVariant.Primary"">Primary</TailSlider>
-<TailSlider Variant=""SliderVariant.Secondary"">Secondary</TailSlider>
-<TailSlider Variant=""SliderVariant.Outline"">Outline</TailSlider>
+<TailSlider>Default</TailSlider>
+<TailSlider>Variant 1</TailSlider>
+<TailSlider>Variant 2</TailSlider>
 ";
 
     private string sizesCode = @"
-<TailSlider Size=""SliderSize.Sm"">Small</TailSlider>
-<TailSlider Size=""SliderSize.Md"">Medium</TailSlider>
-<TailSlider Size=""SliderSize.Lg"">Large</TailSlider>
+<TailSlider>Small</TailSlider>
+<TailSlider>Medium</TailSlider>
+<TailSlider>Large</TailSlider>
 ";
 
     private string statesCode = @"

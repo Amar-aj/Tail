@@ -255,23 +255,19 @@ def get_component_examples(component_name, friendly_name, category, parameters, 
     else:
         examples['basic'] = f'<{component_tag} />'
     
-    # Variants
+    # Variants - use more conservative approach to avoid enum mismatches
     if any('variant' in p['name'].lower() for p in parameters):
-        variant_param = next((p for p in parameters if 'variant' in p['name'].lower()), None)
-        if variant_param:
-            vtype = variant_param['type']
-            examples['variants'] = f'''<{component_tag} Variant="{vtype}.Primary">Primary</{component_tag}>
-<{component_tag} Variant="{vtype}.Secondary">Secondary</{component_tag}>
-<{component_tag} Variant="{vtype}.Outline">Outline</{component_tag}>'''
+        # Just show the basic component multiple times rather than specific enum values
+        examples['variants'] = f'''<{component_tag}>Default</{component_tag}>
+<{component_tag}>Variant 1</{component_tag}>
+<{component_tag}>Variant 2</{component_tag}>'''
     
-    # Sizes
+    # Sizes - use more conservative approach
     if any('size' in p['name'].lower() for p in parameters):
-        size_param = next((p for p in parameters if 'size' in p['name'].lower()), None)
-        if size_param:
-            stype = size_param['type']
-            examples['sizes'] = f'''<{component_tag} Size="{stype}.Sm">Small</{component_tag}>
-<{component_tag} Size="{stype}.Md">Medium</{component_tag}>
-<{component_tag} Size="{stype}.Lg">Large</{component_tag}>'''
+        # Just show the component without specific enum values
+        examples['sizes'] = f'''<{component_tag}>Small</{component_tag}>
+<{component_tag}>Medium</{component_tag}>
+<{component_tag}>Large</{component_tag}>'''
     
     # States
     states_code = []
@@ -306,7 +302,8 @@ def generate_doc_page(component_meta):
     if not is_generic and not is_missing:
         doc_page += f'@using {name}\n'
     
-    doc_page += '@using Tail.Blazor.Docs.Shared\n\n'
+    doc_page += '@using Tail.Blazor.Docs.Shared\n'
+    doc_page += '@using Tail.Blazor.Tabs\n\n'
     
     doc_page += f'''<DocPageTemplate Title="{friendly_name}"
                  Description="{friendly_name} component for Tail.Blazor"
@@ -314,7 +311,7 @@ def generate_doc_page(component_meta):
                  ApiParameters="@apiParameters">
     
     <DocSection Title="Installation">
-        <CodePreview Title="Package Installation" Code="@installCode" ShowPreview="false" Language="bash" />
+        <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
 
     <DocSection Title="Basic Usage">
@@ -336,7 +333,25 @@ def generate_doc_page(component_meta):
         </div>
 '''
     else:
-        doc_page += '        <CodePreview Title="Basic Example" Code="@basicCode" ShowPreview="false" Language="razor" />\n'
+        doc_page += '''        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+'''
+        # Add actual component code directly (not as string)
+        doc_page += f'                        {examples.get("basic", "")}\n'
+        doc_page += '''                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+'''
     
     doc_page += '    </DocSection>\n'
     
@@ -347,27 +362,51 @@ def generate_doc_page(component_meta):
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <CodePreview Title="Variant Options" Code="@variantsCode" ShowPreview="false" Language="razor" />
+        <TailTabs>
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+'''
+        # Add actual component code directly
+        doc_page += f'                        {examples["variants"]}\n'
+        doc_page += '''                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
     </DocSection>
 '''
     
     if 'sizes' in examples and not is_generic and not is_missing:
-        doc_page += '''
-    <DocSection Title="Sizes">
-        <p class="mb-4" style="color: var(--color-text-secondary);">
-            Size options to fit different layouts and contexts.
-        </p>
-        <CodePreview Title="Size Options" Code="@sizesCode" ShowPreview="false" Language="razor" />
-    </DocSection>
+        doc_pItems>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
 '''
-    
-    if 'states' in examples and not is_generic and not is_missing:
-        doc_page += '''
-    <DocSection Title="States">
-        <p class="mb-4" style="color: var(--color-text-secondary);">
-            Component states like disabled and loading.
-        </p>
-        <CodePreview Title="Component States" Code="@statesCode" ShowPreview="false" Language="razor" />
+        # Add actual component code directly
+        doc_page += f'                        {examples["sizes"]}\n'
+        doc_page += '''                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+                </TailTabPanel>
+            </Contentnent code directly
+        doc_page += f'                    {examples["sizes"]}\n'
+        doc_page += '''                </PreviewUI>
+            </TailTabPanel>
+            <TailTabPanel Label="Code">
+                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+            </TailTabPanel>
+        </TailTabs>
     </DocSection>
 '''
     
@@ -388,19 +427,25 @@ def generate_doc_page(component_meta):
     # Add code variables
     doc_page += f'    private bool isGeneric = {str(is_generic).lower()};\n'
     doc_page += f'    private bool isMissing = {str(is_missing).lower()};\n\n'
-    doc_page += f'    private string installCode = @"dotnet add package {name}";\n\n'
     
+    # Installation code
+    doc_page += f'    private string installCode = "dotnet add package {name}";\n\n'
+    
+    # Basic example - only need code for Code tab
     basic_code = escape_razor_code(examples.get("basic", ""))
     doc_page += f'    private string basicCode = @"{basic_code}";\n\n'
     
+    # Variants - only code for Code tab
     if 'variants' in examples:
         variants_escaped = escape_razor_code(examples["variants"])
         doc_page += f'    private string variantsCode = @"\n{variants_escaped}\n";\n\n'
     
+    # Sizes - only code for Code tab
     if 'sizes' in examples:
         sizes_escaped = escape_razor_code(examples["sizes"])
         doc_page += f'    private string sizesCode = @"\n{sizes_escaped}\n";\n\n'
     
+    # States - only code for Code tab
     if 'states' in examples:
         states_escaped = escape_razor_code(examples["states"])
         doc_page += f'    private string statesCode = @"\n{states_escaped}\n";\n\n'
