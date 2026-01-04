@@ -3,83 +3,230 @@
 @using Tail.Blazor.Container
 @using Tail.Blazor.Card
 @using Tail.Blazor.Button
+@using Tail.Blazor.Grid
+
+<PageTitle>NavMenu - Tail.Blazor Docs</PageTitle>
 
 <DocPageTemplate Title="NavMenu" 
-                 Description="A flexible and powerful NavMenu component for Tail.Blazor"
+                 Description="# Tail.Blazor.NavMenu
+
+Independent NuGet package for the TailNavMenu component.
+
+## Installation"
                  PackageName="Tail.Blazor.NavMenu">
     
+    <!-- Installation Section -->
     <DocSection Title="Installation">
-        <CodePreview Title="Install Package" 
-                     Code="dotnet add package Tail.Blazor.NavMenu"
-                     ShowPreview="false"
-                     Language="bash">
-        </CodePreview>
+        <div class="space-y-4">
+            <p class="text-gray-700 dark:text-gray-300">
+                Install the NavMenu component package via NuGet:
+            </p>
+            <CodePreview Title="NuGet Package Installation" 
+                         Code="dotnet add package Tail.Blazor.NavMenu"
+                         ShowPreview="false"
+                         Language="bash">
+            </CodePreview>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                Or download from <a href="https://www.nuget.org/packages/Tail.Blazor.NavMenu" class="text-blue-600 dark:text-blue-400 hover:underline">NuGet.org</a>
+            </p>
+        </div>
     </DocSection>
 
-    <DocSection Title="Basic Usage">
-        <CodePreview Title="Simple NavMenu" 
-                     Code="<TailNavMenu>
-    <!-- Component content goes here -->
-</TailNavMenu>"
+    <!-- Quick Start Section -->
+    <DocSection Title="Quick Start">
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Get started with the NavMenu component in minutes:
+        </p>
+        <CodePreview Title="Basic Usage" 
+                     Code="@basicUsageCode"
                      Language="razor">
             <PreviewContent>
-                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
-                    <p class="text-gray-600 text-center">
-                        Preview of NavMenu component will appear here
-                    </p>
+                <div class="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900 rounded-lg">
+                    <p class="text-gray-700 dark:text-gray-300">Live preview will appear here when component examples are added.</p>
                 </div>
             </PreviewContent>
         </CodePreview>
     </DocSection>
 
-    <DocSection Title="Properties">
-        <p class="text-gray-600 mb-4">Common properties available for this component:</p>
-        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-            <ul class="space-y-2">
-                <li><code class="bg-white px-2 py-1 rounded">Class</code> - CSS classes to apply</li>
-                <li><code class="bg-white px-2 py-1 rounded">Children</code> - Child content/components</li>
-                <li><code class="bg-white px-2 py-1 rounded">Style</code> - Inline CSS styles</li>
-            </ul>
+    <DocSection Title="Properties & Parameters">
+        <div class="overflow-x-auto">
+            <table class="min-w-full border-collapse text-sm">
+                <thead class="bg-gray-100 dark:bg-gray-800">
+                    <tr>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Property</th>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Type</th>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Default</th>
+                        <th class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left font-semibold">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-blue-600 dark:text-blue-400">Orientation</td>
+                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono text-gray-700 dark:text-gray-300">NavMenuOrientation</td>
+                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 font-mono">—</td>
+                        <td class="border border-gray-300 dark:border-gray-600 px-4 py-2 text-gray-700 dark:text-gray-300">✓ Required</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </DocSection>
 
-    <DocSection Title="Events & Callbacks">
-        <p class="text-gray-600 mb-4">Event callbacks for user interactions:</p>
-        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-            <ul class="space-y-2">
-                <li><code class="bg-white px-2 py-1 rounded">OnClick</code> - Triggered on click</li>
-                <li><code class="bg-white px-2 py-1 rounded">OnChange</code> - Triggered on value change</li>
-            </ul>
+    <!-- Usage Examples Section -->
+    <DocSection Title="Usage Examples">
+        <div class="space-y-6">
+            <div class="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <p class="text-sm text-blue-900 dark:text-blue-200">
+                    <strong>💡 Tip:</strong> Examples are embedded below. Each tab shows complete, working code you can copy and use.
+                </p>
+            </div>
+            
+            <TailTabs>
+                <TabItem Title="Basic Usage" Active="true">
+                    <CodePreview Title="Minimal Example" 
+                                 Code="@minimalExampleCode"
+                                 Language="razor"
+                                 ShowPreview="true">
+                        <PreviewContent>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                                <p class="text-gray-700 dark:text-gray-300">Default NavMenu component</p>
+                            </div>
+                        </PreviewContent>
+                    </CodePreview>
+                </TabItem>
+                
+                <TabItem Title="With All Parameters">
+                    <CodePreview Title="Complete Parameter Usage" 
+                                 Code="@withParametersCode"
+                                 Language="razor"
+                                 ShowPreview="true">
+                        <PreviewContent>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">See the Properties table above for all available parameters.</p>
+                            </div>
+                        </PreviewContent>
+                    </CodePreview>
+                </TabItem>
+                
+                <TabItem Title="Event Handling">
+                    <CodePreview Title="Handling Events" 
+                                 Code="@eventHandlingCode"
+                                 Language="razor"
+                                 ShowPreview="true">
+                        <PreviewContent>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">See Events & Callbacks section for available events.</p>
+                            </div>
+                        </PreviewContent>
+                    </CodePreview>
+                </TabItem>
+                
+                <TabItem Title="Responsive Layout">
+                    <CodePreview Title="Using with Responsive Grid" 
+                                 Code="@responsiveLayoutCode"
+                                 Language="razor"
+                                 ShowPreview="true">
+                        <PreviewContent>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Component works great in responsive grids and containers.</p>
+                            </div>
+                        </PreviewContent>
+                    </CodePreview>
+                </TabItem>
+                
+                <TabItem Title="Dark Mode">
+                    <CodePreview Title="Dark Mode Support" 
+                                 Code="@darkModeCode"
+                                 Language="razor"
+                                 ShowPreview="true">
+                        <PreviewContent>
+                            <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Full dark mode support included automatically.</p>
+                            </div>
+                        </PreviewContent>
+                    </CodePreview>
+                </TabItem>
+            </TailTabs>
         </div>
     </DocSection>
 
-    <DocSection Title="Examples">
-        <CodePreview Title="Advanced Usage" 
-                     Code="@*
-Add your advanced example code here
-*@"
-                     Language="razor">
-            <PreviewContent>
-                <div class="p-8 bg-gray-50 rounded-lg border border-gray-200">
-                    <p class="text-gray-600 text-center">
-                        Advanced examples will be added here
-                    </p>
-                </div>
-            </PreviewContent>
-        </CodePreview>
-    </DocSection>
-
+    <!-- Related Components Section -->
     <DocSection Title="Related Components">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a href="/components/layout" class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
-                <h4 class="font-semibold text-gray-800">← Layout Overview</h4>
-                <p class="text-sm text-gray-600">View all layout components</p>
-            </a>
+        <TailContainer Size="ContainerSize.Full">
+            <TailGrid Columns="1" ColumnsMd="2" ColumnsLg="3" Gap="4">
+                <TailCard Class="hover:shadow-lg transition-shadow">
+                    <Header>
+                        <h4 class="font-semibold text-gray-900 dark:text-white">Button</h4>
+                    </Header>
+                    <ChildContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Basic button component for user interactions.
+                        </p>
+                        <a href="/components/buttons/button" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                            View Documentation →
+                        </a>
+                    </ChildContent>
+                </TailCard>
+
+                <TailCard Class="hover:shadow-lg transition-shadow">
+                    <Header>
+                        <h4 class="font-semibold text-gray-900 dark:text-white">Icon Button</h4>
+                    </Header>
+                    <ChildContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Button component with icon support.
+                        </p>
+                        <a href="/components/buttons/iconbutton" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                            View Documentation →
+                        </a>
+                    </ChildContent>
+                </TailCard>
+
+                <TailCard Class="hover:shadow-lg transition-shadow">
+                    <Header>
+                        <h4 class="font-semibold text-gray-900 dark:text-white">Button Group</h4>
+                    </Header>
+                    <ChildContent>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            Group multiple buttons together.
+                        </p>
+                        <a href="/components/buttons/buttongroup" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
+                            View Documentation →
+                        </a>
+                    </ChildContent>
+                </TailCard>
+            </TailGrid>
+        </TailContainer>
+    </DocSection>
+
+    <!-- Best Practices Section -->
+    <DocSection Title="Best Practices">
+        <div class="space-y-4">
+            <div class="bg-amber-50 dark:bg-amber-900 border-l-4 border-amber-500 p-4 rounded">
+                <h4 class="font-semibold text-amber-900 dark:text-amber-100 mb-2">✓ Do</h4>
+                <ul class="text-sm text-amber-800 dark:text-amber-200 space-y-1 list-disc list-inside">
+                    <li>Use clear, descriptive labels for user action</li>
+                    <li>Provide visual feedback for loading states</li>
+                    <li>Keep button text concise and actionable</li>
+                </ul>
+            </div>
+            <div class="bg-red-50 dark:bg-red-900 border-l-4 border-red-500 p-4 rounded">
+                <h4 class="font-semibold text-red-900 dark:text-red-100 mb-2">✗ Don't</h4>
+                <ul class="text-sm text-red-800 dark:text-red-200 space-y-1 list-disc list-inside">
+                    <li>Use buttons for navigation (use links instead)</li>
+                    <li>Disable buttons without explanation</li>
+                    <li>Mix too many button styles on same page</li>
+                </ul>
+            </div>
         </div>
     </DocSection>
 
 </DocPageTemplate>
 
 @code {
-    // Component logic can be added here if needed
+    private string basicUsageCode = "<NavMenu></NavMenu>";
+    private string minimalExampleCode = "<NavMenu></NavMenu>";
+    private string withParametersCode = "@* Refer to Properties & Parameters section above *@\n<NavMenu @* parameters here *@></NavMenu>";
+    private string eventHandlingCode = "<NavMenu @* events from Events section above *@ ></NavMenu>\n\n@code {\n    void OnEventHandler(parameter) { }\n}";
+    private string responsiveLayoutCode = "<TailGrid Columns=\"1\" ColumnsMd=\"2\" ColumnsLg=\"3\" Gap=\"4\">\n    <NavMenu></NavMenu>\n    <NavMenu></NavMenu>\n    <NavMenu></NavMenu>\n</TailGrid>";
+    private string darkModeCode = "<!-- NavMenu automatically supports dark mode -->\n<NavMenu></NavMenu>\n\n<!-- Pair with dark mode classes if needed -->\n<div class=\"dark:bg-gray-900 dark:text-white\">\n    <NavMenu></NavMenu>\n</div>";
 }

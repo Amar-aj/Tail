@@ -72,7 +72,7 @@
                     }
                 </button>
             }
-            <pre class="@GetCodeClasses()" style="@GetCodeStyles()"><code class="@GetCodeLanguageClass()">@Code</code></pre>
+            <pre class="@GetCodeClasses()" style="@GetCodeStyles()"><code class="@GetCodeLanguageClass()">@GetEscapedCode()</code></pre>
         </div>
     }
 </div>
@@ -177,5 +177,15 @@
         {
             Console.WriteLine($"Failed to copy: {ex.Message}");
         }
+    }
+
+    private string GetEscapedCode()
+    {
+        if (string.IsNullOrEmpty(Code))
+            return string.Empty;
+        
+        // Return the code as-is since Razor automatically escapes @Code output
+        // The HTML entities in the code will be properly displayed
+        return Code;
     }
 }
