@@ -13,7 +13,7 @@
     </DocSection>
 
     <DocSection Title="Basic Usage">
-        <TailTabs>
+        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
@@ -35,7 +35,7 @@
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <TailTabs>
+        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
@@ -59,27 +59,24 @@
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Size options to fit different layouts and contexts.
         </p>
-        <TailTabs>
-            <TailTabPanel Label="Preview" IsActive="true">
-                <PreviewUI>
-                    <TailBadge>Small</TailBadge>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailBadge>Small</TailBadge>
 <TailBadge>Medium</TailBadge>
 <TailBadge>Large</TailBadge>
-                </PreviewUI>
-            </TailTabPanel>
-            <TailTabPanel Label="Code">
-                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
-            </TailTabPanel>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
+                </TailTabPanel>
+            </Content>
         </TailTabs>
-    </DocSection>
-
-    <DocSection Title="Features">
-        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-            <li>Full theme support with CSS variables</li>
-            <li>Responsive design</li>
-            <li>Accessibility features built-in</li>
-            <li>Type-safe with IntelliSense</li>
-        </ul>
     </DocSection>
 </DocPageTemplate>
 

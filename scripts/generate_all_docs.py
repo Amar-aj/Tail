@@ -333,7 +333,7 @@ def generate_doc_page(component_meta):
         </div>
 '''
     else:
-        doc_page += '''        <TailTabs>
+        doc_page += '''        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
@@ -342,8 +342,7 @@ def generate_doc_page(component_meta):
                 <TailTabPanel>
                     <PreviewUI>
 '''
-        # Add actual component code directly (not as string)
-        doc_page += f'                        {examples.get("basic", "")}\n'
+        doc_page += f'                        {examples["basic"]}\n'
         doc_page += '''                    </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -362,7 +361,7 @@ def generate_doc_page(component_meta):
         <p class="mb-4" style="color: var(--color-text-secondary);">
             Different visual variants for various use cases.
         </p>
-        <TailTabs>
+        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
@@ -371,7 +370,6 @@ def generate_doc_page(component_meta):
                 <TailTabPanel>
                     <PreviewUI>
 '''
-        # Add actual component code directly
         doc_page += f'                        {examples["variants"]}\n'
         doc_page += '''                    </PreviewUI>
                 </TailTabPanel>
@@ -384,7 +382,13 @@ def generate_doc_page(component_meta):
 '''
     
     if 'sizes' in examples and not is_generic and not is_missing:
-        doc_pItems>
+        doc_page += '''
+    <DocSection Title="Sizes">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Size options to fit different layouts and contexts.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
             </Items>
@@ -392,37 +396,19 @@ def generate_doc_page(component_meta):
                 <TailTabPanel>
                     <PreviewUI>
 '''
-        # Add actual component code directly
         doc_page += f'                        {examples["sizes"]}\n'
         doc_page += '''                    </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
                     <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
                 </TailTabPanel>
-            </Contentnent code directly
-        doc_page += f'                    {examples["sizes"]}\n'
-        doc_page += '''                </PreviewUI>
-            </TailTabPanel>
-            <TailTabPanel Label="Code">
-                <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
-            </TailTabPanel>
+            </Content>
         </TailTabs>
     </DocSection>
 '''
     
-    doc_page += '''
-    <DocSection Title="Features">
-        <ul class="space-y-2" style="list-style: disc; padding-left: 1.5rem;">
-            <li>Full theme support with CSS variables</li>
-            <li>Responsive design</li>
-            <li>Accessibility features built-in</li>
-            <li>Type-safe with IntelliSense</li>
-        </ul>
-    </DocSection>
-</DocPageTemplate>
-
-@code {
-'''
+    # Close DocPageTemplate BEFORE adding @code section
+    doc_page += '</DocPageTemplate>\n\n@code {\n'
     
     # Add code variables
     doc_page += f'    private bool isGeneric = {str(is_generic).lower()};\n'
@@ -431,16 +417,16 @@ def generate_doc_page(component_meta):
     # Installation code
     doc_page += f'    private string installCode = "dotnet add package {name}";\n\n'
     
-    # Basic example - only need code for Code tab
+    # Basic example codes
     basic_code = escape_razor_code(examples.get("basic", ""))
     doc_page += f'    private string basicCode = @"{basic_code}";\n\n'
     
-    # Variants - only code for Code tab
+    # Variants
     if 'variants' in examples:
         variants_escaped = escape_razor_code(examples["variants"])
         doc_page += f'    private string variantsCode = @"\n{variants_escaped}\n";\n\n'
     
-    # Sizes - only code for Code tab
+    # Sizes
     if 'sizes' in examples:
         sizes_escaped = escape_razor_code(examples["sizes"])
         doc_page += f'    private string sizesCode = @"\n{sizes_escaped}\n";\n\n'

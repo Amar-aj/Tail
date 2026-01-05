@@ -1,0 +1,36 @@
+@page "/test-tabs"
+@using Tail.Blazor.Tabs
+
+<h1>Tab Test</h1>
+
+<TailTabs ActiveIndex="0">
+    <Items>
+        <TailTabItem Label="Tab 1" />
+        <TailTabItem Label="Tab 2" />
+        <TailTabItem Label="Tab 3" />
+    </Items>
+    <Content>
+        <TailTabPanel>
+            <div style="padding: 20px; background: lightblue;">
+                <h2>Content 1</h2>
+                <p>This is the first tab content</p>
+            </div>
+        </TailTabPanel>
+        <TailTabPanel>
+            <div style="padding: 20px; background: lightgreen;">
+                <h2>Content 2</h2>
+                <p>This is the second tab content</p>
+            </div>
+        </TailTabPanel>
+        <TailTabPanel>
+            <div style="padding: 20px; background: lightyellow;">
+                <h2>Content 3</h2>
+                <p>This is the third tab content</p>
+            </div>
+        </TailTabPanel>
+    </Content>
+</TailTabs>
+
+@code {
+    
+}
