@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Circular progress indicator</li>
+            <li>Customizable size</li>
+            <li>5 variants (Primary, Success, Warning, Danger, Info)</li>
+            <li>Label support</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailProgressBarCircular />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +54,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailProgressBarCircular>Default</TailProgressBarCircular>
-<TailProgressBarCircular>Variant 1</TailProgressBarCircular>
-<TailProgressBarCircular>Variant 2</TailProgressBarCircular>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +78,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailProgressBarCircular>Small</TailProgressBarCircular>
-<TailProgressBarCircular>Medium</TailProgressBarCircular>
-<TailProgressBarCircular>Large</TailProgressBarCircular>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -95,6 +106,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">100</td>
@@ -118,6 +135,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
                         </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -131,12 +154,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ProgressBarCircular";
 
-    private string basicCode = @"<TailProgressBarCircular />";
+    private string basicCode = @"<TailProgressBarCircular></TailProgressBarCircular>";
 
     private string variantsCode = @"
 <TailProgressBarCircular>Default</TailProgressBarCircular>
-<TailProgressBarCircular>Variant 1</TailProgressBarCircular>
-<TailProgressBarCircular>Variant 2</TailProgressBarCircular>
+<TailProgressBarCircular>Secondary</TailProgressBarCircular>
+<TailProgressBarCircular>Tertiary</TailProgressBarCircular>
 ";
 
     private string sizesCode = @"
@@ -151,9 +174,11 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "int", Default = "-", Description = "Current value of the component" },
         new() { Name = "Size", Type = "int", Default = "100", Description = "Size of the component" },
         new() { Name = "StrokeWidth", Type = "int", Default = "8", Description = "StrokeWidth parameter" },
         new() { Name = "Variant", Type = "ProgressBarCircularVariant", Default = "ProgressBarCircularVariant.Primary", Description = "Visual variant style for the component" },
         new() { Name = "ShowLabel", Type = "bool", Default = "true", Description = "Label text for the component" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

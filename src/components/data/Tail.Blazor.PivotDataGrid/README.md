@@ -8,14 +8,6 @@ Independent NuGet package for the TailPivotDataGrid component.
 dotnet add package Tail.Blazor.PivotDataGrid
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.PivotDataGrid
-
-<TailPivotDataGrid RowHeader="Category" Columns="@columns" Rows="@rows" />
-```
-
 ## Features
 
 - Pivot table
@@ -24,11 +16,41 @@ dotnet add package Tail.Blazor.PivotDataGrid
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| RowHeader | string | "Row" | RowHeader parameter |
+| Columns | List<string> | new() | Columns parameter |
+| Rows | List<PivotRow> | new() | Rows parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| PivotRow | class | PivotRow property |
+| Key | string | Key property |
+| string | Dictionary<string, | string property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailPivotDataGrid></TailPivotDataGrid>
+```

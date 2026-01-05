@@ -8,14 +8,6 @@ Independent NuGet package for the TailBadge component.
 dotnet add package Tail.Blazor.Badge
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Badge
-
-<TailBadge Variant="BadgeVariant.Primary" Size="BadgeSize.Md">New</TailBadge>
-```
-
 ## Features
 
 - 6 variants (Primary, Success, Warning, Danger, Info, Gray)
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.Badge
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Variant | BadgeVariant | BadgeVariant.Primary | Visual variant style for the component |
+| Size | BadgeSize | BadgeSize.Md | Size of the component |
+| ShowDot | bool | - | ShowDot parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailBadge></TailBadge>
+```

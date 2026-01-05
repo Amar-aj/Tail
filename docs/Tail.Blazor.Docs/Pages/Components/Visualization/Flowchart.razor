@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Flowchart visualization</li>
+            <li>Nodes and connections</li>
+            <li>SVG-based rendering</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailFlowchart />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -69,6 +79,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">600</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Height parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -159,7 +175,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Flowchart";
 
-    private string basicCode = @"<TailFlowchart />";
+    private string basicCode = @"<TailFlowchart></TailFlowchart>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -171,5 +187,6 @@
         new() { Name = "Connections", Type = "List<FlowchartConnection>", Default = "new()", Description = "Connections parameter" },
         new() { Name = "Width", Type = "int", Default = "800", Description = "Width parameter" },
         new() { Name = "Height", Type = "int", Default = "600", Description = "Height parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

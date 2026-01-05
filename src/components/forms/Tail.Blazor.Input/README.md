@@ -8,18 +8,6 @@ Independent NuGet package for the TailInput component.
 dotnet add package Tail.Blazor.Input
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Input
-
-<TailInput @bind-Value="name" Label="Name" Placeholder="Enter your name" Required="true" />
-
-<TailInput @bind-Value="email" Type="InputType.Email" Label="Email" />
-
-<TailInput @bind-Value="password" Type="InputType.Password" Label="Password" ShowClearButton="true" />
-```
-
 ## Features
 
 - Multiple input types (Text, Password, Email, Number, Tel, Url, Search, Date, etc.)
@@ -34,10 +22,67 @@ dotnet add package Tail.Blazor.Input
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
+
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Type | InputType | InputType.Text | Type parameter |
+| Size | InputSize | InputSize.Md | Size of the component |
+| Variant | InputVariant | InputVariant.Standard | Visual variant style for the component |
+| Label | string? | - | Label text for the component |
+| Placeholder | string? | - | Placeholder text |
+| HelpText | string? | - | HelpText parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Required | bool | - | Whether the component is required |
+| Disabled | bool | - | Whether the component is disabled |
+| ReadOnly | bool | - | Whether the component is read-only |
+| MaxLength | int? | - | Maximum value constraint |
+| ShowClearButton | bool | - | ShowClearButton parameter |
+| ShowCharacterCount | bool | - | ShowCharacterCount parameter |
+| FloatingLabel | bool | - | Label text for the component |
+| IconStart | RenderFragment? | - | Icon to display |
+| IconEnd | RenderFragment? | - | Icon to display |
+| AdornmentStart | string? | - | AdornmentStart parameter |
+| AdornmentEnd | string? | - | AdornmentEnd parameter |
+| Style | string? | - | Additional CSS styles |
+| Min | string? | - | Minimum value constraint |
+| Max | string? | - | Maximum value constraint |
+| Step | string? | - | Step value for numeric inputs |
+| Pattern | string? | - | Validation pattern (regex) |
+| AutoComplete | string? | - | AutoComplete parameter |
+| AutoFocus | bool | false | AutoFocus parameter |
+| AriaLabel | string? | - | Label text for the component |
+| EnableAnimation | bool | true | EnableAnimation parameter |
+| AnimationDuration | int | 200 | AnimationDuration parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+| OnFocus | FocusEventArgs | Raised when focus is gained |
+| OnBlur | FocusEventArgs | Raised when focus is lost |
+| OnKeyDown | KeyboardEventArgs | Raised on key down |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailInput></TailInput>
+```

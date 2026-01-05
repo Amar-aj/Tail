@@ -8,14 +8,6 @@ Independent NuGet package for the TailOTPInput component.
 dotnet add package Tail.Blazor.OTPInput
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.OTPInput
-
-<TailOTPInput @bind-Value="otpCode" Length="6" Label="Enter OTP Code" />
-```
-
 ## Features
 
 - One-time password input
@@ -30,11 +22,42 @@ dotnet add package Tail.Blazor.OTPInput
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Length | int | 6 | Length parameter |
+| Size | OTPInputSize | OTPInputSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| HelpText | string? | - | HelpText parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailOTPInput></TailOTPInput>
+```

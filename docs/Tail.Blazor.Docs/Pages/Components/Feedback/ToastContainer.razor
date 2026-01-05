@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Toast container with positioning</li>
+            <li>6 positions (TopLeft, TopRight, TopCenter, BottomLeft, BottomRight, BottomCenter)</li>
+            <li>Max toasts limit</li>
+            <li>Programmatic toast display</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToastContainer />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,6 +68,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">5</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +139,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ToastContainer";
 
-    private string basicCode = @"<TailToastContainer />";
+    private string basicCode = @"<TailToastContainer></TailToastContainer>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -132,5 +149,6 @@
     {
         new() { Name = "Position", Type = "ToastPosition", Default = "ToastPosition.TopRight", Description = "Position parameter" },
         new() { Name = "MaxToasts", Type = "int", Default = "5", Description = "Maximum value constraint" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

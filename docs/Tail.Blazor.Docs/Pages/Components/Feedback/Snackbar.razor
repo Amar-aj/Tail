@@ -10,7 +10,6 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
     <DocSection Title="Basic Usage">
         <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
             <p class="font-medium">🚧 Coming Soon</p>
@@ -40,6 +39,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Message parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActionText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ActionText parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowClose</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
@@ -50,6 +55,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"bottom"</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Position parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AdditionalAttributes</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dictionary&lt;string, object&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AdditionalAttributes parameter</td>
                         </tr>
                     </tbody>
                 </table>
@@ -150,7 +161,9 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Message", Type = "string", Default = "-", Description = "Message parameter" },
+        new() { Name = "ActionText", Type = "string?", Default = "-", Description = "ActionText parameter" },
         new() { Name = "ShowClose", Type = "bool", Default = "true", Description = "ShowClose parameter" },
         new() { Name = "Position", Type = "string", Default = """bottom""", Description = "Position parameter" },
+        new() { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "-", Description = "AdditionalAttributes parameter" },
     };
 }

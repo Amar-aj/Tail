@@ -8,18 +8,6 @@ Independent NuGet package for the TailRadioGroup component.
 dotnet add package Tail.Blazor.RadioGroup
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.RadioGroup
-
-<TailRadioGroup Label="Choose an option" Orientation="RadioGroupOrientation.Vertical">
-    <TailRadio GroupName="options" Value="option1" Label="Option 1" />
-    <TailRadio GroupName="options" Value="option2" Label="Option 2" />
-    <TailRadio GroupName="options" Value="option3" Label="Option 3" />
-</TailRadioGroup>
-```
-
 ## Features
 
 - Radio button grouping
@@ -31,11 +19,40 @@ dotnet add package Tail.Blazor.RadioGroup
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Label | string? | - | Label text for the component |
+| HelpText | string? | - | HelpText parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Required | bool | - | Whether the component is required |
+| Orientation | RadioGroupOrientation | RadioGroupOrientation.Vertical | Orientation parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRadioGroup></TailRadioGroup>
+```

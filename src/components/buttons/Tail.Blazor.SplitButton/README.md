@@ -8,19 +8,6 @@ Independent NuGet package for the TailSplitButton component.
 dotnet add package Tail.Blazor.SplitButton
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.SplitButton
-
-<TailSplitButton PrimaryContent="@(() => "Save")" OnPrimaryClick="HandleSave">
-    <DropdownContent>
-        <button @onclick="HandleSaveAs">Save As...</button>
-        <button @onclick="HandleExport">Export</button>
-    </DropdownContent>
-</TailSplitButton>
-```
-
 ## Features
 
 - Primary action button
@@ -32,11 +19,46 @@ dotnet add package Tail.Blazor.SplitButton
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| PrimaryContent | RenderFragment? | - | PrimaryContent parameter |
+| DropdownContent | RenderFragment? | - | DropdownContent parameter |
+| DropdownIcon | RenderFragment? | - | Icon to display |
+| Variant | ButtonVariant | ButtonVariant.Primary | Visual variant style for the component |
+| Size | ButtonSize | ButtonSize.Md | Size of the component |
+| Disabled | bool | - | Whether the component is disabled |
+| IsLoading | bool | - | Whether the component is in loading state |
+| Type | string | "button" | Type parameter |
+| AriaLabel | string? | - | Label text for the component |
+| Tooltip | string? | - | Tooltip parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnPrimaryClick | MouseEventArgs | Raised when component is clicked |
+| OnDropdownToggle | void | OnDropdownToggle callback |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSplitButton></TailSplitButton>
+```

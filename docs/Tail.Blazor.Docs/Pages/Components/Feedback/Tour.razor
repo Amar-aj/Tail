@@ -11,7 +11,18 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Interactive tour/walkthrough</li>
+            <li>Step-by-step navigation</li>
+            <li>Spotlight overlay</li>
+            <li>Custom tooltip placement</li>
+            <li>Previous/Next navigation</li>
+            <li>Finish tour callback</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +32,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailTour />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -51,6 +64,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;TourStep&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Step value for numeric inputs</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsActive</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsActive parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -137,7 +162,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Tour";
 
-    private string basicCode = @"<TailTour />";
+    private string basicCode = @"<TailTour></TailTour>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -146,5 +171,7 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Steps", Type = "List<TourStep>", Default = "new()", Description = "Step value for numeric inputs" },
+        new() { Name = "IsActive", Type = "bool", Default = "-", Description = "IsActive parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>6 variants (Primary, Success, Warning, Danger, Info, Gray)</li>
+            <li>3 sizes (Sm, Md, Lg)</li>
+            <li>Dot indicator option</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailBadge />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailBadge>Default</TailBadge>
-<TailBadge>Variant 1</TailBadge>
-<TailBadge>Variant 2</TailBadge>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailBadge>Small</TailBadge>
-<TailBadge>Medium</TailBadge>
-<TailBadge>Large</TailBadge>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -95,6 +105,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>BadgeVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">BadgeVariant.Primary</td>
@@ -105,6 +121,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>BadgeSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">BadgeSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowDot</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowDot parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -119,12 +147,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Badge";
 
-    private string basicCode = @"<TailBadge />";
+    private string basicCode = @"<TailBadge></TailBadge>";
 
     private string variantsCode = @"
 <TailBadge>Default</TailBadge>
-<TailBadge>Variant 1</TailBadge>
-<TailBadge>Variant 2</TailBadge>
+<TailBadge>Secondary</TailBadge>
+<TailBadge>Tertiary</TailBadge>
 ";
 
     private string sizesCode = @"
@@ -139,7 +167,10 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
         new() { Name = "Variant", Type = "BadgeVariant", Default = "BadgeVariant.Primary", Description = "Visual variant style for the component" },
         new() { Name = "Size", Type = "BadgeSize", Default = "BadgeSize.Md", Description = "Size of the component" },
+        new() { Name = "ShowDot", Type = "bool", Default = "-", Description = "ShowDot parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

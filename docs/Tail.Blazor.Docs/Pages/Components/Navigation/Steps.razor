@@ -11,7 +11,17 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Step indicator</li>
+            <li>Active step highlighting</li>
+            <li>Completed step checkmarks</li>
+            <li>Connector lines</li>
+            <li>Title and description support</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +31,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSteps />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,6 +69,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">1</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Step value for numeric inputs</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -102,7 +120,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Steps";
 
-    private string basicCode = @"<TailSteps />";
+    private string basicCode = @"<TailSteps></TailSteps>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -112,5 +130,6 @@
     {
         new() { Name = "Steps", Type = "List<StepItem>", Default = "new()", Description = "Step value for numeric inputs" },
         new() { Name = "CurrentStep", Type = "int", Default = "1", Description = "Step value for numeric inputs" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

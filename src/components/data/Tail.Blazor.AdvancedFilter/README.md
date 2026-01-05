@@ -8,14 +8,6 @@ Independent NuGet package for the TailAdvancedFilter component.
 dotnet add package Tail.Blazor.AdvancedFilter
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.AdvancedFilter
-
-<TailAdvancedFilter Fields="@fields" OnFilterApplied="HandleFilter" />
-```
-
 ## Features
 
 - Advanced filtering
@@ -25,11 +17,42 @@ dotnet add package Tail.Blazor.AdvancedFilter
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Fields | List<string> | new() | Fields parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnFilterApplied | FilterCriteria | Raised with FilterCriteria value |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| FilterCriteria | class | FilterCriteria property |
+| Field | string | Field property |
+| Operator | string | Operator property |
+| Value | string | Value property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailAdvancedFilter></TailAdvancedFilter>
+```

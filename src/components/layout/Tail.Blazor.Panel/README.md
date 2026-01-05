@@ -8,16 +8,6 @@ Independent NuGet package for the TailPanel component.
 dotnet add package Tail.Blazor.Panel
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Panel
-
-<TailPanel Title="Information" Variant="PanelVariant.Info">
-    Panel content
-</TailPanel>
-```
-
 ## Features
 
 - Panel with variants
@@ -26,11 +16,37 @@ dotnet add package Tail.Blazor.Panel
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Title | string? | - | Title parameter |
+| Variant | PanelVariant | PanelVariant.Default | Visual variant style for the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailPanel></TailPanel>
+```

@@ -8,14 +8,6 @@ Independent NuGet package for the TailSparkline component.
 dotnet add package Tail.Blazor.Sparkline
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Sparkline
-
-<TailSparkline Data="@sparklineData" Width="100" Height="30" />
-```
-
 ## Features
 
 - Mini sparkline chart
@@ -24,11 +16,37 @@ dotnet add package Tail.Blazor.Sparkline
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Data | List<double> | new() | Data parameter |
+| Width | int | 100 | Width parameter |
+| Height | int | 30 | Height parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSparkline></TailSparkline>
+```

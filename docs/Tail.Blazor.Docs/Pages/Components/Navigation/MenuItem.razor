@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Menu item with link</li>
+            <li>Icon support</li>
+            <li>Badge support</li>
+            <li>Active state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMenuItem />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -47,10 +58,40 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Icon</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Badge</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Badge parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Href</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"#"</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Href parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsActive</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsActive parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Target</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Target parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
@@ -63,6 +104,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">PreventDefault parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ItemClass</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS classes</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Bordered</code></td>
@@ -81,6 +134,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Underline parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>BorderColor</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Color scheme for the component</td>
                         </tr>
                     </tbody>
                 </table>
@@ -142,19 +201,27 @@
 
     private string installCode = "dotnet add package Tail.Blazor.MenuItem";
 
-    private string basicCode = @"<TailMenuItem />";
+    private string basicCode = @"<TailMenuItem></TailMenuItem>";
 
     private string statesCode = @"
-<TailMenuItem Disabled=""true"">Disabled</TailMenuItem>
+<TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
+        new() { Name = "Badge", Type = "RenderFragment?", Default = "-", Description = "Badge parameter" },
         new() { Name = "Href", Type = "string?", Default = """#""", Description = "Href parameter" },
+        new() { Name = "IsActive", Type = "bool", Default = "-", Description = "IsActive parameter" },
+        new() { Name = "Target", Type = "string?", Default = "-", Description = "Target parameter" },
         new() { Name = "Disabled", Type = "bool", Default = "false", Description = "Whether the component is disabled" },
         new() { Name = "PreventDefault", Type = "bool", Default = "true", Description = "PreventDefault parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
+        new() { Name = "ItemClass", Type = "string?", Default = "-", Description = "Additional CSS classes" },
         new() { Name = "Bordered", Type = "bool", Default = "false", Description = "Bordered parameter" },
         new() { Name = "Shadow", Type = "ShadowLevel", Default = "ShadowLevel.None", Description = "Shadow parameter" },
         new() { Name = "Underline", Type = "bool", Default = "false", Description = "Underline parameter" },
+        new() { Name = "BorderColor", Type = "string?", Default = "-", Description = "Color scheme for the component" },
     };
 }

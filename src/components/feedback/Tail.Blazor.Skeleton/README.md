@@ -8,14 +8,6 @@ Independent NuGet package for the TailSkeleton component.
 dotnet add package Tail.Blazor.Skeleton
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Skeleton
-
-<TailSkeleton Type="SkeletonType.Text" Width="200" Height="20" Animated="true" />
-```
-
 ## Features
 
 - 4 types (Text, Circle, Rectangle, Custom)
@@ -24,11 +16,39 @@ dotnet add package Tail.Blazor.Skeleton
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Type | SkeletonType | SkeletonType.Text | Type parameter |
+| Width | int? | - | Width parameter |
+| Height | int? | - | Height parameter |
+| Animated | bool | true | Animated parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSkeleton></TailSkeleton>
+```

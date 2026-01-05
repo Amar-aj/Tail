@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Value comparison validation</li>
+            <li>4 operators (Equal, NotEqual, GreaterThan, LessThan)</li>
+            <li>Custom error message</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCompareValidator />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -47,10 +57,34 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CompareTo</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CompareTo parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Operator</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CompareOperator</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">CompareOperator.Equal</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Operator parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,7 +99,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.CompareValidator";
 
-    private string basicCode = @"<TailCompareValidator />";
+    private string basicCode = @"<TailCompareValidator></TailCompareValidator>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -73,6 +107,10 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "string?", Default = "-", Description = "Current value of the component" },
+        new() { Name = "CompareTo", Type = "string?", Default = "-", Description = "CompareTo parameter" },
         new() { Name = "Operator", Type = "CompareOperator", Default = "CompareOperator.Equal", Description = "Operator parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

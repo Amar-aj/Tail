@@ -8,17 +8,6 @@ Independent NuGet package for the TailSidebar component.
 dotnet add package Tail.Blazor.Sidebar
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Sidebar
-
-<TailSidebar IsCollapsible="true" Position="SidebarPosition.Left">
-    <Header>Navigation</Header>
-    <nav>...</nav>
-</TailSidebar>
-```
-
 ## Features
 
 - Collapsible sidebar
@@ -28,11 +17,40 @@ dotnet add package Tail.Blazor.Sidebar
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Header | RenderFragment? | - | Header parameter |
+| Footer | RenderFragment? | - | Footer parameter |
+| IsCollapsed | bool | - | IsCollapsed parameter |
+| IsCollapsible | bool | true | IsCollapsible parameter |
+| Position | SidebarPosition | SidebarPosition.Left | Position parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSidebar></TailSidebar>
+```

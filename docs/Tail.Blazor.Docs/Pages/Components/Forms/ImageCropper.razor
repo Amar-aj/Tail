@@ -11,7 +11,19 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Image upload and cropping</li>
+            <li>Aspect ratio control</li>
+            <li>Image preview</li>
+            <li>Crop functionality</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Label support</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +33,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailImageCropper Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailImageCropper>Small</TailImageCropper>
-<TailImageCropper>Medium</TailImageCropper>
-<TailImageCropper>Large</TailImageCropper>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,10 +85,22 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ImageCropperSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ImageCropperSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AspectRatioWidth</code></td>
@@ -87,6 +113,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">1</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AspectRatioHeight parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +160,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ImageCropper";
 
-    private string basicCode = @"<TailImageCropper Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailImageCropper></TailImageCropper>";
 
     private string sizesCode = @"
 <TailImageCropper>Small</TailImageCropper>
@@ -136,8 +174,12 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "string?", Default = "-", Description = "Current value of the component" },
         new() { Name = "Size", Type = "ImageCropperSize", Default = "ImageCropperSize.Md", Description = "Size of the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
         new() { Name = "AspectRatioWidth", Type = "int", Default = "1", Description = "AspectRatioWidth parameter" },
         new() { Name = "AspectRatioHeight", Type = "int", Default = "1", Description = "AspectRatioHeight parameter" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

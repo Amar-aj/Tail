@@ -8,14 +8,6 @@ Independent NuGet package for the TailTour component.
 dotnet add package Tail.Blazor.Tour
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Tour
-
-<TailTour Steps="@tourSteps" IsActive="@showTour" OnTourComplete="HandleTourComplete" />
-```
-
 ## Features
 
 - Interactive tour/walkthrough
@@ -27,11 +19,46 @@ dotnet add package Tail.Blazor.Tour
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Steps | List<TourStep> | new() | Step value for numeric inputs |
+| IsActive | bool | - | IsActive parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnTourComplete | void | OnTourComplete callback |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| TourStep | class | TourStep property |
+| Id | string | Id property |
+| Title | string | Title property |
+| Content | string? | Content property |
+| TargetSelector | string? | TargetSelector property |
+| Placement | TourTooltipPlacement | Placement property |
+| TourTooltipPlacement | enum | TourTooltipPlacement property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailTour></TailTour>
+```

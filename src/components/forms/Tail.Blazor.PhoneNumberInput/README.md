@@ -8,14 +8,6 @@ Independent NuGet package for the TailPhoneNumberInput component.
 dotnet add package Tail.Blazor.PhoneNumberInput
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.PhoneNumberInput
-
-<TailPhoneNumberInput @bind-PhoneNumber="phone" @bind-SelectedCountryCode="countryCode" Label="Phone Number" />
-```
-
 ## Features
 
 - Phone number input with country code selector
@@ -28,11 +20,43 @@ dotnet add package Tail.Blazor.PhoneNumberInput
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| PhoneNumber | string? | - | PhoneNumber parameter |
+| SelectedCountryCode | string | "+1" | SelectedCountryCode parameter |
+| Size | PhoneNumberInputSize | PhoneNumberInputSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| Placeholder | string? | - | Placeholder text |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| PhoneNumberChanged | string? | Raised when value changes |
+| SelectedCountryCodeChanged | string | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailPhoneNumberInput></TailPhoneNumberInput>
+```

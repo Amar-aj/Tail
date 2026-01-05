@@ -8,14 +8,6 @@ Independent NuGet package for the TailOrganizationChart component.
 dotnet add package Tail.Blazor.OrganizationChart
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.OrganizationChart
-
-<TailOrganizationChart RootNode="@orgNode" />
-```
-
 ## Features
 
 - Organization chart
@@ -23,11 +15,39 @@ dotnet add package Tail.Blazor.OrganizationChart
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| RootNode | OrganizationNode | default! | RootNode parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| OrganizationNode | class | OrganizationNode property |
+| Name | string | Name property |
+| Children | List<OrganizationNode> | Children property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailOrganizationChart></TailOrganizationChart>
+```

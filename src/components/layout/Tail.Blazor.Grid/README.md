@@ -8,16 +8,6 @@ Independent NuGet package for the TailGrid component.
 dotnet add package Tail.Blazor.Grid
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Grid
-
-<TailGrid Columns="12" Gap="4">
-    <div class="col-span-6">Content</div>
-</TailGrid>
-```
-
 ## Features
 
 - Responsive grid system
@@ -26,11 +16,37 @@ dotnet add package Tail.Blazor.Grid
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Columns | int | 12 | Columns parameter |
+| Gap | int | 4 | Gap parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailGrid></TailGrid>
+```

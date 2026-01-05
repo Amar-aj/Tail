@@ -8,14 +8,6 @@ Independent NuGet package for the TailIcon component.
 dotnet add package Tail.Blazor.Icon
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Icon
-
-<TailIcon Name="IconName.Home" Size="IconSize.Md" />
-```
-
 ## Features
 
 - Icon component
@@ -25,11 +17,37 @@ dotnet add package Tail.Blazor.Icon
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~15 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CustomSvg | RenderFragment? | - | CustomSvg parameter |
+| Name | IconName | IconName.None | Name parameter |
+| Size | IconSize | IconSize.Md | Size of the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailIcon></TailIcon>
+```

@@ -8,14 +8,6 @@ Independent NuGet package for the TailSteps component.
 dotnet add package Tail.Blazor.Steps
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Steps
-
-<TailSteps Steps="@stepItems" CurrentStep="@currentStep" />
-```
-
 ## Features
 
 - Step indicator
@@ -26,11 +18,40 @@ dotnet add package Tail.Blazor.Steps
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Steps | List<StepItem> | new() | Step value for numeric inputs |
+| CurrentStep | int | 1 | Step value for numeric inputs |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| StepItem | class | StepItem property |
+| Title | string | Title property |
+| Description | string? | Description property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSteps></TailSteps>
+```

@@ -8,14 +8,6 @@ Independent NuGet package for the TailToastContainer component.
 dotnet add package Tail.Blazor.ToastContainer
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ToastContainer
-
-<TailToastContainer @ref="toastContainer" Position="ToastPosition.TopRight" />
-```
-
 ## Features
 
 - Toast container with positioning
@@ -25,11 +17,44 @@ dotnet add package Tail.Blazor.ToastContainer
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Position | ToastPosition | ToastPosition.TopRight | Position parameter |
+| MaxToasts | int | 5 | Maximum value constraint |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| ShowToast | void | ShowToast property |
+| ToastItem | class | ToastItem property |
+| Message | string | Message property |
+| Title | string? | Title property |
+| Variant | ToastVariant | Variant property |
+| Dismissible | bool | Dismissible property |
+| AutoDismissAfter | int? | AutoDismissAfter property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailToastContainer></TailToastContainer>
+```

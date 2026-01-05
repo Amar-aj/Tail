@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Custom validation logic</li>
+            <li>Manual validation control</li>
+            <li>Custom error message</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCustomValidator />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -52,6 +62,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">IsValid parameter</td>
                         </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -65,7 +87,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.CustomValidator";
 
-    private string basicCode = @"<TailCustomValidator />";
+    private string basicCode = @"<TailCustomValidator></TailCustomValidator>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -74,5 +96,7 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "IsValid", Type = "bool", Default = "true", Description = "IsValid parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

@@ -8,14 +8,6 @@ Independent NuGet package for the TailTree component.
 dotnet add package Tail.Blazor.Tree
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Tree
-
-<TailTree Nodes="@treeNodes" />
-```
-
 ## Features
 
 - Tree view component
@@ -24,11 +16,35 @@ dotnet add package Tail.Blazor.Tree
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Nodes | List<TreeNodeItem> | new() | Nodes parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailTree></TailTree>
+```

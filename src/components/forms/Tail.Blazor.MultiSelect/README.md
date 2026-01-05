@@ -8,14 +8,6 @@ Independent NuGet package for the TailMultiSelect component.
 dotnet add package Tail.Blazor.MultiSelect
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.MultiSelect
-
-<TailMultiSelect @bind-SelectedValues="selectedValues" Items="@items" Label="Select multiple options" />
-```
-
 ## Features
 
 - Multi-selection dropdown
@@ -29,11 +21,44 @@ dotnet add package Tail.Blazor.MultiSelect
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| SelectedValues | List<string>? | - | Current value of the component |
+| Items | List<MultiSelectItem>? | - | Data items collection |
+| Size | MultiSelectSize | MultiSelectSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| Placeholder | string? | - | Placeholder text |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Required | bool | - | Whether the component is required |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| SelectedValuesChanged | List<string> | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailMultiSelect></TailMultiSelect>
+```

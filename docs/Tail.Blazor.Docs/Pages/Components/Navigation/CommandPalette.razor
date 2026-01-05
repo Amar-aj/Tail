@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Command palette (Cmd+K style)</li>
+            <li>Search/filter commands</li>
+            <li>Keyboard navigation</li>
+            <li>Shortcut display</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCommandPalette />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -47,6 +58,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsVisible</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is visible</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Commands</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;CommandItem&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
@@ -57,6 +74,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"Type a command or search..."</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -133,7 +156,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.CommandPalette";
 
-    private string basicCode = @"<TailCommandPalette />";
+    private string basicCode = @"<TailCommandPalette></TailCommandPalette>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -141,7 +164,9 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "IsVisible", Type = "bool", Default = "-", Description = "Whether the component is visible" },
         new() { Name = "Commands", Type = "List<CommandItem>", Default = "new()", Description = "Commands parameter" },
         new() { Name = "Placeholder", Type = "string", Default = """Type a command or search...""", Description = "Placeholder text" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

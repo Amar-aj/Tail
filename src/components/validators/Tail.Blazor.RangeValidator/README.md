@@ -8,14 +8,6 @@ Independent NuGet package for the TailRangeValidator component.
 dotnet add package Tail.Blazor.RangeValidator
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.RangeValidator
-
-<TailRangeValidator Value="@ageValue" Min="18" Max="100" />
-```
-
 ## Features
 
 - Range validation
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.RangeValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~1 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | double? | - | Current value of the component |
+| Min | double | - | Minimum value constraint |
+| Max | double | - | Maximum value constraint |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRangeValidator></TailRangeValidator>
+```

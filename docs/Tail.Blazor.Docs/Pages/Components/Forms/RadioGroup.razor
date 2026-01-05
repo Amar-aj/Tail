@@ -11,7 +11,18 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Radio button grouping</li>
+            <li>Vertical and horizontal orientations</li>
+            <li>Label support</li>
+            <li>Help text support</li>
+            <li>Validation error display</li>
+            <li>Required field indicator</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +32,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailRadioGroup Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -47,10 +60,46 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HelpText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HelpText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Orientation</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RadioGroupOrientation</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">RadioGroupOrientation.Vertical</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Orientation parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -65,7 +114,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.RadioGroup";
 
-    private string basicCode = @"<TailRadioGroup Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailRadioGroup></TailRadioGroup>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -73,6 +122,12 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "HelpText", Type = "string?", Default = "-", Description = "HelpText parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
         new() { Name = "Orientation", Type = "RadioGroupOrientation", Default = "RadioGroupOrientation.Vertical", Description = "Orientation parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

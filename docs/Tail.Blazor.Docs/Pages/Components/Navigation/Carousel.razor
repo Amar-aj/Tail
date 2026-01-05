@@ -11,7 +11,17 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Image/content carousel</li>
+            <li>Previous/Next controls</li>
+            <li>Indicator dots</li>
+            <li>Auto-play option</li>
+            <li>Smooth transitions</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +31,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCarousel />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,6 +65,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Data items collection</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CurrentIndex</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CurrentIndex parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowControls</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
@@ -65,10 +83,22 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ShowIndicators parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AutoPlay</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AutoPlay parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AutoPlayInterval</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">3000</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AutoPlayInterval parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -104,7 +134,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Carousel";
 
-    private string basicCode = @"<TailCarousel />";
+    private string basicCode = @"<TailCarousel></TailCarousel>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -113,8 +143,11 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Items", Type = "List<RenderFragment>", Default = "new()", Description = "Data items collection" },
+        new() { Name = "CurrentIndex", Type = "int", Default = "-", Description = "CurrentIndex parameter" },
         new() { Name = "ShowControls", Type = "bool", Default = "true", Description = "ShowControls parameter" },
         new() { Name = "ShowIndicators", Type = "bool", Default = "true", Description = "ShowIndicators parameter" },
+        new() { Name = "AutoPlay", Type = "bool", Default = "-", Description = "AutoPlay parameter" },
         new() { Name = "AutoPlayInterval", Type = "int", Default = "3000", Description = "AutoPlayInterval parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

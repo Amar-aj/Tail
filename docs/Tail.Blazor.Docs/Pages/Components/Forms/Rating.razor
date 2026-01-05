@@ -11,7 +11,19 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Star rating system</li>
+            <li>Customizable max rating (default 5)</li>
+            <li>4 sizes (Sm, Md, Lg, Xl)</li>
+            <li>5 colors (Yellow, Orange, Red, Pink, Purple)</li>
+            <li>Hover effects</li>
+            <li>Value display</li>
+            <li>Disabled and readonly states</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +33,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailRating Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailRating>Small</TailRating>
-<TailRating>Medium</TailRating>
-<TailRating>Large</TailRating>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,6 +85,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxRating</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">5</td>
@@ -87,6 +107,30 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RatingColor</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">RatingColor.Yellow</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Color scheme for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowValue</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ReadOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is read-only</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +166,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Rating";
 
-    private string basicCode = @"<TailRating Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailRating></TailRating>";
 
     private string sizesCode = @"
 <TailRating>Small</TailRating>
@@ -136,8 +180,13 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "int", Default = "-", Description = "Current value of the component" },
         new() { Name = "MaxRating", Type = "int", Default = "5", Description = "Maximum value constraint" },
         new() { Name = "Size", Type = "RatingSize", Default = "RatingSize.Md", Description = "Size of the component" },
         new() { Name = "Color", Type = "RatingColor", Default = "RatingColor.Yellow", Description = "Color scheme for the component" },
+        new() { Name = "ShowValue", Type = "bool", Default = "-", Description = "Current value of the component" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "ReadOnly", Type = "bool", Default = "-", Description = "Whether the component is read-only" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

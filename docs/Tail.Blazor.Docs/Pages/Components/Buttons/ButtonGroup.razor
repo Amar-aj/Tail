@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Horizontal and vertical layouts</li>
+            <li>Seamless button grouping</li>
+            <li>Rounded corners</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,11 +29,37 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailButtonGroup>Click Me</TailButtonGroup>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
                     <CodePreview Code="@basicCode" CodeElementId="basic-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Variants">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Different visual variants for various use cases.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
                 </TailTabPanel>
             </Content>
         </TailTabs>
@@ -43,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailButtonGroup>Small</TailButtonGroup>
-<TailButtonGroup>Medium</TailButtonGroup>
-<TailButtonGroup>Large</TailButtonGroup>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -70,6 +104,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Vertical</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Vertical parameter</td>
+                        </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Spacing</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ButtonGroupSpacing</code></td>
@@ -107,10 +153,22 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ShowShadow parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AnimationDuration</code></td>
@@ -123,6 +181,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ResponsiveVertical parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Visual variant style for the component</td>
                         </tr>
                     </tbody>
                 </table>
@@ -137,7 +201,13 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ButtonGroup";
 
-    private string basicCode = @"<TailButtonGroup>Click Me</TailButtonGroup>";
+    private string basicCode = @"<TailButtonGroup></TailButtonGroup>";
+
+    private string variantsCode = @"
+<TailButtonGroup>Default</TailButtonGroup>
+<TailButtonGroup>Secondary</TailButtonGroup>
+<TailButtonGroup>Tertiary</TailButtonGroup>
+";
 
     private string sizesCode = @"
 <TailButtonGroup>Small</TailButtonGroup>
@@ -146,19 +216,24 @@
 ";
 
     private string statesCode = @"
-<TailButtonGroup Disabled=""true"">Disabled</TailButtonGroup>
+<TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "Vertical", Type = "bool", Default = "-", Description = "Vertical parameter" },
         new() { Name = "Spacing", Type = "ButtonGroupSpacing", Default = "ButtonGroupSpacing.None", Description = "Spacing parameter" },
         new() { Name = "Size", Type = "ButtonGroupSize", Default = "ButtonGroupSize.Md", Description = "Size of the component" },
         new() { Name = "BorderRadius", Type = "ButtonGroupBorderRadius", Default = "ButtonGroupBorderRadius.Md", Description = "BorderRadius parameter" },
         new() { Name = "Attached", Type = "bool", Default = "true", Description = "Attached parameter" },
         new() { Name = "ShowBorder", Type = "bool", Default = "true", Description = "ShowBorder parameter" },
         new() { Name = "ShowShadow", Type = "bool", Default = "false", Description = "ShowShadow parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
         new() { Name = "Disabled", Type = "bool", Default = "false", Description = "Whether the component is disabled" },
+        new() { Name = "AriaLabel", Type = "string?", Default = "-", Description = "Label text for the component" },
         new() { Name = "AnimationDuration", Type = "string", Default = """duration-200""", Description = "AnimationDuration parameter" },
         new() { Name = "ResponsiveVertical", Type = "bool", Default = "false", Description = "ResponsiveVertical parameter" },
+        new() { Name = "Variant", Type = "string?", Default = "-", Description = "Visual variant style for the component" },
     };
 }

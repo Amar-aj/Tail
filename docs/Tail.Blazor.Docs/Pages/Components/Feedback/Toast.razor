@@ -11,7 +11,18 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Toast notification</li>
+            <li>4 variants (Success, Warning, Error, Info)</li>
+            <li>Auto-dismiss option</li>
+            <li>Title and message support</li>
+            <li>Icon support</li>
+            <li>Dismissible</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +32,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToast />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToast>Default</TailToast>
-<TailToast>Variant 1</TailToast>
-<TailToast>Variant 2</TailToast>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,6 +84,18 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Message</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Message parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ToastVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ToastVariant.Info</td>
@@ -89,10 +114,22 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Icon</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AutoDismissAfter</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int?</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">5000</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AutoDismissAfter parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -149,12 +186,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Toast";
 
-    private string basicCode = @"<TailToast />";
+    private string basicCode = @"<TailToast></TailToast>";
 
     private string variantsCode = @"
 <TailToast>Default</TailToast>
-<TailToast>Variant 1</TailToast>
-<TailToast>Variant 2</TailToast>
+<TailToast>Secondary</TailToast>
+<TailToast>Tertiary</TailToast>
 ";
 
     private string statesCode = @"
@@ -163,9 +200,13 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Message", Type = "string?", Default = "-", Description = "Message parameter" },
+        new() { Name = "Title", Type = "string?", Default = "-", Description = "Title parameter" },
         new() { Name = "Variant", Type = "ToastVariant", Default = "ToastVariant.Info", Description = "Visual variant style for the component" },
         new() { Name = "Dismissible", Type = "bool", Default = "true", Description = "Dismissible parameter" },
         new() { Name = "ShowIcon", Type = "bool", Default = "true", Description = "Icon to display" },
+        new() { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
         new() { Name = "AutoDismissAfter", Type = "int?", Default = "5000", Description = "AutoDismissAfter parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

@@ -8,14 +8,6 @@ Independent NuGet package for the TailProgressBarCircular component.
 dotnet add package Tail.Blazor.ProgressBarCircular
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ProgressBarCircular
-
-<TailProgressBarCircular Value="60" Size="100" ShowLabel="true" />
-```
-
 ## Features
 
 - Circular progress indicator
@@ -25,11 +17,39 @@ dotnet add package Tail.Blazor.ProgressBarCircular
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | int | - | Current value of the component |
+| Size | int | 100 | Size of the component |
+| StrokeWidth | int | 8 | StrokeWidth parameter |
+| Variant | ProgressBarCircularVariant | ProgressBarCircularVariant.Primary | Visual variant style for the component |
+| ShowLabel | bool | true | Label text for the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailProgressBarCircular></TailProgressBarCircular>
+```

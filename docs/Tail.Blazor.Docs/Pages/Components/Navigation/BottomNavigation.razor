@@ -10,7 +10,6 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
     <DocSection Title="Basic Usage">
         <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
             <p class="font-medium">🚧 Coming Soon</p>
@@ -38,6 +37,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;NavItem&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Data items collection</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActiveItemId</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ActiveItemId parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AdditionalAttributes</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dictionary&lt;string, object&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AdditionalAttributes parameter</td>
                         </tr>
                     </tbody>
                 </table>
@@ -143,5 +154,7 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Items", Type = "List<NavItem>", Default = "new()", Description = "Data items collection" },
+        new() { Name = "ActiveItemId", Type = "string?", Default = "-", Description = "ActiveItemId parameter" },
+        new() { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "-", Description = "AdditionalAttributes parameter" },
     };
 }

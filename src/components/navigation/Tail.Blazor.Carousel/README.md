@@ -8,14 +8,6 @@ Independent NuGet package for the TailCarousel component.
 dotnet add package Tail.Blazor.Carousel
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Carousel
-
-<TailCarousel Items="@carouselItems" ShowControls="true" ShowIndicators="true" AutoPlay="true" />
-```
-
 ## Features
 
 - Image/content carousel
@@ -26,11 +18,42 @@ dotnet add package Tail.Blazor.Carousel
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<RenderFragment> | new() | Data items collection |
+| CurrentIndex | int | - | CurrentIndex parameter |
+| ShowControls | bool | true | ShowControls parameter |
+| ShowIndicators | bool | true | ShowIndicators parameter |
+| AutoPlay | bool | - | AutoPlay parameter |
+| AutoPlayInterval | int | 3000 | AutoPlayInterval parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| Dispose | void | Dispose property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailCarousel></TailCarousel>
+```

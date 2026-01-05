@@ -11,7 +11,20 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Multi-selection dropdown</li>
+            <li>Tag display for selected items</li>
+            <li>Search functionality (can be added)</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Label support</li>
+            <li>Placeholder text</li>
+            <li>Validation error display</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +34,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMultiSelect Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +58,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMultiSelect>Small</TailMultiSelect>
-<TailMultiSelect>Medium</TailMultiSelect>
-<TailMultiSelect>Large</TailMultiSelect>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,10 +86,58 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SelectedValues</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;string&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Items</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;MultiSelectItem&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Data items collection</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MultiSelectSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">MultiSelectSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placeholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,7 +173,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.MultiSelect";
 
-    private string basicCode = @"<TailMultiSelect Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailMultiSelect></TailMultiSelect>";
 
     private string sizesCode = @"
 <TailMultiSelect>Small</TailMultiSelect>
@@ -124,6 +187,14 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "SelectedValues", Type = "List<string>?", Default = "-", Description = "Current value of the component" },
+        new() { Name = "Items", Type = "List<MultiSelectItem>?", Default = "-", Description = "Data items collection" },
         new() { Name = "Size", Type = "MultiSelectSize", Default = "MultiSelectSize.Md", Description = "Size of the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

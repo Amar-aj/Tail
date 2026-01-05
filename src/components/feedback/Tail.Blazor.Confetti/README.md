@@ -8,14 +8,6 @@ Independent NuGet package for the TailConfetti component.
 dotnet add package Tail.Blazor.Confetti
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Confetti
-
-<TailConfetti IsActive="@showConfetti" ParticleCount="100" Shape="ConfettiShape.Mixed" Duration="3000" />
-```
-
 ## Features
 
 - Confetti animation
@@ -25,11 +17,38 @@ dotnet add package Tail.Blazor.Confetti
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsActive | bool | - | IsActive parameter |
+| ParticleCount | int | 50 | ParticleCount parameter |
+| Shape | ConfettiShape | ConfettiShape.Mixed | Shape parameter |
+| Duration | int | 3000 | Duration parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailConfetti></TailConfetti>
+```

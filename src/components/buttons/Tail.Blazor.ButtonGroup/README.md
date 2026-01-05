@@ -8,18 +8,6 @@ Independent NuGet package for the TailButtonGroup component.
 dotnet add package Tail.Blazor.ButtonGroup
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ButtonGroup
-
-<TailButtonGroup>
-    <TailButton>Left</TailButton>
-    <TailButton>Middle</TailButton>
-    <TailButton>Right</TailButton>
-</TailButtonGroup>
-```
-
 ## Features
 
 - Horizontal and vertical layouts
@@ -28,11 +16,47 @@ dotnet add package Tail.Blazor.ButtonGroup
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Vertical | bool | - | Vertical parameter |
+| Spacing | ButtonGroupSpacing | ButtonGroupSpacing.None | Spacing parameter |
+| Size | ButtonGroupSize | ButtonGroupSize.Md | Size of the component |
+| BorderRadius | ButtonGroupBorderRadius | ButtonGroupBorderRadius.Md | BorderRadius parameter |
+| Attached | bool | true | Attached parameter |
+| ShowBorder | bool | true | ShowBorder parameter |
+| ShowShadow | bool | false | ShowShadow parameter |
+| Style | string? | - | Additional CSS styles |
+| Disabled | bool | false | Whether the component is disabled |
+| AriaLabel | string? | - | Label text for the component |
+| AnimationDuration | string | "duration-200" | AnimationDuration parameter |
+| ResponsiveVertical | bool | false | ResponsiveVertical parameter |
+| Variant | string? | - | Visual variant style for the component |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailButtonGroup></TailButtonGroup>
+```

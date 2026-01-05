@@ -8,18 +8,6 @@ Independent NuGet package for the TailIconButton component.
 dotnet add package Tail.Blazor.IconButton
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.IconButton
-
-<TailIconButton Variant="ButtonVariant.Primary" OnClick="HandleClick">
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-    </svg>
-</TailIconButton>
-```
-
 ## Features
 
 - Icon-only button design
@@ -30,11 +18,49 @@ dotnet add package Tail.Blazor.IconButton
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Variant | ButtonVariant | ButtonVariant.Primary | Visual variant style for the component |
+| Size | ButtonSize | ButtonSize.Md | Size of the component |
+| Disabled | bool | - | Whether the component is disabled |
+| IsLoading | bool | - | Whether the component is in loading state |
+| Type | string | "button" | Type parameter |
+| StopPropagation | bool | - | StopPropagation parameter |
+| Style | string? | - | Additional CSS styles |
+| AriaLabel | string? | - | Label text for the component |
+| Tooltip | string? | - | Tooltip parameter |
+| Shape | ButtonShape | ButtonShape.Square | Shape parameter |
+| AutoFocus | bool | false | AutoFocus parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnClick | MouseEventArgs | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| ButtonShape | enum | ButtonShape property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailIconButton></TailIconButton>
+```

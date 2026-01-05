@@ -8,16 +8,6 @@ Independent NuGet package for the TailMegaMenu component.
 dotnet add package Tail.Blazor.MegaMenu
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.MegaMenu
-
-<TailMegaMenu Sections="@megaMenuSections" Columns="3">
-    <Trigger>Products</Trigger>
-</TailMegaMenu>
-```
-
 ## Features
 
 - Mega menu with multiple columns
@@ -26,11 +16,44 @@ dotnet add package Tail.Blazor.MegaMenu
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Trigger | RenderFragment? | - | Trigger parameter |
+| Sections | List<MegaMenuSection> | new() | Sections parameter |
+| Columns | int | 3 | Columns parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| MegaMenuSection | class | MegaMenuSection property |
+| Title | string? | Title property |
+| Items | List<MegaMenuItem> | Items property |
+| MegaMenuItem | class | MegaMenuItem property |
+| Label | string | Label property |
+| Href | string? | Href property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailMegaMenu></TailMegaMenu>
+```

@@ -8,14 +8,6 @@ Independent NuGet package for the TailNumericRangeValidator component.
 dotnet add package Tail.Blazor.NumericRangeValidator
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.NumericRangeValidator
-
-<TailNumericRangeValidator Value="@quantityValue" Min="1" Max="100" />
-```
-
 ## Features
 
 - Numeric range validation
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.NumericRangeValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~1 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | int? | - | Current value of the component |
+| Min | int | - | Minimum value constraint |
+| Max | int | - | Maximum value constraint |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailNumericRangeValidator></TailNumericRangeValidator>
+```

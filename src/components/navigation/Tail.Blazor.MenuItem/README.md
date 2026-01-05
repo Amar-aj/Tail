@@ -8,17 +8,6 @@ Independent NuGet package for the TailMenuItem component.
 dotnet add package Tail.Blazor.MenuItem
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.MenuItem
-
-<TailMenuItem Href="/home" IsActive="true">
-    <Icon>🏠</Icon>
-    Home
-</TailMenuItem>
-```
-
 ## Features
 
 - Menu item with link
@@ -28,11 +17,52 @@ dotnet add package Tail.Blazor.MenuItem
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Icon | RenderFragment? | - | Icon to display |
+| Badge | RenderFragment? | - | Badge parameter |
+| Href | string? | "#" | Href parameter |
+| IsActive | bool | - | IsActive parameter |
+| Target | string? | - | Target parameter |
+| Disabled | bool | false | Whether the component is disabled |
+| PreventDefault | bool | true | PreventDefault parameter |
+| Style | string? | - | Additional CSS styles |
+| ItemClass | string? | - | Additional CSS classes |
+| Bordered | bool | false | Bordered parameter |
+| Shadow | ShadowLevel | ShadowLevel.None | Shadow parameter |
+| Underline | bool | false | Underline parameter |
+| BorderColor | string? | - | Color scheme for the component |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnClick | MenuItemClickArgs | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| ShadowLevel | enum | ShadowLevel property |
+| MenuItemClickArgs | record | MenuItemClickArgs property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailMenuItem></TailMenuItem>
+```

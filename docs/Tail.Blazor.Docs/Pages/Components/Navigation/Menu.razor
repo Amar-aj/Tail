@@ -11,7 +11,14 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Menu container</li>
+            <li>3 variants (Default, Vertical, Horizontal)</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +28,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMenu />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +52,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMenu>Default</TailMenu>
-<TailMenu>Variant 1</TailMenu>
-<TailMenu>Variant 2</TailMenu>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -70,6 +79,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HeaderTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HeaderTemplate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FooterTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FooterTemplate parameter</td>
+                        </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuVariant</code></td>
@@ -125,6 +152,18 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ItemClass</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS classes</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AnimationDuration</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">200</td>
@@ -169,12 +208,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Menu";
 
-    private string basicCode = @"<TailMenu />";
+    private string basicCode = @"<TailMenu></TailMenu>";
 
     private string variantsCode = @"
 <TailMenu>Default</TailMenu>
-<TailMenu>Variant 1</TailMenu>
-<TailMenu>Variant 2</TailMenu>
+<TailMenu>Secondary</TailMenu>
+<TailMenu>Tertiary</TailMenu>
 ";
 
     private string statesCode = @"
@@ -183,6 +222,9 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "HeaderTemplate", Type = "RenderFragment?", Default = "-", Description = "HeaderTemplate parameter" },
+        new() { Name = "FooterTemplate", Type = "RenderFragment?", Default = "-", Description = "FooterTemplate parameter" },
         new() { Name = "Variant", Type = "MenuVariant", Default = "MenuVariant.Default", Description = "Visual variant style for the component" },
         new() { Name = "Orientation", Type = "MenuOrientation", Default = "MenuOrientation.Vertical", Description = "Orientation parameter" },
         new() { Name = "Align", Type = "MenuAlign", Default = "MenuAlign.Start", Description = "Align parameter" },
@@ -192,6 +234,8 @@
         new() { Name = "ActiveBackground", Type = "string?", Default = """var(--color-primary)""", Description = "ActiveBackground parameter" },
         new() { Name = "ActiveTextColor", Type = "string?", Default = """var(--color-text-on-primary, #ffffff)""", Description = "Color scheme for the component" },
         new() { Name = "AriaLabel", Type = "string?", Default = """Main menu""", Description = "Label text for the component" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
+        new() { Name = "ItemClass", Type = "string?", Default = "-", Description = "Additional CSS classes" },
         new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
     };
 }

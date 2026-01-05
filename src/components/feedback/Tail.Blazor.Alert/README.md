@@ -8,16 +8,6 @@ Independent NuGet package for the TailAlert component.
 dotnet add package Tail.Blazor.Alert
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Alert
-
-<TailAlert Variant="AlertVariant.Success" Title="Success!" Dismissible="true">
-    Operation completed successfully.
-</TailAlert>
-```
-
 ## Features
 
 - 4 variants (Success, Warning, Danger, Info)
@@ -27,10 +17,42 @@ dotnet add package Tail.Blazor.Alert
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
+
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Variant | AlertVariant | AlertVariant.Info | Visual variant style for the component |
+| Title | string? | - | Title parameter |
+| Dismissible | bool | - | Dismissible parameter |
+| ShowIcon | bool | true | Icon to display |
+| Icon | RenderFragment? | - | Icon to display |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnDismiss | void | OnDismiss callback |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailAlert></TailAlert>
+```

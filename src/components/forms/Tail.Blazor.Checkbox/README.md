@@ -8,18 +8,6 @@ Independent NuGet package for the TailCheckbox component.
 dotnet add package Tail.Blazor.Checkbox
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Checkbox
-
-<TailCheckbox @bind-IsChecked="isChecked" Label="I agree to the terms" />
-
-<TailCheckbox @bind-IsChecked="isChecked" Size="CheckboxSize.Lg">
-    Custom content here
-</TailCheckbox>
-```
-
 ## Features
 
 - 5 sizes (Xs, Sm, Md, Lg, Xl)
@@ -30,11 +18,46 @@ dotnet add package Tail.Blazor.Checkbox
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsChecked | bool | - | IsChecked parameter |
+| Size | CheckboxSize | CheckboxSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| IsIndeterminate | bool | - | Minimum value constraint |
+| CustomCheckIcon | RenderFragment? | - | Icon to display |
+| AriaLabel | string? | - | Label text for the component |
+| Tooltip | string? | - | Tooltip parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsCheckedChanged | bool | Raised when value changes |
+| OnCheckedChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailCheckbox></TailCheckbox>
+```

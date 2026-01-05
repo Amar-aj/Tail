@@ -8,16 +8,6 @@ Independent NuGet package for the TailToggleButton component.
 dotnet add package Tail.Blazor.ToggleButton
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ToggleButton
-
-<TailToggleButton @bind-IsToggled="isToggled" Variant="ButtonVariant.Primary">
-    Toggle Me
-</TailToggleButton>
-```
-
 ## Features
 
 - Toggle on/off states
@@ -28,11 +18,46 @@ dotnet add package Tail.Blazor.ToggleButton
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| ToggledContent | RenderFragment? | - | ToggledContent parameter |
+| Variant | ButtonVariant | ButtonVariant.Primary | Visual variant style for the component |
+| Size | ButtonSize | ButtonSize.Md | Size of the component |
+| Disabled | bool | - | Whether the component is disabled |
+| IsToggled | bool | - | IsToggled parameter |
+| AriaLabel | string? | - | Label text for the component |
+| Tooltip | string? | - | Tooltip parameter |
+| Type | string | "button" | Type parameter |
+| AutoFocus | bool | false | AutoFocus parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsToggledChanged | bool | Raised when value changes |
+| OnClick | MouseEventArgs | Raised when component is clicked |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailToggleButton></TailToggleButton>
+```

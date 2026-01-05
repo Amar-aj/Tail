@@ -8,18 +8,6 @@ Independent NuGet package for the TailFAB (Floating Action Button) component.
 dotnet add package Tail.Blazor.FAB
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.FAB
-
-<TailFAB Position="FABPosition.BottomRight" OnClick="HandleClick">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-    </svg>
-</TailFAB>
-```
-
 ## Features
 
 - 4 positions (TopLeft, TopRight, BottomLeft, BottomRight)
@@ -30,11 +18,42 @@ dotnet add package Tail.Blazor.FAB
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Position | FABPosition | FABPosition.BottomRight | Position parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| IsLoading | bool | - | Whether the component is in loading state |
+| Type | string | "button" | Type parameter |
+| Style | string? | - | Additional CSS styles |
+| AutoFocus | bool | false | AutoFocus parameter |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnClick | MouseEventArgs | Raised when component is clicked |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailFAB></TailFAB>
+```

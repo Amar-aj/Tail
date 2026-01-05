@@ -8,18 +8,6 @@ Independent NuGet package for the TailKanbanBoard component.
 dotnet add package Tail.Blazor.KanbanBoard
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.KanbanBoard
-
-<TailKanbanBoard Columns="@kanbanColumns">
-    <CardTemplate>
-        <div>@context.Title</div>
-    </CardTemplate>
-</TailKanbanBoard>
-```
-
 ## Features
 
 - Kanban board
@@ -28,11 +16,43 @@ dotnet add package Tail.Blazor.KanbanBoard
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Columns | List<KanbanColumn> | new() | Columns parameter |
+| CardTemplate | RenderFragment<KanbanCard> | default! | CardTemplate parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| KanbanColumn | class | KanbanColumn property |
+| Title | string | Title property |
+| Cards | List<KanbanCard> | Cards property |
+| KanbanCard | class | KanbanCard property |
+| Id | string | Id property |
+| Title | string | Title property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailKanbanBoard></TailKanbanBoard>
+```

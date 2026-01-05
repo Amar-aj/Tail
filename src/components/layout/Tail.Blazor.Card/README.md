@@ -8,18 +8,6 @@ Independent NuGet package for the TailCard component.
 dotnet add package Tail.Blazor.Card
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Card
-
-<TailCard Hoverable="true">
-    <Header>Card Title</Header>
-    Content here
-    <Footer>Footer</Footer>
-</TailCard>
-```
-
 ## Features
 
 - Card with header/footer
@@ -27,10 +15,38 @@ dotnet add package Tail.Blazor.Card
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
+
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Header | RenderFragment? | - | Header parameter |
+| Footer | RenderFragment? | - | Footer parameter |
+| Hoverable | bool | - | Hoverable parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailCard></TailCard>
+```

@@ -11,7 +11,17 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Icon-only button design</li>
+            <li>9 variants (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Loading states</li>
+            <li>Disabled states</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +31,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailIconButton>Click Me</TailIconButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailIconButton>Default</TailIconButton>
-<TailIconButton>Variant 1</TailIconButton>
-<TailIconButton>Variant 2</TailIconButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +79,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailIconButton>Small</TailIconButton>
-<TailIconButton>Medium</TailIconButton>
-<TailIconButton>Large</TailIconButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -95,6 +107,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ButtonVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ButtonVariant.Primary</td>
@@ -107,10 +125,46 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsLoading</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is in loading state</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Type</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"button"</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Type parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StopPropagation</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StopPropagation parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Tooltip</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Tooltip parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Shape</code></td>
@@ -179,12 +233,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.IconButton";
 
-    private string basicCode = @"<TailIconButton>Click Me</TailIconButton>";
+    private string basicCode = @"<TailIconButton></TailIconButton>";
 
     private string variantsCode = @"
 <TailIconButton>Default</TailIconButton>
-<TailIconButton>Variant 1</TailIconButton>
-<TailIconButton>Variant 2</TailIconButton>
+<TailIconButton>Secondary</TailIconButton>
+<TailIconButton>Tertiary</TailIconButton>
 ";
 
     private string sizesCode = @"
@@ -199,9 +253,16 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
         new() { Name = "Variant", Type = "ButtonVariant", Default = "ButtonVariant.Primary", Description = "Visual variant style for the component" },
         new() { Name = "Size", Type = "ButtonSize", Default = "ButtonSize.Md", Description = "Size of the component" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "IsLoading", Type = "bool", Default = "-", Description = "Whether the component is in loading state" },
         new() { Name = "Type", Type = "string", Default = """button""", Description = "Type parameter" },
+        new() { Name = "StopPropagation", Type = "bool", Default = "-", Description = "StopPropagation parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
+        new() { Name = "AriaLabel", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip parameter" },
         new() { Name = "Shape", Type = "ButtonShape", Default = "ButtonShape.Square", Description = "Shape parameter" },
         new() { Name = "AutoFocus", Type = "bool", Default = "false", Description = "AutoFocus parameter" },
     };

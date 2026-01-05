@@ -8,14 +8,6 @@ Independent NuGet package for the TailSlider component.
 dotnet add package Tail.Blazor.Slider
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Slider
-
-<TailSlider @bind-Value="value" Min="0" Max="100" Step="1" Label="Volume" ShowValue="true" />
-```
-
 ## Features
 
 - Range input with min/max/step
@@ -29,11 +21,47 @@ dotnet add package Tail.Blazor.Slider
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | double | - | Current value of the component |
+| Min | double | 0 | Minimum value constraint |
+| Max | double | 100 | Maximum value constraint |
+| Step | double | 1 | Step value for numeric inputs |
+| Size | SliderSize | SliderSize.Md | Size of the component |
+| Variant | SliderVariant | SliderVariant.Primary | Visual variant style for the component |
+| Label | string? | - | Label text for the component |
+| HelpText | string? | - | HelpText parameter |
+| ShowValue | bool | - | Current value of the component |
+| ShowLabels | bool | - | Label text for the component |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | double | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSlider></TailSlider>
+```

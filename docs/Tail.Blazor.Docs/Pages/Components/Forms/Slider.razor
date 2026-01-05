@@ -11,7 +11,20 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Range input with min/max/step</li>
+            <li>3 sizes (Sm, Md, Lg)</li>
+            <li>4 variants (Primary, Success, Warning, Danger)</li>
+            <li>Label support</li>
+            <li>Value display</li>
+            <li>Min/max labels</li>
+            <li>Help text</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +34,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSlider Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +58,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSlider>Default</TailSlider>
-<TailSlider>Variant 1</TailSlider>
-<TailSlider>Variant 2</TailSlider>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +82,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSlider>Small</TailSlider>
-<TailSlider>Medium</TailSlider>
-<TailSlider>Large</TailSlider>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -94,6 +109,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Min</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
@@ -123,6 +144,42 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SliderVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">SliderVariant.Primary</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Visual variant style for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HelpText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HelpText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowValue</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowLabels</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -158,12 +215,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Slider";
 
-    private string basicCode = @"<TailSlider Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailSlider></TailSlider>";
 
     private string variantsCode = @"
 <TailSlider>Default</TailSlider>
-<TailSlider>Variant 1</TailSlider>
-<TailSlider>Variant 2</TailSlider>
+<TailSlider>Secondary</TailSlider>
+<TailSlider>Tertiary</TailSlider>
 ";
 
     private string sizesCode = @"
@@ -178,10 +235,17 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "double", Default = "-", Description = "Current value of the component" },
         new() { Name = "Min", Type = "double", Default = "0", Description = "Minimum value constraint" },
         new() { Name = "Max", Type = "double", Default = "100", Description = "Maximum value constraint" },
         new() { Name = "Step", Type = "double", Default = "1", Description = "Step value for numeric inputs" },
         new() { Name = "Size", Type = "SliderSize", Default = "SliderSize.Md", Description = "Size of the component" },
         new() { Name = "Variant", Type = "SliderVariant", Default = "SliderVariant.Primary", Description = "Visual variant style for the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "HelpText", Type = "string?", Default = "-", Description = "HelpText parameter" },
+        new() { Name = "ShowValue", Type = "bool", Default = "-", Description = "Current value of the component" },
+        new() { Name = "ShowLabels", Type = "bool", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

@@ -8,18 +8,6 @@ Independent NuGet package for the TailSwitch component.
 dotnet add package Tail.Blazor.Switch
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Switch
-
-<TailSwitch @bind-IsChecked="isEnabled" Label="Enable notifications" />
-
-<TailSwitch @bind-IsChecked="isEnabled" Size="SwitchSize.Lg">
-    Large switch
-</TailSwitch>
-```
-
 ## Features
 
 - Toggle switch design
@@ -32,11 +20,42 @@ dotnet add package Tail.Blazor.Switch
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsChecked | bool | - | IsChecked parameter |
+| Size | SwitchSize | SwitchSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsCheckedChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSwitch></TailSwitch>
+```

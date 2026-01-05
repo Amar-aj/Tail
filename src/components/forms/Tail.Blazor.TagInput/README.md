@@ -8,14 +8,6 @@ Independent NuGet package for the TailTagInput component.
 dotnet add package Tail.Blazor.TagInput
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.TagInput
-
-<TailTagInput @bind-Tags="tags" Placeholder="Add tags..." />
-```
-
 ## Features
 
 - Tag input with add/remove functionality
@@ -28,11 +20,42 @@ dotnet add package Tail.Blazor.TagInput
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Tags | List<string> | new() | Tags parameter |
+| Size | TagInputSize | TagInputSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| Placeholder | string? | - | Placeholder text |
+| HelpText | string? | - | HelpText parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| TagsChanged | List<string> | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailTagInput></TailTagInput>
+```

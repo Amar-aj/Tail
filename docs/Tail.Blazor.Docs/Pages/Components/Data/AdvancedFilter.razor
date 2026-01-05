@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Advanced filtering</li>
+            <li>Field selection</li>
+            <li>Operator selection</li>
+            <li>Filter value input</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailAdvancedFilter />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -51,6 +62,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;string&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Fields parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +139,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.AdvancedFilter";
 
-    private string basicCode = @"<TailAdvancedFilter />";
+    private string basicCode = @"<TailAdvancedFilter></TailAdvancedFilter>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -131,5 +148,6 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Fields", Type = "List<string>", Default = "new()", Description = "Fields parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

@@ -8,14 +8,6 @@ Independent NuGet package for the TailScrollSpy component.
 dotnet add package Tail.Blazor.ScrollSpy
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ScrollSpy
-
-<TailScrollSpy Items="@scrollSpyItems" ActiveId="@activeId" Position="ScrollSpyPosition.Left" />
-```
-
 ## Features
 
 - Scroll spy navigation
@@ -24,11 +16,45 @@ dotnet add package Tail.Blazor.ScrollSpy
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<ScrollSpyItem> | new() | Data items collection |
+| ActiveId | string? | - | ActiveId parameter |
+| Position | ScrollSpyPosition | ScrollSpyPosition.Left | Position parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnItemClick | ScrollSpyItem | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| ScrollSpyItem | class | ScrollSpyItem property |
+| Id | string | Id property |
+| Label | string | Label property |
+| Href | string? | Href property |
+| ScrollSpyPosition | enum | ScrollSpyPosition property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailScrollSpy></TailScrollSpy>
+```

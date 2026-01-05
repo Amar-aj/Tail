@@ -8,14 +8,6 @@ Independent NuGet package for the TailPager component.
 dotnet add package Tail.Blazor.Pager
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Pager
-
-<TailPager CurrentPage="@currentPage" TotalPages="@totalPages" TotalItems="@totalItems" PageSize="10" />
-```
-
 ## Features
 
 - Page navigation
@@ -24,11 +16,40 @@ dotnet add package Tail.Blazor.Pager
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CurrentPage | int | 1 | CurrentPage parameter |
+| TotalPages | int | 1 | TotalPages parameter |
+| TotalItems | int | - | Data items collection |
+| PageSize | int | 10 | Size of the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| CurrentPageChanged | int | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailPager></TailPager>
+```

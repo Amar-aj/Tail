@@ -8,14 +8,6 @@ Independent NuGet package for the TailFloatingActionMenu component.
 dotnet add package Tail.Blazor.FloatingActionMenu
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.FloatingActionMenu
-
-<TailFloatingActionMenu Items="@fabItems" Position="FloatingActionMenuPosition.BottomRight" />
-```
-
 ## Features
 
 - Floating action menu
@@ -25,11 +17,44 @@ dotnet add package Tail.Blazor.FloatingActionMenu
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<FloatingActionMenuItem> | new() | Data items collection |
+| Position | FloatingActionMenuPosition | FloatingActionMenuPosition.BottomRight | Position parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnItemClick | FloatingActionMenuItem | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| FloatingActionMenuItem | class | FloatingActionMenuItem property |
+| Label | string | Label property |
+| Icon | RenderFragment? | Icon property |
+| OnClick | EventCallback | OnClick property |
+| FloatingActionMenuPosition | enum | FloatingActionMenuPosition property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailFloatingActionMenu></TailFloatingActionMenu>
+```

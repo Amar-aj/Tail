@@ -8,14 +8,6 @@ Independent NuGet package for the TailNotificationCenter component.
 dotnet add package Tail.Blazor.NotificationCenter
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.NotificationCenter
-
-<TailNotificationCenter Notifications="@notifications" Placement="NotificationCenterPlacement.TopRight" />
-```
-
 ## Features
 
 - Notification center with list
@@ -27,11 +19,49 @@ dotnet add package Tail.Blazor.NotificationCenter
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Notifications | List<NotificationItem> | new() | Notifications parameter |
+| Placement | NotificationCenterPlacement | NotificationCenterPlacement.TopRight | Placement parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnNotificationClick | NotificationItem | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| NotificationItem | class | NotificationItem property |
+| Id | string | Id property |
+| Title | string | Title property |
+| Message | string? | Message property |
+| Variant | ToastVariant | Variant property |
+| Icon | string? | Icon property |
+| Timestamp | DateTime | Timestamp property |
+| IsRead | bool | IsRead property |
+| Dismissible | bool | Dismissible property |
+| ToastVariant | enum | ToastVariant property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailNotificationCenter></TailNotificationCenter>
+```

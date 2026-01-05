@@ -8,16 +8,6 @@ Independent NuGet package for the TailRating component.
 dotnet add package Tail.Blazor.Rating
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Rating
-
-<TailRating @bind-Value="rating" MaxRating="5" ShowValue="true" />
-
-<TailRating @bind-Value="rating" Size="RatingSize.Lg" Color="RatingColor.Orange" />
-```
-
 ## Features
 
 - Star rating system
@@ -30,11 +20,43 @@ dotnet add package Tail.Blazor.Rating
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | int | - | Current value of the component |
+| MaxRating | int | 5 | Maximum value constraint |
+| Size | RatingSize | RatingSize.Md | Size of the component |
+| Color | RatingColor | RatingColor.Yellow | Color scheme for the component |
+| ShowValue | bool | - | Current value of the component |
+| Disabled | bool | - | Whether the component is disabled |
+| ReadOnly | bool | - | Whether the component is read-only |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | int | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRating></TailRating>
+```

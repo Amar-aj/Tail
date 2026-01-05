@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>4 variants (Success, Warning, Danger, Info)</li>
+            <li>Optional title</li>
+            <li>Dismissible alerts</li>
+            <li>Icon support</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailAlert />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +54,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailAlert>Default</TailAlert>
-<TailAlert>Variant 1</TailAlert>
-<TailAlert>Variant 2</TailAlert>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,16 +82,46 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AlertVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AlertVariant.Info</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Visual variant style for the component</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dismissible</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Dismissible parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowIcon</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Icon</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -116,12 +157,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Alert";
 
-    private string basicCode = @"<TailAlert />";
+    private string basicCode = @"<TailAlert></TailAlert>";
 
     private string variantsCode = @"
 <TailAlert>Default</TailAlert>
-<TailAlert>Variant 1</TailAlert>
-<TailAlert>Variant 2</TailAlert>
+<TailAlert>Secondary</TailAlert>
+<TailAlert>Tertiary</TailAlert>
 ";
 
     private string statesCode = @"
@@ -130,7 +171,12 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
         new() { Name = "Variant", Type = "AlertVariant", Default = "AlertVariant.Info", Description = "Visual variant style for the component" },
+        new() { Name = "Title", Type = "string?", Default = "-", Description = "Title parameter" },
+        new() { Name = "Dismissible", Type = "bool", Default = "-", Description = "Dismissible parameter" },
         new() { Name = "ShowIcon", Type = "bool", Default = "true", Description = "Icon to display" },
+        new() { Name = "Icon", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

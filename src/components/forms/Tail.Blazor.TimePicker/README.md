@@ -8,14 +8,6 @@ Independent NuGet package for the TailTimePicker component.
 dotnet add package Tail.Blazor.TimePicker
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.TimePicker
-
-<TailTimePicker @bind-Value="selectedTime" Label="Select Time" />
-```
-
 ## Features
 
 - Time input with picker
@@ -27,11 +19,42 @@ dotnet add package Tail.Blazor.TimePicker
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | TimeSpan? | - | Current value of the component |
+| Size | TimePickerSize | TimePickerSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Required | bool | - | Whether the component is required |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | TimeSpan? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailTimePicker></TailTimePicker>
+```

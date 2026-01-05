@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Tree view component</li>
+            <li>Expandable nodes</li>
+            <li>Hierarchical structure</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailTree />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -52,6 +62,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Nodes parameter</td>
                         </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -65,7 +81,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Tree";
 
-    private string basicCode = @"<TailTree />";
+    private string basicCode = @"<TailTree></TailTree>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -74,5 +90,6 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Nodes", Type = "List<TreeNodeItem>", Default = "new()", Description = "Nodes parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

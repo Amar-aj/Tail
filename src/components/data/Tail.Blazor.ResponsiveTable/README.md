@@ -8,14 +8,6 @@ Independent NuGet package for the TailResponsiveTable component.
 dotnet add package Tail.Blazor.ResponsiveTable
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ResponsiveTable
-
-<TailResponsiveTable Columns="@columns" Rows="@rows" />
-```
-
 ## Features
 
 - Responsive table
@@ -24,11 +16,36 @@ dotnet add package Tail.Blazor.ResponsiveTable
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Columns | List<string> | new() | Columns parameter |
+| Rows | List<List<string>> | new() | Rows parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailResponsiveTable></TailResponsiveTable>
+```

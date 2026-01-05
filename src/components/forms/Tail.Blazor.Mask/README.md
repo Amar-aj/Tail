@@ -8,14 +8,6 @@ Independent NuGet package for the TailMask component.
 dotnet add package Tail.Blazor.Mask
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Mask
-
-<TailMask @bind-Value="phoneNumber" Mask="(###) ###-####" Label="Phone Number" />
-```
-
 ## Features
 
 - Input masking (phone, credit card, etc.)
@@ -29,11 +21,44 @@ dotnet add package Tail.Blazor.Mask
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Mask | string | "(###) ###-####" | Mask parameter |
+| Size | MaskSize | MaskSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| Placeholder | string? | - | Placeholder text |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Required | bool | - | Whether the component is required |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailMask></TailMask>
+```

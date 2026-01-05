@@ -11,7 +11,17 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Toggle on/off states</li>
+            <li>Visual feedback for toggled state</li>
+            <li>9 variants</li>
+            <li>5 sizes</li>
+            <li>Disabled states</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +31,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToggleButton>Click Me</TailToggleButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToggleButton>Default</TailToggleButton>
-<TailToggleButton>Variant 1</TailToggleButton>
-<TailToggleButton>Variant 2</TailToggleButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +79,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToggleButton>Small</TailToggleButton>
-<TailToggleButton>Medium</TailToggleButton>
-<TailToggleButton>Large</TailToggleButton>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -95,6 +107,18 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ToggledContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ToggledContent parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ButtonVariant</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ButtonVariant.Primary</td>
@@ -105,6 +129,30 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ButtonSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ButtonSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsToggled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsToggled parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Tooltip</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Tooltip parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Type</code></td>
@@ -157,12 +205,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ToggleButton";
 
-    private string basicCode = @"<TailToggleButton>Click Me</TailToggleButton>";
+    private string basicCode = @"<TailToggleButton></TailToggleButton>";
 
     private string variantsCode = @"
 <TailToggleButton>Default</TailToggleButton>
-<TailToggleButton>Variant 1</TailToggleButton>
-<TailToggleButton>Variant 2</TailToggleButton>
+<TailToggleButton>Secondary</TailToggleButton>
+<TailToggleButton>Tertiary</TailToggleButton>
 ";
 
     private string sizesCode = @"
@@ -177,8 +225,14 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "ToggledContent", Type = "RenderFragment?", Default = "-", Description = "ToggledContent parameter" },
         new() { Name = "Variant", Type = "ButtonVariant", Default = "ButtonVariant.Primary", Description = "Visual variant style for the component" },
         new() { Name = "Size", Type = "ButtonSize", Default = "ButtonSize.Md", Description = "Size of the component" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "IsToggled", Type = "bool", Default = "-", Description = "IsToggled parameter" },
+        new() { Name = "AriaLabel", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip parameter" },
         new() { Name = "Type", Type = "string", Default = """button""", Description = "Type parameter" },
         new() { Name = "AutoFocus", Type = "bool", Default = "false", Description = "AutoFocus parameter" },
     };

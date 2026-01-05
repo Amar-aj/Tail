@@ -8,14 +8,6 @@ Independent NuGet package for the TailDataGrid component.
 dotnet add package Tail.Blazor.DataGrid
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.DataGrid
-
-<TailDataGrid Data="@items" Columns="@columns" />
-```
-
 ## Features
 
 - Data grid with columns
@@ -24,11 +16,42 @@ dotnet add package Tail.Blazor.DataGrid
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+| Name | Description |
+| --- | --- |
+| T | Generic type parameter for typed data |
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Data | List<T> | new() | Data parameter |
+| Columns | List<DataGridColumn<T>> | new() | Columns parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| DataGridColumn | class | DataGridColumn property |
+| Header | string | Header property |
+| Render | RenderFragment<T>? | Render property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailDataGrid></TailDataGrid>
+```

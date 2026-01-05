@@ -8,14 +8,6 @@ Independent NuGet package for the TailImageCropper component.
 dotnet add package Tail.Blazor.ImageCropper
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ImageCropper
-
-<TailImageCropper @bind-Value="croppedImage" Label="Profile Picture" AspectRatioWidth="1" AspectRatioHeight="1" />
-```
-
 ## Features
 
 - Image upload and cropping
@@ -28,12 +20,42 @@ dotnet add package Tail.Blazor.ImageCropper
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
-- Microsoft.AspNetCore.Components.Web (for IBrowserFile)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Size | ImageCropperSize | ImageCropperSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| AspectRatioWidth | int | 1 | AspectRatioWidth parameter |
+| AspectRatioHeight | int | 1 | AspectRatioHeight parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailImageCropper></TailImageCropper>
+```

@@ -8,14 +8,6 @@ Independent NuGet package for the TailPagination component.
 dotnet add package Tail.Blazor.Pagination
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Pagination
-
-<TailPagination CurrentPage="@currentPage" TotalPages="@totalPages" CurrentPageChanged="OnPageChanged" />
-```
-
 ## Features
 
 - Page navigation
@@ -25,11 +17,39 @@ dotnet add package Tail.Blazor.Pagination
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CurrentPage | int | 1 | CurrentPage parameter |
+| TotalPages | int | 1 | TotalPages parameter |
+| VisiblePages | int | 5 | Whether the component is visible |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| CurrentPageChanged | int | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailPagination></TailPagination>
+```

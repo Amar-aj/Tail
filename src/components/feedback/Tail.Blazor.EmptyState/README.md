@@ -8,18 +8,6 @@ Independent NuGet package for the TailEmptyState component.
 dotnet add package Tail.Blazor.EmptyState
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.EmptyState
-
-<TailEmptyState Title="No items found" Description="Get started by creating your first item.">
-    <Action>
-        <button>Create Item</button>
-    </Action>
-</TailEmptyState>
-```
-
 ## Features
 
 - Empty state display
@@ -31,11 +19,42 @@ dotnet add package Tail.Blazor.EmptyState
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Icon | RenderFragment? | - | Icon to display |
+| Action | RenderFragment? | - | Action parameter |
+| Title | string? | - | Title parameter |
+| Description | string? | - | Description parameter |
+| Size | EmptyStateSize | EmptyStateSize.Md | Size of the component |
+| Variant | EmptyStateVariant | EmptyStateVariant.Default | Visual variant style for the component |
+| ShowDefaultIcon | bool | true | Icon to display |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailEmptyState></TailEmptyState>
+```

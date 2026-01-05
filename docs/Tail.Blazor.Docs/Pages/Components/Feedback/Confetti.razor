@@ -11,7 +11,16 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Confetti animation</li>
+            <li>4 shape types (Circle, Rectangle, Star, Mixed)</li>
+            <li>Customizable particle count</li>
+            <li>Duration control</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +30,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailConfetti />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -47,6 +58,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsActive</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsActive parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ParticleCount</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">50</td>
@@ -64,6 +81,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">3000</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Duration parameter</td>
                         </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -77,7 +100,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Confetti";
 
-    private string basicCode = @"<TailConfetti />";
+    private string basicCode = @"<TailConfetti></TailConfetti>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -85,8 +108,10 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "IsActive", Type = "bool", Default = "-", Description = "IsActive parameter" },
         new() { Name = "ParticleCount", Type = "int", Default = "50", Description = "ParticleCount parameter" },
         new() { Name = "Shape", Type = "ConfettiShape", Default = "ConfettiShape.Mixed", Description = "Shape parameter" },
         new() { Name = "Duration", Type = "int", Default = "3000", Description = "Duration parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

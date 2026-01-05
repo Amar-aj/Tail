@@ -11,7 +11,11 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Rich Core.Theme component</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +25,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCore.Theme />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -109,7 +115,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Core.Theme";
 
-    private string basicCode = @"<TailCore.Theme />";
+    private string basicCode = @"<TailCore.Theme></TailCore.Theme>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>

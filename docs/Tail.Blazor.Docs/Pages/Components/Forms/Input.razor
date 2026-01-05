@@ -11,7 +11,21 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Multiple input types (Text, Password, Email, Number, Tel, Url, Search, Date, etc.)</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Label and help text support</li>
+            <li>Icon support (start/end)</li>
+            <li>Clear button</li>
+            <li>Character count</li>
+            <li>Validation error display</li>
+            <li>Required field indicator</li>
+            <li>Disabled and readonly states</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +35,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailInput Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +59,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailInput>Default</TailInput>
-<TailInput>Variant 1</TailInput>
-<TailInput>Variant 2</TailInput>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,9 +83,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailInput>Small</TailInput>
-<TailInput>Medium</TailInput>
-<TailInput>Large</TailInput>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -95,6 +111,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Type</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>InputType</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">InputType.Text</td>
@@ -113,10 +135,142 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Visual variant style for the component</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placeholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HelpText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HelpText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ReadOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is read-only</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxLength</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowClearButton</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowClearButton parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowCharacterCount</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowCharacterCount parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FloatingLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IconStart</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IconEnd</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AdornmentStart</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AdornmentStart parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AdornmentEnd</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AdornmentEnd parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Min</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Minimum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Max</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Step</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Step value for numeric inputs</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Pattern</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Validation pattern (regex)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AutoComplete</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AutoComplete parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AutoFocus</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AutoFocus parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EnableAnimation</code></td>
@@ -179,12 +333,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Input";
 
-    private string basicCode = @"<TailInput Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailInput></TailInput>";
 
     private string variantsCode = @"
 <TailInput>Default</TailInput>
-<TailInput>Variant 1</TailInput>
-<TailInput>Variant 2</TailInput>
+<TailInput>Secondary</TailInput>
+<TailInput>Tertiary</TailInput>
 ";
 
     private string sizesCode = @"
@@ -199,10 +353,33 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "string?", Default = "-", Description = "Current value of the component" },
         new() { Name = "Type", Type = "InputType", Default = "InputType.Text", Description = "Type parameter" },
         new() { Name = "Size", Type = "InputSize", Default = "InputSize.Md", Description = "Size of the component" },
         new() { Name = "Variant", Type = "InputVariant", Default = "InputVariant.Standard", Description = "Visual variant style for the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "HelpText", Type = "string?", Default = "-", Description = "HelpText parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "ReadOnly", Type = "bool", Default = "-", Description = "Whether the component is read-only" },
+        new() { Name = "MaxLength", Type = "int?", Default = "-", Description = "Maximum value constraint" },
+        new() { Name = "ShowClearButton", Type = "bool", Default = "-", Description = "ShowClearButton parameter" },
+        new() { Name = "ShowCharacterCount", Type = "bool", Default = "-", Description = "ShowCharacterCount parameter" },
+        new() { Name = "FloatingLabel", Type = "bool", Default = "-", Description = "Label text for the component" },
+        new() { Name = "IconStart", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
+        new() { Name = "IconEnd", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
+        new() { Name = "AdornmentStart", Type = "string?", Default = "-", Description = "AdornmentStart parameter" },
+        new() { Name = "AdornmentEnd", Type = "string?", Default = "-", Description = "AdornmentEnd parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
+        new() { Name = "Min", Type = "string?", Default = "-", Description = "Minimum value constraint" },
+        new() { Name = "Max", Type = "string?", Default = "-", Description = "Maximum value constraint" },
+        new() { Name = "Step", Type = "string?", Default = "-", Description = "Step value for numeric inputs" },
+        new() { Name = "Pattern", Type = "string?", Default = "-", Description = "Validation pattern (regex)" },
+        new() { Name = "AutoComplete", Type = "string?", Default = "-", Description = "AutoComplete parameter" },
         new() { Name = "AutoFocus", Type = "bool", Default = "false", Description = "AutoFocus parameter" },
+        new() { Name = "AriaLabel", Type = "string?", Default = "-", Description = "Label text for the component" },
         new() { Name = "EnableAnimation", Type = "bool", Default = "true", Description = "EnableAnimation parameter" },
         new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
     };

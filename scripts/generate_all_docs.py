@@ -134,13 +134,18 @@ def extract_parameters(code_block):
     if not code_block:
         return parameters
     
-    # Pattern for [Parameter] declarations
-    pattern = r'^\s*\[Parameter\]\s+(?:public\s+)?([\w\.<>?,\s\[\]]+?)\s+(\w+)\s*(?:\{\s*get[^}]*set[^}]*\})?\s*(?:=\s*([^;]+))?;'
-    
-    for match in re.finditer(pattern, code_block, re.MULTILINE | re.DOTALL):
+    # Capture [Parameter] or [CascadingParameter] with optional attribute arguments and allow newlines between attribute and property.
+    # This pattern does NOT require a trailing semicolon because properties often omit it.
+    pattern = r'\[(?:Parameter|CascadingParameter)(?:\(.*?\))?\]\s*(?:\r?\n\s*)?(?:public\s+)?([A-Za-z0-9_\.<>?\[\],\s]+?)\s+(\w+)\s*\{\s*get\s*;?\s*set\s*;?\s*\}\s*(?:=\s*([^\r\n;]+))?'
+
+    for match in re.finditer(pattern, code_block, re.MULTILINE):
         param_type = re.sub(r'\s+', ' ', match.group(1).strip())
         param_name = match.group(2).strip()
         default_value = match.group(3).strip() if match.group(3) else None
+
+        # Skip EventCallback parameters here; they are handled in extract_events
+        if param_type.startswith("EventCallback"):
+            continue
         
         # Clean default value
         if default_value and any(x in default_value for x in ['=>', 'return', '{', 'var ']):
@@ -166,9 +171,9 @@ def extract_events(code_block):
     if not code_block:
         return events
     
-    # Pattern for [Parameter] EventCallback declarations
-    pattern = r'^\s*\[Parameter\]\s+(?:public\s+)?EventCallback(?:<([\w\.<>?,\s\[\]]+?)>)?\s+(\w+)\s*(?:\{\s*get[^}]*set[^}]*\})?'
-    
+    # Pattern for [Parameter] EventCallback declarations (allow newline between attribute and property, no required trailing semicolon)
+    pattern = r'\[Parameter(?:\(.*?\))?\]\s*(?:\r?\n\s*)?(?:public\s+)?EventCallback(?:<([\w\.<>?,\s\[\]]+?)>)?\s+(\w+)\s*\{\s*get\s*;?\s*set\s*;?\s*\}'
+
     for match in re.finditer(pattern, code_block, re.MULTILINE):
         event_type = match.group(1).strip() if match.group(1) else "void"
         event_name = match.group(2).strip()
@@ -252,6 +257,215 @@ def extract_methods(code_block):
     return methods
 
 
+def extract_readme_content(component_path):
+    """Extract features and examples from README.md."""
+    readme_path = Path(component_path) / "README.md"
+    content = {
+        "features": [],
+        "example_code": "",
+        "description": "",
+        "package_size": ""
+    }
+    
+    if not readme_path.exists():
+        return content
+    
+    try:
+        with open(readme_path, 'r', encoding='utf-8') as f:
+            text = f.read()
+        
+        # Extract features section
+        features_match = re.search(r'## Features\s*\n(.*?)(?=##|\Z)', text, re.DOTALL)
+        if features_match:
+            features_text = features_match.group(1)
+            # Extract bullet points
+            bullets = re.findall(r'- (.+?)(?=\n|$)', features_text)
+            content["features"] = [b.strip() for b in bullets if b.strip()]
+        
+        # Extract usage example
+        usage_match = re.search(r'```razor\s*(.*?)\s*```', text, re.DOTALL)
+        if usage_match:
+            content["example_code"] = usage_match.group(1).strip()
+        
+        # Extract description (first paragraph after title)
+        desc_match = re.search(r'# .+?\n\n(.+?)(?=\n##)', text, re.DOTALL)
+        if desc_match:
+            content["description"] = desc_match.group(1).strip()
+        
+        # Extract package size
+        size_match = re.search(r'Package Size\s*\n~?(.+?)(?=\n|$)', text)
+        if size_match:
+            content["package_size"] = size_match.group(1).strip()
+        
+        return content
+    except Exception as e:
+        return content
+
+
+def generate_component_readme(component_meta):
+    """Generate README.md for a component based on extracted metadata."""
+    name = component_meta['name']
+    friendly_name = component_meta['friendly_name']
+    package_path = Path(component_meta['path'])
+    readme_path = package_path / "README.md"
+    params = component_meta.get('parameters', [])
+    events = component_meta.get('events', [])
+    properties = component_meta.get('properties', [])
+    methods = component_meta.get('methods', [])
+    classes = component_meta.get('classes', [])
+    type_params = component_meta.get('type_params', [])
+    features = component_meta.get('features', []) or [f"Rich {friendly_name} component"]
+    description = component_meta.get('description', f"{friendly_name} component for Tail.Blazor")
+
+    def md_escape(text):
+        return text.replace('|', '\\|') if text else ''
+
+    md_lines = []
+    md_lines.append(f"# {name}")
+    md_lines.append("")
+    md_lines.append(description)
+    md_lines.append("")
+    md_lines.append("## Installation")
+    md_lines.append("")
+    md_lines.append("```bash")
+    md_lines.append(f"dotnet add package {name}")
+    md_lines.append("```")
+    md_lines.append("")
+    md_lines.append("## Features")
+    md_lines.append("")
+    for feature in features:
+        md_lines.append(f"- {feature}")
+    md_lines.append("")
+    md_lines.append("## Class")
+    md_lines.append("")
+    if classes:
+        md_lines.append("| Class | Base Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for cls in classes:
+            base = cls.get('base_type', '') or '-'
+            md_lines.append(f"| {md_escape(cls.get('name', ''))} | {md_escape(base)} | Main component class |")
+    else:
+        md_lines.append("Component class generated from the Razor file.")
+    md_lines.append("")
+    md_lines.append("## Type Parameters")
+    md_lines.append("")
+    if type_params:
+        md_lines.append("| Name | Description |")
+        md_lines.append("| --- | --- |")
+        for tparam in type_params:
+            md_lines.append(f"| {md_escape(tparam)} | Generic type parameter for typed data |")
+    else:
+        md_lines.append("No generic type parameters.")
+    md_lines.append("")
+    md_lines.append("## Parameters")
+    md_lines.append("")
+    if params:
+        md_lines.append("| Name | Type | Default | Description |")
+        md_lines.append("| --- | --- | --- | --- |")
+        for p in params:
+            default_val = p.get('default', '-') or '-'
+            md_lines.append(f"| {md_escape(p['name'])} | {md_escape(p['type'])} | {md_escape(default_val)} | {md_escape(p.get('description', ''))} |")
+    else:
+        md_lines.append("No parameters exposed.")
+    md_lines.append("")
+    md_lines.append("## Events")
+    md_lines.append("")
+    if events:
+        md_lines.append("| Event | Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for e in events:
+            md_lines.append(f"| {md_escape(e['name'])} | {md_escape(e['type'])} | {md_escape(e.get('description', ''))} |")
+    else:
+        md_lines.append("No events exposed.")
+    md_lines.append("")
+    md_lines.append("## Public Properties")
+    md_lines.append("")
+    if properties:
+        md_lines.append("| Property | Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for prop in properties:
+            md_lines.append(f"| {md_escape(prop['name'])} | {md_escape(prop['type'])} | {md_escape(prop.get('description', ''))} |")
+    else:
+        md_lines.append("No additional public properties.")
+    md_lines.append("")
+    md_lines.append("## Methods")
+    md_lines.append("")
+    if methods:
+        md_lines.append("| Method | Parameters | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for m in methods:
+            param_list = ', '.join([f"{param['type']} {param['name']}" for param in m.get('parameters', [])]) or 'None'
+            md_lines.append(f"| {md_escape(m['name'])}() | {md_escape(param_list)} | {md_escape(m.get('description', ''))} |")
+    else:
+        md_lines.append("No additional public methods.")
+    md_lines.append("")
+    md_lines.append("## Examples")
+    md_lines.append("")
+    usage_code = (component_meta.get('example_code') or f"<Tail{friendly_name}></Tail{friendly_name}>").strip()
+    md_lines.append("```razor")
+    md_lines.append(usage_code)
+    md_lines.append("```")
+
+    readme_path.write_text('\n'.join(md_lines), encoding='utf-8')
+
+
+def extract_enum_values(component_path, enum_name):
+    """Extract enum values from component C# files."""
+    values = []
+    
+    try:
+        # Look for enum files in component directory
+        for cs_file in Path(component_path).glob("*.cs"):
+            with open(cs_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Look for the enum definition
+            pattern = rf'public enum {enum_name}\s*\{{(.*?)\}}'
+            match = re.search(pattern, content, re.DOTALL)
+            if match:
+                enum_body = match.group(1)
+                # Extract enum values
+                enum_values = re.findall(r'(\w+)\s*(?:=\s*\d+)?[,}]', enum_body)
+                values = [v.strip() for v in enum_values if v.strip()]
+                break
+    except Exception as e:
+        pass
+    
+    return values
+
+
+def extract_type_parameters(razor_content):
+    """Extract @typeparam declarations to capture generic data types."""
+    if not razor_content:
+        return []
+    type_params = re.findall(r'@typeparam\s+([A-Za-z_]\w*)', razor_content)
+    # Preserve order while deduplicating
+    seen = set()
+    ordered_params = []
+    for param in type_params:
+        if param not in seen:
+            seen.add(param)
+            ordered_params.append(param)
+    return ordered_params
+
+
+def extract_class_info(code_block):
+    """Extract partial class declarations from the @code block."""
+    classes = []
+    if not code_block:
+        return classes
+    pattern = r'public\s+partial\s+class\s+(\w+)\s*(?::\s*([^\s\{]+))?'
+    seen = set()
+    for match in re.finditer(pattern, code_block):
+        class_name = match.group(1)
+        base_type = match.group(2) if match.group(2) else ""
+        if class_name in seen:
+            continue
+        seen.add(class_name)
+        classes.append({"name": class_name, "base_type": base_type})
+    return classes
+
+
 def generate_parameter_description(param_name, param_type):
     """Auto-generate parameter descriptions."""
     param_lower = param_name.lower()
@@ -329,30 +543,51 @@ def extract_component_metadata(component_info):
             "name": component_info['name'],
             "friendly_name": component_info['friendly_name'],
             "category": component_info['category'],
+            "path": component_info['path'],
             "description": f"{component_info['friendly_name']} component",
             "parameters": [],
             "events": [],
             "properties": [],
             "methods": [],
+            "classes": [],
+            "type_params": [],
+            "features": [],
+            "package_size": "",
+            "example_code": "",
             "is_generic": component_info.get('is_generic', False),
             "is_missing": component_info.get('is_missing', False)
         }
     
     code_block = extract_razor_code(component_info['razor_file'])
+    try:
+        razor_content = Path(component_info['razor_file']).read_text(encoding='utf-8')
+    except Exception:
+        razor_content = ""
     parameters = extract_parameters(code_block)
     events = extract_events(code_block)
     properties = extract_properties(code_block)
     methods = extract_methods(code_block)
+    classes = extract_class_info(code_block)
+    type_params = extract_type_parameters(razor_content)
+    
+    # Extract README content
+    readme_content = extract_readme_content(component_info['path'])
     
     return {
         "name": component_info['name'],
         "friendly_name": component_info['friendly_name'],
         "category": component_info['category'],
-        "description": f"{component_info['friendly_name']} component for Tail.Blazor",
+        "path": component_info['path'],
+        "description": readme_content.get("description", f"{component_info['friendly_name']} component for Tail.Blazor"),
         "parameters": parameters,
         "events": events,
         "properties": properties,
         "methods": methods,
+        "classes": classes,
+        "type_params": type_params,
+        "features": readme_content.get("features", []),
+        "package_size": readme_content.get("package_size", ""),
+        "example_code": readme_content.get("example_code", ""),
         "is_generic": component_info.get('is_generic', False),
         "is_missing": component_info.get('is_missing', False)
     }
@@ -369,10 +604,15 @@ def escape_razor_code(code):
     return code.replace('"', '""')
 
 
-def get_component_examples(component_name, friendly_name, category, parameters, is_generic):
-    """Generate feature-based examples."""
+def get_component_examples(component_meta, parameters):
+    """Generate feature-based examples from component metadata and README."""
+    name = component_meta['name']
+    friendly_name = component_meta['friendly_name']
+    category = component_meta['category']
+    is_generic = component_meta.get('is_generic', False)
+    
     if '.' in friendly_name:
-        component_tag = component_name.replace('Tail.Blazor.', 'Tail')
+        component_tag = name.replace('Tail.Blazor.', 'Tail')
     else:
         component_tag = f"Tail{friendly_name}"
     
@@ -381,36 +621,35 @@ def get_component_examples(component_name, friendly_name, category, parameters, 
     
     examples = {}
     
-    # Basic example
-    if category.lower() == 'buttons':
-        examples['basic'] = f'<{component_tag}>Click Me</{component_tag}>'
-    elif category.lower() == 'forms':
-        examples['basic'] = f'<{component_tag} Placeholder="Enter text..." />'
+    # Use extracted example from README if available
+    if component_meta.get('example_code'):
+        extracted_example = component_meta['example_code']
+        # Try to extract just the component usage part
+        razor_match = re.search(r'<Tail\w+.*?(?:</Tail\w+>|/>)', extracted_example, re.DOTALL)
+        if razor_match:
+            examples['basic'] = razor_match.group(0)
+        else:
+            examples['basic'] = extracted_example
     else:
-        examples['basic'] = f'<{component_tag} />'
+        # Fallback to generated examples - SIMPLE, NO UNDEFINED VARIABLES
+        if category.lower() == 'buttons':
+            examples['basic'] = f'<{component_tag}>Click Me</{component_tag}>'
+        elif category.lower() == 'forms':
+            examples['basic'] = f'<{component_tag} />'
+        else:
+            examples['basic'] = f'<{component_tag} />'
     
-    # Variants - use more conservative approach to avoid enum mismatches
+    # Generate variants examples - SIMPLE, NO UNDEFINED VARIABLES
     if any('variant' in p['name'].lower() for p in parameters):
-        # Just show the basic component multiple times rather than specific enum values
         examples['variants'] = f'''<{component_tag}>Default</{component_tag}>
-<{component_tag}>Variant 1</{component_tag}>
-<{component_tag}>Variant 2</{component_tag}>'''
+<{component_tag}>Secondary</{component_tag}>
+<{component_tag}>Tertiary</{component_tag}>'''
     
-    # Sizes - use more conservative approach
+    # Generate sizes examples - SIMPLE, NO UNDEFINED VARIABLES
     if any('size' in p['name'].lower() for p in parameters):
-        # Just show the component without specific enum values
         examples['sizes'] = f'''<{component_tag}>Small</{component_tag}>
 <{component_tag}>Medium</{component_tag}>
 <{component_tag}>Large</{component_tag}>'''
-    
-    # States
-    states_code = []
-    if any('disabled' in p['name'].lower() for p in parameters):
-        states_code.append(f'<{component_tag} Disabled="true">Disabled</{component_tag}>')
-    if any('loading' in p['name'].lower() for p in parameters):
-        states_code.append(f'<{component_tag} IsLoading="true">Loading</{component_tag}>')
-    if states_code:
-        examples['states'] = '\n'.join(states_code)
     
     return examples
 
@@ -421,13 +660,17 @@ def generate_doc_page(component_meta):
     friendly_name = component_meta['friendly_name']
     category = component_meta['category']
     params = component_meta['parameters']
+    type_params = component_meta.get('type_params', [])
+    classes = component_meta.get('classes', [])
+    features = component_meta.get('features', [])
+    package_size = component_meta.get('package_size', '')
     is_generic = component_meta.get('is_generic', False)
     is_missing = component_meta.get('is_missing', False)
     
     component_tag = f"Tail{friendly_name}" if '.' not in friendly_name else name.replace('Tail.Blazor.', 'Tail')
     
-    # Generate examples
-    examples = get_component_examples(name, friendly_name, category, params, is_generic)
+    # Generate examples using enhanced function
+    examples = get_component_examples(component_meta, params)
     
     # Build page header
     doc_page = f'@page "/components/{category.lower()}/{friendly_name.lower()}"\n'
@@ -447,8 +690,31 @@ def generate_doc_page(component_meta):
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
-    <DocSection Title="Basic Usage">
+'''
+    
+    # Add Features section if available
+    if features:
+        doc_page += '''    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+'''
+        for feature in features:
+            # Escape any HTML in features
+            feature_escaped = feature.replace('<', '&lt;').replace('>', '&gt;')
+            doc_page += f'            <li>{feature_escaped}</li>\n'
+        doc_page += '''        </ul>
+    </DocSection>
+'''
+    
+    # Add Package Info section if available
+    if package_size:
+        doc_page += f'''    <DocSection Title="Package Information">
+        <div style="background-color: var(--color-surface-2); padding: 16px; border-radius: 8px; color: var(--color-text-primary);">
+            <p><strong>Size:</strong> {package_size}</p>
+        </div>
+    </DocSection>
+'''
+    
+    doc_page += '''    <DocSection Title="Basic Usage">
 '''
     
     if is_generic:
@@ -475,9 +741,10 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-'''
-        doc_page += f'                        {examples["basic"]}\n'
-        doc_page += '''                    </PreviewUI>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
+                    </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
                     <CodePreview Code="@basicCode" CodeElementId="basic-code" />
@@ -503,9 +770,10 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-'''
-        doc_page += f'                        {examples["variants"]}\n'
-        doc_page += '''                    </PreviewUI>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
+                    </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
                     <CodePreview Code="@variantsCode" CodeElementId="variants-code" />
@@ -529,9 +797,10 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-'''
-        doc_page += f'                        {examples["sizes"]}\n'
-        doc_page += '''                    </PreviewUI>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
+                    </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
                     <CodePreview Code="@sizesCode" CodeElementId="sizes-code" />
@@ -542,10 +811,62 @@ def generate_doc_page(component_meta):
 '''
     
     # Add API Reference sections before closing DocPageTemplate
-    if params or component_meta.get('events') or component_meta.get('properties') or component_meta.get('methods'):
+    if params or component_meta.get('events') or component_meta.get('properties') or component_meta.get('methods') or type_params or classes:
         doc_page += '''
     <DocSection Title="API Reference">
         <!-- Parameters/Properties Table -->
+'''
+        if type_params:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Type Parameters</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for tparam in type_params:
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{tparam}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Generic type parameter for typed data</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
+'''
+
+        if classes:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Class</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Class</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Base Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for cls in classes:
+                base_type = (cls.get("base_type") or "-").replace('<', '&lt;').replace('>', '&gt;')
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{cls.get("name", "")}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{base_type}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Component backing class</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
 '''
         if params:
             doc_page += '''        <div class="mb-6">
@@ -1020,8 +1341,27 @@ def main():
     
     print(f"  [OK] Extracted {total_params} parameters from {total_components} components")
     
-    # Phase 3: Generate Documentation Pages
-    print("\n[3/5] Generating documentation pages...")
+    # Phase 3: Generate/refresh README files from metadata
+    print("\n[3/6] Generating component README files...")
+    print("-" * 70)
+    readmes_created = 0
+    for category, cat_data in all_metadata.items():
+        for comp_name, comp_meta in cat_data["components"].items():
+            if comp_meta.get("is_missing"):
+                continue
+            generate_component_readme(comp_meta)
+            # Refresh metadata from newly written README
+            readme_info = extract_readme_content(comp_meta["path"])
+            comp_meta["features"] = readme_info.get("features", comp_meta.get("features", []))
+            comp_meta["package_size"] = readme_info.get("package_size", comp_meta.get("package_size", ""))
+            comp_meta["example_code"] = readme_info.get("example_code", comp_meta.get("example_code", ""))
+            if readme_info.get("description"):
+                comp_meta["description"] = readme_info["description"]
+            readmes_created += 1
+    print(f"  [OK] Generated/updated {readmes_created} README.md files")
+    
+    # Phase 4: Generate Documentation Pages
+    print("\n[4/6] Generating documentation pages...")
     print("-" * 70)
     docs_base = Path("docs/Tail.Blazor.Docs/Pages/Components")
     pages_created = 0
@@ -1042,8 +1382,8 @@ def main():
     
     print(f"  [OK] Generated {pages_created} documentation pages")
     
-    # Phase 4: Generate Overview Pages
-    print("\n[4/5] Generating overview pages...")
+    # Phase 5: Generate Overview Pages
+    print("\n[5/6] Generating overview pages...")
     print("-" * 70)
     
     # Global overview
@@ -1071,8 +1411,8 @@ def main():
     
     print(f"  [OK] Category overviews: {category_overviews} pages")
     
-    # Phase 5: Generate Navigation
-    print("\n[5/5] Generating navigation menu...")
+    # Phase 6: Generate Navigation
+    print("\n[6/6] Generating navigation menu...")
     print("-" * 70)
     nav_menu = generate_nav_menu(components_by_category)
     nav_menu_path = docs_base / "NavMenu.json"
@@ -1098,6 +1438,7 @@ def main():
     print(f"\n[COMPLETE] All-in-one documentation generator finished!")
     print(f"  ✓ Components: {total_components}")
     print(f"  ✓ Parameters: {total_params}")
+    print(f"  ✓ READMEs: {readmes_created}")
     print(f"  ✓ Component Pages: {pages_created}")
     print(f"  ✓ Global Overview: 1")
     print(f"  ✓ Category Overviews: {category_overviews}")

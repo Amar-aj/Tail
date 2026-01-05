@@ -8,14 +8,6 @@ Independent NuGet package for the TailArcGauge component.
 dotnet add package Tail.Blazor.ArcGauge
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ArcGauge
-
-<TailArcGauge Value="75" Size="200" ShowLabel="true" />
-```
-
 ## Features
 
 - Arc gauge visualization
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.ArcGauge
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | int | - | Current value of the component |
+| Size | int | 200 | Size of the component |
+| StrokeWidth | int | 20 | StrokeWidth parameter |
+| ShowLabel | bool | true | Label text for the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailArcGauge></TailArcGauge>
+```

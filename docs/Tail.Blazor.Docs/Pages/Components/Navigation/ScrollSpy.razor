@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Scroll spy navigation</li>
+            <li>Active section highlighting</li>
+            <li>Left/right positioning</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailScrollSpy />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,10 +63,22 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Data items collection</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActiveId</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ActiveId parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Position</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ScrollSpyPosition</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ScrollSpyPosition.Left</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Position parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -133,7 +155,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ScrollSpy";
 
-    private string basicCode = @"<TailScrollSpy />";
+    private string basicCode = @"<TailScrollSpy></TailScrollSpy>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -142,6 +164,8 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Items", Type = "List<ScrollSpyItem>", Default = "new()", Description = "Data items collection" },
+        new() { Name = "ActiveId", Type = "string?", Default = "-", Description = "ActiveId parameter" },
         new() { Name = "Position", Type = "ScrollSpyPosition", Default = "ScrollSpyPosition.Left", Description = "Position parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

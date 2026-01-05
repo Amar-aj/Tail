@@ -11,7 +11,15 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Mini sparkline chart</li>
+            <li>Inline data visualization</li>
+            <li>SVG-based rendering</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +29,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSparkline />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -64,6 +74,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">30</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Height parameter</td>
                         </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -77,7 +93,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Sparkline";
 
-    private string basicCode = @"<TailSparkline />";
+    private string basicCode = @"<TailSparkline></TailSparkline>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
@@ -88,5 +104,6 @@
         new() { Name = "Data", Type = "List<double>", Default = "new()", Description = "Data parameter" },
         new() { Name = "Width", Type = "int", Default = "100", Description = "Width parameter" },
         new() { Name = "Height", Type = "int", Default = "30", Description = "Height parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

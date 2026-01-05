@@ -8,14 +8,6 @@ Independent NuGet package for the TailRegexValidator component.
 dotnet add package Tail.Blazor.RegexValidator
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.RegexValidator
-
-<TailRegexValidator Value="@phoneValue" Pattern="^[0-9]{10}$" ErrorMessage="Invalid phone number" />
-```
-
 ## Features
 
 - Regex pattern validation
@@ -23,11 +15,37 @@ dotnet add package Tail.Blazor.RegexValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~1 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Pattern | string | string.Empty | Validation pattern (regex) |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRegexValidator></TailRegexValidator>
+```

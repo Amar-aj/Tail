@@ -8,16 +8,6 @@ Independent NuGet package for the TailAccordionItem component.
 dotnet add package Tail.Blazor.AccordionItem
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.AccordionItem
-
-<TailAccordionItem Title="Section 1" IsExpanded="@isExpanded">
-    Content here
-</TailAccordionItem>
-```
-
 ## Features
 
 - Individual accordion item
@@ -25,11 +15,39 @@ dotnet add package Tail.Blazor.AccordionItem
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Title | string | string.Empty | Title parameter |
+| IsExpanded | bool | - | IsExpanded parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsExpandedChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailAccordionItem></TailAccordionItem>
+```

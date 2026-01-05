@@ -11,7 +11,18 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Date range selection (start and end dates)</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Min/max date constraints</li>
+            <li>Label support</li>
+            <li>Validation error display</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +32,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDateRangePicker Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDateRangePicker>Small</TailDateRangePicker>
-<TailDateRangePicker>Medium</TailDateRangePicker>
-<TailDateRangePicker>Large</TailDateRangePicker>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -70,6 +83,42 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StartDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">EndDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartDateOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StartDateOnly parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndDateOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">EndDateOnly parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartTimeOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StartTimeOnly parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndTimeOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">EndTimeOnly parameter</td>
+                        </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowTime</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
@@ -107,10 +156,64 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ShowCalendarButton parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placeholder</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"Select date range"</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartPlaceholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndPlaceholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>InitialViewDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">InitialViewDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>YearRangeStart</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">YearRangeStart parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>YearRangeEnd</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">YearRangeEnd parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>InitialViewMode</code></td>
@@ -137,6 +240,30 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AnimationDuration parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MinDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Minimum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MinDateOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Minimum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxDateOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DisabledDates</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateTime&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
@@ -146,6 +273,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DisabledDateOnly</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateOnly&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsDateDisabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;DateTime, bool&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
                         </tr>
                         <tr>
@@ -159,6 +292,54 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateOnly&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">SpecialDateOnly parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>GetDateClass</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;DateTime, string?&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS classes</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>GetDateTooltip</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;DateTime, string?&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">GetDateTooltip parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment&lt;DateTime&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DateTemplate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FooterTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FooterTemplate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HeaderTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HeaderTemplate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CustomDateParser</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;string, DateTime?&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CustomDateParser parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CustomDateFormatter</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;DateTime, string&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CustomDateFormatter parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -219,7 +400,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.DateRangePicker";
 
-    private string basicCode = @"<TailDateRangePicker Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailDateRangePicker></TailDateRangePicker>";
 
     private string sizesCode = @"
 <TailDateRangePicker>Small</TailDateRangePicker>
@@ -228,25 +409,53 @@
 ";
 
     private string statesCode = @"
-<TailDateRangePicker Disabled=""true"">Disabled</TailDateRangePicker>
+<TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "StartDate", Type = "DateTime?", Default = "-", Description = "StartDate parameter" },
+        new() { Name = "EndDate", Type = "DateTime?", Default = "-", Description = "EndDate parameter" },
+        new() { Name = "StartDateOnly", Type = "DateOnly?", Default = "-", Description = "StartDateOnly parameter" },
+        new() { Name = "EndDateOnly", Type = "DateOnly?", Default = "-", Description = "EndDateOnly parameter" },
+        new() { Name = "StartTimeOnly", Type = "TimeOnly?", Default = "-", Description = "StartTimeOnly parameter" },
+        new() { Name = "EndTimeOnly", Type = "TimeOnly?", Default = "-", Description = "EndTimeOnly parameter" },
         new() { Name = "ShowTime", Type = "bool", Default = "false", Description = "ShowTime parameter" },
         new() { Name = "TimeOnlyMode", Type = "bool", Default = "false", Description = "TimeOnlyMode parameter" },
         new() { Name = "HourFormat", Type = "HourFormat", Default = "HourFormat.TwentyFourHour", Description = "HourFormat parameter" },
         new() { Name = "Size", Type = "DateRangePickerSize", Default = "DateRangePickerSize.Md", Description = "Size of the component" },
         new() { Name = "DisplayMode", Type = "DatePickerDisplayMode", Default = "DatePickerDisplayMode.InputAndPopup", Description = "DisplayMode parameter" },
         new() { Name = "ShowCalendarButton", Type = "bool", Default = "true", Description = "ShowCalendarButton parameter" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
         new() { Name = "Placeholder", Type = "string?", Default = """Select date range""", Description = "Placeholder text" },
+        new() { Name = "StartPlaceholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "EndPlaceholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "InitialViewDate", Type = "DateTime?", Default = "-", Description = "InitialViewDate parameter" },
+        new() { Name = "YearRangeStart", Type = "int?", Default = "-", Description = "YearRangeStart parameter" },
+        new() { Name = "YearRangeEnd", Type = "int?", Default = "-", Description = "YearRangeEnd parameter" },
         new() { Name = "InitialViewMode", Type = "DatePickerViewMode", Default = "DatePickerViewMode.Days", Description = "InitialViewMode parameter" },
         new() { Name = "SelectionMode", Type = "DateSelectionMode", Default = "DateSelectionMode.SingleRange", Description = "SelectionMode parameter" },
         new() { Name = "Animation", Type = "CalendarAnimation", Default = "CalendarAnimation.Fade", Description = "Animation parameter" },
         new() { Name = "AnimationDuration", Type = "int", Default = "200", Description = "AnimationDuration parameter" },
+        new() { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum value constraint" },
+        new() { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum value constraint" },
+        new() { Name = "MinDateOnly", Type = "DateOnly?", Default = "-", Description = "Minimum value constraint" },
+        new() { Name = "MaxDateOnly", Type = "DateOnly?", Default = "-", Description = "Maximum value constraint" },
         new() { Name = "DisabledDates", Type = "List<DateTime>", Default = "new()", Description = "Whether the component is disabled" },
         new() { Name = "DisabledDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "Whether the component is disabled" },
+        new() { Name = "IsDateDisabled", Type = "Func<DateTime, bool>?", Default = "-", Description = "Whether the component is disabled" },
         new() { Name = "SpecialDates", Type = "List<DateTime>", Default = "new()", Description = "SpecialDates parameter" },
         new() { Name = "SpecialDateOnly", Type = "List<DateOnly>", Default = "new()", Description = "SpecialDateOnly parameter" },
+        new() { Name = "GetDateClass", Type = "Func<DateTime, string?>?", Default = "-", Description = "Additional CSS classes" },
+        new() { Name = "GetDateTooltip", Type = "Func<DateTime, string?>?", Default = "-", Description = "GetDateTooltip parameter" },
+        new() { Name = "DateTemplate", Type = "RenderFragment<DateTime>?", Default = "-", Description = "DateTemplate parameter" },
+        new() { Name = "FooterTemplate", Type = "RenderFragment?", Default = "-", Description = "FooterTemplate parameter" },
+        new() { Name = "HeaderTemplate", Type = "RenderFragment?", Default = "-", Description = "HeaderTemplate parameter" },
+        new() { Name = "CustomDateParser", Type = "Func<string, DateTime?>?", Default = "-", Description = "CustomDateParser parameter" },
+        new() { Name = "CustomDateFormatter", Type = "Func<DateTime, string>?", Default = "-", Description = "CustomDateFormatter parameter" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

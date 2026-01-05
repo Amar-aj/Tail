@@ -8,14 +8,6 @@ Independent NuGet package for the TailColorPicker component.
 dotnet add package Tail.Blazor.ColorPicker
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ColorPicker
-
-<TailColorPicker @bind-Value="selectedColor" Label="Choose Color" ShowPreview="true" />
-```
-
 ## Features
 
 - Color picker with visual selector
@@ -28,11 +20,42 @@ dotnet add package Tail.Blazor.ColorPicker
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Size | ColorPickerSize | ColorPickerSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| HelpText | string? | - | HelpText parameter |
+| ShowPreview | bool | true | ShowPreview parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailColorPicker></TailColorPicker>
+```

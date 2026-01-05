@@ -8,14 +8,6 @@ Independent NuGet package for the TailCompareValidator component.
 dotnet add package Tail.Blazor.CompareValidator
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.CompareValidator
-
-<TailCompareValidator Value="@password" CompareTo="@confirmPassword" Operator="CompareOperator.Equal" />
-```
-
 ## Features
 
 - Value comparison validation
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.CompareValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| CompareTo | string? | - | CompareTo parameter |
+| Operator | CompareOperator | CompareOperator.Equal | Operator parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailCompareValidator></TailCompareValidator>
+```

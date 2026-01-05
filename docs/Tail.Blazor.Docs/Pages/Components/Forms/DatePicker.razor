@@ -11,7 +11,20 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Date input with calendar picker</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Min/max date constraints</li>
+            <li>Label and help text support</li>
+            <li>Icon support</li>
+            <li>Validation error display</li>
+            <li>Required field indicator</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +34,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDatePicker Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +58,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDatePicker>Small</TailDatePicker>
-<TailDatePicker>Medium</TailDatePicker>
-<TailDatePicker>Large</TailDatePicker>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,10 +86,94 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DatePickerSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">DatePickerSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HelpText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HelpText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MinDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Minimum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Maximum value constraint</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IconStart</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon to display</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Clearable</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Clearable parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowTodayButton</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowTodayButton parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placeholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Tooltip</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Tooltip parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Format</code></td>
@@ -83,10 +182,40 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Format parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsDateDisabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;DateTime, bool&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowTime parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowSeconds</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowSeconds parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeFormat</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"HH:mm"</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">TimeFormat parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsTimeOnly</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsTimeOnly parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SpecialDates</code></td>
@@ -119,10 +248,46 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">ShowInput parameter</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FooterTemplate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment&lt;DateTime&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FooterTemplate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CustomParser</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;string, DateTime?&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CustomParser parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MultipleSelection</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MultipleSelection parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SelectedDates</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateTime&gt;</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">SelectedDates parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowYearMonthSelection</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowYearMonthSelection parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnlyValue</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnlyValue</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
                         </tr>
                     </tbody>
                 </table>
@@ -178,7 +343,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.DatePicker";
 
-    private string basicCode = @"<TailDatePicker Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailDatePicker></TailDatePicker>";
 
     private string sizesCode = @"
 <TailDatePicker>Small</TailDatePicker>
@@ -192,14 +357,39 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "DateTime?", Default = "-", Description = "Current value of the component" },
         new() { Name = "Size", Type = "DatePickerSize", Default = "DatePickerSize.Md", Description = "Size of the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "HelpText", Type = "string?", Default = "-", Description = "HelpText parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "MinDate", Type = "DateTime?", Default = "-", Description = "Minimum value constraint" },
+        new() { Name = "MaxDate", Type = "DateTime?", Default = "-", Description = "Maximum value constraint" },
+        new() { Name = "IconStart", Type = "RenderFragment?", Default = "-", Description = "Icon to display" },
+        new() { Name = "Clearable", Type = "bool", Default = "-", Description = "Clearable parameter" },
+        new() { Name = "ShowTodayButton", Type = "bool", Default = "-", Description = "ShowTodayButton parameter" },
+        new() { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "AriaLabel", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Tooltip", Type = "string?", Default = "-", Description = "Tooltip parameter" },
         new() { Name = "Format", Type = "string", Default = """dd-MM-yyyy""", Description = "Format parameter" },
+        new() { Name = "IsDateDisabled", Type = "Func<DateTime, bool>?", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
+        new() { Name = "ShowTime", Type = "bool", Default = "-", Description = "ShowTime parameter" },
+        new() { Name = "ShowSeconds", Type = "bool", Default = "-", Description = "ShowSeconds parameter" },
         new() { Name = "TimeFormat", Type = "string", Default = """HH:mm""", Description = "TimeFormat parameter" },
+        new() { Name = "IsTimeOnly", Type = "bool", Default = "-", Description = "IsTimeOnly parameter" },
         new() { Name = "SpecialDates", Type = "List<DateTime>", Default = "new()", Description = "SpecialDates parameter" },
         new() { Name = "InitialViewDate", Type = "DateTime", Default = "DateTime.Today", Description = "InitialViewDate parameter" },
         new() { Name = "YearRange", Type = "int", Default = "10", Description = "YearRange parameter" },
         new() { Name = "ShowCalendar", Type = "bool", Default = "true", Description = "ShowCalendar parameter" },
         new() { Name = "ShowInput", Type = "bool", Default = "true", Description = "ShowInput parameter" },
+        new() { Name = "FooterTemplate", Type = "RenderFragment<DateTime>?", Default = "-", Description = "FooterTemplate parameter" },
+        new() { Name = "CustomParser", Type = "Func<string, DateTime?>?", Default = "-", Description = "CustomParser parameter" },
+        new() { Name = "MultipleSelection", Type = "bool", Default = "-", Description = "MultipleSelection parameter" },
         new() { Name = "SelectedDates", Type = "List<DateTime>", Default = "new()", Description = "SelectedDates parameter" },
+        new() { Name = "ShowYearMonthSelection", Type = "bool", Default = "-", Description = "ShowYearMonthSelection parameter" },
+        new() { Name = "DateOnlyValue", Type = "DateOnly?", Default = "-", Description = "Current value of the component" },
+        new() { Name = "TimeOnlyValue", Type = "TimeOnly?", Default = "-", Description = "Current value of the component" },
     };
 }

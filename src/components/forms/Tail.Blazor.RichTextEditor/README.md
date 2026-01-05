@@ -8,14 +8,6 @@ Independent NuGet package for the TailRichTextEditor component.
 dotnet add package Tail.Blazor.RichTextEditor
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.RichTextEditor
-
-<TailRichTextEditor @bind-Value="htmlContent" Label="Content" MinHeight="300" />
-```
-
 ## Features
 
 - Rich text editor with formatting toolbar
@@ -28,11 +20,41 @@ dotnet add package Tail.Blazor.RichTextEditor
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~8 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| Size | RichTextEditorSize | RichTextEditorSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| MinHeight | int | 200 | Minimum value constraint |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| ValueChanged | string? | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRichTextEditor></TailRichTextEditor>
+```

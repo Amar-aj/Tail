@@ -8,18 +8,6 @@ Independent NuGet package for the TailListView component.
 dotnet add package Tail.Blazor.ListView
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ListView
-
-<TailListView Items="@items">
-    <ItemTemplate>
-        <div>@context.Name</div>
-    </ItemTemplate>
-</TailListView>
-```
-
 ## Features
 
 - List view with items
@@ -28,11 +16,38 @@ dotnet add package Tail.Blazor.ListView
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+| Name | Description |
+| --- | --- |
+| T | Generic type parameter for typed data |
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<T> | new() | Data items collection |
+| ItemTemplate | RenderFragment<T> | default! | ItemTemplate parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailListView></TailListView>
+```

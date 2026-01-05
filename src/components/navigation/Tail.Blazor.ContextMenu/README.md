@@ -8,16 +8,6 @@ Independent NuGet package for the TailContextMenu component.
 dotnet add package Tail.Blazor.ContextMenu
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ContextMenu
-
-<TailContextMenu Items="@contextMenuItems" OnItemClick="HandleItemClick">
-    <div>Right-click me</div>
-</TailContextMenu>
-```
-
 ## Features
 
 - Right-click context menu
@@ -25,11 +15,42 @@ dotnet add package Tail.Blazor.ContextMenu
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Items | List<ContextMenuItem> | new() | Data items collection |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| OnItemClick | ContextMenuItem | Raised when component is clicked |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| ContextMenuItem | class | ContextMenuItem property |
+| Label | string | Label property |
+| OnClick | EventCallback | OnClick property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailContextMenu></TailContextMenu>
+```

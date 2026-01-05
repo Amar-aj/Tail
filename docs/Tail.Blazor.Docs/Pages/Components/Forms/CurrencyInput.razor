@@ -11,7 +11,19 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Currency input with symbol</li>
+            <li>Left or right symbol position</li>
+            <li>Custom currency symbol</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Label support</li>
+            <li>Placeholder text</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +33,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCurrencyInput Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailCurrencyInput>Small</TailCurrencyInput>
-<TailCurrencyInput>Medium</TailCurrencyInput>
-<TailCurrencyInput>Large</TailCurrencyInput>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,6 +85,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Value</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>decimal?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Current value of the component</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CurrencySymbol</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"$"</td>
@@ -87,6 +107,30 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CurrencyInputSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">CurrencyInputSize.Md</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placeholder</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placeholder text</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +166,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.CurrencyInput";
 
-    private string basicCode = @"<TailCurrencyInput Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailCurrencyInput></TailCurrencyInput>";
 
     private string sizesCode = @"
 <TailCurrencyInput>Small</TailCurrencyInput>
@@ -136,8 +180,13 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "Value", Type = "decimal?", Default = "-", Description = "Current value of the component" },
         new() { Name = "CurrencySymbol", Type = "string", Default = """$""", Description = "CurrencySymbol parameter" },
         new() { Name = "SymbolPosition", Type = "CurrencySymbolPosition", Default = "CurrencySymbolPosition.Left", Description = "SymbolPosition parameter" },
         new() { Name = "Size", Type = "CurrencyInputSize", Default = "CurrencyInputSize.Md", Description = "Size of the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Placeholder", Type = "string?", Default = "-", Description = "Placeholder text" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

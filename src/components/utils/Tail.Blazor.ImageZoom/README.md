@@ -8,14 +8,6 @@ Independent NuGet package for the TailImageZoom component.
 dotnet add package Tail.Blazor.ImageZoom
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.ImageZoom
-
-<TailImageZoom ImageSrc="@imageUrl" ZoomLevel="2.0" />
-```
-
 ## Features
 
 - Image zoom on hover
@@ -23,11 +15,37 @@ dotnet add package Tail.Blazor.ImageZoom
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| ImageSrc | string | string.Empty | ImageSrc parameter |
+| Alt | string? | - | Alt parameter |
+| ZoomLevel | double | 2.0 | ZoomLevel parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailImageZoom></TailImageZoom>
+```

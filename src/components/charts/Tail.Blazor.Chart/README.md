@@ -8,14 +8,6 @@ Independent NuGet package for the TailChart component.
 dotnet add package Tail.Blazor.Chart
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Chart
-
-<TailChart Data="@chartData" ChartType="ChartType.Line" Width="400" Height="200" />
-```
-
 ## Features
 
 - Multiple chart types (Line, Bar, Area, Pie)
@@ -24,11 +16,38 @@ dotnet add package Tail.Blazor.Chart
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Data | List<double> | new() | Data parameter |
+| ChartType | ChartType | ChartType.Line | ChartType parameter |
+| Width | int | 400 | Width parameter |
+| Height | int | 200 | Height parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailChart></TailChart>
+```

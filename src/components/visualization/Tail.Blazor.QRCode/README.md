@@ -8,14 +8,6 @@ Independent NuGet package for the TailQRCode component.
 dotnet add package Tail.Blazor.QRCode
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.QRCode
-
-<TailQRCode Value="https://example.com" Size="200" />
-```
-
 ## Features
 
 - QR code generation
@@ -24,11 +16,36 @@ dotnet add package Tail.Blazor.QRCode
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string | string.Empty | Current value of the component |
+| Size | int | 200 | Size of the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailQRCode></TailQRCode>
+```

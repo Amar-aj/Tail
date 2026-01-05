@@ -8,14 +8,6 @@ Independent NuGet package for the TailGanttChart component.
 dotnet add package Tail.Blazor.GanttChart
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.GanttChart
-
-<TailGanttChart Tasks="@ganttTasks" StartDate="@startDate" EndDate="@endDate" />
-```
-
 ## Features
 
 - Gantt chart visualization
@@ -24,11 +16,42 @@ dotnet add package Tail.Blazor.GanttChart
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Tasks | List<GanttTask> | new() | Tasks parameter |
+| StartDate | DateTime | DateTime.Now | StartDate parameter |
+| EndDate | DateTime | DateTime.Now.AddDays(30) | EndDate parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| GanttTask | class | GanttTask property |
+| Name | string | Name property |
+| StartDate | DateTime | StartDate property |
+| EndDate | DateTime | EndDate property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailGanttChart></TailGanttChart>
+```

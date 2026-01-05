@@ -8,19 +8,6 @@ Independent NuGet package for the TailDialog component.
 dotnet add package Tail.Blazor.Dialog
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Dialog
-
-<TailDialog IsVisible="@showDialog" IsVisibleChanged="OnDialogChanged" Title="Confirm Action">
-    <p>Are you sure you want to proceed?</p>
-    <Footer>
-        <button @onclick="Confirm">Confirm</button>
-    </Footer>
-</TailDialog>
-```
-
 ## Features
 
 - Modal dialog with backdrop
@@ -31,11 +18,43 @@ dotnet add package Tail.Blazor.Dialog
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~8 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsVisible | bool | - | Whether the component is visible |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Footer | RenderFragment? | - | Footer parameter |
+| Title | string? | - | Title parameter |
+| Size | DialogSize | DialogSize.Md | Size of the component |
+| ShowCloseButton | bool | true | ShowCloseButton parameter |
+| CloseOnBackdropClick | bool | true | Event callback raised when clicked |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsVisibleChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailDialog></TailDialog>
+```

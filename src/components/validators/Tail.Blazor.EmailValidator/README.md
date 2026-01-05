@@ -8,14 +8,6 @@ Independent NuGet package for the TailEmailValidator component.
 dotnet add package Tail.Blazor.EmailValidator
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.EmailValidator
-
-<TailEmailValidator Value="@emailValue" ErrorMessage="Invalid email format" />
-```
-
 ## Features
 
 - Email format validation
@@ -23,11 +15,36 @@ dotnet add package Tail.Blazor.EmailValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~1 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailEmailValidator></TailEmailValidator>
+```

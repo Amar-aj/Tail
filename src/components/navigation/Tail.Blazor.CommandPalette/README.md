@@ -8,14 +8,6 @@ Independent NuGet package for the TailCommandPalette component.
 dotnet add package Tail.Blazor.CommandPalette
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.CommandPalette
-
-<TailCommandPalette IsVisible="@showPalette" Commands="@commands" />
-```
-
 ## Features
 
 - Command palette (Cmd+K style)
@@ -25,11 +17,45 @@ dotnet add package Tail.Blazor.CommandPalette
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~5 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsVisible | bool | - | Whether the component is visible |
+| Commands | List<CommandItem> | new() | Commands parameter |
+| Placeholder | string | "Type a command or search..." | Placeholder text |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsVisibleChanged | bool | Raised when value changes |
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| CommandItem | class | CommandItem property |
+| Label | string | Label property |
+| Description | string? | Description property |
+| Shortcut | string? | Shortcut property |
+| OnExecute | EventCallback | OnExecute property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailCommandPalette></TailCommandPalette>
+```

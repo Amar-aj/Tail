@@ -11,7 +11,17 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>Modal dialog with backdrop</li>
+            <li>6 sizes (Sm, Md, Lg, Xl, Xxl, Full)</li>
+            <li>Title and footer support</li>
+            <li>Close button option</li>
+            <li>Close on backdrop click</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +31,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDialog />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDialog>Small</TailDialog>
-<TailDialog>Medium</TailDialog>
-<TailDialog>Large</TailDialog>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -71,6 +83,30 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsVisible</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is visible</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Footer</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Footer parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DialogSize</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">DialogSize.Md</td>
@@ -87,6 +123,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Event callback raised when clicked</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,7 +164,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Dialog";
 
-    private string basicCode = @"<TailDialog />";
+    private string basicCode = @"<TailDialog></TailDialog>";
 
     private string sizesCode = @"
 <TailDialog>Small</TailDialog>
@@ -136,8 +178,13 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "IsVisible", Type = "bool", Default = "-", Description = "Whether the component is visible" },
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
+        new() { Name = "Footer", Type = "RenderFragment?", Default = "-", Description = "Footer parameter" },
+        new() { Name = "Title", Type = "string?", Default = "-", Description = "Title parameter" },
         new() { Name = "Size", Type = "DialogSize", Default = "DialogSize.Md", Description = "Size of the component" },
         new() { Name = "ShowCloseButton", Type = "bool", Default = "true", Description = "ShowCloseButton parameter" },
         new() { Name = "CloseOnBackdropClick", Type = "bool", Default = "true", Description = "Event callback raised when clicked" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
     };
 }

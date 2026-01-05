@@ -8,14 +8,6 @@ Independent NuGet package for the TailSpinner component.
 dotnet add package Tail.Blazor.Spinner
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Spinner
-
-<TailSpinner Size="SpinnerSize.Md" Color="SpinnerColor.Primary" />
-```
-
 ## Features
 
 - 4 sizes (Sm, Md, Lg, Xl)
@@ -24,11 +16,36 @@ dotnet add package Tail.Blazor.Spinner
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Size | SpinnerSize | SpinnerSize.Md | Size of the component |
+| Color | SpinnerColor | SpinnerColor.Primary | Color scheme for the component |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailSpinner></TailSpinner>
+```

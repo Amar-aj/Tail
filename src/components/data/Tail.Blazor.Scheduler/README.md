@@ -8,14 +8,6 @@ Independent NuGet package for the TailScheduler component.
 dotnet add package Tail.Blazor.Scheduler
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Scheduler
-
-<TailScheduler CurrentDate="@DateTime.Now" Events="@events" />
-```
-
 ## Features
 
 - Calendar scheduler
@@ -24,11 +16,44 @@ dotnet add package Tail.Blazor.Scheduler
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~6 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| CurrentDate | DateTime | DateTime.Now | CurrentDate parameter |
+| Events | List<SchedulerEvent> | new() | Events parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| CalendarDay | class | CalendarDay property |
+| Date | DateTime | Date property |
+| Day | int | Day property |
+| Events | List<SchedulerEvent> | Events property |
+| SchedulerEvent | class | SchedulerEvent property |
+| Date | DateTime | Date property |
+| Title | string | Title property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailScheduler></TailScheduler>
+```

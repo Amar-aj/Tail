@@ -8,14 +8,6 @@ Independent NuGet package for the TailTimeline component.
 dotnet add package Tail.Blazor.Timeline
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Timeline
-
-<TailTimeline Items="@timelineItems" />
-```
-
 ## Features
 
 - Timeline visualization
@@ -24,11 +16,40 @@ dotnet add package Tail.Blazor.Timeline
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<TimelineItem> | new() | Data items collection |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| TimelineItem | class | TimelineItem property |
+| Title | string | Title property |
+| Description | string? | Description property |
+| Timestamp | DateTime? | Timestamp property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailTimeline></TailTimeline>
+```

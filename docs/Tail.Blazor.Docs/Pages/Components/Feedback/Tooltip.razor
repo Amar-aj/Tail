@@ -10,7 +10,6 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
     <DocSection Title="Basic Usage">
         <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
             <p class="font-medium">🚧 Coming Soon</p>
@@ -34,6 +33,12 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent parameter</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Position</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">"top"</td>
@@ -50,6 +55,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Content parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AdditionalAttributes</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dictionary&lt;string, object&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AdditionalAttributes parameter</td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,8 +124,10 @@
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
+        new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
         new() { Name = "Position", Type = "string", Default = """top""", Description = "Position parameter" },
         new() { Name = "DelayMs", Type = "int", Default = "0", Description = "DelayMs parameter" },
         new() { Name = "Content", Type = "string", Default = "-", Description = "Content parameter" },
+        new() { Name = "AdditionalAttributes", Type = "Dictionary<string, object>?", Default = "-", Description = "AdditionalAttributes parameter" },
     };
 }

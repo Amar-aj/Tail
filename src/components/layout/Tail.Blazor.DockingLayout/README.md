@@ -8,20 +8,6 @@ Independent NuGet package for the TailDockingLayout component.
 dotnet add package Tail.Blazor.DockingLayout
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.DockingLayout
-
-<TailDockingLayout>
-    <Top>Top panel</Top>
-    <Left>Left panel</Left>
-    <Center>Main content</Center>
-    <Right>Right panel</Right>
-    <Bottom>Bottom panel</Bottom>
-</TailDockingLayout>
-```
-
 ## Features
 
 - Docking layout with 5 zones
@@ -29,11 +15,39 @@ dotnet add package Tail.Blazor.DockingLayout
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Top | RenderFragment? | - | Top parameter |
+| Left | RenderFragment? | - | Left parameter |
+| Center | RenderFragment? | - | Center parameter |
+| Right | RenderFragment? | - | Right parameter |
+| Bottom | RenderFragment? | - | Bottom parameter |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailDockingLayout></TailDockingLayout>
+```

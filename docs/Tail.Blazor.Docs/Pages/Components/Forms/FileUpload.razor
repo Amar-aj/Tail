@@ -11,7 +11,21 @@
     <DocSection Title="Installation">
         <CodePreview Code="@installCode" CodeElementId="install-code" />
     </DocSection>
-
+    <DocSection Title="Features">
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
+            <li>File upload with drag & drop</li>
+            <li>Multiple file selection</li>
+            <li>File type filtering (accept attribute)</li>
+            <li>File list display</li>
+            <li>Remove file option</li>
+            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
+            <li>Label support</li>
+            <li>Validation error display</li>
+            <li>Disabled state</li>
+            <li>Full theme support with CSS variables</li>
+            <li>MAUI Blazor Hybrid compatible</li>
+        </ul>
+    </DocSection>
     <DocSection Title="Basic Usage">
         <TailTabs ActiveIndex="0">
             <Items>
@@ -21,7 +35,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailFileUpload Placeholder="Enter text..." />
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,9 +59,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailFileUpload>Small</TailFileUpload>
-<TailFileUpload>Medium</TailFileUpload>
-<TailFileUpload>Large</TailFileUpload>
+                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
+                            <p>Preview functionality - see code tab for usage</p>
+                        </div>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,6 +93,48 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
                         </tr>
                         <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Accept</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Accept parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Multiple</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Multiple parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ErrorMessage</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ErrorMessage parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Required</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is required</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Disabled</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Whether the component is disabled</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Style</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Additional CSS styles</td>
+                        </tr>
+                        <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MaxFiles</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">5</td>
@@ -99,6 +157,12 @@
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
                             <td style="padding: 10px; border: 1px solid var(--color-border);">AutoUpload parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>UploadHandler</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Func&lt;IBrowserFile, Task&lt;bool&gt;&gt;?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">-</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">UploadHandler parameter</td>
                         </tr>
                         <tr>
                             <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowUploadButton</code></td>
@@ -213,7 +277,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.FileUpload";
 
-    private string basicCode = @"<TailFileUpload Placeholder=""Enter text..."" />";
+    private string basicCode = @"<TailFileUpload></TailFileUpload>";
 
     private string sizesCode = @"
 <TailFileUpload>Small</TailFileUpload>
@@ -228,10 +292,18 @@
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Size", Type = "FileUploadSize", Default = "FileUploadSize.Md", Description = "Size of the component" },
+        new() { Name = "Label", Type = "string?", Default = "-", Description = "Label text for the component" },
+        new() { Name = "Accept", Type = "string?", Default = "-", Description = "Accept parameter" },
+        new() { Name = "Multiple", Type = "bool", Default = "-", Description = "Multiple parameter" },
+        new() { Name = "ErrorMessage", Type = "string?", Default = "-", Description = "ErrorMessage parameter" },
+        new() { Name = "Required", Type = "bool", Default = "-", Description = "Whether the component is required" },
+        new() { Name = "Disabled", Type = "bool", Default = "-", Description = "Whether the component is disabled" },
+        new() { Name = "Style", Type = "string?", Default = "-", Description = "Additional CSS styles" },
         new() { Name = "MaxFiles", Type = "int", Default = "5", Description = "Maximum value constraint" },
         new() { Name = "MaxFileSize", Type = "long", Default = "10 * 1024 * 1024", Description = "Size of the component" },
         new() { Name = "ShowPreview", Type = "bool", Default = "true", Description = "ShowPreview parameter" },
         new() { Name = "AutoUpload", Type = "bool", Default = "false", Description = "AutoUpload parameter" },
+        new() { Name = "UploadHandler", Type = "Func<IBrowserFile, Task<bool>>?", Default = "-", Description = "UploadHandler parameter" },
         new() { Name = "ShowUploadButton", Type = "bool", Default = "true", Description = "ShowUploadButton parameter" },
         new() { Name = "ShowRemoveButton", Type = "bool", Default = "true", Description = "ShowRemoveButton parameter" },
         new() { Name = "ShowRemoveAll", Type = "bool", Default = "true", Description = "ShowRemoveAll parameter" },

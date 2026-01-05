@@ -8,18 +8,6 @@ Independent NuGet package for the TailVirtualScroll component.
 dotnet add package Tail.Blazor.VirtualScroll
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.VirtualScroll
-
-<TailVirtualScroll Items="@items" ItemHeight="50" VisibleCount="10">
-    <ItemTemplate>
-        <div>@context.Name</div>
-    </ItemTemplate>
-</TailVirtualScroll>
-```
-
 ## Features
 
 - Virtual scrolling for large lists
@@ -28,11 +16,40 @@ dotnet add package Tail.Blazor.VirtualScroll
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~4 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+| Name | Description |
+| --- | --- |
+| T | Generic type parameter for typed data |
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<T> | new() | Data items collection |
+| ItemTemplate | RenderFragment<T> | default! | ItemTemplate parameter |
+| ItemHeight | int | 50 | ItemHeight parameter |
+| VisibleCount | int | 10 | Whether the component is visible |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailVirtualScroll></TailVirtualScroll>
+```

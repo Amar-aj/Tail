@@ -8,14 +8,6 @@ Independent NuGet package for the TailBreadcrumb component.
 dotnet add package Tail.Blazor.Breadcrumb
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Breadcrumb
-
-<TailBreadcrumb Items="@breadcrumbItems" />
-```
-
 ## Features
 
 - Breadcrumb navigation
@@ -24,11 +16,39 @@ dotnet add package Tail.Blazor.Breadcrumb
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Items | List<BreadcrumbItem> | new() | Data items collection |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+No events exposed.
+
+## Public Properties
+
+| Property | Type | Description |
+| --- | --- | --- |
+| BreadcrumbItem | class | BreadcrumbItem property |
+| Text | string | Text property |
+| Href | string? | Href property |
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailBreadcrumb></TailBreadcrumb>
+```

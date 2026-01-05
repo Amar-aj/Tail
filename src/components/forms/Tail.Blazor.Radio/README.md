@@ -8,15 +8,6 @@ Independent NuGet package for the TailRadio component.
 dotnet add package Tail.Blazor.Radio
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.Radio
-
-<TailRadio GroupName="options" Value="option1" @bind-IsChecked="isOption1" Label="Option 1" />
-<TailRadio GroupName="options" Value="option2" @bind-IsChecked="isOption2" Label="Option 2" />
-```
-
 ## Features
 
 - Radio button input
@@ -29,11 +20,44 @@ dotnet add package Tail.Blazor.Radio
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~2 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| Value | string? | - | Current value of the component |
+| GroupName | string? | - | GroupName parameter |
+| IsChecked | bool | - | IsChecked parameter |
+| Size | RadioSize | RadioSize.Md | Size of the component |
+| Label | string? | - | Label text for the component |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| ErrorMessage | string? | - | ErrorMessage parameter |
+| Disabled | bool | - | Whether the component is disabled |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsCheckedChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailRadio></TailRadio>
+```

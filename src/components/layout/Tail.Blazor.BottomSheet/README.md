@@ -8,16 +8,6 @@ Independent NuGet package for the TailBottomSheet component.
 dotnet add package Tail.Blazor.BottomSheet
 ```
 
-## Usage
-
-```razor
-@using Tail.Blazor.BottomSheet
-
-<TailBottomSheet IsVisible="@showSheet" Size="BottomSheetSize.Md">
-    Sheet content
-</TailBottomSheet>
-```
-
 ## Features
 
 - Bottom sheet modal
@@ -26,11 +16,40 @@ dotnet add package Tail.Blazor.BottomSheet
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Package Size
+## Class
 
-~3 KB (ultra-lightweight)
+Component class generated from the Razor file.
 
-## Dependencies
+## Type Parameters
 
-- Tail.Blazor.Core (required)
+No generic type parameters.
 
+## Parameters
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| IsVisible | bool | - | Whether the component is visible |
+| ChildContent | RenderFragment? | - | ChildContent parameter |
+| Size | BottomSheetSize | BottomSheetSize.Md | Size of the component |
+| CloseOnBackdropClick | bool | true | Event callback raised when clicked |
+| Style | string? | - | Additional CSS styles |
+
+## Events
+
+| Event | Type | Description |
+| --- | --- | --- |
+| IsVisibleChanged | bool | Raised when value changes |
+
+## Public Properties
+
+No additional public properties.
+
+## Methods
+
+No additional public methods.
+
+## Examples
+
+```razor
+<TailBottomSheet></TailBottomSheet>
+```
