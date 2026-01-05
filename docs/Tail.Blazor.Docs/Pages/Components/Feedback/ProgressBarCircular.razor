@@ -30,9 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailProgressBarCircular></TailProgressBarCircular>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -54,9 +52,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Primary">Primary</TailProgressBarCircular>
+                    <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success">Success</TailProgressBarCircular>
+                    <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning">Warning</TailProgressBarCircular>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -78,9 +76,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailProgressBarCircular Size="12">Small</TailProgressBarCircular>
+                    <TailProgressBarCircular Size="16">Medium</TailProgressBarCircular>
+                    <TailProgressBarCircular Size="24">Large</TailProgressBarCircular>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -157,15 +155,15 @@
     private string basicCode = @"<TailProgressBarCircular></TailProgressBarCircular>";
 
     private string variantsCode = @"
-<TailProgressBarCircular>Default</TailProgressBarCircular>
-<TailProgressBarCircular>Secondary</TailProgressBarCircular>
-<TailProgressBarCircular>Tertiary</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Primary"">Primary</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success"">Success</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning"">Warning</TailProgressBarCircular>
 ";
 
     private string sizesCode = @"
-<TailProgressBarCircular>Small</TailProgressBarCircular>
-<TailProgressBarCircular>Medium</TailProgressBarCircular>
-<TailProgressBarCircular>Large</TailProgressBarCircular>
+<TailProgressBarCircular Size=""12"">Small</TailProgressBarCircular>
+<TailProgressBarCircular Size=""16"">Medium</TailProgressBarCircular>
+<TailProgressBarCircular Size=""24"">Large</TailProgressBarCircular>
 ";
 
     private string statesCode = @"

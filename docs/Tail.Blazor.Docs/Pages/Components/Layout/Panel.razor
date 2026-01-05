@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailPanel></TailPanel>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Default">Default</TailPanel>
+                    <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Success">Success</TailPanel>
+                    <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Warning">Warning</TailPanel>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -120,9 +118,9 @@
     private string basicCode = @"<TailPanel></TailPanel>";
 
     private string variantsCode = @"
-<TailPanel>Default</TailPanel>
-<TailPanel>Secondary</TailPanel>
-<TailPanel>Tertiary</TailPanel>
+<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Default"">Default</TailPanel>
+<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Success"">Success</TailPanel>
+<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Warning"">Warning</TailPanel>
 ";
 
     private string statesCode = @"

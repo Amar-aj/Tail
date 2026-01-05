@@ -131,7 +131,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.InfiniteScroll";
 
-    private string basicCode = @"<TailInfiniteScroll />";
+    private string basicCode = @"<TailInfiniteScroll IsLoading=""true"" ThresholdPixels=""1"" OnLoadMore=""args => Console.WriteLine(""OnLoadMore"")"">Sample InfiniteScroll</TailInfiniteScroll>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>

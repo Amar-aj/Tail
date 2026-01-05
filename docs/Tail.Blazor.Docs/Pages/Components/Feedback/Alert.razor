@@ -30,9 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailAlert></TailAlert>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -54,9 +52,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Success">Success</TailAlert>
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Warning">Warning</TailAlert>
+                    <TailAlert Variant="Tail.Blazor.Alert.AlertVariant.Danger">Danger</TailAlert>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -160,9 +158,9 @@
     private string basicCode = @"<TailAlert></TailAlert>";
 
     private string variantsCode = @"
-<TailAlert>Default</TailAlert>
-<TailAlert>Secondary</TailAlert>
-<TailAlert>Tertiary</TailAlert>
+<TailAlert Variant=""Tail.Blazor.Alert.AlertVariant.Success"">Success</TailAlert>
+<TailAlert Variant=""Tail.Blazor.Alert.AlertVariant.Warning"">Warning</TailAlert>
+<TailAlert Variant=""Tail.Blazor.Alert.AlertVariant.Danger"">Danger</TailAlert>
 ";
 
     private string statesCode = @"

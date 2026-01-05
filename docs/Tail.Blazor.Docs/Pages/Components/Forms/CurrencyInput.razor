@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailCurrencyInput></TailCurrencyInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailCurrencyInput Size="Tail.Blazor.CurrencyInput.CurrencyInputSize.Sm">Small</TailCurrencyInput>
+                    <TailCurrencyInput Size="Tail.Blazor.CurrencyInput.CurrencyInputSize.Md">Medium</TailCurrencyInput>
+                    <TailCurrencyInput Size="Tail.Blazor.CurrencyInput.CurrencyInputSize.Lg">Large</TailCurrencyInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -169,9 +167,9 @@
     private string basicCode = @"<TailCurrencyInput></TailCurrencyInput>";
 
     private string sizesCode = @"
-<TailCurrencyInput>Small</TailCurrencyInput>
-<TailCurrencyInput>Medium</TailCurrencyInput>
-<TailCurrencyInput>Large</TailCurrencyInput>
+<TailCurrencyInput Size=""Tail.Blazor.CurrencyInput.CurrencyInputSize.Sm"">Small</TailCurrencyInput>
+<TailCurrencyInput Size=""Tail.Blazor.CurrencyInput.CurrencyInputSize.Md"">Medium</TailCurrencyInput>
+<TailCurrencyInput Size=""Tail.Blazor.CurrencyInput.CurrencyInputSize.Lg"">Large</TailCurrencyInput>
 ";
 
     private string statesCode = @"

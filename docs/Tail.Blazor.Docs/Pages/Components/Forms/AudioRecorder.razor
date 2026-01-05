@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailAudioRecorder></TailAudioRecorder>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Sm">Small</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Md">Medium</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Lg">Large</TailAudioRecorder>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -185,9 +183,9 @@
     private string basicCode = @"<TailAudioRecorder></TailAudioRecorder>";
 
     private string sizesCode = @"
-<TailAudioRecorder>Small</TailAudioRecorder>
-<TailAudioRecorder>Medium</TailAudioRecorder>
-<TailAudioRecorder>Large</TailAudioRecorder>
+<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Sm"">Small</TailAudioRecorder>
+<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Md"">Medium</TailAudioRecorder>
+<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Lg"">Large</TailAudioRecorder>
 ";
 
     private string statesCode = @"

@@ -167,7 +167,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.NavDrawer";
 
-    private string basicCode = @"<TailNavDrawer />";
+    private string basicCode = @"<TailNavDrawer IsOpen=""true"" ShowCloseButton=""true"" IsOpenChanged=""args => Console.WriteLine(""IsOpenChanged"")"">Sample NavDrawer</TailNavDrawer>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>

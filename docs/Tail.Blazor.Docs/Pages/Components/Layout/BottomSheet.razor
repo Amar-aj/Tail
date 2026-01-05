@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailBottomSheet></TailBottomSheet>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailBottomSheet Size="Tail.Blazor.BottomSheet.BottomSheetSize.Sm">Small</TailBottomSheet>
+                    <TailBottomSheet Size="Tail.Blazor.BottomSheet.BottomSheetSize.Md">Medium</TailBottomSheet>
+                    <TailBottomSheet Size="Tail.Blazor.BottomSheet.BottomSheetSize.Lg">Large</TailBottomSheet>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -147,9 +145,9 @@
     private string basicCode = @"<TailBottomSheet></TailBottomSheet>";
 
     private string sizesCode = @"
-<TailBottomSheet>Small</TailBottomSheet>
-<TailBottomSheet>Medium</TailBottomSheet>
-<TailBottomSheet>Large</TailBottomSheet>
+<TailBottomSheet Size=""Tail.Blazor.BottomSheet.BottomSheetSize.Sm"">Small</TailBottomSheet>
+<TailBottomSheet Size=""Tail.Blazor.BottomSheet.BottomSheetSize.Md"">Medium</TailBottomSheet>
+<TailBottomSheet Size=""Tail.Blazor.BottomSheet.BottomSheetSize.Lg"">Large</TailBottomSheet>
 ";
 
     private string statesCode = @"

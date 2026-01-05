@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailIconButton></TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailIconButton Variant="ButtonVariant.Primary">Primary</TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Success">Success</TailIconButton>
+                    <TailIconButton Variant="ButtonVariant.Warning">Warning</TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -79,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailIconButton Size="ButtonSize.Sm">Small</TailIconButton>
+                    <TailIconButton Size="ButtonSize.Md">Medium</TailIconButton>
+                    <TailIconButton Size="ButtonSize.Lg">Large</TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -236,15 +234,15 @@
     private string basicCode = @"<TailIconButton></TailIconButton>";
 
     private string variantsCode = @"
-<TailIconButton>Default</TailIconButton>
-<TailIconButton>Secondary</TailIconButton>
-<TailIconButton>Tertiary</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Primary"">Primary</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Success"">Success</TailIconButton>
+<TailIconButton Variant=""ButtonVariant.Warning"">Warning</TailIconButton>
 ";
 
     private string sizesCode = @"
-<TailIconButton>Small</TailIconButton>
-<TailIconButton>Medium</TailIconButton>
-<TailIconButton>Large</TailIconButton>
+<TailIconButton Size=""ButtonSize.Sm"">Small</TailIconButton>
+<TailIconButton Size=""ButtonSize.Md"">Medium</TailIconButton>
+<TailIconButton Size=""ButtonSize.Lg"">Large</TailIconButton>
 ";
 
     private string statesCode = @"

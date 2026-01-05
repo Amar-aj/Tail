@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailRichTextEditor></TailRichTextEditor>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailRichTextEditor Size="Tail.Blazor.RichTextEditor.RichTextEditorSize.Sm">Small</TailRichTextEditor>
+                    <TailRichTextEditor Size="Tail.Blazor.RichTextEditor.RichTextEditorSize.Md">Medium</TailRichTextEditor>
+                    <TailRichTextEditor Size="Tail.Blazor.RichTextEditor.RichTextEditorSize.Lg">Large</TailRichTextEditor>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -157,9 +155,9 @@
     private string basicCode = @"<TailRichTextEditor></TailRichTextEditor>";
 
     private string sizesCode = @"
-<TailRichTextEditor>Small</TailRichTextEditor>
-<TailRichTextEditor>Medium</TailRichTextEditor>
-<TailRichTextEditor>Large</TailRichTextEditor>
+<TailRichTextEditor Size=""Tail.Blazor.RichTextEditor.RichTextEditorSize.Sm"">Small</TailRichTextEditor>
+<TailRichTextEditor Size=""Tail.Blazor.RichTextEditor.RichTextEditorSize.Md"">Medium</TailRichTextEditor>
+<TailRichTextEditor Size=""Tail.Blazor.RichTextEditor.RichTextEditorSize.Lg"">Large</TailRichTextEditor>
 ";
 
     private string statesCode = @"

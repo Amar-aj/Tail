@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailTagInput></TailTagInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailTagInput Size="Tail.Blazor.TagInput.TagInputSize.Sm">Small</TailTagInput>
+                    <TailTagInput Size="Tail.Blazor.TagInput.TagInputSize.Md">Medium</TailTagInput>
+                    <TailTagInput Size="Tail.Blazor.TagInput.TagInputSize.Lg">Large</TailTagInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -163,9 +161,9 @@
     private string basicCode = @"<TailTagInput></TailTagInput>";
 
     private string sizesCode = @"
-<TailTagInput>Small</TailTagInput>
-<TailTagInput>Medium</TailTagInput>
-<TailTagInput>Large</TailTagInput>
+<TailTagInput Size=""Tail.Blazor.TagInput.TagInputSize.Sm"">Small</TailTagInput>
+<TailTagInput Size=""Tail.Blazor.TagInput.TagInputSize.Md"">Medium</TailTagInput>
+<TailTagInput Size=""Tail.Blazor.TagInput.TagInputSize.Lg"">Large</TailTagInput>
 ";
 
     private string statesCode = @"

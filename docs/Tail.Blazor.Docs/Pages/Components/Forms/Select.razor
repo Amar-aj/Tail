@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailSelect></TailSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Sm">Small</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Md">Medium</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Lg">Large</TailSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -188,9 +186,9 @@
     private string basicCode = @"<TailSelect></TailSelect>";
 
     private string sizesCode = @"
-<TailSelect>Small</TailSelect>
-<TailSelect>Medium</TailSelect>
-<TailSelect>Large</TailSelect>
+<TailSelect Size=""Tail.Blazor.Select.SelectSize.Sm"">Small</TailSelect>
+<TailSelect Size=""Tail.Blazor.Select.SelectSize.Md"">Medium</TailSelect>
+<TailSelect Size=""Tail.Blazor.Select.SelectSize.Lg"">Large</TailSelect>
 ";
 
     private string statesCode = @"

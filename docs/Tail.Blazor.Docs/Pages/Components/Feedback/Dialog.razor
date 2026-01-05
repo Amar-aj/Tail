@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailDialog></TailDialog>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailDialog Size="Tail.Blazor.Dialog.DialogSize.Sm">Small</TailDialog>
+                    <TailDialog Size="Tail.Blazor.Dialog.DialogSize.Md">Medium</TailDialog>
+                    <TailDialog Size="Tail.Blazor.Dialog.DialogSize.Lg">Large</TailDialog>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -167,9 +165,9 @@
     private string basicCode = @"<TailDialog></TailDialog>";
 
     private string sizesCode = @"
-<TailDialog>Small</TailDialog>
-<TailDialog>Medium</TailDialog>
-<TailDialog>Large</TailDialog>
+<TailDialog Size=""Tail.Blazor.Dialog.DialogSize.Sm"">Small</TailDialog>
+<TailDialog Size=""Tail.Blazor.Dialog.DialogSize.Md"">Medium</TailDialog>
+<TailDialog Size=""Tail.Blazor.Dialog.DialogSize.Lg"">Large</TailDialog>
 ";
 
     private string statesCode = @"

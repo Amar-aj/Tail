@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailColorPicker></TailColorPicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailColorPicker Size="Tail.Blazor.ColorPicker.ColorPickerSize.Sm">Small</TailColorPicker>
+                    <TailColorPicker Size="Tail.Blazor.ColorPicker.ColorPickerSize.Md">Medium</TailColorPicker>
+                    <TailColorPicker Size="Tail.Blazor.ColorPicker.ColorPickerSize.Lg">Large</TailColorPicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -163,9 +161,9 @@
     private string basicCode = @"<TailColorPicker></TailColorPicker>";
 
     private string sizesCode = @"
-<TailColorPicker>Small</TailColorPicker>
-<TailColorPicker>Medium</TailColorPicker>
-<TailColorPicker>Large</TailColorPicker>
+<TailColorPicker Size=""Tail.Blazor.ColorPicker.ColorPickerSize.Sm"">Small</TailColorPicker>
+<TailColorPicker Size=""Tail.Blazor.ColorPicker.ColorPickerSize.Md"">Medium</TailColorPicker>
+<TailColorPicker Size=""Tail.Blazor.ColorPicker.ColorPickerSize.Lg"">Large</TailColorPicker>
 ";
 
     private string statesCode = @"

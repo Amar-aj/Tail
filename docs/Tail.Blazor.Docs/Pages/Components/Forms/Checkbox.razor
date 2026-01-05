@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailCheckbox></TailCheckbox>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailCheckbox Size="Tail.Blazor.Checkbox.CheckboxSize.Sm">Small</TailCheckbox>
+                    <TailCheckbox Size="Tail.Blazor.Checkbox.CheckboxSize.Md">Medium</TailCheckbox>
+                    <TailCheckbox Size="Tail.Blazor.Checkbox.CheckboxSize.Lg">Large</TailCheckbox>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -184,9 +182,9 @@
     private string basicCode = @"<TailCheckbox></TailCheckbox>";
 
     private string sizesCode = @"
-<TailCheckbox>Small</TailCheckbox>
-<TailCheckbox>Medium</TailCheckbox>
-<TailCheckbox>Large</TailCheckbox>
+<TailCheckbox Size=""Tail.Blazor.Checkbox.CheckboxSize.Sm"">Small</TailCheckbox>
+<TailCheckbox Size=""Tail.Blazor.Checkbox.CheckboxSize.Md"">Medium</TailCheckbox>
+<TailCheckbox Size=""Tail.Blazor.Checkbox.CheckboxSize.Lg"">Large</TailCheckbox>
 ";
 
     private string statesCode = @"

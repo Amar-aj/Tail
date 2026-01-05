@@ -35,9 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailInput></TailInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -59,9 +57,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailInput Variant="Tail.Blazor.Input.InputVariant.Standard">Standard</TailInput>
+                    <TailInput Variant="Tail.Blazor.Input.InputVariant.Outlined">Outlined</TailInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -83,9 +80,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Sm">Small</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Md">Medium</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Lg">Large</TailInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -336,15 +333,14 @@
     private string basicCode = @"<TailInput></TailInput>";
 
     private string variantsCode = @"
-<TailInput>Default</TailInput>
-<TailInput>Secondary</TailInput>
-<TailInput>Tertiary</TailInput>
+<TailInput Variant=""Tail.Blazor.Input.InputVariant.Standard"">Standard</TailInput>
+<TailInput Variant=""Tail.Blazor.Input.InputVariant.Outlined"">Outlined</TailInput>
 ";
 
     private string sizesCode = @"
-<TailInput>Small</TailInput>
-<TailInput>Medium</TailInput>
-<TailInput>Large</TailInput>
+<TailInput Size=""Tail.Blazor.Input.InputSize.Sm"">Small</TailInput>
+<TailInput Size=""Tail.Blazor.Input.InputSize.Md"">Medium</TailInput>
+<TailInput Size=""Tail.Blazor.Input.InputSize.Lg"">Large</TailInput>
 ";
 
     private string statesCode = @"

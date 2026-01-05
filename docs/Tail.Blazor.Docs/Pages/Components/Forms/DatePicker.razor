@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailDatePicker></TailDatePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Sm">Small</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Md">Medium</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Lg">Large</TailDatePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -346,9 +344,9 @@
     private string basicCode = @"<TailDatePicker></TailDatePicker>";
 
     private string sizesCode = @"
-<TailDatePicker>Small</TailDatePicker>
-<TailDatePicker>Medium</TailDatePicker>
-<TailDatePicker>Large</TailDatePicker>
+<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Sm"">Small</TailDatePicker>
+<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Md"">Medium</TailDatePicker>
+<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Lg"">Large</TailDatePicker>
 ";
 
     private string statesCode = @"

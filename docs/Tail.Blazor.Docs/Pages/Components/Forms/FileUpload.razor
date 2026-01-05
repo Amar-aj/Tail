@@ -35,9 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailFileUpload></TailFileUpload>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -59,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Sm">Small</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Md">Medium</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Lg">Large</TailFileUpload>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -280,9 +278,9 @@
     private string basicCode = @"<TailFileUpload></TailFileUpload>";
 
     private string sizesCode = @"
-<TailFileUpload>Small</TailFileUpload>
-<TailFileUpload>Medium</TailFileUpload>
-<TailFileUpload>Large</TailFileUpload>
+<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Sm"">Small</TailFileUpload>
+<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Md"">Medium</TailFileUpload>
+<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Lg"">Large</TailFileUpload>
 ";
 
     private string statesCode = @"

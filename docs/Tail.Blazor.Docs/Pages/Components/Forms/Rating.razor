@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailRating></TailRating>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailRating Size="Tail.Blazor.Rating.RatingSize.Sm">Small</TailRating>
+                    <TailRating Size="Tail.Blazor.Rating.RatingSize.Md">Medium</TailRating>
+                    <TailRating Size="Tail.Blazor.Rating.RatingSize.Lg">Large</TailRating>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -169,9 +167,9 @@
     private string basicCode = @"<TailRating></TailRating>";
 
     private string sizesCode = @"
-<TailRating>Small</TailRating>
-<TailRating>Medium</TailRating>
-<TailRating>Large</TailRating>
+<TailRating Size=""Tail.Blazor.Rating.RatingSize.Sm"">Small</TailRating>
+<TailRating Size=""Tail.Blazor.Rating.RatingSize.Md"">Medium</TailRating>
+<TailRating Size=""Tail.Blazor.Rating.RatingSize.Lg"">Large</TailRating>
 ";
 
     private string statesCode = @"

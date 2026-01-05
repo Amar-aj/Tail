@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailPhoneNumberInput></TailPhoneNumberInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailPhoneNumberInput Size="Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Sm">Small</TailPhoneNumberInput>
+                    <TailPhoneNumberInput Size="Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Md">Medium</TailPhoneNumberInput>
+                    <TailPhoneNumberInput Size="Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Lg">Large</TailPhoneNumberInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -168,9 +166,9 @@
     private string basicCode = @"<TailPhoneNumberInput></TailPhoneNumberInput>";
 
     private string sizesCode = @"
-<TailPhoneNumberInput>Small</TailPhoneNumberInput>
-<TailPhoneNumberInput>Medium</TailPhoneNumberInput>
-<TailPhoneNumberInput>Large</TailPhoneNumberInput>
+<TailPhoneNumberInput Size=""Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Sm"">Small</TailPhoneNumberInput>
+<TailPhoneNumberInput Size=""Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Md"">Medium</TailPhoneNumberInput>
+<TailPhoneNumberInput Size=""Tail.Blazor.PhoneNumberInput.PhoneNumberInputSize.Lg"">Large</TailPhoneNumberInput>
 ";
 
     private string statesCode = @"

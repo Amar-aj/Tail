@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailButton></TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Primary</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Success</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Warning</TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -79,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Sm">Small</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Md">Medium</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Lg">Large</TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -257,15 +255,15 @@
     private string basicCode = @"<TailButton></TailButton>";
 
     private string variantsCode = @"
-<TailButton>Default</TailButton>
-<TailButton>Secondary</TailButton>
-<TailButton>Tertiary</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Primary</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">Success</TailButton>
+<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">Warning</TailButton>
 ";
 
     private string sizesCode = @"
-<TailButton>Small</TailButton>
-<TailButton>Medium</TailButton>
-<TailButton>Large</TailButton>
+<TailButton Size=""Tail.Blazor.Button.ButtonSize.Sm"">Small</TailButton>
+<TailButton Size=""Tail.Blazor.Button.ButtonSize.Md"">Medium</TailButton>
+<TailButton Size=""Tail.Blazor.Button.ButtonSize.Lg"">Large</TailButton>
 ";
 
     private string statesCode = @"

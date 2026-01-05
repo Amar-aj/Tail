@@ -28,9 +28,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailMenu></TailMenu>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -52,9 +50,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailMenu Variant="Tail.Blazor.Menu.MenuVariant.Default">Default</TailMenu>
+                    <TailMenu Variant="Tail.Blazor.Menu.MenuVariant.Vertical">Vertical</TailMenu>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -211,9 +208,8 @@
     private string basicCode = @"<TailMenu></TailMenu>";
 
     private string variantsCode = @"
-<TailMenu>Default</TailMenu>
-<TailMenu>Secondary</TailMenu>
-<TailMenu>Tertiary</TailMenu>
+<TailMenu Variant=""Tail.Blazor.Menu.MenuVariant.Default"">Default</TailMenu>
+<TailMenu Variant=""Tail.Blazor.Menu.MenuVariant.Vertical"">Vertical</TailMenu>
 ";
 
     private string statesCode = @"

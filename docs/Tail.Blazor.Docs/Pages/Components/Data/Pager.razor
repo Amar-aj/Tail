@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailPager></TailPager>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailPager Size="12">Small</TailPager>
+                    <TailPager Size="16">Medium</TailPager>
+                    <TailPager Size="24">Large</TailPager>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -147,9 +145,9 @@
     private string basicCode = @"<TailPager></TailPager>";
 
     private string sizesCode = @"
-<TailPager>Small</TailPager>
-<TailPager>Medium</TailPager>
-<TailPager>Large</TailPager>
+<TailPager Size=""12"">Small</TailPager>
+<TailPager Size=""16"">Medium</TailPager>
+<TailPager Size=""24"">Large</TailPager>
 ";
 
     private string statesCode = @"

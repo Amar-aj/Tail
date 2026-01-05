@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailQRCode></TailQRCode>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailQRCode Size="12">Small</TailQRCode>
+                    <TailQRCode Size="16">Medium</TailQRCode>
+                    <TailQRCode Size="24">Large</TailQRCode>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -114,9 +112,9 @@
     private string basicCode = @"<TailQRCode></TailQRCode>";
 
     private string sizesCode = @"
-<TailQRCode>Small</TailQRCode>
-<TailQRCode>Medium</TailQRCode>
-<TailQRCode>Large</TailQRCode>
+<TailQRCode Size=""12"">Small</TailQRCode>
+<TailQRCode Size=""16"">Medium</TailQRCode>
+<TailQRCode Size=""24"">Large</TailQRCode>
 ";
 
     private string statesCode = @"

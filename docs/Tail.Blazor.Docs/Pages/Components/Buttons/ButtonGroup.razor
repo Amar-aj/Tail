@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailButtonGroup></TailButtonGroup>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailButtonGroup Variant="string?.Primary">Primary</TailButtonGroup>
+                    <TailButtonGroup Variant="string?.Success">Success</TailButtonGroup>
+                    <TailButtonGroup Variant="string?.Warning">Warning</TailButtonGroup>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,9 +75,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Sm">Small</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Md">Medium</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Lg">Large</TailButtonGroup>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -204,15 +202,15 @@
     private string basicCode = @"<TailButtonGroup></TailButtonGroup>";
 
     private string variantsCode = @"
-<TailButtonGroup>Default</TailButtonGroup>
-<TailButtonGroup>Secondary</TailButtonGroup>
-<TailButtonGroup>Tertiary</TailButtonGroup>
+<TailButtonGroup Variant=""string?.Primary"">Primary</TailButtonGroup>
+<TailButtonGroup Variant=""string?.Success"">Success</TailButtonGroup>
+<TailButtonGroup Variant=""string?.Warning"">Warning</TailButtonGroup>
 ";
 
     private string sizesCode = @"
-<TailButtonGroup>Small</TailButtonGroup>
-<TailButtonGroup>Medium</TailButtonGroup>
-<TailButtonGroup>Large</TailButtonGroup>
+<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Sm"">Small</TailButtonGroup>
+<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Md"">Medium</TailButtonGroup>
+<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Lg"">Large</TailButtonGroup>
 ";
 
     private string statesCode = @"

@@ -35,9 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailTextarea></TailTextarea>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -59,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailTextarea Size="Tail.Blazor.Textarea.TextareaSize.Sm">Small</TailTextarea>
+                    <TailTextarea Size="Tail.Blazor.Textarea.TextareaSize.Md">Medium</TailTextarea>
+                    <TailTextarea Size="Tail.Blazor.Textarea.TextareaSize.Lg">Large</TailTextarea>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -217,9 +215,9 @@
     private string basicCode = @"<TailTextarea></TailTextarea>";
 
     private string sizesCode = @"
-<TailTextarea>Small</TailTextarea>
-<TailTextarea>Medium</TailTextarea>
-<TailTextarea>Large</TailTextarea>
+<TailTextarea Size=""Tail.Blazor.Textarea.TextareaSize.Sm"">Small</TailTextarea>
+<TailTextarea Size=""Tail.Blazor.Textarea.TextareaSize.Md"">Medium</TailTextarea>
+<TailTextarea Size=""Tail.Blazor.Textarea.TextareaSize.Lg"">Large</TailTextarea>
 ";
 
     private string statesCode = @"

@@ -35,9 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailOTPInput></TailOTPInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -59,9 +57,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Sm">Small</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Md">Medium</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Lg">Large</TailOTPInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -165,9 +163,9 @@
     private string basicCode = @"<TailOTPInput></TailOTPInput>";
 
     private string sizesCode = @"
-<TailOTPInput>Small</TailOTPInput>
-<TailOTPInput>Medium</TailOTPInput>
-<TailOTPInput>Large</TailOTPInput>
+<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Sm"">Small</TailOTPInput>
+<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Md"">Medium</TailOTPInput>
+<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Lg"">Large</TailOTPInput>
 ";
 
     private string statesCode = @"

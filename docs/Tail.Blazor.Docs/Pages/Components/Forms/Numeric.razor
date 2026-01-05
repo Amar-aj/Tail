@@ -32,9 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailNumeric></TailNumeric>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -56,9 +54,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Sm">Small</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Md">Medium</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Lg">Large</TailNumeric>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -168,9 +166,9 @@
     private string basicCode = @"<TailNumeric></TailNumeric>";
 
     private string sizesCode = @"
-<TailNumeric>Small</TailNumeric>
-<TailNumeric>Medium</TailNumeric>
-<TailNumeric>Large</TailNumeric>
+<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Sm"">Small</TailNumeric>
+<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Md"">Medium</TailNumeric>
+<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Lg"">Large</TailNumeric>
 ";
 
     private string statesCode = @"

@@ -20,6 +20,7 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
+import textwrap
 
 # Fix Unicode output on Windows
 if sys.platform == "win32":
@@ -604,8 +605,8 @@ def escape_razor_code(code):
     return code.replace('"', '""')
 
 
-def get_component_examples(component_meta, parameters):
-    """Generate feature-based examples from component metadata and README."""
+def get_component_examples(component_meta, parameters, events):
+    """Generate feature-based examples from component metadata, parameters, and events."""
     name = component_meta['name']
     friendly_name = component_meta['friendly_name']
     category = component_meta['category']
@@ -620,6 +621,86 @@ def get_component_examples(component_meta, parameters):
         return {"basic": f'@* {friendly_name} requires type parameter *@'}
     
     examples = {}
+
+    preview_inputs = list(parameters) + [
+        {"name": e["name"], "type": f'EventCallback<{e["type"]}>', "source": "event"}
+        for e in events
+    ]
+
+    def type_in_component(t):
+        comp_path = Path(component_meta['path']) if component_meta.get('path') else None
+        if not comp_path or not comp_path.exists():
+            return False
+        for p in comp_path.rglob("*.cs"):
+            try:
+                text = p.read_text(encoding="utf-8")
+                if re.search(rf"\b{re.escape(t)}\b", text):
+                    return True
+            except Exception:
+                continue
+        return False
+
+    def enum_values(t):
+        comp_path = Path(component_meta['path']) if component_meta.get('path') else None
+        if not comp_path or not comp_path.exists():
+            return []
+        for p in comp_path.rglob("*.cs"):
+            try:
+                text = p.read_text(encoding="utf-8")
+                match = re.search(rf"enum\s+{re.escape(t)}\s*\{{([^}}]+)\}}", text, re.MULTILINE | re.DOTALL)
+                if match:
+                    raw = match.group(1)
+                    candidates = re.finditer(r"\b([A-Za-z_][A-Za-z0-9_]*)\b\s*(?:,|=)", raw)
+                    items = [m.group(1) for m in candidates]
+                    if items:
+                        return items
+            except Exception:
+                continue
+        return []
+
+    def qualify_type(t):
+        if '.' in t:
+            return t
+        if type_in_component(t):
+            return f"{name}.{t}"
+        return t
+
+    def attr_sample(p):
+        p_name = p['name']
+        p_type = p['type']
+        lower = p_name.lower()
+        # Skip child content and render fragments
+        if 'renderfragment' in p_type.lower() or p_type.strip() == 'RenderFragment':
+            return None
+        if 'eventcallback' in p_type.lower():
+            if 'click' in lower:
+                return f'{p_name}="() => Console.WriteLine(\"{p_name}\")"'
+            return f'{p_name}="args => Console.WriteLine(\"{p_name}\")"'
+        if p_type.lower() in ['bool', 'boolean']:
+            return f'{p_name}="true"'
+        if p_type.lower().startswith('string'):
+            return f'{p_name}="Sample {p_name}"'
+        if 'int' in p_type.lower() or 'double' in p_type.lower() or 'float' in p_type.lower() or 'decimal' in p_type.lower():
+            return f'{p_name}="1"'
+        if 'variant' in lower:
+            return f'{p_name}="{qualify_type(p_type)}.Primary"'
+        if 'size' in lower:
+            return f'{p_name}="{qualify_type(p_type)}.Md"'
+        if 'color' in lower:
+            return f'{p_name}="var(--color-primary)"'
+        return None
+
+    has_child_content = any('renderfragment' in p['type'].lower() or p['type'].strip() == 'RenderFragment' for p in parameters)
+
+    def build_attrs(limit=4):
+        attrs = []
+        for p in preview_inputs:
+            sample = attr_sample(p)
+            if sample:
+                attrs.append(sample)
+            if len(attrs) >= limit:
+                break
+        return ' '.join(attrs)
     
     # Use extracted example from README if available
     if component_meta.get('example_code'):
@@ -631,25 +712,47 @@ def get_component_examples(component_meta, parameters):
         else:
             examples['basic'] = extracted_example
     else:
-        # Fallback to generated examples - SIMPLE, NO UNDEFINED VARIABLES
-        if category.lower() == 'buttons':
-            examples['basic'] = f'<{component_tag}>Click Me</{component_tag}>'
-        elif category.lower() == 'forms':
-            examples['basic'] = f'<{component_tag} />'
+        attrs = build_attrs()
+        if has_child_content:
+            examples['basic'] = f'<{component_tag} {attrs}>Sample {friendly_name}</{component_tag}>' if attrs else f'<{component_tag}>Sample {friendly_name}</{component_tag}>'
         else:
-            examples['basic'] = f'<{component_tag} />'
+            examples['basic'] = f'<{component_tag} {attrs} />' if attrs else f'<{component_tag} />'
     
     # Generate variants examples - SIMPLE, NO UNDEFINED VARIABLES
-    if any('variant' in p['name'].lower() for p in parameters):
-        examples['variants'] = f'''<{component_tag}>Default</{component_tag}>
-<{component_tag}>Secondary</{component_tag}>
-<{component_tag}>Tertiary</{component_tag}>'''
+    variant_type = next((p['type'] for p in parameters if 'variant' in p['name'].lower()), None)
+    if variant_type:
+        vtype = qualify_type(variant_type)
+        enum_items = enum_values(variant_type)
+        if not enum_items:
+            enum_items = ['Primary', 'Success', 'Warning']
+        preview_items = enum_items[:3] if len(enum_items) >= 3 else enum_items
+        variants_markup = []
+        for item in preview_items:
+            variants_markup.append(f'<{component_tag} Variant="{vtype}.{item}">{item}</{component_tag}>')
+        examples['variants'] = "\n".join(variants_markup)
     
     # Generate sizes examples - SIMPLE, NO UNDEFINED VARIABLES
-    if any('size' in p['name'].lower() for p in parameters):
-        examples['sizes'] = f'''<{component_tag}>Small</{component_tag}>
-<{component_tag}>Medium</{component_tag}>
-<{component_tag}>Large</{component_tag}>'''
+    size_type = next((p['type'] for p in parameters if 'size' in p['name'].lower()), None)
+    if size_type:
+        if size_type.lower() in ['int', 'double', 'float', 'decimal']:
+            examples['sizes'] = f'''<{component_tag} Size="12">Small</{component_tag}>
+<{component_tag} Size="16">Medium</{component_tag}>
+<{component_tag} Size="24">Large</{component_tag}>'''
+        else:
+            stype = qualify_type(size_type)
+            examples['sizes'] = f'''<{component_tag} Size="{stype}.Sm">Small</{component_tag}>
+<{component_tag} Size="{stype}.Md">Medium</{component_tag}>
+<{component_tag} Size="{stype}.Lg">Large</{component_tag}>'''
+
+    # Generate events example if events exist
+    if events:
+        event_attr = attr_sample({"name": events[0]['name'], "type": f'EventCallback<{events[0]["type"]}>', "source": "event"})
+        attrs = build_attrs(limit=2)
+        combined_attrs = ' '.join(filter(None, [attrs, event_attr]))
+        if has_child_content:
+            examples['events'] = f'<{component_tag} {combined_attrs}>Interact</{component_tag}>' if combined_attrs else f'<{component_tag}>Interact</{component_tag}>'
+        else:
+            examples['events'] = f'<{component_tag} {combined_attrs} />' if combined_attrs else f'<{component_tag} />'
     
     return examples
 
@@ -670,7 +773,13 @@ def generate_doc_page(component_meta):
     component_tag = f"Tail{friendly_name}" if '.' not in friendly_name else name.replace('Tail.Blazor.', 'Tail')
     
     # Generate examples using enhanced function
-    examples = get_component_examples(component_meta, params)
+    examples = get_component_examples(component_meta, params, component_meta.get('events', []))
+
+    def safe_example(name):
+        value = examples.get(name, "")
+        if not value:
+            return '<div style="color: var(--color-text-secondary); padding: 24px; text-align: center;">Preview not available.</div>'
+        return value
     
     # Build page header
     doc_page = f'@page "/components/{category.lower()}/{friendly_name.lower()}"\n'
@@ -716,7 +825,7 @@ def generate_doc_page(component_meta):
     
     doc_page += '''    <DocSection Title="Basic Usage">
 '''
-    
+
     if is_generic:
         doc_page += f'''        <div class="p-4 rounded-lg mb-4" style="background-color: var(--color-surface-2); color: var(--color-text-primary);">
             <p class="font-medium">⚠️ Generic Component</p>
@@ -733,7 +842,8 @@ def generate_doc_page(component_meta):
         </div>
 '''
     else:
-        doc_page += '''        <TailTabs ActiveIndex="0">
+        basic_preview = safe_example("basic")
+        doc_page += f'''        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
                 <TailTabItem Label="Code" />
@@ -741,9 +851,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+{textwrap.indent(basic_preview, ' ' * 24)}
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -770,9 +878,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+''' + textwrap.indent(safe_example("variants"), ' ' * 20) + '''
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -797,9 +903,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+''' + textwrap.indent(safe_example("sizes"), ' ' * 20) + '''
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>

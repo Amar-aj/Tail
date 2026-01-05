@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailRadio></TailRadio>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Sm">Small</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Md">Medium</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Lg">Large</TailRadio>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -175,9 +173,9 @@
     private string basicCode = @"<TailRadio></TailRadio>";
 
     private string sizesCode = @"
-<TailRadio>Small</TailRadio>
-<TailRadio>Medium</TailRadio>
-<TailRadio>Large</TailRadio>
+<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Sm"">Small</TailRadio>
+<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Md"">Medium</TailRadio>
+<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Lg"">Large</TailRadio>
 ";
 
     private string statesCode = @"

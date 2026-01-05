@@ -142,12 +142,12 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Chip";
 
-    private string basicCode = @"<TailChip />";
+    private string basicCode = @"<TailChip Label=""Sample Label"" Icon=""Sample Icon"" Removable=""true"" Variant=""Sample Variant"" />";
 
     private string variantsCode = @"
-<TailChip>Default</TailChip>
-<TailChip>Secondary</TailChip>
-<TailChip>Tertiary</TailChip>
+<TailChip Variant=""string.Primary"">Primary</TailChip>
+<TailChip Variant=""string.Success"">Success</TailChip>
+<TailChip Variant=""string.Warning"">Warning</TailChip>
 ";
 
     private string statesCode = @"

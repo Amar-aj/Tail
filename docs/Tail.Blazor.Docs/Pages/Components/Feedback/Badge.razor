@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailBadge></TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary">Primary</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Success">Success</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Warning">Warning</TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,9 +75,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Sm">Small</TailBadge>
+                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Md">Medium</TailBadge>
+                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Lg">Large</TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -150,15 +148,15 @@
     private string basicCode = @"<TailBadge></TailBadge>";
 
     private string variantsCode = @"
-<TailBadge>Default</TailBadge>
-<TailBadge>Secondary</TailBadge>
-<TailBadge>Tertiary</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"">Primary</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Success"">Success</TailBadge>
+<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Warning"">Warning</TailBadge>
 ";
 
     private string sizesCode = @"
-<TailBadge>Small</TailBadge>
-<TailBadge>Medium</TailBadge>
-<TailBadge>Large</TailBadge>
+<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Sm"">Small</TailBadge>
+<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Md"">Medium</TailBadge>
+<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Lg"">Large</TailBadge>
 ";
 
     private string statesCode = @"

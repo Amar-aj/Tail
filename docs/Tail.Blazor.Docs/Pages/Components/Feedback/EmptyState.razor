@@ -32,9 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailEmptyState></TailEmptyState>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -56,9 +54,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailEmptyState Variant="Tail.Blazor.EmptyState.EmptyStateVariant.Default">Default</TailEmptyState>
+                    <TailEmptyState Variant="Tail.Blazor.EmptyState.EmptyStateVariant.Minimal">Minimal</TailEmptyState>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -80,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Sm">Small</TailEmptyState>
+                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Md">Medium</TailEmptyState>
+                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Lg">Large</TailEmptyState>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -177,15 +174,14 @@
     private string basicCode = @"<TailEmptyState></TailEmptyState>";
 
     private string variantsCode = @"
-<TailEmptyState>Default</TailEmptyState>
-<TailEmptyState>Secondary</TailEmptyState>
-<TailEmptyState>Tertiary</TailEmptyState>
+<TailEmptyState Variant=""Tail.Blazor.EmptyState.EmptyStateVariant.Default"">Default</TailEmptyState>
+<TailEmptyState Variant=""Tail.Blazor.EmptyState.EmptyStateVariant.Minimal"">Minimal</TailEmptyState>
 ";
 
     private string sizesCode = @"
-<TailEmptyState>Small</TailEmptyState>
-<TailEmptyState>Medium</TailEmptyState>
-<TailEmptyState>Large</TailEmptyState>
+<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Sm"">Small</TailEmptyState>
+<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Md"">Medium</TailEmptyState>
+<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Lg"">Large</TailEmptyState>
 ";
 
     private string statesCode = @"

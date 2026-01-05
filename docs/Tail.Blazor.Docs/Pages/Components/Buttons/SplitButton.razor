@@ -32,9 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailSplitButton></TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -56,9 +54,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Primary">Primary</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Success">Success</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Warning">Warning</TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -80,9 +78,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Sm">Small</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Md">Medium</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Lg">Large</TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -209,15 +207,15 @@
     private string basicCode = @"<TailSplitButton></TailSplitButton>";
 
     private string variantsCode = @"
-<TailSplitButton>Default</TailSplitButton>
-<TailSplitButton>Secondary</TailSplitButton>
-<TailSplitButton>Tertiary</TailSplitButton>
+<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Primary"">Primary</TailSplitButton>
+<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Success"">Success</TailSplitButton>
+<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Warning"">Warning</TailSplitButton>
 ";
 
     private string sizesCode = @"
-<TailSplitButton>Small</TailSplitButton>
-<TailSplitButton>Medium</TailSplitButton>
-<TailSplitButton>Large</TailSplitButton>
+<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Sm"">Small</TailSplitButton>
+<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Md"">Medium</TailSplitButton>
+<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Lg"">Large</TailSplitButton>
 ";
 
     private string statesCode = @"

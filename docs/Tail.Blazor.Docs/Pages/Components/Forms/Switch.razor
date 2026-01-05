@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailSwitch></TailSwitch>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSwitch Size="Tail.Blazor.Switch.SwitchSize.Sm">Small</TailSwitch>
+                    <TailSwitch Size="Tail.Blazor.Switch.SwitchSize.Md">Medium</TailSwitch>
+                    <TailSwitch Size="Tail.Blazor.Switch.SwitchSize.Lg">Large</TailSwitch>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -163,9 +161,9 @@
     private string basicCode = @"<TailSwitch></TailSwitch>";
 
     private string sizesCode = @"
-<TailSwitch>Small</TailSwitch>
-<TailSwitch>Medium</TailSwitch>
-<TailSwitch>Large</TailSwitch>
+<TailSwitch Size=""Tail.Blazor.Switch.SwitchSize.Sm"">Small</TailSwitch>
+<TailSwitch Size=""Tail.Blazor.Switch.SwitchSize.Md"">Medium</TailSwitch>
+<TailSwitch Size=""Tail.Blazor.Switch.SwitchSize.Lg"">Large</TailSwitch>
 ";
 
     private string statesCode = @"

@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailMask></TailMask>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Sm">Small</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Md">Medium</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Lg">Large</TailMask>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -176,9 +174,9 @@
     private string basicCode = @"<TailMask></TailMask>";
 
     private string sizesCode = @"
-<TailMask>Small</TailMask>
-<TailMask>Medium</TailMask>
-<TailMask>Large</TailMask>
+<TailMask Size=""Tail.Blazor.Mask.MaskSize.Sm"">Small</TailMask>
+<TailMask Size=""Tail.Blazor.Mask.MaskSize.Md"">Medium</TailMask>
+<TailMask Size=""Tail.Blazor.Mask.MaskSize.Lg"">Large</TailMask>
 ";
 
     private string statesCode = @"

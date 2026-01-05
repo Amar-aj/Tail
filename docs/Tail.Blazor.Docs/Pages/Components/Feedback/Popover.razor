@@ -158,7 +158,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Popover";
 
-    private string basicCode = @"<TailPopover />";
+    private string basicCode = @"<TailPopover Position=""Sample Position"" IsOpen=""true"" IsOpenChanged=""args => Console.WriteLine(""IsOpenChanged"")"">Sample Popover</TailPopover>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>

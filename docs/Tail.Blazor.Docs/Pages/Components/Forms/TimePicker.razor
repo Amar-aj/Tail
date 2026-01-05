@@ -32,9 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailTimePicker></TailTimePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -56,9 +54,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Sm">Small</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Md">Medium</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Lg">Large</TailTimePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -162,9 +160,9 @@
     private string basicCode = @"<TailTimePicker></TailTimePicker>";
 
     private string sizesCode = @"
-<TailTimePicker>Small</TailTimePicker>
-<TailTimePicker>Medium</TailTimePicker>
-<TailTimePicker>Large</TailTimePicker>
+<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Sm"">Small</TailTimePicker>
+<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Md"">Medium</TailTimePicker>
+<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Lg"">Large</TailTimePicker>
 ";
 
     private string statesCode = @"

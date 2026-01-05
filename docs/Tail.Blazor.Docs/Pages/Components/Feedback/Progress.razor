@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailProgress></TailProgress>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailProgress Variant="Tail.Blazor.Progress.ProgressVariant.Primary">Primary</TailProgress>
+                    <TailProgress Variant="Tail.Blazor.Progress.ProgressVariant.Success">Success</TailProgress>
+                    <TailProgress Variant="Tail.Blazor.Progress.ProgressVariant.Warning">Warning</TailProgress>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -79,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailProgress Size="Tail.Blazor.Progress.ProgressSize.Sm">Small</TailProgress>
+                    <TailProgress Size="Tail.Blazor.Progress.ProgressSize.Md">Medium</TailProgress>
+                    <TailProgress Size="Tail.Blazor.Progress.ProgressSize.Lg">Large</TailProgress>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -170,15 +168,15 @@
     private string basicCode = @"<TailProgress></TailProgress>";
 
     private string variantsCode = @"
-<TailProgress>Default</TailProgress>
-<TailProgress>Secondary</TailProgress>
-<TailProgress>Tertiary</TailProgress>
+<TailProgress Variant=""Tail.Blazor.Progress.ProgressVariant.Primary"">Primary</TailProgress>
+<TailProgress Variant=""Tail.Blazor.Progress.ProgressVariant.Success"">Success</TailProgress>
+<TailProgress Variant=""Tail.Blazor.Progress.ProgressVariant.Warning"">Warning</TailProgress>
 ";
 
     private string sizesCode = @"
-<TailProgress>Small</TailProgress>
-<TailProgress>Medium</TailProgress>
-<TailProgress>Large</TailProgress>
+<TailProgress Size=""Tail.Blazor.Progress.ProgressSize.Sm"">Small</TailProgress>
+<TailProgress Size=""Tail.Blazor.Progress.ProgressSize.Md"">Medium</TailProgress>
+<TailProgress Size=""Tail.Blazor.Progress.ProgressSize.Lg"">Large</TailProgress>
 ";
 
     private string statesCode = @"

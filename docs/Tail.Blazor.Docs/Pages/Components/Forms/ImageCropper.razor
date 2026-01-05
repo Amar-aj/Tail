@@ -33,9 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailImageCropper></TailImageCropper>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -57,9 +55,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailImageCropper Size="Tail.Blazor.ImageCropper.ImageCropperSize.Sm">Small</TailImageCropper>
+                    <TailImageCropper Size="Tail.Blazor.ImageCropper.ImageCropperSize.Md">Medium</TailImageCropper>
+                    <TailImageCropper Size="Tail.Blazor.ImageCropper.ImageCropperSize.Lg">Large</TailImageCropper>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -163,9 +161,9 @@
     private string basicCode = @"<TailImageCropper></TailImageCropper>";
 
     private string sizesCode = @"
-<TailImageCropper>Small</TailImageCropper>
-<TailImageCropper>Medium</TailImageCropper>
-<TailImageCropper>Large</TailImageCropper>
+<TailImageCropper Size=""Tail.Blazor.ImageCropper.ImageCropperSize.Sm"">Small</TailImageCropper>
+<TailImageCropper Size=""Tail.Blazor.ImageCropper.ImageCropperSize.Md"">Medium</TailImageCropper>
+<TailImageCropper Size=""Tail.Blazor.ImageCropper.ImageCropperSize.Lg"">Large</TailImageCropper>
 ";
 
     private string statesCode = @"

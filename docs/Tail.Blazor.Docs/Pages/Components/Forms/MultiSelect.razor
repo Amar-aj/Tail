@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailMultiSelect></TailMultiSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailMultiSelect Size="Tail.Blazor.MultiSelect.MultiSelectSize.Sm">Small</TailMultiSelect>
+                    <TailMultiSelect Size="Tail.Blazor.MultiSelect.MultiSelectSize.Md">Medium</TailMultiSelect>
+                    <TailMultiSelect Size="Tail.Blazor.MultiSelect.MultiSelectSize.Lg">Large</TailMultiSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -176,9 +174,9 @@
     private string basicCode = @"<TailMultiSelect></TailMultiSelect>";
 
     private string sizesCode = @"
-<TailMultiSelect>Small</TailMultiSelect>
-<TailMultiSelect>Medium</TailMultiSelect>
-<TailMultiSelect>Large</TailMultiSelect>
+<TailMultiSelect Size=""Tail.Blazor.MultiSelect.MultiSelectSize.Sm"">Small</TailMultiSelect>
+<TailMultiSelect Size=""Tail.Blazor.MultiSelect.MultiSelectSize.Md"">Medium</TailMultiSelect>
+<TailMultiSelect Size=""Tail.Blazor.MultiSelect.MultiSelectSize.Lg"">Large</TailMultiSelect>
 ";
 
     private string statesCode = @"

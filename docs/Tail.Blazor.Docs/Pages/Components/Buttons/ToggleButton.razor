@@ -31,9 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailToggleButton></TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -55,9 +53,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary">Primary</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Success">Success</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Warning">Warning</TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -79,9 +77,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Sm">Small</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Md">Medium</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Lg">Large</TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -208,15 +206,15 @@
     private string basicCode = @"<TailToggleButton></TailToggleButton>";
 
     private string variantsCode = @"
-<TailToggleButton>Default</TailToggleButton>
-<TailToggleButton>Secondary</TailToggleButton>
-<TailToggleButton>Tertiary</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"">Primary</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Success"">Success</TailToggleButton>
+<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Warning"">Warning</TailToggleButton>
 ";
 
     private string sizesCode = @"
-<TailToggleButton>Small</TailToggleButton>
-<TailToggleButton>Medium</TailToggleButton>
-<TailToggleButton>Large</TailToggleButton>
+<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Sm"">Small</TailToggleButton>
+<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Md"">Medium</TailToggleButton>
+<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Lg"">Large</TailToggleButton>
 ";
 
     private string statesCode = @"

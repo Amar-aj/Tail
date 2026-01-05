@@ -34,9 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailSlider></TailSlider>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -58,9 +56,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSlider Variant="Tail.Blazor.Slider.SliderVariant.Primary">Primary</TailSlider>
+                    <TailSlider Variant="Tail.Blazor.Slider.SliderVariant.Success">Success</TailSlider>
+                    <TailSlider Variant="Tail.Blazor.Slider.SliderVariant.Warning">Warning</TailSlider>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -82,9 +80,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Sm">Small</TailSlider>
+                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Md">Medium</TailSlider>
+                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Lg">Large</TailSlider>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -218,15 +216,15 @@
     private string basicCode = @"<TailSlider></TailSlider>";
 
     private string variantsCode = @"
-<TailSlider>Default</TailSlider>
-<TailSlider>Secondary</TailSlider>
-<TailSlider>Tertiary</TailSlider>
+<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Primary"">Primary</TailSlider>
+<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Success"">Success</TailSlider>
+<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Warning"">Warning</TailSlider>
 ";
 
     private string sizesCode = @"
-<TailSlider>Small</TailSlider>
-<TailSlider>Medium</TailSlider>
-<TailSlider>Large</TailSlider>
+<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Sm"">Small</TailSlider>
+<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Md"">Medium</TailSlider>
+<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Lg"">Large</TailSlider>
 ";
 
     private string statesCode = @"

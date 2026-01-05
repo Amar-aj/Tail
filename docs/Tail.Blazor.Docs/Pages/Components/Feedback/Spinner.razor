@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailSpinner></TailSpinner>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailSpinner Size="Tail.Blazor.Spinner.SpinnerSize.Sm">Small</TailSpinner>
+                    <TailSpinner Size="Tail.Blazor.Spinner.SpinnerSize.Md">Medium</TailSpinner>
+                    <TailSpinner Size="Tail.Blazor.Spinner.SpinnerSize.Lg">Large</TailSpinner>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -114,9 +112,9 @@
     private string basicCode = @"<TailSpinner></TailSpinner>";
 
     private string sizesCode = @"
-<TailSpinner>Small</TailSpinner>
-<TailSpinner>Medium</TailSpinner>
-<TailSpinner>Large</TailSpinner>
+<TailSpinner Size=""Tail.Blazor.Spinner.SpinnerSize.Sm"">Small</TailSpinner>
+<TailSpinner Size=""Tail.Blazor.Spinner.SpinnerSize.Md"">Medium</TailSpinner>
+<TailSpinner Size=""Tail.Blazor.Spinner.SpinnerSize.Lg"">Large</TailSpinner>
 ";
 
     private string statesCode = @"

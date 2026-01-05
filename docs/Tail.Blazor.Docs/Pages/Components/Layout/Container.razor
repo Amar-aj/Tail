@@ -29,9 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                        <TailContainer></TailContainer>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -53,9 +51,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <div style="color: var(--color-text-secondary); text-align: center; padding: 40px;">
-                            <p>Preview functionality - see code tab for usage</p>
-                        </div>
+                    <TailContainer Size="Tail.Blazor.Container.ContainerSize.Sm">Small</TailContainer>
+                    <TailContainer Size="Tail.Blazor.Container.ContainerSize.Md">Medium</TailContainer>
+                    <TailContainer Size="Tail.Blazor.Container.ContainerSize.Lg">Large</TailContainer>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -120,9 +118,9 @@
     private string basicCode = @"<TailContainer></TailContainer>";
 
     private string sizesCode = @"
-<TailContainer>Small</TailContainer>
-<TailContainer>Medium</TailContainer>
-<TailContainer>Large</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Sm"">Small</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Md"">Medium</TailContainer>
+<TailContainer Size=""Tail.Blazor.Container.ContainerSize.Lg"">Large</TailContainer>
 ";
 
     private string statesCode = @"

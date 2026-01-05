@@ -145,7 +145,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.BottomNavigation";
 
-    private string basicCode = @"<TailBottomNavigation />";
+    private string basicCode = @"<TailBottomNavigation ActiveItemId=""Sample ActiveItemId"" OnItemSelected=""args => Console.WriteLine(""OnItemSelected"")"" />";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
