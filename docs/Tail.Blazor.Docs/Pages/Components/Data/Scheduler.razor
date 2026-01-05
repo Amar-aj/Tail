@@ -30,6 +30,90 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CurrentDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DateTime.Now</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CurrentDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Events</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;SchedulerEvent&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Events parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CalendarDay</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CalendarDay property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Date</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Date property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Day</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Day property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Events</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;SchedulerEvent&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Events property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SchedulerEvent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">SchedulerEvent property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Date</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Date property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

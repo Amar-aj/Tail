@@ -30,6 +30,85 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Sections</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;MegaMenuSection&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Sections parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Columns</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">3</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Columns parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MegaMenuSection</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MegaMenuSection property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Items</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;MegaMenuItem&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Items property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MegaMenuItem</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MegaMenuItem property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Href</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Href property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

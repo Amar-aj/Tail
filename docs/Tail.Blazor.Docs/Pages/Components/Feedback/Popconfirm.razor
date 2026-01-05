@@ -30,6 +30,83 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Title</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"Are you sure?"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Title parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ConfirmText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"Confirm"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ConfirmText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>CancelText</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"Cancel"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">CancelText parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Trigger</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>PopconfirmTrigger</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">PopconfirmTrigger.Click</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Trigger parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Placement</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>PopconfirmPlacement</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">PopconfirmPlacement.Top</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Placement parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Events</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Event</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnConfirm</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>void</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">OnConfirm callback</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnCancel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>void</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">OnCancel callback</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

@@ -30,6 +30,127 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Nodes</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;FlowchartNode&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Nodes parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Connections</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;FlowchartConnection&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Connections parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Width</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">800</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Width parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Height</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">600</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Height parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FlowchartNode</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FlowchartNode property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Id</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Id property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>X</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">X property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Y</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Y property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FlowchartConnection</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FlowchartConnection property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FromId</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FromId property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ToId</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ToId property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FromX</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FromX property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>FromY</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">FromY property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ToX</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ToX property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ToY</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>double</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ToY property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

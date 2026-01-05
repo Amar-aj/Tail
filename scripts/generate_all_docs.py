@@ -159,6 +159,99 @@ def extract_parameters(code_block):
     return parameters
 
 
+def extract_events(code_block):
+    """Extract [Parameter] EventCallback properties."""
+    events = []
+    
+    if not code_block:
+        return events
+    
+    # Pattern for [Parameter] EventCallback declarations
+    pattern = r'^\s*\[Parameter\]\s+(?:public\s+)?EventCallback(?:<([\w\.<>?,\s\[\]]+?)>)?\s+(\w+)\s*(?:\{\s*get[^}]*set[^}]*\})?'
+    
+    for match in re.finditer(pattern, code_block, re.MULTILINE):
+        event_type = match.group(1).strip() if match.group(1) else "void"
+        event_name = match.group(2).strip()
+        
+        # Generate description
+        desc = generate_event_description(event_name, event_type)
+        
+        events.append({
+            "name": event_name,
+            "type": event_type,
+            "description": desc,
+            "category": "Callback"
+        })
+    
+    return events
+
+
+def extract_properties(code_block):
+    """Extract public properties (non-parameter)."""
+    properties = []
+    
+    if not code_block:
+        return properties
+    
+    # Pattern for public properties that are NOT [Parameter] decorated
+    pattern = r'^\s*(?!\[Parameter\])\s*public\s+([\w\.<>?,\s\[\]]+?)\s+(\w+)\s*(?:\{\s*(?:get|set)[^}]*\})?'
+    
+    for match in re.finditer(pattern, code_block, re.MULTILINE):
+        prop_type = re.sub(r'\s+', ' ', match.group(1).strip())
+        prop_name = match.group(2).strip()
+        
+        # Skip common non-property methods and keywords
+        if any(x in prop_name for x in ['protected', 'private', 'internal', 'class', 'interface']):
+            continue
+        
+        # Skip if it contains method-like patterns
+        if '->' in prop_type or 'Func<' in prop_type:
+            continue
+        
+        properties.append({
+            "name": prop_name,
+            "type": prop_type,
+            "description": f"{prop_name} property"
+        })
+    
+    return properties
+
+
+def extract_methods(code_block):
+    """Extract public methods."""
+    methods = []
+    
+    if not code_block:
+        return methods
+    
+    # Pattern for public methods
+    pattern = r'^\s*public\s+(?:async\s+)?(?:Task<?.*?>?)?\s+(\w+)\s*\(([^)]*)\)'
+    
+    for match in re.finditer(pattern, code_block, re.MULTILINE):
+        method_name = match.group(1).strip()
+        params_str = match.group(2).strip()
+        
+        # Skip lifecycle methods and internal methods
+        if any(x in method_name for x in ['OnInitialized', 'OnParametersSet', 'OnAfterRender', 'Dispose']):
+            continue
+        
+        # Parse method parameters
+        method_params = []
+        if params_str:
+            for param in params_str.split(','):
+                parts = param.strip().rsplit(' ', 1)
+                if len(parts) == 2:
+                    method_params.append({"type": parts[0], "name": parts[1]})
+        
+        methods.append({
+            "name": method_name,
+            "parameters": method_params,
+            "description": f"Invokes {method_name} method"
+        })
+    
+    return methods
+
+
 def generate_parameter_description(param_name, param_type):
     """Auto-generate parameter descriptions."""
     param_lower = param_name.lower()
@@ -195,6 +288,40 @@ def generate_parameter_description(param_name, param_type):
     return f'{param_name} parameter'
 
 
+def generate_event_description(event_name, event_type):
+    """Auto-generate event callback descriptions."""
+    event_lower = event_name.lower()
+    
+    descriptions = {
+        'changed': f'Raised when value changes',
+        'click': f'Raised when component is clicked',
+        'onchange': f'Raised on value change',
+        'onclick': f'Raised on click',
+        'onblur': f'Raised when focus is lost',
+        'onfocus': f'Raised when focus is gained',
+        'onkeydown': f'Raised on key down',
+        'onkeyup': f'Raised on key up',
+        'onmousedown': f'Raised on mouse down',
+        'onmouseup': f'Raised on mouse up',
+        'onmouseover': f'Raised on mouse over',
+        'onmouseout': f'Raised on mouse out',
+        'oninput': f'Raised on input',
+        'onsubmit': f'Raised on form submit',
+        'onselected': f'Raised when item is selected',
+        'onclosed': f'Raised when closed',
+        'onopened': f'Raised when opened',
+    }
+    
+    for keyword, desc in descriptions.items():
+        if keyword in event_lower:
+            return desc
+    
+    if event_type and event_type != 'void':
+        return f'Raised with {event_type} value'
+    
+    return f'{event_name} callback'
+
+
 def extract_component_metadata(component_info):
     """Extract metadata for a single component."""
     if not component_info['razor_file']:
@@ -205,12 +332,17 @@ def extract_component_metadata(component_info):
             "description": f"{component_info['friendly_name']} component",
             "parameters": [],
             "events": [],
+            "properties": [],
+            "methods": [],
             "is_generic": component_info.get('is_generic', False),
             "is_missing": component_info.get('is_missing', False)
         }
     
     code_block = extract_razor_code(component_info['razor_file'])
     parameters = extract_parameters(code_block)
+    events = extract_events(code_block)
+    properties = extract_properties(code_block)
+    methods = extract_methods(code_block)
     
     return {
         "name": component_info['name'],
@@ -218,7 +350,9 @@ def extract_component_metadata(component_info):
         "category": component_info['category'],
         "description": f"{component_info['friendly_name']} component for Tail.Blazor",
         "parameters": parameters,
-        "events": [],
+        "events": events,
+        "properties": properties,
+        "methods": methods,
         "is_generic": component_info.get('is_generic', False),
         "is_missing": component_info.get('is_missing', False)
     }
@@ -407,6 +541,140 @@ def generate_doc_page(component_meta):
     </DocSection>
 '''
     
+    # Add API Reference sections before closing DocPageTemplate
+    if params or component_meta.get('events') or component_meta.get('properties') or component_meta.get('methods'):
+        doc_page += '''
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+'''
+        if params:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for param in params:
+                default_val = param.get('default', '-') or '-'
+                if default_val == '""' or default_val == "''":
+                    default_val = '-'
+                # Escape angle brackets in type names to avoid Razor parsing issues
+                param_type = param["type"].replace('<', '&lt;').replace('>', '&gt;')
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{param["name"]}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{param_type}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">{default_val}</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">{param["description"]}</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
+'''
+        
+        # Events section
+        events = component_meta.get('events', [])
+        if events:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Events</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Event</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for event in events:
+                event_type = event["type"].replace('<', '&lt;').replace('>', '&gt;')
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{event["name"]}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{event_type}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">{event["description"]}</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
+'''
+        
+        # Properties section
+        properties = component_meta.get('properties', [])
+        if properties:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for prop in properties:
+                prop_type = prop["type"].replace('<', '&lt;').replace('>', '&gt;')
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{prop["name"]}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{prop_type}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">{prop["description"]}</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
+'''
+        
+        # Methods section
+        methods = component_meta.get('methods', [])
+        if methods:
+            doc_page += '''        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Methods</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Method</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Parameters</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+'''
+            for method in methods:
+                params_str = ', '.join([f"{p['name']}: {p['type']}" for p in method.get('parameters', [])])
+                params_str = params_str.replace('<', '&lt;').replace('>', '&gt;')
+                if not params_str:
+                    params_str = 'None'
+                doc_page += f'''                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{method["name"]}()</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>{params_str}</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">{method["description"]}</td>
+                        </tr>
+'''
+            doc_page += '''                    </tbody>
+                </table>
+            </div>
+        </div>
+'''
+        doc_page += '    </DocSection>\n'
+    
     # Close DocPageTemplate BEFORE adding @code section
     doc_page += '</DocPageTemplate>\n\n@code {\n'
     
@@ -438,7 +706,7 @@ def generate_doc_page(component_meta):
     else:
         doc_page += '    private string statesCode = @"\n<TailComponent Disabled=""true"">Disabled</TailComponent>\n";\n\n'
     
-    # API parameters
+    # API parameters (keep for backward compatibility)
     doc_page += '    private List<DocPageTemplate.ApiParameter> apiParameters = new()\n    {\n'
     for param in params:
         default_val = param.get('default', '-') or '-'

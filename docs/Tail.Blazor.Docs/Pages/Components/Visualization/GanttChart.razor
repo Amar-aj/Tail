@@ -30,6 +30,81 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Tasks</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;GanttTask&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Tasks parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DateTime.Now</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StartDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DateTime.Now.AddDays(30)</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">EndDate parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>GanttTask</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">GanttTask property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Name</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Name property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>StartDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">StartDate property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EndDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">EndDate property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

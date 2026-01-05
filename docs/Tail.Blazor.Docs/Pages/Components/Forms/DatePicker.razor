@@ -54,6 +54,122 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Size</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DatePickerSize</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DatePickerSize.Md</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Size of the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Format</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"dd-MM-yyyy"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Format parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeFormat</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"HH:mm"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">TimeFormat parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SpecialDates</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateTime&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">SpecialDates parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>InitialViewDate</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">DateTime.Today</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">InitialViewDate parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>YearRange</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">10</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">YearRange parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowCalendar</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowCalendar parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowInput</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowInput parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SelectedDates</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateTime&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">SelectedDates parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Events</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Event</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ValueChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised when value changes</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnDateSelected</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised with DateTime? value</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnDateChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>DateTime?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised when value changes</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>SelectedDatesChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;DateTime&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised when value changes</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnlyValueChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>TimeOnly?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised when value changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

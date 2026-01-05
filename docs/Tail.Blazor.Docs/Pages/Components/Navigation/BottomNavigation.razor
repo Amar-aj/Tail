@@ -17,6 +17,115 @@
             <p class="text-sm mt-2">This component is planned but not yet implemented.</p>
         </div>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Items</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;NavItem&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">new()</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Data items collection</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Events</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Event</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnItemSelected</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>NavItem</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised with NavItem value</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Items</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>List&lt;NavItem&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Items property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActiveItemId</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ActiveItemId property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>OnItemSelected</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EventCallback&lt;NavItem&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">OnItemSelected property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>object</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dictionary&lt;string,</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">object property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>NavItem</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>class</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">NavItem property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Id</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Id property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Label</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Icon</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Icon property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Target</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Target property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

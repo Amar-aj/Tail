@@ -17,6 +17,131 @@
             <p class="text-sm mt-2">This component is planned but not yet implemented.</p>
         </div>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowCloseButton</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">true</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowCloseButton parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Events</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Event</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsOpenChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Raised when value changes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ChildContent</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>RenderFragment?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ChildContent property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsOpen</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsOpen property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>IsOpenChanged</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>EventCallback&lt;bool&gt;</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">IsOpenChanged property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ShowCloseButton</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ShowCloseButton property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>object</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dictionary&lt;string,</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">object property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Task</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>async</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Task property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Task</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>async</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Task property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Methods</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Method</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Parameters</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Toggle()</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>None</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Invokes Toggle method</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Close()</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>None</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Invokes Close method</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {

@@ -54,6 +54,113 @@
             </Content>
         </TailTabs>
     </DocSection>
+
+    <DocSection Title="API Reference">
+        <!-- Parameters/Properties Table -->
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Name</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Default</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Variant</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuVariant</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MenuVariant.Default</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Visual variant style for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Orientation</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuOrientation</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MenuOrientation.Vertical</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Orientation parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Align</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuAlign</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MenuAlign.Start</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Align parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>Dense</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>bool</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">false</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Dense parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HoverBackground</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"var(--color-surface-hover)"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">HoverBackground parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>HoverTextColor</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"var(--color-text-primary)"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Color scheme for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActiveBackground</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"var(--color-primary)"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">ActiveBackground parameter</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>ActiveTextColor</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"var(--color-text-on-primary, #ffffff)"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Color scheme for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AriaLabel</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>string?</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">"Main menu"</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">Label text for the component</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>AnimationDuration</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>int</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">200</td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">AnimationDuration parameter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--color-text-primary);">Public Properties</h3>
+            <div class="overflow-x-auto">
+                <table style="width: 100%; border-collapse: collapse; color: var(--color-text-primary);">
+                    <thead style="background-color: var(--color-surface-2);">
+                        <tr>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Property</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Type</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid var(--color-border);">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuOrientation</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>enum</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MenuOrientation property</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>MenuAlign</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);"><code>enum</code></td>
+                            <td style="padding: 10px; border: 1px solid var(--color-border);">MenuAlign property</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </DocSection>
 </DocPageTemplate>
 
 @code {
