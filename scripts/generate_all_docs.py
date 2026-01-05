@@ -1157,7 +1157,7 @@ def generate_global_overview(components_by_category, total_params):
         </p>
         <div class="mt-6">
             <a href="/getting-started" class="inline-block px-6 py-3 rounded-lg font-medium transition-colors"
-               style="background-color: var(--color-primary); color: white;">
+               style="background-color: var(--color-primary); color: var(--color-text-on-primary);">
                 View Installation Guide →
             </a>
         </div>
@@ -1216,7 +1216,7 @@ def generate_category_overview(category, cat_data, all_metadata):
         
         status_badge = ""
         if is_generic:
-            status_badge = '<span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-warning); color: white;">Generic</span>'
+            status_badge = '<span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-warning); color: var(--color-text-on-primary);">Generic</span>'
         elif is_missing:
             status_badge = '<span class="text-xs px-2 py-1 rounded" style="background-color: var(--color-surface-3); color: var(--color-text-secondary);">Coming Soon</span>'
         

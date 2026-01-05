@@ -1,15 +1,18 @@
 @page "/"
+@using Tail.Blazor.Button
+@using static Tail.Blazor.Button.ButtonVariant
+@using static Tail.Blazor.Button.ButtonSize
 
 <PageTitle>Tail.Blazor - Ultra-Lightweight Blazor Component Library</PageTitle>
 
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+<div class="min-h-screen" style="background-color: var(--color-surface); color: var(--color-text-primary);">
     <!-- Hero Section -->
     <div class="container mx-auto px-4 py-16">
         <div class="text-center mb-12">
-            <h1 class="text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 class="text-5xl font-bold mb-4" style="color: var(--color-text-primary);">
                 Tail.Blazor
             </h1>
-            <p class="text-xl text-gray-600 dark:text-gray-300 mb-8">
+            <p class="text-xl mb-8" style="color: var(--color-text-secondary);">
                 Ultra-lightweight, high-performance Blazor component library
             </p>
             <div class="flex justify-center gap-4">
@@ -24,39 +27,39 @@
 
         <!-- Features Grid -->
         <div class="grid md:grid-cols-3 gap-6 mt-16">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
                 <h3 class="text-xl font-semibold mb-2">⚡ Ultra-Lightweight</h3>
-                <p class="text-gray-600 dark:text-gray-400">Core package only 48 KB - 5x smaller than competitors</p>
+                <p style="color: var(--color-text-secondary);">Core package only 48 KB - 5x smaller than competitors</p>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
                 <h3 class="text-xl font-semibold mb-2">🎨 Theme Engine</h3>
-                <p class="text-gray-600 dark:text-gray-400">Dynamic colors, gradients, and CSS variables</p>
+                <p style="color: var(--color-text-secondary);">Dynamic colors, gradients, and CSS variables</p>
             </div>
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
                 <h3 class="text-xl font-semibold mb-2">🚀 Zero-JS</h3>
-                <p class="text-gray-600 dark:text-gray-400">90% of components require no JavaScript</p>
+                <p style="color: var(--color-text-secondary);">90% of components require no JavaScript</p>
             </div>
         </div>
 
         <!-- Component Stats -->
         <div class="mt-16 text-center">
-            <h2 class="text-3xl font-bold mb-8">Complete Component Library</h2>
+            <h2 class="text-3xl font-bold mb-8" style="color: var(--color-text-primary);">Complete Component Library</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">70+</div>
-                    <div class="text-gray-600 dark:text-gray-400">Components</div>
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
+                    <div class="text-4xl font-bold mb-2" style="color: var(--color-primary);">70+</div>
+                    <div style="color: var(--color-text-secondary);">Components</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">12</div>
-                    <div class="text-gray-600 dark:text-gray-400">NuGet Packages</div>
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
+                    <div class="text-4xl font-bold mb-2" style="color: var(--color-success, var(--color-primary));">12</div>
+                    <div style="color: var(--color-text-secondary);">NuGet Packages</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">&lt;3ms</div>
-                    <div class="text-gray-600 dark:text-gray-400">Render Time</div>
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
+                    <div class="text-4xl font-bold mb-2" style="color: var(--color-accent, var(--color-primary));">&lt;3ms</div>
+                    <div style="color: var(--color-text-secondary);">Render Time</div>
                 </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <div class="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-2">100%</div>
-                    <div class="text-gray-600 dark:text-gray-400">AOT Compatible</div>
+                <div class="p-6 rounded-lg shadow-md" style="background-color: var(--color-surface-1); color: var(--color-text-primary);">
+                    <div class="text-4xl font-bold mb-2" style="color: var(--color-warning, var(--color-primary));">100%</div>
+                    <div style="color: var(--color-text-secondary);">AOT Compatible</div>
                 </div>
             </div>
         </div>

@@ -1,13 +1,13 @@
 @namespace Tail.Blazor.Docs.Shared
 
-<div class="preview-container p-6 rounded-lg" style="@GetContainerStyles()">
+<div class="@GetContainerClasses()" style="@GetContainerStyles()">
     @if (ChildContent != null)
     {
         @ChildContent
     }
     else
     {
-        <div class="text-center py-8" style="color: var(--color-text-secondary);">
+        <div class="text-center py-8 text-gray-500 dark:text-gray-400">
             <p class="text-sm">Preview will be displayed here</p>
         </div>
     }
@@ -29,33 +29,39 @@
     /// </summary>
     [Parameter] public string Background { get; set; } = "light";
     
+    private string GetContainerClasses()
+    {
+        var classes = new List<string> { "preview-container p-6 rounded-lg" };
+        if (!string.IsNullOrEmpty(CssClass))
+        {
+            classes.Add(CssClass);
+        }
+        return string.Join(" ", classes);
+    }
+
     private string GetContainerStyles()
     {
         var styles = new List<string>();
-        
         switch (Background.ToLower())
         {
             case "dark":
-                styles.Add("background-color: var(--color-surface-inverse, #1f2937)");
-                styles.Add("color: var(--color-text-on-inverse, #f3f4f6)");
+                styles.Add("background-color: var(--color-surface-inverse)");
+                styles.Add("color: var(--color-text-on-inverse)");
                 break;
             case "gradient":
                 styles.Add("background: linear-gradient(135deg, var(--color-surface-1) 0%, var(--color-surface-2) 100%)");
+                styles.Add("color: var(--color-text-primary)");
                 break;
             case "transparent":
                 styles.Add("background-color: transparent");
+                styles.Add("color: var(--color-text-primary)");
                 break;
-            default: // light
+            default:
                 styles.Add("background-color: var(--color-surface)");
                 styles.Add("border: 1px solid var(--color-border)");
+                styles.Add("color: var(--color-text-primary)");
                 break;
         }
-        
-        if (!string.IsNullOrEmpty(CssClass))
-        {
-            return string.Join("; ", styles) + $"; {CssClass}";
-        }
-        
         return string.Join("; ", styles);
     }
 }
