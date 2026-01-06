@@ -33,7 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailRadio></TailRadio>
+                        <TailRadio>Content</TailRadio>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -41,6 +41,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailRadio>
+                            Hello, World!
+                        </TailRadio>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -55,9 +86,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Sm">Small</TailRadio>
-                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Md">Medium</TailRadio>
-                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Lg">Large</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Xs">Xs</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Sm">Sm</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Md">Md</TailRadio>
+                    <TailRadio Size="Tail.Blazor.Radio.RadioSize.Lg">Lg</TailRadio>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -65,6 +97,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailRadio Disabled="true">Disabled</TailRadio>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailRadio>
+                        Click Me
+                    </TailRadio>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -170,16 +269,101 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Radio";
 
-    private string basicCode = @"<TailRadio></TailRadio>";
+    private string basicCode = @"<TailRadio>Content</TailRadio>";
 
     private string sizesCode = @"
-<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Sm"">Small</TailRadio>
-<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Md"">Medium</TailRadio>
-<TailRadio Size=""Tail.Blazor.Radio.RadioSize.Lg"">Large</TailRadio>
+<TailRadio Size=""RadioSize.Xs"">Xs</TailRadio>
+<TailRadio Size=""RadioSize.Sm"">Sm</TailRadio>
+<TailRadio Size=""RadioSize.Md"">Md</TailRadio>
+<TailRadio Size=""RadioSize.Lg"">Lg</TailRadio>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailRadio Disabled=""true"">Disabled</TailRadio>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Radio
+
+<TailRadio>
+    Hello, World!
+</TailRadio>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailRadio Size=""RadioSize.Md"">
+    Medium Size
+</TailRadio>
+```
+
+**With Click Handler**
+
+```razor
+<TailRadio IsCheckedChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailRadio>
+```
+
+**Disabled State**
+
+```razor
+<TailRadio Disabled=""true"">
+    Disabled
+</TailRadio>
+```
+";
+
+    private string eventsCode = @"
+<TailRadio IsCheckedChanged=""HandleIsCheckedChanged"">
+    Click Me
+</TailRadio>
+
+@code {
+    private void HandleIsCheckedChanged(bool args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailRadio Size=""RadioSize.Sm"" Value=""Sample Value"" GroupName=""Sample GroupName"" IsChecked=""true"" Label=""Sample Label"">
+    Combined Parameters
+</TailRadio>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailRadio Size=""RadioSize.Sm"" IsCheckedChanged=""HandleAction"">
+        Action Button
+    </TailRadio>
+</div>
+
+@code {
+    private void HandleAction(bool args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

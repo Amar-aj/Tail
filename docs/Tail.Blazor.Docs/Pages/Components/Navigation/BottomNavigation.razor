@@ -151,6 +151,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailBottomNavigation ActiveItemId=""Sample ActiveItemId"" OnItemSelected=""args => Console.WriteLine(""OnItemSelected"")"" OnItemSelected=""args => Console.WriteLine(""OnItemSelected"")"" />
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Items", Type = "List<NavItem>", Default = "new()", Description = "Data items collection" },

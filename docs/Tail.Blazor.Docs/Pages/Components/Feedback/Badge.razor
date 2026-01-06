@@ -29,7 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailBadge></TailBadge>
+                        <TailBadge>Content</TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -37,6 +37,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailBadge>
+                            Hello, World!
+                        </TailBadge>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -54,6 +85,8 @@
                     <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Primary">Primary</TailBadge>
                     <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Success">Success</TailBadge>
                     <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Warning">Warning</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Danger">Danger</TailBadge>
+                    <TailBadge Variant="Tail.Blazor.Badge.BadgeVariant.Info">Info</TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -75,9 +108,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Sm">Small</TailBadge>
-                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Md">Medium</TailBadge>
-                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Lg">Large</TailBadge>
+                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Sm">Sm</TailBadge>
+                    <TailBadge Size="Tail.Blazor.Badge.BadgeSize.Md">Md</TailBadge>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -85,6 +117,27 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -145,22 +198,80 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Badge";
 
-    private string basicCode = @"<TailBadge></TailBadge>";
+    private string basicCode = @"<TailBadge>Content</TailBadge>";
 
     private string variantsCode = @"
-<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Primary"">Primary</TailBadge>
-<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Success"">Success</TailBadge>
-<TailBadge Variant=""Tail.Blazor.Badge.BadgeVariant.Warning"">Warning</TailBadge>
+<TailBadge Variant=""BadgeVariant.Primary"">Primary</TailBadge>
+<TailBadge Variant=""BadgeVariant.Success"">Success</TailBadge>
+<TailBadge Variant=""BadgeVariant.Warning"">Warning</TailBadge>
+<TailBadge Variant=""BadgeVariant.Danger"">Danger</TailBadge>
+<TailBadge Variant=""BadgeVariant.Info"">Info</TailBadge>
 ";
 
     private string sizesCode = @"
-<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Sm"">Small</TailBadge>
-<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Md"">Medium</TailBadge>
-<TailBadge Size=""Tail.Blazor.Badge.BadgeSize.Lg"">Large</TailBadge>
+<TailBadge Size=""BadgeSize.Sm"">Sm</TailBadge>
+<TailBadge Size=""BadgeSize.Md"">Md</TailBadge>
 ";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Badge
+
+<TailBadge>
+    Hello, World!
+</TailBadge>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailBadge Variant=""BadgeVariant.Primary"">
+    Primary Action
+</TailBadge>
+```
+
+**Medium Size**
+
+```razor
+<TailBadge Size=""BadgeSize.Sm"">
+    Medium Size
+</TailBadge>
+```
+";
+
+    private string combinationsCode = @"
+<TailBadge Variant=""BadgeVariant.Primary"" Size=""BadgeSize.Md"" ShowDot=""true"" Style=""Sample Style"">
+    Combined Parameters
+</TailBadge>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailBadge Variant=""BadgeVariant.Primary"" Size=""BadgeSize.Md"">
+        Action Button
+    </TailBadge>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

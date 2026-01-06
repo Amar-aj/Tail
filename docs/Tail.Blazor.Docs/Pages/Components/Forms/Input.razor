@@ -35,7 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailInput></TailInput>
+                        <TailInput>Content</TailInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,6 +43,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailInput>
+                            Hello, World!
+                        </TailInput>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -80,9 +111,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailInput Size="Tail.Blazor.Input.InputSize.Sm">Small</TailInput>
-                    <TailInput Size="Tail.Blazor.Input.InputSize.Md">Medium</TailInput>
-                    <TailInput Size="Tail.Blazor.Input.InputSize.Lg">Large</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Xs">Xs</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Sm">Sm</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Md">Md</TailInput>
+                    <TailInput Size="Tail.Blazor.Input.InputSize.Lg">Lg</TailInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -90,6 +122,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailInput Disabled="true">Disabled</TailInput>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailInput>
+                        Click Me
+                    </TailInput>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -330,21 +429,114 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Input";
 
-    private string basicCode = @"<TailInput></TailInput>";
+    private string basicCode = @"<TailInput>Content</TailInput>";
 
     private string variantsCode = @"
-<TailInput Variant=""Tail.Blazor.Input.InputVariant.Standard"">Standard</TailInput>
-<TailInput Variant=""Tail.Blazor.Input.InputVariant.Outlined"">Outlined</TailInput>
+<TailInput Variant=""InputVariant.Standard"">Standard</TailInput>
+<TailInput Variant=""InputVariant.Outlined"">Outlined</TailInput>
 ";
 
     private string sizesCode = @"
-<TailInput Size=""Tail.Blazor.Input.InputSize.Sm"">Small</TailInput>
-<TailInput Size=""Tail.Blazor.Input.InputSize.Md"">Medium</TailInput>
-<TailInput Size=""Tail.Blazor.Input.InputSize.Lg"">Large</TailInput>
+<TailInput Size=""InputSize.Xs"">Xs</TailInput>
+<TailInput Size=""InputSize.Sm"">Sm</TailInput>
+<TailInput Size=""InputSize.Md"">Md</TailInput>
+<TailInput Size=""InputSize.Lg"">Lg</TailInput>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailInput Disabled=""true"">Disabled</TailInput>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Input
+
+<TailInput>
+    Hello, World!
+</TailInput>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailInput Variant=""InputVariant.Standard"">
+    Primary Action
+</TailInput>
+```
+
+**Medium Size**
+
+```razor
+<TailInput Size=""InputSize.Md"">
+    Medium Size
+</TailInput>
+```
+
+**With Click Handler**
+
+```razor
+<TailInput ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailInput>
+```
+
+**Disabled State**
+
+```razor
+<TailInput Disabled=""true"">
+    Disabled
+</TailInput>
+```
+";
+
+    private string eventsCode = @"
+<TailInput ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailInput>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailInput Variant=""InputVariant.Standard"" Size=""InputSize.Sm"" Value=""Sample Value"" Label=""Sample Label"">
+    Combined Parameters
+</TailInput>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailInput Variant=""InputVariant.Standard"" Size=""InputSize.Sm"" ValueChanged=""HandleAction"">
+        Action Button
+    </TailInput>
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

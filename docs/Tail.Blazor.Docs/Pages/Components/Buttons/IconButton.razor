@@ -31,7 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailIconButton></TailIconButton>
+                        <TailIconButton>Content</TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -39,6 +39,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailIconButton>
+                            Hello, World!
+                        </TailIconButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -53,9 +84,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailIconButton Variant="ButtonVariant.Primary">Primary</TailIconButton>
-                    <TailIconButton Variant="ButtonVariant.Success">Success</TailIconButton>
-                    <TailIconButton Variant="ButtonVariant.Warning">Warning</TailIconButton>
+                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Primary</TailIconButton>
+                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Success</TailIconButton>
+                    <TailIconButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Warning</TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,9 +108,9 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailIconButton Size="ButtonSize.Sm">Small</TailIconButton>
-                    <TailIconButton Size="ButtonSize.Md">Medium</TailIconButton>
-                    <TailIconButton Size="ButtonSize.Lg">Large</TailIconButton>
+                    <TailIconButton Size="Tail.Blazor.Button.ButtonSize.Sm">Small</TailIconButton>
+                    <TailIconButton Size="Tail.Blazor.Button.ButtonSize.Md">Medium</TailIconButton>
+                    <TailIconButton Size="Tail.Blazor.Button.ButtonSize.Lg">Large</TailIconButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -87,6 +118,77 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailIconButton Disabled="true">Disabled</TailIconButton>
+
+                    <TailIconButton IsLoading="true">Loading...</TailIconButton>
+
+                    <TailIconButton Disabled="true" IsLoading="true">Processing</TailIconButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailIconButton>
+                        Click Me
+                    </TailIconButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -231,7 +333,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.IconButton";
 
-    private string basicCode = @"<TailIconButton></TailIconButton>";
+    private string basicCode = @"<TailIconButton>Content</TailIconButton>";
 
     private string variantsCode = @"
 <TailIconButton Variant=""ButtonVariant.Primary"">Primary</TailIconButton>
@@ -246,7 +348,89 @@
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailIconButton Disabled=""true"">Disabled</TailIconButton>
+
+@* Loading state *@
+<TailIconButton IsLoading=""true"">Loading...</TailIconButton>
+
+@* Both disabled and loading *@
+<TailIconButton Disabled=""true"" IsLoading=""true"">Processing</TailIconButton>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.IconButton
+
+<TailIconButton>
+    Hello, World!
+</TailIconButton>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**With Click Handler**
+
+```razor
+<TailIconButton OnClick=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailIconButton>
+```
+
+**Disabled State**
+
+```razor
+<TailIconButton Disabled=""true"">
+    Disabled
+</TailIconButton>
+```
+";
+
+    private string eventsCode = @"
+<TailIconButton OnClick=""HandleOnClick"">
+    Click Me
+</TailIconButton>
+
+@code {
+    private void HandleOnClick(MouseEventArgs args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailIconButton>
+    Content
+</TailIconButton>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailIconButton OnClick=""HandleAction"">
+        Action Button
+    </TailIconButton>
+</div>
+
+@code {
+    private void HandleAction(MouseEventArgs args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

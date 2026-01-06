@@ -35,7 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailFileUpload></TailFileUpload>
+                        <TailFileUpload />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,6 +43,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailFileUpload />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -57,9 +86,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Sm">Small</TailFileUpload>
-                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Md">Medium</TailFileUpload>
-                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Lg">Large</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Xs">Xs</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Sm">Sm</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Md">Md</TailFileUpload>
+                    <TailFileUpload Size="Tail.Blazor.FileUpload.FileUploadSize.Lg">Lg</TailFileUpload>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,6 +97,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailFileUpload Disabled="true">Disabled</TailFileUpload>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailFileUpload>
+                        Click Me
+                    </TailFileUpload>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -275,16 +372,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.FileUpload";
 
-    private string basicCode = @"<TailFileUpload></TailFileUpload>";
+    private string basicCode = @"<TailFileUpload />";
 
     private string sizesCode = @"
-<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Sm"">Small</TailFileUpload>
-<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Md"">Medium</TailFileUpload>
-<TailFileUpload Size=""Tail.Blazor.FileUpload.FileUploadSize.Lg"">Large</TailFileUpload>
+<TailFileUpload Size=""FileUploadSize.Xs"">Xs</TailFileUpload>
+<TailFileUpload Size=""FileUploadSize.Sm"">Sm</TailFileUpload>
+<TailFileUpload Size=""FileUploadSize.Md"">Md</TailFileUpload>
+<TailFileUpload Size=""FileUploadSize.Lg"">Lg</TailFileUpload>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailFileUpload Disabled=""true"">Disabled</TailFileUpload>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.FileUpload
+
+<TailFileUpload />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailFileUpload Size=""FileUploadSize.Md"">
+    Medium Size
+</TailFileUpload>
+```
+
+**With Click Handler**
+
+```razor
+<TailFileUpload FilesChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailFileUpload>
+```
+
+**Disabled State**
+
+```razor
+<TailFileUpload Disabled=""true"">
+    Disabled
+</TailFileUpload>
+```
+";
+
+    private string eventsCode = @"
+<TailFileUpload FilesChanged=""HandleFilesChanged"">
+    Click Me
+</TailFileUpload>
+
+@code {
+    private void HandleFilesChanged(Tail.Blazor.FileUpload.IBrowserFile[] args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailFileUpload Size=""FileUploadSize.Sm"" Label=""Sample Label"" Accept=""Sample Accept"" Multiple=""true"" ErrorMessage=""Sample ErrorMessage"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailFileUpload Size=""FileUploadSize.Sm"" FilesChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(IBrowserFile[] args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

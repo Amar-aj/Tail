@@ -34,7 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMask></TailMask>
+                        <TailMask />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -42,6 +42,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailMask />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -56,9 +85,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Sm">Small</TailMask>
-                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Md">Medium</TailMask>
-                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Lg">Large</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Xs">Xs</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Sm">Sm</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Md">Md</TailMask>
+                    <TailMask Size="Tail.Blazor.Mask.MaskSize.Lg">Lg</TailMask>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -66,6 +96,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailMask Disabled="true">Disabled</TailMask>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailMask>
+                        Click Me
+                    </TailMask>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -171,16 +268,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Mask";
 
-    private string basicCode = @"<TailMask></TailMask>";
+    private string basicCode = @"<TailMask />";
 
     private string sizesCode = @"
-<TailMask Size=""Tail.Blazor.Mask.MaskSize.Sm"">Small</TailMask>
-<TailMask Size=""Tail.Blazor.Mask.MaskSize.Md"">Medium</TailMask>
-<TailMask Size=""Tail.Blazor.Mask.MaskSize.Lg"">Large</TailMask>
+<TailMask Size=""MaskSize.Xs"">Xs</TailMask>
+<TailMask Size=""MaskSize.Sm"">Sm</TailMask>
+<TailMask Size=""MaskSize.Md"">Md</TailMask>
+<TailMask Size=""MaskSize.Lg"">Lg</TailMask>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailMask Disabled=""true"">Disabled</TailMask>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Mask
+
+<TailMask />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailMask Size=""MaskSize.Md"">
+    Medium Size
+</TailMask>
+```
+
+**With Click Handler**
+
+```razor
+<TailMask ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailMask>
+```
+
+**Disabled State**
+
+```razor
+<TailMask Disabled=""true"">
+    Disabled
+</TailMask>
+```
+";
+
+    private string eventsCode = @"
+<TailMask ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailMask>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailMask Size=""MaskSize.Sm"" Value=""Sample Value"" Mask=""Sample Mask"" Label=""Sample Label"" Placeholder=""Sample Placeholder"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailMask Size=""MaskSize.Sm"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDateRangePicker></TailDateRangePicker>
+                        <TailDateRangePicker>Content</TailDateRangePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailDateRangePicker>
+                            Hello, World!
+                        </TailDateRangePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -54,9 +85,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Sm">Small</TailDateRangePicker>
-                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Md">Medium</TailDateRangePicker>
-                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Lg">Large</TailDateRangePicker>
+                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Xs">Xs</TailDateRangePicker>
+                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Sm">Sm</TailDateRangePicker>
+                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Md">Md</TailDateRangePicker>
+                    <TailDateRangePicker Size="Tail.Blazor.DateRangePicker.DateRangePickerSize.Lg">Lg</TailDateRangePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -64,6 +96,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailDateRangePicker Disabled="true">Disabled</TailDateRangePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailDateRangePicker>
+                        Click Me
+                    </TailDateRangePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -398,16 +497,101 @@
 
     private string installCode = "dotnet add package Tail.Blazor.DateRangePicker";
 
-    private string basicCode = @"<TailDateRangePicker></TailDateRangePicker>";
+    private string basicCode = @"<TailDateRangePicker>Content</TailDateRangePicker>";
 
     private string sizesCode = @"
-<TailDateRangePicker Size=""Tail.Blazor.DateRangePicker.DateRangePickerSize.Sm"">Small</TailDateRangePicker>
-<TailDateRangePicker Size=""Tail.Blazor.DateRangePicker.DateRangePickerSize.Md"">Medium</TailDateRangePicker>
-<TailDateRangePicker Size=""Tail.Blazor.DateRangePicker.DateRangePickerSize.Lg"">Large</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Xs"">Xs</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Sm"">Sm</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Md"">Md</TailDateRangePicker>
+<TailDateRangePicker Size=""DateRangePickerSize.Lg"">Lg</TailDateRangePicker>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailDateRangePicker Disabled=""true"">Disabled</TailDateRangePicker>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.DateRangePicker
+
+<TailDateRangePicker>
+    Hello, World!
+</TailDateRangePicker>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailDateRangePicker Size=""DateRangePickerSize.Md"">
+    Medium Size
+</TailDateRangePicker>
+```
+
+**With Click Handler**
+
+```razor
+<TailDateRangePicker StartDateChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailDateRangePicker>
+```
+
+**Disabled State**
+
+```razor
+<TailDateRangePicker Disabled=""true"">
+    Disabled
+</TailDateRangePicker>
+```
+";
+
+    private string eventsCode = @"
+<TailDateRangePicker StartDateChanged=""HandleStartDateChanged"">
+    Click Me
+</TailDateRangePicker>
+
+@code {
+    private void HandleStartDateChanged(DateTime? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailDateRangePicker Size=""DateRangePickerSize.Sm"">
+    Combined Parameters
+</TailDateRangePicker>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailDateRangePicker Size=""DateRangePickerSize.Sm"" StartDateChanged=""HandleAction"">
+        Action Button
+    </TailDateRangePicker>
+</div>
+
+@code {
+    private void HandleAction(DateTime? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

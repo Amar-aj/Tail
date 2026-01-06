@@ -154,6 +154,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailChip Label=""Sample Label"" Icon=""Sample Icon"" OnRemove=""args => Console.WriteLine(""OnRemove"")"" />
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Label", Type = "string", Default = "-", Description = "Label text for the component" },

@@ -13,13 +13,15 @@
     </DocSection>
     <DocSection Title="Features">
         <ul style="margin-left: 20px; line-height: 1.8; color: var(--color-text-primary);">
-            <li>9 variants (Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link)</li>
-            <li>5 sizes (Xs, Sm, Md, Lg, Xl)</li>
-            <li>Loading states</li>
-            <li>Icon support (start/end)</li>
-            <li>Disabled states</li>
-            <li>Full theme support with CSS variables</li>
-            <li>MAUI Blazor Hybrid compatible</li>
+            <li>**9 Variants**: Primary, Success, Warning, Danger, Info, Outline, Soft, Ghost, Link</li>
+            <li>**5 Sizes**: Xs, Sm, Md, Lg, Xl</li>
+            <li>**Loading States**: Built-in spinner with customizable loading text</li>
+            <li>**Icon Support**: Start and end icon slots via RenderFragment</li>
+            <li>**Disabled States**: Full disabled state support</li>
+            <li>**Full Theme Support**: CSS variable-based theming for easy customization</li>
+            <li>**Accessibility**: ARIA label support, tooltip support, autofocus capability</li>
+            <li>**Event Handling**: Click event with optional stop propagation</li>
+            <li>**MAUI Blazor Hybrid Compatible**: Works seamlessly in hybrid applications</li>
         </ul>
     </DocSection>
     <DocSection Title="Basic Usage">
@@ -31,7 +33,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailButton></TailButton>
+                        <TailButton>Content</TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -39,6 +41,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailButton>
+                            Hello, World!
+                        </TailButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -56,6 +89,11 @@
                     <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Primary">Primary</TailButton>
                     <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Success">Success</TailButton>
                     <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Warning">Warning</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Danger">Danger</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Info">Info</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Outline">Outline</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Soft">Soft</TailButton>
+                    <TailButton Variant="Tail.Blazor.Button.ButtonVariant.Ghost">Ghost</TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,9 +115,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Sm">Small</TailButton>
-                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Md">Medium</TailButton>
-                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Lg">Large</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Xs">Xs</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Sm">Sm</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Md">Md</TailButton>
+                    <TailButton Size="Tail.Blazor.Button.ButtonSize.Lg">Lg</TailButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -87,6 +126,77 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailButton Disabled="true">Disabled</TailButton>
+
+                    <TailButton IsLoading="true">Loading...</TailButton>
+
+                    <TailButton Disabled="true" IsLoading="true">Processing</TailButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailButton>
+                        Click Me
+                    </TailButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -252,22 +362,126 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Button";
 
-    private string basicCode = @"<TailButton></TailButton>";
+    private string basicCode = @"<TailButton>Content</TailButton>";
 
     private string variantsCode = @"
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Primary"">Primary</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Success"">Success</TailButton>
-<TailButton Variant=""Tail.Blazor.Button.ButtonVariant.Warning"">Warning</TailButton>
+<TailButton Variant=""ButtonVariant.Primary"">Primary</TailButton>
+<TailButton Variant=""ButtonVariant.Success"">Success</TailButton>
+<TailButton Variant=""ButtonVariant.Warning"">Warning</TailButton>
+<TailButton Variant=""ButtonVariant.Danger"">Danger</TailButton>
+<TailButton Variant=""ButtonVariant.Info"">Info</TailButton>
+<TailButton Variant=""ButtonVariant.Outline"">Outline</TailButton>
+<TailButton Variant=""ButtonVariant.Soft"">Soft</TailButton>
+<TailButton Variant=""ButtonVariant.Ghost"">Ghost</TailButton>
 ";
 
     private string sizesCode = @"
-<TailButton Size=""Tail.Blazor.Button.ButtonSize.Sm"">Small</TailButton>
-<TailButton Size=""Tail.Blazor.Button.ButtonSize.Md"">Medium</TailButton>
-<TailButton Size=""Tail.Blazor.Button.ButtonSize.Lg"">Large</TailButton>
+<TailButton Size=""ButtonSize.Xs"">Xs</TailButton>
+<TailButton Size=""ButtonSize.Sm"">Sm</TailButton>
+<TailButton Size=""ButtonSize.Md"">Md</TailButton>
+<TailButton Size=""ButtonSize.Lg"">Lg</TailButton>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailButton Disabled=""true"">Disabled</TailButton>
+
+@* Loading state *@
+<TailButton IsLoading=""true"">Loading...</TailButton>
+
+@* Both disabled and loading *@
+<TailButton Disabled=""true"" IsLoading=""true"">Processing</TailButton>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Button
+
+<TailButton>
+    Hello, World!
+</TailButton>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailButton Variant=""ButtonVariant.Primary"">
+    Primary Action
+</TailButton>
+```
+
+**Medium Size**
+
+```razor
+<TailButton Size=""ButtonSize.Md"">
+    Medium Size
+</TailButton>
+```
+
+**With Click Handler**
+
+```razor
+<TailButton OnClick=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailButton>
+```
+
+**Disabled State**
+
+```razor
+<TailButton Disabled=""true"">
+    Disabled
+</TailButton>
+```
+";
+
+    private string eventsCode = @"
+<TailButton OnClick=""HandleOnClick"">
+    Click Me
+</TailButton>
+
+@code {
+    private void HandleOnClick(MouseEventArgs args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">
+    Combined Parameters
+</TailButton>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"" OnClick=""HandleAction"">
+        Action Button
+    </TailButton>
+</div>
+
+@code {
+    private void HandleAction(MouseEventArgs args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

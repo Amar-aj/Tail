@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailEmptyState></TailEmptyState>
+                        <TailEmptyState>Content</TailEmptyState>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailEmptyState>
+                            Hello, World!
+                        </TailEmptyState>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -77,9 +108,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Sm">Small</TailEmptyState>
-                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Md">Medium</TailEmptyState>
-                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Lg">Large</TailEmptyState>
+                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Sm">Sm</TailEmptyState>
+                    <TailEmptyState Size="Tail.Blazor.EmptyState.EmptyStateSize.Md">Md</TailEmptyState>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -87,6 +117,27 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -171,21 +222,77 @@
 
     private string installCode = "dotnet add package Tail.Blazor.EmptyState";
 
-    private string basicCode = @"<TailEmptyState></TailEmptyState>";
+    private string basicCode = @"<TailEmptyState>Content</TailEmptyState>";
 
     private string variantsCode = @"
-<TailEmptyState Variant=""Tail.Blazor.EmptyState.EmptyStateVariant.Default"">Default</TailEmptyState>
-<TailEmptyState Variant=""Tail.Blazor.EmptyState.EmptyStateVariant.Minimal"">Minimal</TailEmptyState>
+<TailEmptyState Variant=""EmptyStateVariant.Default"">Default</TailEmptyState>
+<TailEmptyState Variant=""EmptyStateVariant.Minimal"">Minimal</TailEmptyState>
 ";
 
     private string sizesCode = @"
-<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Sm"">Small</TailEmptyState>
-<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Md"">Medium</TailEmptyState>
-<TailEmptyState Size=""Tail.Blazor.EmptyState.EmptyStateSize.Lg"">Large</TailEmptyState>
+<TailEmptyState Size=""EmptyStateSize.Sm"">Sm</TailEmptyState>
+<TailEmptyState Size=""EmptyStateSize.Md"">Md</TailEmptyState>
 ";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.EmptyState
+
+<TailEmptyState>
+    Hello, World!
+</TailEmptyState>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailEmptyState Variant=""EmptyStateVariant.Default"">
+    Primary Action
+</TailEmptyState>
+```
+
+**Medium Size**
+
+```razor
+<TailEmptyState Size=""EmptyStateSize.Sm"">
+    Medium Size
+</TailEmptyState>
+```
+";
+
+    private string combinationsCode = @"
+<TailEmptyState Variant=""EmptyStateVariant.Default"" Size=""EmptyStateSize.Md"" Title=""Sample Title"" Description=""Sample Description"">
+    Combined Parameters
+</TailEmptyState>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailEmptyState Variant=""EmptyStateVariant.Default"" Size=""EmptyStateSize.Md"">
+        Action Button
+    </TailEmptyState>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

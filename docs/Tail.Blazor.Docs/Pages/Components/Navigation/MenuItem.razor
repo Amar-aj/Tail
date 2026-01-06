@@ -30,7 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailMenuItem></TailMenuItem>
+                        <TailMenuItem>Content</TailMenuItem>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -38,6 +38,104 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailMenuItem>
+                            Hello, World!
+                        </TailMenuItem>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailMenuItem Disabled="true">Disabled</TailMenuItem>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailMenuItem>
+                        Click Me
+                    </TailMenuItem>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -199,10 +297,86 @@
 
     private string installCode = "dotnet add package Tail.Blazor.MenuItem";
 
-    private string basicCode = @"<TailMenuItem></TailMenuItem>";
+    private string basicCode = @"<TailMenuItem>Content</TailMenuItem>";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailMenuItem Disabled=""true"">Disabled</TailMenuItem>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.MenuItem
+
+<TailMenuItem>
+    Hello, World!
+</TailMenuItem>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**With Click Handler**
+
+```razor
+<TailMenuItem OnClick=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailMenuItem>
+```
+
+**Disabled State**
+
+```razor
+<TailMenuItem Disabled=""true"">
+    Disabled
+</TailMenuItem>
+```
+";
+
+    private string eventsCode = @"
+<TailMenuItem OnClick=""HandleOnClick"">
+    Click Me
+</TailMenuItem>
+
+@code {
+    private void HandleOnClick(Tail.Blazor.MenuItem.MenuItemClickArgs args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailMenuItem Href=""Sample Href"" IsActive=""true"">
+    Combined Parameters
+</TailMenuItem>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailMenuItem OnClick=""HandleAction"">
+        Action Button
+    </TailMenuItem>
+</div>
+
+@code {
+    private void HandleAction(MenuItemClickArgs args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

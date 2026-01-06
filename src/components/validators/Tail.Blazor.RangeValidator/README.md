@@ -16,38 +16,130 @@ dotnet add package Tail.Blazor.RangeValidator
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.RangeValidator;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailRangeValidator></TailRangeValidator>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| Value | double? | - | Current value of the component |
-| Min | double | - | Minimum value constraint |
-| Max | double | - | Maximum value constraint |
-| ErrorMessage | string? | - | ErrorMessage parameter |
-| Style | string? | - | Additional CSS styles |
+| **Value** | `double?` | - | Current value of the component |
+| **Min** | `double` | - | Minimum value constraint |
+| **Max** | `double` | - | Maximum value constraint |
+| **ErrorMessage** | `string?` | - | ErrorMessage parameter |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 No events exposed.
 
-## Public Properties
-
-No additional public properties.
-
-## Methods
-
-No additional public methods.
-
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailRangeValidator></TailRangeValidator>
+@page "/quickstart"
+@using Tail.Blazor.RangeValidator
+
+<TailRangeValidator />
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailRangeValidator />
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailRangeValidator Value="10" Min="10" Max="10" ErrorMessage="Sample ErrorMessage" Style="Sample Style" />
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailRangeValidator Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailRangeValidator>
+
+@* Using Class parameter *@
+<TailRangeValidator Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailRangeValidator>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailRangeValidator  />
+</div>
+
+@code {
+    // Component logic here
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.RangeValidator`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

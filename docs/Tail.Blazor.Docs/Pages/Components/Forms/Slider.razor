@@ -34,7 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSlider></TailSlider>
+                        <TailSlider />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -42,6 +42,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailSlider />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -80,9 +109,8 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Sm">Small</TailSlider>
-                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Md">Medium</TailSlider>
-                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Lg">Large</TailSlider>
+                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Sm">Sm</TailSlider>
+                    <TailSlider Size="Tail.Blazor.Slider.SliderSize.Md">Md</TailSlider>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -90,6 +118,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSlider Disabled="true">Disabled</TailSlider>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSlider>
+                        Click Me
+                    </TailSlider>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -213,22 +308,107 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Slider";
 
-    private string basicCode = @"<TailSlider></TailSlider>";
+    private string basicCode = @"<TailSlider />";
 
     private string variantsCode = @"
-<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Primary"">Primary</TailSlider>
-<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Success"">Success</TailSlider>
-<TailSlider Variant=""Tail.Blazor.Slider.SliderVariant.Warning"">Warning</TailSlider>
+<TailSlider Variant=""SliderVariant.Primary"">Primary</TailSlider>
+<TailSlider Variant=""SliderVariant.Success"">Success</TailSlider>
+<TailSlider Variant=""SliderVariant.Warning"">Warning</TailSlider>
 ";
 
     private string sizesCode = @"
-<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Sm"">Small</TailSlider>
-<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Md"">Medium</TailSlider>
-<TailSlider Size=""Tail.Blazor.Slider.SliderSize.Lg"">Large</TailSlider>
+<TailSlider Size=""SliderSize.Sm"">Sm</TailSlider>
+<TailSlider Size=""SliderSize.Md"">Md</TailSlider>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailSlider Disabled=""true"">Disabled</TailSlider>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Slider
+
+<TailSlider />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailSlider Variant=""SliderVariant.Primary"">
+    Primary Action
+</TailSlider>
+```
+
+**Medium Size**
+
+```razor
+<TailSlider Size=""SliderSize.Sm"">
+    Medium Size
+</TailSlider>
+```
+
+**With Click Handler**
+
+```razor
+<TailSlider ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailSlider>
+```
+
+**Disabled State**
+
+```razor
+<TailSlider Disabled=""true"">
+    Disabled
+</TailSlider>
+```
+";
+
+    private string eventsCode = @"
+<TailSlider ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailSlider>
+
+@code {
+    private void HandleValueChanged(double args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailSlider Variant=""SliderVariant.Primary"" Size=""SliderSize.Md"" Value=""10"" Min=""10"" Max=""10"" Step=""10"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailSlider Variant=""SliderVariant.Primary"" Size=""SliderSize.Md"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(double args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

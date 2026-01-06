@@ -125,10 +125,45 @@
 
     private string installCode = "dotnet add package Tail.Blazor.DataGrid";
 
-    private string basicCode = @"@* DataGrid requires type parameter *@";
+    private string basicCode = @"<TailDataGrid T=""YourModel"">Content</TailDataGrid>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.DataGrid
+
+<TailDataGrid />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+";
+
+    private string combinationsCode = @"
+<TailDataGrid Style=""Sample Style"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailDataGrid  />
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

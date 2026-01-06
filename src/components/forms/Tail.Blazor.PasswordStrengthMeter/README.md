@@ -22,44 +22,349 @@ dotnet add package Tail.Blazor.PasswordStrengthMeter
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.PasswordStrengthMeter;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailPasswordStrengthMeter></TailPasswordStrengthMeter>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| Value | string? | - | Current value of the component |
-| Size | PasswordStrengthMeterSize | PasswordStrengthMeterSize.Md | Size of the component |
-| Label | string? | - | Label text for the component |
-| Placeholder | string? | - | Placeholder text |
-| ErrorMessage | string? | - | ErrorMessage parameter |
-| Required | bool | - | Whether the component is required |
-| Disabled | bool | - | Whether the component is disabled |
-| ShowStrengthMeter | bool | true | ShowStrengthMeter parameter |
-| Style | string? | - | Additional CSS styles |
+| **Value** | `string?` | - | Current value of the component |
+| **Size** | `PasswordStrengthMeterSize` | PasswordStrengthMeterSize.Md | Size of the component |
+| **Label** | `string?` | - | Label text for the component |
+| **Placeholder** | `string?` | - | Placeholder text |
+| **ErrorMessage** | `string?` | - | ErrorMessage parameter |
+| **Required** | `bool` | - | Whether the component is required |
+| **Disabled** | `bool` | - | Whether the component is disabled |
+| **ShowStrengthMeter** | `bool` | true | ShowStrengthMeter parameter |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 | Event | Type | Description |
 | --- | --- | --- |
-| ValueChanged | string? | Raised when value changes |
+| **ValueChanged** | `EventCallback<string?>` | Raised when value changes |
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### PasswordStrengthMeterSize
 
-## Methods
+```csharp
+public enum PasswordStrengthMeterSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+}
+```
 
-No additional public methods.
+/// PasswordStrengthMeter size options.
+///
+
+### Tail.Blazor.PasswordStrengthMeter;.PasswordStrengthMeterSize
+
+```csharp
+public enum Tail.Blazor.PasswordStrengthMeter;.PasswordStrengthMeterSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+}
+```
+
+/// PasswordStrengthMeter size options.
+///
+
+### PasswordStrength
+
+```csharp
+public enum PasswordStrength
+{
+    VeryWeak,
+    Weak,
+    Fair,
+    Good,
+}
+```
+
+/// Password strength levels.
+///
+
+### Tail.Blazor.PasswordStrengthMeter;.PasswordStrength
+
+```csharp
+public enum Tail.Blazor.PasswordStrengthMeter;.PasswordStrength
+{
+    VeryWeak,
+    Weak,
+    Fair,
+    Good,
+}
+```
+
+/// Password strength levels.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailPasswordStrengthMeter></TailPasswordStrengthMeter>
+@page "/quickstart"
+@using Tail.Blazor.PasswordStrengthMeter
+
+<TailPasswordStrengthMeter />
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Md">
+    Medium Size
+</TailPasswordStrengthMeter>
+```
+
+**With Click Handler**
+
+```razor
+<TailPasswordStrengthMeter ValueChanged="() => Console.WriteLine("Clicked")">
+    Click Me
+</TailPasswordStrengthMeter>
+```
+
+**Disabled State**
+
+```razor
+<TailPasswordStrengthMeter Disabled="true">
+    Disabled
+</TailPasswordStrengthMeter>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailPasswordStrengthMeter />
+```
+
+### Sizes
+
+Size options to fit different layouts and contexts:
+
+```razor
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Xs">Xs</TailPasswordStrengthMeter>
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Sm">Sm</TailPasswordStrengthMeter>
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Md">Md</TailPasswordStrengthMeter>
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Lg">Lg</TailPasswordStrengthMeter>
+```
+
+### States
+
+Component states for different interaction scenarios:
+
+```razor
+@* Disabled state *@
+<TailPasswordStrengthMeter Disabled="true">Disabled</TailPasswordStrengthMeter>
+
+```
+
+### Event Handling
+
+Handle user interactions with event callbacks:
+
+```razor
+<TailPasswordStrengthMeter ValueChanged="HandleValueChanged">
+    Click Me
+</TailPasswordStrengthMeter>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($"Event triggered: {args}");
+    }
+}
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Sm" Value="Sample Value" Label="Sample Label" Placeholder="Sample Placeholder" ErrorMessage="Sample ErrorMessage" />
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Conditional Rendering
+
+```razor
+@code {
+    private bool isProcessing = false;
+    private bool isDisabled = false;
+}
+
+<TailPasswordStrengthMeter Disabled="@isDisabled" IsLoading="@isProcessing">
+    @if (isProcessing)
+    {
+        <text>Processing...</text>
+    }
+    else
+    {
+        <text>Submit</text>
+    }
+</TailPasswordStrengthMeter>
+
+<TailPasswordStrengthMeter OnClick="ToggleProcessing">
+    Toggle State
+</TailPasswordStrengthMeter>
+
+@code {
+    private void ToggleProcessing()
+    {
+        isProcessing = !isProcessing;
+        isDisabled = isProcessing;
+    }
+}
+```
+
+#### Data Binding
+
+```razor
+@code {
+    private string componentValue = "";
+}
+
+<TailPasswordStrengthMeter @bind-Value="componentValue" ValueChanged="OnValueChanged">
+    Bound Component
+</TailPasswordStrengthMeter>
+
+<p>Current Value: @componentValue</p>
+
+@code {
+    private void OnValueChanged()
+    {
+        Console.WriteLine($"Value changed to: {componentValue}");
+    }
+}
+```
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailPasswordStrengthMeter Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailPasswordStrengthMeter>
+
+@* Using Class parameter *@
+<TailPasswordStrengthMeter Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailPasswordStrengthMeter>
+```
+
+#### Form Integration
+
+```razor
+<EditForm Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    
+    <TailPasswordStrengthMeter Type="submit">
+        Submit Form
+    </TailPasswordStrengthMeter>
+</EditForm>
+
+@code {
+    private MyModel model = new();
+    
+    private void HandleSubmit()
+    {
+        // Process form submission
+        Console.WriteLine("Form submitted successfully");
+    }
+}
+```
+
+#### Accessibility
+
+```razor
+@* Accessible component with ARIA label and tooltip *@
+<TailPasswordStrengthMeter Label="Primary action button">
+    Accessible Button
+</TailPasswordStrengthMeter>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailPasswordStrengthMeter Size="PasswordStrengthMeterSize.Sm" ValueChanged="HandleAction" />
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine("Action executed");
+    }
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.PasswordStrengthMeter`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

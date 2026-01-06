@@ -94,10 +94,51 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ListView";
 
-    private string basicCode = @"@* ListView requires type parameter *@";
+    private string basicCode = @"<TailListView T=""YourModel"">Content</TailListView>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.ListView
+
+<TailListView>
+    Hello, World!
+</TailListView>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+";
+
+    private string combinationsCode = @"
+<TailListView Style=""Sample Style"">
+    Combined Parameters
+</TailListView>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailListView >
+        Action Button
+    </TailListView>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

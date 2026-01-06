@@ -17,40 +17,269 @@ dotnet add package Tail.Blazor.Tabs
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.Tabs;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailTabs></TailTabs>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| Parent | private TailTabs? | - | Parent parameter |
-| Title | string? | - | Title parameter |
-| Label | string? | - | Label text for the component |
-| Icon | RenderFragment? | - | Icon to display |
-| Disabled | bool | - | Whether the component is disabled |
-| Badge | string? | - | Badge parameter |
-| Count | int? | - | Count parameter |
+| **Parent** | `private TailTabs?` | - | Parent parameter |
+| **Title** | `string?` | - | Title parameter |
+| **Label** | `string?` | - | Label text for the component |
+| **Icon** | `RenderFragment?` | - | Icon to display |
+| **Disabled** | `bool` | - | Whether the component is disabled |
+| **Badge** | `string?` | - | Badge parameter |
+| **Count** | `int?` | - | Count parameter |
 
 ## Events
 
 No events exposed.
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### TabsVariant
 
-## Methods
+```csharp
+public enum TabsVariant
+{
+    Default,
+    Pills,
+    Underline,
+    Enclosed,
+}
+```
 
-No additional public methods.
+/// Tabs variant styles.
+///
+
+### Tail.Blazor.Tabs;.TabsVariant
+
+```csharp
+public enum Tail.Blazor.Tabs;.TabsVariant
+{
+    Default,
+    Pills,
+    Underline,
+    Enclosed,
+}
+```
+
+/// Tabs variant styles.
+///
+
+### TabsPosition
+
+```csharp
+public enum TabsPosition
+{
+    Top,
+    Bottom,
+    Left,
+}
+```
+
+/// Tabs position.
+///
+
+### Tail.Blazor.Tabs;.TabsPosition
+
+```csharp
+public enum Tail.Blazor.Tabs;.TabsPosition
+{
+    Top,
+    Bottom,
+    Left,
+}
+```
+
+/// Tabs position.
+///
+
+### TabsSize
+
+```csharp
+public enum TabsSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+}
+```
+
+/// Tabs size.
+///
+
+### Tail.Blazor.Tabs;.TabsSize
+
+```csharp
+public enum Tail.Blazor.Tabs;.TabsSize
+{
+    Xs,
+    Sm,
+    Md,
+    Lg,
+}
+```
+
+/// Tabs size.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailTabs></TailTabs>
+@page "/quickstart"
+@using Tail.Blazor.Tabs
+
+<TailTabs>
+    Hello, World!
+</TailTabs>
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Disabled State**
+
+```razor
+<TailTabs Disabled="true">
+    Disabled
+</TailTabs>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailTabs>Content</TailTabs>
+```
+
+### States
+
+Component states for different interaction scenarios:
+
+```razor
+@* Disabled state *@
+<TailTabs Disabled="true">Disabled</TailTabs>
+
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailTabs Title="Sample Title" Label="Sample Label">
+    Combined Parameters
+</TailTabs>
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Conditional Rendering
+
+```razor
+@code {
+    private bool isProcessing = false;
+    private bool isDisabled = false;
+}
+
+<TailTabs Disabled="@isDisabled" IsLoading="@isProcessing">
+    @if (isProcessing)
+    {
+        <text>Processing...</text>
+    }
+    else
+    {
+        <text>Submit</text>
+    }
+</TailTabs>
+
+@code {
+    private void ToggleProcessing()
+    {
+        isProcessing = !isProcessing;
+        isDisabled = isProcessing;
+    }
+}
+```
+
+#### Accessibility
+
+```razor
+@* Accessible component with ARIA label and tooltip *@
+<TailTabs Label="Primary action button">
+    Accessible Button
+</TailTabs>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailTabs >
+        Action Button
+    </TailTabs>
+</div>
+
+@code {
+    // Component logic here
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.Tabs`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

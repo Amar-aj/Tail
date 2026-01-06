@@ -35,7 +35,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailOTPInput></TailOTPInput>
+                        <TailOTPInput />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -43,6 +43,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailOTPInput />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -57,9 +86,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Sm">Small</TailOTPInput>
-                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Md">Medium</TailOTPInput>
-                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Lg">Large</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Xs">Xs</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Sm">Sm</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Md">Md</TailOTPInput>
+                    <TailOTPInput Size="Tail.Blazor.OTPInput.OTPInputSize.Lg">Lg</TailOTPInput>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -67,6 +97,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailOTPInput Disabled="true">Disabled</TailOTPInput>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailOTPInput>
+                        Click Me
+                    </TailOTPInput>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -160,16 +257,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.OTPInput";
 
-    private string basicCode = @"<TailOTPInput></TailOTPInput>";
+    private string basicCode = @"<TailOTPInput />";
 
     private string sizesCode = @"
-<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Sm"">Small</TailOTPInput>
-<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Md"">Medium</TailOTPInput>
-<TailOTPInput Size=""Tail.Blazor.OTPInput.OTPInputSize.Lg"">Large</TailOTPInput>
+<TailOTPInput Size=""OTPInputSize.Xs"">Xs</TailOTPInput>
+<TailOTPInput Size=""OTPInputSize.Sm"">Sm</TailOTPInput>
+<TailOTPInput Size=""OTPInputSize.Md"">Md</TailOTPInput>
+<TailOTPInput Size=""OTPInputSize.Lg"">Lg</TailOTPInput>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailOTPInput Disabled=""true"">Disabled</TailOTPInput>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.OTPInput
+
+<TailOTPInput />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailOTPInput Size=""OTPInputSize.Md"">
+    Medium Size
+</TailOTPInput>
+```
+
+**With Click Handler**
+
+```razor
+<TailOTPInput ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailOTPInput>
+```
+
+**Disabled State**
+
+```razor
+<TailOTPInput Disabled=""true"">
+    Disabled
+</TailOTPInput>
+```
+";
+
+    private string eventsCode = @"
+<TailOTPInput ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailOTPInput>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailOTPInput Size=""OTPInputSize.Sm"" Value=""Sample Value"" Length=""10"" Label=""Sample Label"" HelpText=""Sample HelpText"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailOTPInput Size=""OTPInputSize.Sm"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailAutoComplete></TailAutoComplete>
+                        <TailAutoComplete>Content</TailAutoComplete>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailAutoComplete>
+                            Hello, World!
+                        </TailAutoComplete>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -54,9 +85,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Sm">Small</TailAutoComplete>
-                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Md">Medium</TailAutoComplete>
-                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Lg">Large</TailAutoComplete>
+                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Xs">Xs</TailAutoComplete>
+                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Sm">Sm</TailAutoComplete>
+                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Md">Md</TailAutoComplete>
+                    <TailAutoComplete Size="Tail.Blazor.AutoComplete.AutoCompleteSize.Lg">Lg</TailAutoComplete>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -64,6 +96,77 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailAutoComplete Disabled="true">Disabled</TailAutoComplete>
+
+                    <TailAutoComplete IsLoading="true">Loading...</TailAutoComplete>
+
+                    <TailAutoComplete Disabled="true" IsLoading="true">Processing</TailAutoComplete>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailAutoComplete>
+                        Click Me
+                    </TailAutoComplete>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -197,16 +300,107 @@
 
     private string installCode = "dotnet add package Tail.Blazor.AutoComplete";
 
-    private string basicCode = @"<TailAutoComplete></TailAutoComplete>";
+    private string basicCode = @"<TailAutoComplete>Content</TailAutoComplete>";
 
     private string sizesCode = @"
-<TailAutoComplete Size=""Tail.Blazor.AutoComplete.AutoCompleteSize.Sm"">Small</TailAutoComplete>
-<TailAutoComplete Size=""Tail.Blazor.AutoComplete.AutoCompleteSize.Md"">Medium</TailAutoComplete>
-<TailAutoComplete Size=""Tail.Blazor.AutoComplete.AutoCompleteSize.Lg"">Large</TailAutoComplete>
+<TailAutoComplete Size=""AutoCompleteSize.Xs"">Xs</TailAutoComplete>
+<TailAutoComplete Size=""AutoCompleteSize.Sm"">Sm</TailAutoComplete>
+<TailAutoComplete Size=""AutoCompleteSize.Md"">Md</TailAutoComplete>
+<TailAutoComplete Size=""AutoCompleteSize.Lg"">Lg</TailAutoComplete>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailAutoComplete Disabled=""true"">Disabled</TailAutoComplete>
+
+@* Loading state *@
+<TailAutoComplete IsLoading=""true"">Loading...</TailAutoComplete>
+
+@* Both disabled and loading *@
+<TailAutoComplete Disabled=""true"" IsLoading=""true"">Processing</TailAutoComplete>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.AutoComplete
+
+<TailAutoComplete>
+    Hello, World!
+</TailAutoComplete>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailAutoComplete Size=""AutoCompleteSize.Md"">
+    Medium Size
+</TailAutoComplete>
+```
+
+**With Click Handler**
+
+```razor
+<TailAutoComplete ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailAutoComplete>
+```
+
+**Disabled State**
+
+```razor
+<TailAutoComplete Disabled=""true"">
+    Disabled
+</TailAutoComplete>
+```
+";
+
+    private string eventsCode = @"
+<TailAutoComplete ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailAutoComplete>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailAutoComplete Size=""AutoCompleteSize.Sm"" Value=""Sample Value"" Items=""Sample Items"" Label=""Sample Label"" Placeholder=""Sample Placeholder"">
+    Combined Parameters
+</TailAutoComplete>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailAutoComplete Size=""AutoCompleteSize.Sm"" ValueChanged=""HandleAction"">
+        Action Button
+    </TailAutoComplete>
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

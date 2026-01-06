@@ -158,6 +158,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailSnackbar Message=""Sample Message"" ActionText=""Sample ActionText"" OnAction=""args => Console.WriteLine(""OnAction"")"" />
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "Message", Type = "string", Default = "-", Description = "Message parameter" },

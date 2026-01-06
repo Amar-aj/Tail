@@ -259,13 +259,18 @@ def extract_methods(code_block):
 
 
 def extract_readme_content(component_path):
-    """Extract features and examples from README.md."""
+    """Extract features, examples, and all content from README.md."""
     readme_path = Path(component_path) / "README.md"
     content = {
         "features": [],
         "example_code": "",
         "description": "",
-        "package_size": ""
+        "package_size": "",
+        "examples": {},
+        "namespace": "",
+        "enums": {},
+        "dependencies": [],
+        "target_frameworks": []
     }
     
     if not readme_path.exists():
@@ -283,28 +288,366 @@ def extract_readme_content(component_path):
             bullets = re.findall(r'- (.+?)(?=\n|$)', features_text)
             content["features"] = [b.strip() for b in bullets if b.strip()]
         
-        # Extract usage example
-        usage_match = re.search(r'```razor\s*(.*?)\s*```', text, re.DOTALL)
+        # Extract usage example (first razor code block)
+        usage_match = re.search(r'## Component Usage\s*\n\s*```razor\s*(.*?)\s*```', text, re.DOTALL)
         if usage_match:
             content["example_code"] = usage_match.group(1).strip()
+        else:
+            # Fallback to any first razor code block
+            usage_match = re.search(r'```razor\s*(.*?)\s*```', text, re.DOTALL)
+            if usage_match:
+                content["example_code"] = usage_match.group(1).strip()
         
         # Extract description (first paragraph after title)
         desc_match = re.search(r'# .+?\n\n(.+?)(?=\n##)', text, re.DOTALL)
         if desc_match:
             content["description"] = desc_match.group(1).strip()
         
+        # Extract namespace
+        namespace_match = re.search(r'## Namespace\s*\n\s*```csharp\s*using\s+([^;]+);', text, re.DOTALL)
+        if namespace_match:
+            content["namespace"] = namespace_match.group(1).strip()
+        
+        # Extract all examples from Examples section
+        examples_match = re.search(r'## Examples\s*\n(.*?)(?=## Base Class|## Dependencies|## Target Frameworks|## Package Information|\Z)', text, re.DOTALL)
+        if examples_match:
+            examples_text = examples_match.group(1)
+            
+            # Extract Quick Start
+            quickstart_match = re.search(r'### Quick Start\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if quickstart_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', quickstart_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["quickstart"] = code_match.group(1).strip()
+            
+            # Extract Common Patterns
+            patterns_match = re.search(r'### Common Patterns\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if patterns_match:
+                content["examples"]["patterns"] = patterns_match.group(1).strip()
+            
+            # Extract Basic Usage
+            basic_match = re.search(r'### Basic Usage\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if basic_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', basic_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["basic"] = code_match.group(1).strip()
+            
+            # Extract Variants
+            variants_match = re.search(r'### Variants\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if variants_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', variants_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["variants"] = code_match.group(1).strip()
+            
+            # Extract Sizes
+            sizes_match = re.search(r'### Sizes\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if sizes_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', sizes_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["sizes"] = code_match.group(1).strip()
+            
+            # Extract States
+            states_match = re.search(r'### States\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if states_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', states_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["states"] = code_match.group(1).strip()
+            
+            # Extract Event Handling
+            events_match = re.search(r'### Event Handling\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if events_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', events_match.group(1), re.DOTALL)
+                if code_match:
+                    full_code = code_match.group(1).strip()
+                    content["examples"]["events"] = full_code
+                    # Extract just the component markup (before @code block) for preview
+                    markup_match = re.search(r'^(.*?)(?=\n@code|\Z)', full_code, re.DOTALL)
+                    if markup_match:
+                        content["examples"]["events_preview"] = markup_match.group(1).strip()
+                    else:
+                        # If no @code block, use the full code
+                        content["examples"]["events_preview"] = full_code
+            
+            # Extract Parameter Combinations
+            combinations_match = re.search(r'### Parameter Combinations\s*\n(.*?)(?=### |\Z)', examples_text, re.DOTALL)
+            if combinations_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', combinations_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["combinations"] = code_match.group(1).strip()
+            
+            # Extract Advanced Examples
+            advanced_match = re.search(r'### Advanced Examples\s*\n(.*?)(?=### Real-World|## |\Z)', examples_text, re.DOTALL)
+            if advanced_match:
+                content["examples"]["advanced"] = advanced_match.group(1).strip()
+            
+            # Extract Real-World Example
+            realworld_match = re.search(r'### Real-World Example\s*\n(.*?)(?=## |\Z)', examples_text, re.DOTALL)
+            if realworld_match:
+                code_match = re.search(r'```razor\s*(.*?)\s*```', realworld_match.group(1), re.DOTALL)
+                if code_match:
+                    content["examples"]["realworld"] = code_match.group(1).strip()
+        
         # Extract package size
         size_match = re.search(r'Package Size\s*\n~?(.+?)(?=\n|$)', text)
         if size_match:
             content["package_size"] = size_match.group(1).strip()
+        
+        # Extract target frameworks
+        frameworks_match = re.search(r'## Target Frameworks\s*\n(.*?)(?=## |\Z)', text, re.DOTALL)
+        if frameworks_match:
+            frameworks_text = frameworks_match.group(1)
+            frameworks = re.findall(r'- \.NET (\d+\.\d+)', frameworks_text)
+            content["target_frameworks"] = frameworks
         
         return content
     except Exception as e:
         return content
 
 
+def extract_namespace(component_path, component_name):
+    """Extract namespace from _Imports.razor or infer from component name."""
+    namespace = None
+    
+    # Try _Imports.razor first
+    imports_path = Path(component_path) / "_Imports.razor"
+    if imports_path.exists():
+        try:
+            with open(imports_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                namespace_match = re.search(r'@namespace\s+([^\s]+)', content)
+                if namespace_match:
+                    namespace = namespace_match.group(1).strip()
+        except Exception:
+            pass
+    
+    # If not found, try to find in any .razor file
+    if not namespace:
+        for razor_file in Path(component_path).glob("*.razor"):
+            try:
+                with open(razor_file, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    namespace_match = re.search(r'@namespace\s+([^\s]+)', content)
+                    if namespace_match:
+                        namespace = namespace_match.group(1).strip()
+                        break
+            except Exception:
+                continue
+    
+    # Fallback: infer from component name
+    if not namespace:
+        namespace = component_name
+    
+    return namespace
+
+
+def extract_csproj_info(component_path, component_name):
+    """Extract information from .csproj file."""
+    csproj_path = Path(component_path) / f"{component_name}.csproj"
+    
+    info = {
+        "target_frameworks": [],
+        "dependencies": [],
+        "project_references": [],
+        "version": "1.0.0",
+        "authors": "Tail.Blazor Core Team",
+        "company": "Tail.Blazor",
+        "product": component_name,
+        "description": f"{component_name} component for Tail.Blazor",
+        "license": "MIT",
+        "repository_url": "https://github.com/tailblazor/tailblazor",
+        "package_project_url": "https://tailblazor.com"
+    }
+    
+    if not csproj_path.exists():
+        return info
+    
+    try:
+        with open(csproj_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Extract TargetFrameworks
+        tf_match = re.search(r'<TargetFrameworks>(.*?)</TargetFrameworks>', content, re.DOTALL)
+        if tf_match:
+            frameworks = [f.strip() for f in tf_match.group(1).split(';') if f.strip()]
+            info["target_frameworks"] = frameworks
+        else:
+            # Try TargetFramework (singular)
+            tf_match = re.search(r'<TargetFramework>(.*?)</TargetFramework>', content)
+            if tf_match:
+                info["target_frameworks"] = [tf_match.group(1).strip()]
+        
+        # Extract PackageReference dependencies
+        package_refs = re.findall(r'<PackageReference\s+Include="([^"]+)"(?:\s+Version="([^"]+)")?', content)
+        for pkg_name, pkg_version in package_refs:
+            version = pkg_version if pkg_version else "latest"
+            info["dependencies"].append({"name": pkg_name, "version": version, "type": "Package"})
+        
+        # Extract ProjectReference dependencies
+        project_refs = re.findall(r'<ProjectReference\s+Include="([^"]+)"', content)
+        for proj_path in project_refs:
+            # Extract project name from path
+            proj_name = Path(proj_path).stem
+            info["project_references"].append({"name": proj_name, "type": "Project"})
+            info["dependencies"].append({"name": proj_name, "version": "local", "type": "Project"})
+        
+        # Extract package metadata
+        version_match = re.search(r'<Version>(.*?)</Version>', content)
+        if version_match:
+            info["version"] = version_match.group(1).strip()
+        
+        authors_match = re.search(r'<Authors>(.*?)</Authors>', content)
+        if authors_match:
+            info["authors"] = authors_match.group(1).strip()
+        
+        company_match = re.search(r'<Company>(.*?)</Company>', content)
+        if company_match:
+            info["company"] = company_match.group(1).strip()
+        
+        product_match = re.search(r'<Product>(.*?)</Product>', content)
+        if product_match:
+            info["product"] = product_match.group(1).strip()
+        
+        desc_match = re.search(r'<Description>(.*?)</Description>', content)
+        if desc_match:
+            info["description"] = desc_match.group(1).strip()
+        
+        license_match = re.search(r'<PackageLicenseExpression>(.*?)</PackageLicenseExpression>', content)
+        if license_match:
+            info["license"] = license_match.group(1).strip()
+        
+        repo_match = re.search(r'<RepositoryUrl>(.*?)</RepositoryUrl>', content)
+        if repo_match:
+            info["repository_url"] = repo_match.group(1).strip()
+        
+        url_match = re.search(r'<PackageProjectUrl>(.*?)</PackageProjectUrl>', content)
+        if url_match:
+            info["package_project_url"] = url_match.group(1).strip()
+        
+    except Exception as e:
+        pass
+    
+    return info
+
+
+def extract_all_enums(component_path):
+    """Extract all enums from component C# files."""
+    enums = {}
+    namespace = None
+    
+    try:
+        for cs_file in Path(component_path).glob("*.cs"):
+            with open(cs_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            # Extract namespace if present
+            ns_match = re.search(r'namespace\s+([^\s\{]+)', content)
+            if ns_match:
+                namespace = ns_match.group(1).strip()
+            
+            # Find all enum definitions
+            enum_pattern = r'public\s+enum\s+(\w+)\s*\{(.*?)\}'
+            for match in re.finditer(enum_pattern, content, re.DOTALL):
+                enum_name = match.group(1)
+                enum_body = match.group(2)
+                
+                # Extract enum values
+                enum_values = re.findall(r'(\w+)\s*(?:=\s*\d+)?[,}]', enum_body)
+                values = [v.strip() for v in enum_values if v.strip()]
+                
+                # Extract description if available (look for XML comment before enum)
+                # Search backwards from the enum definition
+                enum_start = match.start()
+                before_enum = content[:enum_start]
+                # Look for the last /// comment before this enum
+                comment_pattern = r'///\s*<summary>\s*(.*?)\s*</summary>'
+                comment_matches = list(re.finditer(comment_pattern, before_enum, re.DOTALL))
+                description = ""
+                if comment_matches:
+                    # Get the last comment before the enum
+                    last_comment = comment_matches[-1]
+                    # Check if it's close to the enum (within reasonable distance)
+                    if enum_start - last_comment.end() < 200:
+                        description = last_comment.group(1).strip()
+                
+                if not description:
+                    description = f"{enum_name} enum"
+                
+                # Store with both short name and full name
+                full_name = f"{namespace}.{enum_name}" if namespace else enum_name
+                enum_data = {
+                    "name": enum_name,
+                    "full_name": full_name,
+                    "values": values,
+                    "description": description
+                }
+                enums[enum_name] = enum_data
+                if namespace:
+                    enums[full_name] = enum_data
+    except Exception as e:
+        pass
+    
+    return enums
+
+
+def extract_using_directives(component_path):
+    """Extract @using directives from razor files to determine imported namespaces."""
+    using_directives = []
+    
+    # Check _Imports.razor first
+    imports_path = Path(component_path) / "_Imports.razor"
+    if imports_path.exists():
+        try:
+            with open(imports_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+                using_matches = re.findall(r'@using\s+([^\s]+)', content)
+                using_directives.extend([m.strip() for m in using_matches])
+        except Exception:
+            pass
+    
+    # Check all .razor files
+    for razor_file in Path(component_path).glob("*.razor"):
+        try:
+            with open(razor_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                using_matches = re.findall(r'@using\s+([^\s]+)', content)
+                using_directives.extend([m.strip() for m in using_matches])
+        except Exception:
+            continue
+    
+    return list(set(using_directives))  # Remove duplicates
+
+
+def extract_base_class_info(code_block, component_path):
+    """Extract base class information from @inherits or class declaration."""
+    base_class = None
+    
+    # Try to find @inherits directive in razor file
+    for razor_file in Path(component_path).glob("*.razor"):
+        try:
+            with open(razor_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                inherits_match = re.search(r'@inherits\s+([^\s]+)', content)
+                if inherits_match:
+                    base_class = inherits_match.group(1).strip()
+                    break
+        except Exception:
+            continue
+    
+    # If not found, try to find in code block
+    if not base_class and code_block:
+        class_match = re.search(r'public\s+(?:partial\s+)?class\s+\w+\s*:\s*([^\s\{]+)', code_block)
+        if class_match:
+            base_class = class_match.group(1).strip()
+    
+    # Default base class for Tail.Blazor components
+    if not base_class:
+        base_class = "TailComponentBase"
+    
+    return base_class
+
+
 def generate_component_readme(component_meta):
-    """Generate README.md for a component based on extracted metadata."""
+    """Generate comprehensive README.md for a component based on extracted metadata."""
     name = component_meta['name']
     friendly_name = component_meta['friendly_name']
     package_path = Path(component_meta['path'])
@@ -317,47 +660,71 @@ def generate_component_readme(component_meta):
     type_params = component_meta.get('type_params', [])
     features = component_meta.get('features', []) or [f"Rich {friendly_name} component"]
     description = component_meta.get('description', f"{friendly_name} component for Tail.Blazor")
+    namespace = component_meta.get('namespace', name)
+    csproj_info = component_meta.get('csproj_info', {})
+    enums = component_meta.get('enums', {})
+    base_class = component_meta.get('base_class', 'TailComponentBase')
+    
+    # Determine component tag name
+    if '.' in friendly_name:
+        component_tag = name.replace('Tail.Blazor.', 'Tail')
+    else:
+        component_tag = f"Tail{friendly_name}"
 
     def md_escape(text):
-        return text.replace('|', '\\|') if text else ''
+        if not text:
+            return ''
+        return str(text).replace('|', '\\|').replace('\n', ' ')
 
     md_lines = []
+    
+    # Title and Description
     md_lines.append(f"# {name}")
     md_lines.append("")
     md_lines.append(description)
     md_lines.append("")
+    
+    # Installation
     md_lines.append("## Installation")
     md_lines.append("")
     md_lines.append("```bash")
     md_lines.append(f"dotnet add package {name}")
     md_lines.append("```")
     md_lines.append("")
+    
+    # Features
     md_lines.append("## Features")
     md_lines.append("")
-    for feature in features:
-        md_lines.append(f"- {feature}")
-    md_lines.append("")
-    md_lines.append("## Class")
-    md_lines.append("")
-    if classes:
-        md_lines.append("| Class | Base Type | Description |")
-        md_lines.append("| --- | --- | --- |")
-        for cls in classes:
-            base = cls.get('base_type', '') or '-'
-            md_lines.append(f"| {md_escape(cls.get('name', ''))} | {md_escape(base)} | Main component class |")
+    if features:
+        for feature in features:
+            md_lines.append(f"- {feature}")
     else:
-        md_lines.append("Component class generated from the Razor file.")
+        md_lines.append(f"- Rich {friendly_name} component for Blazor applications")
     md_lines.append("")
-    md_lines.append("## Type Parameters")
+    
+    # Namespace
+    md_lines.append("## Namespace")
     md_lines.append("")
-    if type_params:
-        md_lines.append("| Name | Description |")
-        md_lines.append("| --- | --- |")
-        for tparam in type_params:
-            md_lines.append(f"| {md_escape(tparam)} | Generic type parameter for typed data |")
-    else:
-        md_lines.append("No generic type parameters.")
+    md_lines.append("```csharp")
+    md_lines.append(f"using {namespace};")
+    md_lines.append("```")
     md_lines.append("")
+    
+    # Component Usage
+    md_lines.append("## Component Usage")
+    md_lines.append("")
+    usage_code = component_meta.get('example_code', '').strip()
+    if not usage_code:
+        if component_meta.get('is_generic', False):
+            usage_code = f"<{component_tag} T=\"YourModel\">Content</{component_tag}>"
+        else:
+            usage_code = f"<{component_tag}>Content</{component_tag}>"
+    md_lines.append("```razor")
+    md_lines.append(usage_code)
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Parameters
     md_lines.append("## Parameters")
     md_lines.append("")
     if params:
@@ -365,47 +732,634 @@ def generate_component_readme(component_meta):
         md_lines.append("| --- | --- | --- | --- |")
         for p in params:
             default_val = p.get('default', '-') or '-'
-            md_lines.append(f"| {md_escape(p['name'])} | {md_escape(p['type'])} | {md_escape(default_val)} | {md_escape(p.get('description', ''))} |")
+            if default_val in ['""', "''"]:
+                default_val = '-'
+            md_lines.append(f"| **{md_escape(p['name'])}** | `{md_escape(p['type'])}` | {md_escape(default_val)} | {md_escape(p.get('description', ''))} |")
     else:
         md_lines.append("No parameters exposed.")
     md_lines.append("")
+    
+    # Events
     md_lines.append("## Events")
     md_lines.append("")
     if events:
         md_lines.append("| Event | Type | Description |")
         md_lines.append("| --- | --- | --- |")
         for e in events:
-            md_lines.append(f"| {md_escape(e['name'])} | {md_escape(e['type'])} | {md_escape(e.get('description', ''))} |")
+            event_type = e.get('type', 'void')
+            if event_type and event_type != 'void':
+                event_type = f"`EventCallback<{event_type}>`"
+            else:
+                event_type = "`EventCallback`"
+            md_lines.append(f"| **{md_escape(e['name'])}** | {event_type} | {md_escape(e.get('description', ''))} |")
     else:
         md_lines.append("No events exposed.")
     md_lines.append("")
-    md_lines.append("## Public Properties")
-    md_lines.append("")
-    if properties:
-        md_lines.append("| Property | Type | Description |")
-        md_lines.append("| --- | --- | --- |")
-        for prop in properties:
-            md_lines.append(f"| {md_escape(prop['name'])} | {md_escape(prop['type'])} | {md_escape(prop.get('description', ''))} |")
-    else:
-        md_lines.append("No additional public properties.")
-    md_lines.append("")
-    md_lines.append("## Methods")
-    md_lines.append("")
-    if methods:
-        md_lines.append("| Method | Parameters | Description |")
-        md_lines.append("| --- | --- | --- |")
-        for m in methods:
-            param_list = ', '.join([f"{param['type']} {param['name']}" for param in m.get('parameters', [])]) or 'None'
-            md_lines.append(f"| {md_escape(m['name'])}() | {md_escape(param_list)} | {md_escape(m.get('description', ''))} |")
-    else:
-        md_lines.append("No additional public methods.")
-    md_lines.append("")
+    
+    # Enums
+    if enums:
+        md_lines.append("## Enums")
+        md_lines.append("")
+        for enum_name, enum_data in enums.items():
+            md_lines.append(f"### {enum_name}")
+            md_lines.append("")
+            md_lines.append(f"```csharp")
+            md_lines.append(f"public enum {enum_name}")
+            md_lines.append("{")
+            for value in enum_data.get('values', []):
+                md_lines.append(f"    {value},")
+            md_lines.append("}")
+            md_lines.append("```")
+            md_lines.append("")
+            if enum_data.get('description'):
+                md_lines.append(f"{enum_data['description']}")
+                md_lines.append("")
+    
+    # Examples - Comprehensive section
     md_lines.append("## Examples")
     md_lines.append("")
-    usage_code = (component_meta.get('example_code') or f"<Tail{friendly_name}></Tail{friendly_name}>").strip()
+    md_lines.append("This section provides comprehensive examples to help you get started with the component.")
+    md_lines.append("")
+    
+    # Helper function to find enum
+    def find_enum(param_type, enums_dict):
+        enum_name = param_type.split('.')[-1]
+        enum_data = enums_dict.get(enum_name, {})
+        if not enum_data:
+            for name, data in enums_dict.items():
+                if enum_name.lower() in name.lower() or name.lower() in enum_name.lower():
+                    return data
+        return enum_data
+    
+    # Extract common parameters for examples
+    variant_param = next((p for p in params if 'variant' in p['name'].lower()), None)
+    size_param = next((p for p in params if 'size' in p['name'].lower()), None)
+    disabled_param = next((p for p in params if 'disabled' in p['name'].lower()), None)
+    loading_param = next((p for p in params if 'loading' in p['name'].lower() or 'isloading' in p['name'].lower()), None)
+    
+    # Quick Start Guide
+    md_lines.append("### Quick Start")
+    md_lines.append("")
+    md_lines.append("Get up and running in seconds:")
+    md_lines.append("")
     md_lines.append("```razor")
-    md_lines.append(usage_code)
+    md_lines.append("@page \"/quickstart\"")
+    md_lines.append(f"@using {namespace}")
+    md_lines.append("")
+    has_child = any('renderfragment' in p['type'].lower() for p in params)
+    if has_child:
+        md_lines.append(f"<{component_tag}>")
+        md_lines.append("    Hello, World!")
+        md_lines.append(f"</{component_tag}>")
+    else:
+        md_lines.append(f"<{component_tag} />")
     md_lines.append("```")
+    md_lines.append("")
+    
+    # Common Patterns
+    md_lines.append("### Common Patterns")
+    md_lines.append("")
+    md_lines.append("Frequently used patterns and combinations:")
+    md_lines.append("")
+    
+    patterns = []
+    
+    # Pattern 1: Basic with variant
+    if variant_param:
+        variant_enum = find_enum(variant_param['type'], enums)
+        if variant_enum and variant_enum.get('values'):
+            patterns.append(("Primary Action", f"""```razor
+<{component_tag} Variant="{variant_param['type']}.{variant_enum['values'][0]}">
+    Primary Action
+</{component_tag}>
+```"""))
+    
+    # Pattern 2: With size
+    if size_param:
+        size_enum = find_enum(size_param['type'], enums)
+        if size_enum and size_enum.get('values'):
+            patterns.append(("Medium Size", f"""```razor
+<{component_tag} Size="{size_param['type']}.{size_enum['values'][len(size_enum['values'])//2] if len(size_enum['values']) > 2 else size_enum['values'][0]}">
+    Medium Size
+</{component_tag}>
+```"""))
+    
+    # Pattern 3: With event
+    if events:
+        patterns.append(("With Click Handler", f"""```razor
+<{component_tag} {events[0]['name']}="() => Console.WriteLine(\"Clicked\")">
+    Click Me
+</{component_tag}>
+```"""))
+    
+    # Pattern 4: Disabled state
+    if disabled_param:
+        patterns.append(("Disabled State", f"""```razor
+<{component_tag} Disabled="true">
+    Disabled
+</{component_tag}>
+```"""))
+    
+    if patterns:
+        for pattern_title, pattern_code in patterns[:4]:  # Show first 4 patterns
+            md_lines.append(f"**{pattern_title}**")
+            md_lines.append("")
+            md_lines.append(pattern_code)
+            md_lines.append("")
+    
+    # Basic example
+    md_lines.append("### Basic Usage")
+    md_lines.append("")
+    md_lines.append("The simplest way to use the component:")
+    md_lines.append("")
+    md_lines.append("```razor")
+    if component_meta.get('is_generic', False):
+        md_lines.append(f"<{component_tag} T=\"YourModel\">Content</{component_tag}>")
+    else:
+        has_child = any('renderfragment' in p['type'].lower() for p in params)
+        if has_child:
+            md_lines.append(f"<{component_tag}>Content</{component_tag}>")
+        else:
+            md_lines.append(f"<{component_tag} />")
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Variants example if variant parameter exists
+    variant_param = next((p for p in params if 'variant' in p['name'].lower()), None)
+    if variant_param:
+        variant_type = variant_param['type']
+        variant_enum = find_enum(variant_type, enums)
+        if variant_enum and variant_enum.get('values'):
+            md_lines.append("### Variants")
+            md_lines.append("")
+            md_lines.append("Different visual variants for various use cases:")
+            md_lines.append("")
+            md_lines.append("```razor")
+            for value in variant_enum['values']:
+                md_lines.append(f'<{component_tag} Variant="{variant_type}.{value}">{value}</{component_tag}>')
+            md_lines.append("```")
+            md_lines.append("")
+    
+    # Sizes example if size parameter exists
+    size_param = next((p for p in params if 'size' in p['name'].lower()), None)
+    if size_param:
+        size_type = size_param['type']
+        size_enum = find_enum(size_type, enums)
+        if size_enum and size_enum.get('values'):
+            md_lines.append("### Sizes")
+            md_lines.append("")
+            md_lines.append("Size options to fit different layouts and contexts:")
+            md_lines.append("")
+            md_lines.append("```razor")
+            for value in size_enum['values']:
+                md_lines.append(f'<{component_tag} Size="{size_type}.{value}">{value}</{component_tag}>')
+            md_lines.append("```")
+            md_lines.append("")
+    
+    # States examples
+    if disabled_param or loading_param:
+        md_lines.append("### States")
+        md_lines.append("")
+        md_lines.append("Component states for different interaction scenarios:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        if disabled_param:
+            md_lines.append(f"@* Disabled state *@")
+            md_lines.append(f"<{component_tag} Disabled=\"true\">Disabled</{component_tag}>")
+            md_lines.append("")
+        if loading_param:
+            md_lines.append(f"@* Loading state *@")
+            md_lines.append(f"<{component_tag} IsLoading=\"true\">Loading...</{component_tag}>")
+            md_lines.append("")
+        if disabled_param and loading_param:
+            md_lines.append(f"@* Both disabled and loading *@")
+            md_lines.append(f"<{component_tag} Disabled=\"true\" IsLoading=\"true\">Processing</{component_tag}>")
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Events example if events exist
+    if events:
+        md_lines.append("### Event Handling")
+        md_lines.append("")
+        md_lines.append("Handle user interactions with event callbacks:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        first_event = events[0]
+        event_name = first_event['name']
+        event_type = first_event.get('type', 'void')
+        
+        # Check if event_type is a custom type (not a standard .NET type)
+        standard_types = ['void', 'string', 'int', 'bool', 'double', 'float', 'decimal', 'DateTime', 
+                         'MouseEventArgs', 'KeyboardEventArgs', 'ChangeEventArgs', 'FocusEventArgs']
+        is_custom_type = event_type and event_type != 'void' and not any(
+            event_type.startswith(st) or event_type == st for st in standard_types
+        )
+        
+        # Use fully qualified namespace for custom types
+        if is_custom_type and '.' not in event_type:
+            event_type_qualified = f"{namespace}.{event_type}"
+        else:
+            event_type_qualified = event_type
+        
+        if event_type and event_type != 'void':
+            md_lines.append(f"<{component_tag} {event_name}=\"Handle{event_name}\">")
+            md_lines.append("    Click Me")
+            md_lines.append(f"</{component_tag}>")
+            md_lines.append("")
+            md_lines.append("@code {")
+            md_lines.append(f"    private void Handle{event_name}({event_type_qualified} args)")
+            md_lines.append("    {")
+            md_lines.append("        // Handle the event")
+            md_lines.append("        Console.WriteLine($\"Event triggered: {args}\");")
+            md_lines.append("    }")
+        else:
+            md_lines.append(f"<{component_tag} {event_name}=\"Handle{event_name}\">")
+            md_lines.append("    Click Me")
+            md_lines.append(f"</{component_tag}>")
+            md_lines.append("")
+            md_lines.append("@code {")
+            md_lines.append(f"    private void Handle{event_name}()")
+            md_lines.append("    {")
+            md_lines.append("        // Handle the event")
+            md_lines.append("        Console.WriteLine(\"Event triggered\");")
+            md_lines.append("    }")
+        md_lines.append("}")
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Parameter combinations
+    md_lines.append("### Parameter Combinations")
+    md_lines.append("")
+    md_lines.append("Combine multiple parameters for advanced usage:")
+    md_lines.append("")
+    md_lines.append("```razor")
+    
+    # Build combination example
+    combo_attrs = []
+    if variant_param:
+        variant_enum = find_enum(variant_param['type'], enums)
+        if variant_enum and variant_enum.get('values'):
+            combo_attrs.append(f'{variant_param["name"]}="{variant_param["type"]}.{variant_enum["values"][0]}"')
+    
+    if size_param:
+        size_enum = find_enum(size_param['type'], enums)
+        if size_enum and size_enum.get('values'):
+            combo_attrs.append(f'{size_param["name"]}="{size_param["type"]}.{size_enum["values"][1] if len(size_enum["values"]) > 1 else size_enum["values"][0]}"')
+    
+    # Add other common parameters
+    for p in params[:5]:  # Limit to first 5 additional params
+        p_name = p['name'].lower()
+        if any(x in p_name for x in ['variant', 'size', 'disabled', 'loading', 'childcontent']):
+            continue
+        
+        p_type = p['type'].lower()
+        if 'bool' in p_type:
+            combo_attrs.append(f'{p["name"]}="true"')
+        elif 'string' in p_type:
+            combo_attrs.append(f'{p["name"]}="Sample {p["name"]}"')
+        elif 'int' in p_type or 'double' in p_type:
+            combo_attrs.append(f'{p["name"]}="10"')
+    
+    has_child = any('renderfragment' in p['type'].lower() for p in params)
+    if combo_attrs:
+        attrs_str = ' '.join(combo_attrs)
+        if has_child:
+            md_lines.append(f"<{component_tag} {attrs_str}>")
+            md_lines.append("    Combined Parameters")
+            md_lines.append(f"</{component_tag}>")
+        else:
+            md_lines.append(f"<{component_tag} {attrs_str} />")
+    else:
+        if has_child:
+            md_lines.append(f"<{component_tag}>")
+            md_lines.append("    Content")
+            md_lines.append(f"</{component_tag}>")
+        else:
+            md_lines.append(f"<{component_tag} />")
+    
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Advanced examples
+    advanced_examples = []
+    
+    # With icons if icon parameters exist
+    icon_start = next((p for p in params if 'iconstart' in p['name'].lower() or 'iconstart' in p['name']), None)
+    icon_end = next((p for p in params if 'iconend' in p['name'].lower() or 'iconend' in p['name']), None)
+    
+    if icon_start or icon_end:
+        icon_example = f"""```razor
+<{component_tag}>
+    <IconStart>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+    </IconStart>
+    Button Text
+    <IconEnd>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </IconEnd>
+</{component_tag}>
+```"""
+        advanced_examples.append(("With Icons", icon_example))
+    
+    # With conditional rendering
+    if disabled_param or loading_param:
+        toggle_button = ""
+        if events:
+            toggle_button = f"""<{component_tag} OnClick="ToggleProcessing">
+    Toggle State
+</{component_tag}>
+
+"""
+        conditional_example = f"""```razor
+@code {{
+    private bool isProcessing = false;
+    private bool isDisabled = false;
+}}
+
+<{component_tag} Disabled="@isDisabled" IsLoading="@isProcessing">
+    @if (isProcessing)
+    {{
+        <text>Processing...</text>
+    }}
+    else
+    {{
+        <text>Submit</text>
+    }}
+</{component_tag}>
+
+{toggle_button}@code {{
+    private void ToggleProcessing()
+    {{
+        isProcessing = !isProcessing;
+        isDisabled = isProcessing;
+    }}
+}}
+```"""
+        advanced_examples.append(("Conditional Rendering", conditional_example))
+    
+    # With data binding
+    value_param = next((p for p in params if 'value' in p['name'].lower() and 'changed' not in p['name'].lower()), None)
+    changed_event = next((e for e in events if 'changed' in e['name'].lower() or 'change' in e['name'].lower()), None)
+    
+    if value_param and changed_event:
+        binding_example = f"""```razor
+@code {{
+    private string componentValue = "";
+}}
+
+<{component_tag} @bind-Value="componentValue" {changed_event['name']}="OnValueChanged">
+    Bound Component
+</{component_tag}>
+
+<p>Current Value: @componentValue</p>
+
+@code {{
+    private void OnValueChanged()
+    {{
+        Console.WriteLine($"Value changed to: {{componentValue}}");
+    }}
+}}
+```"""
+        advanced_examples.append(("Data Binding", binding_example))
+    
+    # With styling
+    style_param = next((p for p in params if 'style' in p['name'].lower() or 'class' in p['name'].lower()), None)
+    if style_param:
+        style_example = f"""```razor
+@* Using Style parameter *@
+<{component_tag} Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</{component_tag}>
+
+@* Using Class parameter *@
+<{component_tag} Class="my-custom-class shadow-lg">
+    With Custom Class
+</{component_tag}>
+```"""
+        advanced_examples.append(("Custom Styling", style_example))
+    
+    # With tooltip
+    tooltip_param = next((p for p in params if 'tooltip' in p['name'].lower()), None)
+    if tooltip_param:
+        tooltip_example = f"""```razor
+<{component_tag} Tooltip="This is a helpful tooltip">
+    Hover for Tooltip
+</{component_tag}>
+```"""
+        advanced_examples.append(("With Tooltip", tooltip_example))
+    
+    # With full width
+    fullwidth_param = next((p for p in params if 'fullwidth' in p['name'].lower() or 'fullwidth' in p['name']), None)
+    if fullwidth_param:
+        fullwidth_example = f"""```razor
+<div class="w-full">
+    <{component_tag} FullWidth="true">
+        Full Width Component
+    </{component_tag}>
+</div>
+```"""
+        advanced_examples.append(("Full Width", fullwidth_example))
+    
+    # Additional examples based on specific parameters
+    # Loading with custom text
+    loading_text_param = next((p for p in params if 'loadingtext' in p['name'].lower()), None)
+    if loading_param and loading_text_param:
+        advanced_examples.append(("Loading with Custom Text", f"""```razor
+<{component_tag} IsLoading="true" LoadingText="Saving...">
+    Save
+</{component_tag}>
+
+<{component_tag} IsLoading="true" ShowDefaultLoadingText="true">
+    Submit
+</{component_tag}>
+```"""))
+    
+    # Multiple events
+    if len(events) > 1:
+        multi_event_example = f"""```razor
+<{component_tag} 
+    {events[0]['name']}="OnFirstEvent"
+    {events[1]['name']}="OnSecondEvent">
+    Multiple Events
+</{component_tag}>
+
+@code {{
+    private void OnFirstEvent()
+    {{
+        Console.WriteLine("First event triggered");
+    }}
+    
+    private void OnSecondEvent()
+    {{
+        Console.WriteLine("Second event triggered");
+    }}
+}}
+```"""
+        advanced_examples.append(("Multiple Event Handlers", multi_event_example))
+    
+    # Form integration
+    if events:
+        form_example = f"""```razor
+<EditForm Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    
+    <{component_tag} Type="submit">
+        Submit Form
+    </{component_tag}>
+</EditForm>
+
+@code {{
+    private MyModel model = new();
+    
+    private void HandleSubmit()
+    {{
+        // Process form submission
+        Console.WriteLine("Form submitted successfully");
+    }}
+}}
+```"""
+        advanced_examples.append(("Form Integration", form_example))
+    
+    # Accessibility
+    aria_param = next((p for p in params if 'aria' in p['name'].lower() or 'label' in p['name'].lower()), None)
+    if aria_param or tooltip_param:
+        acc_attrs = []
+        if aria_param:
+            acc_attrs.append(f'{aria_param["name"]}="Primary action button"')
+        if tooltip_param:
+            acc_attrs.append(f'{tooltip_param["name"]}="Click to perform action"')
+        
+        if acc_attrs:
+            accessibility_example = f"""```razor
+@* Accessible component with ARIA label and tooltip *@
+<{component_tag} {' '.join(acc_attrs)}>
+    Accessible Button
+</{component_tag}>
+```"""
+            advanced_examples.append(("Accessibility", accessibility_example))
+    
+    # Display advanced examples
+    if advanced_examples:
+        md_lines.append("### Advanced Examples")
+        md_lines.append("")
+        md_lines.append("More complex usage scenarios:")
+        md_lines.append("")
+        for title, code in advanced_examples:
+            md_lines.append(f"#### {title}")
+            md_lines.append("")
+            md_lines.append(code)
+            md_lines.append("")
+    
+    # Real-world scenario
+    md_lines.append("### Real-World Example")
+    md_lines.append("")
+    md_lines.append("A complete example showing practical usage:")
+    md_lines.append("")
+    md_lines.append("```razor")
+    md_lines.append("@page \"/example\"")
+    md_lines.append("")
+    md_lines.append("<h3>Component Demo</h3>")
+    md_lines.append("")
+    md_lines.append("<div class=\"space-y-4\">")
+    
+    # Build a realistic example
+    example_attrs = []
+    if variant_param:
+        variant_enum = find_enum(variant_param['type'], enums)
+        if variant_enum and variant_enum.get('values'):
+            example_attrs.append(f'{variant_param["name"]}="{variant_param["type"]}.{variant_enum["values"][0]}"')
+    
+    if size_param:
+        size_enum = find_enum(size_param['type'], enums)
+        if size_enum and size_enum.get('values'):
+            example_attrs.append(f'{size_param["name"]}="{size_param["type"]}.{size_enum["values"][1] if len(size_enum["values"]) > 1 else size_enum["values"][0]}"')
+    
+    if events:
+        example_attrs.append(f'{events[0]["name"]}="HandleAction"')
+    
+    attrs_str = ' '.join(example_attrs) if example_attrs else ''
+    
+    has_child = any('renderfragment' in p['type'].lower() for p in params)
+    if has_child:
+        md_lines.append(f"    <{component_tag} {attrs_str}>")
+        md_lines.append("        Action Button")
+        md_lines.append(f"    </{component_tag}>")
+    else:
+        md_lines.append(f"    <{component_tag} {attrs_str} />")
+    
+    md_lines.append("</div>")
+    md_lines.append("")
+    md_lines.append("@code {")
+    if events:
+        event_type = events[0].get('type', 'void')
+        if event_type and event_type != 'void':
+            md_lines.append(f"    private void HandleAction({event_type} args)")
+        else:
+            md_lines.append("    private void HandleAction()")
+        md_lines.append("    {")
+        md_lines.append("        // Perform action")
+        md_lines.append("        Console.WriteLine(\"Action executed\");")
+        md_lines.append("    }")
+    else:
+        md_lines.append("    // Component logic here")
+    md_lines.append("}")
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Base Class
+    md_lines.append("## Base Class")
+    md_lines.append("")
+    md_lines.append(f"The component inherits from `{base_class}` (from `Tail.Blazor.Core.Base`), which provides:")
+    md_lines.append("")
+    md_lines.append("- `Class` parameter for additional CSS classes")
+    md_lines.append("- `AdditionalAttributes` parameter for additional HTML attributes")
+    md_lines.append("")
+    
+    # Dependencies
+    md_lines.append("## Dependencies")
+    md_lines.append("")
+    dependencies = csproj_info.get('dependencies', [])
+    if dependencies:
+        md_lines.append("- `Tail.Blazor.Core.Base` (required)")
+        for dep in dependencies:
+            if dep['name'] != 'Tail.Blazor.Core.Base':
+                dep_name = dep['name']
+                if dep['type'] == 'Project':
+                    md_lines.append(f"- `{dep_name}`")
+                else:
+                    md_lines.append(f"- `{dep_name}`")
+    else:
+        md_lines.append("- `Tail.Blazor.Core.Base` (required)")
+        md_lines.append("- `Microsoft.AspNetCore.Components`")
+        md_lines.append("- `Microsoft.AspNetCore.Components.Web`")
+    md_lines.append("")
+    
+    # Target Frameworks
+    md_lines.append("## Target Frameworks")
+    md_lines.append("")
+    target_frameworks = csproj_info.get('target_frameworks', [])
+    if target_frameworks:
+        for tf in target_frameworks:
+            md_lines.append(f"- .NET {tf.replace('net', '').replace('.0', '')}")
+    else:
+        md_lines.append("- .NET 8.0")
+        md_lines.append("- .NET 9.0")
+        md_lines.append("- .NET 10.0")
+    md_lines.append("")
+    
+    # Package Information
+    md_lines.append("## Package Information")
+    md_lines.append("")
+    md_lines.append(f"- **Package ID**: `{name}`")
+    md_lines.append(f"- **Version**: {csproj_info.get('version', '1.0.0')}")
+    md_lines.append(f"- **License**: {csproj_info.get('license', 'MIT')}")
+    md_lines.append(f"- **Authors**: {csproj_info.get('authors', 'Tail.Blazor Core Team')}")
+    md_lines.append(f"- **Repository**: {csproj_info.get('repository_url', 'https://github.com/tailblazor/tailblazor')}")
+    md_lines.append("")
 
     readme_path.write_text('\n'.join(md_lines), encoding='utf-8')
 
@@ -540,6 +1494,7 @@ def generate_event_description(event_name, event_type):
 def extract_component_metadata(component_info):
     """Extract metadata for a single component."""
     if not component_info['razor_file']:
+        csproj_info = extract_csproj_info(component_info['path'], component_info['name'])
         return {
             "name": component_info['name'],
             "friendly_name": component_info['friendly_name'],
@@ -556,7 +1511,11 @@ def extract_component_metadata(component_info):
             "package_size": "",
             "example_code": "",
             "is_generic": component_info.get('is_generic', False),
-            "is_missing": component_info.get('is_missing', False)
+            "is_missing": component_info.get('is_missing', False),
+            "namespace": extract_namespace(component_info['path'], component_info['name']),
+            "csproj_info": csproj_info,
+            "enums": {},
+            "base_class": None
         }
     
     code_block = extract_razor_code(component_info['razor_file'])
@@ -564,6 +1523,11 @@ def extract_component_metadata(component_info):
         razor_content = Path(component_info['razor_file']).read_text(encoding='utf-8')
     except Exception:
         razor_content = ""
+    
+    # Extract @using directives FIRST to help with parameter type resolution
+    using_directives = extract_using_directives(component_info['path'])
+    
+    # Extract parameters - now with context of using directives
     parameters = extract_parameters(code_block)
     events = extract_events(code_block)
     properties = extract_properties(code_block)
@@ -573,6 +1537,12 @@ def extract_component_metadata(component_info):
     
     # Extract README content
     readme_content = extract_readme_content(component_info['path'])
+    
+    # Extract additional metadata
+    namespace = extract_namespace(component_info['path'], component_info['name'])
+    csproj_info = extract_csproj_info(component_info['path'], component_info['name'])
+    enums = extract_all_enums(component_info['path'])
+    base_class = extract_base_class_info(code_block, component_info['path'])
     
     return {
         "name": component_info['name'],
@@ -590,7 +1560,12 @@ def extract_component_metadata(component_info):
         "package_size": readme_content.get("package_size", ""),
         "example_code": readme_content.get("example_code", ""),
         "is_generic": component_info.get('is_generic', False),
-        "is_missing": component_info.get('is_missing', False)
+        "is_missing": component_info.get('is_missing', False),
+        "namespace": namespace,
+        "csproj_info": csproj_info,
+        "enums": enums,
+        "base_class": base_class,
+        "using_directives": using_directives
     }
 
 
@@ -772,14 +1747,231 @@ def generate_doc_page(component_meta):
     
     component_tag = f"Tail{friendly_name}" if '.' not in friendly_name else name.replace('Tail.Blazor.', 'Tail')
     
-    # Generate examples using enhanced function
-    examples = get_component_examples(component_meta, params, component_meta.get('events', []))
+    # Get examples from README first (preferred), then generate if not available
+    readme_examples = component_meta.get('readme_examples', {})
+    generated_examples = get_component_examples(component_meta, params, component_meta.get('events', []))
+    
+    # Merge: prefer README examples, fallback to generated
+    examples = {}
+    for key in ['basic', 'variants', 'sizes', 'states', 'events', 'combinations', 'quickstart', 'patterns', 'advanced', 'realworld']:
+        if key in readme_examples and readme_examples[key]:
+            examples[key] = readme_examples[key]
+        elif key in generated_examples:
+            examples[key] = generated_examples[key]
+    
+    def find_enum(enum_type, enums_list):
+        """Find enum by type name."""
+        if not enum_type or not enums_list:
+            return None
+        # Try exact match first
+        for enum in enums_list:
+            if enum.get('name') == enum_type or enum.get('name') == enum_type.split('.')[-1]:
+                return enum
+        return None
+    
+    def get_preview_markup(example_name):
+        """Extract clean, compilable Razor markup for PreviewUI from examples."""
+        value = examples.get(example_name, "")
+        if not value:
+            return None
+        
+        # Extract just the component markup (before @code block)
+        parts = re.split(r'\n@code\s*\{', value, 1)
+        markup = parts[0].strip() if parts else value
+        
+        # Remove @page and @using directives (already in the page)
+        markup = re.sub(r'@page\s+"[^"]*"\s*\n?', '', markup)
+        markup = re.sub(r'@using\s+[^\s]+\s*\n?', '', markup)
+        
+        # Remove all event handler attributes (OnClick, OnValueChanged, @bind-Value, etc.)
+        markup = re.sub(r'\s+On[A-Z]\w+="[^"]*"', '', markup)
+        markup = re.sub(r'\s+On\w+="[^"]*"', '', markup)
+        markup = re.sub(r'\s+@[a-zA-Z-]+="[^"]*"', '', markup)
+        markup = re.sub(r'\s+@bind-\w+="[^"]*"', '', markup)
+        markup = re.sub(r'\s+\w+Changed="[^"]*"', '', markup)
+        markup = re.sub(r'\s+\w+Click="[^"]*"', '', markup)
+        markup = re.sub(r'\s+\w+="Handle[^"]*"', '', markup)
+        markup = re.sub(r'\s+\w+="\(\)\s*=>[^"]*"', '', markup)
+        
+        # Remove comments that might cause issues
+        markup = re.sub(r'@\*.*?\*@', '', markup, flags=re.DOTALL)
+        
+        # ALWAYS use fully qualified namespaces for all enum references
+        namespace = component_meta.get('namespace', name)
+        if namespace:
+            # Build enum namespace map from component's parameters and enums
+            enum_to_namespace_map = {}
+            
+            # First, map enums defined in this component
+            component_enums = component_meta.get('enums', [])
+            if isinstance(component_enums, list):
+                for enum_data in component_enums:
+                    if isinstance(enum_data, dict):
+                        enum_name = enum_data.get('name', '')
+                        if enum_name:
+                            enum_to_namespace_map[enum_name] = namespace
+            
+            # Then, check parameters to see what enum types are actually used
+            params_list = component_meta.get('parameters', [])
+            using_directives = component_meta.get('using_directives', [])
+            
+            for param in params_list:
+                param_type = param.get('type', '')
+                if param_type:
+                    # Extract enum name (last part after dots)
+                    enum_name = param_type.split('.')[-1]
+                    # If type is fully qualified, use that namespace
+                    if '.' in param_type:
+                        enum_ns = '.'.join(param_type.split('.')[:-1])
+                        # Only override if not already mapped (component's own enums take precedence)
+                        if enum_name not in enum_to_namespace_map:
+                            enum_to_namespace_map[enum_name] = enum_ns
+                    elif enum_name not in enum_to_namespace_map:
+                        # Unqualified type - DYNAMICALLY resolve from @using directives
+                        enum_found = False
+                        
+                        # Strategy 1: Direct pattern matching for common enum names
+                        # ButtonSize, ButtonVariant -> Tail.Blazor.Button
+                        if enum_name in ['ButtonSize', 'ButtonVariant']:
+                            for using_ns in using_directives:
+                                if 'Tail.Blazor.Button' in using_ns or using_ns == 'Tail.Blazor.Button':
+                                    enum_to_namespace_map[enum_name] = 'Tail.Blazor.Button'
+                                    enum_found = True
+                                    break
+                        
+                        # Strategy 2: Extract base name from enum and match with using directives
+                        # e.g., "InputSize" -> base "Input" -> match "Tail.Blazor.Input"
+                        if not enum_found:
+                            # Remove common suffixes to get base component name
+                            base_name = enum_name
+                            for suffix in ['Size', 'Variant', 'Type', 'Position', 'Placement', 'Style', 'State', 'Level', 'Mode', 'Direction', 'Alignment', 'Orientation', 'Theme', 'Shape']:
+                                if enum_name.endswith(suffix):
+                                    base_name = enum_name[:-len(suffix)]
+                                    break
+                            
+                            # Match base name with using directives
+                            for using_ns in using_directives:
+                                # Check if base name appears in the namespace
+                                # e.g., "Input" in "Tail.Blazor.Input"
+                                if base_name in using_ns and 'Tail.Blazor' in using_ns:
+                                    enum_to_namespace_map[enum_name] = using_ns
+                                    enum_found = True
+                                    break
+                        
+                        # Strategy 3: For enum names that start with a component name
+                        # e.g., "ButtonSize" starts with "Button" -> check for "Tail.Blazor.Button"
+                        if not enum_found:
+                            # Try to extract component name from enum name
+                            for using_ns in using_directives:
+                                if 'Tail.Blazor' in using_ns:
+                                    # Get the component name from namespace (last part)
+                                    ns_parts = using_ns.split('.')
+                                    if len(ns_parts) >= 3:
+                                        component_name = ns_parts[-1]  # e.g., "Button" from "Tail.Blazor.Button"
+                                        # Check if enum name starts with this component name
+                                        if enum_name.startswith(component_name):
+                                            enum_to_namespace_map[enum_name] = using_ns
+                                            enum_found = True
+                                            break
+                        
+                        # Strategy 4: Default to component namespace if still not found
+                        if not enum_found:
+                            enum_to_namespace_map[enum_name] = namespace
+            
+            # Replace all enum references with fully qualified names
+            for enum_name, enum_ns in enum_to_namespace_map.items():
+                # Pattern: EnumName.Value -> Namespace.EnumName.Value
+                # Match enum references that are NOT already fully qualified
+                pattern = rf'(?<!\.)\b{enum_name}\.'
+                qualified_pattern = f'{enum_ns}.{enum_name}.'
+                # Only replace if not already qualified with this namespace
+                if re.search(pattern, markup):
+                    # Check if already has this namespace prefix
+                    if qualified_pattern not in markup:
+                        # Check if it has a different namespace (don't replace those)
+                        if f'.{enum_name}.' not in markup:
+                            markup = re.sub(pattern, qualified_pattern, markup)
+            
+            # Also fix any remaining unqualified enum patterns using dynamic detection
+            enum_pattern = r'(?<!\.)\b([A-Z][a-zA-Z]*(?:Size|Variant|Type|Position|Placement|Style|State|Level|Mode|Direction|Alignment|Orientation|Theme|Shape))\.([A-Z][a-zA-Z0-9]*)'
+            def qualify_enum(match):
+                enum_type = match.group(1)
+                enum_value = match.group(2)
+                # Use the map if available (from parameter analysis)
+                if enum_type in enum_to_namespace_map:
+                    return f'{enum_to_namespace_map[enum_type]}.{enum_type}.{enum_value}'
+                
+                # Dynamic fallback: check using directives for enum namespace
+                for using_ns in using_directives:
+                    if 'Tail.Blazor' in using_ns:
+                        # Extract component name from namespace (e.g., "Button" from "Tail.Blazor.Button")
+                        ns_parts = using_ns.split('.')
+                        if len(ns_parts) >= 3:
+                            component_name = ns_parts[-1]
+                            # Check if enum type starts with or contains this component name
+                            if enum_type.startswith(component_name) or component_name in enum_type:
+                                return f'{using_ns}.{enum_type}.{enum_value}'
+                
+                # Final fallback to component namespace
+                return f'{namespace}.{enum_type}.{enum_value}'
+            
+            markup = re.sub(enum_pattern, qualify_enum, markup)
+        
+        # Clean up whitespace
+        markup = re.sub(r'\n\s*\n\s*\n+', '\n\n', markup)
+        markup = markup.strip()
+        
+        return markup if markup else None
 
     def safe_example(name):
         value = examples.get(name, "")
         if not value:
             return '<div style="color: var(--color-text-secondary); padding: 24px; text-align: center;">Preview not available.</div>'
-        return value
+        
+        # Clean up PreviewUI content - remove @code blocks and event handlers
+        # Remove @code blocks (including multiline) - be very aggressive
+        value = re.sub(r'@code\s*\{[^}]*\}', '', value, flags=re.DOTALL)
+        value = re.sub(r'\n\s*@code\s*\{.*?\n\s*\}', '', value, flags=re.DOTALL)
+        value = re.sub(r'@code.*?\{.*?\}', '', value, flags=re.DOTALL)
+        
+        # Remove all event handler attributes (OnClick, OnValueChanged, @bind-Value, etc.)
+        # Match any attribute that starts with On or @ - be very aggressive
+        value = re.sub(r'\s+On[A-Z]\w+="[^"]*"', '', value)
+        value = re.sub(r'\s+On\w+="[^"]*"', '', value)
+        value = re.sub(r'\s+@[a-zA-Z-]+="[^"]*"', '', value)
+        value = re.sub(r'\s+@bind-\w+="[^"]*"', '', value)
+        value = re.sub(r'\s+\w+Changed="[^"]*"', '', value)
+        value = re.sub(r'\s+\w+Click="[^"]*"', '', value)
+        # Remove any attribute with Handle in the value
+        value = re.sub(r'\s+\w+="Handle[^"]*"', '', value)
+        value = re.sub(r'\s+\w+="\(\)\s*=>[^"]*"', '', value)
+        
+        # Remove @page and @using directives for preview
+        value = re.sub(r'@page\s+"[^"]*"\s*\n?', '', value)
+        value = re.sub(r'@using\s+[^\s]+\s*\n?', '', value)
+        
+        # Remove empty lines and extra whitespace
+        value = re.sub(r'\n\s*\n\s*\n', '\n\n', value)
+        
+        # Fix enum type references to use fully qualified names
+        namespace = component_meta.get('namespace', name)
+        # Fix common enum patterns - replace unqualified enum types with qualified ones
+        # But only if the enum type matches the component's namespace
+        # For now, just remove enum values from preview to avoid type conflicts
+        # Or use the component's namespace
+        if namespace and namespace != name:
+            # Replace common enum patterns with qualified names
+            enum_types = ['ButtonSize', 'ButtonVariant', 'Size', 'Variant']
+            for enum_type in enum_types:
+                # Only replace if it's not already qualified and matches component namespace pattern
+                pattern = rf'\b{enum_type}\.'
+                if pattern in value and f'{namespace}.{enum_type}' not in value:
+                    # Check if this component has this enum
+                    component_enums = component_meta.get('enums', {})
+                    if enum_type in component_enums or any(enum_type in k for k in component_enums.keys()):
+                        value = re.sub(pattern, f'{namespace}.{enum_type}.', value)
+        
+        return value.strip()
     
     # Build page header
     doc_page = f'@page "/components/{category.lower()}/{friendly_name.lower()}"\n'
@@ -842,7 +2034,11 @@ def generate_doc_page(component_meta):
         </div>
 '''
     else:
-        basic_preview = safe_example("basic")
+        basic_preview_markup = get_preview_markup("basic")
+        if not basic_preview_markup:
+            # Fallback: create a simple component instance
+            basic_preview_markup = f"<{component_tag}>Content</{component_tag}>"
+        
         doc_page += f'''        <TailTabs ActiveIndex="0">
             <Items>
                 <TailTabItem Label="Preview" />
@@ -851,7 +2047,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-{textwrap.indent(basic_preview, ' ' * 24)}
+{textwrap.indent(basic_preview_markup, ' ' * 24)}
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -862,6 +2058,47 @@ def generate_doc_page(component_meta):
 '''
     
     doc_page += '    </DocSection>\n'
+    
+    # Add Quick Start section if available
+    if 'quickstart' in examples and not is_generic and not is_missing:
+        quickstart_preview = get_preview_markup("quickstart")
+        if not quickstart_preview:
+            quickstart_preview = f"<{component_tag}>Hello, World!</{component_tag}>"
+        
+        doc_page += '''
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+''' + textwrap.indent(quickstart_preview, ' ' * 24) + '''
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+'''
+    
+    # Add Common Patterns section if available
+    if 'patterns' in examples and not is_generic and not is_missing:
+        doc_page += '''
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
+    </DocSection>
+'''
     
     # Add feature sections
     if 'variants' in examples and not is_generic and not is_missing:
@@ -878,7 +2115,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-''' + textwrap.indent(safe_example("variants"), ' ' * 20) + '''
+''' + textwrap.indent(get_preview_markup("variants") or _generate_fallback_variants(component_tag, namespace, params, enums), ' ' * 20) + '''
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -903,7 +2140,7 @@ def generate_doc_page(component_meta):
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-''' + textwrap.indent(safe_example("sizes"), ' ' * 20) + '''
+''' + textwrap.indent(get_preview_markup("sizes") or _generate_fallback_sizes(component_tag, namespace, params, enums), ' ' * 20) + '''
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -911,6 +2148,100 @@ def generate_doc_page(component_meta):
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+'''
+    
+    # Add States section if available
+    if 'states' in examples and not is_generic and not is_missing:
+        states_preview = get_preview_markup("states")
+        if not states_preview:
+            states_preview = f"<{component_tag} Disabled=\"true\">Disabled</{component_tag}>"
+        
+        doc_page += '''
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+''' + textwrap.indent(states_preview, ' ' * 20) + '''
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+'''
+    
+    # Add Event Handling section if available
+    if 'events' in examples and not is_generic and not is_missing:
+        events_preview = get_preview_markup("events")
+        if not events_preview:
+            # Fallback: just show component without any attributes
+            events_preview = f"<{component_tag}>Click Me</{component_tag}>"
+        
+        doc_page += '''
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+''' + textwrap.indent(events_preview, ' ' * 20) + '''
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+'''
+    
+    # Add Parameter Combinations section if available
+    if 'combinations' in examples and not is_generic and not is_missing:
+        doc_page += '''
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+'''
+    
+    # Add Advanced Examples section if available
+    if 'advanced' in examples and not is_generic and not is_missing:
+        doc_page += '''
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+'''
+    
+    # Add Real-World Example section if available
+    if 'realworld' in examples and not is_generic and not is_missing:
+        doc_page += '''
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 '''
     
@@ -1130,6 +2461,48 @@ def generate_doc_page(component_meta):
         doc_page += f'    private string statesCode = @"\n{states_escaped}\n";\n\n'
     else:
         doc_page += '    private string statesCode = @"\n<TailComponent Disabled=""true"">Disabled</TailComponent>\n";\n\n'
+    
+    # Quick Start
+    if 'quickstart' in examples:
+        quickstart_escaped = escape_razor_code(examples["quickstart"])
+        doc_page += f'    private string quickstartCode = @"\n{quickstart_escaped}\n";\n\n'
+    
+    # Patterns
+    if 'patterns' in examples:
+        patterns_escaped = escape_razor_code(examples["patterns"])
+        doc_page += f'    private string patternsCode = @"\n{patterns_escaped}\n";\n\n'
+    
+    # Events - fix custom types to use fully qualified names
+    if 'events' in examples:
+        events_code = examples["events"]
+        # Replace custom types with fully qualified names
+        namespace = component_meta.get('namespace', name)
+        # List of custom types that need qualification
+        custom_types = ['FilterCriteria', 'NotificationItem', 'ContextMenuItem', 
+                       'FloatingActionMenuItem', 'MenuItemClickArgs', 'ScrollSpyItem']
+        for custom_type in custom_types:
+            # Replace unqualified type references with fully qualified ones
+            pattern = rf'\b{custom_type}\b'
+            if re.search(pattern, events_code) and f'{namespace}.{custom_type}' not in events_code:
+                events_code = re.sub(pattern, f'{namespace}.{custom_type}', events_code)
+        
+        events_escaped = escape_razor_code(events_code)
+        doc_page += f'    private string eventsCode = @"\n{events_escaped}\n";\n\n'
+    
+    # Combinations
+    if 'combinations' in examples:
+        combinations_escaped = escape_razor_code(examples["combinations"])
+        doc_page += f'    private string combinationsCode = @"\n{combinations_escaped}\n";\n\n'
+    
+    # Advanced
+    if 'advanced' in examples:
+        advanced_escaped = escape_razor_code(examples["advanced"])
+        doc_page += f'    private string advancedCode = @"\n{advanced_escaped}\n";\n\n'
+    
+    # Real-World
+    if 'realworld' in examples:
+        realworld_escaped = escape_razor_code(examples["realworld"])
+        doc_page += f'    private string realworldCode = @"\n{realworld_escaped}\n";\n\n'
     
     # API parameters (keep for backward compatibility)
     doc_page += '    private List<DocPageTemplate.ApiParameter> apiParameters = new()\n    {\n'
@@ -1459,6 +2832,8 @@ def main():
             comp_meta["features"] = readme_info.get("features", comp_meta.get("features", []))
             comp_meta["package_size"] = readme_info.get("package_size", comp_meta.get("package_size", ""))
             comp_meta["example_code"] = readme_info.get("example_code", comp_meta.get("example_code", ""))
+            comp_meta["readme_examples"] = readme_info.get("examples", {})
+            comp_meta["namespace"] = readme_info.get("namespace", comp_meta.get("namespace", ""))
             if readme_info.get("description"):
                 comp_meta["description"] = readme_info["description"]
             readmes_created += 1

@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailNumeric></TailNumeric>
+                        <TailNumeric />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailNumeric />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -54,9 +83,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Sm">Small</TailNumeric>
-                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Md">Medium</TailNumeric>
-                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Lg">Large</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Xs">Xs</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Sm">Sm</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Md">Md</TailNumeric>
+                    <TailNumeric Size="Tail.Blazor.Numeric.NumericSize.Lg">Lg</TailNumeric>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -64,6 +94,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailNumeric Disabled="true">Disabled</TailNumeric>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailNumeric>
+                        Click Me
+                    </TailNumeric>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -163,16 +260,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Numeric";
 
-    private string basicCode = @"<TailNumeric></TailNumeric>";
+    private string basicCode = @"<TailNumeric />";
 
     private string sizesCode = @"
-<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Sm"">Small</TailNumeric>
-<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Md"">Medium</TailNumeric>
-<TailNumeric Size=""Tail.Blazor.Numeric.NumericSize.Lg"">Large</TailNumeric>
+<TailNumeric Size=""NumericSize.Xs"">Xs</TailNumeric>
+<TailNumeric Size=""NumericSize.Sm"">Sm</TailNumeric>
+<TailNumeric Size=""NumericSize.Md"">Md</TailNumeric>
+<TailNumeric Size=""NumericSize.Lg"">Lg</TailNumeric>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailNumeric Disabled=""true"">Disabled</TailNumeric>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Numeric
+
+<TailNumeric />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailNumeric Size=""NumericSize.Md"">
+    Medium Size
+</TailNumeric>
+```
+
+**With Click Handler**
+
+```razor
+<TailNumeric ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailNumeric>
+```
+
+**Disabled State**
+
+```razor
+<TailNumeric Disabled=""true"">
+    Disabled
+</TailNumeric>
+```
+";
+
+    private string eventsCode = @"
+<TailNumeric ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailNumeric>
+
+@code {
+    private void HandleValueChanged(decimal args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailNumeric Size=""NumericSize.Sm"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailNumeric Size=""NumericSize.Sm"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(decimal args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

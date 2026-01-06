@@ -17,39 +17,191 @@ dotnet add package Tail.Blazor.ProgressBarCircular
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.ProgressBarCircular;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailProgressBarCircular></TailProgressBarCircular>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| Value | int | - | Current value of the component |
-| Size | int | 100 | Size of the component |
-| StrokeWidth | int | 8 | StrokeWidth parameter |
-| Variant | ProgressBarCircularVariant | ProgressBarCircularVariant.Primary | Visual variant style for the component |
-| ShowLabel | bool | true | Label text for the component |
-| Style | string? | - | Additional CSS styles |
+| **Value** | `int` | - | Current value of the component |
+| **Size** | `int` | 100 | Size of the component |
+| **StrokeWidth** | `int` | 8 | StrokeWidth parameter |
+| **Variant** | `ProgressBarCircularVariant` | ProgressBarCircularVariant.Primary | Visual variant style for the component |
+| **ShowLabel** | `bool` | true | Label text for the component |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 No events exposed.
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### ProgressBarCircularVariant
 
-## Methods
+```csharp
+public enum ProgressBarCircularVariant
+{
+    Primary,
+    Success,
+    Warning,
+    Danger,
+}
+```
 
-No additional public methods.
+/// ProgressBarCircular variant styles.
+///
+
+### Tail.Blazor.ProgressBarCircular;.ProgressBarCircularVariant
+
+```csharp
+public enum Tail.Blazor.ProgressBarCircular;.ProgressBarCircularVariant
+{
+    Primary,
+    Success,
+    Warning,
+    Danger,
+}
+```
+
+/// ProgressBarCircular variant styles.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailProgressBarCircular></TailProgressBarCircular>
+@page "/quickstart"
+@using Tail.Blazor.ProgressBarCircular
+
+<TailProgressBarCircular />
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Primary">
+    Primary Action
+</TailProgressBarCircular>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailProgressBarCircular />
+```
+
+### Variants
+
+Different visual variants for various use cases:
+
+```razor
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Primary">Primary</TailProgressBarCircular>
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Success">Success</TailProgressBarCircular>
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Warning">Warning</TailProgressBarCircular>
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Danger">Danger</TailProgressBarCircular>
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailProgressBarCircular Variant="ProgressBarCircularVariant.Primary" Value="10" StrokeWidth="10" ShowLabel="true" />
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailProgressBarCircular Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailProgressBarCircular>
+
+@* Using Class parameter *@
+<TailProgressBarCircular Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailProgressBarCircular>
+```
+
+#### Accessibility
+
+```razor
+@* Accessible component with ARIA label and tooltip *@
+<TailProgressBarCircular Variant="Primary action button">
+    Accessible Button
+</TailProgressBarCircular>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailProgressBarCircular Variant="ProgressBarCircularVariant.Primary" />
+</div>
+
+@code {
+    // Component logic here
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.ProgressBarCircular`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

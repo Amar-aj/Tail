@@ -31,7 +31,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailToggleButton></TailToggleButton>
+                        <TailToggleButton>Content</TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -39,6 +39,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailToggleButton>
+                            Hello, World!
+                        </TailToggleButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -56,6 +87,11 @@
                     <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Primary">Primary</TailToggleButton>
                     <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Success">Success</TailToggleButton>
                     <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Warning">Warning</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Danger">Danger</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Info">Info</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Outline">Outline</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Soft">Soft</TailToggleButton>
+                    <TailToggleButton Variant="Tail.Blazor.ToggleButton.ButtonVariant.Ghost">Ghost</TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -77,9 +113,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Sm">Small</TailToggleButton>
-                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Md">Medium</TailToggleButton>
-                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Lg">Large</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Xs">Xs</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Sm">Sm</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Md">Md</TailToggleButton>
+                    <TailToggleButton Size="Tail.Blazor.ToggleButton.ButtonSize.Lg">Lg</TailToggleButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -87,6 +124,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailToggleButton Disabled="true">Disabled</TailToggleButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailToggleButton>
+                        Click Me
+                    </TailToggleButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -203,22 +307,120 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ToggleButton";
 
-    private string basicCode = @"<TailToggleButton></TailToggleButton>";
+    private string basicCode = @"<TailToggleButton>Content</TailToggleButton>";
 
     private string variantsCode = @"
-<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Primary"">Primary</TailToggleButton>
-<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Success"">Success</TailToggleButton>
-<TailToggleButton Variant=""Tail.Blazor.ToggleButton.ButtonVariant.Warning"">Warning</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Primary"">Primary</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Success"">Success</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Warning"">Warning</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Danger"">Danger</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Info"">Info</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Outline"">Outline</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Soft"">Soft</TailToggleButton>
+<TailToggleButton Variant=""ButtonVariant.Ghost"">Ghost</TailToggleButton>
 ";
 
     private string sizesCode = @"
-<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Sm"">Small</TailToggleButton>
-<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Md"">Medium</TailToggleButton>
-<TailToggleButton Size=""Tail.Blazor.ToggleButton.ButtonSize.Lg"">Large</TailToggleButton>
+<TailToggleButton Size=""ButtonSize.Xs"">Xs</TailToggleButton>
+<TailToggleButton Size=""ButtonSize.Sm"">Sm</TailToggleButton>
+<TailToggleButton Size=""ButtonSize.Md"">Md</TailToggleButton>
+<TailToggleButton Size=""ButtonSize.Lg"">Lg</TailToggleButton>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailToggleButton Disabled=""true"">Disabled</TailToggleButton>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.ToggleButton
+
+<TailToggleButton>
+    Hello, World!
+</TailToggleButton>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailToggleButton Variant=""ButtonVariant.Primary"">
+    Primary Action
+</TailToggleButton>
+```
+
+**Medium Size**
+
+```razor
+<TailToggleButton Size=""ButtonSize.Md"">
+    Medium Size
+</TailToggleButton>
+```
+
+**With Click Handler**
+
+```razor
+<TailToggleButton IsToggledChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailToggleButton>
+```
+
+**Disabled State**
+
+```razor
+<TailToggleButton Disabled=""true"">
+    Disabled
+</TailToggleButton>
+```
+";
+
+    private string eventsCode = @"
+<TailToggleButton IsToggledChanged=""HandleIsToggledChanged"">
+    Click Me
+</TailToggleButton>
+
+@code {
+    private void HandleIsToggledChanged(bool args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailToggleButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">
+    Combined Parameters
+</TailToggleButton>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailToggleButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"" IsToggledChanged=""HandleAction"">
+        Action Button
+    </TailToggleButton>
+</div>
+
+@code {
+    private void HandleAction(bool args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

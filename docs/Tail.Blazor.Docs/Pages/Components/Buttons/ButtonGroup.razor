@@ -29,7 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailButtonGroup></TailButtonGroup>
+                        <TailButtonGroup>Content</TailButtonGroup>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -37,6 +37,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailButtonGroup>
+                            Hello, World!
+                        </TailButtonGroup>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -75,9 +106,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Sm">Small</TailButtonGroup>
-                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Md">Medium</TailButtonGroup>
-                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Lg">Large</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Xs">Xs</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Sm">Sm</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Md">Md</TailButtonGroup>
+                    <TailButtonGroup Size="Tail.Blazor.ButtonGroup.ButtonGroupSize.Lg">Lg</TailButtonGroup>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -85,6 +117,49 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailButtonGroup Disabled="true">Disabled</TailButtonGroup>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -199,7 +274,7 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ButtonGroup";
 
-    private string basicCode = @"<TailButtonGroup></TailButtonGroup>";
+    private string basicCode = @"<TailButtonGroup>Content</TailButtonGroup>";
 
     private string variantsCode = @"
 <TailButtonGroup Variant=""string?.Primary"">Primary</TailButtonGroup>
@@ -208,13 +283,72 @@
 ";
 
     private string sizesCode = @"
-<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Sm"">Small</TailButtonGroup>
-<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Md"">Medium</TailButtonGroup>
-<TailButtonGroup Size=""Tail.Blazor.ButtonGroup.ButtonGroupSize.Lg"">Large</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Xs"">Xs</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Sm"">Sm</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Md"">Md</TailButtonGroup>
+<TailButtonGroup Size=""ButtonGroupSize.Lg"">Lg</TailButtonGroup>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailButtonGroup Disabled=""true"">Disabled</TailButtonGroup>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.ButtonGroup
+
+<TailButtonGroup>
+    Hello, World!
+</TailButtonGroup>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailButtonGroup Size=""ButtonGroupSize.Md"">
+    Medium Size
+</TailButtonGroup>
+```
+
+**Disabled State**
+
+```razor
+<TailButtonGroup Disabled=""true"">
+    Disabled
+</TailButtonGroup>
+```
+";
+
+    private string combinationsCode = @"
+<TailButtonGroup Size=""ButtonGroupSize.Sm"" Vertical=""true"">
+    Combined Parameters
+</TailButtonGroup>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailButtonGroup Size=""ButtonGroupSize.Sm"">
+        Action Button
+    </TailButtonGroup>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

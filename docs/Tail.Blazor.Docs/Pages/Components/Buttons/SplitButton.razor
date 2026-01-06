@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSplitButton></TailSplitButton>
+                        <TailSplitButton>Content</TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailSplitButton>
+                            Hello, World!
+                        </TailSplitButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -57,6 +88,11 @@
                     <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Primary">Primary</TailSplitButton>
                     <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Success">Success</TailSplitButton>
                     <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Warning">Warning</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Danger">Danger</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Info">Info</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Outline">Outline</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Soft">Soft</TailSplitButton>
+                    <TailSplitButton Variant="Tail.Blazor.SplitButton.ButtonVariant.Ghost">Ghost</TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -78,9 +114,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Sm">Small</TailSplitButton>
-                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Md">Medium</TailSplitButton>
-                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Lg">Large</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Xs">Xs</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Sm">Sm</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Md">Md</TailSplitButton>
+                    <TailSplitButton Size="Tail.Blazor.SplitButton.ButtonSize.Lg">Lg</TailSplitButton>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -88,6 +125,77 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSplitButton Disabled="true">Disabled</TailSplitButton>
+
+                    <TailSplitButton IsLoading="true">Loading...</TailSplitButton>
+
+                    <TailSplitButton Disabled="true" IsLoading="true">Processing</TailSplitButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSplitButton>
+                        Click Me
+                    </TailSplitButton>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -204,22 +312,126 @@
 
     private string installCode = "dotnet add package Tail.Blazor.SplitButton";
 
-    private string basicCode = @"<TailSplitButton></TailSplitButton>";
+    private string basicCode = @"<TailSplitButton>Content</TailSplitButton>";
 
     private string variantsCode = @"
-<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Primary"">Primary</TailSplitButton>
-<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Success"">Success</TailSplitButton>
-<TailSplitButton Variant=""Tail.Blazor.SplitButton.ButtonVariant.Warning"">Warning</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Primary"">Primary</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Success"">Success</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Warning"">Warning</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Danger"">Danger</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Info"">Info</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Outline"">Outline</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Soft"">Soft</TailSplitButton>
+<TailSplitButton Variant=""ButtonVariant.Ghost"">Ghost</TailSplitButton>
 ";
 
     private string sizesCode = @"
-<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Sm"">Small</TailSplitButton>
-<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Md"">Medium</TailSplitButton>
-<TailSplitButton Size=""Tail.Blazor.SplitButton.ButtonSize.Lg"">Large</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Xs"">Xs</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Sm"">Sm</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Md"">Md</TailSplitButton>
+<TailSplitButton Size=""ButtonSize.Lg"">Lg</TailSplitButton>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailSplitButton Disabled=""true"">Disabled</TailSplitButton>
+
+@* Loading state *@
+<TailSplitButton IsLoading=""true"">Loading...</TailSplitButton>
+
+@* Both disabled and loading *@
+<TailSplitButton Disabled=""true"" IsLoading=""true"">Processing</TailSplitButton>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.SplitButton
+
+<TailSplitButton>
+    Hello, World!
+</TailSplitButton>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailSplitButton Variant=""ButtonVariant.Primary"">
+    Primary Action
+</TailSplitButton>
+```
+
+**Medium Size**
+
+```razor
+<TailSplitButton Size=""ButtonSize.Md"">
+    Medium Size
+</TailSplitButton>
+```
+
+**With Click Handler**
+
+```razor
+<TailSplitButton OnPrimaryClick=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailSplitButton>
+```
+
+**Disabled State**
+
+```razor
+<TailSplitButton Disabled=""true"">
+    Disabled
+</TailSplitButton>
+```
+";
+
+    private string eventsCode = @"
+<TailSplitButton OnPrimaryClick=""HandleOnPrimaryClick"">
+    Click Me
+</TailSplitButton>
+
+@code {
+    private void HandleOnPrimaryClick(MouseEventArgs args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailSplitButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"">
+    Combined Parameters
+</TailSplitButton>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailSplitButton Variant=""ButtonVariant.Primary"" Size=""ButtonSize.Sm"" OnPrimaryClick=""HandleAction"">
+        Action Button
+    </TailSplitButton>
+</div>
+
+@code {
+    private void HandleAction(MouseEventArgs args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

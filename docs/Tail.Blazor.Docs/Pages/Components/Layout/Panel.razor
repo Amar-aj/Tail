@@ -29,7 +29,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailPanel></TailPanel>
+                        <TailPanel>Content</TailPanel>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -37,6 +37,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailPanel>
+                            Hello, World!
+                        </TailPanel>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -54,6 +85,7 @@
                     <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Default">Default</TailPanel>
                     <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Success">Success</TailPanel>
                     <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Warning">Warning</TailPanel>
+                    <TailPanel Variant="Tail.Blazor.Panel.PanelVariant.Danger">Danger</TailPanel>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -61,6 +93,27 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -115,16 +168,66 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Panel";
 
-    private string basicCode = @"<TailPanel></TailPanel>";
+    private string basicCode = @"<TailPanel>Content</TailPanel>";
 
     private string variantsCode = @"
-<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Default"">Default</TailPanel>
-<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Success"">Success</TailPanel>
-<TailPanel Variant=""Tail.Blazor.Panel.PanelVariant.Warning"">Warning</TailPanel>
+<TailPanel Variant=""PanelVariant.Default"">Default</TailPanel>
+<TailPanel Variant=""PanelVariant.Success"">Success</TailPanel>
+<TailPanel Variant=""PanelVariant.Warning"">Warning</TailPanel>
+<TailPanel Variant=""PanelVariant.Danger"">Danger</TailPanel>
 ";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Panel
+
+<TailPanel>
+    Hello, World!
+</TailPanel>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailPanel Variant=""PanelVariant.Default"">
+    Primary Action
+</TailPanel>
+```
+";
+
+    private string combinationsCode = @"
+<TailPanel Variant=""PanelVariant.Default"" Title=""Sample Title"" Style=""Sample Style"">
+    Combined Parameters
+</TailPanel>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailPanel Variant=""PanelVariant.Default"">
+        Action Button
+    </TailPanel>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

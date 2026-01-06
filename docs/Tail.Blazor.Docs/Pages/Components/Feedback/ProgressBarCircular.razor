@@ -30,7 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailProgressBarCircular></TailProgressBarCircular>
+                        <TailProgressBarCircular />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -38,6 +38,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailProgressBarCircular />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Variants">
@@ -55,6 +84,7 @@
                     <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Primary">Primary</TailProgressBarCircular>
                     <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success">Success</TailProgressBarCircular>
                     <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning">Warning</TailProgressBarCircular>
+                    <TailProgressBarCircular Variant="Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Danger">Danger</TailProgressBarCircular>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -86,6 +116,27 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -152,12 +203,13 @@
 
     private string installCode = "dotnet add package Tail.Blazor.ProgressBarCircular";
 
-    private string basicCode = @"<TailProgressBarCircular></TailProgressBarCircular>";
+    private string basicCode = @"<TailProgressBarCircular />";
 
     private string variantsCode = @"
-<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Primary"">Primary</TailProgressBarCircular>
-<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Success"">Success</TailProgressBarCircular>
-<TailProgressBarCircular Variant=""Tail.Blazor.ProgressBarCircular.ProgressBarCircularVariant.Warning"">Warning</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Primary"">Primary</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Success"">Success</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Warning"">Warning</TailProgressBarCircular>
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Danger"">Danger</TailProgressBarCircular>
 ";
 
     private string sizesCode = @"
@@ -168,6 +220,49 @@
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.ProgressBarCircular
+
+<TailProgressBarCircular />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Primary"">
+    Primary Action
+</TailProgressBarCircular>
+```
+";
+
+    private string combinationsCode = @"
+<TailProgressBarCircular Variant=""ProgressBarCircularVariant.Primary"" Value=""10"" StrokeWidth=""10"" ShowLabel=""true"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailProgressBarCircular Variant=""ProgressBarCircularVariant.Primary"" />
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

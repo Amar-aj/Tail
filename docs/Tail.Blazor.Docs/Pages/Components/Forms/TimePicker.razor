@@ -32,7 +32,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailTimePicker></TailTimePicker>
+                        <TailTimePicker />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -40,6 +40,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailTimePicker />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -54,9 +83,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Sm">Small</TailTimePicker>
-                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Md">Medium</TailTimePicker>
-                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Lg">Large</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Xs">Xs</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Sm">Sm</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Md">Md</TailTimePicker>
+                    <TailTimePicker Size="Tail.Blazor.TimePicker.TimePickerSize.Lg">Lg</TailTimePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -64,6 +94,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailTimePicker Disabled="true">Disabled</TailTimePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailTimePicker>
+                        Click Me
+                    </TailTimePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -157,16 +254,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.TimePicker";
 
-    private string basicCode = @"<TailTimePicker></TailTimePicker>";
+    private string basicCode = @"<TailTimePicker />";
 
     private string sizesCode = @"
-<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Sm"">Small</TailTimePicker>
-<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Md"">Medium</TailTimePicker>
-<TailTimePicker Size=""Tail.Blazor.TimePicker.TimePickerSize.Lg"">Large</TailTimePicker>
+<TailTimePicker Size=""TimePickerSize.Xs"">Xs</TailTimePicker>
+<TailTimePicker Size=""TimePickerSize.Sm"">Sm</TailTimePicker>
+<TailTimePicker Size=""TimePickerSize.Md"">Md</TailTimePicker>
+<TailTimePicker Size=""TimePickerSize.Lg"">Lg</TailTimePicker>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailTimePicker Disabled=""true"">Disabled</TailTimePicker>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.TimePicker
+
+<TailTimePicker />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailTimePicker Size=""TimePickerSize.Md"">
+    Medium Size
+</TailTimePicker>
+```
+
+**With Click Handler**
+
+```razor
+<TailTimePicker ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailTimePicker>
+```
+
+**Disabled State**
+
+```razor
+<TailTimePicker Disabled=""true"">
+    Disabled
+</TailTimePicker>
+```
+";
+
+    private string eventsCode = @"
+<TailTimePicker ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailTimePicker>
+
+@code {
+    private void HandleValueChanged(Tail.Blazor.TimePicker.TimeSpan? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailTimePicker Size=""TimePickerSize.Sm"" Label=""Sample Label"" ErrorMessage=""Sample ErrorMessage"" Required=""true"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailTimePicker Size=""TimePickerSize.Sm"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(TimeSpan? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

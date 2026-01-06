@@ -34,7 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailSelect></TailSelect>
+                        <TailSelect>Content</TailSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -42,6 +42,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailSelect>
+                            Hello, World!
+                        </TailSelect>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -56,9 +87,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Sm">Small</TailSelect>
-                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Md">Medium</TailSelect>
-                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Lg">Large</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Xs">Xs</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Sm">Sm</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Md">Md</TailSelect>
+                    <TailSelect Size="Tail.Blazor.Select.SelectSize.Lg">Lg</TailSelect>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -66,6 +98,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSelect Disabled="true">Disabled</TailSelect>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailSelect>
+                        Click Me
+                    </TailSelect>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -183,16 +282,101 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Select";
 
-    private string basicCode = @"<TailSelect></TailSelect>";
+    private string basicCode = @"<TailSelect>Content</TailSelect>";
 
     private string sizesCode = @"
-<TailSelect Size=""Tail.Blazor.Select.SelectSize.Sm"">Small</TailSelect>
-<TailSelect Size=""Tail.Blazor.Select.SelectSize.Md"">Medium</TailSelect>
-<TailSelect Size=""Tail.Blazor.Select.SelectSize.Lg"">Large</TailSelect>
+<TailSelect Size=""SelectSize.Xs"">Xs</TailSelect>
+<TailSelect Size=""SelectSize.Sm"">Sm</TailSelect>
+<TailSelect Size=""SelectSize.Md"">Md</TailSelect>
+<TailSelect Size=""SelectSize.Lg"">Lg</TailSelect>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailSelect Disabled=""true"">Disabled</TailSelect>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Select
+
+<TailSelect>
+    Hello, World!
+</TailSelect>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailSelect Size=""SelectSize.Md"">
+    Medium Size
+</TailSelect>
+```
+
+**With Click Handler**
+
+```razor
+<TailSelect ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailSelect>
+```
+
+**Disabled State**
+
+```razor
+<TailSelect Disabled=""true"">
+    Disabled
+</TailSelect>
+```
+";
+
+    private string eventsCode = @"
+<TailSelect ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailSelect>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailSelect Size=""SelectSize.Sm"" Value=""Sample Value"" Label=""Sample Label"" Placeholder=""Sample Placeholder"" HelpText=""Sample HelpText"">
+    Combined Parameters
+</TailSelect>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailSelect Size=""SelectSize.Sm"" ValueChanged=""HandleAction"">
+        Action Button
+    </TailSelect>
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

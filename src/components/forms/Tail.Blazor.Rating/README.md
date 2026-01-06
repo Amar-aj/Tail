@@ -20,43 +20,336 @@ dotnet add package Tail.Blazor.Rating
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.Rating;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailRating></TailRating>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| Value | int | - | Current value of the component |
-| MaxRating | int | 5 | Maximum value constraint |
-| Size | RatingSize | RatingSize.Md | Size of the component |
-| Color | RatingColor | RatingColor.Yellow | Color scheme for the component |
-| ShowValue | bool | - | Current value of the component |
-| Disabled | bool | - | Whether the component is disabled |
-| ReadOnly | bool | - | Whether the component is read-only |
-| Style | string? | - | Additional CSS styles |
+| **Value** | `int` | - | Current value of the component |
+| **MaxRating** | `int` | 5 | Maximum value constraint |
+| **Size** | `RatingSize` | RatingSize.Md | Size of the component |
+| **Color** | `RatingColor` | RatingColor.Yellow | Color scheme for the component |
+| **ShowValue** | `bool` | - | Current value of the component |
+| **Disabled** | `bool` | - | Whether the component is disabled |
+| **ReadOnly** | `bool` | - | Whether the component is read-only |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 | Event | Type | Description |
 | --- | --- | --- |
-| ValueChanged | int | Raised when value changes |
+| **ValueChanged** | `EventCallback<int>` | Raised when value changes |
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### RatingSize
 
-## Methods
+```csharp
+public enum RatingSize
+{
+    Sm,
+    Md,
+    Lg,
+}
+```
 
-No additional public methods.
+/// Rating size options.
+///
+
+### Tail.Blazor.Rating;.RatingSize
+
+```csharp
+public enum Tail.Blazor.Rating;.RatingSize
+{
+    Sm,
+    Md,
+    Lg,
+}
+```
+
+/// Rating size options.
+///
+
+### RatingColor
+
+```csharp
+public enum RatingColor
+{
+    Yellow,
+    Orange,
+    Red,
+    Pink,
+}
+```
+
+/// Rating color options.
+///
+
+### Tail.Blazor.Rating;.RatingColor
+
+```csharp
+public enum Tail.Blazor.Rating;.RatingColor
+{
+    Yellow,
+    Orange,
+    Red,
+    Pink,
+}
+```
+
+/// Rating color options.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailRating></TailRating>
+@page "/quickstart"
+@using Tail.Blazor.Rating
+
+<TailRating />
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailRating Size="RatingSize.Md">
+    Medium Size
+</TailRating>
+```
+
+**With Click Handler**
+
+```razor
+<TailRating ValueChanged="() => Console.WriteLine("Clicked")">
+    Click Me
+</TailRating>
+```
+
+**Disabled State**
+
+```razor
+<TailRating Disabled="true">
+    Disabled
+</TailRating>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailRating />
+```
+
+### Sizes
+
+Size options to fit different layouts and contexts:
+
+```razor
+<TailRating Size="RatingSize.Sm">Sm</TailRating>
+<TailRating Size="RatingSize.Md">Md</TailRating>
+<TailRating Size="RatingSize.Lg">Lg</TailRating>
+```
+
+### States
+
+Component states for different interaction scenarios:
+
+```razor
+@* Disabled state *@
+<TailRating Disabled="true">Disabled</TailRating>
+
+```
+
+### Event Handling
+
+Handle user interactions with event callbacks:
+
+```razor
+<TailRating ValueChanged="HandleValueChanged">
+    Click Me
+</TailRating>
+
+@code {
+    private void HandleValueChanged(int args)
+    {
+        // Handle the event
+        Console.WriteLine($"Event triggered: {args}");
+    }
+}
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailRating Size="RatingSize.Md" Value="10" MaxRating="10" ShowValue="true" />
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Conditional Rendering
+
+```razor
+@code {
+    private bool isProcessing = false;
+    private bool isDisabled = false;
+}
+
+<TailRating Disabled="@isDisabled" IsLoading="@isProcessing">
+    @if (isProcessing)
+    {
+        <text>Processing...</text>
+    }
+    else
+    {
+        <text>Submit</text>
+    }
+</TailRating>
+
+<TailRating OnClick="ToggleProcessing">
+    Toggle State
+</TailRating>
+
+@code {
+    private void ToggleProcessing()
+    {
+        isProcessing = !isProcessing;
+        isDisabled = isProcessing;
+    }
+}
+```
+
+#### Data Binding
+
+```razor
+@code {
+    private string componentValue = "";
+}
+
+<TailRating @bind-Value="componentValue" ValueChanged="OnValueChanged">
+    Bound Component
+</TailRating>
+
+<p>Current Value: @componentValue</p>
+
+@code {
+    private void OnValueChanged()
+    {
+        Console.WriteLine($"Value changed to: {componentValue}");
+    }
+}
+```
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailRating Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailRating>
+
+@* Using Class parameter *@
+<TailRating Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailRating>
+```
+
+#### Form Integration
+
+```razor
+<EditForm Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    
+    <TailRating Type="submit">
+        Submit Form
+    </TailRating>
+</EditForm>
+
+@code {
+    private MyModel model = new();
+    
+    private void HandleSubmit()
+    {
+        // Process form submission
+        Console.WriteLine("Form submitted successfully");
+    }
+}
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailRating Size="RatingSize.Md" ValueChanged="HandleAction" />
+</div>
+
+@code {
+    private void HandleAction(int args)
+    {
+        // Perform action
+        Console.WriteLine("Action executed");
+    }
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.Rating`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

@@ -137,6 +137,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailInfiniteScroll IsLoading=""true"" ThresholdPixels=""1"" OnLoadMore=""args => Console.WriteLine(""OnLoadMore"")"">Interact</TailInfiniteScroll>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },

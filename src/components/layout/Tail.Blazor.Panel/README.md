@@ -16,37 +16,195 @@ dotnet add package Tail.Blazor.Panel
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.Panel;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailPanel></TailPanel>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| ChildContent | RenderFragment? | - | ChildContent parameter |
-| Title | string? | - | Title parameter |
-| Variant | PanelVariant | PanelVariant.Default | Visual variant style for the component |
-| Style | string? | - | Additional CSS styles |
+| **ChildContent** | `RenderFragment?` | - | ChildContent parameter |
+| **Title** | `string?` | - | Title parameter |
+| **Variant** | `PanelVariant` | PanelVariant.Default | Visual variant style for the component |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 No events exposed.
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### PanelVariant
 
-## Methods
+```csharp
+public enum PanelVariant
+{
+    Default,
+    Success,
+    Warning,
+    Danger,
+}
+```
 
-No additional public methods.
+/// Panel variant styles.
+///
+
+### Tail.Blazor.Panel;.PanelVariant
+
+```csharp
+public enum Tail.Blazor.Panel;.PanelVariant
+{
+    Default,
+    Success,
+    Warning,
+    Danger,
+}
+```
+
+/// Panel variant styles.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailPanel></TailPanel>
+@page "/quickstart"
+@using Tail.Blazor.Panel
+
+<TailPanel>
+    Hello, World!
+</TailPanel>
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailPanel Variant="PanelVariant.Default">
+    Primary Action
+</TailPanel>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailPanel>Content</TailPanel>
+```
+
+### Variants
+
+Different visual variants for various use cases:
+
+```razor
+<TailPanel Variant="PanelVariant.Default">Default</TailPanel>
+<TailPanel Variant="PanelVariant.Success">Success</TailPanel>
+<TailPanel Variant="PanelVariant.Warning">Warning</TailPanel>
+<TailPanel Variant="PanelVariant.Danger">Danger</TailPanel>
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailPanel Variant="PanelVariant.Default" Title="Sample Title" Style="Sample Style">
+    Combined Parameters
+</TailPanel>
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailPanel Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailPanel>
+
+@* Using Class parameter *@
+<TailPanel Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailPanel>
+```
+
+#### Accessibility
+
+```razor
+@* Accessible component with ARIA label and tooltip *@
+<TailPanel Variant="Primary action button">
+    Accessible Button
+</TailPanel>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailPanel Variant="PanelVariant.Default">
+        Action Button
+    </TailPanel>
+</div>
+
+@code {
+    // Component logic here
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.Panel`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

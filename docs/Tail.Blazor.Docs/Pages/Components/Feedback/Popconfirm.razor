@@ -30,7 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailPopconfirm></TailPopconfirm>
+                        <TailPopconfirm>Content</TailPopconfirm>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -38,6 +38,82 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailPopconfirm>
+                            Hello, World!
+                        </TailPopconfirm>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailPopconfirm>
+                        Click Me
+                    </TailPopconfirm>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -136,10 +212,77 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Popconfirm";
 
-    private string basicCode = @"<TailPopconfirm></TailPopconfirm>";
+    private string basicCode = @"<TailPopconfirm>Content</TailPopconfirm>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Popconfirm
+
+<TailPopconfirm>
+    Hello, World!
+</TailPopconfirm>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**With Click Handler**
+
+```razor
+<TailPopconfirm OnConfirm=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailPopconfirm>
+```
+";
+
+    private string eventsCode = @"
+<TailPopconfirm OnConfirm=""HandleOnConfirm"">
+    Click Me
+</TailPopconfirm>
+
+@code {
+    private void HandleOnConfirm()
+    {
+        // Handle the event
+        Console.WriteLine(""Event triggered"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailPopconfirm Title=""Sample Title"" ConfirmText=""Sample ConfirmText"" CancelText=""Sample CancelText"">
+    Combined Parameters
+</TailPopconfirm>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailPopconfirm OnConfirm=""HandleAction"">
+        Action Button
+    </TailPopconfirm>
+</div>
+
+@code {
+    private void HandleAction()
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

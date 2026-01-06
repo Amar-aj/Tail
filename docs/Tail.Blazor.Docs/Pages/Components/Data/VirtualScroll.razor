@@ -106,10 +106,51 @@
 
     private string installCode = "dotnet add package Tail.Blazor.VirtualScroll";
 
-    private string basicCode = @"@* VirtualScroll requires type parameter *@";
+    private string basicCode = @"<TailVirtualScroll T=""YourModel"">Content</TailVirtualScroll>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.VirtualScroll
+
+<TailVirtualScroll>
+    Hello, World!
+</TailVirtualScroll>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+";
+
+    private string combinationsCode = @"
+<TailVirtualScroll ItemHeight=""10"" VisibleCount=""10"" Style=""Sample Style"">
+    Combined Parameters
+</TailVirtualScroll>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailVirtualScroll >
+        Action Button
+    </TailVirtualScroll>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

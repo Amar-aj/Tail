@@ -173,6 +173,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailNavDrawer IsOpen=""true"" ShowCloseButton=""true"" IsOpenChanged=""args => Console.WriteLine(""IsOpenChanged"")"">Interact</TailNavDrawer>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },

@@ -30,7 +30,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailIcon></TailIcon>
+                        <TailIcon>Content</TailIcon>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -38,6 +38,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailIcon>
+                            Hello, World!
+                        </TailIcon>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -52,9 +83,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Sm">Small</TailIcon>
-                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Md">Medium</TailIcon>
-                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Lg">Large</TailIcon>
+                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Xs">Xs</TailIcon>
+                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Sm">Sm</TailIcon>
+                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Md">Md</TailIcon>
+                    <TailIcon Size="Tail.Blazor.Icon.IconSize.Lg">Lg</TailIcon>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -62,6 +94,27 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -116,16 +169,66 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Icon";
 
-    private string basicCode = @"<TailIcon></TailIcon>";
+    private string basicCode = @"<TailIcon>Content</TailIcon>";
 
     private string sizesCode = @"
-<TailIcon Size=""Tail.Blazor.Icon.IconSize.Sm"">Small</TailIcon>
-<TailIcon Size=""Tail.Blazor.Icon.IconSize.Md"">Medium</TailIcon>
-<TailIcon Size=""Tail.Blazor.Icon.IconSize.Lg"">Large</TailIcon>
+<TailIcon Size=""IconSize.Xs"">Xs</TailIcon>
+<TailIcon Size=""IconSize.Sm"">Sm</TailIcon>
+<TailIcon Size=""IconSize.Md"">Md</TailIcon>
+<TailIcon Size=""IconSize.Lg"">Lg</TailIcon>
 ";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Icon
+
+<TailIcon>
+    Hello, World!
+</TailIcon>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailIcon Size=""IconSize.Md"">
+    Medium Size
+</TailIcon>
+```
+";
+
+    private string combinationsCode = @"
+<TailIcon Size=""IconSize.Sm"" Style=""Sample Style"">
+    Combined Parameters
+</TailIcon>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailIcon Size=""IconSize.Sm"">
+        Action Button
+    </TailIcon>
+</div>
+
+@code {
+    // Component logic here
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

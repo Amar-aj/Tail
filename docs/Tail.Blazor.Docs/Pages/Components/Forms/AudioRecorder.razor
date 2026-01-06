@@ -34,7 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailAudioRecorder></TailAudioRecorder>
+                        <TailAudioRecorder />
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -42,6 +42,35 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailAudioRecorder />
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -56,9 +85,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Sm">Small</TailAudioRecorder>
-                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Md">Medium</TailAudioRecorder>
-                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Lg">Large</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Xs">Xs</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Sm">Sm</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Md">Md</TailAudioRecorder>
+                    <TailAudioRecorder Size="Tail.Blazor.AudioRecorder.AudioRecorderSize.Lg">Lg</TailAudioRecorder>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -66,6 +96,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailAudioRecorder Disabled="true">Disabled</TailAudioRecorder>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailAudioRecorder>
+                        Click Me
+                    </TailAudioRecorder>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -180,16 +277,95 @@
 
     private string installCode = "dotnet add package Tail.Blazor.AudioRecorder";
 
-    private string basicCode = @"<TailAudioRecorder></TailAudioRecorder>";
+    private string basicCode = @"<TailAudioRecorder />";
 
     private string sizesCode = @"
-<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Sm"">Small</TailAudioRecorder>
-<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Md"">Medium</TailAudioRecorder>
-<TailAudioRecorder Size=""Tail.Blazor.AudioRecorder.AudioRecorderSize.Lg"">Large</TailAudioRecorder>
+<TailAudioRecorder Size=""AudioRecorderSize.Xs"">Xs</TailAudioRecorder>
+<TailAudioRecorder Size=""AudioRecorderSize.Sm"">Sm</TailAudioRecorder>
+<TailAudioRecorder Size=""AudioRecorderSize.Md"">Md</TailAudioRecorder>
+<TailAudioRecorder Size=""AudioRecorderSize.Lg"">Lg</TailAudioRecorder>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailAudioRecorder Disabled=""true"">Disabled</TailAudioRecorder>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.AudioRecorder
+
+<TailAudioRecorder />
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailAudioRecorder Size=""AudioRecorderSize.Md"">
+    Medium Size
+</TailAudioRecorder>
+```
+
+**With Click Handler**
+
+```razor
+<TailAudioRecorder ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailAudioRecorder>
+```
+
+**Disabled State**
+
+```razor
+<TailAudioRecorder Disabled=""true"">
+    Disabled
+</TailAudioRecorder>
+```
+";
+
+    private string eventsCode = @"
+<TailAudioRecorder ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailAudioRecorder>
+
+@code {
+    private void HandleValueChanged(string? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailAudioRecorder Size=""AudioRecorderSize.Sm"" Value=""Sample Value"" Label=""Sample Label"" MaxRecordingTime=""10"" />
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailAudioRecorder Size=""AudioRecorderSize.Sm"" ValueChanged=""HandleAction"" />
+</div>
+
+@code {
+    private void HandleAction(string? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

@@ -28,7 +28,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailClipboard></TailClipboard>
+                        <TailClipboard>Content</TailClipboard>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -36,6 +36,82 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailClipboard>
+                            Hello, World!
+                        </TailClipboard>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailClipboard>
+                        Click Me
+                    </TailClipboard>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -105,10 +181,77 @@
 
     private string installCode = "dotnet add package Tail.Blazor.Clipboard";
 
-    private string basicCode = @"<TailClipboard></TailClipboard>";
+    private string basicCode = @"<TailClipboard>Content</TailClipboard>";
 
     private string statesCode = @"
 <TailComponent Disabled=""true"">Disabled</TailComponent>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.Clipboard
+
+<TailClipboard>
+    Hello, World!
+</TailClipboard>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**With Click Handler**
+
+```razor
+<TailClipboard OnCopied=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailClipboard>
+```
+";
+
+    private string eventsCode = @"
+<TailClipboard OnCopied=""HandleOnCopied"">
+    Click Me
+</TailClipboard>
+
+@code {
+    private void HandleOnCopied()
+    {
+        // Handle the event
+        Console.WriteLine(""Event triggered"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailClipboard Text=""Sample Text"" Style=""Sample Style"">
+    Combined Parameters
+</TailClipboard>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailClipboard OnCopied=""HandleAction"">
+        Action Button
+    </TailClipboard>
+</div>
+
+@code {
+    private void HandleAction()
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

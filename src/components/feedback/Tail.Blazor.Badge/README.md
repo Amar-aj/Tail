@@ -16,38 +16,242 @@ dotnet add package Tail.Blazor.Badge
 - Full theme support with CSS variables
 - MAUI Blazor Hybrid compatible
 
-## Class
+## Namespace
 
-Component class generated from the Razor file.
+```csharp
+using Tail.Blazor.Badge;
+```
 
-## Type Parameters
+## Component Usage
 
-No generic type parameters.
+```razor
+<TailBadge></TailBadge>
+```
 
 ## Parameters
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| ChildContent | RenderFragment? | - | ChildContent parameter |
-| Variant | BadgeVariant | BadgeVariant.Primary | Visual variant style for the component |
-| Size | BadgeSize | BadgeSize.Md | Size of the component |
-| ShowDot | bool | - | ShowDot parameter |
-| Style | string? | - | Additional CSS styles |
+| **ChildContent** | `RenderFragment?` | - | ChildContent parameter |
+| **Variant** | `BadgeVariant` | BadgeVariant.Primary | Visual variant style for the component |
+| **Size** | `BadgeSize` | BadgeSize.Md | Size of the component |
+| **ShowDot** | `bool` | - | ShowDot parameter |
+| **Style** | `string?` | - | Additional CSS styles |
 
 ## Events
 
 No events exposed.
 
-## Public Properties
+## Enums
 
-No additional public properties.
+### BadgeVariant
 
-## Methods
+```csharp
+public enum BadgeVariant
+{
+    Primary,
+    Success,
+    Warning,
+    Danger,
+    Info,
+}
+```
 
-No additional public methods.
+/// Badge variant styles.
+///
+
+### Tail.Blazor.Badge;.BadgeVariant
+
+```csharp
+public enum Tail.Blazor.Badge;.BadgeVariant
+{
+    Primary,
+    Success,
+    Warning,
+    Danger,
+    Info,
+}
+```
+
+/// Badge variant styles.
+///
+
+### BadgeSize
+
+```csharp
+public enum BadgeSize
+{
+    Sm,
+    Md,
+}
+```
+
+/// Badge size options.
+///
+
+### Tail.Blazor.Badge;.BadgeSize
+
+```csharp
+public enum Tail.Blazor.Badge;.BadgeSize
+{
+    Sm,
+    Md,
+}
+```
+
+/// Badge size options.
+///
 
 ## Examples
 
+This section provides comprehensive examples to help you get started with the component.
+
+### Quick Start
+
+Get up and running in seconds:
+
 ```razor
-<TailBadge></TailBadge>
+@page "/quickstart"
+@using Tail.Blazor.Badge
+
+<TailBadge>
+    Hello, World!
+</TailBadge>
 ```
+
+### Common Patterns
+
+Frequently used patterns and combinations:
+
+**Primary Action**
+
+```razor
+<TailBadge Variant="BadgeVariant.Primary">
+    Primary Action
+</TailBadge>
+```
+
+**Medium Size**
+
+```razor
+<TailBadge Size="BadgeSize.Sm">
+    Medium Size
+</TailBadge>
+```
+
+### Basic Usage
+
+The simplest way to use the component:
+
+```razor
+<TailBadge>Content</TailBadge>
+```
+
+### Variants
+
+Different visual variants for various use cases:
+
+```razor
+<TailBadge Variant="BadgeVariant.Primary">Primary</TailBadge>
+<TailBadge Variant="BadgeVariant.Success">Success</TailBadge>
+<TailBadge Variant="BadgeVariant.Warning">Warning</TailBadge>
+<TailBadge Variant="BadgeVariant.Danger">Danger</TailBadge>
+<TailBadge Variant="BadgeVariant.Info">Info</TailBadge>
+```
+
+### Sizes
+
+Size options to fit different layouts and contexts:
+
+```razor
+<TailBadge Size="BadgeSize.Sm">Sm</TailBadge>
+<TailBadge Size="BadgeSize.Md">Md</TailBadge>
+```
+
+### Parameter Combinations
+
+Combine multiple parameters for advanced usage:
+
+```razor
+<TailBadge Variant="BadgeVariant.Primary" Size="BadgeSize.Md" ShowDot="true" Style="Sample Style">
+    Combined Parameters
+</TailBadge>
+```
+
+### Advanced Examples
+
+More complex usage scenarios:
+
+#### Custom Styling
+
+```razor
+@* Using Style parameter *@
+<TailBadge Style="background-color: #3b82f6; color: white;">
+    Custom Styled
+</TailBadge>
+
+@* Using Class parameter *@
+<TailBadge Class="my-custom-class shadow-lg">
+    With Custom Class
+</TailBadge>
+```
+
+#### Accessibility
+
+```razor
+@* Accessible component with ARIA label and tooltip *@
+<TailBadge Variant="Primary action button">
+    Accessible Button
+</TailBadge>
+```
+
+### Real-World Example
+
+A complete example showing practical usage:
+
+```razor
+@page "/example"
+
+<h3>Component Demo</h3>
+
+<div class="space-y-4">
+    <TailBadge Variant="BadgeVariant.Primary" Size="BadgeSize.Md">
+        Action Button
+    </TailBadge>
+</div>
+
+@code {
+    // Component logic here
+}
+```
+
+## Base Class
+
+The component inherits from `TailComponentBase` (from `Tail.Blazor.Core.Base`), which provides:
+
+- `Class` parameter for additional CSS classes
+- `AdditionalAttributes` parameter for additional HTML attributes
+
+## Dependencies
+
+- `Tail.Blazor.Core.Base` (required)
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+- `Microsoft.AspNetCore.Components`
+- `Microsoft.AspNetCore.Components.Web`
+
+## Target Frameworks
+
+- .NET 8
+- .NET 9
+- .NET 10
+
+## Package Information
+
+- **Package ID**: `Tail.Blazor.Badge`
+- **Version**: 1.0.0
+- **License**: MIT
+- **Authors**: Tail.Blazor Core Team
+- **Repository**: https://github.com/tailblazor/tailblazor

@@ -34,7 +34,7 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                        <TailDatePicker></TailDatePicker>
+                        <TailDatePicker>Content</TailDatePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -42,6 +42,37 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Quick Start">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Get up and running in seconds.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                        <TailDatePicker>
+                            Hello, World!
+                        </TailDatePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@quickstartCode" CodeElementId="quickstart-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Common Patterns">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Frequently used patterns and combinations.
+        </p>
+        <CodePreview Code="@patternsCode" CodeElementId="patterns-code" />
     </DocSection>
 
     <DocSection Title="Sizes">
@@ -56,9 +87,10 @@
             <Content>
                 <TailTabPanel>
                     <PreviewUI>
-                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Sm">Small</TailDatePicker>
-                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Md">Medium</TailDatePicker>
-                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Lg">Large</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Xs">Xs</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Sm">Sm</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Md">Md</TailDatePicker>
+                    <TailDatePicker Size="Tail.Blazor.DatePicker.DatePickerSize.Lg">Lg</TailDatePicker>
                     </PreviewUI>
                 </TailTabPanel>
                 <TailTabPanel>
@@ -66,6 +98,73 @@
                 </TailTabPanel>
             </Content>
         </TailTabs>
+    </DocSection>
+
+    <DocSection Title="States">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Component states for different interaction scenarios.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailDatePicker Disabled="true">Disabled</TailDatePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@statesCode" CodeElementId="states-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Event Handling">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Handle user interactions with event callbacks.
+        </p>
+        <TailTabs ActiveIndex="0">
+            <Items>
+                <TailTabItem Label="Preview" />
+                <TailTabItem Label="Code" />
+            </Items>
+            <Content>
+                <TailTabPanel>
+                    <PreviewUI>
+                    <TailDatePicker>
+                        Click Me
+                    </TailDatePicker>
+                    </PreviewUI>
+                </TailTabPanel>
+                <TailTabPanel>
+                    <CodePreview Code="@eventsCode" CodeElementId="events-code" />
+                </TailTabPanel>
+            </Content>
+        </TailTabs>
+    </DocSection>
+
+    <DocSection Title="Parameter Combinations">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            Combine multiple parameters for advanced usage.
+        </p>
+        <CodePreview Code="@combinationsCode" CodeElementId="combinations-code" />
+    </DocSection>
+
+    <DocSection Title="Advanced Examples">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            More complex usage scenarios.
+        </p>
+        <CodePreview Code="@advancedCode" CodeElementId="advanced-code" />
+    </DocSection>
+
+    <DocSection Title="Real-World Example">
+        <p class="mb-4" style="color: var(--color-text-secondary);">
+            A complete example showing practical usage.
+        </p>
+        <CodePreview Code="@realworldCode" CodeElementId="realworld-code" />
     </DocSection>
 
     <DocSection Title="API Reference">
@@ -341,16 +440,101 @@
 
     private string installCode = "dotnet add package Tail.Blazor.DatePicker";
 
-    private string basicCode = @"<TailDatePicker></TailDatePicker>";
+    private string basicCode = @"<TailDatePicker>Content</TailDatePicker>";
 
     private string sizesCode = @"
-<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Sm"">Small</TailDatePicker>
-<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Md"">Medium</TailDatePicker>
-<TailDatePicker Size=""Tail.Blazor.DatePicker.DatePickerSize.Lg"">Large</TailDatePicker>
+<TailDatePicker Size=""DatePickerSize.Xs"">Xs</TailDatePicker>
+<TailDatePicker Size=""DatePickerSize.Sm"">Sm</TailDatePicker>
+<TailDatePicker Size=""DatePickerSize.Md"">Md</TailDatePicker>
+<TailDatePicker Size=""DatePickerSize.Lg"">Lg</TailDatePicker>
 ";
 
     private string statesCode = @"
-<TailComponent Disabled=""true"">Disabled</TailComponent>
+@* Disabled state *@
+<TailDatePicker Disabled=""true"">Disabled</TailDatePicker>
+";
+
+    private string quickstartCode = @"
+@page ""/quickstart""
+@using Tail.Blazor.DatePicker
+
+<TailDatePicker>
+    Hello, World!
+</TailDatePicker>
+";
+
+    private string patternsCode = @"
+Frequently used patterns and combinations:
+
+**Medium Size**
+
+```razor
+<TailDatePicker Size=""DatePickerSize.Md"">
+    Medium Size
+</TailDatePicker>
+```
+
+**With Click Handler**
+
+```razor
+<TailDatePicker ValueChanged=""() => Console.WriteLine(""Clicked"")"">
+    Click Me
+</TailDatePicker>
+```
+
+**Disabled State**
+
+```razor
+<TailDatePicker Disabled=""true"">
+    Disabled
+</TailDatePicker>
+```
+";
+
+    private string eventsCode = @"
+<TailDatePicker ValueChanged=""HandleValueChanged"">
+    Click Me
+</TailDatePicker>
+
+@code {
+    private void HandleValueChanged(DateTime? args)
+    {
+        // Handle the event
+        Console.WriteLine($""Event triggered: {args}"");
+    }
+}
+";
+
+    private string combinationsCode = @"
+<TailDatePicker Size=""DatePickerSize.Sm"" Label=""Sample Label"" HelpText=""Sample HelpText"" ErrorMessage=""Sample ErrorMessage"">
+    Combined Parameters
+</TailDatePicker>
+";
+
+    private string advancedCode = @"
+More complex usage scenarios:
+
+##
+";
+
+    private string realworldCode = @"
+@page ""/example""
+
+<h3>Component Demo</h3>
+
+<div class=""space-y-4"">
+    <TailDatePicker Size=""DatePickerSize.Sm"" ValueChanged=""HandleAction"">
+        Action Button
+    </TailDatePicker>
+</div>
+
+@code {
+    private void HandleAction(DateTime? args)
+    {
+        // Perform action
+        Console.WriteLine(""Action executed"");
+    }
+}
 ";
 
     private List<DocPageTemplate.ApiParameter> apiParameters = new()

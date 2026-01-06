@@ -164,6 +164,10 @@
 <TailComponent Disabled=""true"">Disabled</TailComponent>
 ";
 
+    private string eventsCode = @"
+<TailPopover Position=""Sample Position"" IsOpen=""true"" IsOpenChanged=""args => Console.WriteLine(""IsOpenChanged"")"">Interact</TailPopover>
+";
+
     private List<DocPageTemplate.ApiParameter> apiParameters = new()
     {
         new() { Name = "ChildContent", Type = "RenderFragment?", Default = "-", Description = "ChildContent parameter" },
