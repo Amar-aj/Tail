@@ -22,6 +22,24 @@ from pathlib import Path
 from datetime import datetime
 import textwrap
 
+# Try to import yaml for front matter parsing (optional)
+try:
+    import yaml
+    HAS_YAML = True
+except ImportError:
+    HAS_YAML = False
+    # Simple YAML parser for front matter (basic support)
+    def parse_yaml_front_matter(content):
+        """Simple YAML front matter parser (basic)."""
+        result = {}
+        for line in content.split('\n'):
+            if ':' in line:
+                key, value = line.split(':', 1)
+                key = key.strip()
+                value = value.strip().strip('"').strip("'")
+                result[key] = value
+        return result
+
 # Fix Unicode output on Windows
 if sys.platform == "win32":
     import io
@@ -1573,6 +1591,469 @@ def extract_component_metadata(component_info):
 # PHASE 3: DOCUMENTATION GENERATION
 # ============================================================================
 
+def generate_markdown_doc_page(component_meta):
+    """Generate comprehensive Markdown documentation page with all features and Blazor code examples."""
+    name = component_meta['name']
+    friendly_name = component_meta['friendly_name']
+    category = component_meta['category']
+    params = component_meta['parameters']
+    events = component_meta.get('events', [])
+    properties = component_meta.get('properties', [])
+    methods = component_meta.get('methods', [])
+    type_params = component_meta.get('type_params', [])
+    classes = component_meta.get('classes', [])
+    features = component_meta.get('features', [])
+    package_size = component_meta.get('package_size', '')
+    namespace = component_meta.get('namespace', name)
+    enums = component_meta.get('enums', {})
+    base_class = component_meta.get('base_class', 'TailComponentBase')
+    csproj_info = component_meta.get('csproj_info', {})
+    is_generic = component_meta.get('is_generic', False)
+    is_missing = component_meta.get('is_missing', False)
+    
+    component_tag = f"Tail{friendly_name}" if '.' not in friendly_name else name.replace('Tail.Blazor.', 'Tail')
+    
+    # Get examples from README
+    readme_examples = component_meta.get('readme_examples', {})
+    generated_examples = get_component_examples(component_meta, params, events)
+    
+    # Merge examples
+    examples = {}
+    for key in ['basic', 'variants', 'sizes', 'states', 'events', 'combinations', 'quickstart', 'patterns', 'advanced', 'realworld']:
+        if key in readme_examples and readme_examples[key]:
+            examples[key] = readme_examples[key]
+        elif key in generated_examples:
+            examples[key] = generated_examples[key]
+    
+    md_lines = []
+    
+    # Front matter for metadata
+    md_lines.append("---")
+    md_lines.append(f"title: {friendly_name}")
+    md_lines.append(f"package: {name}")
+    md_lines.append(f"category: {category}")
+    md_lines.append(f"namespace: {namespace}")
+    md_lines.append(f"route: /components/{category}/{friendly_name.lower()}")
+    md_lines.append(f"is_generic: {str(is_generic).lower()}")
+    md_lines.append(f"is_missing: {str(is_missing).lower()}")
+    md_lines.append("---")
+    md_lines.append("")
+    
+    # Title
+    md_lines.append(f"# {friendly_name}")
+    md_lines.append("")
+    md_lines.append(component_meta.get('description', f"{friendly_name} component for Tail.Blazor"))
+    md_lines.append("")
+    
+    # Installation
+    md_lines.append("## Installation")
+    md_lines.append("")
+    md_lines.append("```bash")
+    md_lines.append(f"dotnet add package {name}")
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Features
+    if features:
+        md_lines.append("## Features")
+        md_lines.append("")
+        for feature in features:
+            md_lines.append(f"- {feature}")
+        md_lines.append("")
+    
+    # Package Information
+    if package_size:
+        md_lines.append("## Package Information")
+        md_lines.append("")
+        md_lines.append(f"- **Size**: {package_size}")
+        md_lines.append(f"- **Version**: {csproj_info.get('version', '1.0.0')}")
+        md_lines.append(f"- **License**: {csproj_info.get('license', 'MIT')}")
+        md_lines.append("")
+    
+    # Namespace
+    md_lines.append("## Namespace")
+    md_lines.append("")
+    md_lines.append("```csharp")
+    md_lines.append(f"using {namespace};")
+    md_lines.append("```")
+    md_lines.append("")
+    
+    # Basic Usage
+    md_lines.append("## Basic Usage")
+    md_lines.append("")
+    if is_generic:
+        md_lines.append("⚠️ **Generic Component** - This component requires a type parameter.")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(f"<{component_tag} T=\"YourModel\">Content</{component_tag}>")
+        md_lines.append("```")
+    elif is_missing:
+        md_lines.append("🚧 **Coming Soon** - This component is planned but not yet implemented.")
+    else:
+        basic_code = examples.get('basic', f"<{component_tag}>Content</{component_tag}>")
+        md_lines.append("```razor")
+        md_lines.append(basic_code)
+        md_lines.append("```")
+    md_lines.append("")
+    
+    # Quick Start
+    if 'quickstart' in examples and not is_generic and not is_missing:
+        md_lines.append("## Quick Start")
+        md_lines.append("")
+        md_lines.append("Get up and running in seconds:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['quickstart'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Common Patterns
+    if 'patterns' in examples and not is_generic and not is_missing:
+        md_lines.append("## Common Patterns")
+        md_lines.append("")
+        md_lines.append("Frequently used patterns and combinations:")
+        md_lines.append("")
+        md_lines.append(examples['patterns'])
+        md_lines.append("")
+    
+    # Variants
+    if 'variants' in examples and not is_generic and not is_missing:
+        md_lines.append("## Variants")
+        md_lines.append("")
+        md_lines.append("Different visual variants for various use cases:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['variants'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Sizes
+    if 'sizes' in examples and not is_generic and not is_missing:
+        md_lines.append("## Sizes")
+        md_lines.append("")
+        md_lines.append("Size options to fit different layouts and contexts:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['sizes'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # States
+    if 'states' in examples and not is_generic and not is_missing:
+        md_lines.append("## States")
+        md_lines.append("")
+        md_lines.append("Component states for different interaction scenarios:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['states'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Event Handling
+    if 'events' in examples and not is_generic and not is_missing:
+        md_lines.append("## Event Handling")
+        md_lines.append("")
+        md_lines.append("Handle user interactions with event callbacks:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['events'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Parameter Combinations
+    if 'combinations' in examples and not is_generic and not is_missing:
+        md_lines.append("## Parameter Combinations")
+        md_lines.append("")
+        md_lines.append("Combine multiple parameters for advanced usage:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['combinations'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # Advanced Examples
+    if 'advanced' in examples and not is_generic and not is_missing:
+        md_lines.append("## Advanced Examples")
+        md_lines.append("")
+        md_lines.append("More complex usage scenarios:")
+        md_lines.append("")
+        md_lines.append(examples['advanced'])
+        md_lines.append("")
+    
+    # Real-World Example
+    if 'realworld' in examples and not is_generic and not is_missing:
+        md_lines.append("## Real-World Example")
+        md_lines.append("")
+        md_lines.append("A complete example showing practical usage:")
+        md_lines.append("")
+        md_lines.append("```razor")
+        md_lines.append(examples['realworld'])
+        md_lines.append("```")
+        md_lines.append("")
+    
+    # API Reference
+    md_lines.append("## API Reference")
+    md_lines.append("")
+    
+    # Type Parameters
+    if type_params:
+        md_lines.append("### Type Parameters")
+        md_lines.append("")
+        md_lines.append("| Name | Description |")
+        md_lines.append("| --- | --- |")
+        for tparam in type_params:
+            md_lines.append(f"| `{tparam}` | Generic type parameter for typed data |")
+        md_lines.append("")
+    
+    # Classes
+    if classes:
+        md_lines.append("### Classes")
+        md_lines.append("")
+        md_lines.append("| Class | Base Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for cls in classes:
+            base_type = cls.get("base_type", "-")
+            md_lines.append(f"| `{cls.get('name', '')}` | `{base_type}` | Component backing class |")
+        md_lines.append("")
+    
+    # Parameters
+    if params:
+        md_lines.append("### Parameters")
+        md_lines.append("")
+        md_lines.append("| Name | Type | Default | Description |")
+        md_lines.append("| --- | --- | --- | --- |")
+        for param in params:
+            default_val = param.get('default', '-') or '-'
+            if default_val in ['""', "''"]:
+                default_val = '-'
+            md_lines.append(f"| **{param['name']}** | `{param['type']}` | {default_val} | {param.get('description', '')} |")
+        md_lines.append("")
+    
+    # Events
+    if events:
+        md_lines.append("### Events")
+        md_lines.append("")
+        md_lines.append("| Event | Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for event in events:
+            event_type = event.get('type', 'void')
+            if event_type and event_type != 'void':
+                event_type = f"`EventCallback<{event_type}>`"
+            else:
+                event_type = "`EventCallback`"
+            md_lines.append(f"| **{event['name']}** | {event_type} | {event.get('description', '')} |")
+        md_lines.append("")
+    
+    # Properties
+    if properties:
+        md_lines.append("### Public Properties")
+        md_lines.append("")
+        md_lines.append("| Property | Type | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for prop in properties:
+            md_lines.append(f"| `{prop['name']}` | `{prop['type']}` | {prop.get('description', '')} |")
+        md_lines.append("")
+    
+    # Methods
+    if methods:
+        md_lines.append("### Public Methods")
+        md_lines.append("")
+        md_lines.append("| Method | Parameters | Description |")
+        md_lines.append("| --- | --- | --- |")
+        for method in methods:
+            params_str = ', '.join([f"{p['name']}: {p['type']}" for p in method.get('parameters', [])])
+            if not params_str:
+                params_str = 'None'
+            md_lines.append(f"| `{method['name']}()` | `{params_str}` | {method.get('description', '')} |")
+        md_lines.append("")
+    
+    # Enums
+    if enums:
+        md_lines.append("### Enums")
+        md_lines.append("")
+        for enum_name, enum_data in enums.items():
+            if isinstance(enum_data, dict):
+                md_lines.append(f"#### {enum_name}")
+                md_lines.append("")
+                md_lines.append("```csharp")
+                md_lines.append(f"public enum {enum_name}")
+                md_lines.append("{")
+                for value in enum_data.get('values', []):
+                    md_lines.append(f"    {value},")
+                md_lines.append("}")
+                md_lines.append("```")
+                md_lines.append("")
+                if enum_data.get('description'):
+                    md_lines.append(enum_data['description'])
+                    md_lines.append("")
+    
+    # Base Class
+    md_lines.append("## Base Class")
+    md_lines.append("")
+    md_lines.append(f"The component inherits from `{base_class}` (from `Tail.Blazor.Core.Base`), which provides:")
+    md_lines.append("")
+    md_lines.append("- `Class` parameter for additional CSS classes")
+    md_lines.append("- `AdditionalAttributes` parameter for additional HTML attributes")
+    md_lines.append("")
+    
+    # Dependencies
+    md_lines.append("## Dependencies")
+    md_lines.append("")
+    dependencies = csproj_info.get('dependencies', [])
+    if dependencies:
+        md_lines.append("- `Tail.Blazor.Core.Base` (required)")
+        for dep in dependencies:
+            if dep['name'] != 'Tail.Blazor.Core.Base':
+                md_lines.append(f"- `{dep['name']}`")
+    else:
+        md_lines.append("- `Tail.Blazor.Core.Base` (required)")
+        md_lines.append("- `Microsoft.AspNetCore.Components`")
+        md_lines.append("- `Microsoft.AspNetCore.Components.Web`")
+    md_lines.append("")
+    
+    # Target Frameworks
+    md_lines.append("## Target Frameworks")
+    md_lines.append("")
+    target_frameworks = csproj_info.get('target_frameworks', [])
+    if target_frameworks:
+        for tf in target_frameworks:
+            md_lines.append(f"- .NET {tf.replace('net', '').replace('.0', '')}")
+    else:
+        md_lines.append("- .NET 8.0")
+        md_lines.append("- .NET 9.0")
+        md_lines.append("- .NET 10.0")
+    md_lines.append("")
+    
+    return '\n'.join(md_lines)
+
+
+def convert_markdown_to_razor(md_content, component_meta):
+    """Convert Markdown documentation to Razor page with PreviewUI and CodePreview components."""
+    # Parse front matter
+    front_matter_match = re.search(r'^---\n(.*?)\n---\n', md_content, re.DOTALL)
+    metadata = {}
+    if front_matter_match:
+        try:
+            if HAS_YAML:
+                metadata = yaml.safe_load(front_matter_match.group(1)) or {}
+            else:
+                metadata = parse_yaml_front_matter(front_matter_match.group(1))
+            md_content = md_content[front_matter_match.end():]
+        except:
+            pass
+    
+    name = component_meta['name']
+    friendly_name = component_meta['friendly_name']
+    category = component_meta['category']
+    route = metadata.get('route', f'/components/{category}/{friendly_name.lower()}')
+    
+    # Start Razor page
+    razor_lines = [f'@page "{route}"']
+    # Only add @using if component is not missing
+    is_missing = component_meta.get('is_missing', False)
+    is_generic = component_meta.get('is_generic', False)
+    if not is_missing and not is_generic:
+        razor_lines.append(f'@using {name}')
+    razor_lines.append('@using Tail.Blazor.Docs.Shared')
+    razor_lines.append('@using Tail.Blazor.Tabs')
+    razor_lines.append('')
+    
+    # Extract sections from markdown
+    sections = re.split(r'^##\s+(.+?)$', md_content, flags=re.MULTILINE)
+    
+    # Build DocPageTemplate
+    razor_lines.append(f'<DocPageTemplate Title="{friendly_name}"')
+    razor_lines.append(f'                 Description="{component_meta.get("description", "")}"')
+    razor_lines.append(f'                 PackageName="{name}"')
+    razor_lines.append('                 ApiParameters="@apiParameters">')
+    razor_lines.append('')
+    
+    # Process sections
+    i = 1
+    while i < len(sections):
+        section_title = sections[i].strip()
+        section_content = sections[i + 1].strip() if i + 1 < len(sections) else ""
+        i += 2
+        
+        if not section_title or section_title.lower() in ['api reference', 'base class', 'dependencies', 'target frameworks', 'package information']:
+            continue
+        
+        razor_lines.append(f'    <DocSection Title="{section_title}">')
+        
+        # Extract code blocks
+        code_blocks = re.findall(r'```(?:razor|csharp|bash)?\n(.*?)\n```', section_content, re.DOTALL)
+        
+        if code_blocks:
+            # Create tabs with Preview and Code
+            razor_lines.append('        <TailTabs ActiveIndex="0">')
+            razor_lines.append('            <Items>')
+            razor_lines.append('                <TailTabItem Label="Preview" />')
+            razor_lines.append('                <TailTabItem Label="Code" />')
+            razor_lines.append('            </Items>')
+            razor_lines.append('            <Content>')
+            razor_lines.append('                <TailTabPanel>')
+            razor_lines.append('                    <PreviewUI>')
+            
+            # Extract preview markup (remove @code blocks, @page, @using, event handlers)
+            preview_markup = code_blocks[0]
+            preview_markup = re.sub(r'@page\s+"[^"]*"\s*\n?', '', preview_markup)
+            preview_markup = re.sub(r'@using\s+[^\s]+\s*\n?', '', preview_markup)
+            preview_markup = re.sub(r'\n@code\s*\{.*?\n\}', '', preview_markup, flags=re.DOTALL)
+            preview_markup = re.sub(r'\s+On[A-Z]\w+="[^"]*"', '', preview_markup)
+            preview_markup = re.sub(r'\s+@bind-\w+="[^"]*"', '', preview_markup)
+            
+            # Indent preview markup
+            for line in preview_markup.strip().split('\n'):
+                razor_lines.append(f'                        {line}')
+            
+            razor_lines.append('                    </PreviewUI>')
+            razor_lines.append('                </TailTabPanel>')
+            razor_lines.append('                <TailTabPanel>')
+            razor_lines.append(f'                    <CodePreview Code="@{section_title.lower().replace(" ", "")}Code" CodeElementId="{section_title.lower().replace(" ", "")}-code" />')
+            razor_lines.append('                </TailTabPanel>')
+            razor_lines.append('            </Content>')
+            razor_lines.append('        </TailTabs>')
+        else:
+            # Just text content
+            for line in section_content.split('\n'):
+                if line.strip():
+                    razor_lines.append(f'        <p style="color: var(--color-text-secondary);">{line}</p>')
+        
+        razor_lines.append('    </DocSection>')
+        razor_lines.append('')
+    
+    razor_lines.append('</DocPageTemplate>')
+    razor_lines.append('')
+    razor_lines.append('@code {')
+    
+    # Add code variables
+    razor_lines.append(f'    private string installCode = "dotnet add package {name}";')
+    razor_lines.append('')
+    
+    # Add all collected code variables (from the section processing above)
+    for var_name, code_block in all_code_vars.items():
+        escaped_code = code_block.replace('"', '""')
+        razor_lines.append(f'    private string {var_name} = @"')
+        for line in escaped_code.split('\n'):
+            razor_lines.append(line)
+        razor_lines.append('";')
+        razor_lines.append('')
+    
+    # Add API parameters
+    params = component_meta.get('parameters', [])
+    razor_lines.append('    private List<DocPageTemplate.ApiParameter> apiParameters = new()')
+    razor_lines.append('    {')
+    for param in params:
+        default_val = param.get('default', '-') or '-'
+        if default_val in ['""', "''"]:
+            default_val = '-'
+        desc = param.get('description', '').replace('"', '""')
+        razor_lines.append(f'        new() {{ Name = "{param["name"]}", Type = "{param["type"]}", Default = "{default_val}", Description = "{desc}" }},')
+    razor_lines.append('    };')
+    razor_lines.append('}')
+    
+    return '\n'.join(razor_lines)
+
 def escape_razor_code(code):
     """Escape code for Razor @"" verbatim strings."""
     if not code:
@@ -1977,7 +2458,9 @@ def generate_doc_page(component_meta):
     doc_page = f'@page "/components/{category.lower()}/{friendly_name.lower()}"\n'
     
     # Add @using directive only if not generic and not missing
-    if not is_generic and not is_missing:
+    # Also check if the component actually exists (has a razor_file)
+    has_razor_file = component_meta.get('razor_file') is not None
+    if not is_generic and not is_missing and has_razor_file:
         doc_page += f'@using {name}\n'
     
     doc_page += '@using Tail.Blazor.Docs.Shared\n'
@@ -2839,30 +3322,73 @@ def main():
             readmes_created += 1
     print(f"  [OK] Generated/updated {readmes_created} README.md files")
     
-    # Phase 4: Generate Documentation Pages
-    print("\n[4/6] Generating documentation pages...")
+    # Phase 4: Generate Markdown Documentation Files
+    print("\n[4/7] Generating Markdown documentation files...")
+    print("-" * 70)
+    md_docs_base = Path("docs/Tail.Blazor.Docs/Markdown/Components")
+    md_files_created = 0
+    
+    for category, cat_data in all_metadata.items():
+        category_folder = md_docs_base / category.capitalize()
+        category_folder.mkdir(parents=True, exist_ok=True)
+        
+        for component_name, comp_meta in cat_data["components"].items():
+            md_content = generate_markdown_doc_page(comp_meta)
+            friendly_name = comp_meta["friendly_name"]
+            md_path = category_folder / f"{friendly_name}.md"
+            
+            with open(md_path, 'w', encoding='utf-8') as f:
+                f.write(md_content)
+            
+            md_files_created += 1
+    
+    print(f"  [OK] Generated {md_files_created} Markdown documentation files")
+    
+    # Phase 5: Convert Markdown to Razor Pages
+    print("\n[5/7] Converting Markdown to Razor pages...")
     print("-" * 70)
     docs_base = Path("docs/Tail.Blazor.Docs/Pages/Components")
     pages_created = 0
     
     for category, cat_data in all_metadata.items():
         category_folder = docs_base / category.capitalize()
+        md_category_folder = md_docs_base / category.capitalize()
         category_folder.mkdir(parents=True, exist_ok=True)
         
         for component_name, comp_meta in cat_data["components"].items():
-            doc_content = generate_doc_page(comp_meta)
             friendly_name = comp_meta["friendly_name"]
-            doc_path = category_folder / f"{friendly_name}.razor"
+            md_path = md_category_folder / f"{friendly_name}.md"
             
-            with open(doc_path, 'w', encoding='utf-8') as f:
-                f.write(doc_content)
-            
-            pages_created += 1
+            # Option 1: Use Markdown file directly (if you have a Markdown renderer)
+            # Option 2: Convert to Razor (current approach)
+            try:
+                with open(md_path, 'r', encoding='utf-8') as f:
+                    md_content = f.read()
+                
+                # Convert markdown to razor
+                razor_content = convert_markdown_to_razor(md_content, comp_meta)
+                
+                # Fallback to direct generation if conversion fails
+                if not razor_content or len(razor_content) < 100:
+                    razor_content = generate_doc_page(comp_meta)
+                
+                doc_path = category_folder / f"{friendly_name}.razor"
+                with open(doc_path, 'w', encoding='utf-8') as f:
+                    f.write(razor_content)
+                
+                pages_created += 1
+            except Exception as e:
+                # Fallback to direct generation
+                razor_content = generate_doc_page(comp_meta)
+                doc_path = category_folder / f"{friendly_name}.razor"
+                with open(doc_path, 'w', encoding='utf-8') as f:
+                    f.write(razor_content)
+                pages_created += 1
     
-    print(f"  [OK] Generated {pages_created} documentation pages")
+    print(f"  [OK] Generated {pages_created} Razor documentation pages from Markdown")
     
-    # Phase 5: Generate Overview Pages
-    print("\n[5/6] Generating overview pages...")
+    # Phase 6: Generate Overview Pages
+    print("\n[6/7] Generating overview pages...")
     print("-" * 70)
     
     # Global overview
@@ -2890,8 +3416,8 @@ def main():
     
     print(f"  [OK] Category overviews: {category_overviews} pages")
     
-    # Phase 6: Generate Navigation
-    print("\n[6/6] Generating navigation menu...")
+    # Phase 7: Generate Navigation
+    print("\n[7/7] Generating navigation menu...")
     print("-" * 70)
     nav_menu = generate_nav_menu(components_by_category)
     nav_menu_path = docs_base / "NavMenu.json"
@@ -2918,11 +3444,19 @@ def main():
     print(f"  ✓ Components: {total_components}")
     print(f"  ✓ Parameters: {total_params}")
     print(f"  ✓ READMEs: {readmes_created}")
+    print(f"  ✓ Markdown Files: {md_files_created}")
     print(f"  ✓ Component Pages: {pages_created}")
     print(f"  ✓ Global Overview: 1")
     print(f"  ✓ Category Overviews: {category_overviews}")
     print(f"  ✓ Navigation: NavMenu.json")
-    print(f"  ✓ Location: {docs_base}")
+    print(f"  ✓ Razor Pages Location: {docs_base}")
+    print(f"  ✓ Markdown Files Location: {md_docs_base}")
+    print("\n" + "=" * 70 + "\n")
+    print("WORKFLOW:")
+    print("  1. Markdown files generated in: docs/Tail.Blazor.Docs/Markdown/Components/")
+    print("  2. Markdown files copied and converted to Razor in: docs/Tail.Blazor.Docs/Pages/Components/")
+    print("  3. You can edit Markdown files and re-run this script to regenerate Razor pages")
+    print("  4. Or use a Markdown renderer component to render .md files directly in Blazor")
     print("\n" + "=" * 70 + "\n")
 
 
